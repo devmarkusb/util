@@ -1,0 +1,5 @@
+//! unused-local-typedefs
+#if TOO_COMP_GNU_CPP
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+#endif
