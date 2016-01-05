@@ -6,6 +6,9 @@
 */
 //! \file
 
+#include <list>
+#include <algorithm>
+
 namespace too
 {
 
@@ -29,8 +32,8 @@ namespace too
 		{
 			// get an "iterator" that identifies the list
 			// entry containing ptr; see Item 35 for details
-			list<RawAddress>::iterator it =
-				find(addresses.begin(), addresses.end(), ptr);
+			std::list<RawAddress>::iterator it =
+				std::find(addresses.begin(), addresses.end(), ptr);
 
 			if (it != addresses.end()) {       // if an entry was found
 				addresses.erase(it);             // remove the entry
@@ -48,18 +51,18 @@ namespace too
 
 			// look up the pointer in the list of addresses
 			// returned by operator new
-			list<RawAddress>::iterator it =
-				find(addresses.begin(), addresses.end(), rawAddress);
+			std::list<RawAddress>::iterator it =
+				std::find(addresses.begin(), addresses.end(), rawAddress);
 
 			return it != addresses.end();      // return whether it was
 		}                                    // found
 
 	private:
-		typedef const void* RawAddress;
-		static list<RawAddress> addresses;
+		using RawAddress = const void*;
+		static std::list<RawAddress> addresses;
 	};
 
-	list<RawAddress> HeapTracked::addresses;
+	std::list<HeapTracked::RawAddress> HeapTracked::addresses;
 
 	// HeapTracked's destructor is pure virtual to make the
 	// class abstract (see Item E14). The destructor must still
