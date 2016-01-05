@@ -21,11 +21,6 @@ namespace too
 	struct fail_fast : public std::runtime_error 
 	{
 		explicit fail_fast(char const* const message) : std::runtime_error(message) {}
-		//~fail_fast() = default;
-		//fail_fast(const fail_fast&) = default;
-		//fail_fast& operator=(const fail_fast&) = default;
-		//fail_fast(fail_fast&&) = default;
-		//fail_fast& operator=(fail_fast&&) = default;
 	};
 }
 
@@ -70,6 +65,11 @@ namespace too
 #define TOO_ENSURE_THROW(cond)						TOO_ASSERT_THROW_IMPL(cond, "postcondition failed at")
 #define TOO_ENSURE_TERMINATE(cond)					TOO_ASSERT_TERMINATE_IMPL(cond)
 
+#if TOO_DEBUG
+#define TOO_VERIFY(cond)							TOO_ASSERT(cond)
+#else
+#define TOO_VERIFY(cond)							sizeof((cond))
+#endif
 
 namespace too
 {

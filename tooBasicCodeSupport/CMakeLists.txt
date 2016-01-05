@@ -39,6 +39,7 @@ set(Target_tooBasicCodeSupportTest "tooBasicCodeSupportTest")
 file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SRC_INCS "test/*.h")
 
 set(Target_tooBasicCodeSupportTest_SOURCES
+	test/_header_compile.test.cpp
 	test/assert.test.cpp
 	test/finally.test.cpp
 	test/narrow.test.cpp
@@ -65,7 +66,6 @@ target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE sdks/ToolsFL/tooBuildEnv/include)
 
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
-#target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${Target_tooBasicCodeSupport})
 
 
 add_custom_command(

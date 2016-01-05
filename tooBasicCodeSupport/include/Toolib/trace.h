@@ -10,7 +10,7 @@
 #ifndef TRACE_H_INCL_dfsgjn854gcnz782x5g7813sdyfwh
 #define TRACE_H_INCL_dfsgjn854gcnz782x5g7813sdyfwh
 
-#include "PPDEFS.h"
+#include "Toolib/PPDEFS.h"
 #include <sstream>
 #ifdef TOO_OS_WINDOWS
 #include <windows.h>
@@ -22,7 +22,7 @@ namespace too
 	//! Usage: trace(makestr() << "bla" << 2 << "blabla");
 	void trace(const std::ostringstream& os)
 	{
-		OutputDebugString(os.str().c_str());
+		OutputDebugStringA(os.str().c_str());
 	}
 
 	void trace(const std::wostringstream& os)
@@ -31,7 +31,5 @@ namespace too
 	}
 #endif TOO_OS_WINDOWS
 }
-
-#include "string/makestr.h"
 
 #endif
