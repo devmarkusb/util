@@ -20,8 +20,6 @@ set(Target_tooBasicCodeSupport "tooBasicCodeSupport")
 
 include(defaults.cmake)
 
-add_subdirectory(sdks/ToolsFL/tooBuildEnv)
-
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 file(GLOB_RECURSE Target_tooBasicCodeSupport_SRC_INCS "src/*.h")
 
@@ -63,7 +61,7 @@ find_package(GTest 1.7.0)
 
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_INCLUDE_DIRS})
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE sdks/ToolsFL/tooBuildEnv/include)
+target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ../tooBuildEnv/include)
 
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
