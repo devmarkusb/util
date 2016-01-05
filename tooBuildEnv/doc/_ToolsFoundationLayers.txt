@@ -12,5 +12,9 @@ it is well permitted practice to use each other (of course excluding
 cyclic dependencies) in appropriate manner.
 So naturally a dependency graph with different layers of dependencies
 emerges.
-It should be common practice to base this on using (recursive)
-submodules.
+
+REQUIREMENT:
+Dependent lib-repos must be checked out next to each other under a parent
+directy named ToolsFL.
+So furthermore, higher lever libs dependent on ToolsFL have to be checked
+out next to ToolsFL.
