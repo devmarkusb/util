@@ -37,7 +37,8 @@ set(Target_tooBuildEnvTest "tooBuildEnvTest")
 file(GLOB_RECURSE Target_tooBuildEnvTest_SRC_INCS "test/*.h")
 
 set(Target_tooBuildEnvTest_SOURCES
-	test/dummy.cpp
+	test/_header_compile.test.cpp
+	test/dummy.test.cpp
 )
 
 add_executable(${Target_tooBuildEnvTest}
@@ -60,7 +61,6 @@ target_include_directories(${Target_tooBuildEnvTest} PRIVATE ${GTEST_INCLUDE_DIR
 target_include_directories(${Target_tooBuildEnvTest} PRIVATE include)
 
 target_link_libraries(${Target_tooBuildEnvTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
-#target_link_libraries(${Target_tooBuildEnvTest} PRIVATE ${Target_tooBuildEnv})
 
 
 add_custom_command(

@@ -1,8 +1,3 @@
-#include "gtest/gtest.h"
-
-
-// ### compile test for all headers ###
-
 #include "Toolib/PPDEFS.h"
 
 #include "Toolib/PPDEFS/MSVC/SUPPRESS_WARNING_4127_BEGIN"
@@ -18,7 +13,3 @@
 
 #include "Toolib/PPDEFS/GCC/SUPPRESS_WARNING_unused-local-typedefs_BEGIN"
 #include "Toolib/PPDEFS/GCC/SUPPRESS_WARNING_END"
-
-
-//#################################################################################################################################################
-

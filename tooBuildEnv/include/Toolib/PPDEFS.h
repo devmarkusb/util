@@ -126,6 +126,24 @@
 
 
 //##############################################################################################################
+// Main debug-macro definition
+
+#if TOO_MS_VISUAL_STUDIO_CPP
+#ifdef _DEBUG
+#define TOO_DEBUG	1
+#else
+#define TOO_DEBUG	0
+#endif
+#else
+#ifdef NDEBUG
+#define TOO_DEBUG	0
+#else
+#define TOO_DEBUG	1
+#endif
+#endif
+
+
+//##############################################################################################################
 // Some common general preprocessor magic (as little as possible)
 
 #define TOO_CONCATENATE_DIRECT(s1, s2)		s1##s2
