@@ -1,5 +1,6 @@
 #include "Toolib/std/std_extensions.h"
 
+#include "Toolib/types.h"
 #include "Toolib/trace.h"
 #include "Toolib/ptr2ref.h"
 #include "Toolib/narrow.h"
