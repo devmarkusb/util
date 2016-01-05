@@ -15,45 +15,20 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 project(tooBasicCodeSupport VERSION 0.1.0.0)
+
 set(Target_tooBasicCodeSupport "tooBasicCodeSupport")
 
 include(defaults.cmake)
 
+add_subdirectory(sdks/ToolsFL/tooBuildEnv)
+
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 file(GLOB_RECURSE Target_tooBasicCodeSupport_SRC_INCS "src/*.h")
-
-#[[
-set(Target_tooBasicCodeSupport_SOURCES
-    "src/non-empty folder.cpp"
-)
-
-add_library(${Target_tooBasicCodeSupport} SHARED
-	${Target_tooBasicCodeSupport_SOURCES}
-	${Target_tooBasicCodeSupport_INCS}
-	${Target_tooBasicCodeSupport_SRC_INCS}
-)
-
-if (WIN32)
-set_property(TARGET ${Target_tooBasicCodeSupport} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
-endif ()
-
-# dll export define
-set_property(TARGET ${Target_tooBasicCodeSupport} APPEND PROPERTY COMPILE_DEFINITIONS TOOBUILDENV_LIBRARY)
-
-set_target_properties(${Target_tooBasicCodeSupport} PROPERTIES DEBUG_POSTFIX "d")
-
-target_include_directories(${Target_tooBasicCodeSupport} PRIVATE .)
-target_include_directories(${Target_tooBasicCodeSupport} PRIVATE include)
-target_include_directories(${Target_tooBasicCodeSupport} PRIVATE src)
-]]
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
 set(tooBasicCodeSupport_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
 #set(tooBasicCodeSupport_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib PARENT_SCOPE)
-else()
-set(tooBasicCodeSupport_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
-#set(tooBasicCodeSupport_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib
 endif()
 
 
@@ -86,7 +61,8 @@ set(GTEST_MSVC_SEARCH   MD)
 find_package(GTest 1.7.0)
 
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_INCLUDE_DIRS})
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
+target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE sdks/ToolsFL/tooBuildEnv/include)
 
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 #target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${Target_tooBasicCodeSupport})
