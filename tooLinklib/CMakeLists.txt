@@ -20,8 +20,6 @@ set(Target_tooLinklib "tooLinklib")
 
 include(defaults.cmake)
 
-add_subdirectory(sdks/ToolsFL/tooBuildEnv)
-
 file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
 file(GLOB_RECURSE Target_tooLinklib_SRC_INCS "src/*.h")
 
@@ -61,7 +59,7 @@ find_package(GTest 1.7.0)
 
 target_include_directories(${Target_tooLinklibTest} PRIVATE ${GTEST_INCLUDE_DIRS})
 target_include_directories(${Target_tooLinklibTest} PRIVATE include)
-target_include_directories(${Target_tooLinklibTest} PRIVATE sdks/ToolsFL/tooBuildEnv/include)
+target_include_directories(${Target_tooLinklibTest} PRIVATE ../tooBuildEnv/include)
 
 target_link_libraries(${Target_tooLinklibTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
