@@ -43,7 +43,7 @@
 #ifndef LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
 #define LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
 
-#include "../PPDEFS.H"
+#include "Toolib/PPDEFS.H"
 
 
 //##############################################################################################################
