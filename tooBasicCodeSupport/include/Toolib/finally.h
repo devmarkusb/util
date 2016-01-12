@@ -52,7 +52,8 @@ namespace too
 	} // here act() is called
 	\endcode
 	Note that you need to assign the return value to a local variable, otherwise only
-	a temporary is created, which gets destructed immediately.
+	a temporary is created, which gets destructed immediately. The mechanism is
+	obviously connected to the lifetime of the variable assigned to.
 	*/
 	template <class F>
 	inline final_act<F> finally(const F &f) noexcept

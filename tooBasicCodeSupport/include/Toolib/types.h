@@ -13,16 +13,15 @@
 
 namespace too
 {
-    typedef unsigned char   uchar;
-    typedef unsigned char   byte;
-    typedef signed char     schar;
-    typedef unsigned short  ushort;
-    typedef signed short    sshort;
-    typedef unsigned int    uint;
-    typedef signed int      sint;
-
-    typedef unsigned long   ulong;
-    typedef signed long     slong;
+	using uchar		= unsigned char;
+	using byte		= unsigned char;
+	using schar		= signed char;
+	using ushort	= unsigned short;
+	using sshort	= signed short;
+	using uint		= unsigned int;
+	using sint		= signed int;
+	using ulong		= unsigned long;
+	using slong		= signed long;
 }
 
 #endif

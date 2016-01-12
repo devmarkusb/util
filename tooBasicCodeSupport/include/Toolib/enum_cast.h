@@ -11,6 +11,7 @@
 
 #include "std/std_extensions.h"
 
+
 namespace too
 {
     template <typename Enumeration>

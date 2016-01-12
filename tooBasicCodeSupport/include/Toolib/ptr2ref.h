@@ -9,29 +9,26 @@
 #ifndef PTR2REF_H_sjhdxfggberz38f2g36ygfn123f9v
 #define PTR2REF_H_sjhdxfggberz38f2g36ygfn123f9v
 
-#include <assert.h>
+#include "Toolib/assert.h"
 
 
 namespace too
 {
-    namespace mem
-    {
-        //! Crahes if \param pT is nullptr.
-        template <typename T>
-        inline T& Ptr2Ref(T* pT)
-        {
-            assert(pT);
-            return *pT;
-        }
+	//! Converts pointer to reference.
+	template <typename T>
+	inline T& Ptr2Ref(T* pT)
+	{
+		TOO_EXPECT(pT);
+		return *pT;
+	}
 
-        //! Crahes if \param pT is nullptr.
-        template <typename T>
-        inline const T& Ptr2RefC(const T* pT)
-        {
-            assert(pT);
-            return *pT;
-        }
-    }
+	//! Const version of Ptr2Ref().
+	template <typename T>
+	inline const T& Ptr2RefC(const T* pT)
+	{
+		TOO_EXPECT(pT);
+		return *pT;
+	}
 }
 
 #endif

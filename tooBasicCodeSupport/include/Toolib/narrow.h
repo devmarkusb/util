@@ -22,9 +22,10 @@ namespace too
 		return static_cast<T>(u);
 	}
 
+	//! Exception thrown by narrow() when failing.
 	struct narrowing_error : public std::exception {};
 
-	//! Checked version of narrow_cast(), throwing if the cast changed the value.
+	//! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
 	template<class T, class U>
 	inline T narrow(U u)
 	{

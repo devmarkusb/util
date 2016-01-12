@@ -3,6 +3,7 @@
 #include "Toolib/types.h"
 #include "Toolib/trace.h"
 #include "Toolib/ptr2ref.h"
+#include "Toolib/ptr.h"
 #include "Toolib/narrow.h"
 #include "Toolib/finally.h"
 #include "Toolib/enum_cast.h"

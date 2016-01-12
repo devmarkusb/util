@@ -12,24 +12,26 @@
 
 #include "Toolib/PPDEFS.h"
 #include <sstream>
-#ifdef TOO_OS_WINDOWS
+#if TOO_OS_WINDOWS
 #include <windows.h>
-#endif TOO_OS_WINDOWS
+#endif
 
 namespace too
 {
-#ifdef TOO_OS_WINDOWS
-	//! Usage: trace(makestr() << "bla" << 2 << "blabla");
-	void trace(const std::ostringstream& os)
+	//todo other platforms
+#if TOO_OS_WINDOWS
+	//! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
+	//! Only supported for Windows so far.
+	inline void trace(const std::ostringstream& os)
 	{
 		OutputDebugStringA(os.str().c_str());
 	}
 
-	void trace(const std::wostringstream& os)
+	inline void trace(const std::wostringstream& os)
 	{
 		OutputDebugStringW(os.str().c_str());
 	}
-#endif TOO_OS_WINDOWS
+#endif
 }
 
 #endif

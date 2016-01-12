@@ -41,6 +41,9 @@ set(Target_tooBasicCodeSupportTest_SOURCES
 	test/assert.test.cpp
 	test/finally.test.cpp
 	test/narrow.test.cpp
+	test/misc.test.cpp
+	test/ptr.test.cpp
+	test/std/std_extensions.test.cpp
 )
 
 add_executable(${Target_tooBasicCodeSupportTest}
