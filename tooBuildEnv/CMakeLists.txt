@@ -38,7 +38,7 @@ file(GLOB_RECURSE Target_tooBuildEnvTest_SRC_INCS "test/*.h")
 
 set(Target_tooBuildEnvTest_SOURCES
 	test/_header_compile.test.cpp
-	test/dummy.test.cpp
+	test/PPDEFS.test.cpp
 )
 
 add_executable(${Target_tooBuildEnvTest}

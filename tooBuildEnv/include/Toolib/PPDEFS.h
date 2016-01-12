@@ -11,12 +11,13 @@
 
 
 //##############################################################################################################
-// Operating Systems
+//! Operating Systems
+//!@{
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-#define TOO_OS_WINDOWS		1
+#define TOO_OS_WINDOWS      1
 #if defined(_WIN64)
-#define TOO_OS_WINDOWS_64	1
+#define TOO_OS_WINDOWS_64   1
 #endif
 #endif
 
@@ -25,19 +26,19 @@
 #endif
 
 #if defined(linux) || defined(__linux)
-#define TOO_OS_LINUX		1
+#define TOO_OS_LINUX        1
 #endif
 
 #if defined(macintosh) || defined(Macintosh) || defined(__APPLE__) || defined(__MACH__)
-#define TOO_OS_MAC			1
+#define TOO_OS_MAC          1
 #endif
 
 #if defined(MSDOS) || defined(__MSDOS__) || defined(_MSDOS) || defined(__DOS__)
-#define TOO_OS_MSDOS		1
+#define TOO_OS_MSDOS        1
 #endif
 
 #if defined(_WIN32_WCE)
-#define TOO_OS_WINDOWS_CE	1
+#define TOO_OS_WINDOWS_CE   1
 #endif
 
 #if defined(__FreeBSD__)
@@ -52,9 +53,12 @@
 #define TOO_OS_ANDROID      1
 #endif
 
+//!@}
+
 
 //##############################################################################################################
-// Compilers
+//! Compilers
+//!@{
 
 #if defined(_MSC_VER)
 #define TOO_COMP_MS_VISUAL_STUDIO_CPP   1
@@ -88,12 +92,15 @@
 #define TOO_COMP_INTEL                  1
 #endif
 
+//!@}
+
 
 //##############################################################################################################
-// Languages
+//! Languages
+//!@{
 
 #ifdef __STDC__
-#define TOO_LANG_STANDARD_C			1
+#define TOO_LANG_STANDARD_C             1
 #define TOO_LANG_STANDARD_C89		1
 #if __STDC_VERSION__ >= 199901L
 #define TOO_LANG_STANDARD_C99		1
@@ -111,22 +118,15 @@
 #endif
 
 #ifdef __embedded_cplusplus
-#define TOO_LANG_STANDARD_EMBCPP    1
+#define TOO_LANG_STANDARD_EMBCPP        1
 #endif
+
+//!@}
 
 
 //##############################################################################################################
-// Just commenting definitions for switching on/off diverse library usages within the implementations of Toolib.
-
-#if TOO_NOT_JUST_COMMENTING_LIBRARY_SWITCH_DEFINITIONS_BUT_ACTUALLY_USE_SOME_ARBITRARY_DEFAULTS // dummy
-//! Use this definition to switch off any external lib dependencies.
-/** The idea is that a good deal of Toolib is implemented just by standard methods.*/
-#define TOO_NO_DEPENDENCIES
-#endif
-
-
-//##############################################################################################################
-// Main debug-macro definition
+//! Main debug-macro definition. Note that it's perfectly fine to use NDEBUG which is standard instead of
+//! TOO_DEBUG.
 
 #if TOO_MS_VISUAL_STUDIO_CPP
 #ifdef _DEBUG
@@ -149,10 +149,23 @@
 #define TOO_CONCATENATE_DIRECT(s1, s2)		s1##s2
 #define TOO_CONCATENATE_INDIRECT(s1, s2)	TOO_CONCATENATE_DIRECT(s1, s2)
 #define TOO_ANONYMOUS_VARIABLE_IMPL(str)	TOO_CONCATENATE_INDIRECT(str, __LINE__)
+//! Whenever you don't want to think of a name of an identifier, TOO_ANONYMOUS_VARIABLE or
+//! interchangeably TOO_NONAME are your friends.
+/**	One note: it is possible to use TOO_NONAME in the same source code line, but no beyond. But this probably
+	won't be good practice.*/
+//!@{
 #define TOO_ANONYMOUS_VARIABLE				TOO_ANONYMOUS_VARIABLE_IMPL(anonymous_variable_)
+#define TOO_NONAME							TOO_ANONYMOUS_VARIABLE
+//!@}
 
-#define TOO_STRINGIFY_IMPL(s)				#s
-#define TOO_STRINGIFY(s)					TOO_STRINGIFY_IMPL(s)
+#define TOO_STRINGIFY_IMPL(notYetString)	#notYetString
+//! Usage:
+/**
+\code
+TOO_STRINGIFY(I want this to be in double quotes)
+\endcode
+*/
+#define TOO_STRINGIFY(notYetString)			TOO_STRINGIFY_IMPL(notYetString)
 
 
 //! Only for information. Since #error is plain standard you should just use it!
@@ -162,7 +175,14 @@
     \endcode
     Which is ok, but the same applies to sth. like \code #pragma warning \endcode.*/
 
+//! Let compiler print a message. Should be supported by all decent compilers.
+/** Note that there is no way of letting the message pop up only once.*/
+//#pragma message("Just a hint...")
 
+//! Let compiler print a warning. Unfortunately not possible portably.
+//#warning "oh no!"
+
+//! To express an empty statement.
 #define TOO_NOOP (void)0
 
 

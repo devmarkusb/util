@@ -18,3 +18,6 @@ Dependent lib-repos must be checked out next to each other under a parent
 directy named ToolsFL.
 So furthermore, higher lever libs dependent on ToolsFL have to be checked
 out next to ToolsFL.
+Note: The submodule approach ends in the disaster of multiple builds and
+tests of the same library within a project that uses several of the
+ToolsFL libraries.
