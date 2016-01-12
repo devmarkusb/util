@@ -9,65 +9,60 @@
 #include <list>
 #include <algorithm>
 
+
 namespace too
 {
-
-	class HeapTracked {                  // mixin class; keeps track of
-	public:                              // ptrs returned from op. new
-
-		class MissingAddress{};            // exception class; see below
-
-		virtual ~HeapTracked() = 0 {}
-
-		static void *operator new(size_t size)
+	namespace mem
+	{
+		//! Usage: let your class publically derive from this one.
+		/** Note: doesn't work with smart pointers, except they are explicitly created by new.
+			Testing make_unique/make_shared showed negative results.
+			Also note that array allocation (new[]) is not supported.*/
+		class HeapTracked
 		{
-			void *memPtr = ::operator new(size);  // get the memory
+		public:
 
-			addresses.push_front(memPtr);         // put its address at
-			// the front of the list
-			return memPtr;
-		}
+            class MissingAddress : public std::exception {};
 
-		static void operator delete(void *ptr)
-		{
-			// get an "iterator" that identifies the list
-			// entry containing ptr; see Item 35 for details
-			std::list<RawAddress>::iterator it =
-				std::find(addresses.begin(), addresses.end(), ptr);
+            virtual inline ~HeapTracked() = 0;	// to make the class abstract
 
-			if (it != addresses.end()) {       // if an entry was found
-				addresses.erase(it);             // remove the entry
-				::operator delete(ptr);          // deallocate the memory
-			} else {                           // otherwise
-				throw MissingAddress();          // ptr wasn't allocated by
-			}                                  // op. new, so throw an
-		}                                    // exception
+			static void* operator new(size_t size)
+			{
+				void *memPtr = ::operator new(size);
+				addresses().push_front(memPtr);
+				return memPtr;
+			}
 
-		bool isOnHeap() const
-		{
-			// get a pointer to the beginning of the memory
-			// occupied by *this; see below for details
-			const void *rawAddress = dynamic_cast<const void*>(this);
+			static void operator delete(void* ptr)
+			{
+				std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), ptr);
 
-			// look up the pointer in the list of addresses
-			// returned by operator new
-			std::list<RawAddress>::iterator it =
-				std::find(addresses.begin(), addresses.end(), rawAddress);
+				if (it != addresses().end())
+				{
+					addresses().erase(it);
+					::operator delete(ptr);
+				}
+				else
+				{
+					throw MissingAddress();
+				}
+			}
 
-			return it != addresses.end();      // return whether it was
-		}                                    // found
+			bool isOnHeap() const
+			{
+				const void* rawAddress = dynamic_cast<const void*>(this);
+				std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), rawAddress);
+				return it != addresses().end();
+			}
 
-	private:
-		using RawAddress = const void*;
-		static std::list<RawAddress> addresses;
-	};
-
-	std::list<HeapTracked::RawAddress> HeapTracked::addresses;
-
-	// HeapTracked's destructor is pure virtual to make the
-	// class abstract (see Item E14). The destructor must still
-	// be defined, however, so we provide this empty definition.
-	//HeapTracked::~HeapTracked() {}
-
-
+		private:
+			using RawAddress = const void*;
+			static std::list<RawAddress>& addresses()
+			{
+				static std::list<RawAddress> addresses_;
+				return addresses_;
+			}
+		};
+        inline HeapTracked::~HeapTracked() {}
+	}
 }

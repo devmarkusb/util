@@ -37,7 +37,7 @@ set(Target_tooMemTest "tooMemTest")
 file(GLOB_RECURSE Target_tooMemTest_SRC_INCS "test/*.h")
 
 set(Target_tooMemTest_SOURCES
-	test/dummy.test.cpp
+	test/misc.test.cpp
 	test/_header_compile.test.cpp
 )
 
@@ -59,6 +59,8 @@ find_package(GTest 1.7.0)
 
 target_include_directories(${Target_tooMemTest} PRIVATE ${GTEST_INCLUDE_DIRS})
 target_include_directories(${Target_tooMemTest} PRIVATE include)
+target_include_directories(${Target_tooMemTest} PRIVATE ../tooBasicCodeSupport/include)
+target_include_directories(${Target_tooMemTest} PRIVATE ../tooBuildEnv/include)
 
 target_link_libraries(${Target_tooMemTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
