@@ -16,12 +16,15 @@
 #include "Toolib/PPDEFS.h"
 
 
-//! Unfortunately vc12 doesn't support constexpr and noexcept yet, so...
+//! Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
+//! noexcept yet, so...
 /** This header serves as a shutdown of these keywords beyond its boundaries.*/
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800
+#if TOO_HAS_NO_CPP11_CONSTEXPR
 #undef constexpr
 #define constexpr
+#endif
 
+#if TOO_HAS_NO_CPP11_NOEXCEPT
 #undef noexcept
 #define noexcept
 #endif
@@ -29,7 +32,7 @@
 namespace std
 {
 	//! A must have.
-#if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 40901
+#if TOO_HAS_NO_CPP1_MAKE_UNIQUE
 	template <typename T, typename ...Args>
 	std::unique_ptr<T> make_unique(Args&& ...args)
 	{
@@ -40,7 +43,7 @@ namespace std
 	//! Lots of nice to have type_traits.
 	//!@{
 
-#if !(TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1800)
+#if TOO_HAS_NO_CPP14_TYPE_TRAITS__T_SHORTCUTS
 	template <class T>
 	using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
 	template <class T>
@@ -81,7 +84,7 @@ namespace std
 	//!@}
 
 
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800
+#if TOO_HAS_NO_ACCUMULATE_ALG
     //! A missing algorithm, accumulating a range by an arbitrary operation (e.g. summing up by +).
 	template<class InputIt, class T, class BinaryOperation>
 	//	requires //todo

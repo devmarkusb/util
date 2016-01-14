@@ -59,7 +59,7 @@ namespace too
 		not_null(const not_null&) = default;
 		not_null& operator=(const not_null&) = default;
 
-#if !(TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
+#if TOO_HAS_CPP11_DEFAULT_MOVES
 		not_null(not_null&&) = default;
 		not_null& operator=(not_null&&) = default;
 #endif
