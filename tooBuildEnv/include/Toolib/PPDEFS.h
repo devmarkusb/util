@@ -127,6 +127,7 @@
 //##############################################################################################################
 //! Main debug-macro definition. Note that it's perfectly fine to use NDEBUG which is standard instead of
 //! TOO_DEBUG.
+//!@{
 
 #if TOO_MS_VISUAL_STUDIO_CPP
 #ifdef _DEBUG
@@ -141,6 +142,59 @@
 #define TOO_DEBUG	1
 #endif
 #endif
+
+//!@}
+
+
+//##############################################################################################################
+//! Language/Compiler/OS/... feature defines.
+//!
+//!@{
+
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
+#define TOO_HAS_NO_CPP11_U8     1
+#else
+#define TOO_HAS_NO_CPP11_U8     0
+#endif
+
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
+#define TOO_HAS_CPP11_DEFAULT_MOVES      0
+#else
+#define TOO_HAS_CPP11_DEFAULT_MOVES      1
+#endif
+
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
+#define TOO_HAS_NO_CPP11_CONSTEXPR      1
+#else
+#define TOO_HAS_NO_CPP11_CONSTEXPR      0
+#endif
+
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
+#define TOO_HAS_NO_CPP11_NOEXCEPT       1
+#else
+#define TOO_HAS_NO_CPP11_NOEXCEPT       0
+#endif
+
+#if !(TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1800)
+#define TOO_HAS_NO_CPP14_TYPE_TRAITS__T_SHORTCUTS   1
+#else
+#define TOO_HAS_NO_CPP14_TYPE_TRAITS__T_SHORTCUTS   0
+#endif
+
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800
+#define TOO_HAS_NO_ACCUMULATE_ALG   1
+#else
+#define TOO_HAS_NO_ACCUMULATE_ALG   0
+#endif
+
+#if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 40901
+#define TOO_HAS_NO_CPP1_MAKE_UNIQUE     1 // shame on you
+#else
+#define TOO_HAS_NO_CPP1_MAKE_UNIQUE     0 // shame on you
+#endif
+
+
+//!@}
 
 
 //##############################################################################################################
