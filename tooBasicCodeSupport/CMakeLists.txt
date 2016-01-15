@@ -38,12 +38,14 @@ file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SRC_INCS "test/*.h")
 
 set(Target_tooBasicCodeSupportTest_SOURCES
 	test/_header_compile.test.cpp
+	test/any.test.cpp
 	test/assert.test.cpp
 	test/finally.test.cpp
 	test/narrow.test.cpp
 	test/misc.test.cpp
 	test/ptr.test.cpp
 	test/std/std_extensions.test.cpp
+        test/compiletime/ct_map.test.cpp
 )
 
 add_executable(${Target_tooBasicCodeSupportTest}
@@ -69,7 +71,7 @@ target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ../tooBuild
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
 
-add_custom_command(
-  TARGET ${Target_tooBasicCodeSupportTest} POST_BUILD
-  COMMAND ${Target_tooBasicCodeSupportTest}
-)
+#add_custom_command(
+#  TARGET ${Target_tooBasicCodeSupportTest} POST_BUILD
+#  COMMAND ${Target_tooBasicCodeSupportTest}
+#)

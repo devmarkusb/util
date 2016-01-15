@@ -29,6 +29,36 @@ namespace too
 		TOO_EXPECT(pT);
 		return *pT;
 	}
+
+
+    //! Converts reference to pointer.
+    //!@{
+
+    template<typename T>
+    T* Ref2Ptr(T& t)
+    {
+        return &t;
+    }
+
+    template<typename T>
+    T* Ref2Ptr(T* t)
+    {
+        return t;
+    }
+
+    template<typename T>
+    const T* Ref2PtrC(const T& t)
+    {
+        return &t;
+    }
+
+    template<typename T>
+    const T* Ref2PtrC(const T* t)
+    {
+        return t;
+    }
+
+    //!@}
 }
 
 #endif

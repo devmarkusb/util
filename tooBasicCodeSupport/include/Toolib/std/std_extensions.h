@@ -26,7 +26,7 @@
 
 #if TOO_HAS_NO_CPP11_NOEXCEPT
 #undef noexcept
-#define noexcept
+#define noexcept    throw()
 #endif
 
 namespace std
