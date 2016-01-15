@@ -2,5 +2,4 @@
 
 TEST(dummytest, test)
 {
-
 }

@@ -22,13 +22,13 @@
     from the outside, too. Of course, if you have only one header to share, you can put the code of YourlibDEF.h
     right into there and spare that additional header.
     (4) Exporting things then goes like this:
-	\code
+    \code
     #include "YourlibDEF.h"
     class YOURLIBSHARED_EXPORT CExample {...};
     YOURLIBSHARED_EXPORT inline void f(...) {...}
     YOURLIBSHARED_EXPORT void g(...);
     YOURLIBSHARED_EXPORT int i;
-	\endcode
+    \endcode
     (5) Remark: Do not use a DllMain function. This is Windows-only.
     (7) Add TOO_EXTERN_C_DECLS (next to YOURLIBSHARED_EXPORT) if you intend to allow your library users the
     choice of late binding.
@@ -49,10 +49,11 @@
 //##############################################################################################################
 
 #if TOO_OS_WINDOWS == 1
-//! Perhaps TOO_LINKLIB_IMPL_CHOICE_OWN_CFG_STATICLIB has to be defined when you compile a library as static lib and also when you use it.
+//! Perhaps TOO_LINKLIB_IMPL_CHOICE_OWN_CFG_STATICLIB has to be defined when you compile a library as static lib and
+//! also when you use it.
 #if !defined(TOO_LINKLIB_IMPL_CHOICE_OWN_CFG_STATICLIB)
-#define TOO_DECL_EXPORT     __declspec(dllexport)
-#define TOO_DECL_IMPORT     __declspec(dllimport)
+#define TOO_DECL_EXPORT __declspec(dllexport)
+#define TOO_DECL_IMPORT __declspec(dllimport)
 #elif TOO_LINKLIB_IMPL_CHOICE_OWN_CFG_STATICLIB == 1
 #define TOO_DECL_EXPORT
 #define TOO_DECL_IMPORT
@@ -61,7 +62,7 @@
 #define TOO_DECL_EXPORT
 #define TOO_DECL_IMPORT
 #else
-//todo, don't think this alone works for all remaining platforms ;)
+// todo, don't think this alone works for all remaining platforms ;)
 #define TOO_DECL_EXPORT
 #define TOO_DECL_IMPORT
 #endif
@@ -69,19 +70,19 @@
 
 //! Declare the general dll calling convention.
 #if defined(_STDCALL_SUPPORTED)
-#define TOO_CALLINGCONVENTION   __stdcall
+#define TOO_CALLINGCONVENTION __stdcall
 #else
-#define TOO_CALLINGCONVENTION   __cdecl
+#define TOO_CALLINGCONVENTION __cdecl
 #endif
 
 
 //! Declare the dll calling convention for DllMain, Windows.
 #if TOO_OS_WINDOWS == 1 && ((_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED))
-#define TOO_WINAPI_DLLMAIN      __stdcall
+#define TOO_WINAPI_DLLMAIN __stdcall
 #else
 #define TOO_WINAPI_DLLMAIN
 #endif
-#define TOO_APIENTRY            WINAPI_DLLMAIN
+#define TOO_APIENTRY WINAPI_DLLMAIN
 
 
 //##############################################################################################################
@@ -89,9 +90,9 @@
 //! Put TOO_EXTERN_C_DECLS in front of your YOURLIBSHARED_EXPORT-define
 //! (being switch-wise TOO_DECL_EXPORT/TOO_DECL_IMPORT) if appropriate.
 #if TOO_LANG_STANDARD_CPP == 1
-#define TOO_EXTERN_C_DECLS        extern "C"
-#define TOO_EXTERN_C_DECLS_BEGIN  extern "C" {
-#define TOO_EXTERN_C_DECLS_END    }
+#define TOO_EXTERN_C_DECLS extern "C"
+#define TOO_EXTERN_C_DECLS_BEGIN extern "C" {
+#define TOO_EXTERN_C_DECLS_END }
 #else
 #define TOO_EXTERN_C_DECLS
 #define TOO_EXTERN_C_DECLS_BEGIN
