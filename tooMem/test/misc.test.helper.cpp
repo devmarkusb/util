@@ -1,9 +1,8 @@
 namespace misc_test_helper
 {
-	class C
-	{
+class C
+{
+};
 
-	};
-
-	C* c = nullptr;// new C;
+C* c = nullptr; // new C;
 }
