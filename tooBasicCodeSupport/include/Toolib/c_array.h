@@ -14,19 +14,19 @@
 
 namespace too
 {
-	//! Usage:
-	/**
-	\code
-	int x[5] = {};
-	for (size_t i = 0; i < too::c_array_length(x); ++i)
-		; // do sth
-	\endcode
-	*/
-	template<class T, size_t N>
-	size_t c_array_length(T(&)[N])
-	{
-		return N;
-	}
+//! Usage:
+/**
+\code
+int x[5] = {};
+for (size_t i = 0; i < too::c_array_length(x); ++i)
+    ; // do sth
+\endcode
+*/
+template <class T, size_t N>
+size_t c_array_length(T(&)[N])
+{
+    return N;
+}
 }
 
 #endif

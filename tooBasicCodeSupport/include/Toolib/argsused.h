@@ -18,7 +18,7 @@ namespace too
     \endcode
 */
 template <typename T>
-void ignore_arg(T &&)
+void ignore_arg(T&&)
 {
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
 }

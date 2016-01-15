@@ -56,7 +56,7 @@ enum class retcode
 {
     //! Return values indicating success
     //!@{
-    none = 0,
+    none    = 0,
     success = none,
     //!@}
 
@@ -86,7 +86,7 @@ enum class retcode
 };
 
 //(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
-//inline explicit operator bool(retcode rc)
+// inline explicit operator bool(retcode rc)
 //{
 //    return rc == retcode::none ? true : false;
 //}
@@ -105,7 +105,7 @@ inline bool is_ok(retcode rc)
 }
 }
 
-//todo map to string
+// todo map to string
 
 
 //! Definition of some exceptions for the pendant of throwing functions, not returning
@@ -115,15 +115,20 @@ inline bool is_ok(retcode rc)
 //! are handled by the \code TOO_EXPECT, TOO_ASSERT, TOO_ENSURE \endcode macros, resulting
 //! in throwing \code too::fail_fast \endcode, cf. assert.h.
 //!@{
-struct would_crash : public std::runtime_error {};
-struct not_implemented : public std::runtime_error {};
-struct did_no_op : public std::runtime_error {};
+struct would_crash : public std::runtime_error
+{
+};
+struct not_implemented : public std::runtime_error
+{
+};
+struct did_no_op : public std::runtime_error
+{
+};
 //!@}
-
 }
 
 using retcode = too::retcode;
-//since, `const auto& is_ok = too::is_ok;` would lead to multiple defs, even with constexpr
+// since, `const auto& is_ok = too::is_ok;` would lead to multiple defs, even with constexpr
 using namespace too::publish__is_ok;
 
 #endif

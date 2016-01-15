@@ -26,7 +26,7 @@ namespace too
 template <int KEY, int VALUE>
 struct key_value
 {
-    static const int key = KEY;
+    static const int key   = KEY;
     static const int value = VALUE;
 };
 
@@ -40,26 +40,25 @@ struct ct_map;
 template <int NOT_FOUND_VALUE>
 struct ct_map<NOT_FOUND_VALUE>
 {
-    template<int>
+    template <int>
     struct at
     {
         static const int value = NOT_FOUND_VALUE;
     };
 };
 
-template<int NOT_FOUND_VALUE, int KEY, int VALUE, typename... FURTHER_KEY_VALUEs>
+template <int NOT_FOUND_VALUE, int KEY, int VALUE, typename... FURTHER_KEY_VALUEs>
 struct ct_map<NOT_FOUND_VALUE, key_value<KEY, VALUE>, FURTHER_KEY_VALUEs...>
 {
-    template<int THIS_KEY>
+    template <int THIS_KEY>
     struct at
     {
-        static const int value = (THIS_KEY == KEY) ?
-                    VALUE : ct_map<NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
+        static const int value =
+            (THIS_KEY == KEY) ? VALUE : ct_map<NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
     };
 };
 
 //!@}
-
 }
 
 #endif

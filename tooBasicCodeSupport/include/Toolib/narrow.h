@@ -14,26 +14,28 @@
 
 namespace too
 {
-	//! Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value
-	//! not to change at all.
-	template <class T, class U>
-	inline constexpr T narrow_cast(U u) noexcept
-	{
-		return static_cast<T>(u);
-	}
+//! Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value
+//! not to change at all.
+template <class T, class U>
+inline constexpr T narrow_cast(U u) noexcept
+{
+    return static_cast<T>(u);
+}
 
-	//! Exception thrown by narrow() when failing.
-	struct narrowing_error : public std::exception {};
+//! Exception thrown by narrow() when failing.
+struct narrowing_error : public std::exception
+{
+};
 
-	//! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
-	template<class T, class U>
-	inline T narrow(U u)
-	{
-		T t = narrow_cast<T>(u);
-		if (static_cast<U>(t) != u)
-			throw narrowing_error();
-		return t;
-	}
+//! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
+template <class T, class U>
+inline T narrow(U u)
+{
+    T t = narrow_cast<T>(u);
+    if (static_cast<U>(t) != u)
+        throw narrowing_error();
+    return t;
+}
 }
 
 #endif

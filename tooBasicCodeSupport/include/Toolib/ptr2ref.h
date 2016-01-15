@@ -14,51 +14,51 @@
 
 namespace too
 {
-	//! Converts pointer to reference.
-	template <typename T>
-	inline T& Ptr2Ref(T* pT)
-	{
-		TOO_EXPECT(pT);
-		return *pT;
-	}
+//! Converts pointer to reference.
+template <typename T>
+inline T& Ptr2Ref(T* pT)
+{
+    TOO_EXPECT(pT);
+    return *pT;
+}
 
-	//! Const version of Ptr2Ref().
-	template <typename T>
-	inline const T& Ptr2RefC(const T* pT)
-	{
-		TOO_EXPECT(pT);
-		return *pT;
-	}
+//! Const version of Ptr2Ref().
+template <typename T>
+inline const T& Ptr2RefC(const T* pT)
+{
+    TOO_EXPECT(pT);
+    return *pT;
+}
 
 
-    //! Converts reference to pointer.
-    //!@{
+//! Converts reference to pointer.
+//!@{
 
-    template<typename T>
-    T* Ref2Ptr(T& t)
-    {
-        return &t;
-    }
+template <typename T>
+T* Ref2Ptr(T& t)
+{
+    return &t;
+}
 
-    template<typename T>
-    T* Ref2Ptr(T* t)
-    {
-        return t;
-    }
+template <typename T>
+T* Ref2Ptr(T* t)
+{
+    return t;
+}
 
-    template<typename T>
-    const T* Ref2PtrC(const T& t)
-    {
-        return &t;
-    }
+template <typename T>
+const T* Ref2PtrC(const T& t)
+{
+    return &t;
+}
 
-    template<typename T>
-    const T* Ref2PtrC(const T* t)
-    {
-        return t;
-    }
+template <typename T>
+const T* Ref2PtrC(const T* t)
+{
+    return t;
+}
 
-    //!@}
+//!@}
 }
 
 #endif
