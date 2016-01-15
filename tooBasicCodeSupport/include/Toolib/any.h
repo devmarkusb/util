@@ -120,11 +120,11 @@ namespace too
 			virtual std::unique_ptr<ibase> clone() const = 0;
 			virtual const std::type_info& type() const = 0;
 			virtual ~ibase() {}
-//            ibase(const ibase&) = delete;
-//            ibase& operator=(const ibase&) = delete;
+//            ibase(const ibase&) = default;
+//            ibase& operator=(const ibase&) = default;
 //#if TOO_HAS_CPP11_DEFAULT_MOVES
-//            ibase(ibase&&) = delete;
-//            ibase& operator=(ibase&&) = delete;
+//            ibase(ibase&&) = default;
+//            ibase& operator=(ibase&&) = default;
 //#endif
         };
 

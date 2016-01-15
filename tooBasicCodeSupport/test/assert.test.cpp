@@ -6,7 +6,7 @@
 
 #include "Toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
 
-TEST(AssertExpectEnsureTest, Assert)
+TEST(DISABLED_AssertExpectEnsureTest, Assert)
 {
 #ifdef TOO_ASSERT_ALWAYS_THROWING
 	EXPECT_THROW(TOO_ASSERT(false), too::fail_fast);
@@ -35,7 +35,7 @@ TEST(AssertExpectEnsureTest, Throw)
 #endif
 }
 
-TEST(AssertExpectEnsureTest, Terminate)
+TEST(DISABLED_AssertExpectEnsureTest, Terminate)
 {
 #ifdef TOO_ASSERT_TERMINATE_DISABLE
 	EXPECT_DEBUG_DEATH(TOO_ASSERT_TERMINATE(false), "");

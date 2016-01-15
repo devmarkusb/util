@@ -100,7 +100,7 @@ namespace
 	}
 }
 
-TEST(debug_hTest, test)
+TEST(DISABLED_debug_hTest, test)
 {
 	EXPECT_DEBUG_DEATH(f_with_debug_break(), "");
 	EXPECT_DEBUG_DEATH(f_with_debug_break_if(), "");
