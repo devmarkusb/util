@@ -188,7 +188,7 @@ const Type* any_cast(const any* pval)
 {
     if (pval->empty() || pval->holder->type() != typeid(Type))
         throw bad_any_cast();
-    return &(static_cast<any::concrete<const Type>*>(pval->holder.get())->value);
+    return &(static_cast<any::concrete<Type>*>(pval->holder.get())->value);
 }
 }
 
