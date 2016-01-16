@@ -10,14 +10,13 @@
 #ifndef STR2WSTR_H_INCL_827rt82rtrxjr38t
 #define STR2WSTR_H_INCL_827rt82rtrxjr38t
 
-#include "Toolib/PPDEFS.h"
-#include "Toolib/argsused.h"
-#include "Toolib/error.h"
-#include "Toolib/string/tooString.h"
-
 #include <string>
 #include <limits>
 #include <vector>
+#include "Toolib/PPDEFS.h"
+#include "Toolib/argsused.h"
+#include "Toolib/error.h"
+
 //! Unfortunately the following C++11 feature isn't yet supported by mingw (and ... ?). Try it with future versions.
 #define STR2WSTR_TRY_CODECVT_SUPPORT 0
 #if STR2WSTR_TRY_CODECVT_SUPPORT == 1
@@ -31,17 +30,6 @@ namespace too
 {
 namespace str
 {
-inline std::string toos_to_Utf8_string(const too::string& s)
-{
-    too::static_assert_string_BitsPerChar_and_Encoding<too::string, 8>();
-    return s;
-}
-
-inline too::string Utf8_string_to_toos(const std::string& s)
-{
-    too::static_assert_string_BitsPerChar_and_Encoding<too::string, 8>();
-    return s;
-}
 
 inline std::string Utf16_wstring_To_Utf8_string(const std::wstring& wstr)
 {
