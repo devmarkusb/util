@@ -1,0 +1,5 @@
+This is an UTF8 test file.
+Some character experiments...
+basic latin: ä (U+00E4) þ (U+00FE)
+cyrillic: Щ (U+0429) Ы (U+042B)
+mongolian: ᢅ (U+1885)  ᢓ (U+1893)

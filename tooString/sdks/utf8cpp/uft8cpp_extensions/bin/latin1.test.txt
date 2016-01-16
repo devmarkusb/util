@@ -1,0 +1,4 @@
+This is an latin1 test file.
+Some character experiments...
+basic latin: ä (U+00E4) þ (U+00FE)
+cyrillic: ?

@@ -21,6 +21,11 @@ include(defaults.cmake)
 
 file(GLOB_RECURSE TargetUtf8cpp_INCS "../source/*.h")
 
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+set(utf8cpp_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}../source PARENT_SCOPE)
+endif()
+
 
 ################################################################################################
 

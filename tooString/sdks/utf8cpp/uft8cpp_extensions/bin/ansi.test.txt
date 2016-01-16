@@ -1,0 +1,5 @@
+This is an ANSI test file.
+Some character experiments...
+basic latin: ä (U+00E4) þ (U+00FE)
+cyrillic: ? (U+0429) ? (U+042B)
+mongolian: ? (U+1885)  ? (U+1893)
