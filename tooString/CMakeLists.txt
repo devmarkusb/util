@@ -36,7 +36,8 @@ set(Target_tooStringTest "tooStringTest")
 file(GLOB_RECURSE Target_tooStringTest_SRC_INCS "test/*.h")
 
 set(Target_tooStringTest_SOURCES
-	"test/non-empty folder.test.cpp"
+	test/_header_compile.test.cpp
+	test/misc.test.cpp
 )
 
 add_executable(${Target_tooStringTest}
@@ -57,9 +58,10 @@ find_package(GTest 1.7.0)
 
 target_include_directories(${Target_tooStringTest} PRIVATE ${GTEST_INCLUDE_DIRS})
 target_include_directories(${Target_tooStringTest} PRIVATE include)
+target_include_directories(${Target_tooStringTest} PRIVATE ../tooBuildEnv/include)
+target_include_directories(${Target_tooStringTest} PRIVATE ../tooBasicCodeSupport/include)
 
 target_link_libraries(${Target_tooStringTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
-target_link_libraries(${Target_tooStringTest} PRIVATE ${Target_tooString})
 
 
 add_custom_command(
