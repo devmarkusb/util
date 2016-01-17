@@ -11,7 +11,7 @@
 #include "Toolib/error.h"
 #include "Toolib/c_array.h"
 #include "Toolib/assert.h"
-#include "Toolib/argsused.h"
+#include "Toolib/ignore_arg.h"
 #include "Toolib/any.h"
 
 #include "Toolib/compiletime/ct_map.h"

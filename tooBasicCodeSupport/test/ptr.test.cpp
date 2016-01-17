@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "Toolib/ptr.h"
-#include "Toolib/argsused.h"
+#include "Toolib/ignore_arg.h"
 
 
 TEST(ownerTest, Test)

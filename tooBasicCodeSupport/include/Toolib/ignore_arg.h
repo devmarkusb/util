@@ -1,4 +1,4 @@
-// Markus Borris, 2014
+// Markus Borris, 2014-2016
 // This file is part of Toolib library. Open source.
 
 //!
@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef ARGSUSED_H_kasgfuznfgzwngfz27gwfnsdfsd
-#define ARGSUSED_H_kasgfuznfgzwngfz27gwfnsdfsd
+#ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
+#define IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
 
 namespace too
 {
