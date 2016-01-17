@@ -3,7 +3,7 @@
 #include "Toolib/mem/checked_delete.h"
 #include "Toolib/mem/heap_tracked.h"
 #include "Toolib/mem/new_handler.h"
-#include "Toolib/argsused.h"
+#include "Toolib/ignore_arg.h"
 #include "Toolib/PPDEFS.h"
 
 
