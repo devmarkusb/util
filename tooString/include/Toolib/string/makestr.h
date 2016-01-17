@@ -1,4 +1,4 @@
-// Markus Borris, 2011
+// Markus Borris, 2011-2016
 // This file is part of Toolib library. Open source.
 
 //!
@@ -28,10 +28,11 @@ public:
         return *this;
     }
     operator std::string() const { return m_buffer.str(); }
+
 private:
     std::ostringstream m_buffer;
 };
 }
-} // too
+}
 
 #endif

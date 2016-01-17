@@ -3,7 +3,11 @@
 #include <fstream>
 #include <iostream>
 #include <locale>
+#include <iterator>
+#include <ios>
 #include "utf8.h"
+#include "Toolib/string/locale.h"
+#include "Toolib/string/makestr.h"
 
 
 namespace
@@ -43,7 +47,9 @@ struct char_encoding_fileTest : public ::testing::Test
 
     void SetUp()
     {
-        FilePathNameExt = "i_can_be_deleted__temp_txt_file.txt";
+        FilePathNameExt = "i_can_be_deleted__temp_txt_file_";
+        FilePathNameExt+= this->counter++;
+        FilePathNameExt+= ".txt";
     }
 
     void write_file(const std::string& text)
@@ -67,7 +73,7 @@ struct char_encoding_fileTest : public ::testing::Test
     void TearDown()
     {
         int ret = std::remove(FilePathNameExt.c_str());
-        ASSERT_TRUE(ret == 0);
+        ASSERT_EQ(0, ret);
     }
 
     ~char_encoding_fileTest()
@@ -77,7 +83,10 @@ struct char_encoding_fileTest : public ::testing::Test
 private:
     std::string FilePathNameExt;
     std::string content;
+    static char counter;
 };
+
+char char_encoding_fileTest::counter{'a'};
 
 TEST_F(char_encoding_fileTest, ASCII)
 {
@@ -85,7 +94,7 @@ TEST_F(char_encoding_fileTest, ASCII)
     write_file(s);
     EXPECT_TRUE(is_valid_utf8(s));
     const std::string read = read_file();
-    EXPECT_TRUE(read == s);
+    EXPECT_EQ(read, s);
 }
 
 TEST_F(char_encoding_fileTest, ASCIIhex)
@@ -95,20 +104,16 @@ TEST_F(char_encoding_fileTest, ASCIIhex)
     EXPECT_TRUE(is_valid_utf8(s));
     write_file(s);
     const std::string read = read_file();
-    EXPECT_TRUE(read == s);
+    EXPECT_EQ(read, s);
 }
 
 TEST_F(char_encoding_fileTest, UTF8)
 {
     const std::string s = "\xc3\xa4""hnlich";
     EXPECT_TRUE(is_valid_utf8(s));
-    //const std::string locs = "ähnlich";
-    //std::cout << locs << "\n";
-    //std::locale::global(std::locale(""));
-    //std::cout << locs << "\n";
     write_file(s);
     const std::string read = read_file();
-    EXPECT_TRUE(read == s);
+    EXPECT_EQ(read, s);
 }
 
 TEST_F(char_encoding_fileTest, UTF8_cyrillic)
@@ -117,14 +122,62 @@ TEST_F(char_encoding_fileTest, UTF8_cyrillic)
     EXPECT_TRUE(is_valid_utf8(s));
     write_file(s);
     const std::string read = read_file();
-    EXPECT_TRUE(read == s);
+    EXPECT_EQ(read, s);
 }
 
 TEST_F(char_encoding_fileTest, latin1)
 {
-    const std::string s = "äöü";
+    const std::string s = "\xe4\xf6\xfc"; // latin1 (aeoeue)
     EXPECT_FALSE(is_valid_utf8(s));
     write_file(s);
     const std::string read = read_file();
-    EXPECT_TRUE(read == s);
+    EXPECT_EQ(read, s);
+}
+
+TEST(consoleTest, set_global_localeTest_localenc)
+{
+    const std::string s = "\xe4""hnlich"; // latin1 encoding
+    std::stringstream ss;
+    std::cout << s << "\n";
+    ss << s;
+    std::string res1(ss.str());
+    std::cout << res1 << "\n";
+
+    too::set_global_locale_scoped loc{too::Global_locale::user_preferred};
+    std::locale first = loc.get_original_locale();
+    EXPECT_EQ(std::locale::classic(), first);
+    std::locale userpref = too::set_global_locale(too::Global_locale::default_classic);
+    std::locale classictest = too::set_global_locale(too::Global_locale::user_preferred);
+    EXPECT_EQ(std::locale::classic(), classictest);
+
+    std::stringstream ss2;
+    std::cout << s << "\n";
+    ss2 << s;
+    std::string res2(ss2.str());
+    std::cout << res2 << "\n";
+
+    //even too::set_global_locale_scoped loc{"German_Germany.UTF-8"}; // doesn't work for
+    //const std::string s = "\xc3\xa4"hnlich";
+}
+
+TEST(consoleTest, utf8_to_utf16)
+{
+    const std::string s = "\xc3\xa4""hnlich";
+    std::cout << s << "\n";
+
+    std::u16string utf16to;
+    utf8::utf8to16(s.begin(), s.end(), std::back_inserter(utf16to));
+
+    std::wstring ws(utf16to.begin(), utf16to.end());
+
+    too::set_global_locale_scoped loc{too::Global_locale::user_preferred};
+    std::wcout << ws << L"\n";
+    std::cout << s << "\n";
+}
+
+TEST(makestrTest, test)
+{
+    std::string s = too::str::makestr() << "Hey, here is number one: " << 1 << ", and other stuff: " << 5.4
+        << 'X' << "\xc3\xa4 " << std::boolalpha << true;
+    EXPECT_EQ("Hey, here is number one: 1, and other stuff: 5.4X\xc3\xa4 true", s);
 }

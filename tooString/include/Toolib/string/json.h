@@ -1,4 +1,4 @@
-// Markus Borris, 2014
+// Markus Borris, 2014-2016
 // This file is part of Toolib library. Open source.
 
 //!
@@ -8,6 +8,8 @@
 
 #ifndef JSON_H_yxdsngfezrbnyz8e3bqzf
 #define JSON_H_yxdsngfezrbnyz8e3bqzf
+
+#include <string>
 
 
 namespace too
@@ -30,6 +32,10 @@ public:
     //! Load Json::JsonValue into this object.
     virtual void SetJsonValue(const JSONval_type& root) = 0;
 };
+
+template <typename JSON_value>
+using IJSON_stdstr = IJSON<std::string, JSON_value>;
+
 }
 
 #endif

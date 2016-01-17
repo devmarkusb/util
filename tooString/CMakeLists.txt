@@ -21,7 +21,7 @@ include(defaults.cmake)
 
 add_subdirectory(sdks)
 
-file(GLOB_RECURSE Target_tooString_INCS "include/*.h")
+file(GLOB_RECURSE Target_tooString_INCS "include/*.h*")
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
@@ -38,6 +38,7 @@ file(GLOB_RECURSE Target_tooStringTest_SRC_INCS "test/*.h")
 set(Target_tooStringTest_SOURCES
 	test/_header_compile.test.cpp
 	test/misc.test.cpp
+	test/str_convert.test.cpp
 )
 
 add_executable(${Target_tooStringTest}

@@ -1,22 +1,6 @@
-// Markus Borris, 2011
+// Markus Borris, 2011-2016
 // This file is part of Toolib library. Open source.
 
-//!
-/**
-*/
-//! \file
-
-#pragma once
-#ifndef TOOTYPES_H_INCL_com3iur982zxr920z427
-#define TOOTYPES_H_INCL_com3iur982zxr920z427
-
-#include <string>
-#include <sstream>
-#include <cstdint>
-#include "Toolib/PPDEFS.H"
-
-namespace too
-{
 //! If you expected this file to define yet another custom string type, you are fortunately wrong.
 //! Instead it serves just as a documentation of guidelines of how to deal with strings in your
 //! program.
@@ -57,7 +41,18 @@ namespace too
         and std::string for local encodings only as little and as explicitly as possible.
 
         */
+//! \file
 
+#ifndef TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
+#define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
+
+#include "Toolib/PPDEFS.H"
+
+//! Including this header regardless of whether it used here. You will need it in combination with the
+//! proposed usage of std::string as UTF-8-everywhere.
+#include "../../../sdks/utf8cpp/source/utf8.h"
+
+//#######################################################################################################
 //! Under Windows make sure you compile everything using UNICODE-setting - otherwise API
 //! restricts everything to ASCII 7bit (perhaps ANSI 8bit and local encodings).
 #if TOO_OS_WINDOWS
@@ -66,11 +61,5 @@ namespace too
     "Under Windows your code has to be compiled with Unicode setting - according to a desired choice of encoding >= UTF8"
 #endif
 #endif
-
-// todo implement conversion std::wstring <-> std::u16string by simple copy, if and only if
-// Windows && UTF16 && sizeof(wchar_t)==2; in case you need better performance (and not
-// necessarily UTF8)
-
-}
 
 #endif
