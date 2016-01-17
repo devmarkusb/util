@@ -34,7 +34,9 @@ namespace too
         to ASCII (the 7bit thing for char numbers 0..127 resp. 0x0..0x7f, not the 8bit ANSI)
         and write "...".
         If ASCII isn't sufficient for you special character, encode it (bytewise) in UTF-8,
-        e.g. "\xc3\xa4" for German "ae".
+        e.g. "\xc3\xa4" for German "ae". Note that the compiler reads everything that is 0..f
+        after the \x and interprets as hex, which as soon as it becomes larger than 0...0ff
+        doesn't compile. Solution: use "\xc3\xa4""hnlich" instead of "\xc3\xa4hnlich".
         Hint: use http://www.utf8-zeichentabelle.de
         
     (3) So always ask youself:

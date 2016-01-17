@@ -60,11 +60,15 @@ target_include_directories(${Target_tooStringTest} PRIVATE ${GTEST_INCLUDE_DIRS}
 target_include_directories(${Target_tooStringTest} PRIVATE include)
 target_include_directories(${Target_tooStringTest} PRIVATE ../tooBuildEnv/include)
 target_include_directories(${Target_tooStringTest} PRIVATE ../tooBasicCodeSupport/include)
+target_include_directories(${Target_tooStringTest} PRIVATE sdks/utf8cpp/source)
 
 target_link_libraries(${Target_tooStringTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
+set(do_auto_test	ON)
 
+if (do_auto_test)
 add_custom_command(
   TARGET ${Target_tooStringTest} POST_BUILD
   COMMAND ${Target_tooStringTest}
 )
+endif ()

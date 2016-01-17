@@ -11,12 +11,13 @@
 
 #include <locale>
 
+
 namespace too
 {
-void set_global_locale(const char* locname = "German_germany")
+inline void set_global_locale(const char* locname = "")
 {
     std::locale::global(std::locale(locname));
 }
-} // too
+}
 
 #endif
