@@ -54,11 +54,16 @@ find_package(GTest 1.7.0)
 
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${GTEST_INCLUDE_DIRS})
 target_include_directories(${TargetUtf8cppTest} PRIVATE ../source)
+target_include_directories(${TargetUtf8cppTest} PRIVATE ../../../../tooBuildEnv/include)
 
 target_link_libraries(${TargetUtf8cppTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
 
+set(do_auto_test	ON)
+
+if (do_auto_test)
 add_custom_command(
   TARGET ${TargetUtf8cppTest} POST_BUILD
   COMMAND ${TargetUtf8cppTest}
 )
+endif ()
