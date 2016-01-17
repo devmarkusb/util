@@ -6,14 +6,14 @@
 #include <iterator>
 #include "utf8.h"
 #include "Toolib/PPDEFS.h"
-#include "Toolib/argsused.h"
+#include "Toolib/ignore_arg.h"
 
 
 TEST(utf8cpp_is_validTest, test)
 {
     std::string s = "schtscha:\xd0\xa9";
     EXPECT_TRUE(utf8::is_valid(s.begin(), s.end()));
-    s = "äöü";
+    s = "\xe4\xf6\xfc"; // latin1 aeoeue
     EXPECT_FALSE(utf8::is_valid(s.begin(), s.end()));
 }
 
@@ -27,13 +27,13 @@ TEST(utf8cpp_find_invalidTest, test)
 TEST(utf8cpp_replace_invalidTest, test)
 {
     std::string res;
-    std::string s = "some invalid ones: ä,ö,ü";
+    std::string s = "some invalid ones: \xe4,\xf6,\xfc"; // latin1 ae oe ue
     char32_t rc = 0x3f;
     utf8::replace_invalid(s.begin(), s.end(), std::back_inserter(res), rc);
     EXPECT_EQ("some invalid ones: ?,?,?", res);
 
     res.clear();
-    s = "some invalid ones: ä,ö,ü";
+    s = "some invalid ones: \xe4,\xf6,\xfc"; // latin1 ae oe ue
     utf8::replace_invalid(s.begin(), s.end(), std::back_inserter(res), '?');
     EXPECT_EQ("some invalid ones: ?,?,?", res);
 
@@ -265,15 +265,15 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2)
     std::string back;
     utf8::unchecked::utf16to8(utf16.begin(), utf16.end(), std::back_inserter(back));
     EXPECT_EQ(back, utf8);
-#if TOO_OS_WINDOWS // && Windows uses UTF16, which we can assume, I guess
-    static_assert(sizeof(wchar_t) == 2, "You might want to add another compiler conditional here");    
+
+#if TOO_OS_WINDOWS && TOO_SIZEOF_WCHAR_T == 2 // && Windows uses UTF16, which we can assume, I guess
     std::wstring ws ={0xe4};
     ws += L"hnlich!";
     std::wstring ws_from_utf16(utf16.begin(), utf16.end());
     EXPECT_EQ(ws, ws_from_utf16);
     // mingw doesn't compile: 'converting to execution character set: Illegal byte sequence'
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
-    ws = L"ähnlich!";
+    ws = L"\xe4hnlich!";
     EXPECT_EQ(ws, ws_from_utf16);
 #endif
 
@@ -336,6 +336,15 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
 
     // in case you want to try a std::string as target (could work in principle) you get a possible data loss warning
     // from the compiler; so utf8:: can't do this, which is ok
+}
+
+TEST(utf8cpp_unchecked_8to16Test, spelling)
+{
+    std::string utf8s{"\xc3\xa4hnlich!"};
+    std::u16string utf16_test{0xe4, 'h', 'n', 'l', 'i', 'c', 'h', '!'}; // can I write this? yes...
+    std::u16string utf16;
+    utf8::utf8to16(utf8s.begin(), utf8s.end(), std::back_inserter(utf16));
+    EXPECT_EQ(utf16_test, utf16);
 }
 
 TEST(utf8cpp_unchecked_8to32to8Test, test)
