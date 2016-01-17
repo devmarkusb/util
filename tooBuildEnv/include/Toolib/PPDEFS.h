@@ -189,6 +189,20 @@
 #define TOO_HAS_NO_CPP1_MAKE_UNIQUE 0 // shame on you
 #endif
 
+#if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 40901
+#define TOO_HAS_NO_CODECVT 1
+#else
+#define TOO_HAS_NO_CODECVT 0
+#endif
+
+#if __SIZEOF_WCHAR_T__ == 4 || __WCHAR_MAX__ > 0x10000
+#define TOO_SIZEOF_WCHAR_T 4
+static_assert(sizeof(wchar_t) == 4, "You might adapt the above conditionals to your platform");
+#else
+#define TOO_SIZEOF_WCHAR_T 2
+static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to your platform");
+#endif
+
 //!@}
 
 //##############################################################################################################
