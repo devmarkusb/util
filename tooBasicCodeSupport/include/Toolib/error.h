@@ -10,6 +10,8 @@
 #define ERROR_H_INCL_cosndzcriwu4ezr3
 
 #include <exception>
+#include <map>
+#include <string>
 
 
 namespace too
@@ -84,6 +86,26 @@ enum class retcode
     //!@}
 };
 
+const std::map<retcode, std::string> retcode_str ={
+    {retcode::success, "success"},
+    {retcode::failed, "failed"},
+    {retcode::not_implemented, "not_implemented"},
+    {retcode::did_no_op, "did_no_op"},
+    {retcode::logic_error, "logic_error"},
+    {retcode::domain_error, "domain_error"},
+    {retcode::invalid_arg, "invalid_arg"},
+    {retcode::length_error, "length_error"},
+    {retcode::out_of_range, "out_of_range"},
+    {retcode::runtime_error, "runtime_error"},
+    {retcode::overflow, "overflow"},
+    {retcode::underflow, "underflow"},
+    {retcode::range_error, "range_error"},
+    {retcode::precond_failed, "precond_failed"},
+    {retcode::assertion_failed, "assertion_failed"},
+    {retcode::postcond_failed, "postcond_failed"},
+    {retcode::would_crash, "would_crash"}
+};
+
 //(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
 // inline explicit operator bool(retcode rc)
 //{
@@ -103,8 +125,6 @@ inline bool is_ok(retcode rc)
     return !operator!(rc);
 }
 }
-
-// todo map to string
 
 
 //! Definition of some exceptions for the pendant of throwing functions, not returning
