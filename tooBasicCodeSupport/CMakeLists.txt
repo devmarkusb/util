@@ -71,7 +71,11 @@ target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ../tooBuild
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
 
 
-#add_custom_command(
-#  TARGET ${Target_tooBasicCodeSupportTest} POST_BUILD
-#  COMMAND ${Target_tooBasicCodeSupportTest}
-#)
+set(do_auto_test	ON)
+
+if (do_auto_test)
+add_custom_command(
+  TARGET ${Target_tooBasicCodeSupportTest} POST_BUILD
+  COMMAND ${Target_tooBasicCodeSupportTest}
+)
+endif ()

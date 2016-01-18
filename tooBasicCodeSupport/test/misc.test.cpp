@@ -1,18 +1,19 @@
-//#####!!!!! DO NOT change anything from HERE { ######
+// clang-format off
+//#####!!!!! DO NOT change anything from HERE { (actually from the start of the clang format directive above) ######
 #include "gtest/gtest.h"
 #include <string>
 #include "Toolib/debug.h"
 namespace
 {
-std::string
-    g_location_info_of__f_with_some_sourcefile_location_info; // just testing, so please don't cry about global data
+std::string g_location_info_of__f_with_some_sourcefile_location_info; // just testing, so please don't cry about global data
 
 void f_with_some_sourcefile_location_info()
 {
     g_location_info_of__f_with_some_sourcefile_location_info = TOO_LOCATION;
 }
 }
-//#####!!!!! TO HERE } unless you also update test TOO_LOCATIONTest below! ######
+//#####!!!!! TO HERE (actually to the end of the clang format directive below) } unless you also update test TOO_LOCATIONTest below! ######
+// clang-format on
 
 
 #include <typeinfo>
@@ -141,7 +142,7 @@ TEST(TOO_FUNCTIONSIGNTest, test)
 TEST(TOO_LOCATIONTest, test)
 {
     f_with_some_sourcefile_location_info();
-    size_t pos = g_location_info_of__f_with_some_sourcefile_location_info.find("misc.test.cpp (11) : ");
+    size_t pos = g_location_info_of__f_with_some_sourcefile_location_info.find("misc.test.cpp (12) : ");
     EXPECT_NE(std::string::npos, pos);
 }
 
