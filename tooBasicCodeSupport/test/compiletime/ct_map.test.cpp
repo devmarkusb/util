@@ -2,15 +2,15 @@
 #include "Toolib/compiletime/ct_map.h"
 
 
-TEST(too_ct_mapTest, test)
+TEST(ct_mapTest, test)
 {
+    // as the name says... this should be testable at compile time
     using too::kv;
     using test_map = too::ct_map<-1, kv<10, 11>, kv<20, 2002>, kv<30, 123>, kv<40, 546>>;
 
-    EXPECT_TRUE(2002 == test_map::at<20>::value);
-    EXPECT_TRUE(11 == test_map::at<10>::value);
-    EXPECT_TRUE(123 == test_map::at<30>::value);
-    EXPECT_TRUE(546 == test_map::at<40>::value);
-
-    EXPECT_TRUE(-1 == test_map::at<347856>::value);
+    static_assert(2002 == test_map::at<20>::value, "mmmhh... no!");
+    static_assert(11 == test_map::at<10>::value, "mmmhh... no!");
+    static_assert(123 == test_map::at<30>::value, "mmmhh... no!");
+    static_assert(546 == test_map::at<40>::value, "mmmhh... no!");
+    static_assert(-1 == test_map::at<347856>::value, "mmmhh... no!");
 }
