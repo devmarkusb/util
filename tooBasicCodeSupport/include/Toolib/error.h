@@ -10,6 +10,7 @@
 #define ERROR_H_INCL_cosndzcriwu4ezr3
 
 #include <exception>
+#include <stdexcept>
 #include <map>
 #include <string>
 
@@ -134,13 +135,13 @@ inline bool is_ok(retcode rc)
 //! are handled by the \code TOO_EXPECT, TOO_ASSERT, TOO_ENSURE \endcode macros, resulting
 //! in throwing \code too::fail_fast \endcode, cf. assert.h.
 //!@{
-struct would_crash : public std::exception
+struct would_crash : public std::runtime_error
 {
 };
-struct not_implemented : public std::exception
+struct not_implemented : public std::runtime_error
 {
 };
-struct did_no_op : public std::exception
+struct did_no_op : public std::runtime_error
 {
 };
 //!@}
