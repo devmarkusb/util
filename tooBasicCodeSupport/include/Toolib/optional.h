@@ -1,0 +1,115 @@
+// Markus Borris, 2016
+// This file is part of Toolib library. Open source.
+
+//!
+/**
+*/
+//! \file
+
+#ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
+#define OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
+
+
+#include <utility>
+#include <memory>
+#include "Toolib/PPDEFS.h"
+#include "Toolib/std/std_extensions.h"
+#include "Toolib/assert.h"
+
+
+namespace too
+{
+
+using none_t = nullptr_t;
+//! Used to set some \code too::opt<T> x \endcode variable to empty.
+const none_t none = nullptr;
+
+//! Optional type.
+/** Known shortcomings:
+        -doesn't implicitly convert well to complex types, e.g. std::string,
+        when assigning or passing to function; construction is ok
+        -comparison operators == != < > <= >= and streaming >> << would have
+        to be implemented on demand yet
+
+    And probably many more unknown ones. The implementation is kept extremely
+    simple. It is just done in a way as if you would use bool* instead of
+    too::opt<bool> and did everything manually. But for everyday live it should
+    just be absolutely sufficient.
+    Usage:
+    \code
+    void f(const too::opt<bool>& prop) // const& just to demonstrate where to put it
+    {
+        if (prop)
+        {
+           if (*prop)
+               ;// do sth.
+           else
+               ;// do other things
+        }
+        else
+           // do different things, not expecting any prop value
+    }
+    \endcode
+*/
+template <typename T>
+struct opt
+{
+    opt() = default;
+    ~opt() = default;
+
+    opt(const opt<T>& other) : holder(other.holder ? std::make_unique<T>(*other.holder) : nullptr) {}
+    opt<T>& operator=(const opt<T>& other)
+    {
+        holder = other.holder ? std::make_unique<T>(*other.holder) : nullptr;
+        return *this;
+    }
+
+#if TOO_HAS_CPP11_DEFAULT_MOVES
+    opt(opt<T>&&) = default;
+    opt& operator=(opt<T>&&) = default;
+#endif
+
+    opt(const T& x) : holder(std::make_unique<T>(x)) {}
+    opt(T&& x) : holder(std::make_unique<T>(std::move(x))) {}
+
+    operator T*() const
+    {
+        return this->holder.get();
+    }
+
+    opt<T>& operator=(const T& x)
+    {
+        this->holder = std::make_unique<T>(x);
+        return *this;
+    }
+
+    opt<T>& operator=(T&& x)
+    {
+        this->holder = std::make_unique<T>(std::move(x));
+        return *this;
+    }
+
+    opt<T>& operator=(const none_t&)
+    {
+        this->holder.reset();
+        return *this;
+    }
+
+    opt<T>& operator=(none_t&&)
+    {
+        this->holder.reset();
+        return *this;
+    }
+
+    void reset()
+    {
+        this->holder.reset();
+    }
+
+private:
+    std::unique_ptr<T> holder;
+};
+
+}
+
+#endif
