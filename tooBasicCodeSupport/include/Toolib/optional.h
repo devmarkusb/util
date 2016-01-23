@@ -12,6 +12,7 @@
 
 #include <utility>
 #include <memory>
+#include <cstddef>
 #include "Toolib/PPDEFS.h"
 #include "Toolib/std/std_extensions.h"
 #include "Toolib/assert.h"
@@ -20,7 +21,7 @@
 namespace too
 {
 
-using none_t = nullptr_t;
+using none_t = std::nullptr_t;
 //! Used to set some \code too::opt<T> x \endcode variable to empty.
 const none_t none = nullptr;
 
@@ -28,8 +29,7 @@ const none_t none = nullptr;
 /** Known shortcomings:
         -doesn't implicitly convert well to complex types, e.g. std::string,
         when assigning or passing to function; construction is ok
-        -comparison operators == != < > <= >= and streaming >> << would have
-        to be implemented on demand yet
+        -streaming operators >> << would have to be implemented on demand yet
 
     And probably many more unknown ones. The implementation is kept extremely
     simple. It is just done in a way as if you would use bool* instead of
@@ -109,6 +109,53 @@ struct opt
 private:
     std::unique_ptr<T> holder;
 };
+
+template <typename T>
+bool operator==(const opt<T>& lhs, const opt<T>& rhs)
+{
+    if (lhs && rhs)
+        return *lhs == *rhs;
+    else if (!lhs && !rhs)
+        return true;
+    else
+        return false;
+}
+
+template <typename T>
+bool operator!=(const opt<T>& lhs, const opt<T>& rhs)
+{
+    return !operator==(lhs, rhs);
+}
+
+//! Note: too::none is interpreted to be the smallest.
+template <typename T>
+bool operator<(const opt<T>& lhs, const opt<T>& rhs)
+{
+    if (lhs && rhs)
+        return *lhs < *rhs;
+    else if (!lhs && !rhs)
+        return false;
+    else
+        return !lhs && rhs ? true : false; // decide none to be the smallest
+}
+
+template <typename T>
+bool operator>(const opt<T>& lhs, const opt<T>& rhs)
+{
+    return operator<(rhs, lhs);
+}
+
+template <typename T>
+bool operator<=(const opt<T>& lhs, const opt<T>& rhs)
+{
+    return !operator>(lhs, rhs);
+}
+
+template <typename T>
+bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
+{
+    return !operator<(lhs, rhs);
+}
 
 }
 
