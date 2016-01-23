@@ -1,5 +1,5 @@
 // Markus Borris, 2014
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
 /** Extending namespace std with stuff that isn't there yet for certain compilers.

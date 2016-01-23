@@ -1,5 +1,5 @@
 // Markus Borris, 2015
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
 /** Taken from / inspired by the Cpp Guidelines Support Library GSL.

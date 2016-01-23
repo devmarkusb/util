@@ -1,5 +1,5 @@
 // Markus Borris, 2013
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
 /**
