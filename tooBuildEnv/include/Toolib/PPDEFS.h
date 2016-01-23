@@ -1,5 +1,5 @@
 // Markus Borris, 2011
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
 /** Most common and basic preprocessor defines.
