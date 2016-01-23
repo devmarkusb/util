@@ -1,8 +1,8 @@
 // Markus Borris, 2011-2016
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
-/** From David Rodríguez - dribeas, stackoverflow.
+/** From David Rodrï¿½guez - dribeas, stackoverflow.
 */
 //! \file
 

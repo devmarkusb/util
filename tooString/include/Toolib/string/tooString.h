@@ -1,5 +1,5 @@
 // Markus Borris, 2011-2016
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //! If you expected this file to define yet another custom string type, you are fortunately wrong.
 //! Instead it serves just as a documentation of guidelines of how to deal with strings in your
