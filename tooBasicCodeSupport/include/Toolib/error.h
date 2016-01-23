@@ -137,12 +137,15 @@ inline bool is_ok(retcode rc)
 //!@{
 struct would_crash : public std::runtime_error
 {
+    explicit would_crash(char const* const message) : std::runtime_error(message) {}
 };
 struct not_implemented : public std::runtime_error
 {
+    explicit not_implemented(char const* const message) : std::runtime_error(message) {}
 };
 struct did_no_op : public std::runtime_error
 {
+    explicit did_no_op(char const* const message) : std::runtime_error(message) {}
 };
 //!@}
 }
