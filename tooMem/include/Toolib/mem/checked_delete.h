@@ -1,5 +1,5 @@
 // Markus Borris, 2011
-// This file is part of Toolib library. Open source.
+// This file is part of Toolib library.
 
 //!
 /** Generating compiler errors when deleting incomplete types (types of objects for which delete doesn't see the
