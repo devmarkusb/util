@@ -12,9 +12,10 @@
 
 #include <string>
 
-// included for the major conversion support; whether used in this file or not
+//! utf8.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "../../../sdks/utf8cpp/source/utf8.h"
+
 
 namespace too
 {
@@ -59,8 +60,39 @@ inline std::wstring locenc_s2ws(const std::string& s);
 //! inline std::wstring utf8_s2ws(const std::string& str);
 
 //!@}
+
+//! Helper function, e.g. for dealing with utf8::iterator in combination with std::string (nothing like a 'const_iterator' supported there).
+inline char* s2psz(const std::string& s)
+{
+    const char* tmp(s.c_str());
+    char* s_ = const_cast<char*>(tmp);
+    return s_;
+}
+
+//! Converts \param s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but replacements
+//! like "&#228;" for non-ASCII. Throws if \param s is not valid UTF8.
+inline std::string utf8toHTML(const std::string& s)
+{
+    std::string ret;
+    ret.reserve(s.size());
+    char* s_ = s2psz(s);    
+	utf8::iterator<char*> itend(s_ + s.size(), s_, s_ + s.size());
+	for (utf8::iterator<char*> it(s_, s_, s_ + s.size()); it != itend; ++it)
+    {
+        if (*it == 0x9 || *it == 0xa || *it == 0xd || (*it >= 0x20 && *it <= 0x7e))
+            ret+= it.base()[0];
+        else
+            ret+= "&#" + std::to_string(*it) + ";";
+    }
+    return ret;
+}
+
 }
 }
+
+
+//##############################################################################################################################
+// implementation details
 
 #include "detail/str_convert_detail.hpp"
 

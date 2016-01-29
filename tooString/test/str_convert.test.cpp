@@ -85,3 +85,10 @@ TEST(locenc_s2wsTest, test)
     std::wstring ws(too::str::locenc_s2ws(loc));
     EXPECT_EQ(L"local stuff: \xe4", ws);
 }
+
+TEST(utf8toHTML, test)
+{
+    std::string s("\xc3\xa4""hnlich\x21 Und nochmal:\xc3\xa4");
+    std::string ret = too::str::utf8toHTML(s);
+    EXPECT_EQ("&#228;hnlich! Und nochmal:&#228;", ret);
+}
