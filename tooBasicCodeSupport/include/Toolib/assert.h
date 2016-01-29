@@ -47,6 +47,9 @@ struct fail_fast : public std::runtime_error
 
 #define TOO_ASSERT_IMPL(cond) assert(cond)
 
+// and don't end! There is no other chance, or do you know an alternative to do {...} while (false)?
+#include "Toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
+
 #ifdef TOO_ASSERT_THROW_DISABLE
 #define TOO_ASSERT_THROW_IMPL(cond, textstart) TOO_ASSERT_IMPL(cond)
 #else
@@ -221,6 +224,21 @@ struct StaticAssert_v0<true>
 //	#define TOO_STATIC_ASSERT_L TOO_STATIC_ASSERTv2L
 /** ... now with C++11 the problem is settled. You can just plainly use static_assert.*/
 #define TOO_STATIC_ASSERT static_assert
+
+//!
+template <typename T1, typename T2>
+bool XOR(const T1& lhs, const T2& rhs)
+{
+    return !lhs != !rhs;
+}
+
+template <>
+inline
+bool XOR(const bool& lhs, const bool& rhs)
+{
+    return lhs != rhs;
+}
+
 }
 
 #endif
