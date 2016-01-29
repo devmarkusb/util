@@ -13,6 +13,9 @@
 #include <stdexcept>
 #include <map>
 #include <string>
+#include <utility>
+#include "Toolib/assert.h"
+#include "Toolib/std/std_extensions.h"
 
 
 namespace too
@@ -84,6 +87,8 @@ enum class retcode
     postcond_failed,
 
     would_crash,
+    out_of_memory,
+    division_by_zero,
     //!@}
 };
 
@@ -104,7 +109,9 @@ const std::map<retcode, std::string> retcode_str ={
     {retcode::precond_failed, "precond_failed"},
     {retcode::assertion_failed, "assertion_failed"},
     {retcode::postcond_failed, "postcond_failed"},
-    {retcode::would_crash, "would_crash"}
+    {retcode::would_crash, "would_crash"},
+    {retcode::out_of_memory, "out_of_memory"},
+    {retcode::division_by_zero, "division_by_zero"},
 };
 
 //(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
@@ -139,6 +146,10 @@ struct would_crash : public std::runtime_error
 {
     explicit would_crash(char const* const message) : std::runtime_error(message) {}
 };
+struct division_by_zero : public std::runtime_error
+{
+    explicit division_by_zero(char const* const message) : std::runtime_error(message) {}
+};
 struct not_implemented : public std::runtime_error
 {
     explicit not_implemented(char const* const message) : std::runtime_error(message) {}
@@ -148,6 +159,63 @@ struct did_no_op : public std::runtime_error
     explicit did_no_op(char const* const message) : std::runtime_error(message) {}
 };
 //!@}
+
+
+//! At certain interface boundaries it could be desirable to not throw anything, but
+//! return an error code. This function conveniently wraps this as general concept.
+/** Usage: best with a lambda
+    \code
+    std::pair<too::retcode, std::string> myfunction() noexcept
+    {
+        return too::call_noexcept([&](){
+            // arbitrary code that is allowed to throw anything
+        });
+    }
+    \endcode
+*/
+template <typename Callable>
+std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
+{
+    try
+    {
+        f();
+        return std::make_pair(retcode::success, std::string());
+    }
+    catch (const too::fail_fast& e)
+    { return std::make_pair(retcode::assertion_failed, std::string(e.what())); }
+    catch (const too::would_crash& e)
+    { return std::make_pair(retcode::would_crash, std::string(e.what())); }
+    catch (const too::division_by_zero& e)
+    { return std::make_pair(retcode::division_by_zero, std::string(e.what())); }
+    catch (const too::not_implemented& e)
+    { return std::make_pair(retcode::not_implemented, std::string(e.what())); }
+    catch (const too::did_no_op& e)
+    { return std::make_pair(retcode::did_no_op, std::string(e.what())); }
+    catch (const std::domain_error& e)
+    { return std::make_pair(retcode::domain_error, std::string(e.what())); }
+    catch (const std::invalid_argument& e)
+    { return std::make_pair(retcode::invalid_arg, std::string(e.what())); }
+    catch (const std::length_error& e)
+    { return std::make_pair(retcode::length_error, std::string(e.what())); }
+    catch (const std::out_of_range& e)
+    { return std::make_pair(retcode::out_of_range, std::string(e.what())); }
+    catch (const std::overflow_error& e)
+    { return std::make_pair(retcode::overflow, std::string(e.what())); }
+    catch (const std::underflow_error& e)
+    { return std::make_pair(retcode::underflow, std::string(e.what())); }
+    catch (const std::range_error& e)
+    { return std::make_pair(retcode::range_error, std::string(e.what())); }
+    catch (const std::logic_error& e)
+    { return std::make_pair(retcode::logic_error, std::string(e.what())); }
+    catch (const std::bad_alloc& e)
+    { return std::make_pair(retcode::runtime_error, std::string(e.what())); }
+    catch (const std::runtime_error& e)
+    { return std::make_pair(retcode::out_of_memory, std::string(e.what())); }
+    catch (const std::exception& e)
+    { return std::make_pair(retcode::failed, std::string(e.what())); }
+    catch (...) { TOO_ASSERT_TERMINATE(false); }
+}
+
 }
 
 using retcode = too::retcode;
