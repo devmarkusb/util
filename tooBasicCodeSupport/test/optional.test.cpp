@@ -33,7 +33,12 @@ TEST(optTest, not)
     EXPECT_TRUE(!b);
     EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
-    EXPECT_DEATH([&](){ *b = false; }(), "");
+    EXPECT_DEATH(
+        [&]()
+        {
+            *b = false;
+        }(),
+        "");
 }
 
 TEST(optTest, constr_assign_moves)
@@ -56,7 +61,7 @@ TEST(optTest, constr_assign_moves)
     EXPECT_TRUE(copy);
     EXPECT_FALSE(*copy);
 
-    b = true;
+    b    = true;
     copy = b;
     EXPECT_TRUE(copy);
     EXPECT_TRUE(*copy);
@@ -73,9 +78,7 @@ TEST(optTest, constr_assign_moves)
 
 namespace
 {
-void f_with_opt_string_arg(const too::opt<std::string>&)
-{
-}
+void f_with_opt_string_arg(const too::opt<std::string>&) {}
 }
 
 TEST(optTest, types)
@@ -89,9 +92,9 @@ TEST(optTest, types)
     EXPECT_EQ("Hi!", *s);
     f_with_opt_string_arg(std::string("Hi!"));
 
-    too::opt<std::vector<int>> v({1,2,3});
+    too::opt<std::vector<int>> v({1, 2, 3});
     EXPECT_TRUE(v);
-    std::vector<int> vtest{1,2,3};
+    std::vector<int> vtest{1, 2, 3};
     EXPECT_EQ(vtest, *v);
 
     too::opt<double*> pd = nullptr;
@@ -101,8 +104,8 @@ TEST(optTest, types)
 
 TEST(optTest, comparisons)
 {
-    //todo
-//    too::opt<int> a = 1;
-//    too::opt<int> b = 1;
-//    EXPECT_EQ(a, b);
+    // todo
+    //    too::opt<int> a = 1;
+    //    too::opt<int> b = 1;
+    //    EXPECT_EQ(a, b);
 }

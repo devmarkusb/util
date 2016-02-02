@@ -92,6 +92,7 @@ enum class retcode
     //!@}
 };
 
+// clang-format off
 const std::map<retcode, std::string> retcode_str ={
     {retcode::success, "success"},
     {retcode::failed, "failed"},
@@ -113,6 +114,7 @@ const std::map<retcode, std::string> retcode_str ={
     {retcode::out_of_memory, "out_of_memory"},
     {retcode::division_by_zero, "division_by_zero"},
 };
+// clang-format on
 
 //(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
 // inline explicit operator bool(retcode rc)
@@ -120,18 +122,12 @@ const std::map<retcode, std::string> retcode_str ={
 //    return rc == retcode::none ? true : false;
 //}
 //! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
-inline auto operator!(retcode rc) -> const bool
-{
-    return rc == retcode::none ? false : true;
-}
+inline auto operator!(retcode rc) -> const bool { return rc == retcode::none ? false : true; }
 
 namespace publish__is_ok
 {
 //! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
-inline bool is_ok(retcode rc)
-{
-    return !operator!(rc);
-}
+inline bool is_ok(retcode rc) { return !operator!(rc); }
 }
 
 
@@ -182,40 +178,74 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
         return std::make_pair(retcode::success, std::string());
     }
     catch (const too::fail_fast& e)
-    { return std::make_pair(retcode::assertion_failed, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::assertion_failed, std::string(e.what()));
+    }
     catch (const too::would_crash& e)
-    { return std::make_pair(retcode::would_crash, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::would_crash, std::string(e.what()));
+    }
     catch (const too::division_by_zero& e)
-    { return std::make_pair(retcode::division_by_zero, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::division_by_zero, std::string(e.what()));
+    }
     catch (const too::not_implemented& e)
-    { return std::make_pair(retcode::not_implemented, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::not_implemented, std::string(e.what()));
+    }
     catch (const too::did_no_op& e)
-    { return std::make_pair(retcode::did_no_op, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::did_no_op, std::string(e.what()));
+    }
     catch (const std::domain_error& e)
-    { return std::make_pair(retcode::domain_error, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::domain_error, std::string(e.what()));
+    }
     catch (const std::invalid_argument& e)
-    { return std::make_pair(retcode::invalid_arg, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::invalid_arg, std::string(e.what()));
+    }
     catch (const std::length_error& e)
-    { return std::make_pair(retcode::length_error, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::length_error, std::string(e.what()));
+    }
     catch (const std::out_of_range& e)
-    { return std::make_pair(retcode::out_of_range, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::out_of_range, std::string(e.what()));
+    }
     catch (const std::overflow_error& e)
-    { return std::make_pair(retcode::overflow, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::overflow, std::string(e.what()));
+    }
     catch (const std::underflow_error& e)
-    { return std::make_pair(retcode::underflow, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::underflow, std::string(e.what()));
+    }
     catch (const std::range_error& e)
-    { return std::make_pair(retcode::range_error, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::range_error, std::string(e.what()));
+    }
     catch (const std::logic_error& e)
-    { return std::make_pair(retcode::logic_error, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::logic_error, std::string(e.what()));
+    }
     catch (const std::bad_alloc& e)
-    { return std::make_pair(retcode::runtime_error, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::runtime_error, std::string(e.what()));
+    }
     catch (const std::runtime_error& e)
-    { return std::make_pair(retcode::out_of_memory, std::string(e.what())); }
+    {
+        return std::make_pair(retcode::out_of_memory, std::string(e.what()));
+    }
     catch (const std::exception& e)
-    { return std::make_pair(retcode::failed, std::string(e.what())); }
-    catch (...) { TOO_ASSERT_TERMINATE(false); }
+    {
+        return std::make_pair(retcode::failed, std::string(e.what()));
+    }
+    catch (...)
+    {
+        TOO_ASSERT_TERMINATE(false);
+    }
 }
-
 }
 
 using retcode = too::retcode;

@@ -14,10 +14,7 @@ TEST(ownerTest, Test)
 
 namespace
 {
-int* id_with_not_null_param(too::not_null<int*> param)
-{
-    return param;
-}
+int* id_with_not_null_param(too::not_null<int*> param) { return param; }
 }
 
 TEST(not_nullTest, Test)

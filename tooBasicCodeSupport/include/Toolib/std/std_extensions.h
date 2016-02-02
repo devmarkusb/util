@@ -13,7 +13,7 @@
 #include <memory>
 #include <type_traits>
 #include <algorithm> // included for the most probable find of std::accumulate (if ever)
-#include <numeric> // included for the most probable find of std::accumulate (if ever)
+#include <numeric>   // included for the most probable find of std::accumulate (if ever)
 #include "Toolib/PPDEFS.h"
 
 

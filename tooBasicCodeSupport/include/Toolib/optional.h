@@ -72,18 +72,12 @@ struct opt
     opt(const T& x) : holder(std::make_unique<T>(x)) {}
     opt(T&& x) : holder(std::make_unique<T>(std::move(x))) {}
 
-    operator T*() const
-    {
-        return this->holder.get();
-    }
+    operator T*() const { return this->holder.get(); }
 
 // otherwise we get warnings of implicit conversions to bool (performance issue, theoretically)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
     //! Change to explicit cast, as soon as possible!
-    /*explicit */operator bool() const
-    {
-        return reinterpret_cast<bool>(this->holder.get());
-    }
+    /*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
 #endif
 
     opt<T>& operator=(const T& x)
@@ -110,10 +104,7 @@ struct opt
         return *this;
     }
 
-    void reset()
-    {
-        this->holder.reset();
-    }
+    void reset() { this->holder.reset(); }
 
 private:
     std::unique_ptr<T> holder;
@@ -165,7 +156,6 @@ bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
 {
     return !operator<(lhs, rhs);
 }
-
 }
 
 #endif

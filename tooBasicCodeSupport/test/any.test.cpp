@@ -87,10 +87,7 @@ private:
     std::vector<int> d1;
 };
 
-std::unique_ptr<IA> AFactory::createA()
-{
-    return std::make_unique<A>();
-}
+std::unique_ptr<IA> AFactory::createA() { return std::make_unique<A>(); }
 }
 }
 

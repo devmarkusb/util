@@ -29,7 +29,7 @@ namespace too
 template <typename TypeForKey, typename TypeForValue, TypeForKey KEY, TypeForValue VALUE>
 struct key_value
 {
-    static const TypeForKey key   = KEY;
+    static const TypeForKey key     = KEY;
     static const TypeForValue value = VALUE;
 };
 
@@ -53,14 +53,16 @@ struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE>
     };
 };
 
-template <typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE, typename... FURTHER_KEY_VALUEs>
+template <typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE,
+    typename... FURTHER_KEY_VALUEs>
 struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValue, KEY, VALUE>, FURTHER_KEY_VALUEs...>
 {
     template <TypeForKey THIS_KEY>
     struct at
     {
-        static const TypeForValue value =
-            (THIS_KEY == KEY) ? VALUE : ct_mapTT<TypeForValue, NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
+        static const TypeForValue value = (THIS_KEY == KEY)
+            ? VALUE
+            : ct_mapTT<TypeForValue, NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
     };
 };
 

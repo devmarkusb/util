@@ -112,7 +112,7 @@ struct fail_fast : public std::runtime_error
         missing some functionality.
         But in most cases you should opt for a), letting programmers and testers know that there is a logically wrong
         behavior happening. The exception too::fail_fast can then be caught at any call stack level that thinks it
-		knows how to handle that.
+        knows how to handle that.
 */
 //!@{
 
@@ -233,12 +233,10 @@ bool XOR(const T1& lhs, const T2& rhs)
 }
 
 template <>
-inline
-bool XOR(const bool& lhs, const bool& rhs)
+inline bool XOR(const bool& lhs, const bool& rhs)
 {
     return lhs != rhs;
 }
-
 }
 
 #endif

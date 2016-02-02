@@ -88,18 +88,9 @@ TEST(EnumCast_as_numberTest, TypeSpecific)
 
 namespace
 {
-void f_with_debug_break()
-{
-    TOO_DEBUG_BREAK;
-}
-void f_with_debug_break_if()
-{
-    TOO_DEBUG_BREAK_IF(1 == 1);
-}
-void f_with_debug_break_if_wont()
-{
-    TOO_DEBUG_BREAK_IF(1 == 0);
-}
+void f_with_debug_break() { TOO_DEBUG_BREAK; }
+void f_with_debug_break_if() { TOO_DEBUG_BREAK_IF(1 == 1); }
+void f_with_debug_break_if_wont() { TOO_DEBUG_BREAK_IF(1 == 0); }
 }
 
 TEST(DISABLED_debug_hTest, test)

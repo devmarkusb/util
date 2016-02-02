@@ -2,10 +2,7 @@
 #include "Toolib/narrow.h"
 
 
-TEST(NarrowTest, Cast)
-{
-    EXPECT_TRUE(static_cast<long>(too::narrow_cast<unsigned char>(42l)) == 42l);
-}
+TEST(NarrowTest, Cast) { EXPECT_TRUE(static_cast<long>(too::narrow_cast<unsigned char>(42l)) == 42l); }
 
 TEST(NarrowTest, CheckedCast)
 {
