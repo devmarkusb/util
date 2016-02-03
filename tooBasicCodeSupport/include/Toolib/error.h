@@ -229,11 +229,11 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
     {
         return std::make_pair(retcode::logic_error, std::string(e.what()));
     }
-    catch (const std::bad_alloc& e)
+    catch (const std::runtime_error& e)
     {
         return std::make_pair(retcode::runtime_error, std::string(e.what()));
     }
-    catch (const std::runtime_error& e)
+    catch (const std::bad_alloc& e)
     {
         return std::make_pair(retcode::out_of_memory, std::string(e.what()));
     }
