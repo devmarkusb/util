@@ -203,6 +203,12 @@ static_assert(sizeof(wchar_t) == 4, "You might adapt the above conditionals to y
 static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to your platform");
 #endif
 
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1800)
+#define TOO_HAS_BRACE_INIT_MEMBER_NON_STATIC 0
+#else
+#define TOO_HAS_BRACE_INIT_MEMBER_NON_STATIC 1
+#endif
+
 //!@}
 
 //##############################################################################################################
