@@ -35,3 +35,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options("-std=c++11")
     add_compile_options("-Wall")
 endif ()
+
+if (MSVC)
+add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+endif ()
