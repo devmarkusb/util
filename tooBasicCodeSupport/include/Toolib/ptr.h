@@ -69,13 +69,13 @@ public:
     not_null& operator=(not_null&&) = default;
 #endif
 
-    template <typename U, typename Dummy = std::enable_if_t<std::is_convertible<U, T>::value>>
+    template <typename U, typename Dummy = too::enable_if_t<std::is_convertible<U, T>::value>>
     not_null(const not_null<U>& other)
     {
         *this = other;
     }
 
-    template <typename U, typename Dummy = std::enable_if_t<std::is_convertible<U, T>::value>>
+    template <typename U, typename Dummy = too::enable_if_t<std::is_convertible<U, T>::value>>
     not_null& operator                   =(const not_null<U>& other)
     {
         this->ptr = other.get();
