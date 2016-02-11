@@ -6,7 +6,7 @@
 
 TEST(too_make_uniqueTest, test)
 {
-    std::unique_ptr<int> pi = std::make_unique<int>(1);
+    std::unique_ptr<int> pi = too::make_unique<int>(1);
     EXPECT_TRUE(pi != nullptr);
 }
 
@@ -16,6 +16,6 @@ TEST(too_accumulateTest, test)
     int sumSelfmade = 0;
     for (const auto& elem : v)
         sumSelfmade += elem;
-    int sum = std::accumulate(v.begin(), v.end(), 0, std::plus<int>());
+    int sum = too::accumulate(v.begin(), v.end(), 0, std::plus<int>());
     EXPECT_TRUE(sum == sumSelfmade);
 }

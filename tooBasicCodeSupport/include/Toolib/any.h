@@ -82,27 +82,27 @@ public:
 
     template <typename T>
     any(T&& x)
-        : holder(std::make_unique<concrete<T>>(std::forward<T>(x)))
+        : holder(too::make_unique<concrete<T>>(std::forward<T>(x)))
     {
     }
 
     template <typename T>
     any(const T& x)
-        : holder(std::make_unique<concrete<T>>(x))
+        : holder(too::make_unique<concrete<T>>(x))
     {
     }
 
     template <typename T>
     any& operator=(T&& x)
     {
-        holder = std::make_unique<concrete<T>>(std::forward<T>(x));
+        holder = too::make_unique<concrete<T>>(std::forward<T>(x));
         return *this;
     }
 
     template <typename T>
     any& operator=(const T& x)
     {
-        holder = std::make_unique<concrete<T>>(x);
+        holder = too::make_unique<concrete<T>>(x);
         return *this;
     }
 
@@ -136,7 +136,7 @@ private:
 
         explicit concrete(const T& x) : value(x) {}
 
-        virtual std::unique_ptr<ibase> clone() const override { return std::make_unique<concrete<T>>(value); }
+        virtual std::unique_ptr<ibase> clone() const override { return too::make_unique<concrete<T>>(value); }
 
         virtual const std::type_info& type() const override { return typeid(T); }
 

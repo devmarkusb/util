@@ -57,10 +57,10 @@ struct opt
     opt() = default;
     ~opt() = default;
 
-    opt(const opt<T>& other) : holder(other.holder ? std::make_unique<T>(*other.holder) : nullptr) {}
+    opt(const opt<T>& other) : holder(other.holder ? too::make_unique<T>(*other.holder) : nullptr) {}
     opt<T>& operator=(const opt<T>& other)
     {
-        holder = other.holder ? std::make_unique<T>(*other.holder) : nullptr;
+        holder = other.holder ? too::make_unique<T>(*other.holder) : nullptr;
         return *this;
     }
 
@@ -69,8 +69,8 @@ struct opt
     opt& operator=(opt<T>&&) = default;
 #endif
 
-    opt(const T& x) : holder(std::make_unique<T>(x)) {}
-    opt(T&& x) : holder(std::make_unique<T>(std::move(x))) {}
+    opt(const T& x) : holder(too::make_unique<T>(x)) {}
+    opt(T&& x) : holder(too::make_unique<T>(std::move(x))) {}
 
     operator T*() const { return this->holder.get(); }
 
@@ -82,13 +82,13 @@ struct opt
 
     opt<T>& operator=(const T& x)
     {
-        this->holder = std::make_unique<T>(x);
+        this->holder = too::make_unique<T>(x);
         return *this;
     }
 
     opt<T>& operator=(T&& x)
     {
-        this->holder = std::make_unique<T>(std::move(x));
+        this->holder = too::make_unique<T>(std::move(x));
         return *this;
     }
 
