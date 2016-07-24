@@ -37,16 +37,24 @@ set(Target_tooBasicCodeSupportTest "tooBasicCodeSupportTest")
 file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SRC_INCS "test/*.h")
 
 set(Target_tooBasicCodeSupportTest_SOURCES
-	test/_header_compile.test.cpp
+	test/c_array.test.cpp
+	test/debug.test.cpp
+	test/enum_cast.test.cpp
+	test/error.test.cpp
+	test/ignore_arg.test.cpp
+	test/ptr2ref.test.cpp
+	test/trace.test.cpp
+	test/types.test.cpp
 	test/any.test.cpp
 	test/assert.test.cpp
 	test/finally.test.cpp
 	test/narrow.test.cpp
 	test/misc.test.cpp
-        test/optional.test.cpp
-        test/ptr.test.cpp
+	test/optional.test.cpp
+	test/ptr.test.cpp
 	test/std/std_extensions.test.cpp
-        test/compiletime/ct_map.test.cpp
+	test/compiletime/ct_map.test.cpp
+	test/class/non_copyable.test.cpp
 )
 
 add_executable(${Target_tooBasicCodeSupportTest}

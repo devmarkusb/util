@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "Toolib/narrow.h"
+#include "gtest/gtest.h"
 
 
 TEST(NarrowTest, Cast) { EXPECT_TRUE(static_cast<long>(too::narrow_cast<unsigned char>(42l)) == 42l); }
