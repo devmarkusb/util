@@ -35,7 +35,7 @@ namespace too
 {
 
 //! A must have.
-#if TOO_HAS_NO_CPP1_MAKE_UNIQUE
+#if TOO_HAS_NO_CPP14_MAKE_UNIQUE
 template <typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args)
 {
