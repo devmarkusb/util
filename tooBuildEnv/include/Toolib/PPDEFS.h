@@ -184,9 +184,9 @@
 #endif
 
 #if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 40902
-#define TOO_HAS_NO_CPP1_MAKE_UNIQUE 1 // shame on you
+#define TOO_HAS_NO_CPP14_MAKE_UNIQUE 1 // shame on you
 #else
-#define TOO_HAS_NO_CPP1_MAKE_UNIQUE 0
+#define TOO_HAS_NO_CPP14_MAKE_UNIQUE 0
 #endif
 
 #if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 40902
