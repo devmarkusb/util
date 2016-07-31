@@ -45,10 +45,23 @@ struct fail_fast : public std::runtime_error
 /*	Note that there is no way around macros here, because we need file and line informations as well as
     complete vanishing for release or compile-define switched builds.*/
 
-#define TOO_ASSERT_IMPL(cond) assert(cond)
-
-// and don't end! There is no other chance, or do you know an alternative to do {...} while (false)?
+// Begin warning suppression, and don't end! There is no other chance, or do you know an alternative to do {...} while (false)?
 #include "Toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
+
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if TOO_DEBUG
+#define TOO_ASSERT_IMPL(cond)   \
+    do                          \
+    {                           \
+        if (!(cond))            \
+            __debugbreak();     \
+    } while (false)
+#else
+#define TOO_ASSERT_IMPL(cond) TOO_NOOP
+#endif
+#else
+#define TOO_ASSERT_IMPL(cond) assert(cond)
+#endif
 
 #ifdef TOO_ASSERT_THROW_DISABLE
 #define TOO_ASSERT_THROW_IMPL(cond, textstart) TOO_ASSERT_IMPL(cond)

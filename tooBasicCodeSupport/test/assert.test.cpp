@@ -13,18 +13,22 @@ TEST(DISABLED_AssertExpectEnsureTest, Assert)
     EXPECT_THROW(TOO_EXPECT(false), too::fail_fast);
     EXPECT_THROW(TOO_ENSURE(false), too::fail_fast);
 #else
+#if TOO_DEBUG
     EXPECT_DEBUG_DEATH(TOO_ASSERT(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE(false), "");
+#endif TOO_DEBUG
 #endif
 }
 
 TEST(AssertExpectEnsureTest, Throw)
 {
 #ifdef TOO_ASSERT_THROW_DISABLE
+#if TOO_DEBUG
     EXPECT_DEBUG_DEATH(TOO_ASSERT_THROW(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT_THROW(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE_THROW(false), "");
+#endif
 #else
     EXPECT_THROW(TOO_ASSERT_THROW(false), too::fail_fast);
     EXPECT_NO_THROW(TOO_ASSERT_THROW(true));
@@ -42,18 +46,22 @@ TEST(DISABLED_AssertExpectEnsureTest, Terminate)
     EXPECT_DEBUG_DEATH(TOO_EXPECT_TERMINATE(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE_TERMINATE(false), "");
 #else
+#if TOO_DEBUG
     EXPECT_DEATH(TOO_ASSERT_TERMINATE(false), "");
     EXPECT_DEATH(TOO_EXPECT_TERMINATE(false), "");
     EXPECT_DEATH(TOO_ENSURE_TERMINATE(false), "");
+#endif
 #endif
 }
 
 TEST(AssertExpectEnsureTest, Sleep)
 {
 #ifdef TOO_ASSERT_SLEEP_DISABLE
+#if TOO_DEBUG
     EXPECT_DEBUG_DEATH(TOO_ASSERT_SLEEP(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT_SLEEP(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE_SLEEP(false), "");
+#endif
 #else
 // untestable so far, whether not returning after some reasonable time
 // TOO_ASSERT_SLEEP, TOO_EXPECT_SLEEP, TOO_ENSURE_SLEEP
