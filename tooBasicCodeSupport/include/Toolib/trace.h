@@ -23,8 +23,9 @@ namespace too
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
 inline void trace(const std::ostringstream& os) { OutputDebugStringA(os.str().c_str()); }
-
 inline void trace(const std::wostringstream& os) { OutputDebugStringW(os.str().c_str()); }
+#else
+inline void trace(const std::ostringstream&) {}
 #endif
 }
 
