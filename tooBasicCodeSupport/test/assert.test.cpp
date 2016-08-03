@@ -17,7 +17,7 @@ TEST(DISABLED_AssertExpectEnsureTest, Assert)
     EXPECT_DEBUG_DEATH(TOO_ASSERT(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE(false), "");
-#endif TOO_DEBUG
+#endif
 #endif
 }
 
