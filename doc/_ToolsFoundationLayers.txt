@@ -1,0 +1,24 @@
+Contains repos with libs that are topic- and implementation-wise
+-more fundamental
+-more self-contained - allow dependencies at most among themselves exclusively
+-more widely usable
+-more well-selected and separated
+than parts of Toolib, which is more an all-purpose helper for larger
+applications, rather than libraries or tools that strive for
+reduced dependencies.
+
+For these naturally smaller pieces of ToolsFoundationLayers (ToolsFL,
+could also be called TFL = ToolsFoundationLibrary later)
+it is well permitted practice to use each other (of course excluding
+cyclic dependencies) in appropriate manner.
+So naturally a dependency graph with different layers of dependencies
+emerges.
+
+REQUIREMENT:
+Dependent lib-repos must be checked out next to each other under a parent
+directy named ToolsFL.
+So furthermore, higher level libs dependent on ToolsFL have to be checked
+out next to ToolsFL.
+Note: The submodule approach ends in the disaster of multiple builds and
+tests of the same library within a project that uses several of the
+ToolsFL libraries.
