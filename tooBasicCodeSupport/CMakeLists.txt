@@ -53,6 +53,7 @@ set(Target_tooBasicCodeSupportTest_SOURCES
 	test/optional.test.cpp
 	test/ptr.test.cpp
 	test/std/std_extensions.test.cpp
+	test/std/vector.test.cpp
 	test/compiletime/ct_map.test.cpp
 	test/class/non_copyable.test.cpp
 )
