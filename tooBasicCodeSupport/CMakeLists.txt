@@ -56,6 +56,7 @@ set(Target_tooBasicCodeSupportTest_SOURCES
 	test/std/vector.test.cpp
 	test/compiletime/ct_map.test.cpp
 	test/class/non_copyable.test.cpp
+	test/class/listener.test.cpp
 )
 
 add_executable(${Target_tooBasicCodeSupportTest}
