@@ -37,14 +37,8 @@ private:
 
 struct View : private Model_listener
 {
-    View()
-    {
-        this->m_in_v.register_listener(this);
-    }
-    ~View()
-    {
-        this->m_in_v.unregister_listener(this);
-    }
+    View() { this->m_in_v.register_listener(this); }
+    ~View() { this->m_in_v.unregister_listener(this); }
 
     int get_prop() const { return this->m_in_v.get_prop(); }
     void set_prop(int x)
@@ -61,10 +55,7 @@ struct View : private Model_listener
 private:
     Model m_in_v;
 
-    virtual void on_prop_changed() override
-    {
-        prop_changed();
-    }
+    virtual void on_prop_changed() override { prop_changed(); }
 };
 }
 

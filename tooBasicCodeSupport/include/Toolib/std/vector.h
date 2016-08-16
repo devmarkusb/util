@@ -22,8 +22,10 @@ template <typename T>
 inline void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v)
 {
     const size_t end = start + length;
-    if (dst >= start && dst <= end) return;
-    if (end > v.size()) return;
+    if (dst >= start && dst <= end)
+        return;
+    if (end > v.size())
+        return;
     const size_t final_dst = dst > start ? dst - length : dst;
     const size_t orig_size = v.size();
     std::vector<T> tmp(std::make_move_iterator(v.begin() + start), std::make_move_iterator(v.begin() + start + length));

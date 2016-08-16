@@ -52,9 +52,8 @@
         TOO_DEBUG_BREAK_IF(true); \
     } while (false)
 #else
-#define TOO_DEBUG_BREAK_IF(                                                                         \
-    _CONDITION_) /*sizeof((_CONDITION_)) <- don't want this; produces code in release version \ \ \ \
-                    */
+// no sizeof((_CONDITION_)), as this would produce code in release build
+#define TOO_DEBUG_BREAK_IF(_CONDITION_)
 #define TOO_DEBUG_BREAK
 #endif
 

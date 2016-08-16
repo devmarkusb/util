@@ -99,7 +99,8 @@ public:
     void register_listener(Listener* l)
     {
         TOO_EXPECT(l);
-        TOO_EXPECT(std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) == std::end(this->registered_listeners));
+        TOO_EXPECT(std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) ==
+            std::end(this->registered_listeners));
 
         this->registered_listeners.push_back(l);
     }
@@ -120,7 +121,8 @@ public:
     {
         TOO_EXPECT(l);
 
-        return std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) != std::end(this->registered_listeners);
+        return std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) !=
+            std::end(this->registered_listeners);
     }
 
 protected:
