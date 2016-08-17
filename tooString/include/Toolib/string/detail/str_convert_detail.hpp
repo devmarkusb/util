@@ -118,8 +118,12 @@ inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr)
 
 inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
 {
-    using cc = std::codecvt_utf8_utf16<wchar_t>;
+    // Note that this isn't understood very well.
+    // The test under Windows and mingw succeeds for the little_endian choice.
+    // It could very well be that this doesn't hold on every platform.
+    using cc = std::codecvt_utf8_utf16<wchar_t, 0x10ffff, std::little_endian>;
     std::wstring_convert<cc, wchar_t> converter;
+
     return converter.from_bytes(str);
 }
 #endif
