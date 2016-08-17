@@ -11,6 +11,7 @@
 #define LISTENER_H_INCL_sjkdzth78tn2378xgh73fr
 
 #include <vector>
+#include <algorithm>
 #include "Toolib/assert.h"
 
 
