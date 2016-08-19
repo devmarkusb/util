@@ -30,8 +30,8 @@ TEST(optTest, not)
         EXPECT_TRUE(true);
     else
         EXPECT_TRUE(false);
-    EXPECT_TRUE(!b);
-    EXPECT_FALSE(b);
+    //EXPECT_TRUE(!b);
+    //EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
     EXPECT_DEATH(
         [&]()
@@ -54,25 +54,40 @@ TEST(optTest, constr_assign_moves)
     b = too::none;
     EXPECT_FALSE(b);
     b = false;
-    EXPECT_TRUE(b);
+    if (b)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_FALSE(*b);
 
     too::opt<bool> copy(b);
-    EXPECT_TRUE(copy);
+    if (copy)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_FALSE(*copy);
 
     b    = true;
     copy = b;
-    EXPECT_TRUE(copy);
+    if (copy)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_TRUE(*copy);
 
     b = too::opt<bool>(false);
-    EXPECT_TRUE(b);
+    if (b)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_TRUE(!*b);
 
     bool boo = true;
     too::opt<bool> c(boo);
-    EXPECT_TRUE(c);
+    if (c)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_TRUE(*c);
 }
 
@@ -84,21 +99,33 @@ void f_with_opt_string_arg(const too::opt<std::string>&) {}
 TEST(optTest, types)
 {
     too::opt<double> d = 5.2;
-    EXPECT_TRUE(d);
+    if (d)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_DOUBLE_EQ(5.2, *d);
 
     too::opt<std::string> s("Hi!");
-    EXPECT_TRUE(s);
+    if (s)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_EQ("Hi!", *s);
     f_with_opt_string_arg(std::string("Hi!"));
 
     too::opt<std::vector<int>> v({1, 2, 3});
-    EXPECT_TRUE(v);
+    if (v)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     std::vector<int> vtest{1, 2, 3};
     EXPECT_EQ(vtest, *v);
 
     too::opt<double*> pd = nullptr;
-    EXPECT_TRUE(pd);
+    if (pd)
+        EXPECT_TRUE(true);
+    else
+        EXPECT_TRUE(false);
     EXPECT_EQ(nullptr, *pd);
 }
 
