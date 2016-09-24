@@ -1,6 +1,0 @@
-#include "Toolib/string/tooString.h"
-#include "Toolib/string/locale.h"
-#include "Toolib/string/str_convert.h"
-#include "Toolib/string/string_misc.h"
-#include "Toolib/string/makestr.h"
-#include "Toolib/string/json.h"
