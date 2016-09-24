@@ -10,6 +10,7 @@
 #define NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
 
 #include "std/std_extensions.h"
+#include <type_traits>
 
 
 namespace too
@@ -28,9 +29,12 @@ struct narrowing_error : public std::exception
 };
 
 //! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
+//! Expects at least one of the casting types to be non floating point.
 template <class T, class U>
 inline T narrow(U u)
 {
+    static_assert(!(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
+                  "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");
     T t = narrow_cast<T>(u);
     if (static_cast<U>(t) != u)
         throw narrowing_error();
