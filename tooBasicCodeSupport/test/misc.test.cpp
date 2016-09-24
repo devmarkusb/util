@@ -93,7 +93,7 @@ void f_with_debug_break_if() { TOO_DEBUG_BREAK_IF(1 == 1); }
 void f_with_debug_break_if_wont() { TOO_DEBUG_BREAK_IF(1 == 0); }
 }
 
-TEST(DISABLED_debug_hTest, test)
+TEST(debug_hTest, test)
 {
     EXPECT_DEBUG_DEATH(f_with_debug_break(), "");
     EXPECT_DEBUG_DEATH(f_with_debug_break_if(), "");
