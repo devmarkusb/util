@@ -1,48 +1,7 @@
-#include "gtest/gtest.h"
-#include <memory>
-#include "Toolib/mem/checked_delete.h"
-#include "Toolib/mem/heap_tracked.h"
 #include "Toolib/mem/new_handler.h"
+#include "gtest/gtest.h"
 #include "Toolib/ignore_arg.h"
-#include "Toolib/PPDEFS.h"
 
-
-namespace misc_test_helper
-{
-class C;
-extern C* c;
-}
-
-TEST(checked_deleteTest, test)
-{
-    // just for demonstration, since it is a compile topic only
-
-    // delete misc_test_helper::c;								// <- this compiles, shows a warning if you're lucky
-    // too::mem::checked_delete(misc_test_helper::c);			// <- this doesn't compile; nice :)
-}
-
-TEST(HeapTrackedTest, test)
-{
-    class C : public too::mem::HeapTracked
-    {
-    };
-
-    C c_stack_;
-    C* c_stack = &c_stack_;
-    C* c_heap  = new C;
-
-    EXPECT_FALSE(c_stack->isOnHeap());
-    EXPECT_TRUE(c_heap->isOnHeap());
-
-// todo explore why this seem to fail under mingw
-#if !TOO_COMP_MINGW
-    EXPECT_THROW(delete c_stack, too::mem::HeapTracked::MissingAddress);
-#endif
-    EXPECT_NO_FATAL_FAILURE(delete c_heap);
-
-    std::shared_ptr<C> c_smart(new C);
-    EXPECT_TRUE(c_smart->isOnHeap());
-}
 
 namespace
 {

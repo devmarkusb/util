@@ -37,8 +37,10 @@ set(Target_tooMemTest "tooMemTest")
 file(GLOB_RECURSE Target_tooMemTest_SRC_INCS "test/*.h")
 
 set(Target_tooMemTest_SOURCES
-	test/misc.test.cpp
-	test/_header_compile.test.cpp
+	test/misc.test.helper.cpp
+    test/checked_delete.test.cpp
+    test/heap_tracked.test.cpp
+    test/new_handler.test.cpp
 )
 
 add_executable(${Target_tooMemTest}
