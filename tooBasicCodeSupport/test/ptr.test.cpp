@@ -23,5 +23,5 @@ TEST(not_nullTest, Test)
     int* px = &x;
     EXPECT_EQ(px, id_with_not_null_param(px));
     int* nullp = nullptr;
-    EXPECT_DEBUG_DEATH(id_with_not_null_param(nullp), "");
+    EXPECT_THROW(id_with_not_null_param(nullp), too::fail_fast);
 }
