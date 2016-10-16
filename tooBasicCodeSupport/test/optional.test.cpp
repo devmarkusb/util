@@ -23,6 +23,25 @@ TEST(optTest, empty_constr)
         EXPECT_TRUE(true);
 }
 
+TEST(optTest, none_constr)
+{
+    too::opt<bool> b{too::none};
+    if (b)
+        EXPECT_TRUE(false);
+    else
+        EXPECT_TRUE(true);
+    const too::opt<bool> cb{too::none};
+    if (cb)
+        EXPECT_TRUE(false);
+    else
+        EXPECT_TRUE(true);
+    too::opt<const bool> bc{too::none};
+    if (bc)
+        EXPECT_TRUE(false);
+    else
+        EXPECT_TRUE(true);
+}
+
 TEST(optTest, not)
 {
     too::opt<bool> b;

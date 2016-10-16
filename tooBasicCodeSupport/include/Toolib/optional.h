@@ -64,6 +64,9 @@ struct opt
         return *this;
     }
 
+    explicit opt(const none_t&) : holder(nullptr) {}
+    explicit opt(none_t&&) : holder(nullptr) {}
+
 #if TOO_HAS_CPP11_DEFAULT_MOVES
     opt(opt<T>&&) = default;
     opt& operator=(opt<T>&&) = default;
