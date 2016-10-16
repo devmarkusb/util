@@ -52,7 +52,7 @@
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
 
-//#######################################################################################################
+//####################################################################################################################
 //! Under Windows make sure you compile everything using UNICODE-setting - otherwise API
 //! restricts everything to ASCII 7bit (perhaps ANSI 8bit and local encodings).
 #if TOO_OS_WINDOWS
