@@ -40,7 +40,7 @@ struct fail_fast : public std::runtime_error
 }
 
 
-//################################################################################################################################################
+//####################################################################################################################
 // impl. details
 /*	Note that there is no way around macros here, because we need file and line informations as well as
     complete vanishing for release or compile-define switched builds.*/
@@ -109,7 +109,7 @@ struct fail_fast : public std::runtime_error
 #endif
 
 
-//################################################################################################################################################
+//####################################################################################################################
 //! Assertion helpers.
 /** Proposal of usage guidelines (at the example of the TOO_EXPECT* macros, ASSERTs and ENSUREs are analogous).
     1.	TOO_EXPECT should be used all over the place without any further considerations. Question is, when to tighten
@@ -176,7 +176,7 @@ struct fail_fast : public std::runtime_error
 #endif
 
 
-//################################################################################################################################################
+//####################################################################################################################
 
 namespace too
 {
