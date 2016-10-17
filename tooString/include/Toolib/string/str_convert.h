@@ -10,11 +10,10 @@
 #ifndef STR_CONVERT_H_INCL_827rt82rtrxjr38t
 #define STR_CONVERT_H_INCL_827rt82rtrxjr38t
 
-#include <string>
-
 //! utf8.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "../../../sdks/utf8cpp/source/utf8.h"
+#include <string>
 
 
 namespace too

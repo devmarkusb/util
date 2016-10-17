@@ -10,9 +10,10 @@
 #ifndef STRING_MISC_H_INCL_ciubhwduibgwi37
 #define STRING_MISC_H_INCL_ciubhwduibgwi37
 
-#include <string>
-#include <ctype.h>
 #include <algorithm>
+#include <ctype.h>
+#include <string>
+
 
 namespace too
 {

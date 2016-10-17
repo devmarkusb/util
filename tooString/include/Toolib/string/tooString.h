@@ -47,10 +47,10 @@
 #define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
 #include "Toolib/PPDEFS.H"
-
 //! Including this header regardless of whether it used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
+
 
 //####################################################################################################################
 //! Under Windows make sure you compile everything using UNICODE-setting - otherwise API

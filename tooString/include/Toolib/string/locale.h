@@ -9,9 +9,9 @@
 #ifndef LOCALE_H_INCL_condwhxnu23mhy8mr
 #define LOCALE_H_INCL_condwhxnu23mhy8mr
 
-#include <locale>
-#include "Toolib/std/std_extensions.h"
 #include "Toolib/PPDEFS.h"
+#include "Toolib/std/std_extensions.h"
+#include <locale>
 
 
 namespace too

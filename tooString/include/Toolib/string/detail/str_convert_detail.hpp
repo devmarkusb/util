@@ -10,15 +10,14 @@
 #ifndef STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 #define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 
-#include <string>
-#include <limits>
-#include <vector>
-#include <iterator>
-#include "Toolib/PPDEFS.h"
-#include "Toolib/ignore_arg.h"
 #include "Toolib/error.h"
+#include "Toolib/ignore_arg.h"
+#include "Toolib/PPDEFS.h"
 #include "../../../../sdks/utf8cpp/source/utf8.h"
-
+#include <iterator>
+#include <limits>
+#include <string>
+#include <vector>
 
 #if !TOO_HAS_NO_CODECVT
 #include <codecvt>
