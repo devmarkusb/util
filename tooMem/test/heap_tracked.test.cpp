@@ -1,7 +1,7 @@
 #include "Toolib/mem/heap_tracked.h"
-#include "gtest/gtest.h"
-#include <memory>
 #include "Toolib/PPDEFS.h"
+#include <memory>
+#include "gtest/gtest.h"
 
 
 TEST(HeapTrackedTest, test)

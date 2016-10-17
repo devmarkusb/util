@@ -8,7 +8,6 @@ Implementation inspired by boost.
 */
 //! \file
 
-
 #ifndef CHECKED_DELETE_H_INCL_f3287rn32r7nz237
 #define CHECKED_DELETE_H_INCL_f3287rn32r7nz237
 

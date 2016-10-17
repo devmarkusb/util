@@ -6,8 +6,8 @@
 */
 //! \file
 
-#include <list>
 #include <algorithm>
+#include <list>
 
 
 namespace too

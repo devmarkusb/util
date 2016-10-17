@@ -6,12 +6,11 @@
 */
 //! \file
 
-
 #ifndef NEW_HANDLER_H_INCL_n2io38zre2387xnz27r
 #define NEW_HANDLER_H_INCL_n2io38zre2387xnz27r
 
-#include <new>
 #include <cstddef>
+#include <new>
 
 
 namespace too
