@@ -11,11 +11,11 @@
 #ifndef STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 #define STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 
-#include <memory>
-#include <type_traits>
-#include <algorithm> // included for the most probable find of std::accumulate (if ever)
-#include <numeric>   // included for the most probable find of std::accumulate (if ever)
 #include "Toolib/PPDEFS.h"
+#include <algorithm> // included for the most probable find of std::accumulate (if ever)
+#include <memory>
+#include <numeric>   // included for the most probable find of std::accumulate (if ever)
+#include <type_traits>
 
 
 //! Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and

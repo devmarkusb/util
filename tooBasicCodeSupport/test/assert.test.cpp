@@ -1,7 +1,7 @@
 #include "Toolib/assert.h"
-#include "gtest/gtest.h"
 #include <exception>
 #include <iostream>
+#include "gtest/gtest.h"
 
 
 #include "Toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"

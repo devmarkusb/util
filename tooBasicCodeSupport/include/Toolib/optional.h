@@ -9,13 +9,12 @@
 #ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
 #define OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
 
-
-#include <utility>
-#include <memory>
-#include <cstddef>
 #include "Toolib/PPDEFS.h"
-#include "Toolib/std/std_extensions.h"
 #include "Toolib/assert.h"
+#include "Toolib/std/std_extensions.h"
+#include <cstddef>
+#include <memory>
+#include <utility>
 
 
 namespace too

@@ -9,8 +9,9 @@
 #ifndef VECTOR_H_sixe38grf38gxfn34x8gfn4
 #define VECTOR_H_sixe38grf38gxfn34x8gfn4
 
-#include <vector>
 #include <stddef.h>
+#include <vector>
+
 
 namespace too
 {

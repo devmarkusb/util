@@ -10,8 +10,8 @@
 #ifndef NON_COPYABLE_H_INCL_imcutoiu34o5
 #define NON_COPYABLE_H_INCL_imcutoiu34o5
 
-#include "Toolib/std/std_extensions.h"
 #include "Toolib/PPDEFS.h"
+#include "Toolib/std/std_extensions.h"
 
 
 namespace too

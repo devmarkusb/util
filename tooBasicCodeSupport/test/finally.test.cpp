@@ -1,6 +1,6 @@
 #include "Toolib/finally.h"
-#include "gtest/gtest.h"
 #include "Toolib/PPDEFS.h"
+#include "gtest/gtest.h"
 
 
 TEST(FinallyTest, Test)

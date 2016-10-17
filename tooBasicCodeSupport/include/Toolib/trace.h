@@ -16,6 +16,7 @@
 #include <windows.h>
 #endif
 
+
 namespace too
 {
 // todo other platforms

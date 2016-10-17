@@ -10,8 +10,8 @@
 #ifndef DEBUG_MISC_H_INCL_n9283zr823rz832
 #define DEBUG_MISC_H_INCL_n9283zr823rz832
 
-#include "Toolib/PPDEFS.h"
 #include "Toolib/assert.h"
+#include "Toolib/PPDEFS.h"
 
 
 //####################################################################################################################

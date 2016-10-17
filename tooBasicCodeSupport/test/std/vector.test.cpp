@@ -1,6 +1,7 @@
 #include "Toolib/std/vector.h"
 #include "gtest/gtest.h"
 
+
 class VectorMoveRangeTest : public ::testing::Test
 {
 protected:

@@ -1,8 +1,8 @@
 // clang-format off
 //#####!!!!! DO NOT change anything from HERE { (actually from the start of the clang format directive above) ######
 #include "Toolib/debug.h"
-#include "gtest/gtest.h"
 #include <string>
+#include "gtest/gtest.h"
 namespace
 {
 std::string g_location_info_of__f_with_some_sourcefile_location_info; // just testing, so please don't cry about global data
