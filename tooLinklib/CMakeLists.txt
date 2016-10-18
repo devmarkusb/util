@@ -37,7 +37,7 @@ set(Target_tooLinklibTest "tooLinklibTest")
 file(GLOB_RECURSE Target_tooLinklibTest_SRC_INCS "test/*.h")
 
 set(Target_tooLinklibTest_SOURCES
-	test/LINKLIB_DEFS.test.cpp
+	include/Toolib/linklib/LINKLIB_DEFS.test.cpp
 )
 
 add_executable(${Target_tooLinklibTest}
