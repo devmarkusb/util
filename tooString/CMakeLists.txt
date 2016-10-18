@@ -36,13 +36,13 @@ set(Target_tooStringTest "tooStringTest")
 file(GLOB_RECURSE Target_tooStringTest_SRC_INCS "test/*.h")
 
 set(Target_tooStringTest_SOURCES
-    test/utf8.test.cpp
-    test/str_convert.test.cpp
-    test/json.test.cpp
-    test/locale.test.cpp
-    test/makestr.test.cpp
-    test/string_misc.test.cpp
-    test/tooString.test.cpp
+    include/Toolib/string/json.test.cpp
+    include/Toolib/string/locale.test.cpp
+    include/Toolib/string/makestr.test.cpp
+    include/Toolib/string/str_convert.test.cpp
+    include/Toolib/string/string_misc.test.cpp
+    include/Toolib/string/tooString.test.cpp
+    include/Toolib/string/utf8.test.cpp
 )
 
 add_executable(${Target_tooStringTest}
