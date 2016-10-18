@@ -37,25 +37,25 @@ set(Target_tooBasicCodeSupportTest "tooBasicCodeSupportTest")
 file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SRC_INCS "test/*.h")
 
 set(Target_tooBasicCodeSupportTest_SOURCES
-	test/c_array.test.cpp
-	test/debug.test.cpp
-	test/enum_cast.test.cpp
-	test/error.test.cpp
-	test/ignore_arg.test.cpp
-	test/ptr2ref.test.cpp
-	test/trace.test.cpp
-	test/types.test.cpp
-	test/any.test.cpp
-	test/assert.test.cpp
-	test/finally.test.cpp
-	test/narrow.test.cpp
-	test/optional.test.cpp
-	test/ptr.test.cpp
-	test/std/std_extensions.test.cpp
-	test/std/vector.test.cpp
-	test/compiletime/ct_map.test.cpp
-	test/class/non_copyable.test.cpp
-	test/class/listener.test.cpp
+	include/Toolib/any.test.cpp
+	include/Toolib/assert.test.cpp
+	include/Toolib/c_array.test.cpp
+	include/Toolib/debug.test.cpp
+	include/Toolib/enum_cast.test.cpp
+	include/Toolib/error.test.cpp
+	include/Toolib/finally.test.cpp
+	include/Toolib/ignore_arg.test.cpp
+	include/Toolib/narrow.test.cpp
+	include/Toolib/optional.test.cpp
+	include/Toolib/ptr.test.cpp
+	include/Toolib/ptr2ref.test.cpp
+	include/Toolib/class/non_copyable.test.cpp
+	include/Toolib/class/listener.test.cpp
+	include/Toolib/compiletime/ct_map.test.cpp
+	include/Toolib/std/std_extensions.test.cpp
+	include/Toolib/std/vector.test.cpp
+	include/Toolib/trace.test.cpp
+	include/Toolib/types.test.cpp
 )
 
 add_executable(${Target_tooBasicCodeSupportTest}
