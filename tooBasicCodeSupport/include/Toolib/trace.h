@@ -23,6 +23,7 @@ namespace too
 #if TOO_OS_WINDOWS
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
+/** Impl. notes: Also tried std::cerr and std::clog under Windows - without success.*/
 inline void trace(const std::ostringstream& os) { OutputDebugStringA(os.str().c_str()); }
 inline void trace(const std::wostringstream& os) { OutputDebugStringW(os.str().c_str()); }
 #else
