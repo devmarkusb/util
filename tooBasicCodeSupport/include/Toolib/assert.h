@@ -24,6 +24,9 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #define ASSERT_H_INCL_onvdr589tz3758ct438tzcn
 
 #include "Toolib/PPDEFS.h"
+#ifndef TOO_COMP_MS_VISUAL_STUDIO_CPP
+#include <assert.h>
+#endif
 #include <chrono>
 #include <stdexcept>
 #include <thread>
