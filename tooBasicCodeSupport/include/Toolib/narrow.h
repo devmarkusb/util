@@ -1,4 +1,4 @@
-// Markus Borris, 2015
+// Markus Borris, 2015-16
 // This file is part of Toolib library.
 
 //!
@@ -18,7 +18,7 @@ namespace too
 //! Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value
 //! not to change at all.
 template <class T, class U>
-inline constexpr T narrow_cast(U u) noexcept
+constexpr T narrow_cast(U u) noexcept
 {
     return static_cast<T>(u);
 }
@@ -31,7 +31,7 @@ struct narrowing_error : public std::exception
 //! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
 //! Expects at least one of the casting types to be non floating point.
 template <class T, class U>
-inline T narrow(U u)
+T narrow(U u)
 {
     static_assert(!(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
                   "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");

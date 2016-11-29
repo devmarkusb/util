@@ -21,7 +21,6 @@ set(Target_tooBasicCodeSupport "tooBasicCodeSupport")
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
-file(GLOB_RECURSE Target_tooBasicCodeSupport_SRC_INCS "src/*.h")
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
@@ -33,8 +32,6 @@ endif()
 ################################################################################################
 
 set(Target_tooBasicCodeSupportTest "tooBasicCodeSupportTest")
-
-file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SRC_INCS "test/*.h")
 
 set(Target_tooBasicCodeSupportTest_SOURCES
 	include/Toolib/any.test.cpp
@@ -61,7 +58,6 @@ set(Target_tooBasicCodeSupportTest_SOURCES
 add_executable(${Target_tooBasicCodeSupportTest}
 	${Target_tooBasicCodeSupportTest_SOURCES}
 	${Target_tooBasicCodeSupport_INCS}
-	${Target_tooBasicCodeSupportTest_SRC_INCS}
 )
 
 if (WIN32)
