@@ -21,7 +21,6 @@ set(Target_tooBuildEnv "tooBuildEnv")
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
-file(GLOB_RECURSE Target_tooBuildEnv_SRC_INCS "src/*.h")
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
@@ -34,8 +33,6 @@ endif()
 
 set(Target_tooBuildEnvTest "tooBuildEnvTest")
 
-file(GLOB_RECURSE Target_tooBuildEnvTest_SRC_INCS "test/*.h")
-
 set(Target_tooBuildEnvTest_SOURCES
 	include/Toolib/PPDEFS.test.cpp
 )
@@ -43,7 +40,6 @@ set(Target_tooBuildEnvTest_SOURCES
 add_executable(${Target_tooBuildEnvTest}
 	${Target_tooBuildEnvTest_SOURCES}
 	${Target_tooBuildEnv_INCS}
-	${Target_tooBuildEnvTest_SRC_INCS}
 )
 
 if (WIN32)
