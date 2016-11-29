@@ -21,7 +21,6 @@ set(Target_tooLinklib "tooLinklib")
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
-file(GLOB_RECURSE Target_tooLinklib_SRC_INCS "src/*.h")
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
@@ -34,8 +33,6 @@ endif()
 
 set(Target_tooLinklibTest "tooLinklibTest")
 
-file(GLOB_RECURSE Target_tooLinklibTest_SRC_INCS "test/*.h")
-
 set(Target_tooLinklibTest_SOURCES
 	include/Toolib/linklib/LINKLIB_DEFS.test.cpp
 )
@@ -43,7 +40,6 @@ set(Target_tooLinklibTest_SOURCES
 add_executable(${Target_tooLinklibTest}
 	${Target_tooLinklibTest_SOURCES}
 	${Target_tooLinklib_INCS}
-	${Target_tooLinklibTest_SRC_INCS}
 )
 
 if (WIN32)
