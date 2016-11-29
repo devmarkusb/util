@@ -21,7 +21,6 @@ set(Target_tooMem "tooMem")
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooMem_INCS "include/*.h")
-file(GLOB_RECURSE Target_tooMem_SRC_INCS "src/*.h")
 
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
@@ -34,8 +33,6 @@ endif()
 
 set(Target_tooMemTest "tooMemTest")
 
-file(GLOB_RECURSE Target_tooMemTest_SRC_INCS "test/*.h")
-
 set(Target_tooMemTest_SOURCES
     include/Toolib/mem/checked_delete.test.cpp
     include/Toolib/mem/heap_tracked.test.cpp
@@ -46,7 +43,6 @@ set(Target_tooMemTest_SOURCES
 add_executable(${Target_tooMemTest}
 	${Target_tooMemTest_SOURCES}
 	${Target_tooMem_INCS}
-	${Target_tooMemTest_SRC_INCS}
 )
 
 if (WIN32)
