@@ -33,8 +33,6 @@ endif()
 
 set(Target_tooStringTest "tooStringTest")
 
-file(GLOB_RECURSE Target_tooStringTest_SRC_INCS "test/*.h")
-
 set(Target_tooStringTest_SOURCES
     include/Toolib/string/json.test.cpp
     include/Toolib/string/locale.test.cpp
@@ -48,7 +46,6 @@ set(Target_tooStringTest_SOURCES
 add_executable(${Target_tooStringTest}
 	${Target_tooStringTest_SOURCES}
 	${Target_tooString_INCS}
-	${Target_tooStringTest_SRC_INCS}
 )
 
 if (WIN32)
