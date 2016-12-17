@@ -90,6 +90,9 @@ inline Listener::~Listener() {}
     };
     \endcode
     That is the one listeners can register themselves in to be called.
+
+    Implementation note: member functions are virtual for a reason, there are
+    ues-cases. E.g. if you like to forward registrations to members.
 */
 class ListenerRegister
 {
@@ -97,7 +100,7 @@ public:
     /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
         The same \param l also mustn't be registered more than once.*/
-    void register_listener(Listener* l)
+    virtual void register_listener(Listener* l)
     {
         TOO_EXPECT(l);
         TOO_EXPECT(std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) ==
@@ -108,7 +111,7 @@ public:
 
     /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
         The same \param l also mustn't be unregistered more than once.*/
-    void unregister_listener(Listener* l)
+    virtual void unregister_listener(Listener* l)
     {
         TOO_EXPECT(l);
         const auto it = std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l);
@@ -118,7 +121,7 @@ public:
     }
 
     //! \param l has to be non-nullptr.
-    bool is_registered(Listener* l) const
+    virtual bool is_registered(Listener* l) const
     {
         TOO_EXPECT(l);
 
