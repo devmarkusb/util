@@ -133,6 +133,53 @@ protected:
     using listener_container = std::vector<Listener*>;
     listener_container registered_listeners;
 };
+
+//! Static version of ListenerRegister. That is, you can let your
+//! class be a notfier statically and not per object.
+template <class StaticNotifier>
+class ListenerStaticRegister
+{
+public:
+    /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
+        which also has to be called before l's livetime ends.
+        The same \param l also mustn't be registered more than once.*/
+    static void register_listener(Listener* l)
+    {
+        TOO_EXPECT(l);
+        TOO_EXPECT(std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l) ==
+            std::end(registered_listeners()));
+
+        registered_listeners().push_back(l);
+    }
+
+    /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
+        The same \param l also mustn't be unregistered more than once.*/
+    static void unregister_listener(Listener* l)
+    {
+        TOO_EXPECT(l);
+        const auto it = std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l);
+        TOO_EXPECT(it != std::end(registered_listeners()));
+
+        registered_listeners().erase(it);
+    }
+
+    //! \param l has to be non-nullptr.
+    static bool is_registered(Listener* l)
+    {
+        TOO_EXPECT(l);
+
+        return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l) !=
+            std::end(registered_listeners());
+    }
+
+protected:
+    using listener_container = std::vector<Listener*>;
+    static listener_container& registered_listeners()
+    {
+        static listener_container inst;
+        return inst;
+    }
+};
 }
 
 #endif
