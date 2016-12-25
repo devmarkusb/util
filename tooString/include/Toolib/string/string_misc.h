@@ -13,6 +13,8 @@
 #include "Toolib/assert.h"
 #include <algorithm>
 #include <ctype.h>
+#include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -59,6 +61,46 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::ve
         start_pos += toSubs[counter].length();
         ++counter;
     }
+}
+
+struct BoolStr_1_0
+{
+    static std::string toStr(bool b)
+    {
+        return b ? "1" : "0";
+    }
+    static bool toBool(const std::string& s)
+    {
+        return s == "1" ? true : false;
+    }
+};
+
+struct BoolStr_boolalpha
+{
+    static std::string toStr(bool b)
+    {
+        std::stringstream ss;
+        ss << std::boolalpha << b;
+        return ss.str();
+    }
+    static bool toBool(const std::string& s)
+    {
+        std::stringstream ss;
+        ss << std::boolalpha << true;
+        return s == ss.str() ? true : false;
+    }
+};
+
+template <class BoolStrFormat = BoolStr_1_0>
+inline std::string bool2str(bool b)
+{
+    return BoolStrFormat::toStr(b);
+}
+
+template <class BoolStrFormat = BoolStr_1_0>
+inline bool str2bool(const std::string& s)
+{
+    return BoolStrFormat::toBool(s);
 }
 } // str
 } // too
