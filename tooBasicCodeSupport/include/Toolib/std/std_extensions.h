@@ -29,7 +29,9 @@
 #if TOO_HAS_NO_CPP11_NOEXCEPT
 #undef noexcept
 #define noexcept throw()
-#define noexcept(b) (b ? (throw()) : ())
+#define noexcept_(b) (b ? (throw()) : ())
+#else
+#define noexcept_(b) noexcept(b)
 #endif
 
 namespace too
