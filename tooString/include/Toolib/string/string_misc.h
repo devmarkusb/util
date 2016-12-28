@@ -11,6 +11,7 @@
 #define STRING_MISC_H_INCL_ciubhwduibgwi37
 
 #include "Toolib/assert.h"
+#include "Toolib/string/tooString.h"
 #include <algorithm>
 #include <ctype.h>
 #include <iomanip>
@@ -65,14 +66,8 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::ve
 
 struct BoolStr_1_0
 {
-    static std::string toStr(bool b)
-    {
-        return b ? "1" : "0";
-    }
-    static bool toBool(const std::string& s)
-    {
-        return s == "1" ? true : false;
-    }
+    static std::string toStr(bool b) { return b ? "1" : "0"; }
+    static bool toBool(const std::string& s) { return s == "1" ? true : false; }
 };
 
 struct BoolStr_boolalpha
@@ -101,6 +96,21 @@ template <class BoolStrFormat = BoolStr_1_0>
 inline bool str2bool(const std::string& s)
 {
     return BoolStrFormat::toBool(s);
+}
+
+//! For text lengths greater than \param textellipse_threshold the text is abbreviated by an
+//! ellipse '...'. No ellipse is ever used if the param is 0. Expects \param in_str to be utf8.*/
+inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_threshold)
+{
+    if (!ellipse_threshold)
+        return in_str;
+    if (static_cast<size_t>(utf8::distance(std::begin(in_str), std::end(in_str))) <= ellipse_threshold)
+        return in_str;
+    auto it = std::begin(in_str);
+    utf8::unchecked::advance(it, ellipse_threshold);
+    std::string ret{in_str.substr(0, std::distance(std::begin(in_str), it))};
+    ret.append("...");
+    return ret;
 }
 } // str
 } // too
