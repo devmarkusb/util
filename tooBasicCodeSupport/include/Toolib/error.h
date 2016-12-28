@@ -89,6 +89,8 @@ enum class retcode
     would_crash,
     out_of_memory,
     division_by_zero,
+
+    unknown_error,
     //!@}
 };
 
@@ -113,6 +115,7 @@ const std::map<retcode, std::string> retcode_str ={
     {retcode::would_crash, "would_crash"},
     {retcode::out_of_memory, "out_of_memory"},
     {retcode::division_by_zero, "division_by_zero"},
+    {retcode::unknown_error, "unknown error"},
 };
 // clang-format on
 
@@ -169,8 +172,8 @@ struct did_no_op : public std::runtime_error
     }
     \endcode
 */
-template <typename Callable>
-std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
+template <typename Callable, typename Callable2>
+std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_alloc_handler = [](){}) noexcept
 {
     try
     {
@@ -235,6 +238,7 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
     }
     catch (const std::bad_alloc& e)
     {
+        bad_alloc_handler();
         return std::make_pair(retcode::out_of_memory, std::string(e.what()));
     }
     catch (const std::exception& e)
@@ -243,7 +247,7 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f) noexcept
     }
     catch (...)
     {
-        TOO_ASSERT_TERMINATE(false);
+        return std::make_pair(retcode::unknown_error, std::string{});
     }
 }
 }
