@@ -1,5 +1,6 @@
 #include "Toolib/narrow.h"
 #include "Toolib/PPDEFS.h"
+#include "Toolib/PPDefs/MSVC/UNDEF_MIN_MAX"
 #include "gtest/gtest.h"
 
 
