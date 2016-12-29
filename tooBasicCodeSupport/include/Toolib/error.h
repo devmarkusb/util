@@ -131,6 +131,8 @@ namespace publish__is_ok
 {
 //! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
 inline bool is_ok(retcode rc) { return !operator!(rc); }
+//! Equivalent for convenience.
+inline bool is_ok(const std::pair<retcode, std::string>& rc_str) { return is_ok(rc_str.first); }
 }
 
 
@@ -250,7 +252,7 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_allo
         return std::make_pair(retcode::unknown_error, std::string{});
     }
 }
-}
+} // namespace too
 
 using retcode = too::retcode;
 // since, `const auto& is_ok = too::is_ok;` would lead to multiple defs, even with constexpr
