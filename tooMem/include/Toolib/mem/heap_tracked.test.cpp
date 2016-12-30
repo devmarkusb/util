@@ -17,7 +17,7 @@ TEST(HeapTrackedTest, test)
     EXPECT_FALSE(c_stack->isOnHeap());
     EXPECT_TRUE(c_heap->isOnHeap());
 
-// todo explore why this seem to fail under mingw
+// still needs to be explored why this seems to fail under mingw
 #if !TOO_COMP_MINGW
     EXPECT_THROW(delete c_stack, too::mem::HeapTracked::MissingAddress);
 #endif
