@@ -65,7 +65,7 @@ inline std::string utf16to8_ws2s_portable(const std::wstring& wstr)
     return ret;
 #else
     too::ignore_arg(wstr);
-    throw too::not_implemented();
+	throw too::not_implemented{"utf16to8_ws2s_portable"};
 #endif
 }
 
@@ -102,7 +102,7 @@ inline std::wstring utf8to16_s2ws_portable(const std::string& str)
     return ret;
 #else
     too::ignore_arg(str);
-    throw too::not_implemented();
+	throw too::not_implemented{"utf8to16_s2ws_portable"};
 #endif
 }
 
