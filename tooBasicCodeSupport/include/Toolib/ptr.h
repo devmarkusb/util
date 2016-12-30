@@ -110,7 +110,7 @@ private:
     void ensure_invariant() const { TOO_EXPECT_THROW(this->ptr != nullptr); }
 
     // unwanted operators...pointers only point to single objects!
-    // todo ensure all arithmetic ops on this type are unavailable
+    // untested, ensure all arithmetic ops on this type are unavailable, also list still incomplete
     not_null<T>& operator++()       = delete;
     not_null<T>& operator--()       = delete;
     not_null<T> operator++(int)     = delete;

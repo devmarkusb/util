@@ -94,30 +94,34 @@ enum class retcode
     //!@}
 };
 
-// clang-format off
-const std::map<retcode, std::string> retcode_str = {
-    {retcode::success, "success"},
-    {retcode::failed, "failed"},
-    {retcode::not_implemented, "not_implemented"},
-    {retcode::did_no_op, "did_no_op"},
-    {retcode::logic_error, "logic_error"},
-    {retcode::domain_error, "domain_error"},
-    {retcode::invalid_arg, "invalid_arg"},
-    {retcode::length_error, "length_error"},
-    {retcode::out_of_range, "out_of_range"},
-    {retcode::runtime_error, "runtime_error"},
-    {retcode::overflow, "overflow"},
-    {retcode::underflow, "underflow"},
-    {retcode::range_error, "range_error"},
-    {retcode::precond_failed, "precond_failed"},
-    {retcode::assertion_failed, "assertion_failed"},
-    {retcode::postcond_failed, "postcond_failed"},
-    {retcode::would_crash, "would_crash"},
-    {retcode::out_of_memory, "out_of_memory"},
-    {retcode::division_by_zero, "division_by_zero"},
-    {retcode::unknown_error, "unknown error"},
-};
-// clang-format on
+inline std::string retcode_str(retcode rc)
+{
+    // clang-format off
+    static const std::map<retcode, std::string> inst = {
+        {retcode::success, "success"},
+        {retcode::failed, "failed"},
+        {retcode::not_implemented, "not_implemented"},
+        {retcode::did_no_op, "did_no_op"},
+        {retcode::logic_error, "logic_error"},
+        {retcode::domain_error, "domain_error"},
+        {retcode::invalid_arg, "invalid_arg"},
+        {retcode::length_error, "length_error"},
+        {retcode::out_of_range, "out_of_range"},
+        {retcode::runtime_error, "runtime_error"},
+        {retcode::overflow, "overflow"},
+        {retcode::underflow, "underflow"},
+        {retcode::range_error, "range_error"},
+        {retcode::precond_failed, "precond_failed"},
+        {retcode::assertion_failed, "assertion_failed"},
+        {retcode::postcond_failed, "postcond_failed"},
+        {retcode::would_crash, "would_crash"},
+        {retcode::out_of_memory, "out_of_memory"},
+        {retcode::division_by_zero, "division_by_zero"},
+        {retcode::unknown_error, "unknown error"},
+    };
+    // clang-format on
+    return inst.at(rc);
+}
 
 //(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
 // inline explicit operator bool(retcode rc)

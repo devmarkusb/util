@@ -55,9 +55,9 @@ TEST(TOO_FUNCTIONSIGNTest, test)
 #elif TOO_COMP_GNU_CPP || TOO_COMP_MINGW
     EXPECT_EQ("const int* f_with_some_sig(int, bool, long int*, bool&)", g_sig_of__f_with_some_sig);
 #elif TOO_COMP_INTEL
-    EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig); // todo, don't know, what the compiler spits out
+    EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig); // untested, don't know, what the compiler spits out
 #elif TOO_COMP_BORLAND_CPP
-    EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig); // todo, don't know, what the compiler spits out
+    EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig); // untested, don't know, what the compiler spits out
 #else
     EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig);
 #endif

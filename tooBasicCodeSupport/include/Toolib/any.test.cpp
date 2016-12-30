@@ -37,7 +37,7 @@ struct A : public IA
 {
     explicit operator bool() const
     {
-        return true; // todo
+        return true; // untested
     }
     virtual void set(Attr a, const too::any& val) override
     {

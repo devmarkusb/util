@@ -135,7 +135,7 @@ using remove_reference_t = std::remove_reference_t<T>;
 #if TOO_HAS_NO_ACCUMULATE_ALG
 //! A missing algorithm, accumulating a range by an arbitrary operation (e.g. summing up by +).
 template <class InputIt, class T, class BinaryOperation>
-//	requires //todo
+//	requires // cf. cpp doc
 T accumulate(InputIt first, InputIt last, T init, BinaryOperation op)
 {
     for (; first != last; ++first)

@@ -150,7 +150,7 @@ TEST(optTest, types)
 
 TEST(optTest, comparisons)
 {
-    // todo
+    // untested
     //    too::opt<int> a = 1;
     //    too::opt<int> b = 1;
     //    EXPECT_EQ(a, b);

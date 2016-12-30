@@ -73,7 +73,7 @@ public:
     any& operator=(any&& rhs) = default;
 #endif
 
-    any& operator=(const any& rhs) // todo test
+    any& operator=(const any& rhs) // untested
     {
         // ptr = std::move(any(rhs).ptr); // faster?
         *this = std::move(any(rhs)); // no code duplication.

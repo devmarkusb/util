@@ -19,7 +19,6 @@
 
 namespace too
 {
-// todo other platforms
 #if TOO_OS_WINDOWS
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
