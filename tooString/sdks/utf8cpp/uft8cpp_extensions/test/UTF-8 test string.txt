@@ -1,0 +1,13 @@
+aäш日𐍆z
+
+a: 1B, \x61
+ä: 2B, \xC3\xA4
+ш: 2B, \xD1\x88
+日: 3B, \xE6\x97\xA5
+𐍆: 4B, \xF0\x90\x8D\x86
+z: 1B, \x7A
+
+
+Tools
+    https://mothereff.in/utf-8
+
