@@ -48,7 +48,7 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str);
 
 
 //! DEPRECATED!
-/** You probably want to use sth. more precise with you encodings.*/
+/** You probably want to use sth. more precise for your encodings.*/
 inline std::wstring locenc_s2ws(const std::string& s);
 
 
