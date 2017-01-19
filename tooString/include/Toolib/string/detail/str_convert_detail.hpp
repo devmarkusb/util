@@ -31,7 +31,6 @@ namespace too
 {
 namespace str
 {
-
 inline std::string utf16to8_ws2s_portable(const std::wstring& wstr);
 
 inline std::string utf16to8_ws2s(const std::wstring& wstr)
@@ -65,7 +64,7 @@ inline std::string utf16to8_ws2s_portable(const std::wstring& wstr)
     return ret;
 #else
     too::ignore_arg(wstr);
-	throw too::not_implemented{"utf16to8_ws2s_portable"};
+    throw too::not_implemented{"utf16to8_ws2s_portable"};
 #endif
 }
 
@@ -102,7 +101,7 @@ inline std::wstring utf8to16_s2ws_portable(const std::string& str)
     return ret;
 #else
     too::ignore_arg(str);
-	throw too::not_implemented{"utf8to16_s2ws_portable"};
+    throw too::not_implemented{"utf8to16_s2ws_portable"};
 #endif
 }
 
@@ -132,7 +131,8 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
     // of course this could be implemented better, but since this shouldn't be used anyway, a quick version was welcome
     std::string ret;
     std::u16string interm;
-    utf8::utf8to16(wstr.begin(), wstr.end(), std::back_inserter(interm)); // compiler warning, utf8cpp expects 8bit type for utf8
+    // compiler warning, utf8cpp expects 8bit type for utf8
+    utf8::utf8to16(wstr.begin(), wstr.end(), std::back_inserter(interm));
     utf8::utf16to8(interm.begin(), interm.end(), std::back_inserter(ret));
     return ret;
 }*/
@@ -193,6 +193,76 @@ inline std::wstring locenc_s2ws(const std::string& s)
 #endif
 }
 
+namespace detail_impl
+{
+template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark>
+inline std::string utf8_to_latin1_range(const std::string& s, unsigned int from, unsigned int to)
+{
+    std::string ret;
+
+    const char* cptr = s.c_str();
+    unsigned int ui_codepoint{};
+    while (*cptr != 0)
+    {
+        unsigned char uc = static_cast<unsigned char>(*cptr);
+        if (uc <= 0x7f)
+            ui_codepoint = uc;
+        else if (uc <= 0xbf)
+            ui_codepoint = (ui_codepoint << 6) | (uc & 0x3f);
+        else if (uc <= 0xdf)
+            ui_codepoint = uc & 0x1f;
+        else if (uc <= 0xef)
+            ui_codepoint = uc & 0x0f;
+        else
+            ui_codepoint = uc & 0x07;
+        ++cptr;
+        if (((*cptr & 0xc0) != 0x80) && (ui_codepoint <= 0x10ffff))
+        {
+            if (from <= ui_codepoint && ui_codepoint <= to)
+                ret.append(1, static_cast<char>(ui_codepoint));
+            else
+                ret.append(1, OnConversionErrorPolicy::onConversionError(ui_codepoint));
+        }
+    }
+    return ret;
 }
+} // detail_impl
+
+template <class OnConversionErrorPolicy>
+inline std::string utf8_to_latin1(const std::string& s)
+{
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy>(s, 0, 255);
 }
+
+inline std::string latin1_to_utf8(const std::string& s)
+{
+    std::string ret;
+
+    for (const auto& c : s)
+    {
+        uint8_t c_ = c;
+
+        if (c_ < 0x80)
+            ret.append(1, c_);
+        else
+        {
+            ret.append(1, 0xc0 | (c_ & 0xc0) >> 6);
+            ret.append(1, 0x80 | (c_ & 0x3f));
+        }
+    }
+    return ret;
+}
+
+template <class OnConversionErrorPolicy>
+inline std::string utf8_to_printableASCII(const std::string& s)
+{
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy>(s, 32, 126);
+}
+
+inline std::string printableASCII_to_utf8(const std::string& s)
+{
+    return latin1_to_utf8(s);
+}
+} // str
+} // too
 #endif
