@@ -25,7 +25,7 @@ TEST(utf16to8_ws2s_portableTest, test)
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     std::wstring ws_from_utf16(utf16.begin(), utf16.end());
 
-    std::string s = too::str::utf16to8_ws2s_portable(ws_from_utf16);
+    std::string s = too::str::utf16or32to8_ws2s_portable(ws_from_utf16);
     EXPECT_EQ(s, utf8);
 }
 
@@ -51,7 +51,7 @@ TEST(utf8to16_s2ws_portableTest, test)
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     std::wstring ws_from_utf16(utf16.begin(), utf16.end());
 
-    std::wstring ws_other = too::str::utf8to16_s2ws_portable(utf8);
+    std::wstring ws_other = too::str::utf8to16or32_s2ws_portable(utf8);
     EXPECT_EQ(ws_from_utf16, ws_other);
 }
 
@@ -146,4 +146,10 @@ TEST(utf8_to_printableASCII, failtest)
     utf8 = "\x7f"; // 127
     ascii = too::str::utf8_to_printableASCII(utf8);
     EXPECT_EQ('?', ascii[0]);
+}
+
+TEST(toHexString, test)
+{
+    EXPECT_STREQ("c3a4", too::str::toHexString("\xc3\xa4").c_str());
+    EXPECT_STREQ("\\xc3\\xa4", too::str::toHexString("\xc3\xa4", "\\x").c_str());
 }

@@ -32,25 +32,25 @@ struct conversion_error : public std::runtime_error
 //! And of course the *_codecvt are in direct competition.
 //!@{
 
-//! Uses winapi. Encoding is unchecked. Calls utf16to8_ws2s_portable() for non-Windows, which could be used for Windows
+//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for Windows
 //! as well.
 inline std::string utf16to8_ws2s(const std::wstring& wstr);
 
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
-inline std::string utf16to8_ws2s_portable(const std::wstring& wstr);
+inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr);
 
-//! Uses winapi. Encoding is unchecked. Calls utf16to8_ws2s_portable() for non-Windows, which could be used for Windows
+//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for Windows
 //! as well.
 inline std::wstring utf8to16_s2ws(const std::string& str);
 
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
-inline std::wstring utf8to16_s2ws_portable(const std::string& str);
+inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
 
 #if !TOO_HAS_NO_CODECVT
-//! Implementation using C++11 codecvt. Cf. utf16to8_ws2s_portable().
+//! Implementation using C++11 codecvt. Cf. utf16or32to8_ws2s_portable().
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr);
 
-//! Implementation using C++11 codecvt. Cf. utf8to16_s2ws_portable().
+//! Implementation using C++11 codecvt. Cf. utf8to16or32_s2ws_portable().
 inline std::wstring utf8to16_s2ws_codecvt(const std::string& str);
 #endif
 
@@ -123,6 +123,8 @@ template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark>
 inline std::string utf8_to_printableASCII(const std::string& s);
 inline std::string printableASCII_to_utf8(const std::string& s);
 
+
+inline std::string toHexString(const std::string& s, const std::string& prefix = {});
 } // str
 } // too
 

@@ -14,8 +14,11 @@
 #include "Toolib/ignore_arg.h"
 #include "Toolib/PPDEFS.h"
 #include "../../../../sdks/utf8cpp/source/utf8.h"
+#include <algorithm>
+#include <iomanip>
 #include <iterator>
 #include <limits>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -31,7 +34,7 @@ namespace too
 {
 namespace str
 {
-inline std::string utf16to8_ws2s_portable(const std::wstring& wstr);
+inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr);
 
 inline std::string utf16to8_ws2s(const std::wstring& wstr)
 {
@@ -46,11 +49,11 @@ inline std::string utf16to8_ws2s(const std::wstring& wstr)
     }
     return convertedString;
 #else
-    return utf16to8_ws2s_portable(wstr);
+    return utf16or32to8_ws2s_portable(wstr);
 #endif
 }
 
-inline std::string utf16to8_ws2s_portable(const std::wstring& wstr)
+inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
 {
 #if TOO_SIZEOF_WCHAR_T == 2
     std::string ret;
@@ -60,15 +63,15 @@ inline std::string utf16to8_ws2s_portable(const std::wstring& wstr)
     // not tested!
     std::u32string tmp(wstr.begin(), wstr.end());
     std::string ret;
-    utf8::utf16to8(tmp.begin(), tmp.end(), std::back_inserter(ret));
+    utf8::utf32to8(tmp.begin(), tmp.end(), std::back_inserter(ret));
     return ret;
 #else
     too::ignore_arg(wstr);
-    throw too::not_implemented{"utf16to8_ws2s_portable"};
+    throw too::not_implemented{"utf16or32to8_ws2s_portable"};
 #endif
 }
 
-inline std::wstring utf8to16_s2ws_portable(const std::string& str);
+inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
 
 inline std::wstring utf8to16_s2ws(const std::string& str)
 {
@@ -83,11 +86,11 @@ inline std::wstring utf8to16_s2ws(const std::string& str)
     }
     return convertedString;
 #else
-    return utf8to16_s2ws_portable(str);
+    return utf8to16or32_s2ws_portable(str);
 #endif
 }
 
-inline std::wstring utf8to16_s2ws_portable(const std::string& str)
+inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
 {
 #if TOO_SIZEOF_WCHAR_T == 2
     std::wstring ret;
@@ -95,13 +98,13 @@ inline std::wstring utf8to16_s2ws_portable(const std::string& str)
     return ret;
 #elif TOO_SIZEOF_WCHAR_T == 4
     // not tested!
-    std::u32string utf16;
-    utf8::utf8to16(str.begin(), str.end(), std::back_inserter(utf16));
-    std::wstring ret(utf16.begin(), utf16.end());
+    std::u32string utf32;
+    utf8::utf8to32(str.begin(), str.end(), std::back_inserter(utf32));
+    std::wstring ret(utf32.begin(), utf32.end());
     return ret;
 #else
     too::ignore_arg(str);
-    throw too::not_implemented{"utf8to16_s2ws_portable"};
+    throw too::not_implemented{"utf8to16or32_s2ws_portable"};
 #endif
 }
 
@@ -262,6 +265,22 @@ inline std::string utf8_to_printableASCII(const std::string& s)
 inline std::string printableASCII_to_utf8(const std::string& s)
 {
     return latin1_to_utf8(s);
+}
+
+inline std::string toHexString(const std::string& s, const std::string& prefix)
+{
+    static const char* const lut{"0123456789abcdef"};
+    size_t length = s.size();
+    std::string ret;
+    ret.reserve((2 + prefix.size()) * length);
+    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c)
+    {
+        const unsigned char uc = c;
+        ret.append(prefix);
+        ret.push_back(lut[uc >> 4]);
+        ret.push_back(lut[uc & 15]);
+    });
+    return ret;
 }
 } // str
 } // too
