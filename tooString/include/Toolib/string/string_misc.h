@@ -125,6 +125,13 @@ inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_thres
     ret.append("...");
     return ret;
 }
+
+inline bool ends_with(const std::string& s, const std::string& ending)
+{
+    if (ending.size() > s.size())
+        return false;
+    return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
+}
 } // str
 } // too
 
