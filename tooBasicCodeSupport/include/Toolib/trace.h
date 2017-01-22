@@ -44,7 +44,7 @@ namespace too
             }
     It is recommended to use level strings "ERROR", "WARN", "INFO", "TRACE" in that order of decreasing severity.
     Note that you don't need to append '\n' to your trace line, it's done automatically.
-    Also note, that "ERROR" is default and can be left out.*/
+    Also note, that "ERROR" is default and can be left out. If you don't want to show a level, pass an empty string.*/
 struct trace;
 
 namespace tracer
@@ -153,6 +153,8 @@ struct Enabled
         OutputToIDEWindowPolicy::trace<OutputToConsolePolicy>(ss);
         OutputToConsolePolicy::trace(ss);
     }
+
+    static const bool isEnabled{true};
 };
 
 struct Disabled
@@ -162,6 +164,8 @@ struct Disabled
     {
         TOO_NOOP;
     }
+
+    static const bool isEnabled{false};
 };
 
 //! This needs to be called before any call to too::trace and only once.
@@ -196,7 +200,8 @@ inline void init()
 
     bool ret_stderrBound{};
     bool ret_stdoutBound{};
-    CheckConsoleOpenPolicy::openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(ret_stderrBound, ret_stdoutBound);
+    if (EnabledIfPolicy::isEnabled)
+        CheckConsoleOpenPolicy::openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(ret_stderrBound, ret_stdoutBound);
 
     detail_impl::StreamTracerWrapperSingleton::getInstance().tracer() = too::make_unique<
         detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
@@ -275,8 +280,10 @@ private:
 
 inline StreamTracer& stream()
 {
-    // if you crash here, you probably forgot to call too::tracer::init before your first trace
-    return *StreamTracerWrapperSingleton::getInstance().tracer();
+    auto& ret = StreamTracerWrapperSingleton::getInstance().tracer();
+    // if you crash shortly after, you probably forgot to call too::tracer::init before your first trace
+    TOO_EXPECT(ret);
+    return *ret;
 }
 } // detail_impl
 } // tracer
@@ -286,7 +293,7 @@ struct trace : private too::non_copyable
     explicit trace(const std::string& level = "ERROR") : stream_{too::tracer::detail_impl::stream()}
     {
         std::ostringstream tmp;
-        tmp << std::left << std::setw(6) << level;
+        tmp << std::left << std::setw(level.empty() ? 0 : 6) << level;
         this->stream_ << tmp.str();
     }
 
