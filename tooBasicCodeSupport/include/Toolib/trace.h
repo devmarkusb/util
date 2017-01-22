@@ -22,7 +22,9 @@
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <stdio.h>
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #include <windows.h>
 #endif
 
@@ -150,7 +152,7 @@ struct Enabled
     template <class OutputToIDEWindowPolicy, class OutputToConsolePolicy>
     static void trace(const std::ostringstream& ss)
     {
-        OutputToIDEWindowPolicy::trace<OutputToConsolePolicy>(ss);
+        OutputToIDEWindowPolicy::template trace<OutputToConsolePolicy>(ss);
         OutputToConsolePolicy::trace(ss);
     }
 
@@ -166,46 +168,6 @@ struct Disabled
     }
 
     static const bool isEnabled{false};
-};
-
-//! This needs to be called before any call to too::trace and only once.
-//! That is yopu can fix your configuration only once and for all for the whole program.
-/** Configuration options in detail:
-        EnabledIfPolicy: switches tracing on/off entirely, e.g. useful to be bound to a
-                            macro define specifying the case of a release or deployment build
-        OutputToIDEWindowPolicy: choose whether you want to trace to your IDE output window;
-                            note that you can't switch off those traces in some environments if
-                            you switched on console traces at the same time
-                            (mingw+QtCreator is an example)
-        OutputToConsolePolicy: choose wheter to trace to a console window or not
-        CheckConsoleOpenPolicy: a check+open only makes sense for non-console GUI application;
-                            there you can open an additional console window to see traces if
-                            switched on
-        AlsoBindStdoutToNewConsolePolicy: only makes sense if you checked+opened a new console
-                            window by the previous policy; then youn have the option to not only
-                            bind stderr (cerr) - which is done by default and used for traces
-                            to the console - but also stdout (cout) to the console window output.*/
-template <class EnabledIfPolicy = Enabled, class OutputToIDEWindowPolicy = OutputToIDEWindow,
-    class OutputToConsolePolicy = NoOutputToConsole, class CheckConsoleOpenPolicy = DontCheckConsoleOpen,
-    class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
-// EnabledIfPolicy expected to be Enabled or Disabled
-// OutputToIDEWindowPolicy expected to be OutputToIDEWindow or NoOutputToIDEWindow
-// OutputToConsolePolicy expected to be OutputToConsole or NoOutputToConsole
-// CheckConsoleOpenPolicy expected to be CheckConsoleOpen or DontCheckConsoleOpen
-// AlsoBindStdoutToNewConsolePolicy expected to be AlsoBindStdout or DontAlsoBindStdout
-inline void init()
-{
-    if (detail_impl::StreamTracerWrapperSingleton::getInstance().tracer())
-        throw std::runtime_error{"trace init called more often than once"};
-
-    bool ret_stderrBound{};
-    bool ret_stdoutBound{};
-    if (EnabledIfPolicy::isEnabled)
-        CheckConsoleOpenPolicy::openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(ret_stderrBound, ret_stdoutBound);
-
-    detail_impl::StreamTracerWrapperSingleton::getInstance().tracer() = too::make_unique<
-        detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
-        ret_stderrBound, ret_stdoutBound);
 };
 
 namespace detail_impl
@@ -254,7 +216,7 @@ struct StreamTracer_impl : public StreamTracer
 
     virtual void trace(const std::ostringstream& ss) const override
     {
-        EnabledIfPolicy::trace<OutputToIDEWindowPolicy, OutputToConsolePolicy>(ss);
+        EnabledIfPolicy::template trace<OutputToIDEWindowPolicy, OutputToConsolePolicy>(ss);
     }
 
 private:
@@ -286,23 +248,63 @@ inline StreamTracer& stream()
     return *ret;
 }
 } // detail_impl
+
+//! This needs to be called before any call to too::trace and only once.
+//! That is yopu can fix your configuration only once and for all for the whole program.
+/** Configuration options in detail:
+        EnabledIfPolicy: switches tracing on/off entirely, e.g. useful to be bound to a
+                            macro define specifying the case of a release or deployment build
+        OutputToIDEWindowPolicy: choose whether you want to trace to your IDE output window;
+                            note that you can't switch off those traces in some environments if
+                            you switched on console traces at the same time
+                            (mingw+QtCreator is an example)
+        OutputToConsolePolicy: choose wheter to trace to a console window or not
+        CheckConsoleOpenPolicy: a check+open only makes sense for non-console GUI application;
+                            there you can open an additional console window to see traces if
+                            switched on
+        AlsoBindStdoutToNewConsolePolicy: only makes sense if you checked+opened a new console
+                            window by the previous policy; then youn have the option to not only
+                            bind stderr (cerr) - which is done by default and used for traces
+                            to the console - but also stdout (cout) to the console window output.*/
+template <class EnabledIfPolicy = Enabled, class OutputToIDEWindowPolicy = OutputToIDEWindow,
+    class OutputToConsolePolicy = NoOutputToConsole, class CheckConsoleOpenPolicy = DontCheckConsoleOpen,
+    class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
+// EnabledIfPolicy expected to be Enabled or Disabled
+// OutputToIDEWindowPolicy expected to be OutputToIDEWindow or NoOutputToIDEWindow
+// OutputToConsolePolicy expected to be OutputToConsole or NoOutputToConsole
+// CheckConsoleOpenPolicy expected to be CheckConsoleOpen or DontCheckConsoleOpen
+// AlsoBindStdoutToNewConsolePolicy expected to be AlsoBindStdout or DontAlsoBindStdout
+inline void init()
+{
+    if (detail_impl::StreamTracerWrapperSingleton::getInstance().tracer())
+        throw std::runtime_error{"trace init called more often than once"};
+
+    bool ret_stderrBound{};
+    bool ret_stdoutBound{};
+    if (EnabledIfPolicy::isEnabled)
+        CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(ret_stderrBound, ret_stdoutBound);
+
+    detail_impl::StreamTracerWrapperSingleton::getInstance().tracer() = too::make_unique<
+        detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
+        ret_stderrBound, ret_stdoutBound);
+}
 } // tracer
 
 struct trace : private too::non_copyable
 {
-    explicit trace(const std::string& level = "ERROR") : stream_{too::tracer::detail_impl::stream()}
+    explicit trace(const std::string& level = "ERROR") : stream_{&too::tracer::detail_impl::stream()}
     {
         std::ostringstream tmp;
         tmp << std::left << std::setw(level.empty() ? 0 : 6) << level;
-        this->stream_ << tmp.str();
+        *this->stream_ << tmp.str();
     }
 
-    ~trace() { this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{}; }
+    ~trace() { *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{}; }
 
-    tracer::detail_impl::StreamTracer& stream() const { return this->stream_; }
+    tracer::detail_impl::StreamTracer& stream() const { return *this->stream_; }
 
 private:
-    mutable tracer::detail_impl::StreamTracer& stream_;
+    mutable tracer::detail_impl::StreamTracer* stream_;
 };
 
 template <typename T>
