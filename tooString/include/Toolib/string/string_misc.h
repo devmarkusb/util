@@ -1,4 +1,4 @@
-// Markus Borris, 2011-16
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
@@ -11,6 +11,7 @@
 #define STRING_MISC_H_INCL_ciubhwduibgwi37
 
 #include "Toolib/assert.h"
+#include "Toolib/narrow.h"
 #include "Toolib/string/tooString.h"
 #include <algorithm>
 #include <ctype.h>
@@ -24,16 +25,28 @@ namespace too
 {
 namespace str
 {
-inline std::string& makeUpper(std::string& s)
+inline std::string makeUpper(std::string& s)
 {
     std::transform(s.begin(), s.end(), s.begin(), toupper);
     return s;
 }
 
-inline std::string& makeLower(std::string& s)
+inline char makeUpper(char& c)
+{
+    c = too::narrow_cast<char>(toupper(c));
+    return c;
+}
+
+inline std::string makeLower(std::string& s)
 {
     std::transform(s.begin(), s.end(), s.begin(), tolower);
     return s;
+}
+
+inline char makeLower(char& c)
+{
+    c = too::narrow_cast<char>(tolower(c));
+    return c;
 }
 
 //! Expects \param fromSub non-empty.
