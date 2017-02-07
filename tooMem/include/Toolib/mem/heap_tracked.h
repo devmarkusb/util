@@ -64,8 +64,6 @@ private:
         return addresses_;
     }
 };
-inline HeapTracked::~HeapTracked()
-{
-}
+inline HeapTracked::~HeapTracked() {}
 }
 }
