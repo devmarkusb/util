@@ -262,10 +262,7 @@ inline std::string utf8_to_printableASCII(const std::string& s)
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy>(s, 32, 126);
 }
 
-inline std::string printableASCII_to_utf8(const std::string& s)
-{
-    return latin1_to_utf8(s);
-}
+inline std::string printableASCII_to_utf8(const std::string& s) { return latin1_to_utf8(s); }
 
 inline std::string toHexString(const std::string& s, const std::string& prefix)
 {
@@ -274,12 +271,12 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
     std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c)
-    {
-        const unsigned char uc = c;
-        ret.append(prefix);
-        ret.push_back(lut[uc >> 4]);
-        ret.push_back(lut[uc & 15]);
-    });
+        {
+            const unsigned char uc = c;
+            ret.append(prefix);
+            ret.push_back(lut[uc >> 4]);
+            ret.push_back(lut[uc & 15]);
+        });
     return ret;
 }
 } // str

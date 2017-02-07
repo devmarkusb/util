@@ -35,7 +35,6 @@ public:
 
 template <typename JSON_value>
 using IJSON_stdstr = IJSON<std::string, JSON_value>;
-
 }
 
 #endif

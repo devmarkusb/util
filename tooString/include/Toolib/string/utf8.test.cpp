@@ -40,15 +40,13 @@ void LoadFromTextFile(const std::string& FilePathNameExt, std::string& Content)
 
 struct char_encoding_fileTest : public ::testing::Test
 {
-    char_encoding_fileTest()
-    {
-    }
+    char_encoding_fileTest() {}
 
     void SetUp()
     {
         FilePathNameExt = "i_can_be_deleted__temp_txt_file_";
-        FilePathNameExt+= this->counter++;
-        FilePathNameExt+= ".txt";
+        FilePathNameExt += this->counter++;
+        FilePathNameExt += ".txt";
     }
 
     void write_file(const std::string& text)
@@ -64,10 +62,7 @@ struct char_encoding_fileTest : public ::testing::Test
         return ret;
     }
 
-    bool is_valid_utf8(const std::string& s)
-    {
-        return utf8::is_valid(s.begin(), s.end());
-    }
+    bool is_valid_utf8(const std::string& s) { return utf8::is_valid(s.begin(), s.end()); }
 
     void TearDown()
     {
@@ -75,9 +70,7 @@ struct char_encoding_fileTest : public ::testing::Test
         ASSERT_EQ(0, ret);
     }
 
-    ~char_encoding_fileTest()
-    {
-    }
+    ~char_encoding_fileTest() {}
 
 private:
     std::string FilePathNameExt;
@@ -98,7 +91,8 @@ TEST_F(char_encoding_fileTest, ASCII)
 
 TEST_F(char_encoding_fileTest, ASCIIhex)
 {
-    const std::string s = "\x21\x21""AA~\x7e";
+    const std::string s = "\x21\x21"
+                          "AA~\x7e";
     EXPECT_TRUE(s == "!!AA~~");
     EXPECT_TRUE(is_valid_utf8(s));
     write_file(s);
@@ -108,7 +102,8 @@ TEST_F(char_encoding_fileTest, ASCIIhex)
 
 TEST_F(char_encoding_fileTest, UTF8)
 {
-    const std::string s = "\xc3\xa4""hnlich";
+    const std::string s = "\xc3\xa4"
+                          "hnlich";
     EXPECT_TRUE(is_valid_utf8(s));
     write_file(s);
     const std::string read = read_file();
@@ -135,7 +130,8 @@ TEST_F(char_encoding_fileTest, latin1)
 
 TEST(consoleTest, utf8_to_utf16)
 {
-    const std::string s = "\xc3\xa4""hnlich";
+    const std::string s = "\xc3\xa4"
+                          "hnlich";
     std::cout << s << "\n";
 
     std::u16string utf16to;

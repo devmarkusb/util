@@ -10,7 +10,7 @@ TEST(str_apply_ellipse, cornercases)
     const auto ret2 = too::str::apply_ellipse(s, 1);
     EXPECT_STREQ("", ret2.c_str());
 
-    s = "x";
+    s               = "x";
     const auto ret3 = too::str::apply_ellipse(s, 0);
     EXPECT_STREQ("x", ret3.c_str());
     const auto ret4 = too::str::apply_ellipse(s, 1);

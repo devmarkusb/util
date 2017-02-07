@@ -32,14 +32,16 @@ struct conversion_error : public std::runtime_error
 //! And of course the *_codecvt are in direct competition.
 //!@{
 
-//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for Windows
+//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for
+//! Windows
 //! as well.
 inline std::string utf16to8_ws2s(const std::wstring& wstr);
 
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
 inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr);
 
-//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for Windows
+//! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for
+//! Windows
 //! as well.
 inline std::wstring utf8to16_s2ws(const std::string& str);
 
@@ -102,16 +104,13 @@ struct ThrowOnConversionError
     static char onConversionError(unsigned int codepoint)
     {
         std::string s{"conversion error on codepoint "};
-        s+= std::to_string(codepoint);
+        s += std::to_string(codepoint);
         throw conversion_error(s.c_str());
     }
 };
 struct ConversionErrorToQuestionMark
 {
-    static char onConversionError(unsigned int)
-    {
-        return '?';
-    }
+    static char onConversionError(unsigned int) { return '?'; }
 };
 
 //! Latin1 means ISO-8859-1.

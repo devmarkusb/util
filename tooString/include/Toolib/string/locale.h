@@ -39,35 +39,36 @@ inline std::locale set_global_locale(Global_locale gl)
     std::string opt;
     switch (gl)
     {
-        case Global_locale::user_preferred: opt = ""; break;
-        case Global_locale::default_classic: // fall through
-        default: opt = "C"; break;
+    case Global_locale::user_preferred:
+        opt = "";
+        break;
+    case Global_locale::default_classic: // fall through
+    default:
+        opt = "C";
+        break;
     }
     return std::locale::global(std::locale(opt.c_str()));
 }
 
 //! For convenience, cf. set_global_locale().
-inline std::locale set_global_locale(const std::locale& loc)
-{
-    return std::locale::global(loc);
-}
+inline std::locale set_global_locale(const std::locale& loc) { return std::locale::global(loc); }
 
 //! This does an auto reset when leaving scope. For convenience, cf. set_global_locale().
 struct set_global_locale_scoped
 {
-    set_global_locale_scoped(const std::string& locname)
-    {
-        this->backup = set_global_locale(locname);
-    }
+    set_global_locale_scoped(const std::string& locname) { this->backup = set_global_locale(locname); }
 
-    set_global_locale_scoped(Global_locale gl)
-    {
-        this->backup = set_global_locale(gl);
-    }
+    set_global_locale_scoped(Global_locale gl) { this->backup = set_global_locale(gl); }
 
     ~set_global_locale_scoped() noexcept
     {
-        try { set_global_locale(this->backup); } catch (...) {}
+        try
+        {
+            set_global_locale(this->backup);
+        }
+        catch (...)
+        {
+        }
     }
 
     set_global_locale_scoped(const set_global_locale_scoped&) = delete;
