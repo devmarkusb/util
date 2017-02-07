@@ -2,6 +2,4 @@
 #include "gtest/gtest.h"
 
 
-TEST(dummytest, test)
-{
-}
+TEST(dummytest, test) {}
