@@ -201,7 +201,7 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine&)
 }
 
 template <class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
-    class OutputToConsolePolicy = NoOutputToConsole>
+    class OutputToConsolePolicy                                = NoOutputToConsole>
 struct StreamTracer_impl : public StreamTracer
 {
     StreamTracer_impl(bool close_stderr, bool close_stdout) : close_stderr{close_stderr}, close_stdout{close_stdout} {}
@@ -282,7 +282,8 @@ inline void init()
     bool ret_stderrBound{};
     bool ret_stdoutBound{};
     if (EnabledIfPolicy::isEnabled)
-        CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(ret_stderrBound, ret_stdoutBound);
+        CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(
+            ret_stderrBound, ret_stdoutBound);
 
     detail_impl::StreamTracerWrapperSingleton::getInstance().tracer() = too::make_unique<
         detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(

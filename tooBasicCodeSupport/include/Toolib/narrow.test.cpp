@@ -40,7 +40,7 @@ TEST(NarrowTest, floating_point)
     EXPECT_EQ(static_cast<float>(2), too::narrow<float>(2));
 
     // and this shouldn't compile yet
-    //float x = too::narrow<double>(2.0);
+    // float x = too::narrow<double>(2.0);
     // but this is ok
     const float f = too::narrow_cast<float>(2.0);
     EXPECT_EQ(static_cast<float>(2.0), f);

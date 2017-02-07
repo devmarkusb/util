@@ -80,8 +80,8 @@ struct opt
 
 // otherwise we get warnings of implicit conversions to bool (performance issue, theoretically)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
-    //! Change to explicit cast, as soon as possible!
-    ///*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
+//! Change to explicit cast, as soon as possible!
+///*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
 #endif
 
     opt<T>& operator=(const T& x)

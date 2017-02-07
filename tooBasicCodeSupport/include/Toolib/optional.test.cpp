@@ -49,8 +49,8 @@ TEST(optTest, not)
         EXPECT_TRUE(true);
     else
         EXPECT_TRUE(false);
-    //EXPECT_TRUE(!b);
-    //EXPECT_FALSE(b);
+    // EXPECT_TRUE(!b);
+    // EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
     EXPECT_DEATH(
         [&]()

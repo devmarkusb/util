@@ -14,7 +14,7 @@
 #include "Toolib/PPDEFS.h"
 #include <algorithm> // included for the most probable find of std::accumulate (if ever)
 #include <memory>
-#include <numeric>   // included for the most probable find of std::accumulate (if ever)
+#include <numeric> // included for the most probable find of std::accumulate (if ever)
 #include <type_traits>
 
 

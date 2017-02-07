@@ -76,7 +76,7 @@ public:
     }
 
     template <typename U, typename Dummy = too::enable_if_t<std::is_convertible<U, T>::value>>
-    not_null& operator=(const not_null<U>& other)
+    not_null& operator                   =(const not_null<U>& other)
     {
         this->ptr = other.get();
         return *this;
@@ -84,7 +84,7 @@ public:
 
     // prevents compilation when someone attempts to assign a nullptr
     not_null(std::nullptr_t) = delete;
-    not_null(int)            = delete;
+    not_null(int) = delete;
     not_null<T>& operator=(std::nullptr_t) = delete;
     not_null<T>& operator=(int) = delete;
 
@@ -111,13 +111,13 @@ private:
 
     // unwanted operators...pointers only point to single objects!
     // untested, ensure all arithmetic ops on this type are unavailable, also list still incomplete
-    not_null<T>& operator++()       = delete;
-    not_null<T>& operator--()       = delete;
-    not_null<T> operator++(int)     = delete;
-    not_null<T> operator--(int)     = delete;
-    not_null<T>& operator+(size_t)  = delete;
+    not_null<T>& operator++() = delete;
+    not_null<T>& operator--() = delete;
+    not_null<T> operator++(int) = delete;
+    not_null<T> operator--(int) = delete;
+    not_null<T>& operator+(size_t) = delete;
     not_null<T>& operator+=(size_t) = delete;
-    not_null<T>& operator-(size_t)  = delete;
+    not_null<T>& operator-(size_t) = delete;
     not_null<T>& operator-=(size_t) = delete;
 };
 }
