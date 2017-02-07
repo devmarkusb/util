@@ -39,19 +39,17 @@ TEST(utf8cpp_replace_invalidTest, test)
 
     char invalid_sequence[] = "a\x80\xe0\xa0\xc0\xaf\xed\xa0\x80z";
     std::vector<char> replace_invalid_result;
-    utf8::replace_invalid(invalid_sequence, invalid_sequence +
-        sizeof(invalid_sequence), std::back_inserter(replace_invalid_result), '?');
-    bool bvalid = utf8::is_valid(replace_invalid_result.begin(),
-        replace_invalid_result.end());
+    utf8::replace_invalid(
+        invalid_sequence, invalid_sequence + sizeof(invalid_sequence), std::back_inserter(replace_invalid_result), '?');
+    bool bvalid = utf8::is_valid(replace_invalid_result.begin(), replace_invalid_result.end());
     EXPECT_TRUE(bvalid);
     const char* fixed_invalid_sequence = "a????z";
-    EXPECT_TRUE(std::equal(replace_invalid_result.begin(),
-        replace_invalid_result.end(), fixed_invalid_sequence));
+    EXPECT_TRUE(std::equal(replace_invalid_result.begin(), replace_invalid_result.end(), fixed_invalid_sequence));
 }
 
 TEST(utf8cpp_appendTest, test)
 {
-    unsigned char u[5] ={0, 0, 0, 0, 0};
+    unsigned char u[5] = {0, 0, 0, 0, 0};
     unsigned char* end = utf8::append(0x0448, u); // cyrillic scha
     too::ignore_arg(end);
     EXPECT_TRUE(u[0] == 0xd1 && u[1] == 0x88 && u[2] == 0 && u[3] == 0 && u[4] == 0);
@@ -60,7 +58,7 @@ TEST(utf8cpp_appendTest, test)
 TEST(utf8cpp_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w = twochars;
+    char* w         = twochars;
     int cp = utf8::next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
@@ -69,7 +67,7 @@ TEST(utf8cpp_nextTest, test)
 TEST(utf8cpp_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w = twochars;
+    char* w         = twochars;
     int cp = utf8::peek_next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -78,7 +76,7 @@ TEST(utf8cpp_peek_nextTest, test)
 TEST(utf8cpp_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w = twochars + 3;
+    char* w         = twochars + 3;
     int cp = utf8::prior(w, twochars);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -101,7 +99,7 @@ TEST(utf8cpp_distanceTest, test)
 
 TEST(utf8cpp_is_bomTest, test)
 {
-    unsigned char byte_order_mark[] ={0xef, 0xbb, 0xbf};
+    unsigned char byte_order_mark[] = {0xef, 0xbb, 0xbf};
     bool bbom = utf8::is_bom(byte_order_mark);
     EXPECT_TRUE(bbom);
 }
@@ -117,29 +115,26 @@ TEST(utf8cpp_iteratorTest, test)
     EXPECT_EQ(0x65e5u, (*it++));
     EXPECT_EQ(0x0448u, *it);
     EXPECT_NE(it, it2);
-    utf8::iterator<char*> endit(threechars + 9,
-        threechars, threechars + 9);
+    utf8::iterator<char*> endit(threechars + 9, threechars, threechars + 9);
     EXPECT_EQ(++it, endit);
     EXPECT_EQ(0x0448u, *(--it));
     EXPECT_EQ(0x0448u, (*it--));
     EXPECT_EQ(0x65e5u, *it);
-    EXPECT_EQ(--it, utf8::iterator<char*>(threechars,
-        threechars, threechars + 9));
+    EXPECT_EQ(--it, utf8::iterator<char*>(threechars, threechars, threechars + 9));
     EXPECT_EQ(0x10346u, *it);
 }
 
 TEST(utf8cpp_8to16to8Test, test)
 {
-    //utf8::utf8to16(it, eos, back_inserter(u16string));
+    // utf8::utf8to16(it, eos, back_inserter(u16string));
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-    std::vector <unsigned short> utf16result;
-    utf8::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9,
-        std::back_inserter(utf16result));
+    std::vector<unsigned short> utf16result;
+    utf8::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, std::back_inserter(utf16result));
     EXPECT_EQ(4u, utf16result.size());
     EXPECT_EQ(0xd834, utf16result[2]);
     EXPECT_EQ(0xdd1e, utf16result[3]);
 
-    unsigned short utf16string[] ={0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
+    unsigned short utf16string[] = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     std::vector<unsigned char> utf8result;
     utf8::utf16to8(utf16string, utf16string + 5, back_inserter(utf8result));
     EXPECT_EQ(10u, utf8result.size());
@@ -147,13 +142,13 @@ TEST(utf8cpp_8to16to8Test, test)
 
 TEST(utf8cpp_8to32to8Test, test)
 {
-    //utf8::utf8to16(it, eos, back_inserter(u16string));
+    // utf8::utf8to16(it, eos, back_inserter(u16string));
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     std::vector<int> utf32result;
     utf8::utf8to32(twochars, twochars + 5, std::back_inserter(utf32result));
     EXPECT_EQ(2u, utf32result.size());
 
-    int utf32string[] ={0x448, 0x65E5, 0x10346, 0};
+    int utf32string[] = {0x448, 0x65E5, 0x10346, 0};
     std::vector<unsigned char> utf8result;
     utf8::utf32to8(utf32string, utf32string + 3, back_inserter(utf8result));
     EXPECT_EQ(9u, utf8result.size());
@@ -161,8 +156,8 @@ TEST(utf8cpp_8to32to8Test, test)
 
 TEST(utf8cpp_unchecked_appendTest, test)
 {
-    unsigned char u[7] ={0, 0, 0, 0, 0,0,0};
-    unsigned char* end = utf8::unchecked::append(0x0448, u+1); // cyrillic scha
+    unsigned char u[7] = {0, 0, 0, 0, 0, 0, 0};
+    unsigned char* end = utf8::unchecked::append(0x0448, u + 1); // cyrillic scha
     too::ignore_arg(end);
     EXPECT_TRUE(u[0] == 0 && u[1] == 0xd1 && u[2] == 0x88 && u[3] == 0 && u[4] == 0 && u[5] == 0);
 }
@@ -170,7 +165,7 @@ TEST(utf8cpp_unchecked_appendTest, test)
 TEST(utf8cpp_unchecked_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88"; // 'U+65E5' 3 bytes + cyrillic scha 2 bytes
-    char* w = twochars;
+    char* w         = twochars;
     int cp = utf8::unchecked::next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
@@ -179,7 +174,7 @@ TEST(utf8cpp_unchecked_nextTest, test)
 TEST(utf8cpp_unchecked_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w = twochars;
+    char* w         = twochars;
     int cp = utf8::unchecked::peek_next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -188,7 +183,7 @@ TEST(utf8cpp_unchecked_peek_nextTest, test)
 TEST(utf8cpp_unchecked_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w = twochars + 3;
+    char* w         = twochars + 3;
     int cp = utf8::unchecked::prior(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -234,9 +229,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, test)
 {
     // U+65E5 3 bytes + U+0448 cyrillic scha 2 bytes + U+1D11E MUSICAL SYMBOL G CLEF 4 bytes
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-    /*std::vector <char16_t> */std::u16string utf16result;
-    utf8::unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9,
-        std::back_inserter(utf16result));
+    /*std::vector <char16_t> */ std::u16string utf16result;
+    utf8::unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, std::back_inserter(utf16result));
     EXPECT_EQ(4u, utf16result.size());
     EXPECT_EQ(0xd834, utf16result[2]);
     EXPECT_EQ(0xdd1e, utf16result[3]);
@@ -246,12 +240,12 @@ TEST(utf8cpp_unchecked_8to16to8Test, test)
     std::string orig(utf8_with_surrogates);
     EXPECT_EQ(backto8, orig);
 
-    std::u16string utf16from ={0x65e5, 0x0448, 0xd834, 0xdd1e};
+    std::u16string utf16from = {0x65e5, 0x0448, 0xd834, 0xdd1e};
     std::string utf8to;
     utf8::unchecked::utf16to8(utf16from.begin(), utf16from.end(), std::back_inserter(utf8to));
     EXPECT_EQ(utf8to, orig);
 
-    unsigned short utf16string[] ={0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
+    unsigned short utf16string[] = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     std::vector<unsigned char> utf8result;
     utf8::unchecked::utf16to8(utf16string, utf16string + 5, std::back_inserter(utf8result));
     EXPECT_EQ(10u, utf8result.size());
@@ -259,7 +253,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, test)
 
 TEST(utf8cpp_unchecked_8to16to8Test, test2)
 {
-    std::string utf8("\xc3\xa4""hnlich\x21");
+    std::string utf8("\xc3\xa4"
+                     "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     std::string back;
@@ -267,11 +262,11 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2)
     EXPECT_EQ(back, utf8);
 
 #if TOO_OS_WINDOWS && TOO_SIZEOF_WCHAR_T == 2 // && Windows uses UTF16, which we can assume, I guess
-    std::wstring ws ={0xe4};
+    std::wstring ws = {0xe4};
     ws += L"hnlich!";
     std::wstring ws_from_utf16(utf16.begin(), utf16.end());
     EXPECT_EQ(ws, ws_from_utf16);
-    // mingw doesn't compile: 'converting to execution character set: Illegal byte sequence'
+// mingw doesn't compile: 'converting to execution character set: Illegal byte sequence'
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
     ws = L"\xe4hnlich!";
     EXPECT_EQ(ws, ws_from_utf16);
@@ -290,7 +285,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2)
 TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
 {
     {
-        std::string utf8("\xc3\xa4""hnlich\x21");
+        std::string utf8("\xc3\xa4"
+                         "hnlich\x21");
         std::vector<unsigned short> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -299,7 +295,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
     }
 
     {
-        std::string utf8("\xc3\xa4""hnlich\x21");
+        std::string utf8("\xc3\xa4"
+                         "hnlich\x21");
         std::vector<char16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -308,7 +305,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
     }
 
     {
-        std::string utf8("\xc3\xa4""hnlich\x21");
+        std::string utf8("\xc3\xa4"
+                         "hnlich\x21");
         std::vector<uint16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -317,7 +315,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
     }
 
     {
-        std::string utf8("\xc3\xa4""hnlich\x21");
+        std::string utf8("\xc3\xa4"
+                         "hnlich\x21");
         std::vector<int16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -326,7 +325,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
     }
 
     {
-        std::string utf8("\xc3\xa4""hnlich\x21");
+        std::string utf8("\xc3\xa4"
+                         "hnlich\x21");
         std::u32string utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -358,7 +358,7 @@ TEST(utf8cpp_unchecked_8to32to8Test, test)
     utf8::unchecked::utf32to8(utf32result.begin(), utf32result.end(), std::back_inserter(back));
     EXPECT_FALSE(std::strcmp(twochars, back.c_str()));
 
-    int utf32string[] ={0x448, 0x65E5, 0x10346, 0};
+    int utf32string[] = {0x448, 0x65E5, 0x10346, 0};
     std::vector<unsigned char> utf8result;
     utf8::unchecked::utf32to8(utf32string, utf32string + 3, back_inserter(utf8result));
     EXPECT_EQ(9u, utf8result.size());
@@ -366,16 +366,18 @@ TEST(utf8cpp_unchecked_8to32to8Test, test)
 
 TEST(utf8cpp_unchecked_8to32to8Test, readable_test)
 {
-    const char* utf8 = "\xc3\xa4""hnlich\x21";
+    const char* utf8 = "\xc3\xa4"
+                       "hnlich\x21";
     std::vector<int> utf32result;
     utf8::unchecked::utf8to32(utf8, utf8 + 9, std::back_inserter(utf32result));
     std::string back;
     utf8::unchecked::utf32to8(utf32result.begin(), utf32result.end(), std::back_inserter(back));
     EXPECT_FALSE(std::strcmp(utf8, back.c_str()));
 
-    std::u32string utf32from ={0xe4, 0x68, 0x6e};
+    std::u32string utf32from = {0xe4, 0x68, 0x6e};
     std::string utf8to;
     utf8::unchecked::utf32to8(utf32from.begin(), utf32from.end(), std::back_inserter(utf8to));
-    std::string orig = "\xc3\xa4""hn";
+    std::string orig = "\xc3\xa4"
+                       "hn";
     EXPECT_EQ(orig, utf8to);
 }
