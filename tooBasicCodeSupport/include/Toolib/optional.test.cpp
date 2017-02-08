@@ -42,6 +42,7 @@ TEST(optTest, none_constr)
         EXPECT_TRUE(true);
 }
 
+// VLD detects 3 memory leaks (unclear)
 TEST(optTest, not)
 {
     too::opt<bool> b;

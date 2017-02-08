@@ -1,3 +1,4 @@
+// VLD detects lots of memory leaks for this file (unclear)
 #include "Toolib/assert.h"
 #include <exception>
 #include <iostream>
