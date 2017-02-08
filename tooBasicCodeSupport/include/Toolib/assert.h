@@ -1,4 +1,4 @@
-// Markus Borris, 2011-16
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
@@ -28,6 +28,7 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <assert.h>
 #endif
 #include <chrono>
+#include <exception>
 #include <stdexcept>
 #include <thread>
 
