@@ -153,15 +153,13 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
 namespace detail
 {
 #if TOO_OS_WINDOWS
+#undef max
 inline std::wstring acp_s2ws(const std::string& s)
 {
     int slength = static_cast<int>(s.length()) + 1;
     if (slength < 0)
     {
-#pragma push_macro("max")
-#undef max
         slength = std::numeric_limits<int>::max();
-#pragma pop_macro("max")
     }
     int len      = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
     wchar_t* buf = new wchar_t[len];
@@ -198,8 +196,15 @@ inline std::wstring locenc_s2ws(const std::string& s)
 
 namespace detail_impl
 {
-template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark>
-inline std::string utf8_to_latin1_range(const std::string& s, unsigned int from, unsigned int to)
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER == 1900
+#define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE    1
+#endif
+#if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
+#pragma warning(push)
+#pragma warning(disable: 4702)
+#endif
+template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigned int from, unsigned int to>
+inline std::string utf8_to_latin1_range(const std::string& s)
 {
     std::string ret;
 
@@ -224,17 +229,23 @@ inline std::string utf8_to_latin1_range(const std::string& s, unsigned int from,
             if (from <= ui_codepoint && ui_codepoint <= to)
                 ret.append(1, static_cast<char>(ui_codepoint));
             else
+                // for that the wrong warning in msvc2015 occurs, but tests prove that the code is
+                // actually reached for all template instantiations used
                 ret.append(1, OnConversionErrorPolicy::onConversionError(ui_codepoint));
         }
     }
     return ret;
+#if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
+#pragma warning(pop)
+#undef TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
+#endif
 }
 } // detail_impl
 
 template <class OnConversionErrorPolicy>
 inline std::string utf8_to_latin1(const std::string& s)
 {
-    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy>(s, 0, 255);
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 0, 255>(s);
 }
 
 inline std::string latin1_to_utf8(const std::string& s)
@@ -259,7 +270,7 @@ inline std::string latin1_to_utf8(const std::string& s)
 template <class OnConversionErrorPolicy>
 inline std::string utf8_to_printableASCII(const std::string& s)
 {
-    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy>(s, 32, 126);
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }
 
 inline std::string printableASCII_to_utf8(const std::string& s) { return latin1_to_utf8(s); }
