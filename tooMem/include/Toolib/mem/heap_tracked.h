@@ -1,4 +1,4 @@
-// Markus Borris, 2011
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
@@ -6,7 +6,10 @@
 */
 //! \file
 
+#include "Toolib/debug.h"
+#include "Toolib/std/std_extensions.h"
 #include <algorithm>
+#include <exception>
 #include <list>
 
 
@@ -21,10 +24,6 @@ namespace mem
 class HeapTracked
 {
 public:
-    class MissingAddress : public std::exception
-    {
-    };
-
     virtual inline ~HeapTracked() = 0; // to make the class abstract
 
     static void* operator new(size_t size)
@@ -34,7 +33,7 @@ public:
         return memPtr;
     }
 
-    static void operator delete(void* ptr)
+    static void operator delete(void* ptr) noexcept
     {
         std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), ptr);
 
@@ -45,7 +44,8 @@ public:
         }
         else
         {
-            throw MissingAddress();
+            TOO_DEBUG_BREAK_IF(false); // missing address!
+            std::terminate(); // delete is nothrow since C++11
         }
     }
 
