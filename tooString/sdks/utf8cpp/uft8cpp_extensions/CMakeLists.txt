@@ -29,13 +29,10 @@ endif()
 
 ################################################################################################
 
-set(TargetUtf8cppTest "utf8cppTest")
+set(TargetUtf8cppTest ${TargetUtf8cpp}Test)
 
 file(GLOB_RECURSE TargetUtf8cppTest_SRC_INCS "test/*.h")
-
-set(TargetUtf8cppTest_SOURCES
-	"test/misc.test.cpp"
-)
+file(GLOB_RECURSE TargetUtf8cppTest_SOURCES "test/*.test.cpp")
 
 add_executable(${TargetUtf8cppTest}
 	${TargetUtf8cppTest_SOURCES}
