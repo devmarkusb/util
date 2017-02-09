@@ -16,44 +16,31 @@ cmake_minimum_required(VERSION 3.4.1)
 
 project(tooBasicCodeSupport VERSION 0.1.0.0)
 
-set(Target_tooBasicCodeSupport "tooBasicCodeSupport")
+set(Target_tooBasicCodeSupport ${PROJECT_NAME})
 
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 
-get_directory_property(hasParent PARENT_DIRECTORY)
-if(hasParent)
-set(tooBasicCodeSupport_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
-#set(tooBasicCodeSupport_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib PARENT_SCOPE)
-endif()
+add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS})
+set_target_properties(${Target_tooBasicCodeSupport} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${Target_tooBasicCodeSupport}
+                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
+
+target_link_libraries(${Target_tooBasicCodeSupport} tooBuildEnv)
+
+set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${Target_tooBasicCodeSupport}: include directories" FORCE)
 
 
 ################################################################################################
 
-set(Target_tooBasicCodeSupportTest "tooBasicCodeSupportTest")
+set(Target_tooBasicCodeSupportTest ${PROJECT_NAME}Test)
 
-set(Target_tooBasicCodeSupportTest_SOURCES
-	include/Toolib/any.test.cpp
-	include/Toolib/assert.test.cpp
-	include/Toolib/c_array.test.cpp
-	include/Toolib/debug.test.cpp
-	include/Toolib/enum_cast.test.cpp
-	include/Toolib/error.test.cpp
-	include/Toolib/finally.test.cpp
-	include/Toolib/ignore_arg.test.cpp
-	include/Toolib/narrow.test.cpp
-	include/Toolib/optional.test.cpp
-	include/Toolib/ptr.test.cpp
-	include/Toolib/ptr2ref.test.cpp
-	include/Toolib/class/non_copyable.test.cpp
-	include/Toolib/class/listener.test.cpp
-	include/Toolib/compiletime/ct_map.test.cpp
-	include/Toolib/std/std_extensions.test.cpp
-	include/Toolib/std/vector.test.cpp
-	include/Toolib/trace.test.cpp
-	include/Toolib/types.test.cpp
-)
+file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SOURCES "include/Toolib/*.test.cpp")
 
 add_executable(${Target_tooBasicCodeSupportTest}
 	${Target_tooBasicCodeSupportTest_SOURCES}
@@ -67,9 +54,9 @@ endif ()
 set_target_properties(${Target_tooBasicCodeSupportTest} PROPERTIES DEBUG_POSTFIX "d")
 
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ../tooBuildEnv/include)
+target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main)
+target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main tooBuildEnv)
 
 
 set(do_auto_test	ON)
