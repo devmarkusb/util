@@ -66,15 +66,10 @@ endif ()
 
 set_target_properties(${Target_tooBasicCodeSupportTest} PROPERTIES DEBUG_POSTFIX "d")
 
-set(GTEST_ROOT $ENV{dev_sdk_paths_gtest})
-set(GTEST_MSVC_SEARCH   MD)
-find_package(GTest 1.7.0)
-
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_INCLUDE_DIR})
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ../tooBuildEnv/include)
 
-target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main)
 
 
 set(do_auto_test	ON)
