@@ -52,7 +52,7 @@ set_target_properties(${Target_tooBuildEnvTest} PROPERTIES DEBUG_POSTFIX "d")
 
 target_include_directories(${Target_tooBuildEnvTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main ${Target_tooBuildEnv})
+target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main) #${Target_tooBuildEnv}
 
 
 add_custom_command(
