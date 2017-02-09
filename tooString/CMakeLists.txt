@@ -23,10 +23,18 @@ add_subdirectory(sdks)
 
 file(GLOB_RECURSE Target_tooString_INCS "include/*.h*")
 
-get_directory_property(hasParent PARENT_DIRECTORY)
-if(hasParent)
-set(tooString_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
-endif()
+add_library(${Target_tooString} STATIC ${Target_tooString_INCS})
+set_target_properties(${Target_tooString} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${Target_tooString} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+target_include_directories(${Target_tooString} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
+
+target_link_libraries(${Target_tooString} tooBasicCodeSupport utf8cpp)
+
+set(${Target_tooString}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${Target_tooString}: include directories" FORCE)
 
 
 ################################################################################################
@@ -46,12 +54,9 @@ endif ()
 
 set_target_properties(${Target_tooStringTest} PROPERTIES DEBUG_POSTFIX "d")
 
-target_include_directories(${Target_tooStringTest} PRIVATE include)
-target_include_directories(${Target_tooStringTest} PRIVATE ../tooBuildEnv/include)
-target_include_directories(${Target_tooStringTest} PRIVATE ../tooBasicCodeSupport/include)
-target_include_directories(${Target_tooStringTest} PRIVATE sdks/utf8cpp/source)
+target_include_directories(${Target_tooStringTest} PRIVATE ${tooString_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main)
+target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main ${Target_tooString})
 
 set(do_auto_test	ON)
 
