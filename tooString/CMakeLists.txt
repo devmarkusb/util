@@ -33,7 +33,10 @@ target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
 target_link_libraries(${Target_tooString} tooBasicCodeSupport utf8cpp)
 
-set(${Target_tooString}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+set(${Target_tooString}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${utf8cpp_INCLUDE_DIRS}
+    ${tooBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${Target_tooString}: include directories" FORCE)
 
 
@@ -56,7 +59,7 @@ set_target_properties(${Target_tooStringTest} PROPERTIES DEBUG_POSTFIX "d")
 
 target_include_directories(${Target_tooStringTest} PRIVATE ${tooString_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main ${Target_tooString})
+target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main) #${Target_tooString}
 
 set(do_auto_test	ON)
 
