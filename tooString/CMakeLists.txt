@@ -15,7 +15,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 project(tooString VERSION 0.1.0.0)
-set(Target_tooString "tooString")
+set(Target_tooString ${PROJECT_NAME})
 
 include(defaults.cmake)
 
@@ -31,17 +31,9 @@ endif()
 
 ################################################################################################
 
-set(Target_tooStringTest "tooStringTest")
+set(Target_tooStringTest ${PROJECT_NAME}Test)
 
-set(Target_tooStringTest_SOURCES
-    include/Toolib/string/json.test.cpp
-    include/Toolib/string/locale.test.cpp
-    include/Toolib/string/makestr.test.cpp
-    include/Toolib/string/str_convert.test.cpp
-    include/Toolib/string/string_misc.test.cpp
-    include/Toolib/string/tooString.test.cpp
-    include/Toolib/string/utf8.test.cpp
-)
+file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/Toolib/*.test.cpp")
 
 add_executable(${Target_tooStringTest}
 	${Target_tooStringTest_SOURCES}
