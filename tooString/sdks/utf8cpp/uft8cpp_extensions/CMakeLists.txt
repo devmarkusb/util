@@ -53,7 +53,7 @@ set_target_properties(${TargetUtf8cppTest} PROPERTIES DEBUG_POSTFIX "d")
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${utf8cpp_INCLUDE_DIRS})
 
-target_link_libraries(${TargetUtf8cppTest} PRIVATE gtest_main tooBasicCodeSupport ${TargetUtf8cpp})
+target_link_libraries(${TargetUtf8cppTest} PRIVATE gtest_main) #tooBasicCodeSupport ${TargetUtf8cpp}
 
 
 set(do_auto_test	ON)
