@@ -48,16 +48,11 @@ endif ()
 
 set_target_properties(${TargetUtf8cppTest} PROPERTIES DEBUG_POSTFIX "d")
 
-set(GTEST_ROOT $ENV{dev_sdk_paths_gtest})
-set(GTEST_MSVC_SEARCH   MD)
-find_package(GTest 1.7.0)
-
-target_include_directories(${TargetUtf8cppTest} PRIVATE ${GTEST_INCLUDE_DIR})
 target_include_directories(${TargetUtf8cppTest} PRIVATE ../source)
 target_include_directories(${TargetUtf8cppTest} PRIVATE ../../../../tooBuildEnv/include)
 target_include_directories(${TargetUtf8cppTest} PRIVATE ../../../../tooBasicCodeSupport/include)
 
-target_link_libraries(${TargetUtf8cppTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(${TargetUtf8cppTest} PRIVATE gtest_main)
 
 
 set(do_auto_test	ON)
