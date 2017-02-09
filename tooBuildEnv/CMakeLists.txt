@@ -16,26 +16,29 @@ cmake_minimum_required(VERSION 3.4.1)
 
 project(tooBuildEnv VERSION 0.1.0.0)
 
-set(Target_tooBuildEnv "tooBuildEnv")
+set(Target_tooBuildEnv ${PROJECT_NAME})
 
 include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 
-get_directory_property(hasParent PARENT_DIRECTORY)
-if(hasParent)
-set(tooBuildEnv_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
-#set(tooBuildEnv_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib PARENT_SCOPE)
-endif()
+add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
+set_target_properties(${Target_tooBuildEnv} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${Target_tooBuildEnv}
+                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+target_link_libraries(${Target_tooBuildEnv})
+
+set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
 
 
 ################################################################################################
 
-set(Target_tooBuildEnvTest "tooBuildEnvTest")
+set(Target_tooBuildEnvTest ${PROJECT_NAME}Test)
 
-set(Target_tooBuildEnvTest_SOURCES
-	include/Toolib/PPDEFS.test.cpp
-)
+file(GLOB_RECURSE Target_tooBuildEnvTest_SOURCES "include/Toolib/*.test.cpp")
 
 add_executable(${Target_tooBuildEnvTest}
 	${Target_tooBuildEnvTest_SOURCES}
