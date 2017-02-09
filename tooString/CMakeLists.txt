@@ -54,17 +54,12 @@ endif ()
 
 set_target_properties(${Target_tooStringTest} PROPERTIES DEBUG_POSTFIX "d")
 
-set(GTEST_ROOT $ENV{dev_sdk_paths_gtest})
-set(GTEST_MSVC_SEARCH   MD)
-find_package(GTest 1.7.0)
-
-target_include_directories(${Target_tooStringTest} PRIVATE ${GTEST_INCLUDE_DIR})
 target_include_directories(${Target_tooStringTest} PRIVATE include)
 target_include_directories(${Target_tooStringTest} PRIVATE ../tooBuildEnv/include)
 target_include_directories(${Target_tooStringTest} PRIVATE ../tooBasicCodeSupport/include)
 target_include_directories(${Target_tooStringTest} PRIVATE sdks/utf8cpp/source)
 
-target_link_libraries(${Target_tooStringTest} PRIVATE ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main)
 
 set(do_auto_test	ON)
 
