@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 project(tooMem VERSION 0.1.0.0)
 
-set(Target_tooMem "tooMem")
+set(Target_tooMem ${PROJECT_NAME})
 
 include(defaults.cmake)
 
@@ -31,14 +31,9 @@ endif()
 
 ################################################################################################
 
-set(Target_tooMemTest "tooMemTest")
+set(Target_tooMemTest ${PROJECT_NAME}Test)
 
-set(Target_tooMemTest_SOURCES
-    include/Toolib/mem/checked_delete.test.cpp
-    include/Toolib/mem/heap_tracked.test.cpp
-	include/Toolib/mem/misc.test.helper.cpp
-    include/Toolib/mem/new_handler.test.cpp
-)
+file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/Toolib/*.test.cpp")
 
 add_executable(${Target_tooMemTest}
 	${Target_tooMemTest_SOURCES}
