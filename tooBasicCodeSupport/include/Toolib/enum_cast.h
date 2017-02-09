@@ -1,4 +1,4 @@
-// Markus Borris, 2014
+// Markus Borris, 2014-17
 // This file is part of Toolib library.
 
 //!
@@ -15,11 +15,10 @@
 namespace too
 {
 template <typename Enumeration>
-constexpr auto as_number(Enumeration const value) -> typename std::underlying_type<Enumeration>::type
+constexpr too::enable_if_t<std::is_enum<Enumeration>::value, too::underlying_type_t<Enumeration>> as_number(const Enumeration value)
 {
-    static_assert(std::is_enum<Enumeration>::value, "parameter is not of type enum or enum class");
-    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+    return static_cast<too::underlying_type_t<Enumeration>>(value);
 }
-}
+} // too
 
 #endif

@@ -89,6 +89,9 @@ using remove_all_extents_t = typename std::remove_all_extents<T>::type;
 template <class T>
 using remove_reference_t = typename std::remove_reference<T>::type;
 
+template <class T>
+using underlying_type_t = typename std::underlying_type<T>::type;
+
 #else
 
 template <class T>
@@ -126,6 +129,9 @@ using remove_all_extents_t = std::remove_all_extents_t<T>;
 
 template <class T>
 using remove_reference_t = std::remove_reference_t<T>;
+
+template <class T>
+using underlying_type_t = std::underlying_type_t<T>;
 
 #endif
 
