@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 project(tooLinklib VERSION 0.1.0.0)
 
-set(Target_tooLinklib "tooLinklib")
+set(Target_tooLinklib ${PROJECT_NAME})
 
 include(defaults.cmake)
 
@@ -31,11 +31,9 @@ endif()
 
 ################################################################################################
 
-set(Target_tooLinklibTest "tooLinklibTest")
+set(Target_tooLinklibTest ${PROJECT_NAME}Test)
 
-set(Target_tooLinklibTest_SOURCES
-	include/Toolib/linklib/LINKLIB_DEFS.test.cpp
-)
+file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/Toolib/*.test.cpp")
 
 add_executable(${Target_tooLinklibTest}
 	${Target_tooLinklibTest_SOURCES}
