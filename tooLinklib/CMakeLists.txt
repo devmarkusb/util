@@ -22,11 +22,17 @@ include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
 
-get_directory_property(hasParent PARENT_DIRECTORY)
-if(hasParent)
-set(tooLinklib_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
-#set(tooLinklib_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib PARENT_SCOPE)
-endif()
+add_library(${Target_tooLinklib} STATIC ${Target_tooLinklib_INCS})
+set_target_properties(${Target_tooLinklib} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${Target_tooLinklib} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
+
+target_link_libraries(${Target_tooLinklib} tooBuildEnv)
+
+set(${Target_tooLinklib}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${Target_tooLinklib}: include directories" FORCE)
 
 
 ################################################################################################
@@ -46,10 +52,9 @@ endif ()
 
 set_target_properties(${Target_tooLinklibTest} PROPERTIES DEBUG_POSTFIX "d")
 
-target_include_directories(${Target_tooLinklibTest} PRIVATE include)
-target_include_directories(${Target_tooLinklibTest} PRIVATE ../tooBuildEnv/include)
+target_include_directories(${Target_tooLinklibTest} PRIVATE ${tooLinklib_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooLinklibTest} PRIVATE gtest_main)
+target_link_libraries(${Target_tooLinklibTest} PRIVATE gtest_main ${Target_tooLinklib})
 
 
 add_custom_command(
