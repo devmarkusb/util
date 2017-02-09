@@ -25,8 +25,7 @@ file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS})
 set_target_properties(${Target_tooBasicCodeSupport} PROPERTIES LINKER_LANGUAGE CXX)
 
-set_target_properties(${Target_tooBasicCodeSupport}
-                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(${Target_tooBasicCodeSupport} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
@@ -53,10 +52,9 @@ endif ()
 
 set_target_properties(${Target_tooBasicCodeSupportTest} PROPERTIES DEBUG_POSTFIX "d")
 
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE include)
-target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
+target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main tooBuildEnv)
+target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main ${Target_tooBasicCodeSupport})
 
 
 set(do_auto_test	ON)
