@@ -25,8 +25,7 @@ file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
 set_target_properties(${Target_tooBuildEnv} PROPERTIES LINKER_LANGUAGE CXX)
 
-set_target_properties(${Target_tooBuildEnv}
-                      PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(${Target_tooBuildEnv} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(${Target_tooBuildEnv})
 
@@ -51,9 +50,9 @@ endif ()
 
 set_target_properties(${Target_tooBuildEnvTest} PROPERTIES DEBUG_POSTFIX "d")
 
-target_include_directories(${Target_tooBuildEnvTest} PRIVATE include)
+target_include_directories(${Target_tooBuildEnvTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main)
+target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main ${Target_tooBuildEnv})
 
 
 add_custom_command(
