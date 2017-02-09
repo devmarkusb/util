@@ -31,7 +31,9 @@ target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_IN
 
 target_link_libraries(${Target_tooBasicCodeSupport} tooBuildEnv)
 
-set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${tooBuildEnv_INCLUDE_DIRS}
     CACHE INTERNAL "${Target_tooBasicCodeSupport}: include directories" FORCE)
 
 
@@ -54,7 +56,7 @@ set_target_properties(${Target_tooBasicCodeSupportTest} PROPERTIES DEBUG_POSTFIX
 
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main ${Target_tooBasicCodeSupport})
+target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main) #${Target_tooBasicCodeSupport}
 
 
 set(do_auto_test	ON)
