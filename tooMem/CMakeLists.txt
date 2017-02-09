@@ -31,7 +31,9 @@ target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE
 
 target_link_libraries(${Target_tooMem} tooBasicCodeSupport)
 
-set(${Target_tooMem}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+set(${Target_tooMem}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${tooBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${Target_tooMem}: include directories" FORCE)
 
 
@@ -54,7 +56,7 @@ set_target_properties(${Target_tooMemTest} PROPERTIES DEBUG_POSTFIX "d")
 
 target_include_directories(${Target_tooMemTest} PRIVATE ${tooMem_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main ${Target_tooMem})
+target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main) #${Target_tooMem}
 
 
 add_custom_command(
