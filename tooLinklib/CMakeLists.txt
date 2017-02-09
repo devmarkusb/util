@@ -31,7 +31,9 @@ target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIR
 
 target_link_libraries(${Target_tooLinklib} tooBuildEnv)
 
-set(${Target_tooLinklib}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+set(${Target_tooLinklib}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${tooBuildEnv_INCLUDE_DIRS}
     CACHE INTERNAL "${Target_tooLinklib}: include directories" FORCE)
 
 
@@ -54,7 +56,7 @@ set_target_properties(${Target_tooLinklibTest} PROPERTIES DEBUG_POSTFIX "d")
 
 target_include_directories(${Target_tooLinklibTest} PRIVATE ${tooLinklib_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooLinklibTest} PRIVATE gtest_main ${Target_tooLinklib})
+target_link_libraries(${Target_tooLinklibTest} PRIVATE gtest_main) #${Target_tooLinklib}
 
 
 add_custom_command(
