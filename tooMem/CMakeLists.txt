@@ -22,11 +22,17 @@ include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooMem_INCS "include/*.h")
 
-get_directory_property(hasParent PARENT_DIRECTORY)
-if(hasParent)
-set(tooMem_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
-#set(tooMem_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib PARENT_SCOPE)
-endif()
+add_library(${Target_tooMem} STATIC ${Target_tooMem_INCS})
+set_target_properties(${Target_tooMem} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_target_properties(${Target_tooMem} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+
+target_link_libraries(${Target_tooMem} tooBasicCodeSupport)
+
+set(${Target_tooMem}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${Target_tooMem}: include directories" FORCE)
 
 
 ################################################################################################
@@ -46,11 +52,9 @@ endif ()
 
 set_target_properties(${Target_tooMemTest} PROPERTIES DEBUG_POSTFIX "d")
 
-target_include_directories(${Target_tooMemTest} PRIVATE include)
-target_include_directories(${Target_tooMemTest} PRIVATE ../tooBasicCodeSupport/include)
-target_include_directories(${Target_tooMemTest} PRIVATE ../tooBuildEnv/include)
+target_include_directories(${Target_tooMemTest} PRIVATE ${tooMem_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main)
+target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main ${Target_tooMem})
 
 
 add_custom_command(
