@@ -58,11 +58,15 @@ struct OutputToConsole
         std::cerr << ss.str();
         return true;
     }
+
+    static bool is_activated() { return true; }
 };
 
 struct NoOutputToConsole
 {
     static bool trace(const std::ostringstream&) { return false; }
+
+    static bool is_activated() { return false; }
 };
 
 struct OutputToIDEWindow
@@ -74,7 +78,7 @@ struct OutputToIDEWindow
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
         OutputDebugStringA(ss.str().c_str());
 #else
-        if (!OutputToConsolePolicy::trace(ss))
+        if (!OutputToConsolePolicy::is_activated())
             OutputDebugStringA(ss.str().c_str());
 #endif
 #else
@@ -257,8 +261,11 @@ inline StreamTracer& stream()
         OutputToIDEWindowPolicy: choose whether you want to trace to your IDE output window;
                             note that you can't switch off those traces in some environments if
                             you switched on console traces at the same time
-                            (mingw+QtCreator is an example)
-        OutputToConsolePolicy: choose wheter to trace to a console window or not
+                            (mingw+QtCreator is an example);
+                            also note that the implementation tries to take care of avoiding
+                            duplicated output in certain environments, when output to console
+                            *and* output to IDE window are switched on
+        OutputToConsolePolicy: choose whether to trace to a console window or not
         CheckConsoleOpenPolicy: a check+open only makes sense for non-console GUI application;
                             there you can open an additional console window to see traces if
                             switched on
