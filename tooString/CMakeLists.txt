@@ -61,7 +61,7 @@ target_include_directories(${Target_tooStringTest} PRIVATE ${tooString_INCLUDE_D
 
 target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main) #${Target_tooString}
 
-set(do_auto_test	ON)
+set(do_auto_test    ON)
 
 if (do_auto_test)
 add_custom_command(
