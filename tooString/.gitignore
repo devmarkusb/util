@@ -1,3 +1,6 @@
-_build
+_build*
 *.user
+bin
+bin_*
 lib
+lib_*
