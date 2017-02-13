@@ -18,7 +18,7 @@ project(tooBasicCodeSupport VERSION 0.1.0.0)
 
 set(Target_tooBasicCodeSupport ${PROJECT_NAME})
 
-include(defaults.cmake)
+include(${TOO_CMAKE_INC_DEFAULTS})
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 
@@ -29,7 +29,7 @@ set_target_properties(${Target_tooBasicCodeSupport} PROPERTIES POSITION_INDEPEND
 
 target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBasicCodeSupport} tooBuildEnv)
+target_link_libraries(${Target_tooBasicCodeSupport}) # tooBuildEnv
 
 set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
