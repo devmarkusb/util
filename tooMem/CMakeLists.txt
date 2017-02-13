@@ -18,7 +18,7 @@ project(tooMem VERSION 0.1.0.0)
 
 set(Target_tooMem ${PROJECT_NAME})
 
-include(defaults.cmake)
+include(${TOO_CMAKE_INC_DEFAULTS})
 
 file(GLOB_RECURSE Target_tooMem_INCS "include/*.h")
 
@@ -29,7 +29,7 @@ set_target_properties(${Target_tooMem} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooMem} tooBasicCodeSupport)
+target_link_libraries(${Target_tooMem}) # tooBasicCodeSupport
 
 set(${Target_tooMem}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
