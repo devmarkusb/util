@@ -1,0 +1,5 @@
+set(enable-lgpl ON CACHE BOOL "")
+set(enable-octave-install OFF CACHE BOOL "")
+set(enable-png OFF CACHE BOOL "")
+set(enable-pthr-widget OFF CACHE BOOL "")
+set(enable-zlib OFF CACHE BOOL "")
