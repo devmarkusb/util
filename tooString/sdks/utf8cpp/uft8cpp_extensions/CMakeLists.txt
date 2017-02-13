@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.4.1)
 project(utf8cpp VERSION 0.1.0.0)
 set(TargetUtf8cpp ${PROJECT_NAME})
 
-include(defaults.cmake)
+include(${TOO_CMAKE_INC_DEFAULTS})
 
 file(GLOB_RECURSE TargetUtf8cpp_INCS "../source/*.h")
 
