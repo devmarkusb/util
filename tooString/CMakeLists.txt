@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.4.1)
 project(tooString VERSION 0.1.0.0)
 set(Target_tooString ${PROJECT_NAME})
 
-include(defaults.cmake)
+include(${TOO_CMAKE_INC_DEFAULTS})
 
 add_subdirectory(sdks)
 
@@ -31,7 +31,7 @@ set_target_properties(${Target_tooString} PROPERTIES POSITION_INDEPENDENT_CODE O
 target_include_directories(${Target_tooString} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
 target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooString} tooBasicCodeSupport utf8cpp)
+target_link_libraries(${Target_tooString}) # tooBasicCodeSupport utf8cpp
 
 set(${Target_tooString}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
