@@ -18,7 +18,7 @@ project(tooLinklib VERSION 0.1.0.0)
 
 set(Target_tooLinklib ${PROJECT_NAME})
 
-include(defaults.cmake)
+include(${TOO_CMAKE_INC_DEFAULTS})
 
 file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
 
@@ -29,7 +29,7 @@ set_target_properties(${Target_tooLinklib} PROPERTIES POSITION_INDEPENDENT_CODE 
 
 target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooLinklib} tooBuildEnv)
+target_link_libraries(${Target_tooLinklib}) # tooBuildEnv
 
 set(${Target_tooLinklib}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
