@@ -89,7 +89,11 @@ TEST(locenc_s2wsTest, test)
 {
     std::string loc("local stuff: \xe4"); // latin1 ae
     std::wstring ws(too::str::locenc_s2ws(loc));
+#if TOO_OS_WINDOWS
     EXPECT_EQ(L"local stuff: \xe4", ws);
+#else
+    EXPECT_EQ(L"local stuff: \xffffffe4", ws);
+#endif
 }
 
 TEST(utf8toHTML, test)

@@ -1,4 +1,4 @@
-// Markus Borris, 2011-2016
+// Markus Borris, 2011-2017
 // This file is part of Toolib library.
 
 //! If you expected this file to define yet another custom string type, you are fortunately wrong.
@@ -48,7 +48,7 @@
 #ifndef TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 #define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
-#include "Toolib/PPDEFS.H"
+#include "Toolib/PPDEFS.h"
 //! Including this header regardless of whether it is being used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
