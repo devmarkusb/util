@@ -14,5 +14,9 @@ set(Qt_compiler_subdir  "" CACHE STRING "string has to match the subdir under Qt
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-set(Qt_ver_comp_path "$ENV{dev_qt_base}\\${Qt5_version}\\${Qt_compiler_subdir}")
+if (WIN32)
+    set(Qt_ver_comp_path "$ENV{dev_qt_base}\\${Qt5_version}\\${Qt_compiler_subdir}")
+else ()
+    set(Qt_ver_comp_path "$ENV{dev_qt_base}/${Qt5_version}/${Qt_compiler_subdir}")
+endif ()
 list(APPEND CMAKE_PREFIX_PATH ${Qt_ver_comp_path})

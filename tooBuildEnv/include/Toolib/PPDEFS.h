@@ -1,4 +1,4 @@
-// Markus Borris, 2011
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
@@ -183,7 +183,7 @@
 #define TOO_HAS_NO_ACCUMULATE_ALG 0
 #endif
 
-#if TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300
+#if (TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300) || (TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 60201)
 #define TOO_HAS_NO_CPP14_MAKE_UNIQUE 1 // shame on you
 #else
 #define TOO_HAS_NO_CPP14_MAKE_UNIQUE 0
@@ -219,6 +219,10 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define TOO_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE 1
 #else
 #define TOO_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE 0
+#endif
+
+#if TOO_COMP_GNU_CPP
+#define __cdecl
 #endif
 
 //!@}
