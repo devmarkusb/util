@@ -82,7 +82,7 @@ struct OutputToIDEWindow
             OutputDebugStringA(ss.str().c_str());
 #endif
 #else
-        throw too::not_implemented{"OutputToIDEWindow::trace"};
+        std::cerr << ss.str();
 #endif
     }
 };
@@ -106,6 +106,7 @@ struct AlsoBindStdout
 {
     static void bind(bool& ret_bound)
     {
+#if TOO_OS_WINDOWS
         ret_bound = false;
         FILE* nsp{};
         const auto open_failed = freopen_s(&nsp, "CONOUT$", "w", stdout);
@@ -113,6 +114,9 @@ struct AlsoBindStdout
             ret_bound = true;
         else
             TOO_ASSERT(false);
+#else
+        ret_bound = true;
+#endif
     }
 };
 
@@ -121,6 +125,7 @@ struct CheckConsoleOpen
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
     static void openConsoleIfNecessary(bool& ret_stderrBound, bool& ret_stdoutBound)
     {
+#if TOO_OS_WINDOWS
         ret_stderrBound = false;
         ret_stdoutBound = false;
 
@@ -139,6 +144,10 @@ struct CheckConsoleOpen
             TOO_ASSERT(false);
 
         AlsoBindStdoutToNewConsolePolicy::bind(ret_stdoutBound);
+#else
+        ret_stderrBound = true;
+        ret_stdoutBound = true;
+#endif
     }
 };
 
