@@ -1,4 +1,4 @@
-// Markus Borris, 2015
+// Markus Borris, 2015-17
 // This file is part of Toolib library.
 
 //!
@@ -43,7 +43,7 @@
 #ifndef LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
 #define LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
 
-#include "Toolib/PPDEFS.H"
+#include "Toolib/PPDEFS.h"
 
 
 //####################################################################################################################
