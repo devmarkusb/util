@@ -21,6 +21,16 @@ TEST(NewHandlerSupportTest, test)
     };
     class C_heavy_to_alloc : public too::mem::NewHandlerSupport<C>
     {
+    public:
+        C_heavy_to_alloc()
+        {
+            too::ignore_arg(i1);
+            too::ignore_arg(i2);
+            too::ignore_arg(i3);
+            too::ignore_arg(i4);
+        }
+
+    private:
         int i1[0x7ffffff];
         int i2[0x7ffffff];
         int i3[0x7ffffff];
