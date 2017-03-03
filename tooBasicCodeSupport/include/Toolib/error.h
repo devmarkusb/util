@@ -129,7 +129,7 @@ inline std::string retcode_str(retcode rc)
 //    return rc == retcode::none ? true : false;
 //}
 //! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
-inline auto operator!(retcode rc) -> const bool { return rc == retcode::none ? false : true; }
+inline auto operator!(retcode rc) -> bool { return rc == retcode::none ? false : true; }
 
 namespace publish__is_ok
 {

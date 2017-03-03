@@ -76,7 +76,7 @@ public:
     any& operator=(const any& rhs) // untested
     {
         // ptr = std::move(any(rhs).ptr); // faster?
-        *this = std::move(any(rhs)); // no code duplication.
+        *this = any(rhs); // no code duplication, no move, as according to clang this could prevent copy elision
         return *this;
     }
 
