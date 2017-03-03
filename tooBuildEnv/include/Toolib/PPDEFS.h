@@ -221,8 +221,10 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define TOO_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE 0
 #endif
 
-#if TOO_COMP_GNU_CPP
+#if TOO_COMP_GNU_CPP && !TOO_OS_WINDOWS
+#ifndef
 #define __cdecl
+#endif
 #endif
 
 //!@}
