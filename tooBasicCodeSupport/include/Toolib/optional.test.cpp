@@ -53,12 +53,14 @@ TEST(optTest, not)
     // EXPECT_TRUE(!b);
     // EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
+#if GTEST_HAS_DEATH_TEST
     EXPECT_DEATH(
         [&]()
         {
             *b = false;
         }(),
         "");
+#endif
 }
 
 TEST(optTest, constr_assign_moves)

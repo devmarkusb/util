@@ -28,8 +28,10 @@ void f_with_debug_break_if_wont() { TOO_DEBUG_BREAK_IF(1 == 0); }
 
 TEST(debug_hTest, test)
 {
+#if GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(f_with_debug_break(), "");
     EXPECT_DEBUG_DEATH(f_with_debug_break_if(), "");
+#endif
     EXPECT_NO_FATAL_FAILURE(f_with_debug_break_if_wont());
 }
 

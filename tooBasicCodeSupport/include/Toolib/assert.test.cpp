@@ -14,7 +14,7 @@ TEST(AssertExpectEnsureTest, Assert)
     EXPECT_THROW(TOO_EXPECT(false), too::fail_fast);
     EXPECT_THROW(TOO_ENSURE(false), too::fail_fast);
 #else
-#if TOO_DEBUG
+#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(TOO_ASSERT(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE(false), "");
@@ -25,7 +25,7 @@ TEST(AssertExpectEnsureTest, Assert)
 TEST(AssertExpectEnsureTest, Throw)
 {
 #ifdef TOO_ASSERT_THROW_DISABLE
-#if TOO_DEBUG
+#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(TOO_ASSERT_THROW(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT_THROW(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE_THROW(false), "");
@@ -42,6 +42,7 @@ TEST(AssertExpectEnsureTest, Throw)
 
 TEST(AssertExpectEnsureTest, Terminate)
 {
+#if GTEST_HAS_DEATH_TEST
 #ifdef TOO_ASSERT_TERMINATE_DISABLE
     EXPECT_DEBUG_DEATH(TOO_ASSERT_TERMINATE(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT_TERMINATE(false), "");
@@ -53,12 +54,13 @@ TEST(AssertExpectEnsureTest, Terminate)
     EXPECT_DEATH(TOO_ENSURE_TERMINATE(false), "");
 #endif
 #endif
+#endif
 }
 
 TEST(AssertExpectEnsureTest, Sleep)
 {
 #ifdef TOO_ASSERT_SLEEP_DISABLE
-#if TOO_DEBUG
+#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(TOO_ASSERT_SLEEP(false), "");
     EXPECT_DEBUG_DEATH(TOO_EXPECT_SLEEP(false), "");
     EXPECT_DEBUG_DEATH(TOO_ENSURE_SLEEP(false), "");
