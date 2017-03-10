@@ -18,6 +18,22 @@
 #if defined(_WIN64)
 #define TOO_OS_WINDOWS_64 1
 #endif
+#include <winapifamily.h>
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#define TOO_OS_WINDOWS_UWP_APP  1
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP)
+#define TOO_OS_WINDOWS_UWP_DESKTOP_APP  1
+#endif
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PHONE_APP)
+#define TOO_OS_WINDOWS_UWP_PHONE_APP  1
+#endif
+#elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#define TOO_OS_WINDOWS_DESKTOP_GE_WIN81 1
+#define TOO_OS_WINDOWS_DESKTOP          1
+#else
+#define TOO_OS_WINDOWS_DESKTOP_LT_WIN81 1
+#define TOO_OS_WINDOWS_DESKTOP          1
+#endif
 #endif
 
 #if defined(unix) || defined(__unix__) || defined(__unix)
