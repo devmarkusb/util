@@ -8,6 +8,9 @@ set(TOO_CMAKE_INC_BUILDNR ${PROJECT_SOURCE_DIR}/cmake_util/buildnr.cmake
 set(TOO_CMAKE_INC_DEFAULTS ${PROJECT_SOURCE_DIR}/cmake_util/defaults.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_DEFAULTS: file to include for cmake default settings" FORCE)
 
+set(TOO_CMAKE_INC_DEPLOYMENT_BUILD ${PROJECT_SOURCE_DIR}/cmake_util/deployment_build.cmake
+    CACHE INTERNAL "TOO_CMAKE_INC_DEPLOYMENT_BUILD: file to include for cmake deployment build switch" FORCE)
+
 set(TOO_CMAKE_INC_GOOGLETEST_AS_SUBDIR ${PROJECT_SOURCE_DIR}/cmake_util/googletest_as_subdir.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_GOOGLETEST_AS_SUBDIR: file to include to add googletest as subdir plus configurations" FORCE)
 
