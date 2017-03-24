@@ -10,6 +10,7 @@
 # and rebuild the CMake cache. Reason: Qt package finding should start from scratch.
 set(Qt5_version         "" CACHE STRING "string has to match the subdir under Qt install location, like 5.7 or 5.8")
 set(Qt_compiler_subdir  "" CACHE STRING "string has to match the subdir under Qt version dir of the install location, like mingw53_32 or msvc2013")
+option(Qt_COMPILE_WITH_QML_DEBUGGING_ENABLER "With QQmlDebuggingEnabler for qml debugging and profiling" OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
