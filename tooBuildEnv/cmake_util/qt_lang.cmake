@@ -25,10 +25,13 @@
 #       *But* first check, whether the ts's already got updated automatically after the last build.
 #   (2) Translate ts files using Qt Linguist. IMPORTANT: give green checkmarks to every entry!
 #   (3) Run CMake and enforce a tiny build of your exe.
-
-set(TargetAppName_LANGS
-    lang_en.ts
-    lang_de.ts
-)
+#
+# How to add another language
+#   (1) add it to a TargetAppName_LANGS variable with its correct ISO 639-1 code before including
+#       this file (e.g. set(TargetAppName_LANGS lang_de.ts lang_fr.ts))
+#       Note that English is not necessary explicitly (if that's the original language used
+#       in source strings).
+#   (2) add it to your list of lupdate calls, e.g. to a lang_ts_update.bat/sh file
+#   (3) manually call ...\lupdate source gui -ts lang_xx.ts to create a ts file for the first time
 
 qt5_add_translation(TargetAppName_TRANSLATIONS ${TargetAppName_LANGS})
