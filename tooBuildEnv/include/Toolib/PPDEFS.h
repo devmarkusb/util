@@ -243,6 +243,12 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #endif
 #endif
 
+#if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1900)
+#define TOO_CAN_BUILD_WINRT_WRL_UWP 1
+#else
+#define TOO_CAN_BUILD_WINRT_WRL_UWP 0
+#endif
+
 //!@}
 
 //####################################################################################################################
