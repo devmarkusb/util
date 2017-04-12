@@ -163,6 +163,10 @@ struct did_no_op : public std::runtime_error
 {
     explicit did_no_op(char const* const message) : std::runtime_error(message) {}
 };
+struct time_out : public std::runtime_error
+{
+    explicit time_out(char const* const message) : std::runtime_error(message) {}
+};
 //!@}
 
 
