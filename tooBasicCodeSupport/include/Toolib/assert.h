@@ -40,7 +40,7 @@ struct fail_fast : public std::runtime_error
 {
     explicit fail_fast(char const* const message) : std::runtime_error(message) {}
 };
-}
+} /// too
 
 
 //####################################################################################################################
@@ -254,6 +254,19 @@ inline bool XOR(const bool& lhs, const bool& rhs)
 {
     return lhs != rhs;
 }
+
+//!
+template <typename T1, typename T2>
+bool XNOR(const T1& lhs, const T2& rhs)
+{
+    return !XOR(lhs, rhs);
 }
+
+template <>
+inline bool XNOR(const bool& lhs, const bool& rhs)
+{
+    return !XOR(lhs, rhs);
+}
+} // too
 
 #endif
