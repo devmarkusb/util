@@ -1,4 +1,4 @@
-// Markus Borris, 2016
+// Markus Borris, 2016-17
 // This file is part of Toolib library.
 
 //!
@@ -20,7 +20,7 @@ namespace too
 //! Base class for every abstract listener interface.
 /** Usage:
     \code
-    struct Model_listener : public Listener
+    struct Model_listener : public too::Listener
     {
         virtual ~Model_listener() {}
         virtual void on_prop_changed() = 0;
@@ -59,7 +59,7 @@ inline Listener::~Listener() {}
 //! Base class for every sender/notifier.
 /** Usage:
     \code
-    struct Model_notifier : public ListenerRegister
+    struct Model_notifier : public too::ListenerRegister
     {
         void on_prop_changed()
         {
