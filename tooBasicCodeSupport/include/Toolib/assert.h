@@ -20,8 +20,8 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 */
 //! \file
 
-#ifndef ASSERT_H_INCL_onvdr589tz3758ct438tzcn
-#define ASSERT_H_INCL_onvdr589tz3758ct438tzcn
+#ifndef ASSERT_H_onvdr589tz3758ct438tzcn
+#define ASSERT_H_onvdr589tz3758ct438tzcn
 
 #include "Toolib/PPDEFS.h"
 #ifndef TOO_COMP_MS_VISUAL_STUDIO_CPP
@@ -241,32 +241,6 @@ struct StaticAssert_v0<true>
 //	#define TOO_STATIC_ASSERT_L TOO_STATIC_ASSERTv2L
 /** ... now with C++11 the problem is settled. You can just plainly use static_assert.*/
 #define TOO_STATIC_ASSERT static_assert
-
-//!
-template <typename T1, typename T2>
-bool XOR(const T1& lhs, const T2& rhs)
-{
-    return !lhs != !rhs;
-}
-
-template <>
-inline bool XOR(const bool& lhs, const bool& rhs)
-{
-    return lhs != rhs;
-}
-
-//!
-template <typename T1, typename T2>
-bool XNOR(const T1& lhs, const T2& rhs)
-{
-    return !XOR(lhs, rhs);
-}
-
-template <>
-inline bool XNOR(const bool& lhs, const bool& rhs)
-{
-    return !XOR(lhs, rhs);
-}
 } // too
 
 #endif
