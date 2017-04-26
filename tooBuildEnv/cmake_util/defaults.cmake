@@ -1,3 +1,6 @@
+# CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
+set(_CustomTargetSpecifier  "" CACHE STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
+
 # BITS will be 32, 64, ...
 math(EXPR BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 
@@ -20,11 +23,12 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         set(COMPILER_SUBDIR "msvc")
     endif ()
 endif ()
-# CMAKE_SYSTEM_NAME didn't work to differentiate e.ge. windows desktop and windows rt uwp, so introduce a customizable string
-set(_CustomTargetSpecifier  "" CACHE STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
 if (NOT ${_CustomTargetSpecifier} STREQUAL "")
     set(COMPILER_SUBDIR "${COMPILER_SUBDIR}_${_CustomTargetSpecifier}")
 endif ()
+
+# Note: An idea was to introduce the choice of building one dir level up (to keep source dir clean)
+#       But the major problem is, that we would like to git-check-in some binaries here and there...
 set(OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${COMPILER_SUBDIR})
 set(OutputDir_lib ${CMAKE_CURRENT_SOURCE_DIR}/lib_${COMPILER_SUBDIR})
 
