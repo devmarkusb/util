@@ -21,6 +21,8 @@ set(TOO_CMAKE_INC_MATHGL2_AS_SUBDIR ${PROJECT_SOURCE_DIR}/cmake_util/mathgl2_as_
 
 set(TOO_CMAKE_INC_QT ${PROJECT_SOURCE_DIR}/cmake_util/qt.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_QT: file to include for cmake Qt settings" FORCE)
+set(TOO_CMAKE_INC_QT_DEPLOY_TOO_TEMP_TARGET ${PROJECT_SOURCE_DIR}/cmake_util/qt_deploy_TOO_TEMP_TARGET.cmake
+    CACHE INTERNAL "TOO_CMAKE_INC_QT_DEPLOY_TOO_TEMP_TARGET: file to include for cmake Qt postbuild deployment dependency additions" FORCE)
 set(TOO_CMAKE_INC_QT_LANG ${PROJECT_SOURCE_DIR}/cmake_util/qt_lang.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_QT_LANG: file to include for cmake Qt language settings" FORCE)
 

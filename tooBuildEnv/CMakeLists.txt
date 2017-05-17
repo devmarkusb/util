@@ -37,6 +37,10 @@ include(cmake_util.cmake)
 
 ################################################################################################
 
+if (NOT TOO_BUILD_UNITTESTS)
+    return ()
+endif ()
+
 set(Target_tooBuildEnvTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooBuildEnvTest_SOURCES "include/Toolib/*.test.cpp")

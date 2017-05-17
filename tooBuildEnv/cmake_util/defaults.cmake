@@ -1,5 +1,6 @@
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
 set(_CustomTargetSpecifier  "" CACHE STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
+option(TOO_BUILD_UNITTESTS "build (and run) unit tests as postbuild step" ON)
 
 # BITS will be 32, 64, ...
 math(EXPR BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
