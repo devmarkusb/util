@@ -42,6 +42,10 @@ set(${Target_tooString}_INCLUDE_DIRS
 
 ################################################################################################
 
+if (NOT TOO_BUILD_UNITTESTS)
+    return ()
+endif ()
+
 set(Target_tooStringTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/Toolib/*.test.cpp")
