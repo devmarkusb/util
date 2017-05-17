@@ -39,6 +39,10 @@ set(${Target_tooLinklib}_INCLUDE_DIRS
 
 ################################################################################################
 
+if (NOT TOO_BUILD_UNITTESTS)
+    return ()
+endif ()
+
 set(Target_tooLinklibTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/Toolib/*.test.cpp")
