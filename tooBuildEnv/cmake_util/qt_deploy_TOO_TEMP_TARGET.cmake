@@ -30,14 +30,14 @@ if (WIN32)
     endif ()
     
     if (DEFINED TOO_TEMP_QML_DIR)
-        set(QmlSourcesToUse --qmldir ${TOO_TEMP_QML_DIR})
+        set(QmlSourcesToUse --qmldir "${TOO_TEMP_QML_DIR}")
     else ()
         set(QmlSourcesToUse)
     endif ()
     
     add_custom_command(
         TARGET ${TOO_TEMP_TARGET} POST_BUILD
-        COMMAND ${CMAKE_CURRENT_LIST_DIR}/qt_deploy_autodepends_win.bat "${RuntimeOutputDirectoryToUse}" "${Qt_ver_comp_path}/bin"
+        COMMAND "${CMAKE_CURRENT_LIST_DIR}/assets/qt_deploy_autodepends_win.bat" "${RuntimeOutputDirectoryToUse}" "${Qt_ver_comp_path}/bin"
             ${TargetBuildType_for_qtdeploy} -qml -widgets ${QmlSourcesToUse} ${TargetFileName}
     )
 endif ()

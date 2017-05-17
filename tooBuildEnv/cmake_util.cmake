@@ -29,6 +29,9 @@ set(TOO_CMAKE_INC_QT_LANG ${PROJECT_SOURCE_DIR}/cmake_util/qt_lang.cmake
 set(TOO_CMAKE_INC_UIWRAP_AS_SUBDIR ${PROJECT_SOURCE_DIR}/cmake_util/uiwrap.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_UIWRAP_AS_SUBDIR: file to include to add uiwrap as subdir plus configurations" FORCE)
 
+set(TOO_CMAKE_INC_UWP_TOOLS ${PROJECT_SOURCE_DIR}/cmake_util/uwp_tools.cmake
+    CACHE INTERNAL "TOO_CMAKE_INC_UWP_TOOLS: file to include to add UWP tools" FORCE)
+
 set(TOO_CMAKE_INC_VLD ${PROJECT_SOURCE_DIR}/cmake_util/vld.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_VLD: file to include for cmake VLD settings" FORCE)
 
