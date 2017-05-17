@@ -34,6 +34,10 @@ set(${TargetUtf8cpp}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/../source
 
 ################################################################################################
 
+if (NOT TOO_BUILD_UNITTESTS)
+    return ()
+endif ()
+
 set(TargetUtf8cppTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE TargetUtf8cppTest_SRC_INCS "test/*.h")
