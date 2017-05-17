@@ -39,6 +39,10 @@ set(${Target_tooMem}_INCLUDE_DIRS
 
 ################################################################################################
 
+if (NOT TOO_BUILD_UNITTESTS)
+    return ()
+endif ()
+
 set(Target_tooMemTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/Toolib/*.test.cpp")
