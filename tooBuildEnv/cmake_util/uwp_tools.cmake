@@ -8,6 +8,7 @@ endif ()
 
 # Usage (e.g.):
 #   obtain_UWP_resources("348B82EC-3E83-499C-91B3-A2DAB20E041A" "${CMAKE_SOURCE_DIR}/installer/_content_for_bindir" "#336699" TargetAppName_UWP_ASSETS)
+#   For quick tests you can also use ${TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path.
 function(obtain_UWP_resources PACKAGE_GUID FULLPATH_TO_ico_PARENTDIR BackgroundColor retRESOURCES)
     if ("${DEPLOY_TARGET}" STREQUAL "uwp")
         set(APP_MANIFEST_NAME package.appxmanifest)
