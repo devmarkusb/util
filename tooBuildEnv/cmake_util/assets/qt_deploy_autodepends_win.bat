@@ -20,5 +20,5 @@ goto loop
 :afterloop
 
 
-echo %windeploypath%\windeployqt %params%
-%windeploypath%\windeployqt %params%
+echo %windeploypath%/windeployqt %params%
+%windeploypath%/windeployqt %params%

@@ -15,9 +15,5 @@ option(Qt_COMPILE_WITH_QML_DEBUGGING_ENABLER "With QQmlDebuggingEnabler for qml 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-if (WIN32)
-    set(Qt_ver_comp_path "$ENV{dev_qt_base}\\${Qt5_version}\\${Qt_compiler_subdir}")
-else ()
-    set(Qt_ver_comp_path "$ENV{dev_qt_base}/${Qt5_version}/${Qt_compiler_subdir}")
-endif ()
+set(Qt_ver_comp_path "$ENV{dev_qt_base}/${Qt5_version}/${Qt_compiler_subdir}")
 list(APPEND CMAKE_PREFIX_PATH ${Qt_ver_comp_path})
