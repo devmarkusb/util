@@ -1,4 +1,4 @@
-// Markus Borris, 2011
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
@@ -6,9 +6,8 @@
 */
 //! \file
 
-#pragma once
-#ifndef TOOTYPES_H_INCL_com3iur982zxr920z427
-#define TOOTYPES_H_INCL_com3iur982zxr920z427
+#ifndef TOOTYPES_H_com3iur982zxr920z427
+#define TOOTYPES_H_com3iur982zxr920z427
 
 
 namespace too

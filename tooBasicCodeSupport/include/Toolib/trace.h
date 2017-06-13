@@ -6,9 +6,8 @@
 */
 //! \file
 
-#pragma once
-#ifndef TRACE_H_INCL_dfsgjn854gcnz782x5g7813sdyfwh
-#define TRACE_H_INCL_dfsgjn854gcnz782x5g7813sdyfwh
+#ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
+#define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 
 #include "Toolib/class/non_copyable.h"
 #include "Toolib/error.h"

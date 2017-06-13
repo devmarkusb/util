@@ -1,11 +1,10 @@
-// Markus Borris, 2011-16
+// Markus Borris, 2011-17
 // This file is part of Toolib library.
 
 //!
 /**
 */
 //! \file
-
 
 #ifndef NON_COPYABLE_H_INCL_imcutoiu34o5
 #define NON_COPYABLE_H_INCL_imcutoiu34o5
