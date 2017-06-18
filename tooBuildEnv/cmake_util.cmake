@@ -32,7 +32,7 @@ set(TOO_CMAKE_INC_UIWRAP_AS_SUBDIR ${PROJECT_SOURCE_DIR}/cmake_util/uiwrap.cmake
 set(TOO_CMAKE_INC_UWP_TOOLS ${PROJECT_SOURCE_DIR}/cmake_util/uwp_tools.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_UWP_TOOLS: file to include to add UWP tools" FORCE)
 set(TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO ${PROJECT_SOURCE_DIR}/cmake_util/assets
-    CACHE INTERNAL "can be used as default parameter for obtain_UWP_resources of TOO_CMAKE_INC_UWP_TOOLS" FORCE)
+    CACHE INTERNAL "can be used as default parameter for too_obtain_UWP_resources of TOO_CMAKE_INC_UWP_TOOLS" FORCE)
 
 set(TOO_CMAKE_INC_VLD ${PROJECT_SOURCE_DIR}/cmake_util/vld.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_VLD: file to include for cmake VLD settings" FORCE)
