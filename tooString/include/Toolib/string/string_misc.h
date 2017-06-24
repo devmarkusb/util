@@ -14,7 +14,7 @@
 #include "Toolib/narrow.h"
 #include "Toolib/string/tooString.h"
 #include <algorithm>
-#include <ctype.h>
+#include <cctype>
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -27,25 +27,25 @@ namespace str
 {
 inline std::string makeUpper(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), toupper);
+    std::transform(s.begin(), s.end(), s.begin(), [](char c) { return too::narrow_cast<char>(std::toupper(c)); });
     return s;
 }
 
 inline char makeUpper(char& c)
 {
-    c = too::narrow_cast<char>(toupper(c));
+    c = too::narrow_cast<char>(std::toupper(c));
     return c;
 }
 
 inline std::string makeLower(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), tolower);
+    std::transform(s.begin(), s.end(), s.begin(), [](char c) { return too::narrow_cast<char>(std::tolower(c)); });
     return s;
 }
 
 inline char makeLower(char& c)
 {
-    c = too::narrow_cast<char>(tolower(c));
+    c = too::narrow_cast<char>(std::tolower(c));
     return c;
 }
 
