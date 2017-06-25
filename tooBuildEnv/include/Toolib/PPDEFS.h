@@ -9,10 +9,11 @@
 #ifndef PPDEFS_H_INCL_o85nzumvt424cmt75tn
 #define PPDEFS_H_INCL_o85nzumvt424cmt75tn
 
+
 //####################################################################################################################
 //! Operating Systems
 //!@{
-
+	
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 #define TOO_OS_WINDOWS 1
 #if defined(_WIN64)
@@ -70,6 +71,7 @@
 
 //!@}
 
+
 //####################################################################################################################
 //! Compilers
 //!@{
@@ -108,6 +110,7 @@
 
 //!@}
 
+
 //####################################################################################################################
 //! Languages
 //!@{
@@ -136,6 +139,7 @@
 
 //!@}
 
+
 //####################################################################################################################
 //! Main debug-macro definition. Note that it's perfectly fine to use NDEBUG
 //! which is standard instead of
@@ -158,9 +162,9 @@
 
 //!@}
 
+
 //####################################################################################################################
 //! Language/Compiler/OS/... feature defines.
-//!
 //!@{
 
 #if (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1800)
@@ -251,6 +255,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 
 //!@}
 
+
 //####################################################################################################################
 // Some common general preprocessor magic (as little as possible)
 
@@ -294,6 +299,7 @@ TOO_STRINGIFY(I want this to be in double quotes)
 
 //! To express an empty statement.
 #define TOO_NOOP (void)0
+
 
 //####################################################################################################################
 #endif
