@@ -1,4 +1,4 @@
-// Markus Borris, 2011-2016
+// Markus Borris, 2011-2017
 // This file is part of Toolib library.
 
 //!
@@ -33,8 +33,7 @@ struct conversion_error : public std::runtime_error
 //!@{
 
 //! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for
-//! Windows
-//! as well.
+//! Windows as well.
 inline std::string utf16to8_ws2s(const std::wstring& wstr);
 
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
