@@ -73,15 +73,13 @@ struct OutputToIDEWindow
     template <class OutputToConsolePolicy>
     static void trace(const std::ostringstream& ss)
     {
-#if TOO_OS_WINDOWS
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
-        OutputDebugStringA(ss.str().c_str());
-#else
+#if !(TOO_OS_WINDOWS && TOO_COMP_MS_VISUAL_STUDIO_CPP)
         if (!OutputToConsolePolicy::is_activated())
-            OutputDebugStringA(ss.str().c_str());
 #endif
+#if TOO_OS_WINDOWS
+            OutputDebugStringA(ss.str().c_str());
 #else
-        std::cerr << ss.str();
+            std::cerr << ss.str();
 #endif
     }
 };
