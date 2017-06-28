@@ -238,7 +238,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #endif
 
 #if TOO_COMP_GNU_CPP && !TOO_OS_WINDOWS
-#ifndef
+#ifndef __cdecl
 #define __cdecl
 #endif
 #endif
