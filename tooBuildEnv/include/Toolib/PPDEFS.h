@@ -13,7 +13,7 @@
 //! Operating Systems
 //!@{
 
-#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+#if defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 #define TOO_OS_WINDOWS 1
 #if defined(_WIN64)
 #define TOO_OS_WINDOWS_64 1
