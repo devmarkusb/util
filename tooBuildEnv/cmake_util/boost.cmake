@@ -1,12 +1,24 @@
 # Include this file and just add e.g.
-#   too_find_boost(1 63 0 "") # or
-#   too_find_boost(1 63 0 "system filesystem") # or similar
+#   too_find_boost("1" "63" "0" "") # or
+#   too_find_boost("1" "63" "0" "system filesystem") # or similar
 # Then include ${Boost_INCLUDE_DIRS} and link ${Boost_LIBRARIES} if necessary.
+# *Important*
+#	If you use Toolib or uiwrap you should define
+#		set(Toolib_USE_BOOST_ver1 "1" CACHE STRING "Use boost version ver1.ver2.ver3")
+#		set(Toolib_USE_BOOST_ver2 "64" CACHE STRING "Cf. Toolib_USE_BOOST_ver1")
+#		set(Toolib_USE_BOOST_ver3 "0" CACHE STRING "Cf. Toolib_USE_BOOST_ver1")
+#	and write
+#		too_find_boost(${Toolib_USE_BOOST_ver1} ${Toolib_USE_BOOST_ver2} ${Toolib_USE_BOOST_ver3} "")
+#	or similar, in order to make the libraries use the same boost version as your project.
+
 
 # Impl. notes:
 #	macro instead of function, since this makes it trivial to bring
 #	find_package's results to parent scope
-macro(too_find_boost ver1 ver2 ver3 libs)
+macro(too_find_boost ver1_ ver2_ ver3_ libs)
+	string(REPLACE " " ";" ver1 ${ver1_})
+	string(REPLACE " " ";" ver2 ${ver2_})
+	string(REPLACE " " ";" ver3 ${ver3_})
 	set(BOOST_ROOT $ENV{dev_sdk_path}/boost_${ver1}_${ver2}_${ver3})
 	set(Boost_USE_MULTITHREADED     ON)
 	set(Boost_USE_STATIC_LIBS       OFF)
