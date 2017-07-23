@@ -4,11 +4,11 @@
 # Then include ${Boost_INCLUDE_DIRS} and link ${Boost_LIBRARIES} if necessary.
 # *Important*
 #	If you use Toolib or uiwrap you should define
-#		set(Toolib_USE_BOOST_ver1 "1" CACHE STRING "Use boost version ver1.ver2.ver3")
-#		set(Toolib_USE_BOOST_ver2 "64" CACHE STRING "Cf. Toolib_USE_BOOST_ver1")
-#		set(Toolib_USE_BOOST_ver3 "0" CACHE STRING "Cf. Toolib_USE_BOOST_ver1")
+#		set(TOO_USE_BOOST_ver1 "1" CACHE STRING "Use boost version ver1.ver2.ver3")
+#		set(TOO_USE_BOOST_ver2 "64" CACHE STRING "Cf. TOO_USE_BOOST_ver1")
+#		set(TOO_USE_BOOST_ver3 "0" CACHE STRING "Cf. TOO_USE_BOOST_ver1")
 #	and write
-#		too_find_boost(${Toolib_USE_BOOST_ver1} ${Toolib_USE_BOOST_ver2} ${Toolib_USE_BOOST_ver3} "")
+#		too_find_boost(${TOO_USE_BOOST_ver1} ${TOO_USE_BOOST_ver2} ${TOO_USE_BOOST_ver3} "")
 #	or similar, in order to make the libraries use the same boost version as your project.
 
 
