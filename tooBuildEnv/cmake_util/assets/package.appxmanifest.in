@@ -4,11 +4,11 @@
 	xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
 	IgnorableNamespaces="uap mp">
 
-	<Identity Name="@PACKAGE_GUID@" Publisher="CN=CMake Test Cert" Version="1.0.0.0" />
-	<mp:PhoneIdentity PhoneProductId="@PACKAGE_GUID@" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+	<Identity Name="@TOO_NAME@" Publisher="@TOO_PUBLISHER@" Version="@TOO_VERSION@" />
+	<mp:PhoneIdentity PhoneProductId="@TOO_PHONE_PRODUCT_GUID@" PhonePublisherId="@TOO_PHONE_PUBLISHER_GUID@"/>
 	<Properties>
-		<DisplayName>@TargetAppName@</DisplayName>
-		<PublisherDisplayName>CMake</PublisherDisplayName>
+		<DisplayName>@TOO_DISPLAYNAME@</DisplayName>
+		<PublisherDisplayName>@TOO_PUBLISHER_DISPLAYNAME@</PublisherDisplayName>
 		<Logo>_ico/StoreLogo.png</Logo>
 	</Properties>
 	<Dependencies>
