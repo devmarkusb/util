@@ -20,8 +20,8 @@
 	<Applications>
 		<Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="@TargetAppName@.App">
 			<uap:VisualElements
-				DisplayName="@TargetAppName@"
-				Description="@TargetAppName@"
+				DisplayName="@TOO_DISPLAYNAME@"
+				Description="@TOO_DISPLAYNAME@"
 				BackgroundColor="@BackgroundColor@"
 				Square150x150Logo="_ico/Logo.png"
 				Square44x44Logo="_ico/SmallLogo44x44.png">
