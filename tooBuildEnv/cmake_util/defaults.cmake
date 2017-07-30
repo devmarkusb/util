@@ -1,5 +1,12 @@
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
-set(_CustomTargetSpecifier  "" CACHE STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
+set(_CustomTargetSpecifier_HELP_STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
+if (ANDROID)
+set(_CustomTargetSpecifier  "android" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}")
+elseif ("${DEPLOY_TARGET}" STREQUAL "uwp")
+set(_CustomTargetSpecifier  "winrt" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}")
+else ()
+set(_CustomTargetSpecifier  "" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}")
+endif ()
 option(TOO_BUILD_UNITTESTS "build (and run) unit tests as postbuild step" ON)
 
 # BITS will be 32, 64, ...
