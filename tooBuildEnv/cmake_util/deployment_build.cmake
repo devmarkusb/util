@@ -14,6 +14,6 @@ endif ()
 
 if (ANDROID)
     set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
-    set(CMAKE_MAKE_PROGRAM "%ANDROID_NDK%/prebuilt/windows/bin/make.exe")
-    set(ANDROID_NATIVE_API_LEVEL 16)
+    set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/windows/bin/make.exe" CACHE STRING "" FORCE)
+    set(ANDROID_NATIVE_API_LEVEL "16" CACHE STRING "" FORCE)
 endif()
