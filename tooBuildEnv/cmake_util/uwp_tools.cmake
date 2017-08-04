@@ -8,29 +8,33 @@ endif ()
 
 # Usage (e.g.):
 #   too_obtain_UWP_resources("App name" "Enterprise" "34799Enterprise.Appname" "" "348B82EC-3E83-499C-91B3-A2DAB20E041A" ""
-#		"${PROJECT_VERSION}"
-#		"${CMAKE_SOURCE_DIR}/installer/_content_for_bindir" "#336699" TargetAppName_UWP_ASSETS)
+#       "${PROJECT_VERSION}"
+#       "${CMAKE_SOURCE_DIR}/installer/_content_for_bindir" "#336699" TargetAppName_UWP_ASSETS)
 #   For quick tests you can also use ${TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path and pass "" as TOO_PUBLISHER,
-#	TOO_PHONE_PRODUCT_GUID and TOO_PHONE_PUBLISHER_GUID.
+#   TOO_PHONE_PRODUCT_GUID and TOO_PHONE_PUBLISHER_GUID.
 function(too_obtain_UWP_resources
-			TOO_DISPLAYNAME
-			TOO_PUBLISHER_DISPLAYNAME
-			TOO_NAME
-			TOO_PUBLISHER
-			TOO_PHONE_PRODUCT_GUID
-			TOO_PHONE_PUBLISHER_GUID
-			TOO_VERSION
-			FULLPATH_TO_ico_PARENTDIR BackgroundColor retRESOURCES)
+            TOO_DISPLAYNAME
+            TOO_PUBLISHER_DISPLAYNAME
+            TOO_NAME
+            TOO_PUBLISHER
+            TOO_PHONE_PRODUCT_GUID
+            TOO_PHONE_PUBLISHER_GUID
+            TOO_VERSION
+            FULLPATH_TO_ico_PARENTDIR BackgroundColor retRESOURCES)
     if ("${DEPLOY_TARGET}" STREQUAL "uwp")
-		if ("${TOO_PUBLISHER}" STREQUAL "")
-			set(TOO_PUBLISHER "CN=CMake Test Cert")
-		endif ()
-		if ("${TOO_PHONE_PRODUCT_GUID}" STREQUAL "")
-			set(TOO_PHONE_PRODUCT_GUID "348B82EC-3E83-499C-91B3-A2DAB20E041A")
-		endif ()
-		if ("${TOO_PHONE_PUBLISHER_GUID}" STREQUAL "")
-			set(TOO_PHONE_PUBLISHER_GUID "00000000-0000-0000-0000-000000000000")
-		endif ()
+        if (NOT DEPLOYMENT_BUILD)
+            set(TOO_DISPLAYNAME "${TOO_DISPLAYNAME} - dev")
+            set(TOO_NAME "${TOO_NAME}.dev")
+        endif ()
+        if ("${TOO_PUBLISHER}" STREQUAL "")
+            set(TOO_PUBLISHER "CN=CMake Test Cert")
+        endif ()
+        if ("${TOO_PHONE_PRODUCT_GUID}" STREQUAL "")
+            set(TOO_PHONE_PRODUCT_GUID "348B82EC-3E83-499C-91B3-A2DAB20E041A")
+        endif ()
+        if ("${TOO_PHONE_PUBLISHER_GUID}" STREQUAL "")
+            set(TOO_PHONE_PUBLISHER_GUID "00000000-0000-0000-0000-000000000000")
+        endif ()
         set(APP_MANIFEST_NAME package.appxmanifest)
         configure_file(
             "${TOO_IMPL_UWP_TOOLS_CURRENT_LIST_DIR}/assets/${APP_MANIFEST_NAME}.in"
