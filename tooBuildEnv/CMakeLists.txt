@@ -1,16 +1,4 @@
-# Some notes for the occasional CMake user.
-#
-# 1 Debug or Release or...
-# start cmake with arg either
-# -DCMAKE_BUILD_TYPE=Debug
-# or
-# -DCMAKE_BUILD_TYPE=Release
-# Other options are: MinSizeRel, RelWithDebInfo
-#
-# 2 Dynamic vs Static C/C++ runtime lib
-# There is no support for static runtime libs! You could achieve this
-# for MSVC, but this is not recommended. You or other will end up in
-# conflicts soon.
+# Should be included into your CMakeLists.txt with 'add_subdirectory' even before the 'project' directive.
 
 cmake_minimum_required(VERSION 3.4.1)
 
@@ -18,6 +6,7 @@ project(tooBuildEnv VERSION 0.1.0.0)
 
 set(Target_tooBuildEnv ${PROJECT_NAME})
 
+include(cmake_util/deployment_build.cmake)
 include(cmake_util/defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
