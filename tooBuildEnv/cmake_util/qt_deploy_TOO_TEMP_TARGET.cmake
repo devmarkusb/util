@@ -4,7 +4,7 @@
 if (WIN32)
     set(TargetFileName $<TARGET_FILE_NAME:${TOO_TEMP_TARGET}>)
     
-    if (DEPLOY_TARGET STREQUAL "uwp")
+    if (TOO_DEPLOY_TARGET STREQUAL "uwp")
         add_custom_command(TARGET ${TOO_TEMP_TARGET} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory ${OutputDir_bin}/${BIN_PACKAGE_SUBDIR}
         )
@@ -37,7 +37,7 @@ if (WIN32)
     
     add_custom_command(
         TARGET ${TOO_TEMP_TARGET} POST_BUILD
-        COMMAND "${CMAKE_CURRENT_LIST_DIR}/assets/qt_deploy_autodepends_win.bat" "${RuntimeOutputDirectoryToUse}" "${Qt_ver_comp_path}/bin"
+        COMMAND "${CMAKE_CURRENT_LIST_DIR}/assets/qt_deploy_autodepends_win.bat" "${RuntimeOutputDirectoryToUse}" "${TOO_QT_VER_COMP_PATH}/bin"
             ${TargetBuildType_for_qtdeploy} -qml -widgets ${QmlSourcesToUse} ${TargetFileName}
     )
 endif ()

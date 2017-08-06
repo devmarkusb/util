@@ -1,6 +1,6 @@
-option(WITH_VISUAL_LEAK_DETECTOR "With Visual Leak Detection" OFF)
+option(TOO_COMPILE_WITH_VISUAL_LEAK_DETECTOR "With Visual Leak Detection" OFF)
 
-if(WITH_VISUAL_LEAK_DETECTOR AND MSVC)
+if(TOO_COMPILE_WITH_VISUAL_LEAK_DETECTOR AND MSVC)
   message("Enabling Visual Leak Detector")
   find_library(VLD vld
     HINTS "c:/Program Files (x86)/Visual Leak Detector/lib/Win32" "c:/Program Files/Visual Leak Detector/lib/Win32")
