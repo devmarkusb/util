@@ -8,7 +8,8 @@ set(TOO_CMAKE_INC_BUILDNR ${PROJECT_SOURCE_DIR}/cmake_util/buildnr.cmake
 set(TOO_CMAKE_INC_DEFAULTS ${PROJECT_SOURCE_DIR}/cmake_util/defaults.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_DEFAULTS: file to include for cmake default settings" FORCE)
 
-# Commented-out with purpose: deployment_build.cmake is automatically included when using 'add_subdirectory(sdks/ToolsFL/tooBuildEnv)'.
+# Commented-out with purpose: Please 'include(sdks/ToolsFL/tooBuildEnv/cmake_util/deployment_build.cmake)' directly
+# before even 'add_subdirectory(sdks/ToolsFL/tooBuildEnv)'!
 #set(TOO_CMAKE_INC_DEPLOYMENT_BUILD ${PROJECT_SOURCE_DIR}/cmake_util/deployment_build.cmake
 #    CACHE INTERNAL "TOO_CMAKE_INC_DEPLOYMENT_BUILD: file to include for cmake deployment build switch" FORCE)
 
