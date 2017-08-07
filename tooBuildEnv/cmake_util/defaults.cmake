@@ -7,7 +7,7 @@ set(TOO_CUSTOM_TARGET_SPECIFIER "winrt" CACHE STRING "${_CustomTargetSpecifier_H
 else ()
 set(TOO_CUSTOM_TARGET_SPECIFIER "" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}" FORCE)
 endif ()
-option(TOO_BUILD_UNITTESTS "build (and run) unit tests as postbuild step" ON)
+set(TOO_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 
 # BITS will be 32, 64, ...
 math(EXPR BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
