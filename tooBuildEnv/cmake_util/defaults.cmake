@@ -1,4 +1,4 @@
-include(${CMAKE_CURRENT_LIST_DIR}/deployment_build.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
 set(TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR "can be used to append the bin dir 'bin_compiler' name by some custom string")
