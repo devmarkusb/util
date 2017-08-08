@@ -1,11 +1,13 @@
+include(${CMAKE_CURRENT_LIST_DIR}/deployment_build.cmake)
+
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
-set(_CustomTargetSpecifier_HELP_STRING "can be used to append the bin dir 'bin_compiler' name by some custom string")
+set(TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR "can be used to append the bin dir 'bin_compiler' name by some custom string")
 if (ANDROID)
-set(TOO_CUSTOM_TARGET_SPECIFIER "android" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}" FORCE)
+    set(TOO_CUSTOM_TARGET_SPECIFIER "android" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
 elseif ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
-set(TOO_CUSTOM_TARGET_SPECIFIER "winrt" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}" FORCE)
+    set(TOO_CUSTOM_TARGET_SPECIFIER "winrt" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
 else ()
-set(TOO_CUSTOM_TARGET_SPECIFIER "" CACHE STRING "${_CustomTargetSpecifier_HELP_STRING}" FORCE)
+    set(TOO_CUSTOM_TARGET_SPECIFIER "" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
 endif ()
 set(TOO_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 
