@@ -39,11 +39,7 @@ endif ()
 
 # Note: An idea was to introduce the choice of building one dir level up (to keep source dir clean)
 #       But the major problem is, that we would like to git-check-in some binaries here and there...
-if ("${BIN_PACKAGE_SUBDIR}" STREQUAL "")
-    set(OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${COMPILER_SUBDIR})
-else ()
-    set(OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${COMPILER_SUBDIR}/${BIN_PACKAGE_SUBDIR})
-endif ()
+set(OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${COMPILER_SUBDIR})
 set(OutputDir_lib ${CMAKE_CURRENT_SOURCE_DIR}/lib_${COMPILER_SUBDIR})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OutputDir_bin})
