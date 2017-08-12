@@ -6,13 +6,13 @@
 */
 //! \file
 
-
 #ifndef STR_CONVERT_H_INCL_827rt82rtrxjr38t
 #define STR_CONVERT_H_INCL_827rt82rtrxjr38t
 
 //! utf8.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "../../../sdks/utf8cpp/source/utf8.h"
+#include "Toolib/comp_bwds.h"
 #include "Toolib/PPDEFS.h"
 #include <stdexcept>
 #include <string>
@@ -93,7 +93,7 @@ inline std::string utf8toHTML(const std::string& s)
         if (*it == 0x9 || *it == 0xa || *it == 0xd || (*it >= 0x20 && *it <= 0x7e))
             ret += it.base()[0];
         else
-            ret += "&#" + std::to_string(*it) + ";";
+            ret += "&#" + too::to_string(*it) + ";";
     }
     return ret;
 }
@@ -103,7 +103,7 @@ struct ThrowOnConversionError
     static char onConversionError(unsigned int codepoint)
     {
         std::string s{"conversion error on codepoint "};
-        s += std::to_string(codepoint);
+        s += too::to_string(codepoint);
         throw conversion_error(s.c_str());
     }
 };
