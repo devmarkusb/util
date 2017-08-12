@@ -15,5 +15,6 @@ endif ()
 if (ANDROID)
     set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
     set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/windows/bin/make.exe" CACHE STRING "" FORCE)
-    set(ANDROID_NATIVE_API_LEVEL "9" CACHE STRING "" FORCE)
+    # A minimum API level 13 is suggested by Qt documentation.
+    set(ANDROID_NATIVE_API_LEVEL "13" CACHE STRING "" FORCE)
 endif()
