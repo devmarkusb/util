@@ -80,6 +80,10 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     add_compile_options("-Wall")
 endif ()
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 if (MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
     # this doesn't work disabling specific linker warnings, why not?
