@@ -66,7 +66,7 @@ include(CMakeParseArguments)
 macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # parse the macro arguments
-    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION" "DEPENDS;KEYSTORE" ${ARGN})
+    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION" "DEPENDS;KEYSTORE" ${ARGN})
 
     # extract the full path of the source target binary
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -142,6 +142,12 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # make sure that the output directory for the Android package exists
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI})
+    
+    if(ARG_QML_SOURCE_DIR)
+        set(QT_ANDROID_APP_QML_SOURCE_DIR ${ARG_QML_SOURCE_DIR})
+    else()
+        set(QT_ANDROID_APP_QML_SOURCE_DIR "")
+    endif()
 
     # create the configuration file that will feed androiddeployqt
     configure_file(${QT_ANDROID_SOURCE_DIR}/qtdeploy.json.in ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json @ONLY)
