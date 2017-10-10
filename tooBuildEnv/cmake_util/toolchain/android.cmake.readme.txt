@@ -1,0 +1,1 @@
+Cf. ..\sdks\qt-android-cmake\toolchain\
