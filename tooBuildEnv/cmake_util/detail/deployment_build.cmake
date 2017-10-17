@@ -17,4 +17,4 @@ if (ANDROID)
     set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/windows/bin/make.exe" CACHE STRING "" FORCE)
     # A minimum API level 13 is suggested by Qt documentation. But qt-android-cmake seems to demand at least 16.
     set(ANDROID_NATIVE_API_LEVEL "16" CACHE STRING "" FORCE)
-endif()
+endif ()

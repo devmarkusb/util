@@ -11,19 +11,19 @@
 
 #include "PPDEFS.h"
 
-#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900
+#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
 #define TOO_HAS_LLROUND   0
 #else
 #define TOO_HAS_LLROUND   1
 #endif
 
-#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900
+#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
 #define TOO_HAS_STOI    0
 #else
 #define TOO_HAS_STOI    1
 #endif
 
-#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900
+#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
 #define TOO_HAS_TO_STRING   0
 #else
 #define TOO_HAS_TO_STRING   1
@@ -55,6 +55,15 @@ inline long long llround(FloatingPointNumber x)
 #endif
 }
 
+template <typename StringStreamable>
+StringStreamable from_string(const std::string& s)
+{
+    std::stringstream ss(s);
+    StringStreamable ret;
+    ss >> ret;
+    return ret;
+}
+
 inline int stoi(const std::string& s)
 {
 #if TOO_HAS_STOI
@@ -64,8 +73,17 @@ inline int stoi(const std::string& s)
 #endif
 }
 
+inline long double stold(const std::string& s)
+{
+#if TOO_HAS_STOI
+    return std::stold(s);
+#else
+    return from_string<long double>(s);
+#endif
+}
+
 template <typename StringStreamable>
-inline std::string to_string(const StringStreamable& x)
+std::string to_string(const StringStreamable& x)
 {
 #if TOO_HAS_TO_STRING
     return std::to_string(x);
