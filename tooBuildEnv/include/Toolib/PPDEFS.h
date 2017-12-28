@@ -85,14 +85,14 @@
 #define TOO_COMP_BORLAND_CPP 1
 #endif
 
-#if defined(__GNUC__)
+#if defined(__clang__) && (__clang__ == 1)
+#define TOO_COMP_CLANG 1
+#endif
+
+#if defined(__GNUC__) && !TOO_COMP_CLANG
 #define TOO_COMP_GNU_CPP 1
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #define TOO_COMP_GNU_CPP_VER GCC_VERSION
-#endif
-
-#if defined(__clang__) && (__clang__ == 1)
-#define TOO_COMP_CLANG 1
 #endif
 
 #if defined(__MINGW32__) || defined(__MINGW64__)

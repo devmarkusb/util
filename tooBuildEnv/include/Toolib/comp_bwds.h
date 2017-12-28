@@ -23,6 +23,8 @@
 #define TOO_HAS_STOI    1
 #endif
 
+#define TOO_HAS_FROM_STRING   0
+
 #if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
 #define TOO_HAS_TO_STRING   0
 #else
@@ -37,7 +39,7 @@
 #if !TOO_HAS_STOI
 #include <cstdlib>
 #endif
-#if !TOO_HAS_TO_STRING
+#if !TOO_HAS_TO_STRING || !TOO_HAS_FROM_STRING
 #include <sstream>
 #endif
 #include <string>
@@ -51,17 +53,21 @@ inline long long llround(FloatingPointNumber x)
 #if TOO_HAS_LLROUND
     return std::llround(x);
 #else
-    return static_cast<long long>(x + 0.5f);
+    return static_cast<long long>(x < 0.0f ? x - 0.5f : x + 0.5f);
 #endif
 }
 
 template <typename StringStreamable>
 StringStreamable from_string(const std::string& s)
 {
+#if TOO_HAS_FROM_STRING
+    return std::from_string(s);
+#else
     std::stringstream ss(s);
     StringStreamable ret;
     ss >> ret;
     return ret;
+#endif
 }
 
 inline int stoi(const std::string& s)
