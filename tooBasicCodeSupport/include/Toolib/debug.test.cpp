@@ -55,6 +55,8 @@ TEST(TOO_FUNCTIONSIGNTest, test)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
     EXPECT_TRUE("const int *__cdecl f_with_some_sig(int,bool,long *,bool &)" == g_sig_of__f_with_some_sig ||
                 "const int *__cdecl f_with_some_sig(int, bool, long *, bool &)" == g_sig_of__f_with_some_sig);
+#elif TOO_COMP_CLANG
+    EXPECT_EQ("f_with_some_sig", g_sig_of__f_with_some_sig);
 #elif TOO_COMP_GNU_CPP || TOO_COMP_MINGW
     EXPECT_EQ("const int* f_with_some_sig(int, bool, long int*, bool&)", g_sig_of__f_with_some_sig);
 #elif TOO_COMP_INTEL
