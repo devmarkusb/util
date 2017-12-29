@@ -11,8 +11,12 @@ else ()
 endif ()
 set(TOO_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 
-# BITS will be 32, 64, ...
-math(EXPR BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+# TOO_BITS will be 32, 64, ...
+math(EXPR TOO_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+
+# TOO_NPROC will contain processor count and 0 if count couldn't be determined
+include(ProcessorCount)
+ProcessorCount(TOO_NPROC)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     if (WIN32)
@@ -27,7 +31,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         set(COMPILER_SUBDIR "gcc")
     endif ()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    if (BITS EQUAL 64)
+    if (TOO_BITS EQUAL 64)
         set(COMPILER_SUBDIR "msvc64")
     else ()
         set(COMPILER_SUBDIR "msvc")
@@ -67,6 +71,7 @@ endif ()
 #set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED ON)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options("-fext-numeric-literals")
+    add_compile_options("-fno-omit-frame-pointer") # introduced for gperftools, but shouldn't do any harm generally
     add_compile_options("-std=c++11")
     add_compile_options("-std=gnu++11")
     add_compile_options("-std=c++14")
