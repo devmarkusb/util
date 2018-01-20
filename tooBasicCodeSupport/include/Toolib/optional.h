@@ -55,7 +55,7 @@ const none_t none = nullptr;
 template <typename T>
 struct opt
 {
-    opt() = default;
+    opt() {}
     ~opt() = default;
 
     opt(const opt<T>& other) : holder(other.holder ? too::make_unique<T>(*other.holder) : nullptr) {}
