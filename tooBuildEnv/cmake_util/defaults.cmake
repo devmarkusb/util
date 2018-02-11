@@ -83,6 +83,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     add_compile_options("-std=c++11")
     add_compile_options("-Wall")
+    add_compile_options("-fno-limit-debug-info")
 endif ()
 
 set(CMAKE_CXX_STANDARD 14)
