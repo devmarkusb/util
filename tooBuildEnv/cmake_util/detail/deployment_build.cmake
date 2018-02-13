@@ -1,6 +1,10 @@
 option(TOO_DEPLOYMENT_BUILD "do a final release build for deployment" $ENV{DeployArtifacts})
 set(TOO_DEPLOY_TARGET "" CACHE STRING "Special deployment choice (if OS is not sufficient) out of: winstore, ... or download (default, also if left empty)")
 
+if(UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+endif()
+
 if (TOO_DEPLOY_TARGET STREQUAL "win_desk_bridge")
     add_definitions(-DTOO_DEPLOY_TO_WIN_DESK_BRIDGE)
     add_definitions(-DTOO_DEPLOY_TO_WINSTORE)
