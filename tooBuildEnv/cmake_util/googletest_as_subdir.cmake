@@ -1,7 +1,6 @@
-# Strange thing: at least one time I needed to add
-#   target_include_directories(${TargetAppNameTest} PRIVATE ${gmock_SOURCE_DIR}/include)
-# manually to access gmock/gmock.h; gtest always worked without further ado.
-
+# Note, if you want to use gmock, you should link to gmock_main or gmock,
+# and gtest. This also seems to enable access to the include path.
+# If you don't need gmock, linking to gtest or gtest_main is sufficient.
 
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
