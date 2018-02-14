@@ -1,5 +1,10 @@
+# Strange thing: at least one time I needed to add
+#   target_include_directories(${TargetAppNameTest} PRIVATE ${gmock_SOURCE_DIR}/include)
+# manually to access gmock/gmock.h; gtest always worked without further ado.
+
+
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
-     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
+    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
