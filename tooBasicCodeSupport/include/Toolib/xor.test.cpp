@@ -44,18 +44,35 @@ TEST(xorTest, xnor)
 TEST(xorTest, xor_nonbool)
 {
     int a{0};
-    int* b{nullptr};
-    EXPECT_FALSE(too::XOR(a, b));
+    int b{0};
+    int* pa{nullptr};
+    int* pb{nullptr};
+    EXPECT_FALSE(too::XOR(pa, pb));
+    pa = &a;
+    EXPECT_TRUE(too::XOR(pa, pb));
+    pb = &b;
+    EXPECT_TRUE(too::XOR(pa, pb));
+    pb = &a;
+    EXPECT_FALSE(too::XOR(pa, pb));
+    pb = &b;
+    pa = nullptr;
+    EXPECT_TRUE(too::XOR(pa, pb));
 
+    EXPECT_FALSE(too::XOR(a, b));
     a = -1;
-    b = &a;
-    EXPECT_FALSE(too::XOR(a, b));
-
-    a = 0;
-    b = &a;
     EXPECT_TRUE(too::XOR(a, b));
-
+    b = -1;
+    EXPECT_FALSE(too::XOR(a, b));
+    a = 0;
+    EXPECT_TRUE(too::XOR(a, b));
+    a = 1;
+    EXPECT_TRUE(too::XOR(a, b));
+    b = 0;
+    EXPECT_TRUE(too::XOR(a, b));
+    b = 1;
+    EXPECT_FALSE(too::XOR(a, b));
+    a = 0;
+    EXPECT_TRUE(too::XOR(a, b));
     a = -1;
-    b = nullptr;
     EXPECT_TRUE(too::XOR(a, b));
 }
