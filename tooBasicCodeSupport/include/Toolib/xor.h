@@ -9,6 +9,8 @@
 #ifndef XOR_H_eruighx784zug84bvg283bvgsadf
 #define XOR_H_eruighx784zug84bvg283bvgsadf
 
+#include <cstddef>
+
 
 namespace too
 {
@@ -16,8 +18,24 @@ namespace too
 template <typename T1, typename T2>
 bool XNOR(const T1& lhs, const T2& rhs)
 {
-    return lhs == rhs;
+    return !lhs == !rhs;
 }
+
+//! Impl. note: some compilers complain not converting nullptr_t to bool easily, that's why
+//! we use that strange workaround.
+//!@{
+template <typename T1>
+bool XNOR(const T1& lhs, const std::nullptr_t& rhs)
+{
+    return !lhs == (rhs == nullptr);
+}
+
+template <typename T2>
+bool XNOR(const std::nullptr_t& lhs, const T2& rhs)
+{
+    return (lhs == nullptr) == !rhs;
+}
+//!@}
 
 template <>
 inline bool XNOR(const bool& lhs, const bool& rhs)
