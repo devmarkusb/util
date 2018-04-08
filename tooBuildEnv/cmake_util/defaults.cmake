@@ -66,27 +66,21 @@ endif ()
 # so better handle this via set_target_properties
 #set(CMAKE_DEBUG_POSTFIX "d")
 
-# following 2 lines don't work as expected, why?
-#set_property(GLOBAL PROPERTY CXX_STANDARD 11)
-#set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED ON)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fext-numeric-literals>)
     add_compile_options(-fno-omit-frame-pointer) # introduced for gperftools, but shouldn't do any harm generally
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-std=c++11>)
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-std=gnu++11>)
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-std=c++14>)
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-std=gnu++14>)
     add_compile_options(-Wall -Wextra)
+    add_compile_options(-fno-builtin)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     add_compile_options(/W4)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_compile_options(-std=c++11 -std=c11)
     add_compile_options(-Wall)
     add_compile_options(-fno-limit-debug-info)
+    add_compile_options(-fno-builtin)
 endif ()
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (MSVC)
