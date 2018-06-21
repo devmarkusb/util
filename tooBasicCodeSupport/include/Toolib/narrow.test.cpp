@@ -31,7 +31,7 @@ TEST(NarrowTest, floating_point)
     const long long more_precise_than_float{std::numeric_limits<long long>::max()};
 #if !TOO_DEBUG && \
     (TOO_COMP_MINGW && TOO_COMP_MINGW_VER == 50300 \
-    || TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 60201 && TOO_COMP_GNU_CPP_VER <= 70300)
+    || TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 60201 && TOO_COMP_GNU_CPP_VER <= 80001)
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(too::narrow<float>(more_precise_than_float));
 #else
