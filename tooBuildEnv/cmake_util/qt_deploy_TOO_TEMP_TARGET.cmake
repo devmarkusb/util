@@ -20,7 +20,7 @@ if (WIN32)
     endif ()
 
     if (NOT MSVC)
-        if (CMAKE_BUILD_TYPE MATCHES Debug)
+        if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             set(TargetBuildType_for_qtdeploy --debug)
         else ()
             set(TargetBuildType_for_qtdeploy --release)
