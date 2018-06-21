@@ -54,7 +54,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OutputDir_bin})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OutputDir_lib})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OutputDir_lib})
 
-file(TO_CMAKE_PATH "$ENV{dev_sdk_path}" dev_sdk_path_ENV_CMAKE_PATH)
+file(TO_CMAKE_PATH "$ENV{dev_sdk_path}" dev_sdk_path_ENV_CMAKE_PATH_impl)
+set(dev_sdk_path_ENV_CMAKE_PATH "${dev_sdk_path_ENV_CMAKE_PATH_impl}" CACHE INTERNAL "cmake normalized path" FORCE)
 
 # workaround for msvc, which adds additional subdirs per config
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
