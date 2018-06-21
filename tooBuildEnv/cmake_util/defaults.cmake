@@ -1,3 +1,7 @@
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DNDEBUG)
+endif ()
+
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
