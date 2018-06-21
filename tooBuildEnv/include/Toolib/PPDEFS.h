@@ -41,7 +41,7 @@
 #define TOO_OS_UNIX 1
 #endif
 
-#if defined(linux) || defined(__linux)
+#if defined(linux) || defined(__linux) || defined(__linux__)
 #define TOO_OS_LINUX 1
 #endif
 
@@ -87,6 +87,7 @@
 
 #if defined(__clang__) && (__clang__ == 1)
 #define TOO_COMP_CLANG 1
+#define TOO_COMP_CLANG_VER (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #endif
 
 #if defined(__GNUC__) && !TOO_COMP_CLANG
@@ -265,22 +266,29 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! Whenever you don't want to think of a name of an identifier,
 //! TOO_ANONYMOUS_VARIABLE or
 //! interchangeably TOO_NONAME are your friends.
-/**	One note: it is possible to use TOO_NONAME in the same source code
-   line, but no beyond. But this probably
-    won't be good practice.*/
+/** One note: it is possible to read TOO_NONAME again within the same source code line it is declared, but not beyond.
+    But that might not be good practice, as e.g. auto formatters could insert a line break.
+    Internally the variable is declared as something like anonymous_variable_<line number>. So it is unique per line
+    number.*/
 //!@{
 #define TOO_ANONYMOUS_VARIABLE TOO_ANONYMOUS_VARIABLE_IMPL(anonymous_variable_)
 #define TOO_NONAME TOO_ANONYMOUS_VARIABLE
 //!@}
 
-#define TOO_STRINGIFY_IMPL(notYetString) #notYetString
 //! Usage:
 /**
 \code
 TOO_STRINGIFY(I want this to be in double quotes)
+// or
+#define SOMETHING 42
+#pragma message TOO_STRINGIFY(SOMETHING) // prints SOMETHING
+#pragma message TOO_STRINGIFY_VALUE(SOMETHING) // prints 42
 \endcode
 */
-#define TOO_STRINGIFY(notYetString) TOO_STRINGIFY_IMPL(notYetString)
+//!@{
+#define TOO_STRINGIFY_VALUE(notYetString) TOO_STRINGIFY(notYetString)
+#define TOO_STRINGIFY(notYetString) #notYetString
+//!@}
 
 //! Only for information. Since #error is plain standard you should just use it!
 /** Actually it doesn't seem to be technically possible to define sth. like this

@@ -23,10 +23,20 @@ TEST(TOO_NONAMETest, test)
 #endif
 }
 
-TEST(TOO_STRINGIFYTest, test)
+TEST(TOO_STRINGIFYTest, plain)
 {
-    std::string s = TOO_STRINGIFY(this is a test string);
+    const std::string s = TOO_STRINGIFY(this is a test string);
     EXPECT_EQ("this is a test string", s);
-    std::string s2 = TOO_STRINGIFY("this is a test string"); // not the proper usage
+    const std::string s2 = TOO_STRINGIFY("this is a test string"); // not the proper usage
     EXPECT_EQ("\"this is a test string\"", s2);
+}
+
+TEST(TOO_STRINGIFYTest, macro)
+{
+#define SOMETHING 42
+    const std::string s = TOO_STRINGIFY(SOMETHING);
+    EXPECT_EQ("SOMETHING", s);
+    const std::string s2 = TOO_STRINGIFY_VALUE(SOMETHING);
+    EXPECT_EQ("42", s2);
+#undef SOMETHING
 }
