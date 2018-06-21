@@ -73,6 +73,6 @@
 //! Use something along the following as string literal: TOO_LOCATION"some message"
 /** This would evaluate to "...somepath.../Toolib/debug/debug_misc.h (71) : some message". Useful e.g. as #pragma
  * message (TOO_LOCATION"some message")*/
-#define TOO_LOCATION __FILE__ " (" TOO_STRINGIFY(__LINE__) ") : "
+#define TOO_LOCATION __FILE__ " (" TOO_STRINGIFY_VALUE(__LINE__) ") : "
 
 #endif
