@@ -94,12 +94,6 @@ if (MSVC)
     #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /ignore:4075")
 endif ()
 
-# workaround for msvc2017 (and google test)
-# For simplicity added this globally. It is needed only in targets building together with google test.
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    add_definitions(-D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
-endif()
-
 if (MINGW)
     set(CMAKE_RC_COMPILER_INIT windres)
     enable_language(RC)
