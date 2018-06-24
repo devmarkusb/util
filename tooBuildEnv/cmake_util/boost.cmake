@@ -3,13 +3,13 @@
 #   too_find_boost("1" "63" "0" "system filesystem") # or similar
 # Then include ${Boost_INCLUDE_DIRS} and link ${Boost_LIBRARIES} if necessary.
 # *Important*
-#	If you use Toolib or uiwrap you should define
+#	If you use uiwrap you should define
 #		set(TOO_USE_BOOST_ver1 "1" CACHE STRING "Use boost version ver1.ver2.ver3")
 #		set(TOO_USE_BOOST_ver2 "64" CACHE STRING "Cf. TOO_USE_BOOST_ver1")
 #		set(TOO_USE_BOOST_ver3 "0" CACHE STRING "Cf. TOO_USE_BOOST_ver1")
 #	and write
 #		too_find_boost(${TOO_USE_BOOST_ver1} ${TOO_USE_BOOST_ver2} ${TOO_USE_BOOST_ver3} "")
-#	or similar, in order to make the libraries use the same boost version as your project.
+#	or similar, in order to make the library use the same boost version as your project.
 
 
 # Impl. notes:
