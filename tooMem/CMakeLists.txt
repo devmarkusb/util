@@ -39,7 +39,7 @@ add_executable(${Target_tooMemTest}
 )
 
 if (WIN32)
-set_property(TARGET ${Target_tooMemTest} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
+    set_property(TARGET ${Target_tooMemTest} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
 endif ()
 
 set_target_properties(${Target_tooMemTest} PROPERTIES DEBUG_POSTFIX "d")
