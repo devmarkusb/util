@@ -39,7 +39,7 @@ add_executable(${Target_tooBuildEnvTest}
 )
 
 if (WIN32)
-set_property(TARGET ${Target_tooBuildEnvTest} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
+    set_property(TARGET ${Target_tooBuildEnvTest} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
 endif ()
 
 set_target_properties(${Target_tooBuildEnvTest} PROPERTIES DEBUG_POSTFIX "d")

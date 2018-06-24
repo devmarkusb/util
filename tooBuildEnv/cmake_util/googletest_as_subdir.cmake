@@ -9,11 +9,6 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 
-# workaround for msvc2017
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    add_definitions(-D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING)
-endif()
-
 add_subdirectory(googletest)
 set_target_properties(gmock PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(gmock_main PROPERTIES DEBUG_POSTFIX "d")
