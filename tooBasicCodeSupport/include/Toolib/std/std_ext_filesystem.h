@@ -14,7 +14,11 @@
 #include <filesystem>
 namespace too
 {
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER <= 1914
+namespace std_fs = std::experimental::filesystem;
+#else
 namespace std_fs = std::filesystem;
+#endif
 }
 
 #endif
