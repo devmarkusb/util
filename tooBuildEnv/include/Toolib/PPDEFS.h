@@ -261,34 +261,48 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //####################################################################################################################
 // Some common general preprocessor magic (as little as possible)
 
-#define TOO_CONCATENATE_DIRECT(s1, s2) s1##s2
-#define TOO_CONCATENATE_INDIRECT(s1, s2) TOO_CONCATENATE_DIRECT(s1, s2)
-#define TOO_ANONYMOUS_VARIABLE_IMPL(str) TOO_CONCATENATE_INDIRECT(str, __LINE__)
-//! Whenever you don't want to think of a name of an identifier,
-//! TOO_ANONYMOUS_VARIABLE or
-//! interchangeably TOO_NONAME are your friends.
-/** One note: it is possible to read TOO_NONAME again within the same source code line it is declared, but not beyond.
-    But that might not be good practice, as e.g. auto formatters could insert a line break.
-    Internally the variable is declared as something like anonymous_variable_<line number>. So it is unique per line
-    number.*/
-//!@{
-#define TOO_ANONYMOUS_VARIABLE TOO_ANONYMOUS_VARIABLE_IMPL(anonymous_variable_)
-#define TOO_NONAME TOO_ANONYMOUS_VARIABLE
-//!@}
-
-//! Usage:
-/**
-\code
-TOO_STRINGIFY(I want this to be in double quotes)
-// or
-#define SOMETHING 42
-#pragma message TOO_STRINGIFY(SOMETHING) // prints SOMETHING
-#pragma message TOO_STRINGIFY_VALUE(SOMETHING) // prints 42
-\endcode
+/** Usage:
+	\code
+	TOO_STRINGIFY(I want this to be in double quotes)
+	// or
+	#define SOMETHING 42
+	#pragma message TOO_STRINGIFY(SOMETHING) // prints SOMETHING
+	#pragma message TOO_STRINGIFY_VALUE(SOMETHING) // prints 42
+	\endcode
 */
 //!@{
-#define TOO_STRINGIFY_VALUE(notYetString) TOO_STRINGIFY(notYetString)
-#define TOO_STRINGIFY(notYetString) #notYetString
+#define TOO_STRINGIFY_VALUE(MACRO)	TOO_STRINGIFY(MACRO)
+#define TOO_STRINGIFY(MACRO)		#MACRO
+//!@}
+
+/** If you have for example:
+    \code
+         #define ONETHING 42
+         #define OTHERTHING 43
+    \endcode
+    Then TOO_CONCAT_2(ONETHING, OTHERTHING) will be replaced by ONETHINGOTHERTHING and
+    TOO_CONCAT_VALUES_2(ONETHING, OTHERTHING) by 4243 at preprocessing stage.
+    Note that you can even combine TOO_STRINGIFY_VALUE(TOO_CONCAT_2(...)) or TOO_STRINGIFY_VALUE(TOO_CONCAT_VALUES_2(...)), which
+    additionally puts "" around. (TOO_STRINGIFY probably doesn't make much sense here.)*/
+//!@{
+#define TOO_CONCAT_2(a, b)              a##b
+#define TOO_CONCAT_VALUES_2(a, b)       TOO_CONCAT_2(a, b)
+//!@}
+
+//! \See TOO_CONCAT_2, TOO_CONCAT_VALUES_2, just for 3 values.
+//!@{
+#define TOO_CONCAT_3(a, b, c)           a##b##c
+#define TOO_CONCAT_VALUES_3(a, b, c)    TOO_CONCAT_3(a, b, c)
+//!@}
+
+#define TOO_ANONYMOUS_IDENTIFIER_IMPL(str)  TOO_CONCAT_VALUES_2(str, __LINE__)
+/** TOO_ANONYMOUS_IDENTIFIER and convenient short version TOO_DUMMY are e.g. for cases where you don't need to reference
+    a variable ever again and don't want to think of a name but need a unique identifier.
+    Except for usage within a macro definition: since this is expanded on a single line always, you can refer to
+    the (implicitly same) variable multiple times.*/
+//!@{
+#define TOO_ANONYMOUS_IDENTIFIER            TOO_ANONYMOUS_IDENTIFIER_IMPL(anonymous_)
+#define TOO_DUMMY                           TOO_ANONYMOUS_IDENTIFIER
 //!@}
 
 //! Only for information. Since #error is plain standard you should just use it!
@@ -296,8 +310,7 @@ TOO_STRINGIFY(I want this to be in double quotes)
     \code
     #define TOO_COMPILER_ERROR(x)       #error x
     \endcode
-    Which is ok, but the same applies to sth. like \code #pragma warning
-   \endcode.*/
+    Which is ok, but the same applies to sth. like \code #pragma warning \endcode.*/
 
 //! Let compiler print a message. Should be supported by all decent compilers.
 /** Note that there is no way of letting the message pop up only once.*/

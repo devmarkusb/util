@@ -11,15 +11,17 @@ TEST(TOO_DEBUGTest, test)
 #endif
 }
 
-TEST(TOO_NONAMETest, test)
+TEST(TOO_DUMMYTest, test)
 {
     // clang-format off
-    const int TOO_NONAME = 1; const int x = TOO_NONAME; // in the same line, TOO_NONAME is still defined...
+    const int TOO_DUMMY = 1; const int x = TOO_DUMMY; // in the same line, TOO_DUMMY is still defined...
+    const int TOO_DUMMY = 2; const int y = TOO_DUMMY; // a different line, other unique TOO_DUMMY
     // clang-format on
-    // int x = TOO_NONAME; // ... but here, no longer defined (doesn't compile, which is ok)
+    // int x = TOO_DUMMY; // ... but here, no longer defined (doesn't compile, which is ok)
     EXPECT_EQ(1, x);
-#if TOO_NONAME != TOO_ANONYMOUS_VARIABLE
-#error "TOO_NONAME and TOO_ANONYMOUS_VARIABLE should be defined identically."
+    EXPECT_EQ(2, y);
+#if TOO_DUMMY != TOO_ANONYMOUS_IDENTIFIER
+#error "TOO_DUMMY and TOO_ANONYMOUS_IDENTIFIER should be defined identically."
 #endif
 }
 
