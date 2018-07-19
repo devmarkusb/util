@@ -170,11 +170,11 @@ struct fail_fast : public std::runtime_error
 // It was quite some try and error getting the tests run successfully, which means (cond) not getting optimized away
 // in release build. The assignment to bool lately seemed to be the crucial point; volatile not even necessary.
 // But hopefully chances are that real production code's functionality won't be cut off.
-#define TOO_VERIFY(cond)                   \
-    do                                     \
-    {                                      \
-        volatile bool TOO_NONAME = (cond); \
-        TOO_NONAME;                        \
+#define TOO_VERIFY(cond)                  \
+    do                                    \
+    {                                     \
+        volatile bool TOO_DUMMY = (cond); \
+        TOO_DUMMY;                        \
     } while (false)
 #endif
 
