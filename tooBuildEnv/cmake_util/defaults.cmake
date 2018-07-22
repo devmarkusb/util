@@ -71,17 +71,24 @@ endif ()
 # so better handle this via set_target_properties
 #set(CMAKE_DEBUG_POSTFIX "d")
 
+set(cpp_compile_options)
+set(c_compile_options)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fext-numeric-literals>)
-    add_compile_options(-fno-omit-frame-pointer) # introduced for gperftools, but shouldn't do any harm generally
-    add_compile_options(-Wall -Wextra)
-    add_compile_options(-fno-builtin)
+    set(cpp_compile_options
+            -fext-numeric-literals
+            # introduced for gperftools, but shouldn't do any harm generally
+            -fno-omit-frame-pointer
+            -Wall -Wextra
+            -fno-builtin)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    add_compile_options(/W4)
+    set(cpp_compile_options
+            /W4)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_compile_options(-Wall)
-    add_compile_options(-fno-limit-debug-info)
-    add_compile_options(-fno-builtin)
+    set(cpp_compile_options
+            -Wall
+            -fno-limit-debug-info
+            -fno-builtin)
 endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -89,6 +96,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif ()
+
+add_compile_options(
+        "$<$<COMPILE_LANGUAGE:C>:${c_compile_options}>"
+        "$<$<COMPILE_LANGUAGE:CXX>:${cpp_compile_options}>")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)

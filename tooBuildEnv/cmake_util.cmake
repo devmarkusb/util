@@ -8,6 +8,9 @@ set(TOO_CMAKE_INC_BUILDNR ${PROJECT_SOURCE_DIR}/cmake_util/buildnr.cmake
 set(TOO_CMAKE_INC_DEFAULTS ${PROJECT_SOURCE_DIR}/cmake_util/defaults.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_DEFAULTS: file to include for cmake default settings" FORCE)
 
+set(TOO_CMAKE_INC_OPENMP ${PROJECT_SOURCE_DIR}/cmake_util/openmp.cmake
+        CACHE INTERNAL "TOO_CMAKE_INC_OPENMP: file to include for OpenMP settings" FORCE)
+
 set(TOO_CMAKE_INC_GOOGLETEST_AS_SUBDIR ${PROJECT_SOURCE_DIR}/cmake_util/googletest_as_subdir.cmake
     CACHE INTERNAL "TOO_CMAKE_INC_GOOGLETEST_AS_SUBDIR: file to include to add googletest as subdir plus configurations" FORCE)
 
