@@ -1,0 +1,29 @@
+aäш日𐍆z
+
+a: 1B, \x61
+ä: 2B, \xC3\xA4
+ш: 2B, \xD1\x88
+日: 3B, \xE6\x97\xA5
+𐍆: 4B, \xF0\x90\x8D\x86
+z: 1B, \x7A
+
+
+Tools
+    https://mothereff.in/utf-8
+
+
+Pure language specific strings
+
+	"ar", // Arabic
+	"bn", // Bengali, Bangla
+	"de", // German					aäöüßz		\x61\xC3\xA4\xC3\xB6\xC3\xBC\xC3\x9F\x7A	
+	"en", // English
+	"es", // Spanish
+	"fr", // French
+	"hi", // Hindi
+	"jp", // Japanese
+	"ko", // Korean
+	"pt", // Portuguese
+	"ru", // Russian				aприветz	\x61\xD0\xBF\xD1\x80\xD0\xB8\xD0\xB2\xD0\xB5\xD1\x82\x7A
+	"zh", // Chinese				a你好z		\x61\xE4\xBD\xA0\xE5\xA5\xBD\x7A
+	
