@@ -1,0 +1,18 @@
+[submodule "doc"]
+	path = doc
+	url = /home/markus/projects/git/libs/tfl/doc/
+[submodule "tooBuildEnv"]
+	path = tooBuildEnv
+	url = /home/markus/projects/git/libs/tfl/tooBuildEnv/
+[submodule "tooBasicCodeSupport"]
+	path = tooBasicCodeSupport
+	url = /home/markus/projects/git/libs/tfl/tooBasicCodeSupport/
+[submodule "tooMem"]
+	path = tooMem
+	url = /home/markus/projects/git/libs/tfl/tooMem/
+[submodule "tooString"]
+	path = tooString
+	url = /home/markus/projects/git/libs/tfl/tooString/
+[submodule "tooLinklib"]
+	path = tooLinklib
+	url = /home/markus/projects/git/libs/tfl/tooLinklib/
