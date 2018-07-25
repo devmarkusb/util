@@ -1,6 +1,3 @@
-[submodule "tooMem"]
-	path = tooMem
-	url = /home/markus/projects/git/libs/tfl/tooMem/
 [submodule "tooString"]
 	path = tooString
 	url = /home/markus/projects/git/libs/tfl/tooString/
