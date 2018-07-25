@@ -1,0 +1,60 @@
+set(TOO_IMPL_UWP_TOOLS_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
+
+if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
+    set(TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${BIN_PACKAGE_SUBDIR}")
+else ()
+    set(TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+endif ()
+
+# Usage (e.g.):
+#   too_obtain_UWP_resources("App name" "Enterprise" "34799Enterprise.Appname" "" "348B82EC-3E83-499C-91B3-A2DAB20E041A" ""
+#       "${PROJECT_VERSION}"
+#       "${CMAKE_SOURCE_DIR}/installer/_content_for_bindir"
+#       "#336699"
+#       "<Resource Language=\"en\" /><Resource Language=\"de\" />"
+#       TargetAppName_UWP_ASSETS)
+#   For quick tests you can also use ${TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path and pass "" as TOO_PUBLISHER,
+#   TOO_PHONE_PRODUCT_GUID, TOO_PHONE_PUBLISHER_GUID and TOO_LANGUAGES.
+function(too_obtain_UWP_resources
+            TOO_DISPLAYNAME
+            TOO_PUBLISHER_DISPLAYNAME
+            TOO_NAME
+            TOO_PUBLISHER
+            TOO_PHONE_PRODUCT_GUID
+            TOO_PHONE_PUBLISHER_GUID
+            TOO_VERSION
+            FULLPATH_TO_ico_PARENTDIR
+            BackgroundColor
+            TOO_LANGUAGES
+            retRESOURCES)
+    if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
+        if (NOT TOO_DEPLOYMENT_BUILD)
+            set(TOO_DISPLAYNAME "${TOO_DISPLAYNAME} - dev")
+            set(TOO_NAME "${TOO_NAME}.dev")
+        endif ()
+        if ("${TOO_PUBLISHER}" STREQUAL "")
+            set(TOO_PUBLISHER "CN=CMake Test Cert")
+        endif ()
+        if ("${TOO_PHONE_PRODUCT_GUID}" STREQUAL "")
+            set(TOO_PHONE_PRODUCT_GUID "348B82EC-3E83-499C-91B3-A2DAB20E041A")
+        endif ()
+        if ("${TOO_PHONE_PUBLISHER_GUID}" STREQUAL "")
+            set(TOO_PHONE_PUBLISHER_GUID "00000000-0000-0000-0000-000000000000")
+        endif ()
+        if ("${TOO_LANGUAGES}" STREQUAL "")
+            set(TOO_LANGUAGES "<Resource Language=\"x-generate\" />")
+        endif ()
+        set(APP_MANIFEST_NAME package.appxmanifest)
+        configure_file(
+            "${TOO_IMPL_UWP_TOOLS_CURRENT_LIST_DIR}/assets/${APP_MANIFEST_NAME}.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}"
+            @ONLY
+        )
+        file(COPY "${FULLPATH_TO_ico_PARENTDIR}/_ico" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+        file(GLOB retRESOURCES_IMPL "${CMAKE_CURRENT_BINARY_DIR}/_ico/*.png")
+        list(APPEND retRESOURCES_IMPL "${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}")
+        set(${retRESOURCES} ${retRESOURCES_IMPL} PARENT_SCOPE)
+    else ()
+        set(${retRESOURCES} "" PARENT_SCOPE)
+    endif ()
+endfunction()

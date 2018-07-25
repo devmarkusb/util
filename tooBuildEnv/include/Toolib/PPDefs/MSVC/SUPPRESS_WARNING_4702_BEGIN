@@ -1,0 +1,6 @@
+#include "../../PPDEFS.h"
+//! unreachable code
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#pragma warning(push)
+#pragma warning(disable: 4702)
+#endif

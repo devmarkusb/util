@@ -1,0 +1,24 @@
+option(TOO_DEPLOYMENT_BUILD "do a final release build for deployment" $ENV{DeployArtifacts})
+set(TOO_DEPLOY_TARGET "" CACHE STRING "Special deployment choice (if OS is not sufficient) out of: winstore, ... or download (default, also if left empty)")
+
+if(UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+endif()
+
+if (TOO_DEPLOY_TARGET STREQUAL "win_desk_bridge")
+    add_definitions(-DTOO_DEPLOY_TO_WIN_DESK_BRIDGE)
+    add_definitions(-DTOO_DEPLOY_TO_WINSTORE)
+elseif (TOO_DEPLOY_TARGET STREQUAL "uwp")
+    add_definitions(-DTOO_DEPLOY_TO_UWP)
+    add_definitions(-DTOO_DEPLOY_TO_WINSTORE)
+    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
+#elseif (TOO_DEPLOY_TARGET STREQUAL "steam")
+#    add_definitions(-DTOO_DEPLOY_TO_STEAM)
+endif ()
+
+if (ANDROID)
+    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
+    set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/windows/bin/make.exe" CACHE STRING "" FORCE)
+    # A minimum API level 13 is suggested by Qt documentation. But qt-android-cmake seems to demand at least 16.
+    set(ANDROID_NATIVE_API_LEVEL "16" CACHE STRING "" FORCE)
+endif ()
