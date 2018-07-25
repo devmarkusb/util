@@ -1,0 +1,3 @@
+[submodule "sdks/utf8cpp"]
+	path = tooString/sdks/utf8cpp
+	url = /home/markus/projects/git/sdks/cpp_basics/string/utf8cpp/
