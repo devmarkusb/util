@@ -4,6 +4,3 @@
 [submodule "tooString"]
 	path = tooString
 	url = /home/markus/projects/git/libs/tfl/tooString/
-[submodule "tooLinklib"]
-	path = tooLinklib
-	url = /home/markus/projects/git/libs/tfl/tooLinklib/
