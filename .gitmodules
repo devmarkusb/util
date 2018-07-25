@@ -1,6 +1,3 @@
-[submodule "doc"]
-	path = doc
-	url = /home/markus/projects/git/libs/tfl/doc/
 [submodule "tooBuildEnv"]
 	path = tooBuildEnv
 	url = /home/markus/projects/git/libs/tfl/tooBuildEnv/
