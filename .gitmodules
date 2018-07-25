@@ -1,9 +1,6 @@
 [submodule "tooBuildEnv"]
 	path = tooBuildEnv
 	url = /home/markus/projects/git/libs/tfl/tooBuildEnv/
-[submodule "tooBasicCodeSupport"]
-	path = tooBasicCodeSupport
-	url = /home/markus/projects/git/libs/tfl/tooBasicCodeSupport/
 [submodule "tooMem"]
 	path = tooMem
 	url = /home/markus/projects/git/libs/tfl/tooMem/
