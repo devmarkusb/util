@@ -34,7 +34,7 @@ endif ()
 
 set(Target_tooStringTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/Toolib/*.test.cpp")
+file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooStringTest}
 	${Target_tooStringTest_SOURCES}

@@ -1,0 +1,4 @@
+#include "toolib/PPDEFS.h"
+#if TOO_COMP_GNU_CPP
+#pragma GCC diagnostic pop
+#endif

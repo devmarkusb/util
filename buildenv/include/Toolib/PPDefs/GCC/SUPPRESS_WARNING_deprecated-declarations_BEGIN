@@ -1,5 +1,0 @@
-#include "Toolib/PPDEFS.h"
-#if TOO_COMP_GNU_CPP
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif

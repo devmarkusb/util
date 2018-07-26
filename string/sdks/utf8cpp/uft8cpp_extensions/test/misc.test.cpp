@@ -5,8 +5,8 @@
 #include <vector>
 #include <iterator>
 #include "utf8.h"
-#include "Toolib/PPDEFS.h"
-#include "Toolib/ignore_arg.h"
+#include "toolib/PPDEFS.h"
+#include "toolib/ignore_arg.h"
 
 
 TEST(utf8cpp_is_validTest, test)

@@ -31,7 +31,7 @@ endif ()
 
 set(Target_tooBasicCodeSupportTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SOURCES "include/Toolib/*.test.cpp")
+file(GLOB_RECURSE Target_tooBasicCodeSupportTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooBasicCodeSupportTest}
 	${Target_tooBasicCodeSupportTest_SOURCES}

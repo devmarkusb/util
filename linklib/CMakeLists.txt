@@ -31,7 +31,7 @@ endif ()
 
 set(Target_tooLinklibTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/Toolib/*.test.cpp")
+file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooLinklibTest}
 	${Target_tooLinklibTest_SOURCES}

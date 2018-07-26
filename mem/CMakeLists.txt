@@ -31,7 +31,7 @@ endif ()
 
 set(Target_tooMemTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/Toolib/*.test.cpp")
+file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooMemTest}
 	${Target_tooMemTest_SOURCES}
