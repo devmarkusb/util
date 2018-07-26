@@ -1,5 +1,3 @@
-# Should be included into your CMakeLists.txt with 'add_subdirectory' even before the 'project' directive.
-
 cmake_minimum_required(VERSION 3.4.1)
 
 project(tooBuildEnv VERSION 0.1.0.0)
