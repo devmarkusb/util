@@ -119,3 +119,33 @@ endif ()
 
 # cotire needs this
 #add_definitions(-D__STRICT_ANSI__)
+
+
+######################################################################################################################
+# target specific choices
+
+macro(too_set_target_defaults target)
+    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
+
+    if (WIN32)
+        set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
+    endif ()
+
+    if (LINUX)
+        target_link_libraries(${target} PUBLIC pthread)
+    endif ()
+endmacro()
+
+macro(too_set_target_openmp target)
+    target_link_libraries(${target} PUBLIC -fopenmp)
+endmacro()
+
+macro(too_set_target_cuda_separable_compilation target)
+    set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+endmacro()
+
+macro(too_run_target_postbuild target)
+    add_custom_command(
+            TARGET ${target} POST_BUILD
+            COMMAND ${target})
+endmacro()
