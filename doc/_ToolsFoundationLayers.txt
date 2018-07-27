@@ -3,7 +3,7 @@ Contains sublibs that are topic- and implementation-wise
 -more self-contained - allow dependencies at most among themselves exclusively
 -more widely usable
 -more well-selected and separated
-than parts of Toolib, which is more an all-purpose helper for larger
+than parts of toolib, which is more an all-purpose helper for larger
 applications, rather than libraries or tools that strive for
 reduced dependencies.
 
