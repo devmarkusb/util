@@ -12,7 +12,7 @@
 
 #include "toolib/assert.h"
 #include "toolib/narrow.h"
-#include "toolib/string/tooString.h"
+#include "toolib/string/toostring.h"
 #include <algorithm>
 #include <cctype>
 #include <iomanip>
