@@ -1,7 +1,7 @@
 # File to include for using gperftools.
 # Usage:
 # 1) Add to your app's CMakeLists.txt
-#       include(${TOO_CMAKE_INC_GPERFTOOLS})
+#       too_include(gperftools.cmake)
 #   and add to target with e.g.
 #       too_use_gperftools(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/sdks/gperftools-2.6.3.tar.gz)
 # 2) Add CMake parameter -DTOO_ENABLE_PROFILING_GPERF=ON
