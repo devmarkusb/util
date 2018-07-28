@@ -138,6 +138,10 @@ macro(too_set_target_defaults target)
     if (LINUX)
         target_link_libraries(${target} PUBLIC pthread)
     endif ()
+
+    if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
+        target_compile_definitions(${target} PUBLIC _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
+    endif ()
 endmacro()
 
 macro(too_set_target_openmp target)
