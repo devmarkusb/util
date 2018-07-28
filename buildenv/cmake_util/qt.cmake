@@ -1,3 +1,4 @@
+# File to include for cmake Qt settings.
 # Include this file and just add e.g.
 #   find_package(Qt5Quick)
 #   find_package(Qt5LinguistTools)

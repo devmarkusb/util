@@ -1,3 +1,5 @@
+# file to include for OpenMP settings
+
 set(cpp_compile_options)
 set(c_compile_options)
 

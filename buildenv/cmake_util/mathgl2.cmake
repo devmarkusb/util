@@ -1,3 +1,4 @@
+# File to include for cmake mathgl settings.
 # *Deprecated!* Don't use. Use mathgl2_as_subdir.cmake instead.
 # Otherwise you would have to make adaptions here. And out of experience it is just not recommended to prebuild
 # this lib separately.

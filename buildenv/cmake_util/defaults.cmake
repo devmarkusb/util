@@ -1,3 +1,5 @@
+# file to include for various useful cmake default settings
+
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DNDEBUG)
 endif ()

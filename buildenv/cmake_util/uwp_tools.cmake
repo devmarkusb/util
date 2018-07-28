@@ -1,3 +1,5 @@
+# file to include to add UWP tools
+
 set(TOO_IMPL_UWP_TOOLS_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
@@ -5,6 +7,10 @@ if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
 else ()
     set(TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 endif ()
+
+# can be used as default parameter for too_obtain_UWP_resources
+set(TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
+        CACHE INTERNAL "can be used as default parameter for too_obtain_UWP_resources of TOO_CMAKE_INC_UWP_TOOLS" FORCE)
 
 # Usage (e.g.):
 #   too_obtain_UWP_resources("App name" "Enterprise" "34799Enterprise.Appname" "" "348B82EC-3E83-499C-91B3-A2DAB20E041A" ""

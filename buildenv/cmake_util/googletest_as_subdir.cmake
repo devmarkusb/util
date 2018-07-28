@@ -1,3 +1,4 @@
+# File to include to add googletest as subdir plus configurations.
 # Note, if you want to use gmock, you should link to gmock_main or gmock,
 # and gtest. This also seems to enable access to the include path.
 # If you don't need gmock, linking to gtest or gtest_main is sufficient.

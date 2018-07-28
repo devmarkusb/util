@@ -1,3 +1,4 @@
+# File to include for cmake Qt language settings.
 # In order to update ts files, you need to run cmd next to your ts files and call
 #   ...\lupdate source gui -ts lang_en.ts
 #   ...\lupdate source gui -ts lang_de.ts
