@@ -6,8 +6,6 @@ project(tooBuildEnv VERSION 0.1.0.0)
 
 set(Target_tooBuildEnv ${PROJECT_NAME})
 
-too_include(defaults.cmake)
-
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 
 add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
