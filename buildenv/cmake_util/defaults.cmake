@@ -151,3 +151,8 @@ macro(too_run_target_postbuild target)
             TARGET ${target} POST_BUILD
             COMMAND ${target})
 endmacro()
+
+# shared lib export define (such that the build know whether to export or import symbols)
+macro(too_set_target_lib_export_def target define)
+    set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS ${define})
+endmacro()
