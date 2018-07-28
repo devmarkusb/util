@@ -4,7 +4,7 @@ project(tooBasicCodeSupport VERSION 0.1.0.0)
 
 set(Target_tooBasicCodeSupport ${PROJECT_NAME})
 
-include(${TOO_CMAKE_INC_DEFAULTS})
+too_include(defaults.cmake)
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 
