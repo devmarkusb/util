@@ -131,6 +131,8 @@ macro(too_set_target_defaults target)
 
     set_target_properties(${target} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+    set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
+
     if (WIN32)
         set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
     endif ()
