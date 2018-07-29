@@ -31,9 +31,11 @@ set(Target_tooMemTest ${PROJECT_NAME}Test)
 file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooMemTest}
-	${Target_tooMemTest_SOURCES}
-	${Target_tooMem_INCS}
+    ${Target_tooMemTest_SOURCES}
+    ${Target_tooMem_INCS}
 )
+
+too_add_test(${Target_tooMemTest})
 
 target_include_directories(${Target_tooMemTest} PRIVATE ${tooMem_INCLUDE_DIRS})
 

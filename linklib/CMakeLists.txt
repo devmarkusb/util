@@ -31,10 +31,11 @@ set(Target_tooLinklibTest ${PROJECT_NAME}Test)
 file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooLinklibTest}
-	${Target_tooLinklibTest_SOURCES}
-	${Target_tooLinklib_INCS}
+    ${Target_tooLinklibTest_SOURCES}
+    ${Target_tooLinklib_INCS}
 )
 
+too_add_test(${Target_tooLinklibTest})
 
 target_include_directories(${Target_tooLinklibTest} PRIVATE ${tooLinklib_INCLUDE_DIRS})
 

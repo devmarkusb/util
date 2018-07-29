@@ -35,6 +35,8 @@ add_executable(${Target_tooBasicCodeSupportTest}
     ${Target_tooBasicCodeSupport_INCS}
 )
 
+too_add_test(${Target_tooBasicCodeSupportTest})
+
 target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
 
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main) #${Target_tooBasicCodeSupport}

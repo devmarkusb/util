@@ -34,9 +34,11 @@ set(Target_tooStringTest ${PROJECT_NAME}Test)
 file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/toolib/*.test.cpp")
 
 add_executable(${Target_tooStringTest}
-	${Target_tooStringTest_SOURCES}
-	${Target_tooString_INCS}
+    ${Target_tooStringTest_SOURCES}
+    ${Target_tooString_INCS}
 )
+
+too_add_test(${Target_tooStringTest})
 
 target_include_directories(${Target_tooStringTest} PRIVATE ${tooString_INCLUDE_DIRS})
 

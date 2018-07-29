@@ -33,6 +33,8 @@ add_executable(${Target_tooBuildEnvTest}
     ${Target_tooBuildEnv_INCS}
 )
 
+too_add_test(${Target_tooBuildEnvTest})
+
 target_include_directories(${Target_tooBuildEnvTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
 
 target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main) #${Target_tooBuildEnv}

@@ -1,8 +1,15 @@
-# file to include for various useful cmake default settings
+# File to include for various useful cmake default settings.
+# Important: it is recommended to include it in the topmost cmake file. The reason is the contained configuration
+# of output dirs. So all libs and bins fall into the same designated place.
+
+######################################################################################################################
+# general defaults
 
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DNDEBUG)
 endif ()
+
+enable_testing()
 
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
@@ -163,4 +170,8 @@ endmacro()
 # shared lib export define (such that the build know whether to export or import symbols)
 macro(too_set_target_lib_export_def target define)
     set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS ${define})
+endmacro()
+
+macro(too_add_test target)
+    add_test(NAME ${target} COMMAND ${target})
 endmacro()
