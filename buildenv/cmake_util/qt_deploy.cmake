@@ -38,7 +38,7 @@ macro(too_qt_deploy target path_to_qml)
         
         add_custom_command(
             TARGET ${target} POST_BUILD
-            COMMAND "${CMAKE_CURRENT_LIST_DIR}/assets/qt_deploy_autodepends_win.bat" "${RuntimeOutputDirectoryToUse}" "${TOO_QT_VER_COMP_PATH}/bin"
+            COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_win.bat" "${RuntimeOutputDirectoryToUse}" "${TOO_QT_VER_COMP_PATH}/bin"
                 ${TargetBuildType_for_qtdeploy} -qml -widgets ${QmlSourcesToUse} ${TargetFileName}
         )
     endif ()
