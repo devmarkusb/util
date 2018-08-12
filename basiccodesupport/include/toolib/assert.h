@@ -1,4 +1,4 @@
-// Markus Borris, 2011-17
+// Markus Borris, 2011-18
 // This file is part of tfl library.
 
 //!
@@ -25,7 +25,7 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 
 #include "toolib/PPDEFS.h"
 #ifndef TOO_COMP_MS_VISUAL_STUDIO_CPP
-#include <assert.h>
+#include <cassert>
 #endif
 #include <chrono>
 #include <exception>
