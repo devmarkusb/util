@@ -52,6 +52,7 @@ namespace std_fs
 {
 /** Current deviations from standard:
     - The class can only handle paths with single distinct separators ("/", no repeating "//" ones).
+        Except, operators /= and / also work with a single already trailing '/'.
     Notes:
     - The empty path is equivalent to a single dot '.', which represents the current dir, a relative path.
     - For a file starting with  dot the starting dot belongs to the filename.*/
