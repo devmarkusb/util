@@ -66,7 +66,11 @@ TEST(pathTest, extension)
     EXPECT_EQ(empty_ext_dot.extension(), dot);
 
     const fs::path ext_only{"/tmp/.sh"};
+#if TOO_OS_WINDOWS
+    EXPECT_EQ(ext_only.extension(), fs::path{".sh"});
+#else
     EXPECT_EQ(ext_only.extension(), empty);
+#endif
 
     const fs::path usual_justfile{"file.extension"};
     EXPECT_EQ(usual_justfile.extension(), fs::path{".extension"});
@@ -90,7 +94,11 @@ TEST(pathTest, stem)
     EXPECT_EQ(empty_ext_dot.stem(), fs::path{"test"});
 
     const fs::path ext_only{"/tmp/.sh"};
+#if TOO_OS_WINDOWS
+    EXPECT_EQ(ext_only.stem(), empty);
+#else
     EXPECT_EQ(ext_only.stem(), fs::path{".sh"});
+#endif
 
     const fs::path usual_justfile{"file.extension"};
     EXPECT_EQ(usual_justfile.stem(), fs::path{"file"});
@@ -156,7 +164,11 @@ TEST(pathTest, parent_path)
     EXPECT_EQ(usual_justfile.parent_path(), empty);
 
     const fs::path root{"/"};
+#if TOO_OS_WINDOWS
+    EXPECT_EQ(root.parent_path(), empty);
+#else
     EXPECT_EQ(root.parent_path(), root);
+#endif
 
     const fs::path dot_abs{"/tmp/."};
     EXPECT_EQ(dot_abs.parent_path(), fs::path{"/tmp"});
@@ -196,7 +208,11 @@ TEST(pathTest, replace_extension)
 
     fs::path ext_only{"/tmp/.hiddenfilename"};
     ext_only.replace_extension(".extension");
+#if TOO_OS_WINDOWS
+    EXPECT_EQ(ext_only, fs::path{"/tmp/.extension"});
+#else
     EXPECT_EQ(ext_only, fs::path{"/tmp/.hiddenfilename.extension"});
+#endif
 
     fs::path usual_justfile{"file.replace_extension"};
     usual_justfile.replace_extension();
@@ -217,7 +233,7 @@ TEST(pathTest, eq)
 TEST(pathTest, concat)
 {
     fs::path some{"/tmp/foo"};
-    some += "/bar";
+    some /= "bar";
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar"});
 
     some += '/';
@@ -233,8 +249,10 @@ TEST(pathTest, append)
     const fs::path some2{"bar"};
     fs::path some{some1 / some2};
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar"});
+#if !TOO_OS_WINDOWS
     some /= fs::path{};
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar/"});
+#endif
     some /= fs::path{"readme.md"};
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar/readme.md"});
 
@@ -338,7 +356,12 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set)
     const auto changed_dir = fs::current_path(ec);
     std::cout << changed_dir.string() << "\n";
     std::cout << physical_test_dir.string() << "\n";
+#if TOO_OS_WINDOWS
+    const auto comparable_changed_dir = changed_dir.root_directory() / changed_dir.relative_path();
+    EXPECT_TRUE(comparable_changed_dir == physical_test_dir);
+#else
     EXPECT_TRUE(changed_dir == physical_test_dir);
+#endif
     EXPECT_FALSE(ec);
 }
 

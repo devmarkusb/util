@@ -208,13 +208,6 @@ inline bool operator!=(const path& lhs, const path& rhs)
     return !(lhs == rhs);
 }
 
-inline path operator+(const path& lhs, const path& rhs)
-{
-    path ret{lhs};
-    ret += rhs;
-    return ret;
-}
-
 inline path operator/(const path& lhs, const path& rhs)
 {
     path ret{lhs};
