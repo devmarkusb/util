@@ -11,6 +11,7 @@ endif ()
 
 enable_testing()
 
+include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
@@ -146,6 +147,10 @@ macro(too_set_target_defaults target)
 
     if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
         target_compile_definitions(${target} PUBLIC _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
+    endif ()
+
+    if ("${TOO_CPP_STD_LIB}" STREQUAL "libstdc++")
+        target_link_libraries(${target} PUBLIC stdc++fs)
     endif ()
 endmacro()
 
