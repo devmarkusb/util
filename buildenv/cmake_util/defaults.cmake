@@ -12,6 +12,7 @@ endif ()
 enable_testing()
 
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
@@ -101,12 +102,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -fno-builtin)
 endif ()
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(TOO_LINK_STDCPPFS stdc++fs)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-endif ()
-
 add_compile_options(
         "$<$<COMPILE_LANGUAGE:C>:${c_compile_options}>"
         "$<$<COMPILE_LANGUAGE:CXX>:${cpp_compile_options}>")
@@ -149,8 +144,10 @@ macro(too_set_target_defaults target)
         target_compile_definitions(${target} PUBLIC _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
     endif ()
 
-    if ("${TOO_CPP_STD_LIB}" STREQUAL "libstdc++")
-        target_link_libraries(${target} PUBLIC stdc++fs)
+    if (TOO_HAS_CPP_FILESYSTEM)
+        if ("${TOO_CPP_STD_LIB}" STREQUAL "libstdc++")
+            target_link_libraries(${target} PUBLIC stdc++fs)
+        endif ()
     endif ()
 endmacro()
 

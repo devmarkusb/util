@@ -67,6 +67,9 @@
 
 #if defined(__ANDROID__)
 #define TOO_OS_ANDROID 1
+#if !TOO_OS_LINUX
+#error "unexpected, Android should imply Linux"
+#endif
 #endif
 
 //!@}

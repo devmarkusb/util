@@ -60,8 +60,8 @@ struct path
 {
     static const auto preferred_separator = '/';
 
-    //! Constructs an invalid path.
-    path() noexcept = default;
+    //! Constructs an empty path (which is semantically equivalent to current dir '.').
+    path() noexcept {}
     //! Expects \param s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
     path(std::string s) : s_{std::move(s)} {}
     path(const char* s) : s_{s} {}
@@ -222,7 +222,7 @@ inline path operator/(const path& lhs, const path& rhs)
     return ret;
 }
 
-std::ostream& operator<<(std::ostream& os, const path& p)
+inline std::ostream& operator<<(std::ostream& os, const path& p)
 {
     os << p.string();
     return os;
@@ -390,7 +390,8 @@ inline bool operator!=(const directory_iterator& lhs, const directory_iterator& 
 inline bool exists(const path& p)
 {
 #if TOO_OS_LINUX
-    struct stat dummy{};
+    struct stat dummy;
+    memset(&dummy, 0, sizeof(struct stat));
     return (stat(p.c_str(), &dummy) == 0);
 #else
 #error "not implemented"
@@ -401,7 +402,7 @@ inline bool exists(const path& p)
 inline bool create_directories(const path& p)
 {
 #if TOO_OS_LINUX
-    auto dir{p.c_str()};
+    const auto dir = p.c_str();
     char tmp[256]{};
     size_t len{};
 
@@ -427,7 +428,8 @@ inline bool create_directories(const path& p)
 inline bool is_regular_file(const path& p)
 {
 #if TOO_OS_LINUX
-    struct stat path_stat{};
+    struct stat path_stat;
+    memset(&path_stat, 0, sizeof(struct stat));
     stat(p.c_str(), &path_stat);
     return S_ISREG(path_stat.st_mode);
 #else
