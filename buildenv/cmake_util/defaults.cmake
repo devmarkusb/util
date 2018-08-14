@@ -130,7 +130,9 @@ endif ()
 # target specific choices
 
 macro(too_set_target_defaults target)
-    set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
+    if (NOT ANDROID) # easier than to fix the follow-up processes
+        set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
+    endif ()
 
     set_target_properties(${target} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
