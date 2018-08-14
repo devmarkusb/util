@@ -41,6 +41,8 @@ target_include_directories(${Target_tooBasicCodeSupportTest} PRIVATE ${tooBasicC
 
 target_link_libraries(${Target_tooBasicCodeSupportTest} PRIVATE gtest_main) #${Target_tooBasicCodeSupport}
 
+too_set_target_filesystem(${Target_tooBasicCodeSupportTest})
+
 too_set_target_defaults(${Target_tooBasicCodeSupportTest})
 
 too_run_target_postbuild(${Target_tooBasicCodeSupportTest})
