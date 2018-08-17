@@ -97,23 +97,27 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
     endif()
 
     # define the application source package directory
-    # get version code from arguments, or generate a fixed one if not provided
-    set(QT_ANDROID_APP_VERSION_CODE ${ARG_VERSION_CODE})
-    if(NOT QT_ANDROID_APP_VERSION_CODE)
-        set(QT_ANDROID_APP_VERSION_CODE 1)
+    if(ARG_PACKAGE_SOURCES)
+        set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT ${ARG_PACKAGE_SOURCES})
+    else()
+        # get version code from arguments, or generate a fixed one if not provided
+        set(QT_ANDROID_APP_VERSION_CODE ${ARG_VERSION_CODE})
+        if(NOT QT_ANDROID_APP_VERSION_CODE)
+            set(QT_ANDROID_APP_VERSION_CODE 1)
+        endif()
+
+        # try to extract the app version from the target properties, or use the version code if not provided
+        get_property(QT_ANDROID_APP_VERSION TARGET ${SOURCE_TARGET} PROPERTY VERSION)
+        if(NOT QT_ANDROID_APP_VERSION)
+            set(QT_ANDROID_APP_VERSION ${QT_ANDROID_APP_VERSION_CODE})
+        endif()
+
+        # create a subdirectory for the extra package sources
+        set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT "${CMAKE_CURRENT_BINARY_DIR}/package")
+
+        # generate a manifest from the template
+        configure_file(${QT_ANDROID_SOURCE_DIR}/AndroidManifest.xml.in ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}/AndroidManifest.xml @ONLY)
     endif()
-
-    # try to extract the app version from the target properties, or use the version code if not provided
-    get_property(QT_ANDROID_APP_VERSION TARGET ${SOURCE_TARGET} PROPERTY VERSION)
-    if(NOT QT_ANDROID_APP_VERSION)
-        set(QT_ANDROID_APP_VERSION ${QT_ANDROID_APP_VERSION_CODE})
-    endif()
-
-    # create a subdirectory for the extra package sources
-    set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT "${CMAKE_CURRENT_BINARY_DIR}/package")
-
-    # generate a manifest from the template
-    configure_file(${QT_ANDROID_SOURCE_DIR}/AndroidManifest.xml.in ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}/AndroidManifest.xml @ONLY)
 
     # set the list of dependant libraries
     if(ARG_DEPENDS)
@@ -166,21 +170,11 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(TARGET_LEVEL_OPTIONS --android-platform android-${ANDROID_NATIVE_API_LEVEL})
     endif()
 
-    # copy/overwrite files from custom package source dir
-    if(ARG_PACKAGE_SOURCES)
-        add_custom_target(
-            ${TARGET}_custompackagesources
-            ALL
-            DEPENDS ${SOURCE_TARGET}
-            COMMAND ${CMAKE_COMMAND} -E copy_directory ${ARG_PACKAGE_SOURCES} ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}
-        )
-    endif()
-
     # create a custom command that will run the androiddeployqt utility to prepare the Android package
     add_custom_target(
-        ${TARGET}_androiddeployqt
+        ${TARGET}
         ALL
-        DEPENDS ${TARGET}_custompackagesources
+        DEPENDS ${SOURCE_TARGET}
         COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI} # it seems that recompiled libraries are not copied if we don't remove them first
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI}
         COMMAND ${CMAKE_COMMAND} -E copy ${QT_ANDROID_APP_PATH} ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI}
