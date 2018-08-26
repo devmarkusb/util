@@ -66,7 +66,7 @@ include(CMakeParseArguments)
 macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # parse the macro arguments
-    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION" "DEPENDS;KEYSTORE" ${ARGN})
+    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION;SCREEN_ORIENTATION" "DEPENDS;KEYSTORE" ${ARGN})
 
     # extract the full path of the source target binary
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -94,6 +94,12 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_SDK_BUILDTOOLS_REVISION ${ARG_BUILDTOOLS_REVISION})
     else()
         set(QT_ANDROID_SDK_BUILDTOOLS_REVISION "")
+    endif()
+
+    if(ARG_SCREEN_ORIENTATION)
+        set(QT_ANDROID_SCREEN_ORIENTATION ${ARG_SCREEN_ORIENTATION})
+    else()
+        set(QT_ANDROID_SCREEN_ORIENTATION "unspecified")
     endif()
 
     # define the application source package directory
@@ -186,5 +192,4 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         COMMAND ${CMAKE_COMMAND} -E copy ${QT_ANDROID_APP_PATH} ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI}
         COMMAND ${QT_ANDROID_QT_ROOT}/bin/androiddeployqt --verbose --output ${CMAKE_CURRENT_BINARY_DIR} --input ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json --gradle ${TARGET_LEVEL_OPTIONS} ${INSTALL_OPTIONS} ${SIGN_OPTIONS}
     )
-
 endmacro()
