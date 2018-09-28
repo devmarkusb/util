@@ -97,7 +97,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
             /W4)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(cpp_compile_options
-            -Wall
+            -Wall -Wextra
             -fno-limit-debug-info
             -fno-builtin)
 endif ()
