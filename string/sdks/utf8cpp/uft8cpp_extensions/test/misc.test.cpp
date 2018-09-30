@@ -59,7 +59,7 @@ TEST(utf8cpp_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w         = twochars;
-    int cp = utf8::next(w, twochars + 6);
+    auto cp = utf8::next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
 }
@@ -68,7 +68,7 @@ TEST(utf8cpp_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w         = twochars;
-    int cp = utf8::peek_next(w, twochars + 6);
+    auto cp = utf8::peek_next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
 }
@@ -77,7 +77,7 @@ TEST(utf8cpp_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w         = twochars + 3;
-    int cp = utf8::prior(w, twochars);
+    auto cp = utf8::prior(w, twochars);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
 }
@@ -166,7 +166,7 @@ TEST(utf8cpp_unchecked_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88"; // 'U+65E5' 3 bytes + cyrillic scha 2 bytes
     char* w         = twochars;
-    int cp = utf8::unchecked::next(w);
+    auto cp = utf8::unchecked::next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
 }
@@ -175,7 +175,7 @@ TEST(utf8cpp_unchecked_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w         = twochars;
-    int cp = utf8::unchecked::peek_next(w);
+    auto cp = utf8::unchecked::peek_next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
 }
@@ -184,7 +184,7 @@ TEST(utf8cpp_unchecked_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w         = twochars + 3;
-    int cp = utf8::unchecked::prior(w);
+    auto cp = utf8::unchecked::prior(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
 }
@@ -200,7 +200,7 @@ TEST(utf8cpp_unchecked_advanceTest, test)
 TEST(utf8cpp_unchecked_distanceTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    size_t dist = utf8::unchecked::distance(twochars, twochars + 5);
+    auto dist = utf8::unchecked::distance(twochars, twochars + 5);
     EXPECT_EQ(2u, dist);
 }
 

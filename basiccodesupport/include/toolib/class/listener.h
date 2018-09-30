@@ -96,6 +96,8 @@ inline Listener::~Listener() {}
 class ListenerRegister
 {
 public:
+    virtual ~ListenerRegister() = default;
+
     /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
         The same \param l also mustn't be registered more than once.*/

@@ -265,7 +265,10 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_allo
 } // namespace too
 
 using retcode = too::retcode;
+#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
+#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_header-hygiene"
 // since, `const auto& is_ok = too::is_ok;` would lead to multiple defs, even with constexpr
 using namespace too::publish__is_ok;
+#include "toolib/PPDefs/CLANG/WARNINGS_POP"
 
 #endif

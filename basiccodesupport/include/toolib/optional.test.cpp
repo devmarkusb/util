@@ -54,12 +54,15 @@ TEST(optTest, not)
     // EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
 #if GTEST_HAS_DEATH_TEST
+#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
+#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_used-but-marked-unused"
     EXPECT_DEATH(
         [&]()
         {
             *b = false;
         }(),
         "");
+#include "toolib/PPDefs/CLANG/WARNINGS_POP"
 #endif
 }
 

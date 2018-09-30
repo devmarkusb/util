@@ -254,14 +254,16 @@ inline std::string latin1_to_utf8(const std::string& s)
 
     for (const auto& c : s)
     {
-        uint8_t c_ = c;
+        uint8_t c_ = static_cast<uint8_t>(c);
 
         if (c_ < 0x80)
-            ret.append(1, c_);
+            ret.append(1, c);
         else
         {
-            ret.append(1, 0xc0 | (c_ & 0xc0) >> 6);
-            ret.append(1, 0x80 | (c_ & 0x3f));
+            const auto c_pt1 = 0xc0 | (c_ & 0xc0) >> 6;
+            ret.append(1, static_cast<char>(c_pt1));
+            const auto c_pt2 = 0x80 | (c_ & 0x3f);
+            ret.append(1, static_cast<char>(c_pt2));
         }
     }
     return ret;
@@ -283,7 +285,7 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
     ret.reserve((2 + prefix.size()) * length);
     std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c)
         {
-            const unsigned char uc = c;
+            const auto uc = static_cast<unsigned char>(c);
             ret.append(prefix);
             ret.push_back(lut[uc >> 4]);
             ret.push_back(lut[uc & 15]);

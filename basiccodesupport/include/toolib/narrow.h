@@ -9,6 +9,7 @@
 #ifndef NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
 #define NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
 
+#include "almost_equal.h"
 #include "std/std_extensions.h"
 #include <type_traits>
 
@@ -36,10 +37,10 @@ T narrow(U u)
     static_assert(!(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
         "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");
     T t = narrow_cast<T>(u);
-    if (static_cast<U>(t) != u)
+    if (!too::almost_equal_alltypes(static_cast<U>(t), u))
         throw narrowing_error();
     return t;
 }
-}
+} // too
 
 #endif

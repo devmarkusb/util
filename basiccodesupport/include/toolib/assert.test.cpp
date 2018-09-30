@@ -6,6 +6,8 @@
 
 
 #include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
+#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
+#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_used-but-marked-unused"
 
 TEST(AssertExpectEnsureTest, Assert)
 {
@@ -89,4 +91,5 @@ TEST(VERIFY_ASSERT_Test, Test)
 #endif
 }
 
+#include "toolib/PPDefs/CLANG/WARNINGS_POP"
 #include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_END"

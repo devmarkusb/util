@@ -52,7 +52,7 @@ std::unique_ptr<T> make_unique(Args&&... args)
 //! Lots of nice to have type_traits.
 //!@{
 
-#if TOO_HAS_NO_CPP14_TYPE_TRAITS__T_SHORTCUTS
+#if TOO_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS
 template <class T>
 using add_lvalue_reference_t = typename std::add_lvalue_reference<T>::type;
 template <class T>

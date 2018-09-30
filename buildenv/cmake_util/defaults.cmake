@@ -3,7 +3,7 @@
 # of output dirs. So all libs and bins fall into the same designated place.
 
 ######################################################################################################################
-# general defaults
+# general defaults and helper declarations
 
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DNDEBUG)
@@ -82,34 +82,6 @@ endif ()
 # so better handle this via set_target_properties
 #set(CMAKE_DEBUG_POSTFIX "d")
 
-set(cpp_compile_options)
-set(c_compile_options)
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(cpp_compile_options
-            -fext-numeric-literals
-            # introduced for gperftools, but shouldn't do any harm generally
-            -fno-omit-frame-pointer
-            -Wall -Wextra
-            -fno-builtin)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(cpp_compile_options
-            /W4)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(cpp_compile_options
-            -Wall -Wextra
-            -fno-limit-debug-info
-            -fno-builtin)
-endif ()
-
-add_compile_options(
-        "$<$<COMPILE_LANGUAGE:C>:${c_compile_options}>"
-        "$<$<COMPILE_LANGUAGE:CXX>:${cpp_compile_options}>")
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 if (MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
     # this doesn't work disabling specific linker warnings, why not?
@@ -127,7 +99,88 @@ endif ()
 
 
 ######################################################################################################################
-# target specific choices
+# compile options
+
+### general ###
+
+set(cpp_compile_options)
+set(c_compile_options)
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(cpp_compile_options
+            -fext-numeric-literals
+            # introduced for gperftools, but shouldn't do any harm generally
+            -fno-omit-frame-pointer
+            -fno-builtin)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    # nothing yet
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(cpp_compile_options
+            -fno-limit-debug-info
+            -fno-builtin)
+endif ()
+
+
+### warnings ###
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(cpp_compile_options
+            ${cpp_compile_options}
+            -Wall -Wextra)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(cpp_compile_options
+            ${cpp_compile_options}
+            /W4)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(cpp_compile_options
+            ${cpp_compile_options}
+            -Wall -Wextra)
+endif ()
+
+# switch to 1 and adapt details if you want to see a maximum of warnings
+if (0)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        # not implemented
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+        # not implemented
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        set(cpp_compile_options
+                ${cpp_compile_options}
+                -Weverything
+                # category of must-be-blacklisted ones
+                -Wno-unused-member-function -Wno-c++98-compat -Wno-deprecated -Wno-weak-vtables
+                -Wno-shadow-field-in-constructor -Wno-undef -Wno-c++98-compat-pedantic
+                -Wno-double-promotion
+                # category of could-be-useful ones
+                -Wno-redundant-parens # can be interesting, but appears a lot in Qt moc_ files, so...
+                -Wno-documentation # might want to turn that on - fires a lot due to misuse of multiline //!'s
+                -Wno-documentation-unknown-command # investigate use of \Returns, \params etc., unfortunate
+                -Wno-global-constructors -Wno-exit-time-destructors
+                -Wno-switch-enum -Wno-covered-switch-default # a no default warning would be more useful
+                -Wno-missing-noreturn
+                -Wno-padded # this could be useful to turn on locally (at most) to find out about padding size
+                )
+    endif ()
+endif ()
+
+
+### finally setting compile options ###
+
+add_compile_options(
+        "$<$<COMPILE_LANGUAGE:C>:${c_compile_options}>"
+        "$<$<COMPILE_LANGUAGE:CXX>:${cpp_compile_options}>")
+
+
+######################################################################################################################
+# cpp standard
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
+######################################################################################################################
+# target specific general choices
 
 macro(too_set_target_defaults target)
     if (NOT ANDROID) # easier than to fix the follow-up processes

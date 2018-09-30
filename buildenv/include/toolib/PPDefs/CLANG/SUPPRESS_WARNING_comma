@@ -1,0 +1,4 @@
+#include "toolib/PPDEFS.h"
+#if TOO_COMP_CLANG
+#pragma clang diagnostic ignored "-Wcomma"
+#endif
