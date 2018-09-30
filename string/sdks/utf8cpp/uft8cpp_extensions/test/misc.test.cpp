@@ -4,9 +4,9 @@
 #include <cstring>
 #include <vector>
 #include <iterator>
-#include "utf8.h"
-#include "toolib/PPDEFS.h"
+#include "toolib/string/toostring.h"
 #include "toolib/ignore_arg.h"
+#include "toolib/PPDEFS.h"
 
 
 TEST(utf8cpp_is_validTest, test)

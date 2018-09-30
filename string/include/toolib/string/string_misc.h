@@ -121,7 +121,7 @@ inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_thres
         return in_str;
     auto it = std::begin(in_str);
     utf8::unchecked::advance(it, ellipse_threshold);
-    std::string ret{in_str.substr(0, std::distance(std::begin(in_str), it))};
+    std::string ret{in_str.substr(0, static_cast<size_t>(std::distance(std::begin(in_str), it)))};
     ret.append("...");
     return ret;
 }

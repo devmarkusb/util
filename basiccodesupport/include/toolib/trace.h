@@ -216,7 +216,7 @@ struct StreamTracer_impl : public StreamTracer
 {
     StreamTracer_impl(bool close_stderr, bool close_stdout) : close_stderr{close_stderr}, close_stdout{close_stdout} {}
 
-    ~StreamTracer_impl()
+    ~StreamTracer_impl() override
     {
         if (close_stderr)
             fclose(stderr);
@@ -224,7 +224,7 @@ struct StreamTracer_impl : public StreamTracer
             fclose(stdout);
     }
 
-    virtual void trace(const std::ostringstream& ss) const override
+    void trace(const std::ostringstream& ss) const override
     {
         EnabledIfPolicy::template trace<OutputToIDEWindowPolicy, OutputToConsolePolicy>(ss);
     }

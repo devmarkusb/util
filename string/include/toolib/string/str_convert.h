@@ -9,11 +9,11 @@
 #ifndef STR_CONVERT_H_INCL_827rt82rtrxjr38t
 #define STR_CONVERT_H_INCL_827rt82rtrxjr38t
 
-//! utf8.h included for the major conversion support; whether used in this file or not.
+//! toostring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
-#include "../../../sdks/utf8cpp/source/utf8.h"
 #include "toolib/comp_bwds.h"
 #include "toolib/PPDEFS.h"
+#include "toolib/string/toostring.h"
 #include <stdexcept>
 #include <string>
 

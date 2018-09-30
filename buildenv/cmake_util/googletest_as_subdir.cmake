@@ -20,7 +20,8 @@ set_target_properties(gtest_main PROPERTIES DEBUG_POSTFIX "d")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(TOO_gtest_compile_options
             -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-shift-sign-overflow
-            -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused)
+            -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused
+            -Wno-disabled-macro-expansion -Wno-missing-prototypes)
     target_compile_options(gmock PUBLIC ${TOO_gtest_compile_options})
     target_compile_options(gtest PUBLIC ${TOO_gtest_compile_options})
 endif ()

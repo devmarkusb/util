@@ -31,6 +31,7 @@ add_executable(${TargetUtf8cppTest}
     ${TargetUtf8cpp_INCS}
 )
 
+target_include_directories(${TargetUtf8cppTest} PRIVATE ${PROJECT_SOURCE_DIR}/../../../include)
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${utf8cpp_INCLUDE_DIRS})
 

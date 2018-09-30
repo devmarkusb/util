@@ -49,9 +49,12 @@
 #define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
 #include "toolib/PPDEFS.h"
+#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
+#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_sign-conversion"
 //! Including this header regardless of whether it is being used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
+#include "toolib/PPDefs/CLANG/WARNINGS_POP"
 
 
 //####################################################################################################################
