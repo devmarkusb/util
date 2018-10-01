@@ -13,6 +13,8 @@
 #include "toolib/ignore_arg.h"
 
 
+#include "toolib/PPDefs/UNDEF_MIN_MAX"
+
 namespace too
 {
 //! \Returns true, if \params x and y are almost equal. Expects \param ulp >= 1.
