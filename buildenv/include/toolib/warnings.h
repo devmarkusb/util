@@ -13,20 +13,20 @@
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 
-#define TOO_PRAGMA_WARNINGS_PUSH _Pragma("warning(push)")
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL _Pragma("warning(push, 0)")
-#define TOO_PRAGMA_WARNINGS_POP _Pragma("warning(pop)")
+#define TOO_PRAGMA_WARNINGS_PUSH __pragma(warning(push))
+#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL __pragma(warning(push, 0))
+#define TOO_PRAGMA_WARNINGS_POP __pragma(warning(pop))
 
-#define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated _Pragma("warning(disable: 4512)")
+#define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated __pragma(warning(disable : 4512))
 #define TOO_PRAGMA_WARNING_NO_comma
-#define TOO_PRAGMA_WARNING_NO_constant_condition_expression _Pragma("warning(disable: 4127)")
+#define TOO_PRAGMA_WARNING_NO_constant_condition_expression __pragma(warning(disable : 4127))
 #define TOO_PRAGMA_WARNING_NO_deprecated_declarations
-#define TOO_PRAGMA_WARNING_NO_dll_interface_needed _Pragma("warning(disable: 4251)")
+#define TOO_PRAGMA_WARNING_NO_dll_interface_needed __pragma(warning(disable : 4251))
 #define TOO_PRAGMA_WARNING_NO_header_hygiene
 #define TOO_PRAGMA_WARNING_NO_reserved_id_macro
 #define TOO_PRAGMA_WARNING_NO_sign_conversion
-#define TOO_PRAGMA_WARNING_NO_unreachable_code _Pragma("warning(disable: 4702)")
-#define TOO_PRAGMA_WARNING_NO_unsafe_parameters _Pragma("warning(disable: 4996)")
+#define TOO_PRAGMA_WARNING_NO_unreachable_code __pragma(warning(disable : 4702))
+#define TOO_PRAGMA_WARNING_NO_unsafe_parameters __pragma(warning(disable : 4996))
 #define TOO_PRAGMA_WARNING_NO_unused_local_typedefs
 #define TOO_PRAGMA_WARNING_NO_unused_variable
 #define TOO_PRAGMA_WARNING_NO_used_but_marked_unused
