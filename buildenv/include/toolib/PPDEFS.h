@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef PPDEFS_H_INCL_o85nzumvt424cmt75tn
-#define PPDEFS_H_INCL_o85nzumvt424cmt75tn
+#ifndef PPDEFS_H_o85nzumvt424cmt75tn
+#define PPDEFS_H_o85nzumvt424cmt75tn
 
 
 //####################################################################################################################

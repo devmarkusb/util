@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef COMP_BWDS_H_INCL_uiregb74n398734gf478gy8734h
-#define COMP_BWDS_H_INCL_uiregb74n398734gf478gy8734h
+#ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h
+#define COMP_BWDS_H_uiregb74n398734gf478gy8734h
 
 #include "PPDEFS.h"
 

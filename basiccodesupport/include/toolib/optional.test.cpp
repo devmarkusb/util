@@ -1,4 +1,5 @@
 #include "toolib/optional.h"
+#include "toolib/warnings.h"
 #include <string>
 #include <vector>
 #include "gtest/gtest.h"
@@ -54,15 +55,15 @@ TEST(optTest, not)
     // EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
 #if GTEST_HAS_DEATH_TEST
-#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
-#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_used-but-marked-unused"
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_PRAGMA_WARNING_NO_used_but_marked_unused
     EXPECT_DEATH(
         [&]()
         {
             *b = false;
         }(),
         "");
-#include "toolib/PPDefs/CLANG/WARNINGS_POP"
+TOO_PRAGMA_WARNINGS_POP
 #endif
 }
 

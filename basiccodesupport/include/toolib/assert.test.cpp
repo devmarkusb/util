@@ -1,13 +1,14 @@
 // VLD detects lots of memory leaks for this file (unclear)
 #include "toolib/assert.h"
+#include "toolib/warnings.h"
 #include <exception>
 #include <iostream>
 #include "gtest/gtest.h"
 
 
-#include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
-#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
-#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_used-but-marked-unused"
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_PRAGMA_WARNING_NO_constant_condition_expression
+TOO_PRAGMA_WARNING_NO_used_but_marked_unused
 
 TEST(AssertExpectEnsureTest, Assert)
 {
@@ -91,5 +92,4 @@ TEST(VERIFY_ASSERT_Test, Test)
 #endif
 }
 
-#include "toolib/PPDefs/CLANG/WARNINGS_POP"
-#include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_END"
+TOO_PRAGMA_WARNINGS_POP

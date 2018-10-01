@@ -11,6 +11,7 @@
 
 #include "toolib/assert.h"
 #include "toolib/std/std_extensions.h"
+#include "toolib/warnings.h"
 #include <exception>
 #include <map>
 #include <stdexcept>
@@ -265,10 +266,10 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_allo
 } // namespace too
 
 using retcode = too::retcode;
-#include "toolib/PPDefs/CLANG/WARNINGS_PUSH"
-#include "toolib/PPDefs/CLANG/SUPPRESS_WARNING_header-hygiene"
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_PRAGMA_WARNING_NO_header_hygiene
 // since, `const auto& is_ok = too::is_ok;` would lead to multiple defs, even with constexpr
 using namespace too::publish__is_ok;
-#include "toolib/PPDefs/CLANG/WARNINGS_POP"
+TOO_PRAGMA_WARNINGS_POP
 
 #endif
