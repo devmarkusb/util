@@ -24,6 +24,7 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #define ASSERT_H_onvdr589tz3758ct438tzcn
 
 #include "toolib/PPDEFS.h"
+#include "toolib/warnings.h"
 #ifndef TOO_COMP_MS_VISUAL_STUDIO_CPP
 #include <cassert>
 #endif
@@ -50,7 +51,8 @@ struct fail_fast : public std::runtime_error
 
 // Begin warning suppression, and don't end! There is no other chance, or do you know an alternative to do {...} while
 // (false)?
-#include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_PRAGMA_WARNING_NO_constant_condition_expression
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 #if TOO_DEBUG

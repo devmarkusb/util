@@ -16,8 +16,10 @@ void f_with_some_sourcefile_location_info()
 // clang-format on
 
 #include "toolib/PPDEFS.h"
+#include "toolib/warnings.h"
 
-#include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_4127_BEGIN"
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_PRAGMA_WARNING_NO_constant_condition_expression
 
 namespace
 {
@@ -35,7 +37,7 @@ TEST(debug_hTest, test)
     EXPECT_NO_FATAL_FAILURE(f_with_debug_break_if_wont());
 }
 
-#include "toolib/PPDefs/MSVC/SUPPRESS_WARNING_END"
+TOO_PRAGMA_WARNINGS_POP
 
 namespace
 {

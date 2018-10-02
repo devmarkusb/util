@@ -34,7 +34,7 @@
 #elif TOO_COMP_CLANG
 
 #define TOO_PRAGMA_WARNINGS_PUSH _Pragma("clang diagnostic push")
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL
+#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL TOO_PRAGMA_WARNINGS_PUSH
 #define TOO_PRAGMA_WARNINGS_POP _Pragma("clang diagnostic pop")
 
 #define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated
@@ -54,7 +54,7 @@
 #elif TOO_COMP_GNU_CPP
 
 #define TOO_PRAGMA_WARNINGS_PUSH _Pragma("GCC diagnostic push")
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL
+#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL TOO_PRAGMA_WARNINGS_PUSH
 #define TOO_PRAGMA_WARNINGS_POP _Pragma("GCC diagnostic pop")
 
 #define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated
