@@ -1,3 +1,0 @@
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
-#pragma warning(pop)
-#endif

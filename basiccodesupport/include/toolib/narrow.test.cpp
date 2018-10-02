@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 
-#include "toolib/PPDefs/UNDEF_MIN_MAX"
+#include "toolib/PPDEFS/UNDEF_MIN_MAX"
 
 TEST(NarrowTest, Cast) { EXPECT_TRUE(static_cast<long>(too::narrow_cast<unsigned char>(42l)) == 42l); }
 

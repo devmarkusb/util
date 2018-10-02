@@ -1,6 +1,0 @@
-#include "../../PPDEFS.h"
-//! condition expression is constant
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
-#pragma warning(push)
-#pragma warning(disable: 4127)
-#endif
