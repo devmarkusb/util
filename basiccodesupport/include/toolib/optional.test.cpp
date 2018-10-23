@@ -56,7 +56,7 @@ TEST(optTest, not)
     EXPECT_EQ(too::none, b);
 #if GTEST_HAS_DEATH_TEST
 TOO_PRAGMA_WARNINGS_PUSH
-TOO_PRAGMA_WARNING_NO_used_but_marked_unused
+TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
     EXPECT_DEATH(
         [&]()
         {

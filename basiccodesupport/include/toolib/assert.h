@@ -52,7 +52,7 @@ struct fail_fast : public std::runtime_error
 // Begin warning suppression, and don't end! There is no other chance, or do you know an alternative to do {...} while
 // (false)?
 TOO_PRAGMA_WARNINGS_PUSH
-TOO_PRAGMA_WARNING_NO_constant_condition_expression
+TOO_WARNING_DISABLE_MSVC(4127)
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 #if TOO_DEBUG

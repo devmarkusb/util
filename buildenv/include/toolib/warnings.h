@@ -3,6 +3,12 @@
 
 //!
 /** Disable/enable compiler/linker warnings.
+    TOO_PRAGMA_WARNINGS_PUSH saves the current warning settings, TOO_PRAGMA_WARNINGS_POP resets the
+    warning settings to the state before calling TOO_PRAGMA_WARNINGS_PUSH.
+    TOO_WARNING_DISABLE_<compiler>(w) disables warning w for a specific compiler.
+    TOO_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC is a specialty. First it's the same as TOO_PRAGMA_WARNINGS_PUSH for
+    every compiler. But for MSVC this additionally disables *all* all warnings (useful when including 3rd party headers,
+    but this problem might also be solvable in another way).
 */
 //! \file
 
@@ -11,65 +17,36 @@
 
 #include "toolib/PPDEFS.h"
 
+
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#define TOO_PRAGMA_WARNINGS_PUSH                        TOO_PRAGMA(warning(push))
+#define TOO_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC   TOO_PRAGMA(warning(push, 0))
+#define TOO_PRAGMA_WARNINGS_POP                         TOO_PRAGMA(warning(pop))
 
-#define TOO_PRAGMA_WARNINGS_PUSH __pragma(warning(push))
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL __pragma(warning(push, 0))
-#define TOO_PRAGMA_WARNINGS_POP __pragma(warning(pop))
-
-#define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated __pragma(warning(disable : 4512))
-#define TOO_PRAGMA_WARNING_NO_comma
-#define TOO_PRAGMA_WARNING_NO_constant_condition_expression __pragma(warning(disable : 4127))
-#define TOO_PRAGMA_WARNING_NO_deprecated_declarations
-#define TOO_PRAGMA_WARNING_NO_dll_interface_needed __pragma(warning(disable : 4251))
-#define TOO_PRAGMA_WARNING_NO_header_hygiene
-#define TOO_PRAGMA_WARNING_NO_reserved_id_macro
-#define TOO_PRAGMA_WARNING_NO_sign_conversion
-#define TOO_PRAGMA_WARNING_NO_unreachable_code __pragma(warning(disable : 4702))
-#define TOO_PRAGMA_WARNING_NO_unsafe_parameters __pragma(warning(disable : 4996))
-#define TOO_PRAGMA_WARNING_NO_unused_local_typedefs
-#define TOO_PRAGMA_WARNING_NO_unused_variable
-#define TOO_PRAGMA_WARNING_NO_used_but_marked_unused
+//! E.g. TOO_WARNING_DISABLE_MSVC(4702) disables warning number 4702 about unreachable code
+#define TOO_WARNING_DISABLE_MSVC(w) TOO_PRAGMA(warning(disable : w))
+#define TOO_WARNING_DISABLE_CLANG(w)
+#define TOO_WARNING_DISABLE_GCC(w)
 
 #elif TOO_COMP_CLANG
+#define TOO_PRAGMA_WARNINGS_PUSH                        TOO_PRAGMA(clang diagnostic push)
+#define TOO_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC   TOO_PRAGMA_WARNINGS_PUSH
+#define TOO_PRAGMA_WARNINGS_POP                         TOO_PRAGMA(clang diagnostic pop)
 
-#define TOO_PRAGMA_WARNINGS_PUSH _Pragma("clang diagnostic push")
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL TOO_PRAGMA_WARNINGS_PUSH
-#define TOO_PRAGMA_WARNINGS_POP _Pragma("clang diagnostic pop")
-
-#define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated
-#define TOO_PRAGMA_WARNING_NO_comma _Pragma("clang diagnostic ignored \"-Wcomma\"")
-#define TOO_PRAGMA_WARNING_NO_constant_condition_expression
-#define TOO_PRAGMA_WARNING_NO_deprecated_declarations
-#define TOO_PRAGMA_WARNING_NO_dll_interface_needed
-#define TOO_PRAGMA_WARNING_NO_header_hygiene _Pragma("clang diagnostic ignored \"-Wheader-hygiene\"")
-#define TOO_PRAGMA_WARNING_NO_reserved_id_macro _Pragma("clang diagnostic ignored \"-Wreserved-id-macro\"")
-#define TOO_PRAGMA_WARNING_NO_sign_conversion _Pragma("clang diagnostic ignored \"-Wsign-conversion\"")
-#define TOO_PRAGMA_WARNING_NO_unreachable_code
-#define TOO_PRAGMA_WARNING_NO_unsafe_parameters
-#define TOO_PRAGMA_WARNING_NO_unused_local_typedefs
-#define TOO_PRAGMA_WARNING_NO_unused_variable
-#define TOO_PRAGMA_WARNING_NO_used_but_marked_unused _Pragma("clang diagnostic ignored \"-Wused-but-marked-unused\"")
+#define TOO_WARNING_DISABLE_MSVC(w)
+//! E.g. TOO_WARNING_DISABLE_CLANG(sign-conversion) is equivalent to compiler flag -Wno-sign-conversion
+#define TOO_WARNING_DISABLE_CLANG(w) TOO_PRAGMA(clang diagnostic ignored TOO_STRINGIFY_VALUE(TOO_CONCAT_2(-W, w)))
+#define TOO_WARNING_DISABLE_GCC(w)
 
 #elif TOO_COMP_GNU_CPP
+#define TOO_PRAGMA_WARNINGS_PUSH                        TOO_PRAGMA(GCC diagnostic push)
+#define TOO_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC   TOO_PRAGMA_WARNINGS_PUSH
+#define TOO_PRAGMA_WARNINGS_POP                         TOO_PRAGMA(GCC diagnostic pop)
 
-#define TOO_PRAGMA_WARNINGS_PUSH _Pragma("GCC diagnostic push")
-#define TOO_PRAGMA_WARNINGS_PUSH_DISABLE_ALL TOO_PRAGMA_WARNINGS_PUSH
-#define TOO_PRAGMA_WARNINGS_POP _Pragma("GCC diagnostic pop")
-
-#define TOO_PRAGMA_WARNING_NO_assignment_operator_not_generated
-#define TOO_PRAGMA_WARNING_NO_comma
-#define TOO_PRAGMA_WARNING_NO_constant_condition_expression
-#define TOO_PRAGMA_WARNING_NO_deprecated_declarations _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
-#define TOO_PRAGMA_WARNING_NO_dll_interface_needed
-#define TOO_PRAGMA_WARNING_NO_header_hygiene
-#define TOO_PRAGMA_WARNING_NO_reserved_id_macro
-#define TOO_PRAGMA_WARNING_NO_sign_conversion
-#define TOO_PRAGMA_WARNING_NO_unreachable_code
-#define TOO_PRAGMA_WARNING_NO_unsafe_parameters
-#define TOO_PRAGMA_WARNING_NO_unused_local_typedefs _Pragma("GCC diagnostic ignored \"-Wunused-local-typedefs\"")
-#define TOO_PRAGMA_WARNING_NO_unused_variable _Pragma("GCC diagnostic ignored \"-Wunused-variable\"")
-#define TOO_PRAGMA_WARNING_NO_used_but_marked_unused
+#define TOO_WARNING_DISABLE_MSVC(w)
+#define TOO_WARNING_DISABLE_CLANG(w)
+//! E.g. TOO_WARNING_DISABLE_GCC(unused-variable) is equivalent to compiler flag -Wno-unused-variable
+#define TOO_WARNING_DISABLE_GCC(w) TOO_PRAGMA(GCC diagnostic ignored TOO_STRINGIFY_VALUE(TOO_CONCAT_2(-W, w)))
 
 #endif
 

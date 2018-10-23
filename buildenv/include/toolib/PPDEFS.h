@@ -308,6 +308,20 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define TOO_DUMMY                           TOO_ANONYMOUS_IDENTIFIER
 //!@}
 
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+//! You shouldn't use this. It might not be compiler-portable and as just an implementation detail of TOO_PRAGMA.
+#define TOO_PRAGMA_STR(str) __pragma(str)
+//! Used for planting a pragma within a macro. \Param nostr has to be passed without surrounding "".
+#define TOO_PRAGMA(nostr)   __pragma(nostr)
+#elif TOO_COMP_CLANG || TOO_COMP_GNU_CPP || TOO_COMP_MINGW
+//! You shouldn't use this. It might not be compiler-portable and as just an implementation detail of TOO_PRAGMA.
+#define TOO_PRAGMA_STR(str) _Pragma(str)
+//! Used for planting a pragma within a macro. \Param nostr has to be passed without surrounding "".
+#define TOO_PRAGMA(nostr)   TOO_PRAGMA_STR(TOO_STRINGIFY_VALUE(nostr))
+#else
+#error "not implemented"
+#endif
+
 //! Only for information. Since #error is plain standard you should just use it!
 /** Actually it doesn't seem to be technically possible to define sth. like this
     \code

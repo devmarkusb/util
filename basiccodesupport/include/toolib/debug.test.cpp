@@ -19,7 +19,7 @@ void f_with_some_sourcefile_location_info()
 #include "toolib/warnings.h"
 
 TOO_PRAGMA_WARNINGS_PUSH
-TOO_PRAGMA_WARNING_NO_constant_condition_expression
+TOO_WARNING_DISABLE_MSVC(4127)
 
 namespace
 {

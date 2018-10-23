@@ -7,8 +7,8 @@
 
 
 TOO_PRAGMA_WARNINGS_PUSH
-TOO_PRAGMA_WARNING_NO_constant_condition_expression
-TOO_PRAGMA_WARNING_NO_used_but_marked_unused
+TOO_WARNING_DISABLE_MSVC(4127)
+TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
 
 TEST(AssertExpectEnsureTest, Assert)
 {
