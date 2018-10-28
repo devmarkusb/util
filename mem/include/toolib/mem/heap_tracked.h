@@ -1,4 +1,4 @@
-// Markus Borris, 2011-17
+// Markus Borris, 2011-18
 // This file is part of tfl library.
 
 //!
@@ -24,7 +24,7 @@ namespace mem
 class HeapTracked
 {
 public:
-    virtual inline ~HeapTracked() = 0; // to make the class abstract
+    virtual ~HeapTracked() = default;
 
     static void* operator new(size_t size)
     {
@@ -64,6 +64,5 @@ private:
         return addresses_;
     }
 };
-inline HeapTracked::~HeapTracked() {}
-}
-}
+} // mem
+} // too
