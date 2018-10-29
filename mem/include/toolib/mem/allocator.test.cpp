@@ -87,16 +87,16 @@ TEST(allocator_linear, vector)
     common_vector_test(v);
 }
 
-//TEST(allocator_linear, map)
-//{
-//    std::map<int, std::string, std::less<>,
-//            too::mem::Allocator<std::pair<const int, std::string>, too::mem::alloc::Example>> m;
-//    EXPECT_TRUE(m.empty());
-//    m[0] = "0";
-//    EXPECT_EQ(m.size(), 1);
-//    for (int i = 1; i <= 999; ++i)
-//    {
-//        m[i] = std::to_string(i);
-//    }
-//    EXPECT_EQ(m.size(), 1'000);
-//}
+TEST(allocator_linear, map)
+{
+    using Arena = too::mem::alloc::Linear;
+    using MapPair = std::pair<const int, std::string>;
+    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    Arena a;
+    std::cout << "sizeof(MapPair): " << sizeof(MapPair) << ", alignof(MapPair): " << alignof(MapPair) << "\n";
+    a.preallocate(Bytes{100'000}, Bytes{alignof(MapPair)});
+    Allocator al{a};
+    std::map<int, std::string, std::less<>, Allocator> m{al};
+
+    common_map_test(m);
+}
