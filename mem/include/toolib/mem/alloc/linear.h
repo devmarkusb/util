@@ -87,9 +87,11 @@ public:
         return buf_ + old_offset.value;
     }
 
-    void deallocate(uint8_t*, Bytes = {}) noexcept
+    void deallocate(uint8_t*, Bytes size) noexcept
     {
-        TOO_NOOP;
+        TOO_EXPECT(size <= curr_offset_);
+
+        curr_offset_ -= size;
     }
 
 private:

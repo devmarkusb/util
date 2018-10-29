@@ -20,30 +20,42 @@ struct Bytes
 {
     size_t value{};
 
-    Bytes& operator+=(Bytes rhs)
+    constexpr Bytes& operator+=(Bytes rhs) noexcept
     {
         value += rhs.value;
         return *this;
     }
 
-    operator bool() const
+    constexpr Bytes& operator-=(Bytes rhs) noexcept
+    {
+        value -= rhs.value;
+        return *this;
+    }
+
+    constexpr operator bool() const noexcept
     {
         return value;
     }
 };
 
-inline Bytes operator+(Bytes a, Bytes b)
+inline constexpr Bytes operator+(Bytes a, Bytes b) noexcept
 {
     a += b;
     return a;
 }
 
-inline bool operator==(Bytes lhs, Bytes rhs) { return lhs.value == rhs.value; }
-inline bool operator!=(Bytes lhs, Bytes rhs) { return !operator==(lhs, rhs); }
-inline bool operator<(Bytes lhs, Bytes rhs) { return lhs.value < rhs.value; }
-inline bool operator>(Bytes lhs, Bytes rhs) { return operator<(rhs, lhs); }
-inline bool operator<=(Bytes lhs, Bytes rhs) { return !operator>(lhs, rhs); }
-inline bool operator>=(Bytes lhs, Bytes rhs) { return !operator<(lhs, rhs); }
+inline constexpr Bytes operator-(Bytes a, Bytes b) noexcept
+{
+    a -= b;
+    return a;
+}
+
+inline constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept { return lhs.value == rhs.value; }
+inline constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept { return !operator==(lhs, rhs); }
+inline constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept { return lhs.value < rhs.value; }
+inline constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept { return operator<(rhs, lhs); }
+inline constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept { return !operator>(lhs, rhs); }
+inline constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept { return !operator<(lhs, rhs); }
 } // mem
 } // too
 

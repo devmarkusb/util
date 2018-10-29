@@ -58,9 +58,9 @@ TEST(alloc_Linear, dealloc)
     auto p = reinterpret_cast<Type*>(l.allocate(Bytes{5 * sizeof(Type)}));
     too::ignore_arg(p);
 
-    l.deallocate(reinterpret_cast<uint8_t*>(p));
+    l.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
-    EXPECT_EQ(l.size(), Bytes{5 * sizeof(Type)});
+    EXPECT_EQ(l.size(), Bytes{0});
 }
 
 TEST(alloc_Linear, resize)
