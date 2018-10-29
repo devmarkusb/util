@@ -3,58 +3,67 @@
 
 //!
 /** An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies
-    implemented in subdir alloc.
-*/
+    or arenas implemented in subdir alloc.*/
 //! \file
 
 #ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 #define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 
 #include "toolib/PPDEFS.h"
+#include "toolib/mem/types.h"
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <type_traits>
-
-#include <string>
-#include <utility>
 
 
 namespace too
 {
 namespace mem
 {
-template <typename T, typename AllocStrategy>
-class Allocator : private AllocStrategy
+template <typename T, typename AllocArenaStrategy>
+class Allocator
 {
 public:
     using value_type = T;
 
-    static_assert(!std::is_polymorphic_v<AllocStrategy>);
+    //Allocator() noexcept = default;
+    explicit Allocator(AllocArenaStrategy& a) noexcept : a_{a} {}
 
-    Allocator() noexcept = default;
-    template <class U>
-    /*implicit*/ Allocator(const Allocator<U, AllocStrategy>&) noexcept {}
+    template <typename T2>
+    /*implicit*/ Allocator(const Allocator<T2, AllocArenaStrategy>& other) noexcept : a_{other.a_} {}
 
-    value_type* allocate(size_t s)
+    value_type* allocate(size_t objcount)
     {
-        return AllocStrategy::template allocate<value_type>(s);
+        return reinterpret_cast<value_type*>(a_.allocate(Bytes{objcount * sizeof(value_type)}));
     }
-    void deallocate(value_type* p, size_t)
+
+    void deallocate(value_type* p, size_t objcount)
     {
-        AllocStrategy::template deallocate<value_type>(p);
+        a_.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
     }
 
     size_t max_size() const noexcept { return std::numeric_limits<size_t>::max() / sizeof(value_type); }
+
+private:
+    AllocArenaStrategy& a_;
+
+    template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
+    friend bool operator==(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs)
+    noexcept;
+
+    template <typename T2, typename AllocArenaStrategy2>
+    friend class Allocator;
 };
 
-template <typename T1, typename T2, typename AllocStrategy>
-bool operator==(const Allocator<T1, AllocStrategy>&, const Allocator<T2, AllocStrategy>&) noexcept
+template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
+bool operator==(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs) noexcept
 {
-    return true;
+    return lhs.a_ == rhs.a_;
 }
 
-template <typename T1, typename T2, typename AllocStrategy>
-bool operator!=(const Allocator<T1, AllocStrategy>& lhs, const Allocator<T2, AllocStrategy>& rhs) noexcept
+template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
+bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs) noexcept
 {
     return !(lhs == rhs);
 }

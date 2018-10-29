@@ -9,7 +9,8 @@
 #ifndef EXAMPLE_H_sdufhi3gn78325tx7635tn27
 #define EXAMPLE_H_sdufhi3gn78325tx7635tn27
 
-#include <cstddef>
+#include "toolib/mem/types.h"
+#include <cstdint>
 #include <new>
 
 
@@ -22,14 +23,12 @@ namespace alloc
 class Example
 {
 public:
-    template <typename T>
-    T* allocate(size_t s)
+    uint8_t* allocate(Bytes size)
     {
-        return reinterpret_cast<T*>(::operator new(s * sizeof(T)));
+        return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
-    template <typename T>
-    void deallocate(T* p)
+    void deallocate(uint8_t* p, Bytes = {}) noexcept
     {
         ::operator delete(p);
     }

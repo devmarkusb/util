@@ -1,4 +1,4 @@
-// Markus Borris, 2011-17
+// Markus Borris, 2011-18
 // This file is part of tfl library.
 
 //!
@@ -21,13 +21,13 @@ namespace too
 class non_copyable
 {
 protected:
-    constexpr non_copyable() = default;
+    constexpr non_copyable() noexcept = default;
     ~non_copyable() = default;
     non_copyable(const non_copyable&) = delete;
     non_copyable& operator=(const non_copyable&) = delete;
 #if TOO_HAS_CPP11_DEFAULT_MOVES
-    non_copyable(non_copyable&&) = default;
-    non_copyable& operator=(non_copyable&&) = default;
+    non_copyable(non_copyable&&) noexcept = default;
+    non_copyable& operator=(non_copyable&&) noexcept = default;
 #endif
 };
 }
