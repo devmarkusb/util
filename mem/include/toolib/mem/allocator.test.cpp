@@ -1,6 +1,7 @@
 #include "allocator.h"
 #include "alloc/example.h"
 #include "alloc/linear.h"
+#include "alloc/onstack.h"
 #include "toolib/mem/types.h"
 #include <map>
 #include <string>
@@ -95,6 +96,29 @@ TEST(allocator_linear, map)
     Arena a;
     std::cout << "sizeof(MapPair): " << sizeof(MapPair) << ", alignof(MapPair): " << alignof(MapPair) << "\n";
     a.preallocate(Bytes{100'000}, Bytes{alignof(MapPair)});
+    Allocator al{a};
+    std::map<int, std::string, std::less<>, Allocator> m{al};
+
+    common_map_test(m);
+}
+
+TEST(allocator_onstack, vector)
+{
+    using Arena = too::mem::alloc::OnStack<1'000'000 * sizeof(int), alignof(int)>;
+    using Allocator = too::mem::Allocator<int, Arena>;
+    Arena a;
+    Allocator al{a};
+    std::vector<int, Allocator> v{al};
+
+    common_vector_test(v);
+}
+
+TEST(allocator_onstack, map)
+{
+    using MapPair = std::pair<const int, std::string>;
+    using Arena = too::mem::alloc::OnStack<100'000, alignof(MapPair)>;
+    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    Arena a;
     Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 

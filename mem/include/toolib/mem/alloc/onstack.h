@@ -46,8 +46,6 @@ public:
         size.value = pad_up(size.value, max_alignment_in_bytes);
         if (p + size.value == curr_memptr_)
             curr_memptr_ = p;
-        else
-            TOO_ASSERT(false); // you have to deallocate exactly the latest allocated size and address (it's a stack)
     }
 
     static constexpr Bytes capacity() noexcept { return Bytes{capacity_in_bytes}; }

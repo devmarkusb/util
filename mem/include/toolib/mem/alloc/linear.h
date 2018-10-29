@@ -4,7 +4,9 @@
 //!
 /** Implements the most simple (but perhaps also most efficient) linear memory allocation arena/strategy.
     The idea is that physical allocation and deallocation happen at the beginning and the end only, but nowhere in
-    between.*/
+    between.
+    Important: For now the class should only be used for allocating objects of a single type. For performance reasons,
+    as there is no alignment handling after the preallocation anymore.*/
 //! \file
 
 #ifndef LINEAR_H_jsdkdbhfzu34gt2837tnyg13
