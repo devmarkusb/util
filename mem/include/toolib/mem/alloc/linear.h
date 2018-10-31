@@ -13,6 +13,7 @@
 #define LINEAR_H_jsdkdbhfzu34gt2837tnyg13
 
 #include "toolib/assert.h"
+#include "toolib/mem/alloc/statistics.h"
 #include "toolib/mem/types.h"
 #include "toolib/class/non_copyable.h"
 #include <cstddef>
@@ -25,10 +26,16 @@ namespace mem
 {
 namespace alloc
 {
-class Linear : private too::non_copyable
+template <typename StatisticsPolicy = NoStatistics>
+class Linear : private too::non_copyable, public StatisticsPolicy
 {
 public:
-    //! This is *not* done automatically on construction.
+    Linear() = default;
+    Linear(Bytes capacity, Bytes alignment)
+    {
+        preallocate(capacity, alignment);
+    }
+
     void preallocate(Bytes capacity, Bytes alignment)
     {
         TOO_ASSERT(!capacity_);
@@ -85,6 +92,8 @@ public:
         }
 
         curr_offset_ = new_offset;
+
+        this->statsCollect_currentSize(curr_offset_);
 
         return buf_ + old_offset.value;
     }

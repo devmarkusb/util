@@ -7,7 +7,7 @@
 using too::mem::Bytes;
 
 
-TEST(alloc_example, basics)
+TEST(alloc_Example, basics)
 {
     too::mem::alloc::Example a;
     auto mem = reinterpret_cast<int*>(a.allocate(Bytes{42 * sizeof(int)}));

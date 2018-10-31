@@ -10,6 +10,7 @@
 
 #include "toolib/assert.h"
 #include "toolib/class/non_copyable.h"
+#include "toolib/mem/alloc/statistics.h"
 #include "toolib/mem/types.h"
 #include "toolib/mem/utility.h"
 #include <cstddef>
@@ -24,8 +25,8 @@ namespace alloc
 {
 /** You should adapt @tparam max_alignment_in_bytes to at least the alignment of the largest type you're going to
     allocate frequently. But not larger as this wastes space due to padding.*/
-template <size_t capacity_in_bytes, size_t max_alignment_in_bytes>
-class OnStack : private too::non_copyable
+template <size_t capacity_in_bytes, size_t max_alignment_in_bytes, typename StatisticsPolicy = NoStatistics>
+class OnStack : private too::non_copyable, public StatisticsPolicy
 {
 public:
     static_assert(capacity_in_bytes % max_alignment_in_bytes == 0, "capacity needs to be a multiple of alignment");
@@ -38,6 +39,9 @@ public:
 
         auto old_memptr = curr_memptr_;
         curr_memptr_ += padded_size;
+
+        this->statsCollect_currentSize(this->size());
+
         return old_memptr;
     }
 

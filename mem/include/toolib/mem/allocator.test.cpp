@@ -78,7 +78,7 @@ TEST(allocator_example, map)
 
 TEST(allocator_linear, vector)
 {
-    using Arena = too::mem::alloc::Linear;
+    using Arena = too::mem::alloc::Linear<>;
     using Allocator = too::mem::Allocator<int, Arena>;
     Arena a;
     a.preallocate(Bytes{1'000'000 * sizeof(int)}, Bytes{alignof(int)});
@@ -90,7 +90,7 @@ TEST(allocator_linear, vector)
 
 TEST(allocator_linear, map)
 {
-    using Arena = too::mem::alloc::Linear;
+    using Arena = too::mem::alloc::Linear<>;
     using MapPair = std::pair<const int, std::string>;
     using Allocator = too::mem::Allocator<MapPair, Arena>;
     Arena a;

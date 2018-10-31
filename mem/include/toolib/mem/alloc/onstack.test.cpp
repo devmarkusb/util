@@ -78,3 +78,20 @@ TEST(alloc_OnStack, padding)
     too::ignore_arg(p);
     EXPECT_EQ(a2.size(), Bytes{4});
 }
+
+TEST(alloc_OnStack, with_stats)
+{
+    using Type = int;
+    static_assert(alignof(Type) == sizeof(Type));
+    too::mem::alloc::OnStack<1024, alignof(Type), too::mem::alloc::Statistics> a;
+
+    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{20 * sizeof(Type)}));
+    too::ignore_arg(p);
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
+    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{90 * sizeof(Type)}));
+    too::ignore_arg(p);
+
+    ASSERT_TRUE(a.peak());
+    EXPECT_EQ(*a.peak(), Bytes{120 * sizeof(Type)});
+}
