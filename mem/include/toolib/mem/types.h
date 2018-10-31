@@ -10,6 +10,7 @@
 #define TYPES_H_eroui342zt347g8hx3xg713h4
 
 #include <cstddef>
+#include <ostream>
 
 
 namespace too
@@ -56,6 +57,23 @@ inline constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept { return lhs.valu
 inline constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept { return operator<(rhs, lhs); }
 inline constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept { return !operator>(lhs, rhs); }
 inline constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept { return !operator<(lhs, rhs); }
+
+namespace impl
+{
+class ThousandsSep : public std::numpunct<char>
+{
+protected:
+    char do_thousands_sep() const override { return '\''; }
+    std::string do_grouping() const override { return "\003"; }
+};
+} // impl
+
+inline std::ostream& operator<<(std::ostream& os, Bytes x)
+{
+    os.imbue(std::locale(os.getloc(), new impl::ThousandsSep));
+    os << x.value << " B";
+    return os;
+}
 } // mem
 } // too
 
