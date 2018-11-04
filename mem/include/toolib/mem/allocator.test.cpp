@@ -14,16 +14,16 @@ using Bytes = too::mem::Bytes;
 template <typename Vector>
 void common_vector_test(Vector&& v)
 {
-    v.reserve(1'000'000);
+    v.reserve(100'000);
     EXPECT_TRUE(v.empty());
-    v.resize(500'000);
-    EXPECT_EQ(v.size(), 500'000);
-    v.resize(1'000'000);
-    EXPECT_EQ(v.size(), 1'000'000);
-    v[500'001] = 42;
-    EXPECT_EQ(v[500'001], 42);
+    v.resize(50'000);
+    EXPECT_EQ(v.size(), 50'000);
+    v.resize(100'000);
+    EXPECT_EQ(v.size(), 100'000);
+    v[50'001] = 42;
+    EXPECT_EQ(v[50'001], 42);
     v.pop_back();
-    EXPECT_EQ(v.size(), 999'999);
+    EXPECT_EQ(v.size(), 99'999);
     v.clear();
     EXPECT_TRUE(v.empty());
     v.shrink_to_fit();
@@ -83,7 +83,7 @@ TEST(allocator_linear, vector)
     try
     {
         Arena a;
-        a.preallocate(Bytes{1'000'000 * sizeof(int)}, Bytes{alignof(int)});
+        a.preallocate(Bytes{100'000 * sizeof(int)}, Bytes{alignof(int)});
         Allocator al{a};
         std::vector<int, Allocator> v{al};
 
@@ -111,7 +111,7 @@ TEST(allocator_linear, map)
 
 TEST(allocator_onstack, vector)
 {
-    using Arena     = too::mem::alloc::OnStack<1'000'000 * sizeof(int), alignof(int)>;
+    using Arena     = too::mem::alloc::OnStack<100'000 * sizeof(int), alignof(int)>;
     using Allocator = too::mem::Allocator<int, Arena>;
     try
     {
