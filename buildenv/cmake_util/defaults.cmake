@@ -5,7 +5,10 @@
 ######################################################################################################################
 # general defaults and helper declarations
 
-if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+# I would like to get sth. like this working:
+#add_definitions($<$<NOT:$<CONFIG:Debug>>:-DNDEBUG>)
+# but until then...
+if (NOT MSVC AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DNDEBUG)
 endif ()
 
