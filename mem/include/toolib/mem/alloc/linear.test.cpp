@@ -1,5 +1,6 @@
 #include "linear.h"
 #include "toolib/ignore_arg.h"
+#include "toolib/PPDEFS.h"
 #include <cstddef>
 #include "gtest/gtest.h"
 
@@ -8,17 +9,19 @@ using too::mem::Bytes;
 
 TEST(alloc_Linear, constr)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     EXPECT_EQ(a.size(), Bytes{0});
 
     EXPECT_THROW(a.allocate(Bytes{1}), std::bad_alloc);
 
+#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
     EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), "[Aa]ssert");
+#endif
 }
 
 TEST(alloc_Linear, prealloc)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     using Type = int;
     a.preallocate(Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)});
 
@@ -26,12 +29,14 @@ TEST(alloc_Linear, prealloc)
 
     EXPECT_THROW(a.allocate(Bytes{11 * sizeof(Type)}), std::bad_alloc);
 
+#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
     EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), "[Aa]ssert");
+#endif
 }
 
 TEST(alloc_Linear, alloc)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     using Type = int;
     a.preallocate(Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)});
 
@@ -51,7 +56,7 @@ TEST(alloc_Linear, alloc)
 
 TEST(alloc_Linear, dealloc)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     using Type = int;
     a.preallocate(Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)});
 
@@ -65,7 +70,7 @@ TEST(alloc_Linear, dealloc)
 
 TEST(alloc_Linear, resize)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     using Type = int;
     a.preallocate(Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)});
 
@@ -82,14 +87,16 @@ TEST(alloc_Linear, resize)
 
 TEST(alloc_Linear, free)
 {
-    too::mem::alloc::Linear a;
+    too::mem::alloc::Linear<> a;
     using Type = int;
     a.preallocate(Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)});
     a.free();
 
     EXPECT_THROW(a.allocate(Bytes{1 * sizeof(Type)}), std::bad_alloc);
 
+#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
     EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), "[Aa]ssert");
+#endif
 }
 
 TEST(alloc_Linear, with_stats)

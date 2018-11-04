@@ -9,7 +9,7 @@ using too::mem::Bytes;
 
 TEST(alloc_DefaultNewDelete, basics)
 {
-    too::mem::alloc::DefaultNewDelete a;
+    too::mem::alloc::DefaultNewDelete<> a;
     auto mem = reinterpret_cast<int*>(a.allocate(Bytes{42 * sizeof(int)}));
     const auto autoDeallocate = [mem, &a]()
     { a.deallocate(reinterpret_cast<uint8_t*>(mem), Bytes{42 * sizeof(int)}); };
