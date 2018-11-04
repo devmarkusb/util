@@ -20,7 +20,7 @@ macro(too_qt_deploy target path_to_qml)
             set(RuntimeOutputDirectoryToUse "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
         endif ()
 
-        set(TargetBuildType_for_qtdeploy $<IF:$<CONFIG:Debug>:--debug,--release>)
+        set(TargetBuildType_for_qtdeploy $<IF:$<CONFIG:Debug>,--debug,--release>)
 
         if (NOT "${path_to_qml}" STREQUAL "")
             set(QmlSourcesToUse --qmldir "${path_to_qml}")
