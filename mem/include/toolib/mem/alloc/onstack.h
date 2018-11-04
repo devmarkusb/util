@@ -13,6 +13,7 @@
 #include "toolib/mem/alloc/statistics.h"
 #include "toolib/mem/types.h"
 #include "toolib/mem/utility.h"
+#include "toolib/warnings.h"
 #include <cstddef>
 #include <cstdint>
 
@@ -57,7 +58,10 @@ public:
     void reset() noexcept { curr_memptr_ = buf_; }
 
 private:
+TOO_PRAGMA_WARNINGS_PUSH
+TOO_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
     alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes];
+TOO_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };
 } // alloc
