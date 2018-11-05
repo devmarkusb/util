@@ -30,37 +30,17 @@ template <typename StatisticsPolicy = NoStatistics>
 class Linear : private too::non_copyable, public StatisticsPolicy
 {
 public:
-    Linear() = default;
     Linear(Bytes capacity, Bytes alignment)
+        : alignment_{static_cast<std::align_val_t>(alignment.value)}
+        , buf_{static_cast<uint8_t*>(::operator new(capacity.value, alignment_))}
+        , curr_offset_{}
+        , capacity_{capacity}
     {
-        preallocate(capacity, alignment);
-    }
-
-    void preallocate(Bytes capacity, Bytes alignment)
-    {
-        TOO_ASSERT(!capacity_);
-        TOO_ASSERT(!buf_);
-        TOO_ASSERT(!curr_offset_);
-
-        alignment_ = static_cast<std::align_val_t>(alignment.value);
-        capacity_ = capacity;
-        buf_ = static_cast<uint8_t*>(
-                ::operator new(capacity.value, alignment_));
-        curr_offset_ = Bytes{0};
-    }
-
-    //! This would also be done automatically on destruction.
-    void free() noexcept
-    {
-        ::operator delete(buf_, alignment_);
-        capacity_ = Bytes{0};
-        buf_ = nullptr;
-        curr_offset_ = Bytes{0};
     }
 
     ~Linear()
     {
-        free();
+        ::operator delete(buf_, alignment_);
     }
 
     Bytes size() const noexcept
@@ -107,10 +87,10 @@ public:
     }
 
 private:
+    std::align_val_t alignment_{};
     uint8_t* buf_{};
     Bytes curr_offset_{};
     Bytes capacity_{};
-    std::align_val_t alignment_{};
 };
 } // alloc
 } // mem
