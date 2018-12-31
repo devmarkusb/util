@@ -11,6 +11,7 @@
 
 #include "toolib/assert.h"
 #include "toolib/ignore_arg.h"
+#include <cmath>
 
 
 #include "toolib/PPDEFS/UNDEF_MIN_MAX"
