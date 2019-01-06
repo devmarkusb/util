@@ -12,7 +12,7 @@
 #include "toolib/PPDEFS.h"
 #include <fstream>
 
-#if __has_include(<filesystem>)
+#if __has_include(<filesystem>) && !TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
 namespace too
@@ -28,6 +28,7 @@ namespace std_fs = std::filesystem;
 
 //####################################################################################################################
 // A really quick&dirty implementation for the worst case not having the filesystem lib.
+// Note, so far most of it is Linux only.
 
 #if TOO_OS_UNIX
 #include <dirent.h>
@@ -39,6 +40,7 @@ namespace std_fs = std::filesystem;
 #include "toolib/ignore_arg.h"
 #include <cstdio>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -392,7 +394,7 @@ inline bool exists(const path& p)
 }
 
 //! \Returns false if already existing or error occurred.
-inline bool create_directories(const path& p)
+inline bool create_directories(const path& p, std::error_code& ec)
 {
 #if TOO_OS_LINUX
     const auto dir = p.c_str();
@@ -403,16 +405,29 @@ inline bool create_directories(const path& p)
     len = strlen(tmp);
     if (tmp[len - 1] == '/')
         tmp[len - 1] = 0;
+    const auto perms = S_IRWXU | S_IRWXG | S_IRWXO;
     for (char* p_ = tmp + 1; *p_; p_++)
     {
         if (*p_ == '/')
         {
             *p_ = 0;
-            mkdir(tmp, S_IRWXU);
+            const auto err = mkdir(tmp, perms);
+            if (err && errno != EEXIST)
+            {
+                ec.assign(errno, std::system_category());
+                return false;
+            }
             *p_ = '/';
         }
     }
-    return mkdir(tmp, S_IRWXU) == 0;
+    const auto err = mkdir(tmp, perms);
+    if (err)
+    {
+        if (errno != EEXIST)
+            ec.assign(errno, std::system_category());
+        return false;
+    }
+    return true;
 #else
 #error "not implemented"
 #endif
@@ -428,6 +443,24 @@ inline bool is_regular_file(const path& p)
 #else
 #error "not implemented"
 #endif
+}
+
+inline bool copy_file(const path& from, const path& to, std::error_code& ec)
+{
+    std::ifstream src(from.c_str(), std::ios::binary);
+    if (!src)
+    {
+        ec.assign(errno, std::system_category());
+        return false;
+    }
+    std::ofstream dst(to.c_str(), std::ios::binary);
+    if (!dst)
+    {
+        ec.assign(errno, std::system_category());
+        return false;
+    }
+    dst << src.rdbuf();
+    return true;
 }
 
 inline bool remove(const path& p)

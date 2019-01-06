@@ -1,6 +1,13 @@
 /** Includes some physical tests on the filesystem. The playground are subdirs under root's tmp dir.
-    File/dir removals/overwrites are fully avoided! */
+    *Important* From time to time you also want to test compliance of the tests with the standard library
+    implementation. For that to happen, please set TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL to 0, which only tests our
+    own implementation by default otherwise.*/
+#include "toolib/PPDEFS.h"
+#if TOO_OS_LINUX
+#define TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL   1
+#endif
 #include "std_ext_filesystem.h"
+#undef TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 #include "toolib/finally.h"
 #include <algorithm>
 #include <chrono>
@@ -271,7 +278,9 @@ class PhysicalFilesystemTest : public ::testing::Test
 {
     void SetUp() override
     {
-        fs::create_directories(physical_test_dir);
+        std::error_code ec;
+        fs::create_directories(physical_test_dir, ec);
+        ASSERT_FALSE(ec);
     }
 
     void TearDown() override
@@ -285,10 +294,15 @@ TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype)
 {
     const fs::path dir1 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
     const fs::path dir2 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
-    EXPECT_TRUE(fs::create_directories(dir1));
-    EXPECT_FALSE(fs::create_directories(dir1));
-    EXPECT_TRUE(fs::create_directories(dir2));
-    EXPECT_FALSE(fs::create_directories(dir2));
+    std::error_code ec;
+    EXPECT_TRUE(fs::create_directories(dir1, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_FALSE(fs::create_directories(dir1, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(fs::create_directories(dir2, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_FALSE(fs::create_directories(dir2, ec));
+    ASSERT_FALSE(ec);
 
     EXPECT_TRUE(fs::exists(dir1));
     EXPECT_TRUE(fs::exists(dir2));
@@ -302,8 +316,11 @@ TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype
     const std::string subdirs_base = getSteadyUniqueNr() + "subdirs";
 
     const fs::path subdirs{physical_test_dir / fs::path{subdirs_base} / fs::path{"d1/d2/d3"}};
-    EXPECT_TRUE(fs::create_directories(subdirs));
-    EXPECT_FALSE(fs::create_directories(subdirs));
+    std::error_code ec;
+    EXPECT_TRUE(fs::create_directories(subdirs, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_FALSE(fs::create_directories(subdirs, ec));
+    ASSERT_FALSE(ec);
 
     EXPECT_TRUE(fs::exists(subdirs));
 
@@ -317,6 +334,20 @@ TEST_F(PhysicalFilesystemTest, exists__file_correcttype)
     too::file::touch(file);
     EXPECT_TRUE(fs::exists(file));
     EXPECT_TRUE(fs::is_regular_file(file));
+}
+
+TEST_F(PhysicalFilesystemTest, copy_file__file_existence)
+{
+    const auto file = physical_test_dir / fs::path{"dummy-to-copy" + getSteadyUniqueNr()};
+    EXPECT_TRUE(!fs::exists(file));
+    too::file::touch(file);
+    fs::path dest{file};
+    dest += "-copy";
+    EXPECT_TRUE(!fs::exists(dest));
+    std::error_code ec;
+    ASSERT_TRUE(fs::copy_file(file, dest, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(fs::exists(dest));
 }
 
 TEST_F(PhysicalFilesystemTest, remove__file_existence)
@@ -333,7 +364,9 @@ TEST_F(PhysicalFilesystemTest, remove__dir_existence)
 {
     const auto dir = physical_test_dir / fs::path{"deadbeef" + getSteadyUniqueNr()};
     ASSERT_TRUE(!fs::exists(dir));
-    fs::create_directories(dir);
+    std::error_code ec;
+    fs::create_directories(dir, ec);
+    ASSERT_FALSE(ec);
     ASSERT_TRUE(fs::exists(dir));
     ASSERT_TRUE(fs::remove(dir));
     EXPECT_TRUE(!fs::exists(dir));
@@ -368,10 +401,12 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set)
 TEST_F(PhysicalFilesystemTest, directory_iterator)
 {
     const fs::path dir = physical_test_dir / fs::path{"some" + getSteadyUniqueNr()};
-    fs::create_directories(dir);
+    std::error_code ec;
+    fs::create_directories(dir, ec);
 
     too::file::touch(dir / "f1");
-    fs::create_directories(dir / "sub");
+    fs::create_directories(dir / "sub", ec);
+    ASSERT_FALSE(ec);
     too::file::touch(dir / "f2");
     too::file::touch(dir / "f3");
 
