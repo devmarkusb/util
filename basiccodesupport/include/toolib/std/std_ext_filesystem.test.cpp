@@ -17,6 +17,7 @@
 
 namespace fs = too::std_fs;
 
+
 namespace
 {
 namespace
@@ -207,7 +208,11 @@ TEST(pathTest, replace_extension)
 
     fs::path dot{"."};
     dot.replace_extension(".txt");
-    EXPECT_EQ(dot, dot);
+#if TOO_OS_WINDOWS
+    EXPECT_STREQ(dot.string().c_str(), ".txt");
+#else
+    EXPECT_STREQ(dot.string().c_str(), "..txt");
+#endif
 
     fs::path empty_ext_dot{"/home/x/test."};
     empty_ext_dot.replace_extension();
@@ -224,6 +229,10 @@ TEST(pathTest, replace_extension)
     fs::path usual_justfile{"file.replace_extension"};
     usual_justfile.replace_extension();
     EXPECT_EQ(usual_justfile, fs::path{"file"});
+
+    fs::path dot_in_parent{"sub.dir/file"};
+    dot_in_parent.replace_extension();
+    EXPECT_EQ(dot_in_parent, fs::path{"sub.dir/file"});
 }
 
 TEST(pathTest, eq)

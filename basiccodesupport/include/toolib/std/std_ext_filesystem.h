@@ -12,6 +12,7 @@
 #include "toolib/PPDEFS.h"
 #include <fstream>
 
+
 #if __has_include(<filesystem>) && !TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
@@ -146,7 +147,9 @@ struct path
     path& replace_extension(const path& replacement = {})
     {
         const size_t start = s_.rfind('.');
-        if (start == 0 || start == std::string::npos || s_[start - 1] == '/')
+        const size_t last_slash = s_.rfind('/');
+        if (start == 0 || start == std::string::npos || s_[start - 1] == '/' ||
+            (last_slash != std::string::npos && start < last_slash))
             s_ += replacement.string();
         else
             s_.replace(std::begin(s_) + start, std::end(s_), replacement.string());
