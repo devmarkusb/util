@@ -115,6 +115,23 @@
 //!@}
 
 
+//#####################################################################################################################
+//! Standard library
+//!@{
+
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#define TOO_STDLIB_MSVC				1
+#else
+#if __GLIBCXX__
+#define TOO_STDLIB_GNU_LIBSTDCPP	1
+#else
+#define TOO_STDLIB_CLANG_LIBCPP		1
+#endif
+#endif
+
+//!@}
+
+
 //####################################################################################################################
 //! Languages
 //!@{
