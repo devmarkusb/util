@@ -1,0 +1,95 @@
+// Markus Borris, 2019
+// This file is part of tfl library.
+
+//!
+/**
+ */
+//! \file
+
+#ifndef WAITQUEUE_H_ejvhnxg853nh8g2h
+#define WAITQUEUE_H_ejvhnxg853nh8g2h
+
+#include <condition_variable>
+#include <limits>
+#include <mutex>
+#include <queue>
+#include <type_traits>
+
+
+namespace too::thread
+{
+//! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
+template <typename T>
+class WaitQueue
+{
+public:
+    explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max()) : maxElems_(maxElems) {}
+
+    template <typename T_>
+    void push(T_&& elem)
+    {
+        static_assert(std::is_same_v<T, T_>);
+
+        {
+            std::unique_lock<std::mutex> lock(mutex_);
+
+            if (queue_.size() > maxElems_)
+                throw std::runtime_error{"queue already full"};
+
+            queue_.push(std::forward<T_>(elem));
+        }
+        conditionVariable_.notify_one();
+    }
+
+    template <typename... T_s>
+    void emplace(T_s&&... elems)
+    {
+        {
+            std::unique_lock<std::mutex> lock(mutex_);
+
+            if (queue_.size() >= maxElems_)
+                throw std::runtime_error{"queue already full"};
+
+            queue_.emplace(std::forward<T_s>(elems)...);
+        }
+        conditionVariable_.notify_one();
+    }
+
+    //! \Returns false if the queue has been stopped (this interrupts waiting even if the queue is empty).
+    bool waitAndPop(T& poppedElem)
+    {
+        std::unique_lock<std::mutex> lk(mutex_);
+        while (queue_.empty() && !stopped_)
+            conditionVariable_.wait(lk);
+
+        if (stopped_)
+            return false;
+
+        poppedElem = std::move(queue_.front());
+        queue_.pop();
+
+        return true;
+    }
+
+    void stop()
+    {
+        std::unique_lock<std::mutex> lock(mutex_);
+        stopped_ = true;
+        conditionVariable_.notify_all();
+    }
+
+    size_t size() const
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return queue_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::condition_variable conditionVariable_;
+    size_t maxElems_{};
+    std::queue<T> queue_;
+    bool stopped_ = false;
+};
+} // too::thread
+#endif
