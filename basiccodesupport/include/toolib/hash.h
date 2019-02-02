@@ -1,0 +1,52 @@
+// Markus Borris, 2019
+// This file is part of tfl library.
+
+//!
+/**
+ */
+//! \file
+
+#ifndef HASH_H_erugxh7842g873hgx782gh3
+#define HASH_H_erugxh7842g873hgx782gh3
+
+#include <cstddef>
+
+
+namespace too
+{
+/** Generates a combined hash from a list of hashes.
+    Typical usage is to specialize std's hash for a user type composed of std-types, like so:
+    struct UserType
+    {
+        int a{};
+        std::string b;
+    };
+    namespace std
+    {
+    template<>
+    struct hash<UserType>
+    {
+        size_t operator()(const UserType& ut) const
+        {
+            return too::hashCombine(
+                std::hash<int>()(ut.a),
+                std::hash<std::string>()(ut.b));
+        }
+    };
+    } // std*/
+//!@{
+inline size_t hashCombine(std::size_t hash)
+{
+    return hash;
+}
+
+template <typename... Size_ts>
+inline size_t hashCombine(std::size_t hash1, Size_ts... hashes)
+{
+    // implemented like boost's hash_combine
+    return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2));
+}
+//!@}
+} // too
+
+#endif

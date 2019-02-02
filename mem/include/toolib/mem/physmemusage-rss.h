@@ -19,6 +19,7 @@
 #include <unistd.h>
 #endif
 
+
 namespace too::mem
 {
 /** Returns virtual memory usage and physical memory usage (more precisely RSS, resident set size )
