@@ -97,8 +97,7 @@ struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::in
     }
 };
 
-/** Like NextGreaterOrEqualPowerOfTwo, but working at runtime as well.
-    Expects \param v > 0.
+/** Like NextGreaterOrEqualPowerOfTwo (except for negative number support), but working at runtime as well.
     Cf. https://stackoverflow.com/questions/1322510#1322548*/
 constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v)
 {

@@ -9,13 +9,14 @@ TEST(thread_WaitQueue, basics)
 {
     too::thread::WaitQueue<int> q{2};
 
-    q.emplace(42);
+    ASSERT_TRUE(q.emplace(42));
     int elem{};
     q.waitAndPop(elem);
     EXPECT_EQ(elem, 42);
 
-    q.emplace(43);
-    q.emplace(44);
+    ASSERT_TRUE(q.emplace(43));
+    ASSERT_TRUE(q.emplace(44));
+    ASSERT_FALSE(q.emplace(45));
     q.waitAndPop(elem);
     EXPECT_EQ(elem, 43);
     q.waitAndPop(elem);

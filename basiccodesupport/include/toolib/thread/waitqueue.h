@@ -13,6 +13,7 @@
 #include <limits>
 #include <mutex>
 #include <queue>
+#include <sstream>
 #include <type_traits>
 
 
@@ -26,7 +27,7 @@ public:
     explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max()) : maxElems_(maxElems) {}
 
     template <typename T_>
-    void push(T_&& elem)
+    bool push(T_&& elem)
     {
         static_assert(std::is_same_v<T, T_>);
 
@@ -34,25 +35,27 @@ public:
             std::unique_lock<std::mutex> lock(mutex_);
 
             if (queue_.size() > maxElems_)
-                throw std::runtime_error{"queue already full"};
+                return false;
 
             queue_.push(std::forward<T_>(elem));
         }
         conditionVariable_.notify_one();
+        return true;
     }
 
     template <typename... T_s>
-    void emplace(T_s&&... elems)
+    bool emplace(T_s&&... elems)
     {
         {
             std::unique_lock<std::mutex> lock(mutex_);
 
             if (queue_.size() >= maxElems_)
-                throw std::runtime_error{"queue already full"};
+                return false;
 
             queue_.emplace(std::forward<T_s>(elems)...);
         }
         conditionVariable_.notify_one();
+        return true;
     }
 
     //! \Returns false if the queue has been stopped (this interrupts waiting even if the queue is empty).
