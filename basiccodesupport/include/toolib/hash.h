@@ -48,5 +48,4 @@ inline size_t hashCombine(std::size_t hash1, Size_ts... hashes)
 }
 //!@}
 } // too
-
 #endif
