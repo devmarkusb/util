@@ -17,6 +17,14 @@ namespace too
 {
 namespace mem
 {
+const size_t KB = 1000;
+constexpr size_t MB = 1000 * KB;
+constexpr size_t GB = 1000 * MB;
+
+const size_t KiB = 1024;
+constexpr size_t MiB = 1024 * KB;
+constexpr size_t GiB = 1024 * MB;
+
 struct Bytes
 {
     size_t value{};
