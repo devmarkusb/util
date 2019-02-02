@@ -1,0 +1,115 @@
+// Markus Borris, 2019
+// This file is part of tfl library.
+
+//!
+/**
+ */
+//! \file
+
+#ifndef MATH_H_skuy3478ngt8247gg2
+#define MATH_H_skuy3478ngt8247gg2
+
+#include <cstdint>
+#include <type_traits>
+
+
+namespace too::math
+{
+/** \Returns true if the number \param number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.
+    This is done at compile-time (if possible).
+    Negative numbers are handled as well.*/
+template <typename NumberType>
+constexpr bool isPowerOfTwo(NumberType number)
+{
+    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+    return number && ((number & (number - 1)) == 0);
+}
+
+namespace detail
+{
+// Impl. notes: Workaround for partially specializing non-type template parameters of dependent type.
+// https://stackoverflow.com/a/22486607
+// The cast (NumberType)0 instead of NumberType{} is a workaround for GCC.
+template <typename NumberType, typename number>
+struct NextGreaterOrEqPow2_;
+
+template <typename NumberType, NumberType number>
+struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
+{
+    static constexpr NumberType value_ = NextGreaterOrEqPow2_<NumberType,
+            std::integral_constant<NumberType, number / NumberType{2}>>::value_ * NumberType{2};
+};
+
+template <typename NumberType>
+struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, (NumberType)0>>
+{
+    static constexpr NumberType value_ = NumberType{1};
+};
+} // impl
+
+/** Next greater or equal power of two. Found at compile-time only.
+    Function value \returns a power of two that is greater than or equal to the passed \param number.
+    Negative numbers are handled as well.
+    Examples:
+        static_assert(too::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 4);
+        static_assert(too::math::NextGreaterOrEqualPowerOfTwo<int, 5>::value() == 8);*/
+template <typename NumberType, NumberType number>
+struct NextGreaterOrEqPow2
+        : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
+{
+    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+
+    static constexpr NumberType value()
+    {
+        if constexpr (isPowerOfTwo(number))
+        {
+            return number;
+        }
+        else
+        {
+            // yes, this still keeps the function compile-time, cf. unit tests
+            if (number < NumberType{}) {
+                return NumberType{1};
+            }
+            return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
+        }
+    }
+};
+
+/** Next greater power of two. Found at compile-time only.
+    Function value \returns a power of two that is greater than the passed \param number.
+    Negative numbers are handled as well.
+    Examples:
+        static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 3>::value() == 4);
+        static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 8);*/
+template <typename NumberType, NumberType number>
+struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
+{
+    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+
+    static constexpr NumberType value()
+    {
+        if (number < NumberType{})
+        {
+            return NumberType{1};
+        }
+        return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
+    }
+};
+
+/** Like NextGreaterOrEqualPowerOfTwo, but working at runtime as well.
+    Expects \param v > 0.
+    Cf. https://stackoverflow.com/questions/1322510#1322548*/
+constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v)
+{
+    --v;
+    v |= v >> 1u;
+    v |= v >> 2u;
+    v |= v >> 4u;
+    v |= v >> 8u;
+    v |= v >> 16u;
+    v |= v >> 32u;
+    return v+1;
+}
+} // too::math
+#endif
