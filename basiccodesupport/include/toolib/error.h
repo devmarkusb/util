@@ -263,7 +263,7 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_allo
         return std::make_pair(retcode::unknown_error, std::string{});
     }
 }
-} // namespace too
+} // too
 
 using retcode = too::retcode;
 TOO_PRAGMA_WARNINGS_PUSH
