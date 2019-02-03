@@ -29,7 +29,9 @@ endif ()
 set(Target_tooMemTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/toolib/*.test.cpp")
-
+message("Target_tooMemTest_SOURCES before: ${Target_tooMemTest_SOURCES}")
+list(REMOVE_ITEM Target_tooMemTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/include/toolib/mem/new_statistics.test.cpp")
+message("Target_tooMemTest_SOURCES after: ${Target_tooMemTest_SOURCES}")
 add_executable(${Target_tooMemTest}
     ${Target_tooMemTest_SOURCES}
     ${Target_tooMem_INCS}
@@ -44,3 +46,17 @@ target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main) #${Target_tooMem}
 too_set_target_defaults(${Target_tooMemTest})
 
 too_run_target_postbuild(${Target_tooMemTest})
+
+
+add_executable(${Target_tooMemTest}_new_statistics
+        include/toolib/mem/new_statistics.test.cpp
+        ${Target_tooMem_INCS}
+)
+
+too_add_test(${Target_tooMemTest}_new_statistics)
+
+target_include_directories(${Target_tooMemTest}_new_statistics PRIVATE ${tooMem_INCLUDE_DIRS})
+
+too_set_target_defaults(${Target_tooMemTest}_new_statistics)
+
+too_run_target_postbuild(${Target_tooMemTest}_new_statistics)
