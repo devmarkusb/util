@@ -1,9 +1,12 @@
 // Markus Borris, 2019
 // This file is part of tfl library.
 
-//!
-/**
- */
+//! Circular buffer structure(s).
+/** They make a perfect replacement for queue if the needed capacity is known beforehand.
+    The behavior for further pushes in case of a full buffer is simple overwriting of the oldest elements.
+    There are two kinds of implementations provided: CircularBuffer, which dynamically allocates the
+    buffer memory, and CircularBuffer_static which does it statically (on stack ideally). The latter
+    obviously should be preferred if the needed capacity is known at compile time.*/
 //! \file
 
 #ifndef CIRCULAR_BUFFER_H_gfhcio489cghx4m9gh39u8hx3gh
@@ -27,10 +30,10 @@ protected:
     template <typename T_, typename Buffer>
     void push(T_&& item, Buffer&& buf, size_t capacity) noexcept
     {
-        buf[head_] = std::forward<T_>(item);
-
         if (full_)
             tail_ = (tail_ + 1) % capacity;
+
+        buf[head_] = std::forward<T_>(item);
 
         head_ = (head_ + 1) % capacity;
 
@@ -41,12 +44,12 @@ protected:
     template <typename T_, typename Buffer>
     void emplace(T_&& item, Buffer&& buf, size_t capacity) noexcept
     {
+        if (full_)
+            tail_ = (tail_ + 1) % capacity;
+
         auto it = std::begin(buf);
         std::advance(it, head_);
         buf.emplace(it, std::forward<T_>(item));
-
-        if (full_)
-            tail_ = (tail_ + 1) % capacity;
 
         head_ = (head_ + 1) % capacity;
 
