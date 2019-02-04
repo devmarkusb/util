@@ -13,7 +13,6 @@
 #include <limits>
 #include <mutex>
 #include <queue>
-#include <sstream>
 #include <type_traits>
 
 
@@ -29,7 +28,7 @@ public:
     template <typename T_>
     bool push(T_&& elem)
     {
-        static_assert(std::is_same_v<T, T_>);
+        static_assert(std::is_convertible_v<T_, T>);
 
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -43,16 +42,18 @@ public:
         return true;
     }
 
-    template <typename... T_s>
-    bool emplace(T_s&&... elems)
+    template <typename T_>
+    bool emplace(T_&& elem)
     {
+        static_assert(std::is_convertible_v<T_, T>);
+
         {
             std::unique_lock<std::mutex> lock(mutex_);
 
             if (queue_.size() >= maxElems_)
                 return false;
 
-            queue_.emplace(std::forward<T_s>(elems)...);
+            queue_.emplace(std::forward<T_>(elem));
         }
         conditionVariable_.notify_one();
         return true;
@@ -92,7 +93,7 @@ private:
     std::condition_variable conditionVariable_;
     size_t maxElems_{};
     std::queue<T> queue_;
-    bool stopped_ = false;
+    bool stopped_{false};
 };
 } // too::thread
 #endif
