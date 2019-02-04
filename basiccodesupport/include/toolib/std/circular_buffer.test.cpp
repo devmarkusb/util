@@ -289,9 +289,9 @@ TEST(CircularBuffer, other_type)
 
 //####################################################################################################################
 
-TEST(CircularBuffer_static, construction)
+TEST(CircularBuffer_compiletime, construction)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     EXPECT_EQ(cb.capacity(), 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
@@ -311,18 +311,18 @@ TEST(CircularBuffer_static, construction)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, push)
+TEST(CircularBuffer_compiletime, push)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, reset)
+TEST(CircularBuffer_compiletime, reset)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     cb.reset();
     EXPECT_EQ(cb.size(), 0);
@@ -330,9 +330,9 @@ TEST(CircularBuffer_static, reset)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, pop)
+TEST(CircularBuffer_compiletime, pop)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     int item{};
     ASSERT_TRUE(cb.try_pop(item));
@@ -342,9 +342,9 @@ TEST(CircularBuffer_static, pop)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, pop_toomuch)
+TEST(CircularBuffer_compiletime, pop_toomuch)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     int item{};
     ASSERT_TRUE(cb.try_pop(item));
@@ -355,9 +355,9 @@ TEST(CircularBuffer_static, pop_toomuch)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, push_until_full_and_pop)
+TEST(CircularBuffer_compiletime, push_until_full_and_pop)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     cb.push(43);
     cb.push(44);
@@ -372,9 +372,9 @@ TEST(CircularBuffer_static, push_until_full_and_pop)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, push_until_full_and_reset)
+TEST(CircularBuffer_compiletime, push_until_full_and_reset)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     cb.push(43);
     cb.push(44);
@@ -388,9 +388,9 @@ TEST(CircularBuffer_static, push_until_full_and_reset)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, push_until_overflow_and_pop)
+TEST(CircularBuffer_compiletime, push_until_overflow_and_pop)
 {
-    too::CircularBuffer_static<int, 3> cb;
+    too::CircularBuffer<int, 3> cb;
     cb.push(42);
     cb.push(43);
     cb.push(44);
@@ -414,9 +414,9 @@ TEST(CircularBuffer_static, push_until_overflow_and_pop)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, push_overflow_and_pop)
+TEST(CircularBuffer_compiletime, push_overflow_and_pop)
 {
-    too::CircularBuffer_static<std::string, 3> cb;
+    too::CircularBuffer<std::string, 3> cb;
     cb.push("42");
     cb.push("43");
     cb.push("44");
@@ -441,9 +441,9 @@ TEST(CircularBuffer_static, push_overflow_and_pop)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, doubleBuffer_static_maxsize_2)
+TEST(CircularBuffer_compiletime, doubleBuffer_compiletime_maxsize_2)
 {
-    too::CircularBuffer_static<int, 2> cb;
+    too::CircularBuffer<int, 2> cb;
     EXPECT_EQ(cb.capacity(), 2);
     EXPECT_EQ(cb.size(), 0);
     cb.push(42);
@@ -474,9 +474,9 @@ TEST(CircularBuffer_static, doubleBuffer_static_maxsize_2)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, pathological_maxsize_1)
+TEST(CircularBuffer_compiletime, pathological_maxsize_1)
 {
-    too::CircularBuffer_static<int, 1> cb;
+    too::CircularBuffer<int, 1> cb;
     EXPECT_EQ(cb.capacity(), 1);
     EXPECT_EQ(cb.size(), 0);
     cb.push(42);
@@ -507,9 +507,9 @@ TEST(CircularBuffer_static, pathological_maxsize_1)
     EXPECT_TRUE(!cb.full());
 }
 
-TEST(CircularBuffer_static, other_type)
+TEST(CircularBuffer_compiletime, other_type)
 {
-    too::CircularBuffer_static<std::string, 2> cb;
+    too::CircularBuffer<std::string, 2> cb;
     EXPECT_EQ(cb.capacity(), 2);
     EXPECT_EQ(cb.size(), 0);
     cb.push("s1");
