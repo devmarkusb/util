@@ -19,6 +19,7 @@
 #include <array>
 #include <cstddef>
 #include <memory>
+#include <type_traits>
 #include <vector>
 
 
@@ -37,6 +38,8 @@ protected:
     template <typename T_, typename Buffer>
     void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
     {
+        static_assert(std::is_convertible_v<T_, T>);
+
         buf[head] = std::forward<T_>(item);
     }
 };
@@ -58,6 +61,8 @@ protected:
     template <typename T_, typename Buffer>
     void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
     {
+        static_assert(std::is_convertible_v<T_, T>);
+
         auto it = std::begin(buf);
         std::advance(it, head);
         buf.emplace(it, std::forward<T_>(item));
@@ -65,9 +70,8 @@ protected:
 };
 
 template <typename T, size_t capacity__>
-using Base = std::conditional_t<capacity__ == 0,
-        detail::circbuf_impl_container::Vector<T>, detail::circbuf_impl_container::Array<T, capacity__>>;
-} // circular_buffer_impl_container
+using Base = std::conditional_t<capacity__ == 0, Vector<T>, Array<T, capacity__>>;
+} // circbuf_impl_container
 } // detail
 
 
@@ -91,6 +95,8 @@ public:
     template <typename T_>
     void push(T_&& item) noexcept
     {
+        static_assert(std::is_convertible_v<T_, T>);
+
         if (full_)
             tail_ = (tail_ + 1) % capacity();
 
@@ -107,6 +113,8 @@ public:
     template <typename T_>
     void emplace(T_&& item) noexcept
     {
+        static_assert(std::is_convertible_v<T_, T>);
+
         if (full_)
             tail_ = (tail_ + 1) % capacity();
 
@@ -115,6 +123,15 @@ public:
         head_ = (head_ + 1) % capacity();
 
         full_ = head_ == tail_;
+    }
+
+    bool try_front(T& frontItem) noexcept
+    {
+        if (empty())
+            return false;
+
+        frontItem = Base::buf_[tail_];
+        return true;
     }
 
     bool try_pop(T& poppedItem) noexcept

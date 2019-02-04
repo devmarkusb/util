@@ -65,6 +65,21 @@ TEST(CircularBuffer, pop)
     EXPECT_TRUE(!cb.full());
 }
 
+TEST(CircularBuffer, front)
+{
+    too::CircularBuffer<int> cb{3};
+    cb.push(42);
+    int item{};
+    ASSERT_TRUE(cb.try_front(item));
+    EXPECT_EQ(item, 42);
+    EXPECT_EQ(cb.size(), 1);
+    EXPECT_TRUE(!cb.empty());
+    EXPECT_TRUE(!cb.full());
+
+    ASSERT_TRUE(cb.try_pop(item));
+    ASSERT_FALSE(cb.try_front(item));
+}
+
 TEST(CircularBuffer, pop_toomuch)
 {
     too::CircularBuffer<int> cb{3};
