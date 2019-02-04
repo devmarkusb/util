@@ -29,9 +29,7 @@ endif ()
 set(Target_tooMemTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE Target_tooMemTest_SOURCES "include/toolib/*.test.cpp")
-message("Target_tooMemTest_SOURCES before: ${Target_tooMemTest_SOURCES}")
 list(REMOVE_ITEM Target_tooMemTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/include/toolib/mem/new_statistics.test.cpp")
-message("Target_tooMemTest_SOURCES after: ${Target_tooMemTest_SOURCES}")
 add_executable(${Target_tooMemTest}
     ${Target_tooMemTest_SOURCES}
     ${Target_tooMem_INCS}
