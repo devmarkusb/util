@@ -61,7 +61,7 @@ public:
     explicit WaitCircularBuffer(size_t capacity) : Base{capacity} {}
 
     template <typename = std::enable_if<capacity__ != 0>>
-    WaitCircularBuffer() {} // = default, not working here
+    WaitCircularBuffer() noexcept {} // = default, not working here
 
     template <typename T_>
     bool push(T_&& elem)

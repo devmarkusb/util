@@ -59,7 +59,7 @@ protected:
     }
 
     template <typename T_, typename Buffer>
-    void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
+    void emplace(T_&& item, Buffer&& buf, size_t head)
     {
         static_assert(std::is_convertible_v<T_, T>);
 
@@ -111,7 +111,7 @@ public:
     /** (At least not working in the 'dynamic' capacity__ == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
     template <typename T_>
-    void emplace(T_&& item) noexcept
+    void emplace(T_&& item)
     {
         static_assert(std::is_convertible_v<T_, T>);
 

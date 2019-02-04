@@ -20,7 +20,7 @@ namespace bits
 {
 //! \Returns number of bits of the arbitrary \param Type.
 template<typename Type>
-inline constexpr uint16_t num()
+inline constexpr uint16_t num() noexcept
 {
     return 8 * sizeof(Type);
 }
@@ -38,7 +38,7 @@ inline constexpr uint16_t num()
      - range (1, 3) would result in 0b110, the 1st and 2nd ones
      - range (4, 5) would result in 0b10000, the 4th one
      - range (1, 5) would result in 0b11110*/
-inline uint64_t makeRangeOfOnes(uint16_t beginLSB, uint16_t endLSB)
+inline uint64_t makeRangeOfOnes(uint16_t beginLSB, uint16_t endLSB) noexcept
 {
     TOO_EXPECT(beginLSB <= endLSB);
     TOO_EXPECT(beginLSB < num<uint64_t>());

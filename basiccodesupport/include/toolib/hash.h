@@ -35,13 +35,13 @@ namespace too
     };
     } // std*/
 //!@{
-inline size_t hashCombine(std::size_t hash)
+inline size_t hashCombine(std::size_t hash) noexcept
 {
     return hash;
 }
 
 template <typename... Size_ts>
-inline size_t hashCombine(std::size_t hash1, Size_ts... hashes)
+inline size_t hashCombine(std::size_t hash1, Size_ts... hashes) noexcept
 {
     // implemented like boost's hash_combine
     return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2));

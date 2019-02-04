@@ -21,15 +21,15 @@ namespace detail
 class GroupThousands_numpunct : public std::numpunct<char>
 {
 public:
-    explicit GroupThousands_numpunct(char sep) : sep_{sep} {}
+    explicit GroupThousands_numpunct(char sep) noexcept : sep_{sep} {}
 
 protected:
-    char do_thousands_sep() const override
+    char do_thousands_sep() const noexcept override
     {
         return sep_;
     }
 
-    std::string do_grouping() const override
+    std::string do_grouping() const noexcept override
     {
         return "\03";
     }

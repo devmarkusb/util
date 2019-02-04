@@ -32,37 +32,37 @@ namespace too::mem
 class Statistics
 {
 public:
-    static Statistics& instance()
+    static Statistics& instance() noexcept
     {
         static Statistics stats;
         return stats;
     }
 
-    void newCall(std::size_t sz, void*)
+    void newCall(std::size_t sz, void*) noexcept
     {
         newCalls_.fetch_add(1, std::memory_order_relaxed);
         currentSize_.fetch_add(sz, std::memory_order_seq_cst);
         update_maximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
     }
 
-    void deleteCall(void*)
+    void deleteCall(void*) noexcept
     {
         deleteCalls_.fetch_add(1, std::memory_order_relaxed);
         //currentSize_.fetch_sub(?, std::memory_order_seq_cst);
     }
 
-    std::size_t newCalls() const
+    std::size_t newCalls() const noexcept
     {
         return newCalls_.load();
     }
 
-    std::size_t deleteCalls() const
+    std::size_t deleteCalls() const noexcept
     {
         return deleteCalls_.load();
     }
 
     /** \Returns the maximum/peak size allocated (typically in bytes). Not yet working correctly! Cf. file comment.*/
-    std::size_t peakSize() const
+    std::size_t peakSize() const noexcept
     {
         return peakSize_.load();
     }

@@ -19,7 +19,7 @@ namespace array
 /** Declaring and initialising an array without explicit (and redundant) statement of size, e.g.
     auto myarray = util::make_array(42, 43, 44); // which is a std::array<int, 3> then*/
 template <typename FirstT, typename... RemainingTs>
-constexpr auto make(FirstT first, RemainingTs... remaining) -> std::array<FirstT, 1 + sizeof...(RemainingTs)>
+constexpr auto make(FirstT first, RemainingTs... remaining) noexcept -> std::array<FirstT, 1 + sizeof...(RemainingTs)>
 {
     std::array<FirstT, 1 + sizeof...(RemainingTs)> ret = {first, remaining...};
     return ret;

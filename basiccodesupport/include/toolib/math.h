@@ -19,7 +19,7 @@ namespace too::math
     This is done at compile-time (if possible).
     Negative numbers are handled as well.*/
 template <typename NumberType>
-constexpr bool isPowerOfTwo(NumberType number)
+constexpr bool isPowerOfTwo(NumberType number) noexcept
 {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
     return number && ((number & (number - 1)) == 0);
@@ -59,7 +59,7 @@ struct NextGreaterOrEqPow2
 {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
 
-    static constexpr NumberType value()
+    static constexpr NumberType value() noexcept
     {
         if constexpr (isPowerOfTwo(number))
         {
@@ -87,7 +87,7 @@ struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::in
 {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
 
-    static constexpr NumberType value()
+    static constexpr NumberType value() noexcept
     {
         if (number < NumberType{})
         {
@@ -99,7 +99,7 @@ struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::in
 
 /** Like NextGreaterOrEqualPowerOfTwo (except for negative number support), but working at runtime as well.
     Cf. https://stackoverflow.com/questions/1322510#1322548*/
-constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v)
+constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
 {
     --v;
     v |= v >> 1u;
