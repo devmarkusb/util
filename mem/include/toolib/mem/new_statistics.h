@@ -15,7 +15,7 @@
 #ifndef NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
 #define NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
 
-#include "toolib/PPDEFS.h"
+#include "toolib/thread/atomic.h"
 #include <atomic>
 #include <cstddef>
 #include <cstdint>
@@ -42,7 +42,7 @@ public:
     {
         newCalls_.fetch_add(1, std::memory_order_relaxed);
         currentSize_.fetch_add(sz, std::memory_order_seq_cst);
-        update_maximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
+        too::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
     }
 
     void deleteCall(void*) noexcept
@@ -74,17 +74,6 @@ private:
     std::atomic<std::size_t> peakSize_{};
 
     Statistics() = default;
-
-    template <typename T>
-    void update_maximum(std::atomic<T>& maximum_value, const T& value) const noexcept
-    {
-        T prev_value = maximum_value;
-        while (prev_value < value &&
-              !maximum_value.compare_exchange_weak(prev_value, value))
-        {
-            TOO_NOOP;
-        }
-    }
 };
 } // too::mem
 
