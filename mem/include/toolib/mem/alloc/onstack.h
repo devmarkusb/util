@@ -2,7 +2,11 @@
 // This file is part of tfl library.
 
 //!
-/** Implements allocation on the stack as arena/strategy.*/
+/** Implements allocation on the stack as arena/strategy.
+    Important note:
+    You should be aware that deallocate here does nothing (except for corner cases when deallocating
+    a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
+    erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
 //! \file
 
 #ifndef ONSTACK_H_eourtz3478xth378tgh

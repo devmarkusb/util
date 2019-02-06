@@ -1,4 +1,5 @@
 #include "allocator.h"
+#include "alloc/default.h"
 #include "alloc/example.h"
 #include "alloc/linear.h"
 #include "alloc/onstack.h"
@@ -67,6 +68,29 @@ TEST(allocator_example, vector)
 TEST(allocator_example, map)
 {
     using Arena = too::mem::alloc::Example;
+    using MapPair = std::pair<const int, std::string>;
+    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    Arena a;
+    Allocator al{a};
+    std::map<int, std::string, std::less<>, Allocator> m{al};
+
+    common_map_test(m);
+}
+
+TEST(allocator_default, vector)
+{
+    using Arena = too::mem::alloc::DefaultNewDelete<>;
+    using Allocator = too::mem::Allocator<int, Arena>;
+    Arena a;
+    Allocator al{a};
+    std::vector<int, Allocator> v{al};
+
+    common_vector_test(v);
+}
+
+TEST(allocator_default, map)
+{
+    using Arena = too::mem::alloc::DefaultNewDelete<>;
     using MapPair = std::pair<const int, std::string>;
     using Allocator = too::mem::Allocator<MapPair, Arena>;
     Arena a;

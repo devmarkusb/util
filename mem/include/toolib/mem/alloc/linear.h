@@ -5,8 +5,12 @@
 /** Implements the most simple (but perhaps also most efficient) linear memory allocation arena/strategy.
     The idea is that physical allocation and deallocation happen at the beginning and the end only, but nowhere in
     between.
-    Important: For now the class should only be used for allocating objects of a single type. For performance reasons,
-    as there is no alignment handling after the preallocation anymore.*/
+    Important notes:
+    - For now the class should only be used for allocating objects of a single type. For performance reasons,
+    as there is no alignment handling after the preallocation anymore.
+    - You should be aware that deallocate here does nothing (except for corner cases when deallocating
+    a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
+    erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
 //! \file
 
 #ifndef LINEAR_H_jsdkdbhfzu34gt2837tnyg13
@@ -48,9 +52,9 @@ public:
         return curr_offset_;
     }
 
-    /** If you know you will never need to access the previously, since @param size, allocated memory again,
-        you can shrink (only the shrinking direction makes sense) the used up memory to the original size again.
-        This amounts to more capacity being left over to allocate.*/
+    /** If you know for sure you will never need to access a certain known amount \param size of the latest
+        previously allocated memory again, you can shrink (only the shrinking direction makes sense) the used up
+        memory to the original size again. This amounts to more capacity being left over to allocate.*/
     void resize(Bytes size) noexcept
     {
         TOO_EXPECT(size <= curr_offset_);
@@ -79,11 +83,10 @@ public:
         return buf_ + old_offset.value;
     }
 
-    void deallocate(uint8_t*, Bytes size) noexcept
+    void deallocate(uint8_t* p, Bytes size) noexcept
     {
-        TOO_EXPECT(size <= curr_offset_);
-
-        curr_offset_ -= size;
+        if (p + size.value == buf_ + curr_offset_)
+            curr_offset_ -= size;
     }
 
 private:
