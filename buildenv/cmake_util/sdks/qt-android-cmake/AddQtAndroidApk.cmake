@@ -66,7 +66,9 @@ include(CMakeParseArguments)
 macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # parse the macro arguments
-    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION;SCREEN_ORIENTATION" "DEPENDS;KEYSTORE" ${ARGN})
+    cmake_parse_arguments(ARG "INSTALL"
+            "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;BUILDTOOLS_REVISION"
+            "MIN_SDK_VER;TARGET_SDK_VER;SCREEN_ORIENTATION;DEPENDS;KEYSTORE;KEYSTORE_PASSWORD" ${ARGN})
 
     # extract the full path of the source target binary
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -94,6 +96,18 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_SDK_BUILDTOOLS_REVISION ${ARG_BUILDTOOLS_REVISION})
     else()
         set(QT_ANDROID_SDK_BUILDTOOLS_REVISION "")
+    endif()
+
+    if(ARG_MIN_SDK_VER)
+        set(QT_ANDROID_MIN_SDK_VER ${ARG_MIN_SDK_VER})
+    else()
+        set(QT_ANDROID_MIN_SDK_VER "16")
+    endif()
+
+    if(ARG_TARGET_SDK_VER)
+        set(QT_ANDROID_TARGET_SDK_VER ${ARG_TARGET_SDK_VER})
+    else()
+        set(QT_ANDROID_TARGET_SDK_VER "26")
     endif()
 
     if(ARG_SCREEN_ORIENTATION)
