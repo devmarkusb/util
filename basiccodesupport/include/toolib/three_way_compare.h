@@ -24,11 +24,11 @@ namespace too
  * Cf. https://stackoverflow.com/questions/48042955/how-is-the-three-way-comparison-operator-different-from-subtraction
  * Impl. note: didn't consider implementing this for floating types as well, might be easy, might be not.
  */
-template<typename IntegralType>
-int three_way_compare(IntegralType lhs, IntegralType rhs)
+template<typename LessComparableType>
+int three_way_compare(LessComparableType lhs, LessComparableType rhs)
 {
-    static_assert(std::is_integral_v<IntegralType>);
-    return (lhs > rhs) - (lhs < rhs);
+    static_assert(!std::is_floating_point_v<LessComparableType>);
+    return (rhs < lhs) - (lhs < rhs);
 }
 } // too
 

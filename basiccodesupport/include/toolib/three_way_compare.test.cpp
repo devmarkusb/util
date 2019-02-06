@@ -1,5 +1,6 @@
 #include "three_way_compare.h"
 #include "gtest/gtest.h"
+#include <string>
 
 
 TEST(three_way_compare, common_cases)
@@ -34,4 +35,13 @@ TEST(three_way_compare, huge_unsigned)
 {
 EXPECT_EQ(too::three_way_compare(std::numeric_limits<uintmax_t>::max(), uintmax_t(1)), 1);
 EXPECT_EQ(too::three_way_compare(uintmax_t(1), std::numeric_limits<uintmax_t>::max()), -1);
+}
+
+TEST(three_way_compare, strings)
+{
+    std::string xb{"xb"};
+    std::string xa{"xa"};
+    EXPECT_EQ(too::three_way_compare(xb, xa), 1);
+    EXPECT_EQ(too::three_way_compare(xb, xb), 0);
+    EXPECT_EQ(too::three_way_compare(xa, xb), -1);
 }
