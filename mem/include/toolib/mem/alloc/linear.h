@@ -85,7 +85,7 @@ public:
 
     void deallocate(uint8_t* p, Bytes size) noexcept
     {
-        if (p + size.value == buf_ + curr_offset_)
+        if (p + size.value == buf_ + curr_offset_.value)
             curr_offset_ -= size;
     }
 

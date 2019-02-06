@@ -65,6 +65,22 @@ TEST(alloc_Linear, dealloc)
     EXPECT_EQ(a.size(), Bytes{0});
 }
 
+TEST(alloc_Linear, dealloc_noop)
+{
+    using Type = int;
+    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+
+    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    too::ignore_arg(p);
+
+    auto q = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    too::ignore_arg(q);
+
+    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
+
+    EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
+}
+
 TEST(alloc_Linear, resize)
 {
     using Type = int;
