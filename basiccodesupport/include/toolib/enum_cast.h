@@ -1,4 +1,4 @@
-// Markus Borris, 2014-17
+// Markus Borris, 2014-19
 // This file is part of tfl library.
 
 //!
@@ -15,7 +15,8 @@
 namespace too
 {
 template <typename Enumeration>
-constexpr too::enable_if_t<std::is_enum<Enumeration>::value, too::underlying_type_t<Enumeration>> as_number(const Enumeration value)
+constexpr too::enable_if_t<std::is_enum<Enumeration>::value, too::underlying_type_t<Enumeration>>
+as_number(const Enumeration value) noexcept
 {
     return static_cast<too::underlying_type_t<Enumeration>>(value);
 }
