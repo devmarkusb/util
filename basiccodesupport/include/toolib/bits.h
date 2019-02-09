@@ -80,6 +80,53 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
     return (to & (~too::bits::makeMask(idx, count))) | (from << idx);
 }
 
+//! Needed for FieldsRaw.
+template <size_t fields>
+struct FieldsLookup
+{
+    std::array<Count, fields> counts_; // count of bits of each field
+    std::array<Count, fields> indices_; // indices where field sits
+
+    template <typename... Counts>
+    explicit FieldsLookup(Count maxCount, Counts... counts)
+    {
+        static_assert(fields == sizeof...(counts));
+
+        counts_ = {static_cast<Count>(counts)...};
+        indices_[0] = {};
+        std::partial_sum(std::begin(counts_), std::end(counts_) - 1, std::begin(indices_) + 1);
+        // runtime check as long as we don't have a compiletime partial_sum
+        TOO_ENSURE_THROW(indices_.back() + counts_.back() <= maxCount);
+    }
+};
+
+//! Just if can't use Fields (cf.) because you need it to be no larger than sizeof(BitDataType).
+template <typename BitDataType, typename EnumType, size_t fields>
+class FieldsRaw
+{
+public:
+    static_assert(std::is_unsigned_v<BitDataType>);
+    static_assert(std::is_enum_v<EnumType>);
+    static_assert(fields > 0);
+
+    template <typename SourceDataType>
+    constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept
+    {
+        const auto fieldnr{as_number(field)};
+        data_ = write<BitDataType, SourceDataType>(data_, fieldsLookup.indices_[fieldnr], fieldsLookup.counts_[fieldnr], value);
+    }
+
+    template <typename TargetDataType = BitDataType>
+    constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
+    {
+        const auto fieldnr{as_number(field)};
+        return readAndCast<TargetDataType, BitDataType>(data_, fieldsLookup.indices_[fieldnr], fieldsLookup.counts_[fieldnr]);
+    }
+
+private:
+    BitDataType data_{};
+};
+
 //! A replacement for the suboptimal standard bitfields.
 /** Usage: Decide for a data type large enough to hold your bits, declare an enum (class) with names for your
     distinct fields sharing the bits, with a last entry for simple calculation of the field count.
@@ -107,37 +154,30 @@ public:
     static_assert(std::is_enum_v<EnumType>);
     static_assert(fields > 0);
 
-    //! Needs exactly as many arguments as there are fields.
+    //! Needs exactly as many \param counts arguments as there are fields.
+    /** But you don't need to use up the full space of bits.*/
     template <typename... Counts>
-    explicit constexpr Fields(Counts... counts) noexcept
+    explicit constexpr Fields(Counts... counts)
+        : fieldsLookup_{count<BitDataType>(), counts...}
     {
         static_assert(fields == sizeof...(counts));
-
-        counts_ = {static_cast<Count>(counts)...};
-        indices_[0] = {};
-        std::partial_sum(std::begin(counts_), std::end(counts_) - 1, std::begin(indices_) + 1);
-        // runtime check as long as we don't have a compiletime partial_sum
-        TOO_ENSURE(indices_.back() + counts_.back() <= count<BitDataType>());
     }
 
     template <typename SourceDataType>
     constexpr void set(EnumType field, SourceDataType value) noexcept
     {
-        const auto fieldnr{as_number(field)};
-        data_ = write<BitDataType, SourceDataType>(data_, indices_[fieldnr], counts_[fieldnr], value);
+        raw_.set(fieldsLookup_, field, value);
     }
 
     template <typename TargetDataType = BitDataType>
     constexpr TargetDataType get(EnumType field) const noexcept
     {
-        const auto fieldnr{as_number(field)};
-        return readAndCast<TargetDataType, BitDataType>(data_, indices_[fieldnr], counts_[fieldnr]);
+        return raw_.template get<TargetDataType>(fieldsLookup_, field);
     }
 
 private:
-    BitDataType data_{};
-    std::array<Count, fields> counts_; // count of bits of each field
-    std::array<Count, fields> indices_; // indices where field sits
+    FieldsLookup<fields> fieldsLookup_;
+    FieldsRaw<BitDataType, EnumType, fields> raw_;
 };
 
 //! Evaluated at runtime, a compile-time implementation doesn't seem easy.

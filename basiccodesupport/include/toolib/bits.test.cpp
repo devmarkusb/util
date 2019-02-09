@@ -296,5 +296,5 @@ TEST(bits_Field, overflow)
             too::bits::Fields<uint32_t, Field, too::as_number(Field::end)> bits_{16, 17};
         } s;
     };
-    EXPECT_DEBUG_DEATH(lambda(), "ssert");
+    EXPECT_THROW(lambda(), too::fail_fast);
 }
