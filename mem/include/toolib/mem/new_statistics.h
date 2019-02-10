@@ -99,6 +99,7 @@ public:
         newCalls_.fetch_add(1, std::memory_order_relaxed);
         currentSize_.fetch_add(size.value, std::memory_order_seq_cst);
         too::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
+        allocatedSize_.fetch_add(size.value, std::memory_order_relaxed);
         auto sh = new(p) StatsHeader;
         sh->set(fieldsLookup_, StatsHeader::Field::size, size.value);
     }
@@ -107,7 +108,9 @@ public:
     {
         deleteCalls_.fetch_add(1, std::memory_order_relaxed);
         auto sh = reinterpret_cast<StatsHeader*>(p);
-        currentSize_.fetch_sub(sh->get(fieldsLookup_, StatsHeader::Field::size), std::memory_order_seq_cst);
+        const auto size = sh->get(fieldsLookup_, StatsHeader::Field::size);
+        currentSize_.fetch_sub(size, std::memory_order_seq_cst);
+        deallocatedSize_.fetch_add(size, std::memory_order_relaxed);
         sh->~StatsHeader();
     }
 
@@ -121,6 +124,16 @@ public:
         return deleteCalls_.load();
     }
 
+    std::size_t allocatedSize() const noexcept
+    {
+        return allocatedSize_.load();
+    }
+
+    std::size_t deallocatedSize() const noexcept
+    {
+        return deallocatedSize_.load();
+    }
+
     /** \Returns the maximum/peak size allocated (typically in bytes). Not yet working correctly! Cf. file comment.*/
     std::size_t peakSize() const noexcept
     {
@@ -132,6 +145,8 @@ private:
     std::atomic<std::size_t> deleteCalls_{};
     std::atomic<std::size_t> currentSize_{};
     std::atomic<std::size_t> peakSize_{};
+    std::atomic<std::size_t> allocatedSize_{};
+    std::atomic<std::size_t> deallocatedSize_{};
     too::bits::FieldsLookup<StatsHeader::fieldCount> fieldsLookup_{StatsHeader::makeFieldLookup()};
 
     Statistics() = default;
