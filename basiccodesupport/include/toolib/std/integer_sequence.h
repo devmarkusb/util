@@ -36,7 +36,7 @@ namespace too
         template <int... Is>
         void caller_impl(const std::array<int, 3>& theArray, too::idx::seq<Is...>)
         {
-            toBeCalled(theArray[Is]...)
+            toBeCalled(theArray[Is]...);
         }
     which you call like
         void caller(const std::array<int, 3>& theArray)
