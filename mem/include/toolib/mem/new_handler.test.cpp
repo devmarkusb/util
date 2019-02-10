@@ -31,6 +31,7 @@ TEST(NewHandlerSupportTest, test)
         }
 
     private:
+        // about 2GB
         int i1[0x7ffffff];
         int i2[0x7ffffff];
         int i3[0x7ffffff];
