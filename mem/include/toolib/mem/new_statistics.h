@@ -83,8 +83,7 @@ private:
     }
 };
 
-static_assert((sizeof(StatsHeader) == sizeof(uintmax_t) || sizeof(StatsHeader) == sizeof(uint64_t)) &&
-    (alignof(StatsHeader) == alignof(uintmax_t) || alignof(StatsHeader) == alignof(uint64_t)));
+static_assert(alignof(StatsHeader) == alignof(uintmax_t) || alignof(StatsHeader) == alignof(uint64_t));
 
 class Statistics
 {
