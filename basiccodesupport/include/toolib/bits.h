@@ -22,7 +22,7 @@ namespace too
 namespace bits
 {
 using Idx = uint16_t;
-using Count = uint16_t;
+using Count = Idx;
 using Diff = int;
 
 //! \Returns number of bits of the arbitrary \param Type.
@@ -32,12 +32,86 @@ constexpr Count count() noexcept
     return 8 * sizeof(Type);
 }
 
+constexpr uint32_t countSet(uint32_t data) noexcept
+{
+    // Hamming Weight algorithm
+    data = data - ((data >> 1) & 0x55555555);
+    data = (data & 0x33333333) + ((data >> 2) & 0x33333333);
+    return (((data + (data >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType set(SourceType from, Idx idx) noexcept
+{
+    TOO_EXPECT(idx < too::bits::count<TargetType>());
+    return from | (TargetType{1} << idx);
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType unset(SourceType from, Idx idx) noexcept
+{
+    TOO_EXPECT(idx < too::bits::count<TargetType>());
+    return from & ~(TargetType{1} << idx);
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType toggle(SourceType from, Idx idx) noexcept
+{
+    TOO_EXPECT(idx < too::bits::count<TargetType>());
+    return from ^ (TargetType{1} << idx);
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType check(SourceType from, Idx idx) noexcept
+{
+    TOO_EXPECT(idx < too::bits::count<SourceType>());
+    return (from >> idx) & TargetType{1};
+}
+
+template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
+constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept
+{
+    TOO_EXPECT(idx < too::bits::count<TargetType>());
+    const auto newbit = !!x; // ensure 1 or 0
+    return from ^ ((-newbit ^ from) & (TargetType{1} << idx));
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType setMask(SourceType from, SourceType mask) noexcept
+{
+    return from | mask;
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept
+{
+    return from & ~mask;
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType toggleMask(SourceType from, SourceType mask) noexcept
+{
+    return from ^ mask;
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType checkAllOfMask(SourceType from, SourceType mask) noexcept
+{
+    return (from & mask) == mask;
+}
+
+template <typename SourceType, typename TargetType = SourceType>
+constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept
+{
+    return from & mask;
+}
+
 //! Makes a bit mask of \param count 1's, > 0 starting at 0-based index \param idx.
 /** \Param TargetType is typically chosen to be uintX_t, that is unsigned with some arbitrary bit count.
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
     of big endian, but endianess doesn't matter considering the realm of this function alone).*/
 template <typename TargetType = uint64_t>
-constexpr TargetType makeMask(Idx idx, Count count) noexcept
+constexpr TargetType setRange(Idx idx, Count count) noexcept
 {
     static_assert(std::is_unsigned_v<TargetType>);
     TOO_EXPECT(count > 0);
@@ -47,37 +121,110 @@ constexpr TargetType makeMask(Idx idx, Count count) noexcept
 }
 
 //! Reads \param count > 0 bits of \param from starting at 0-based index \param idx (0 is LSB).
-template <typename SourceType = uint64_t>
+template <typename SourceType>
 constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 {
     TOO_EXPECT(count > 0);
     TOO_EXPECT(idx + count <= too::bits::count<SourceType>());
 
-    return (from & too::bits::makeMask<SourceType>(idx, count)) >> idx;
+    return (from & too::bits::setRange<SourceType>(idx, count)) >> idx;
 }
 
 //! Like read. But here you can also opt for a different target type.
 /** As typically reading out a subset of bits results in a smaller type.*/
-template <typename TargetType, typename SourceType /*>*/= TargetType>
+template <typename TargetType, typename SourceType /*>= TargetType*/>
 constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 {
     TOO_EXPECT(count > 0);
     TOO_EXPECT(idx + count <= too::bits::count<SourceType>());
     TOO_EXPECT(count <= too::bits::count<TargetType>());
 
-    return (from & too::bits::makeMask<SourceType>(idx, count)) >> idx;
+    return (from & too::bits::setRange<SourceType>(idx, count)) >> idx;
 }
 
-
 //! Write \param count > 0 bits of \param from into \param to starting at 0-based index \param idx there (0 is LSB).
-template <typename TargetType = uint64_t, typename SourceType = uint64_t>
+template <typename TargetType, typename SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept
 {
     TOO_EXPECT(count > 0);
     TOO_EXPECT(idx + count <= too::bits::count<TargetType>());
     TOO_EXPECT(count <= too::bits::count<SourceType>());
 
-    return (to & (~too::bits::makeMask(idx, count))) | (from << idx);
+    return (to & (~too::bits::setRange(idx, count))) | (from << idx);
+}
+
+//! If 64 bits aren't sufficient, this is the type to go.
+/** Choose your desired bit count \param bits freely. The underlying type of the parts being glued together might
+    also be chosen: \param BaseType.*/
+template <Count bits, typename BaseType = uint32_t>
+class Array
+{
+public:
+    void set(Idx idx) noexcept
+    {
+        TOO_EXPECT(idx < bits);
+        array[N(idx)] |= partBit(I(idx));
+    }
+
+    void reset(Idx idx) noexcept
+    {
+        TOO_EXPECT(idx < bits);
+        array[N(idx)] &= ~partBit(I(idx));
+    }
+
+    void reset() noexcept
+    {
+        array.fill({});
+    }
+
+    bool isSet(Idx idx) const noexcept
+    {
+        TOO_EXPECT(idx < bits);
+        return array[N(idx)] & partBit(I(idx));
+    }
+
+private:
+    constexpr static Count partsCount{
+        (bits + (too::bits::count<BaseType>() - Count{1})) / too::bits::count<BaseType>()};
+    std::array<BaseType, partsCount> array{};
+    
+    Idx N(Idx idx) const noexcept
+    {
+        return idx / too::bits::count<BaseType>();
+    }
+
+    Idx I(Idx idx) const noexcept
+    {
+        return idx % too::bits::count<BaseType>();
+    }
+
+    BaseType partBit(Idx n) const noexcept
+    {
+        return BaseType{1} << n;
+    }
+
+    friend Array<bits, BaseType> operator&(
+            const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept;
+    friend Array<bits, BaseType> operator|(
+            const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept;
+};
+
+template <Count bits, typename BaseType = uint32_t>
+Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept
+{
+    Array<bits, BaseType> ret;
+    for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
+        ret.array[i] = lhs.array[i] & rhs.array[i];
+    return ret;
+}
+
+template <Count bits, typename BaseType = uint32_t>
+Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept
+{
+    Array<bits, BaseType> ret;
+    for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
+        ret.array[i] = lhs.array[i] | rhs.array[i];
+    return ret;
 }
 
 //! Needed for FieldsRaw.
