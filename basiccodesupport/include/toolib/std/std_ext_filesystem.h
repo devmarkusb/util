@@ -397,6 +397,8 @@ inline bool exists(const path& p)
 }
 
 //! \Returns false if already existing or error occurred.
+/** Interesting: the implementation of the standard library, at least gcc under Linux seems to expect a path
+    that was initialized *without* trailing separator. Otherwise no dir is created!*/
 inline bool create_directories(const path& p, std::error_code& ec)
 {
 #if TOO_OS_LINUX
