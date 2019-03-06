@@ -203,10 +203,12 @@ private:
         return BaseType{1} << n;
     }
 
-    friend Array<bits, BaseType> operator&(
-            const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept;
-    friend Array<bits, BaseType> operator|(
-            const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept;
+    template <Count bits_, typename BaseType_>
+    friend Array<bits_, BaseType_> operator&(
+            const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
+    template <Count bits_, typename BaseType_>
+    friend Array<bits_, BaseType_> operator|(
+            const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
 };
 
 template <Count bits, typename BaseType = uint32_t>

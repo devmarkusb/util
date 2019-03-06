@@ -1,5 +1,6 @@
 #include "bits.h"
 #include "toolib/enum_cast.h"
+#include "toolib/ignore_arg.h"
 #include "gtest/gtest.h"
 #include <type_traits>
 
@@ -271,9 +272,10 @@ inline constexpr uint8_t write_to8_testhelper(uint8_t to, too::bits::Idx idx, to
 TEST(bits_write, range_overflows)
 {
     EXPECT_DEBUG_DEATH(too::bits::write<uint16_t>(0, 0, 17, 0), "ssert");
-    auto eat = too::bits::write<uint16_t>(0, 0, 16, 0);
+    auto _ = too::bits::write<uint16_t>(0, 0, 16, 0);
     EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t >(0, 0, 9, 0), "ssert");
-    eat = write_to8_testhelper<uint8_t >(0, 0, 8, 0);
+    _ = write_to8_testhelper<uint8_t >(0, 0, 8, 0);
+    too::ignore_arg(_);
 }
 
 TEST(bits_write, last)
