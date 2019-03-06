@@ -1,4 +1,4 @@
-// Markus Borris, 2011-18
+// Markus Borris, 2011-19
 // This file is part of tfl library.
 
 //!
@@ -72,11 +72,11 @@ TOO_WARNING_DISABLE_MSVC(4127)
 #ifdef TOO_ASSERT_THROW_DISABLE
 #define TOO_ASSERT_THROW_IMPL(cond, textstart) TOO_ASSERT_IMPL(cond)
 #else
-#define TOO_ASSERT_THROW_IMPL(cond, textstart)                                         \
-    do                                                                                 \
-    {                                                                                  \
-        if (!(cond))                                                                   \
-            throw too::fail_fast(textstart " " __FILE__ ": " TOO_STRINGIFY(__LINE__)); \
+#define TOO_ASSERT_THROW_IMPL(cond, textstart)                                               \
+    do                                                                                       \
+    {                                                                                        \
+        if (!(cond))                                                                         \
+            throw too::fail_fast(textstart " " __FILE__ ": " TOO_STRINGIFY_VALUE(__LINE__)); \
     } while (false)
 
 #ifdef TOO_ASSERT_ALWAYS_THROWING
