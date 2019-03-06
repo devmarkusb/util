@@ -6,13 +6,13 @@ set(Target_tooBasicCodeSupport ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 
-add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS})
+#add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS})
 
-target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
+#target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBasicCodeSupport}) # tooBuildEnv
+#target_link_libraries(${Target_tooBasicCodeSupport}) # tooBuildEnv
 
-too_set_target_defaults(${Target_tooBasicCodeSupport})
+#too_set_target_defaults(${Target_tooBasicCodeSupport})
 
 set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
@@ -45,4 +45,4 @@ too_set_target_filesystem(${Target_tooBasicCodeSupportTest})
 
 too_set_target_defaults(${Target_tooBasicCodeSupportTest})
 
-too_run_target_postbuild(${Target_tooBasicCodeSupportTest})
+#too_run_target_postbuild(${Target_tooBasicCodeSupportTest})

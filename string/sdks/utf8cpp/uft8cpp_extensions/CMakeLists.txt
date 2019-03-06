@@ -5,11 +5,11 @@ set(TargetUtf8cpp ${PROJECT_NAME})
 
 file(GLOB_RECURSE TargetUtf8cpp_INCS "../source/*.h")
 
-add_library(${TargetUtf8cpp} STATIC ${TargetUtf8cpp_INCS})
+#add_library(${TargetUtf8cpp} STATIC ${TargetUtf8cpp_INCS})
 
-target_link_libraries(${TargetUtf8cpp})
+#target_link_libraries(${TargetUtf8cpp})
 
-too_set_target_defaults(${TargetUtf8cpp})
+#too_set_target_defaults(${TargetUtf8cpp})
 
 set(${TargetUtf8cpp}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/../source
     CACHE INTERNAL "${TargetUtf8cpp}: include directories" FORCE)

@@ -8,11 +8,11 @@ set(Target_tooBuildEnv ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 
-add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
+#add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
 
-target_link_libraries(${Target_tooBuildEnv})
+#target_link_libraries(${Target_tooBuildEnv})
 
-too_set_target_defaults(${Target_tooBuildEnv})
+#too_set_target_defaults(${Target_tooBuildEnv})
 
 set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)

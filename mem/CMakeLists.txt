@@ -6,13 +6,13 @@ set(Target_tooMem ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooMem_INCS "include/*.h")
 
-add_library(${Target_tooMem} STATIC ${Target_tooMem_INCS})
+#add_library(${Target_tooMem} STATIC ${Target_tooMem_INCS})
 
-target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+#target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooMem}) # tooBasicCodeSupport
+#target_link_libraries(${Target_tooMem}) # tooBasicCodeSupport
 
-too_set_target_defaults(${Target_tooMem})
+#too_set_target_defaults(${Target_tooMem})
 
 set(${Target_tooMem}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include

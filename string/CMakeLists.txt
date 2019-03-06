@@ -7,14 +7,14 @@ add_subdirectory(sdks)
 
 file(GLOB_RECURSE Target_tooString_INCS "include/*.h*")
 
-add_library(${Target_tooString} STATIC ${Target_tooString_INCS})
+#add_library(${Target_tooString} STATIC ${Target_tooString_INCS})
 
-target_include_directories(${Target_tooString} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
-target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
+#target_include_directories(${Target_tooString} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+#target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooString}) # tooBasicCodeSupport utf8cpp
+#target_link_libraries(${Target_tooString}) # tooBasicCodeSupport utf8cpp
 
-too_set_target_defaults(${Target_tooString})
+#too_set_target_defaults(${Target_tooString})
 
 set(${Target_tooString}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include

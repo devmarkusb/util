@@ -6,13 +6,13 @@ set(Target_tooLinklib ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
 
-add_library(${Target_tooLinklib} STATIC ${Target_tooLinklib_INCS})
+#add_library(${Target_tooLinklib} STATIC ${Target_tooLinklib_INCS})
 
-target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
+#target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooLinklib}) # tooBuildEnv
+#target_link_libraries(${Target_tooLinklib}) # tooBuildEnv
 
-too_set_target_defaults(${Target_tooLinklib})
+#too_set_target_defaults(${Target_tooLinklib})
 
 set(${Target_tooLinklib}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
