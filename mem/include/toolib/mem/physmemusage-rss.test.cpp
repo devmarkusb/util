@@ -1,3 +1,5 @@
+#include "toolib/PPDEFS.h"
+#if !TOO_OS_MAC
 #include "physmemusage-rss.h"
 #include "toolib/mem/types.h"
 #include "toolib/PPDEFS.h"
@@ -33,3 +35,4 @@ TEST(physmemusage, usage)
     EXPECT_TRUE(vm > vm_final || pm > pm_final);
 #endif
 }
+#endif

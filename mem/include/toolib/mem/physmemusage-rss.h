@@ -52,7 +52,6 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
     virtual_mem_usage  = vsize / static_cast<double>(too::mem::KiB);
     physical_mem_usage = rss * page_size_kb;
 #else
-    too::ignore_arg()
 #error "not implemented"
 #endif
 }

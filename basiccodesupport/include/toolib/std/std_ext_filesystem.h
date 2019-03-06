@@ -1,4 +1,4 @@
-// Markus Borris, 2017-18
+// Markus Borris, 2017-19
 // This file is part of tfl library.
 
 //!
@@ -29,11 +29,15 @@ namespace std_fs = std::filesystem;
 
 //####################################################################################################################
 // A really quick&dirty implementation for the worst case not having the filesystem lib.
-// Note, so far most of it is Linux only.
+// Note, so far most of it is Unix only.
 
 #if TOO_OS_UNIX
 #include <dirent.h>
+#if TOO_OS_LINUX
 #include <linux/limits.h>
+#else
+#include <limits.h>
+#endif
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
@@ -250,7 +254,7 @@ inline bool operator!=(const directory_entry& lhs, const directory_entry& rhs)
     return !(lhs == rhs);
 }
 
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
 struct directory_iterator : public std::iterator<std::input_iterator_tag, directory_entry>
 {
     //! Constructs an iterator pointing behind the last element.
@@ -387,7 +391,7 @@ inline bool operator!=(const directory_iterator& lhs, const directory_iterator& 
 
 inline bool exists(const path& p)
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     struct stat dummy;
     memset(&dummy, 0, sizeof(struct stat));
     return (stat(p.c_str(), &dummy) == 0);
@@ -401,7 +405,7 @@ inline bool exists(const path& p)
     that was initialized *without* trailing separator. Otherwise no dir is created!*/
 inline bool create_directories(const path& p, std::error_code& ec)
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     const auto dir = p.c_str();
     char tmp[256]{};
     size_t len{};
@@ -440,7 +444,7 @@ inline bool create_directories(const path& p, std::error_code& ec)
 
 inline bool is_regular_file(const path& p)
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     struct stat path_stat;
     memset(&path_stat, 0, sizeof(struct stat));
     stat(p.c_str(), &path_stat);
@@ -470,7 +474,7 @@ inline bool copy_file(const path& from, const path& to, std::error_code& ec)
 
 inline bool remove(const path& p)
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     return ::remove(p.c_str()) == 0;
 #else
 #error "not implemented"
@@ -479,7 +483,7 @@ inline bool remove(const path& p)
 
 inline path current_path(std::error_code& ec)
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     char cwd[PATH_MAX]{};
     if (getcwd(cwd, sizeof(cwd)))
     {
@@ -497,7 +501,7 @@ inline path current_path(std::error_code& ec)
 
 inline void current_path(const path& p, std::error_code& ec) noexcept
 {
-#if TOO_OS_LINUX
+#if TOO_OS_UNIX
     if (chdir(p.c_str()))
         ec.assign(errno, std::system_category());
 #else

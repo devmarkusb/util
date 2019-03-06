@@ -168,4 +168,11 @@ void operator delete(void* p) noexcept
     std::free(p);
 }
 
+void operator delete(void* p, size_t) noexcept
+{
+    p = reinterpret_cast<uint8_t*>(p) - sizeof(too::mem::StatsHeader);
+    too::mem::Statistics::instance().deleteCall(p);
+    std::free(p);
+}
+
 #endif
