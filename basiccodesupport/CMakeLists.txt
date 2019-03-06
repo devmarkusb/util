@@ -45,4 +45,4 @@ too_set_target_filesystem(${Target_tooBasicCodeSupportTest})
 
 too_set_target_defaults(${Target_tooBasicCodeSupportTest})
 
-#too_run_target_postbuild(${Target_tooBasicCodeSupportTest})
+too_run_target_postbuild(${Target_tooBasicCodeSupportTest})
