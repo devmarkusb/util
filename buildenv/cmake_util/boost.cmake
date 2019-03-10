@@ -11,7 +11,7 @@
 #		too_find_boost(${TOO_USE_BOOST_ver1} ${TOO_USE_BOOST_ver2} ${TOO_USE_BOOST_ver3} "")
 #	or similar, in order to make the library use the same boost version as your project.
 
-if (ANDROID)
+if (TOO_ANDROID)
     include(${CMAKE_CURRENT_LIST_DIR}/detail/find_host_package.cmake)
 endif ()
 
@@ -31,7 +31,7 @@ macro(too_find_boost ver1_ ver2_ ver3_ libs)
     add_definitions(-DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_NO_DEPRECATED)
     string(COMPARE EQUAL "${libs}" "" libs_empty)
     if (libs_empty)
-        if (ANDROID)
+        if (TOO_ANDROID)
             find_host_package(Boost ${ver1}.${ver2}.${ver3})
         else()
             find_package(Boost ${ver1}.${ver2}.${ver3})

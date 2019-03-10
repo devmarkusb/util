@@ -3,7 +3,7 @@ set(TOO_ANDROID_TOOLCHAIN "qt" CACHE STRING "toolchain implementation to use for
 # and 'native' loads the toolchain file from NDK.
 set_property(CACHE TOO_ANDROID_TOOLCHAIN PROPERTY STRINGS qt qt_standalone native)
 
-include(${CMAKE_CURRENT_LIST_DIR}/detail/defaults.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../defs.cmake)
 
 if ("${TOO_ANDROID_TOOLCHAIN}" STREQUAL "qt" OR "${TOO_ANDROID_TOOLCHAIN}" STREQUAL "qt_standalone")
     # A minimum API level 13 is suggested by Qt documentation. But qt-android-cmake seems to demand at least 16.
@@ -16,7 +16,7 @@ elseif ("${TOO_ANDROID_TOOLCHAIN}" STREQUAL "qt" OR "${TOO_ANDROID_TOOLCHAIN}" S
     if ("${TOO_ANDROID_TOOLCHAIN}" STREQUAL "qt")
         if (WIN32)
             set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/windows/bin/make.exe" CACHE STRING "" FORCE)
-        elseif (LINUX)
+        elseif (TOO_LINUX)
             set(CMAKE_MAKE_PROGRAM "$ENV{ANDROID_NDK}/prebuilt/linux-x86_64/bin/make" CACHE STRING "" FORCE)
         endif ()
     endif ()

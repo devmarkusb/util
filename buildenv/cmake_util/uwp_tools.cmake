@@ -2,11 +2,6 @@
 
 set(TOO_IMPL_UWP_TOOLS_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
-    set(TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${BIN_PACKAGE_SUBDIR}")
-else ()
-    set(TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-endif ()
 
 # can be used as default parameter for too_obtain_UWP_resources
 set(TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
@@ -24,7 +19,7 @@ set(TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
 function(too_obtain_UWP_resources
             TOO_DISPLAYNAME
             TOO_PUBLISHER_DISPLAYNAME
-            TOO_NAME
+            TOO_PACKAGENAME
             TOO_PUBLISHER
             TOO_PHONE_PRODUCT_GUID
             TOO_PHONE_PUBLISHER_GUID
@@ -36,7 +31,7 @@ function(too_obtain_UWP_resources
     if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
         if (NOT TOO_DEPLOYMENT_BUILD)
             set(TOO_DISPLAYNAME "${TOO_DISPLAYNAME} - dev")
-            set(TOO_NAME "${TOO_NAME}.dev")
+            set(TOO_PACKAGENAME "${TOO_PACKAGENAME}.dev")
         endif ()
         if ("${TOO_PUBLISHER}" STREQUAL "")
             set(TOO_PUBLISHER "CN=CMake Test Cert")

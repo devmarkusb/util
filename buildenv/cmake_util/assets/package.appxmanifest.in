@@ -4,7 +4,7 @@
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
     IgnorableNamespaces="uap mp">
 
-    <Identity Name="@TOO_NAME@" Publisher="@TOO_PUBLISHER@" Version="@TOO_VERSION@" />
+    <Identity Name="@TOO_PACKAGENAME@" Publisher="@TOO_PUBLISHER@" Version="@TOO_VERSION@" />
     <mp:PhoneIdentity PhoneProductId="@TOO_PHONE_PRODUCT_GUID@" PhonePublisherId="@TOO_PHONE_PUBLISHER_GUID@"/>
     <Properties>
         <DisplayName>@TOO_DISPLAYNAME@</DisplayName>

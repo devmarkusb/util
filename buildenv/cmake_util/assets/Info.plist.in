@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleGetInfoString</key>
+  <string>todo: info string</string>
+  <key>CFBundleExecutable</key>
+  <string>@TargetAppName@</string>
+  <key>CFBundleIdentifier</key>
+  <string>@TOO_PACKAGE_NAME@</string>
+  <key>CFBundleName</key>
+  <string>@TOO_DISPLAYNAME@</string>
+  <key>CFBundleIconFile</key>
+  <string>icon.icns</string>
+  <key>CFBundleShortVersionString</key>
+  <string>@TargetVersionMajor@.@TargetVersionMinor@</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>@PROJECT_VERSION@</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>IFMajorVersion</key>
+  <integer>@TargetVersionMajor@</integer>
+  <key>IFMinorVersion</key>
+  <integer>@TargetVersionMinor@</integer>
+</dict>
+</plist>

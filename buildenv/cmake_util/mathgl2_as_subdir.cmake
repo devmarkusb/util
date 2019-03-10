@@ -8,7 +8,7 @@ too_include(mathgl2_defaults.cmake)
 add_subdirectory(mathgl)
 too_set_target_defaults(mgl)
 too_set_target_defaults(mgl-static)
-if (ANDROID)
+if (TOO_ANDROID)
     set(mglAdditionalTargetSources
             ${TOO_CMAKE_UTIL_DIR}/assets/std_ext/glob.c
             ${TOO_CMAKE_UTIL_DIR}/assets/std_ext/glob.h

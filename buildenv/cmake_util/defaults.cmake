@@ -14,20 +14,19 @@ endif ()
 
 enable_testing()
 
+include(${CMAKE_CURRENT_LIST_DIR}/defs.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/builddir_cfg.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
-# CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
-set(TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR "can be used to append the bin dir 'bin_compiler' name by some custom string")
-if (ANDROID)
-    set(TOO_CUSTOM_TARGET_SPECIFIER "android" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
-elseif ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
-    set(TOO_CUSTOM_TARGET_SPECIFIER "winrt" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
-else ()
-    set(TOO_CUSTOM_TARGET_SPECIFIER "" CACHE STRING "${TOO_CUSTOM_TARGET_SPECIFIER_IMPL_HELP_STR}" FORCE)
-endif ()
 set(TOO_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
+if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
+    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
+endif ()
+if (TOO_ANDROID)
+    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
+endif ()
 
 # TOO_BITS will be 32, 64, ...
 math(EXPR TOO_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
@@ -35,53 +34,6 @@ math(EXPR TOO_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 # TOO_NPROC will contain processor count and 0 if count couldn't be determined
 include(ProcessorCount)
 ProcessorCount(TOO_NPROC)
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    if (WIN32)
-        set(COMPILER_SUBDIR "clang_msvc")
-    else ()
-        set(COMPILER_SUBDIR "clang")
-    endif ()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-    set(COMPILER_SUBDIR "appleclang")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    if (WIN32)
-        set(COMPILER_SUBDIR "mingw")
-    else ()
-        set(COMPILER_SUBDIR "gcc")
-    endif ()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    if (TOO_BITS EQUAL 64)
-        set(COMPILER_SUBDIR "msvc64")
-    else ()
-        set(COMPILER_SUBDIR "msvc")
-    endif ()
-endif ()
-if (NOT ${TOO_CUSTOM_TARGET_SPECIFIER} STREQUAL "")
-    set(COMPILER_SUBDIR "${COMPILER_SUBDIR}_${TOO_CUSTOM_TARGET_SPECIFIER}")
-endif ()
-
-# Note: An idea was to introduce the choice of building one dir level up (to keep source dir clean)
-#       But the major problem is, that we would like to git-check-in some binaries here and there...
-set(OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${COMPILER_SUBDIR})
-set(OutputDir_lib ${CMAKE_CURRENT_SOURCE_DIR}/lib_${COMPILER_SUBDIR})
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OutputDir_bin})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OutputDir_lib})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OutputDir_lib})
-
-file(TO_CMAKE_PATH "$ENV{dev_sdk_path}" dev_sdk_path_ENV_CMAKE_PATH_impl)
-set(dev_sdk_path_ENV_CMAKE_PATH "${dev_sdk_path_ENV_CMAKE_PATH_impl}" CACHE INTERNAL "cmake normalized path" FORCE)
-
-# workaround for msvc, which adds additional subdirs per config
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-foreach (OutputConfig ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OutputConfig} OutputConfig)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OutputConfig} ${OutputDir_bin})
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OutputConfig} ${OutputDir_lib})
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OutputConfig} ${OutputDir_lib})
-endforeach ()
-endif ()
 
 # this disturbs linking to gtest, expects d there as well...
 # so better handle this via set_target_properties
@@ -189,7 +141,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # target specific general choices
 
 macro(too_set_target_defaults target)
-    if (NOT ANDROID) # easier than to fix the follow-up processes
+    if (NOT TOO_ANDROID) # easier than to fix the follow-up processes
         set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
     endif ()
 
@@ -241,4 +193,20 @@ endmacro()
 
 macro(too_add_test target)
     add_test(NAME ${target} COMMAND ${target})
+endmacro()
+
+# a platform independent 'executable', extra args are just all sources, lead by optional additional switches
+macro(too_add_executable target)
+    set(impl_target_input)
+    foreach(arg ${ARGN})
+        list(APPEND impl_target_input ${arg})
+    endforeach()
+    if (TOO_ANDROID)
+        add_library(${target} SHARED ${impl_target_input})
+    elseif (TOO_MACOS)
+        add_executable(${target} MACOSX_BUNDLE ${impl_target_input})
+        set_target_properties(${target} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist)
+    else ()
+        add_executable(${target} ${impl_target_input})
+    endif ()
 endmacro()
