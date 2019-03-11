@@ -14,36 +14,36 @@ set(TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
 #       "#336699"
 #       "<Resource Language=\"en\" /><Resource Language=\"de\" />"
 #       TargetAppName_UWP_ASSETS)
-#   For quick tests you can also use ${TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path and pass "" as TOO_PUBLISHER,
-#   TOO_PHONE_PRODUCT_GUID, TOO_PHONE_PUBLISHER_GUID and TOO_LANGUAGES.
+#   For quick tests you can also use ${TOO_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path and pass "" as PUBLISHER_NAME,
+#   PHONE_PRODUCT_GUID, PHONE_PUBLISHER_GUID and LANGUAGES.
 function(too_obtain_UWP_resources
-            TOO_DISPLAYNAME
-            TOO_PUBLISHER_DISPLAYNAME
-            TOO_PACKAGENAME
-            TOO_PUBLISHER
-            TOO_PHONE_PRODUCT_GUID
-            TOO_PHONE_PUBLISHER_GUID
-            TOO_VERSION
+            DISPLAYNAME
+            PUBLISHER_DISPLAYNAME
+            PACKAGE_NAME
+            PUBLISHER_NAME
+            PHONE_PRODUCT_GUID
+            PHONE_PUBLISHER_GUID
+            VERSION
             FULLPATH_TO_ico_PARENTDIR
-            BackgroundColor
-            TOO_LANGUAGES
+            BKG_COLOR
+            LANGUAGES
             retRESOURCES)
     if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
         if (NOT TOO_DEPLOYMENT_BUILD)
-            set(TOO_DISPLAYNAME "${TOO_DISPLAYNAME} - dev")
-            set(TOO_PACKAGENAME "${TOO_PACKAGENAME}.dev")
+            set(DISPLAYNAME "${DISPLAYNAME} - dev")
+            set(PACKAGE_NAME "${PACKAGE_NAME}.dev")
         endif ()
-        if ("${TOO_PUBLISHER}" STREQUAL "")
-            set(TOO_PUBLISHER "CN=CMake Test Cert")
+        if ("${PUBLISHER_NAME}" STREQUAL "")
+            set(PUBLISHER_NAME "CN=CMake Test Cert")
         endif ()
-        if ("${TOO_PHONE_PRODUCT_GUID}" STREQUAL "")
-            set(TOO_PHONE_PRODUCT_GUID "348B82EC-3E83-499C-91B3-A2DAB20E041A")
+        if ("${PHONE_PRODUCT_GUID}" STREQUAL "")
+            set(PHONE_PRODUCT_GUID "348B82EC-3E83-499C-91B3-A2DAB20E041A")
         endif ()
-        if ("${TOO_PHONE_PUBLISHER_GUID}" STREQUAL "")
-            set(TOO_PHONE_PUBLISHER_GUID "00000000-0000-0000-0000-000000000000")
+        if ("${PHONE_PUBLISHER_GUID}" STREQUAL "")
+            set(PHONE_PUBLISHER_GUID "00000000-0000-0000-0000-000000000000")
         endif ()
-        if ("${TOO_LANGUAGES}" STREQUAL "")
-            set(TOO_LANGUAGES "<Resource Language=\"x-generate\" />")
+        if ("${LANGUAGES}" STREQUAL "")
+            set(LANGUAGES "<Resource Language=\"x-generate\" />")
         endif ()
         set(APP_MANIFEST_NAME package.appxmanifest)
         configure_file(

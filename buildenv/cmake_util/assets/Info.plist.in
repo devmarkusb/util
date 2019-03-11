@@ -5,11 +5,11 @@
   <key>CFBundleGetInfoString</key>
   <string>todo: info string</string>
   <key>CFBundleExecutable</key>
-  <string>@TargetAppName@</string>
+  <string>@TARGET_NAME@</string>
   <key>CFBundleIdentifier</key>
-  <string>@TOO_PACKAGE_NAME@</string>
+  <string>@PACKAGE_NAME@</string>
   <key>CFBundleName</key>
-  <string>@TOO_DISPLAYNAME@</string>
+  <string>@DISPLAYNAME@</string>
   <key>CFBundleIconFile</key>
   <string>icon.icns</string>
   <key>CFBundleShortVersionString</key>

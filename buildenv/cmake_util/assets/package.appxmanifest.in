@@ -4,25 +4,25 @@
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
     IgnorableNamespaces="uap mp">
 
-    <Identity Name="@TOO_PACKAGENAME@" Publisher="@TOO_PUBLISHER@" Version="@TOO_VERSION@" />
-    <mp:PhoneIdentity PhoneProductId="@TOO_PHONE_PRODUCT_GUID@" PhonePublisherId="@TOO_PHONE_PUBLISHER_GUID@"/>
+    <Identity Name="@PACKAGE_NAME@" Publisher="@PUBLISHER_NAME@" Version="@VERSION@" />
+    <mp:PhoneIdentity PhoneProductId="@PHONE_PRODUCT_GUID@" PhonePublisherId="@PHONE_PUBLISHER_GUID@"/>
     <Properties>
-        <DisplayName>@TOO_DISPLAYNAME@</DisplayName>
-        <PublisherDisplayName>@TOO_PUBLISHER_DISPLAYNAME@</PublisherDisplayName>
+        <DisplayName>@DISPLAYNAME@</DisplayName>
+        <PublisherDisplayName>@PUBLISHER_DISPLAYNAME@</PublisherDisplayName>
         <Logo>_ico/StoreLogo.png</Logo>
     </Properties>
     <Dependencies>
         <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
     </Dependencies>
     <Resources>
-        @TOO_LANGUAGES@
+        @LANGUAGES@
     </Resources>
     <Applications>
         <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="@TargetAppName@.App">
             <uap:VisualElements
-                DisplayName="@TOO_DISPLAYNAME@"
-                Description="@TOO_DISPLAYNAME@"
-                BackgroundColor="@BackgroundColor@"
+                DisplayName="@DISPLAYNAME@"
+                Description="@DISPLAYNAME@"
+                BackgroundColor="@BKG_COLOR@"
                 Square150x150Logo="_ico/Logo.png"
                 Square44x44Logo="_ico/SmallLogo44x44.png">
                 <uap:SplashScreen Image="_ico/SplashScreen.png" />
