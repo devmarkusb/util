@@ -35,11 +35,11 @@ macro(too_qt_deploy target path_to_qml)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_linux.sh"
-            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}/usr/bin/${impl_TargetFileName}"
+            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}/usr/share/applications/${impl_TargetFileName}.desktop"
             -always-overwrite -appimage -bundle-non-qt-libs
             -qmake="${TOO_QT_VER_COMP_PATH}/bin/qmake"
             ${impl_QmlSourcesToUse}
-            -show-exclude-libs -verbose=3
+            -show-exclude-libs -verbose=2
             WORKING_DIRECTORY "${TOO_CMAKE_UTIL_DIR}/assets"
         )
     elseif (TOO_MACOS)
