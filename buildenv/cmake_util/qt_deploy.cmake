@@ -35,19 +35,47 @@ macro(too_qt_deploy target path_to_qml)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_linux.sh"
-            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}/usr/share/applications/${impl_TargetFileName}.desktop"
-            -always-overwrite -appimage -bundle-non-qt-libs
+            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/usr/share/applications/${impl_TargetFileName}.desktop"
+            -bundle-non-qt-libs
             -qmake="${TOO_QT_VER_COMP_PATH}/bin/qmake"
             ${impl_QmlSourcesToUse}
-            -show-exclude-libs -verbose=2
-            WORKING_DIRECTORY "${TOO_CMAKE_UTIL_DIR}/assets"
+            -verbose=3
+            WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
         )
+        set(TARGET_NAME ${target})
+        configure_file(
+            "${TOO_CMAKE_UTIL_DIR}/assets/AppRun.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/AppRun"
+            @ONLY
+        )
+        file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/cp_perm_apprun.cmake"
+            "file(
+                COPY ${CMAKE_CURRENT_BINARY_DIR}/AppRun
+                DESTINATION ${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}
+                FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+            )"
+        )
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cp_perm_apprun.cmake)
+        add_custom_command(
+            TARGET ${target} POST_BUILD
+            COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/appimagetool-x86_64.AppImage"
+            "${target}.app"
+            WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+        )
+        if (TOO_DEPLOYMENT_BUILD)
+            file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/${target}_artifacts/linux/)
+            add_custom_command(TARGET ${target} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/*.AppImage
+                ${CMAKE_SOURCE_DIR}/${target}_artifacts/linux/
+            )
+        endif ()
     elseif (TOO_MACOS)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_macos.sh"
                 "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}" "${TOO_QT_VER_COMP_PATH}/bin"
-                -verbose=3 -dmg ${impl_QmlSourcesToUse} -always-overwrite
+                -verbose=3 -dmg ${impl_QmlSourcesToUse}
         )
     endif ()
 endmacro()

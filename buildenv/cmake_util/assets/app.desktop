@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=@DISPLAYNAME@
-Exec=@TARGET_NAME@
-Icon=@TARGET_NAME@

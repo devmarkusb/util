@@ -25,8 +25,8 @@ macro(too_linux_prepare_package TARGET_NAME DISPLAYNAME)
         set(TARGET_NAME ${TARGET_NAME})
         set(DISPLAYNAME ${DISPLAYNAME})
         configure_file(
-            "${impl_CURRENT_LIST_DIR}/assets/app.desktop"
-            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/share/applications/${TARGET_NAME}.desktop"
+            "${impl_CURRENT_LIST_DIR}/assets/app.desktop.in"
+            "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/usr/share/applications/${TARGET_NAME}.desktop"
             @ONLY
         )
     endif ()
