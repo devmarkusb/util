@@ -40,7 +40,7 @@ macro(too_qt_deploy target path_to_qml)
             -qmake="${TOO_QT_VER_COMP_PATH}/bin/qmake"
             ${impl_QmlSourcesToUse}
             -verbose=3
-            WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+            WORKING_DIRECTORY "${TOO_CMAKE_UTIL_DIR}/assets"
         )
         set(TARGET_NAME ${target})
         configure_file(
