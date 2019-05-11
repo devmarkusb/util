@@ -180,6 +180,14 @@ TOO_WARNING_DISABLE_MSVC(4127)
     } while (false)
 #endif
 
+namespace too
+{
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+static const char* const death_assert_regex{""};
+#else
+static const char* const death_assert_regex{"[Aa]ssert"};
+#endif
+} // too
 
 //####################################################################################################################
 

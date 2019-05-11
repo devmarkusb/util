@@ -73,6 +73,6 @@ TEST(TOO_FUNCTIONSIGNTest, test)
 TEST(TOO_LOCATIONTest, test)
 {
     f_with_some_sourcefile_location_info();
-    size_t pos = g_location_info_of__f_with_some_sourcefile_location_info.find("debug.test.cpp (12) : ");
+    size_t pos = g_location_info_of__f_with_some_sourcefile_location_info.find("debug.test.cpp (12)");
     EXPECT_NE(std::string::npos, pos);
 }

@@ -34,7 +34,7 @@ TEST(bits_set, various)
     EXPECT_EQ(too::bits::set(0b000, 0), 0b001);
     EXPECT_EQ(too::bits::set(0b000, 1), 0b010);
     EXPECT_EQ(too::bits::set<uint8_t>(0b1, 7), 0b10000001);
-    EXPECT_DEBUG_DEATH(too::bits::set<uint8_t>(0b1, 8), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::set<uint8_t>(0b1, 8), too::death_assert_regex);
 }
 
 TEST(bits_unset, various)
@@ -42,7 +42,7 @@ TEST(bits_unset, various)
     EXPECT_EQ(too::bits::unset(0b111, 0), 0b110);
     EXPECT_EQ(too::bits::unset(0b111, 1), 0b101);
     EXPECT_EQ(too::bits::unset<uint8_t>(1 << 7, 7), 0);
-    EXPECT_DEBUG_DEATH(too::bits::unset<uint8_t>(0b1, 8), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::unset<uint8_t>(0b1, 8), too::death_assert_regex);
 }
 
 TEST(bits_toggle, various)
@@ -51,7 +51,7 @@ TEST(bits_toggle, various)
     EXPECT_EQ(too::bits::toggle(0b110, 0), 0b111);
     EXPECT_EQ(too::bits::toggle(0b101, 1), 0b111);
     EXPECT_EQ(too::bits::toggle<uint8_t>(1 << 7, 7), 0);
-    EXPECT_DEBUG_DEATH(too::bits::unset<uint8_t>(0b1, 8), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::unset<uint8_t>(0b1, 8), too::death_assert_regex);
 }
 
 TEST(bits_check, various)
@@ -60,7 +60,7 @@ TEST(bits_check, various)
     EXPECT_EQ(too::bits::check(0b110, 0), 0);
     EXPECT_EQ(too::bits::check(0b101, 1), 0);
     EXPECT_EQ(too::bits::check<uint8_t>(1 << 7, 7), 1);
-    EXPECT_DEBUG_DEATH(too::bits::check<uint8_t>(0b1, 8), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::check<uint8_t>(0b1, 8), too::death_assert_regex);
 }
 
 TEST(bits_change, various)
@@ -71,7 +71,7 @@ TEST(bits_change, various)
     EXPECT_EQ(too::bits::change(0b110, 0, 0), 0b110);
     EXPECT_EQ(too::bits::change(0b101, 1, 1), 0b111);
     EXPECT_EQ(too::bits::change<uint8_t>(1 << 7, 7, 0), 0);
-    EXPECT_DEBUG_DEATH(too::bits::change<uint8_t>(0b1, 8, 1), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::change<uint8_t>(0b1, 8, 1), too::death_assert_regex);
 }
 
 TEST(bits_setMask, various)
@@ -122,7 +122,7 @@ TEST(bits_checkAnyOfMask, various)
 
 TEST(bits_setRange, empty)
 {
-    EXPECT_DEBUG_DEATH(too::bits::setRange(5, 0), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::setRange(5, 0), too::death_assert_regex);
 }
 
 TEST(bits_setRange, bitNr0)
@@ -158,7 +158,7 @@ TEST(bits_setRange, someMiddleRangeOfBits)
 TEST(bits_setRange, someMiddleRangeOfBits_castedToSufficientSmallerType)
 {
     EXPECT_EQ(too::bits::setRange<uint8_t>(2, 6),   0b11111100u);
-    EXPECT_DEBUG_DEATH(too::bits::setRange<uint8_t>(2, 7), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::setRange<uint8_t>(2, 7), too::death_assert_regex);
     EXPECT_EQ(too::bits::setRange<uint16_t>(2, 7), 0b111111100u);
 }
 
@@ -167,7 +167,7 @@ TEST(bits_read, typical)
     EXPECT_EQ(too::bits::read(0b11000101100u, 2, 5), 0b01011u);
     const auto x = too::bits::readAndCast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
     EXPECT_EQ(x, uint8_t{0b01011});
-    EXPECT_DEBUG_DEATH(too::bits::setRange<uint8_t>(2, 7), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::setRange<uint8_t>(2, 7), too::death_assert_regex);
 }
 
 namespace
@@ -183,15 +183,15 @@ constexpr TargetType read_from16_testhelper(uint16_t data, too::bits::Idx idx, t
 
 TEST(bits_read, range_overflows)
 {
-    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 2, 7), "ssert");
-    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 9, 0), "ssert");
-    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 0, 9), "ssert");
-    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100u, 2, 9), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 2, 7), too::death_assert_regex);
+    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 9, 0), too::death_assert_regex);
+    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 0, 9), too::death_assert_regex);
+    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100u, 2, 9), too::death_assert_regex);
 }
 
 TEST(bits_read, none)
 {
-    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 2, 0), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::read<uint8_t>(0b10101100u, 2, 0), too::death_assert_regex);
 }
 
 TEST(bits_read, one)
@@ -250,7 +250,7 @@ TEST(bits_write, different_sizes)
 
 TEST(bits_write, none)
 {
-    EXPECT_DEBUG_DEATH(too::bits::write(0b10101100u, 2, 0, 1), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::write(0b10101100u, 2, 0, 1), too::death_assert_regex);
 }
 
 TEST(bits_write, one)
@@ -272,9 +272,9 @@ inline constexpr uint8_t write_to8_testhelper(uint8_t to, too::bits::Idx idx, to
 
 TEST(bits_write, range_overflows)
 {
-    EXPECT_DEBUG_DEATH(too::bits::write<uint16_t>(0, 0, 17, 0), "ssert");
+    EXPECT_DEBUG_DEATH(too::bits::write<uint16_t>(0, 0, 17, 0), too::death_assert_regex);
     auto _ = too::bits::write<uint16_t>(0, 0, 16, 0);
-    EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t >(0, 0, 9, 0), "ssert");
+    EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t >(0, 0, 9, 0), too::death_assert_regex);
     _ = write_to8_testhelper<uint8_t >(0, 0, 8, 0);
     too::ignore_arg(_);
 }
@@ -316,7 +316,7 @@ TEST(bits_BitArray, set)
     too::bits::Array<42> a1;
     a1.set(41);
     EXPECT_TRUE(a1.isSet(41));
-    EXPECT_DEBUG_DEATH(a1.set(42), "ssert");
+    EXPECT_DEBUG_DEATH(a1.set(42), too::death_assert_regex);
 
     a1.set(0);
     EXPECT_TRUE(a1.isSet(0));
