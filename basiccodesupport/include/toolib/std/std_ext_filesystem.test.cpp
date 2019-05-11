@@ -74,11 +74,7 @@ TEST(pathTest, extension)
     EXPECT_EQ(empty_ext_dot.extension(), dot);
 
     const fs::path ext_only{"/tmp/.sh"};
-#if TOO_OS_WINDOWS
-    EXPECT_EQ(ext_only.extension(), fs::path{".sh"});
-#else
     EXPECT_EQ(ext_only.extension(), empty);
-#endif
 
     const fs::path usual_justfile{"file.extension"};
     EXPECT_EQ(usual_justfile.extension(), fs::path{".extension"});
@@ -102,11 +98,7 @@ TEST(pathTest, stem)
     EXPECT_EQ(empty_ext_dot.stem(), fs::path{"test"});
 
     const fs::path ext_only{"/tmp/.sh"};
-#if TOO_OS_WINDOWS
-    EXPECT_EQ(ext_only.stem(), empty);
-#else
     EXPECT_EQ(ext_only.stem(), fs::path{".sh"});
-#endif
 
     const fs::path usual_justfile{"file.extension"};
     EXPECT_EQ(usual_justfile.stem(), fs::path{"file"});
@@ -172,11 +164,7 @@ TEST(pathTest, parent_path)
     EXPECT_EQ(usual_justfile.parent_path(), empty);
 
     const fs::path root{"/"};
-#if TOO_OS_WINDOWS
-    EXPECT_EQ(root.parent_path(), empty);
-#else
     EXPECT_EQ(root.parent_path(), root);
-#endif
 
     const fs::path dot_abs{"/tmp/."};
     EXPECT_EQ(dot_abs.parent_path(), fs::path{"/tmp"});
@@ -208,11 +196,7 @@ TEST(pathTest, replace_extension)
 
     fs::path dot{"."};
     dot.replace_extension(".txt");
-#if TOO_OS_WINDOWS
-    EXPECT_STREQ(dot.string().c_str(), ".txt");
-#else
     EXPECT_STREQ(dot.string().c_str(), "..txt");
-#endif
 
     fs::path empty_ext_dot{"/home/x/test."};
     empty_ext_dot.replace_extension();
@@ -220,11 +204,7 @@ TEST(pathTest, replace_extension)
 
     fs::path ext_only{"/tmp/.hiddenfilename"};
     ext_only.replace_extension(".extension");
-#if TOO_OS_WINDOWS
-    EXPECT_EQ(ext_only, fs::path{"/tmp/.extension"});
-#else
     EXPECT_EQ(ext_only, fs::path{"/tmp/.hiddenfilename.extension"});
-#endif
 
     fs::path usual_justfile{"file.replace_extension"};
     usual_justfile.replace_extension();
