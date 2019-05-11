@@ -18,9 +18,10 @@ namespace too::mem::quirk
 namespace vector
 {
 /** Quite 'funny' that msvc allocates a certain amount when constructing a vector,
-    at least capacity still being zero.*/
+    at least capacity still being zero. But, no offense at all: this is debug-only
+    behavior*/
 constexpr too::mem::Bytes constr_heap_alloc_size{
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_DEBUG
     16
 #else
     0
