@@ -12,6 +12,7 @@
 #include "toolib/assert.h"
 #include "toolib/debug.h"
 #include "toolib/error.h"
+#include "toolib/ignore_arg.h"
 #include "toolib/PPDEFS.h"
 #include <cstdint>
 #include <sstream>
@@ -115,6 +116,8 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     CPU_SET(logicalCoreIdx, &cpuset);
     return mac::pthread_setaffinity_np(nh, sizeof(mac::cpu_set_t), &cpuset);
 #else
+    too::ignore_arg(h);
+    too::ignore_arg(logicalCoreIdx);
     throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
 #endif
 }
@@ -139,6 +142,8 @@ inline void pinToLogicalCore(std::thread &t, int logicalCoreIdx)
         throw std::runtime_error{ss.str()};
     }
 #else
+    too::ignore_arg(t);
+    too::ignore_arg(logicalCoreIdx);
     throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
 #endif
 }
