@@ -2,11 +2,7 @@
 // This file is part of tfl library.
 
 //! Replaces (overrides) global new and delete to collect memory usage statistics.
-/** *Important* This is work in progress!
-    I couldn't yet find a way to get delete called with the size being deleted or obtain that size in another
-    way without the need of additional storage.
-
-    Usage: You just need to include this header in a single arbitrary source file of your target. Then every
+/** Usage: You just need to include this header in a single arbitrary source file of your target. Then every
     use of new/delete will be replaced with the custom version here (even standard library calls, everything).
     So please take care that you're absolutely conscious whether you want to do this.
  */
@@ -124,20 +120,20 @@ public:
         return deleteCalls_.load();
     }
 
-    std::size_t allocatedSize() const noexcept
+    Bytes allocatedSize() const noexcept
     {
-        return allocatedSize_.load();
+        return Bytes{allocatedSize_.load()};
     }
 
-    std::size_t deallocatedSize() const noexcept
+    Bytes deallocatedSize() const noexcept
     {
-        return deallocatedSize_.load();
+        return Bytes{deallocatedSize_.load()};
     }
 
-    /** \Returns the maximum/peak size allocated (typically in bytes). Not yet working correctly! Cf. file comment.*/
-    std::size_t peakSize() const noexcept
+    /** \Returns the maximum/peak size allocated.*/
+    Bytes peakSize() const noexcept
     {
-        return peakSize_.load();
+        return Bytes{peakSize_.load()};
     }
 
 private:

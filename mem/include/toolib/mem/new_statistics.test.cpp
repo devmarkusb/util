@@ -1,6 +1,7 @@
 #define TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "new_statistics.h"
 #undef TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE
+#include "compiler_quirks.h"
 #include "toolib/assert.h"
 #include "toolib/error.h"
 #include <iostream>
@@ -11,39 +12,55 @@ int main()
 {
     std::cout << "Running main() from " << __FILE__ << "\n";
 
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().newCalls() == 0);
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().deleteCalls() == 0);
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().peakSize() == 0);
+    const auto& memstats = too::mem::Statistics::instance();
 
+    TOO_ASSERT_THROW(memstats.newCalls() == 0);
+    TOO_ASSERT_THROW(memstats.deleteCalls() == 0);
+    TOO_ASSERT_THROW(memstats.peakSize() == 0);
+
+    std::size_t exp_new_calls{};
+    std::size_t exp_delete_calls{};
+    too::mem::Bytes exp_peak_size{};
     {
         int* p1 = new int;
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().newCalls() == 1);
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().peakSize() == 4);
+        TOO_ASSERT_THROW(memstats.newCalls() == 1);
+        TOO_ASSERT_THROW(memstats.peakSize() == too::mem::Bytes{4});
 
+        auto impl_correction_ofs = memstats.allocatedSize();
         {
             std::vector<int> l;
+            impl_correction_ofs = memstats.allocatedSize() - impl_correction_ofs;
+            // just out of interest
+            TOO_ASSERT_THROW(impl_correction_ofs == too::mem::quirk::vector::constr_heap_alloc_size);
+            TOO_ASSERT_THROW(!l.capacity());
             l.reserve(10);
-            TOO_ASSERT_THROW(too::mem::Statistics::instance().newCalls() == 2);
-            TOO_ASSERT_THROW(too::mem::Statistics::instance().peakSize() == 44);
+            exp_new_calls = 2 + (impl_correction_ofs ? 1 : 0);
+            TOO_ASSERT_THROW(memstats.newCalls() == exp_new_calls);
+            exp_peak_size = too::mem::Bytes{44} + impl_correction_ofs;
+            TOO_ASSERT_THROW(memstats.peakSize() == exp_peak_size);
             for (int i = 0; i < 5; ++i)
                 l.push_back(i);
         }
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().deleteCalls() == 1);
+        exp_delete_calls = 1 + (impl_correction_ofs ? 1 : 0);
+        TOO_ASSERT_THROW(memstats.deleteCalls() == exp_delete_calls);
 
         delete p1;
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().deleteCalls() == 2);
+        ++exp_delete_calls;
+        TOO_ASSERT_THROW(memstats.deleteCalls() == exp_delete_calls);
 
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().peakSize() == 44);
+        TOO_ASSERT_THROW(memstats.peakSize() == too::mem::Bytes{44} + impl_correction_ofs);
 
         int* p2 = new int[10];
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().newCalls() == 3);
+        ++exp_new_calls;
+        TOO_ASSERT_THROW(memstats.newCalls() == exp_new_calls);
         delete[] p2;
-        TOO_ASSERT_THROW(too::mem::Statistics::instance().deleteCalls() == 3);
+        ++exp_delete_calls;
+        TOO_ASSERT_THROW(memstats.deleteCalls() == exp_delete_calls);
     }
 
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().newCalls() == 3);
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().deleteCalls() == 3);
-    TOO_ASSERT_THROW(too::mem::Statistics::instance().peakSize() == 44);
+    TOO_ASSERT_THROW(memstats.newCalls() == exp_new_calls);
+    TOO_ASSERT_THROW(memstats.deleteCalls() == exp_delete_calls);
+    TOO_ASSERT_THROW(memstats.peakSize() == exp_peak_size);
 
     std::cout << "PASSED (" << __FILE__ << ")\n";
 

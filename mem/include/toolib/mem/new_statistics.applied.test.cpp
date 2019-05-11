@@ -12,30 +12,32 @@ struct AGlobalDestructor
 {
     ~AGlobalDestructor()
     {
+        const auto& memstats = too::mem::Statistics::instance();
+
         // mem/allocator.test.cpp is the evil one, that still has leaks according to the statistics
         // But nevertheless the test is ok for now as it can still detect (and prevent) any new leaks.
-        std::cout << "new calls: " << too::mem::Statistics::instance().newCalls() << "\n";
-        std::cout << "delete calls: " << too::mem::Statistics::instance().deleteCalls() << "\n";
-#if !TOO_OS_MAC
-        EXPECT_EQ(too::mem::Statistics::instance().newCalls(),
-            too::mem::Statistics::instance().deleteCalls() + (2737 - 2572));
+        std::cout << "new calls: " << memstats.newCalls() << "\n";
+        std::cout << "delete calls: " << memstats.deleteCalls() << "\n";
+#if TOO_LINUX
+        EXPECT_EQ(memstats.newCalls() - memstats.deleteCalls(), 2737 - 2572);
 #endif
         std::cout << "allocated size minus deallocated size: ";
-        const auto allocDeallocDiff = too::mem::Statistics::instance().allocatedSize() -
-                                      too::mem::Statistics::instance().deallocatedSize();
+        const auto allocDeallocDiff = memstats.allocatedSize() -
+                                      memstats.deallocatedSize();
 #if !TOO_OS_MAC
-        EXPECT_EQ(too::mem::Statistics::instance().allocatedSize(),
-                  too::mem::Statistics::instance().deallocatedSize() + allocDeallocDiff);
+        EXPECT_EQ(memstats.allocatedSize(),
+                  memstats.deallocatedSize() + allocDeallocDiff);
 #endif
-#if !TOO_OS_MAC
+#if !TOO_OS_MAC && !TOO_OS_WINDOWS
+        // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
         std::cout << too::fmt::groupThousands(allocDeallocDiff);
 #else
         std::cout << allocDeallocDiff;
 #endif
         std::cout << "\n";
-        const auto peakSize = too::mem::Statistics::instance().peakSize();
+        const auto peakSize = memstats.peakSize();
         std::cout << "peak mem usage: " <<
-#if !TOO_OS_MAC
+#if !TOO_OS_MAC && !TOO_OS_WINDOWS
             too::fmt::groupThousands(peakSize)
 #else
             peakSize
