@@ -4,13 +4,16 @@
 macro(too_qt_deploy target path_to_qml)
     set(impl_TargetFileName $<TARGET_FILE_NAME:${target}>)
     if (TOO_WINDOWS)
-        set(impl_QmlDirParam "--qmldir ")
+        set(impl_QmlDirParam "--qmldir")
+        set(impl_QmlSourcesToUse)
     else ()
-        set(impl_QmlDirParam "-qmldir=")
+        set(impl_QmlDirParam)
+        set(impl_QmlSourcesToUse "-qmldir=")
     endif ()
     if (NOT "${path_to_qml}" STREQUAL "")
-        set(impl_QmlSourcesToUse "${impl_QmlDirParam}${path_to_qml}")
+        set(impl_QmlSourcesToUse ${impl_QmlSourcesToUse}${path_to_qml})
     else ()
+        set(impl_QmlDirParam)
         set(impl_QmlSourcesToUse)
     endif ()
 
@@ -29,7 +32,7 @@ macro(too_qt_deploy target path_to_qml)
             TARGET ${target} POST_BUILD
             COMMAND "${TOO_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_win.bat"
                 "${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}" "${TOO_QT_VER_COMP_PATH}/bin"
-                ${impl_TargetBuildType} -qml -widgets ${impl_QmlSourcesToUse} ${impl_TargetFileName}
+                ${impl_TargetBuildType} -qml -widgets ${impl_QmlDirParam} ${impl_QmlSourcesToUse} ${impl_TargetFileName}
         )
     elseif (TOO_LINUX AND "${TOO_DEPLOY_TARGET}" STREQUAL "linuxAppDir")
         add_custom_command(
