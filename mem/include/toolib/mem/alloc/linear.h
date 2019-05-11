@@ -1,4 +1,4 @@
-// Markus Borris, 2018
+// Markus Borris, 2018-19
 // This file is part of tfl library.
 
 //!
@@ -34,9 +34,9 @@ template <typename StatisticsPolicy = NoStatistics>
 class Linear : private too::non_copyable, public StatisticsPolicy
 {
 public:
-    Linear(Bytes capacity, Bytes alignment)
+    explicit Linear(Bytes capacity, Bytes alignment = Bytes{__STDCPP_DEFAULT_NEW_ALIGNMENT__})
         : alignment_{static_cast<std::align_val_t>(alignment.value)}
-        , buf_{static_cast<uint8_t*>(::operator new(capacity.value, alignment_))}
+        , buf_{static_cast<uint8_t*>(capacity ? ::operator new(capacity.value, alignment_) : nullptr)}
         , curr_offset_{}
         , capacity_{capacity}
     {

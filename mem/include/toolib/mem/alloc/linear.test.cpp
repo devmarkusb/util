@@ -1,4 +1,5 @@
 #include "linear.h"
+#include "toolib/assert.h"
 #include "toolib/ignore_arg.h"
 #include "toolib/PPDEFS.h"
 #include <cstddef>
@@ -9,14 +10,12 @@ using too::mem::Bytes;
 
 TEST(alloc_Linear, constr)
 {
-    too::mem::alloc::Linear<> a{{}, {}};
+    too::mem::alloc::Linear<> a{{}};
     EXPECT_EQ(a.size(), Bytes{0});
 
     EXPECT_THROW(a.allocate(Bytes{1}), std::bad_alloc);
 
-#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
-    EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), "[Aa]ssert");
-#endif
+    EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), too::death_assert_regex);
 }
 
 TEST(alloc_Linear, prealloc)
@@ -28,9 +27,7 @@ TEST(alloc_Linear, prealloc)
 
     EXPECT_THROW(a.allocate(Bytes{11 * sizeof(Type)}), std::bad_alloc);
 
-#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
-    EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), "[Aa]ssert");
-#endif
+    EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), too::death_assert_regex);
 }
 
 TEST(alloc_Linear, alloc)
