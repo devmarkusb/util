@@ -39,8 +39,9 @@ private:
 };
 } // detail
 
+//! Strange, crashes for non-Linux?!
 template <typename T>
-inline std::string groupThousands(T&& t, char sep = '\'')
+inline std::string groupThousands(T t, char sep = '\'')
 {
     std::stringstream ss;
     ss.imbue(std::locale(std::locale::classic(), new detail::GroupThousands_numpunct{sep}));

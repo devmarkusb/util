@@ -1,4 +1,4 @@
-// Markus Borris, 2018
+// Markus Borris, 2018-19
 // This file is part of tfl library.
 
 //!
@@ -9,6 +9,7 @@
 #ifndef TYPES_H_eroui342zt347g8hx3xg713h4
 #define TYPES_H_eroui342zt347g8hx3xg713h4
 
+#include "toolib/PPDEFS.h"
 #include <cstddef>
 #include <ostream>
 
@@ -78,7 +79,10 @@ protected:
 
 inline std::ostream& operator<<(std::ostream& os, Bytes x)
 {
+    // strangely under Windows this crashes (Mac the same or otherwise malfunctioning)
+#if TOO_OS_LINUX
     os.imbue(std::locale(os.getloc(), new impl::ThousandsSep));
+#endif
     os << x.value << " B";
     return os;
 }
