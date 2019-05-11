@@ -10,6 +10,8 @@
 #define PIN_H_viehrxgzuh34782tg5
 
 #include "toolib/assert.h"
+#include "toolib/debug.h"
+#include "toolib/error.h"
 #include "toolib/PPDEFS.h"
 #include <cstdint>
 #include <sstream>
@@ -18,7 +20,7 @@
 #if TOO_OS_UNIX
 #include <pthread.h>
 #else
-#error "not implemented"
+// not implemented
 #endif
 #if TOO_OS_MAC
 #include <mach/mach_types.h>
@@ -86,12 +88,16 @@ int pthread_setaffinity_np(pthread_t thread, size_t cpu_size,
 #if TOO_OS_UNIX
 using native_handle = pthread_t;
 #else
-#error "not implemented"
+// not implemented
+using native_handle = int;
 #endif
 
 /** Pins (sets affinity of) executing thread with native handle \param h to CPU number \param logicalCoreIdx (0-based).
     \Returns 0 on success and a certain error code otherwise (with errno set). Also cf. doc. of function overload.*/
-inline int pinToLogicalCore(native_handle h, int logicalCoreIdx) noexcept
+inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
+#if TOO_OS_LINUX || TOO_OS_MAC
+    noexcept
+#endif
 {
     TOO_EXPECT(h);
     TOO_EXPECT(logicalCoreIdx >= 0);
@@ -109,8 +115,7 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx) noexcept
     CPU_SET(logicalCoreIdx, &cpuset);
     return mac::pthread_setaffinity_np(nh, sizeof(mac::cpu_set_t), &cpuset);
 #else
-#error "not implemented"
-    return -1;
+    throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -124,6 +129,7 @@ inline void pinToLogicalCore(std::thread &t, int logicalCoreIdx)
     TOO_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
     TOO_EXPECT(logicalCoreIdx >= 0);
 
+#if TOO_OS_LINUX || TOO_OS_MAC
     const auto nh = static_cast<native_handle>(t.native_handle());
     const auto err = pinToLogicalCore(nh, logicalCoreIdx);
     if (err)
@@ -132,10 +138,16 @@ inline void pinToLogicalCore(std::thread &t, int logicalCoreIdx)
         ss << "thread_pinToCPU failed with code " << err;
         throw std::runtime_error{ss.str()};
     }
+#else
+    throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
+#endif
 }
 
 //! \Returns number of current, this_thread's, CPU (0-based) and -1 on error (with errno set).
-inline int numLogicalCores() noexcept
+inline int numLogicalCores()
+#if TOO_OS_LINUX || TOO_OS_MAC
+    noexcept
+#endif
 {
 #if TOO_OS_LINUX
     return sched_getcpu();
@@ -144,8 +156,7 @@ inline int numLogicalCores() noexcept
     const auto ok = sched_getaffinity({}, {}, &cpuset);
     return ok <= 0 ? -1 : cpuset.count;
 #else
-#error "not implemented"
-    return -1;
+    throw too::not_implemented{TOO_LOCATION" numLogicalCores not yet for non-Unix"};
 #endif
 }
 } // too::thread
