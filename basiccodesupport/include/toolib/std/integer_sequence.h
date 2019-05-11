@@ -62,7 +62,7 @@ template <int... Is>
 struct gen_seq<0, Is...> : seq<Is...>
 {
 };
-} // udx
+} // idx
 } // too
 
 #endif
