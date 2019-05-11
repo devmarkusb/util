@@ -72,7 +72,7 @@ template <typename SourceType, typename ChangeBitSourceType, typename TargetType
 constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
-    const auto newbit = !!x; // ensure 1 or 0
+    const SourceType newbit = !!x; // ensure 1 or 0
     return from ^ ((-newbit ^ from) & (TargetType{1} << idx));
 }
 
@@ -139,7 +139,7 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
     TOO_EXPECT(idx + count <= too::bits::count<SourceType>());
     TOO_EXPECT(count <= too::bits::count<TargetType>());
 
-    return (from & too::bits::setRange<SourceType>(idx, count)) >> idx;
+    return static_cast<TargetType>((from & too::bits::setRange<SourceType>(idx, count)) >> idx);
 }
 
 //! Write \param count > 0 bits of \param from into \param to starting at 0-based index \param idx there (0 is LSB).
@@ -184,8 +184,8 @@ public:
     }
 
 private:
-    constexpr static Count partsCount{
-        (bits + (too::bits::count<BaseType>() - Count{1})) / too::bits::count<BaseType>()};
+    constexpr static Count partsCount{static_cast<Count>
+        ((bits + (too::bits::count<BaseType>() - Count{1})) / too::bits::count<BaseType>())};
     std::array<BaseType, partsCount> array{};
     
     Idx N(Idx idx) const noexcept
