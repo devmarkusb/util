@@ -3,7 +3,8 @@
 #include "alloc/example.h"
 #include "alloc/linear.h"
 #include "alloc/onstack.h"
-#include "toolib/mem/types.h"
+#include "compiler_quirks.h"
+#include "types.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -106,7 +107,7 @@ TEST(allocator_linear, vector)
     using Allocator = too::mem::Allocator<int, Arena>;
     try
     {
-        Arena a{Bytes{100'000 * sizeof(int)}, Bytes{alignof(int)}};
+        Arena a{Bytes{100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
         Allocator al{a};
         std::vector<int, Allocator> v{al};
 
@@ -133,7 +134,8 @@ TEST(allocator_linear, map)
 
 TEST(allocator_onstack, vector)
 {
-    using Arena     = too::mem::alloc::OnStack<100'000 * sizeof(int), alignof(int)>;
+    using Arena     =
+        too::mem::alloc::OnStack<100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = too::mem::Allocator<int, Arena>;
     try
     {

@@ -1,4 +1,4 @@
-// Markus Borris, 2018
+// Markus Borris, 2018-19
 // This file is part of tfl library.
 
 //!
@@ -28,14 +28,12 @@ namespace mem
 {
 namespace alloc
 {
-/** You should adapt @tparam max_alignment_in_bytes to at least the alignment of the largest type you're going to
+/** You should adapt max_alignment_in_bytes to at least the alignment of the largest type you're going to
     allocate frequently. But not larger as this wastes space due to padding.*/
 template <size_t capacity_in_bytes, size_t max_alignment_in_bytes, typename StatisticsPolicy = NoStatistics>
 class OnStack : private too::non_copyable, public StatisticsPolicy
 {
 public:
-    static_assert(capacity_in_bytes % max_alignment_in_bytes == 0, "capacity needs to be a multiple of alignment");
-
     uint8_t* allocate(Bytes size)
     {
         const auto padded_size = pad_up(size.value, max_alignment_in_bytes);
