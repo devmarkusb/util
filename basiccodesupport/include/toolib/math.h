@@ -9,6 +9,7 @@
 #ifndef MATH_H_skuy3478ngt8247gg2
 #define MATH_H_skuy3478ngt8247gg2
 
+#include "toolib/PPDEFS.h"
 #include <cstdint>
 #include <type_traits>
 
@@ -25,6 +26,7 @@ constexpr bool isPowerOfTwo(NumberType number) noexcept
     return number && ((number & (number - 1)) == 0);
 }
 
+#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
 namespace detail
 {
 // Impl. notes: Workaround for partially specializing non-type template parameters of dependent type.
@@ -96,6 +98,7 @@ struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::in
         return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
     }
 };
+#endif
 
 /** Like NextGreaterOrEqualPowerOfTwo (except for negative number support), but working at runtime as well.
     Cf. https://stackoverflow.com/questions/1322510#1322548*/

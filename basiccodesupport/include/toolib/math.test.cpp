@@ -1,4 +1,5 @@
 #include "math.h"
+#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
 
 
@@ -17,6 +18,7 @@ TEST(math_isPowerOfTwo, some)
     static_assert(!too::math::isPowerOfTwo(-256));
 }
 
+#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
 TEST(math_NextGreaterOrEqPow2, int_zero)
 {
     static_assert(too::math::NextGreaterOrEqPow2<int, 0>::value() == 1);
@@ -108,6 +110,7 @@ TEST(math_NextGreaterPow2, int_neg)
     static_assert(too::math::NextGreaterPow2<int, -2>::value() == 1);
     static_assert(too::math::NextGreaterPow2<int, -1000>::value() == 1);
 }
+#endif
 
 TEST(math_nextGreaterOrEqPow2, some)
 {
