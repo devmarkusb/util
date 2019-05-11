@@ -10,6 +10,8 @@
 #define PHYSMEMUSAGE_RSS_H_fuigh76x3nfg3
 
 #include "types.h"
+#include "toolib/debug.h"
+#include "toolib/error.h"
 #include "toolib/ignore_arg.h"
 #include "toolib/PPDEFS.h"
 #include <fstream>
@@ -52,7 +54,9 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
     virtual_mem_usage  = vsize / static_cast<double>(too::mem::KiB);
     physical_mem_usage = rss * page_size_kb;
 #else
-#error "not implemented"
+    too::ignore_arg(virtual_mem_usage);
+    too::ignore_arg(physical_mem_usage);
+    throw too::not_implemented{TOO_LOCATION" too::mem::usage not yet for non-Linux"};
 #endif
 }
 } // too::mem
