@@ -21,7 +21,7 @@ namespace too
 {
 namespace bits
 {
-using Idx = uint16_t;
+using Idx = int;
 using Count = Idx;
 using Diff = int;
 
@@ -150,7 +150,7 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
     TOO_EXPECT(idx + count <= too::bits::count<TargetType>());
     TOO_EXPECT(count <= too::bits::count<SourceType>());
 
-    return (to & (~too::bits::setRange(idx, count))) | (from << idx);
+    return static_cast<TargetType>((to & (~too::bits::setRange(idx, count))) | (from << idx));
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
