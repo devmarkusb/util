@@ -14,5 +14,6 @@
  "android-package": "@QT_ANDROID_APP_PACKAGE_NAME@",
  "android-app-name": "@QT_ANDROID_APP_NAME@",
  @QT_ANDROID_APP_EXTRA_LIBS@
- "android-package-source-directory": "@QT_ANDROID_APP_PACKAGE_SOURCE_ROOT@"
+ "android-package-source-directory": "@QT_ANDROID_APP_PACKAGE_SOURCE_ROOT@",
+ "stdcpp-path": "@QT_ANDROID_NDK_ROOT@/sources/cxx-stl/gnu-libstdc++/4.9/libs/@ANDROID_ABI@/libgnustl_shared.so"
 }
