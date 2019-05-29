@@ -44,7 +44,7 @@ template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType set(SourceType from, Idx idx) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
-    return from | (TargetType{1} << idx);
+    return static_cast<TargetType>(from | (TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
@@ -58,7 +58,7 @@ template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType toggle(SourceType from, Idx idx) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
-    return from ^ (TargetType{1} << idx);
+    return static_cast<TargetType>(from ^ (TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
@@ -117,7 +117,7 @@ constexpr TargetType setRange(Idx idx, Count count) noexcept
     TOO_EXPECT(count > 0);
     TOO_EXPECT(idx + count <= too::bits::count<TargetType>());
 
-    return ((TargetType{1} << count) - 1) << idx;
+    return static_cast<TargetType>(((TargetType{1} << count) - 1) << idx);
 }
 
 //! Reads \param count > 0 bits of \param from starting at 0-based index \param idx (0 is LSB).
@@ -200,7 +200,7 @@ private:
 
     BaseType partBit(Idx n) const noexcept
     {
-        return BaseType{1} << n;
+        return static_cast<BaseType>(BaseType{1} << n);
     }
 
     template <Count bits_, typename BaseType_>
@@ -262,14 +262,20 @@ public:
     constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept
     {
         const auto fieldnr{as_number(field)};
-        data_ = write<BitDataType, SourceDataType>(data_, fieldsLookup.indices_[fieldnr], fieldsLookup.counts_[fieldnr], value);
+        assert(fieldnr >= 0);
+        const auto fieldnr_{static_cast<size_t>(fieldnr)};
+        data_ = write<BitDataType, SourceDataType>(
+            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_], value);
     }
 
     template <typename TargetDataType = BitDataType>
     constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
     {
         const auto fieldnr{as_number(field)};
-        return readAndCast<TargetDataType, BitDataType>(data_, fieldsLookup.indices_[fieldnr], fieldsLookup.counts_[fieldnr]);
+        assert(fieldnr >= 0);
+        const auto fieldnr_{static_cast<size_t>(fieldnr)};
+        return readAndCast<TargetDataType, BitDataType>(
+            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_]);
     }
 
 private:

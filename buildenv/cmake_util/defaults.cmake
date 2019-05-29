@@ -85,7 +85,7 @@ endif ()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(cpp_compile_options
             ${cpp_compile_options}
-            -Wall -Wextra)
+            -Wall -Wextra -Wconversion -Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(cpp_compile_options
             ${cpp_compile_options}
@@ -93,7 +93,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(cpp_compile_options
             ${cpp_compile_options}
-            -Wall -Wextra)
+            -Wall -Wextra -Wconversion -Werror)
 endif ()
 
 # switch to 1 and adapt details if you want to see a maximum of warnings
