@@ -165,6 +165,24 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_APP_QML_SOURCE_DIR "")
     endif()
 
+    set(QT_ANDROID_STDCPP_PATH "")
+    if ("${ANDROID_STL}" STREQUAL "libstdc++")
+        # The default minimal system C++ runtime library.
+    elseif ("${ANDROID_STL}" STREQUAL "gabi++_shared")
+        # The GAbi++ runtime (shared).
+        message(FATAL_ERROR "gabi++_shared was not configured by ndk-stl package")
+    elseif ("${ANDROID_STL}" STREQUAL "stlport_shared")
+        # "stlport" "stlport_shared"
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    elseif ("${ANDROID_STL}" STREQUAL "gnustl_shared")
+        set(QT_ANDROID_STDCPP_PATH "${QT_ANDROID_NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${ANDROID_ABI}/lib${ANDROID_STL}.so")
+    elseif( "${ANDROID_STL}" STREQUAL "c++_shared")
+        # "llvm-libc++" "c++_shared"
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    else ()
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    endif ()
+
     # create the configuration file that will feed androiddeployqt
     configure_file(${QT_ANDROID_SOURCE_DIR}/qtdeploy.json.in ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json @ONLY)
 
