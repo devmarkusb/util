@@ -85,7 +85,7 @@ endif ()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(cpp_compile_options
             ${cpp_compile_options}
-            -Wall -Wextra -Wconversion -Werror)
+            -Wall -Wextra -Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(cpp_compile_options
             ${cpp_compile_options}
@@ -93,19 +93,23 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(cpp_compile_options
             ${cpp_compile_options}
-            -Wall -Wextra -Wconversion -Werror)
+            -Wall -Wextra -Werror)
 endif ()
 
 # switch to 1 and adapt details if you want to see a maximum of warnings
 if (0)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        # not implemented
+        # partially implemented
+        set(cpp_compile_options
+                ${cpp_compile_options}
+                -Wconversion
+        )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # not implemented
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options
                 ${cpp_compile_options}
-                -Weverything
+                -Weverything # should include -Wconversion
                 # category of must-be-blacklisted ones
                 -Wno-unused-member-function -Wno-c++98-compat -Wno-deprecated -Wno-weak-vtables
                 -Wno-shadow-field-in-constructor -Wno-undef -Wno-c++98-compat-pedantic
@@ -119,7 +123,7 @@ if (0)
                 -Wno-switch-enum -Wno-covered-switch-default # a no default warning would be more useful
                 -Wno-missing-noreturn
                 -Wno-padded # this could be useful to turn on locally (at most) to find out about padding size
-                )
+        )
     endif ()
 endif ()
 
