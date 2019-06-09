@@ -56,7 +56,6 @@ include(CMakeParseArguments)
 #     VERSION_CODE 12
 #     PACKAGE_NAME "org.mycompany.myapp"
 #     PACKAGE_SOURCES ${CMAKE_CURRENT_LIST_DIR}/my-android-sources
-#     BUILDTOOLS_REVISION "23.0.3"
 #     KEYSTORE ${CMAKE_CURRENT_LIST_DIR}/mykey.keystore myalias
 #     KEYSTORE_PASSWORD xxxx
 #     DEPENDS a_linked_target "path/to/a_linked_library.so" ...
@@ -66,7 +65,7 @@ include(CMakeParseArguments)
 macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # parse the macro arguments
-    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION" "DEPENDS;KEYSTORE" ${ARGN})
+    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;PACKAGE_SOURCES;KEYSTORE_PASSWORD" "DEPENDS;KEYSTORE" ${ARGN})
 
     # extract the full path of the source target binary
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -89,12 +88,16 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_APP_PACKAGE_NAME org.qtproject.${SOURCE_TARGET})
     endif()
 
-    # set the Android SDK build-tools revision
-    if(ARG_BUILDTOOLS_REVISION)
-        set(QT_ANDROID_SDK_BUILDTOOLS_REVISION ${ARG_BUILDTOOLS_REVISION})
-    else()
-        set(QT_ANDROID_SDK_BUILDTOOLS_REVISION "")
-    endif()
+    # detect latest Android SDK build-tools revision
+    set(QT_ANDROID_SDK_BUILDTOOLS_REVISION "0.0.0")
+    file(GLOB ALL_BUILD_TOOLS_VERSIONS RELATIVE ${QT_ANDROID_SDK_ROOT}/build-tools ${QT_ANDROID_SDK_ROOT}/build-tools/*)
+    foreach(BUILD_TOOLS_VERSION ${ALL_BUILD_TOOLS_VERSIONS})
+        # find subfolder with greatest version
+        if (${BUILD_TOOLS_VERSION} VERSION_GREATER ${QT_ANDROID_SDK_BUILDTOOLS_REVISION})
+            set(QT_ANDROID_SDK_BUILDTOOLS_REVISION ${BUILD_TOOLS_VERSION})
+        endif()
+    endforeach()
+    message("Detected Android SDK build tools version ${QT_ANDROID_SDK_BUILDTOOLS_REVISION}")
 
     # define the application source package directory
     if(ARG_PACKAGE_SOURCES)
@@ -119,6 +122,18 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         configure_file(${QT_ANDROID_SOURCE_DIR}/AndroidManifest.xml.in ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}/AndroidManifest.xml @ONLY)
     endif()
 
+    # define the STL shared library path
+    if(ANDROID_STL_SHARED_LIBRARIES)
+        list(GET ANDROID_STL_SHARED_LIBRARIES 0 STL_LIBRARY_NAME) # we can only give one to androiddeployqt
+        if(ANDROID_STL_PATH)
+            set(QT_ANDROID_STL_PATH "${ANDROID_STL_PATH}/libs/${ANDROID_ABI}/lib${STL_LIBRARY_NAME}.so")
+        else()
+            set(QT_ANDROID_STL_PATH "${ANDROID_NDK}/sources/cxx-stl/${ANDROID_STL_PREFIX}/libs/${ANDROID_ABI}/lib${STL_LIBRARY_NAME}.so")
+        endif()
+    else()
+        set(QT_ANDROID_STL_PATH)
+    endif()
+
     # set the list of dependant libraries
     if(ARG_DEPENDS)
         foreach(LIB ${ARG_DEPENDS})
@@ -140,14 +155,19 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_APP_EXTRA_LIBS "\"android-extra-libs\": \"${EXTRA_LIBS}\",")
     endif()
 
+    # set some toolchain variables used by androiddeployqt;
+    # unfortunately, Qt tries to build paths from these variables although these full paths
+    # are already available in the toochain file, so we have to parse them
+    string(REGEX MATCH "${ANDROID_NDK}/toolchains/(.*)-(.*)/prebuilt/.*" ANDROID_TOOLCHAIN_PARSED ${ANDROID_TOOLCHAIN_ROOT})
+    if(ANDROID_TOOLCHAIN_PARSED)
+        set(QT_ANDROID_TOOLCHAIN_PREFIX ${CMAKE_MATCH_1})
+        set(QT_ANDROID_TOOLCHAIN_VERSION ${CMAKE_MATCH_2})
+    else()
+        message(FATAL_ERROR "Failed to parse ANDROID_TOOLCHAIN_ROOT to get toolchain prefix and version")
+    endif()
+
     # make sure that the output directory for the Android package exists
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI})
-    
-    if(ARG_QML_SOURCE_DIR)
-        set(QT_ANDROID_APP_QML_SOURCE_DIR ${ARG_QML_SOURCE_DIR})
-    else()
-        set(QT_ANDROID_APP_QML_SOURCE_DIR "")
-    endif()
 
     # create the configuration file that will feed androiddeployqt
     configure_file(${QT_ANDROID_SOURCE_DIR}/qtdeploy.json.in ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json @ONLY)
@@ -166,8 +186,8 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
     endif()
 
     # specify the Android API level
-    if(ANDROID_NATIVE_API_LEVEL)
-        set(TARGET_LEVEL_OPTIONS --android-platform android-${ANDROID_NATIVE_API_LEVEL})
+    if(ANDROID_PLATFORM_LEVEL)
+        set(TARGET_LEVEL_OPTIONS --android-platform android-${ANDROID_PLATFORM_LEVEL})
     endif()
 
     # create a custom command that will run the androiddeployqt utility to prepare the Android package
