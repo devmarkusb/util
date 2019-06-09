@@ -6,7 +6,7 @@ When using Qt for Android development, QMake & QtCreator is the only sane option
 
 This utility tries to avoids this by providing a CMake way of doing Android compilation and deployment, without QtCreator. It is based on:
 
-* the Android CMake toolchain at https://github.com/taka-no-me/android-cmake
+* the Android CMake toolchains available in the NDK
 * the ```androiddeployqt``` utility from the Qt Android SDK
 * the QML / Android example at https://github.com/calincru/QML-Android-Demo
 
@@ -65,8 +65,8 @@ You can then run CMake:.
 **On Windows**
 ```
 cmake -G"MinGW Makefiles"
-      -DCMAKE_TOOLCHAIN_FILE=<qt-android-cmake>/toolchain/android.toolchain.cmake 
-      -DCMAKE_MAKE_PROGRAM="%ANDROID_NDK%/prebuilt/windows/bin/make.exe" .
+      -DCMAKE_TOOLCHAIN_FILE="%ANDROID_NDK%/build/cmake/android.toolchain.cmake" 
+      -DCMAKE_MAKE_PROGRAM="%ANDROID_NDK%/prebuilt/windows-x86_64/bin/make.exe" .
 ```
 
 **On Linux**
@@ -141,20 +141,6 @@ add_qt_android_apk(my_app_apk my_app
 )
 ```
 
-### BUILDTOOLS_REVISION
-
-The revision of the Android SDK build tools. This must match a valid sub-folder of your <ANDROID_SDK>/build-tools directory. It seems like it can sometimes be needed, when the system cannot auto-detect it.
-
-Remains empty if not given.
-
-Example:
-
-```cmake
-add_qt_android_apk(my_app_apk my_app
-    BUILDTOOLS_REVISION "23.0.3"
-)
-```
-
 ### KEYSTORE
 
 The path to a keystore file and an alias, for signing the APK. If not provided, the APK won't be signed.
@@ -203,6 +189,19 @@ add_qt_android_apk(my_app_apk my_app
     INSTALL
 )
 ```
+## Troubleshooting
+
+In case of 
+```
+-- Configuring done
+CMake Error in CMakeLists.txt:
+  No known features for CXX compiler
+
+  "GNU"
+
+  version 4.9.
+```
+see [Qt bug 54666](https://bugreports.qt.io/browse/QTBUG-54666) for details.
 
 ## Contact
 
