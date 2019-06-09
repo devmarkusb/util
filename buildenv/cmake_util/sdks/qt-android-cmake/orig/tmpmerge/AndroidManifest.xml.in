@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <manifest android:versionName="@QT_ANDROID_APP_VERSION@" package="@QT_ANDROID_APP_PACKAGE_NAME@" android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="@QT_ANDROID_APP_VERSION_CODE@">
-    <application android:label="@QT_ANDROID_APP_NAME@" android:name="org.qtproject.qt5.android.bindings.QtApplication">
-		<activity android:label="@QT_ANDROID_APP_NAME@" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="unspecified" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
+    <application android:label="@QT_ANDROID_APP_NAME@" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
+		<activity android:label="@QT_ANDROID_APP_NAME@" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="@QT_ANDROID_SCREEN_ORIENTATION@" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
@@ -28,8 +28,6 @@
 		</activity>
 	</application>
 	<supports-screens android:anyDensity="true" android:normalScreens="true" android:smallScreens="true" android:largeScreens="true"/>
-    <!-- %%INSERT_PERMISSIONS -->
-	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="19"/>
-	<uses-permission android:name="android.permission.INTERNET" />
-    <!-- %%INSERT_FEATURES -->
+	<uses-sdk android:minSdkVersion="@QT_ANDROID_MIN_SDK_VER@" android:targetSdkVersion="@QT_ANDROID_TARGET_SDK_VER@"/>
+	<!--<uses-permission android:name="android.permission.INTERNET" />-->
 </manifest>

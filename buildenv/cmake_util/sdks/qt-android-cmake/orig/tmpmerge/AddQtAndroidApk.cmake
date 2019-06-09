@@ -66,7 +66,9 @@ include(CMakeParseArguments)
 macro(add_qt_android_apk TARGET SOURCE_TARGET)
 
     # parse the macro arguments
-    cmake_parse_arguments(ARG "INSTALL" "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;KEYSTORE_PASSWORD;BUILDTOOLS_REVISION" "DEPENDS;KEYSTORE" ${ARGN})
+    cmake_parse_arguments(ARG "INSTALL"
+            "NAME;VERSION_CODE;PACKAGE_NAME;QML_SOURCE_DIR;PACKAGE_SOURCES;BUILDTOOLS_REVISION"
+            "MIN_SDK_VER;TARGET_SDK_VER;SCREEN_ORIENTATION;DEPENDS;KEYSTORE;KEYSTORE_PASSWORD" ${ARGN})
 
     # extract the full path of the source target binary
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -96,28 +98,42 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_SDK_BUILDTOOLS_REVISION "")
     endif()
 
-    # define the application source package directory
-    if(ARG_PACKAGE_SOURCES)
-        set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT ${ARG_PACKAGE_SOURCES})
+    if(ARG_MIN_SDK_VER)
+        set(QT_ANDROID_MIN_SDK_VER ${ARG_MIN_SDK_VER})
     else()
-        # get version code from arguments, or generate a fixed one if not provided
-        set(QT_ANDROID_APP_VERSION_CODE ${ARG_VERSION_CODE})
-        if(NOT QT_ANDROID_APP_VERSION_CODE)
-            set(QT_ANDROID_APP_VERSION_CODE 1)
-        endif()
-
-        # try to extract the app version from the target properties, or use the version code if not provided
-        get_property(QT_ANDROID_APP_VERSION TARGET ${SOURCE_TARGET} PROPERTY VERSION)
-        if(NOT QT_ANDROID_APP_VERSION)
-            set(QT_ANDROID_APP_VERSION ${QT_ANDROID_APP_VERSION_CODE})
-        endif()
-
-        # create a subdirectory for the extra package sources
-        set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT "${CMAKE_CURRENT_BINARY_DIR}/package")
-
-        # generate a manifest from the template
-        configure_file(${QT_ANDROID_SOURCE_DIR}/AndroidManifest.xml.in ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}/AndroidManifest.xml @ONLY)
+        set(QT_ANDROID_MIN_SDK_VER "16")
     endif()
+
+    if(ARG_TARGET_SDK_VER)
+        set(QT_ANDROID_TARGET_SDK_VER ${ARG_TARGET_SDK_VER})
+    else()
+        set(QT_ANDROID_TARGET_SDK_VER "26")
+    endif()
+
+    if(ARG_SCREEN_ORIENTATION)
+        set(QT_ANDROID_SCREEN_ORIENTATION ${ARG_SCREEN_ORIENTATION})
+    else()
+        set(QT_ANDROID_SCREEN_ORIENTATION "unspecified")
+    endif()
+
+    # define the application source package directory
+    # get version code from arguments, or generate a fixed one if not provided
+    set(QT_ANDROID_APP_VERSION_CODE ${ARG_VERSION_CODE})
+    if(NOT QT_ANDROID_APP_VERSION_CODE)
+        set(QT_ANDROID_APP_VERSION_CODE 1)
+    endif()
+
+    # try to extract the app version from the target properties, or use the version code if not provided
+    get_property(QT_ANDROID_APP_VERSION TARGET ${SOURCE_TARGET} PROPERTY VERSION)
+    if(NOT QT_ANDROID_APP_VERSION)
+        set(QT_ANDROID_APP_VERSION ${QT_ANDROID_APP_VERSION_CODE})
+    endif()
+
+    # create a subdirectory for the extra package sources
+    set(QT_ANDROID_APP_PACKAGE_SOURCE_ROOT "${CMAKE_CURRENT_BINARY_DIR}/package")
+
+    # generate a manifest from the template
+    configure_file(${QT_ANDROID_SOURCE_DIR}/AndroidManifest.xml.in ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}/AndroidManifest.xml @ONLY)
 
     # set the list of dependant libraries
     if(ARG_DEPENDS)
@@ -149,6 +165,24 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(QT_ANDROID_APP_QML_SOURCE_DIR "")
     endif()
 
+    set(QT_ANDROID_STDCPP_PATH "")
+    if ("${ANDROID_STL}" STREQUAL "libstdc++")
+        # The default minimal system C++ runtime library.
+    elseif ("${ANDROID_STL}" STREQUAL "gabi++_shared")
+        # The GAbi++ runtime (shared).
+        message(FATAL_ERROR "gabi++_shared was not configured by ndk-stl package")
+    elseif ("${ANDROID_STL}" STREQUAL "stlport_shared")
+        # "stlport" "stlport_shared"
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    elseif ("${ANDROID_STL}" STREQUAL "gnustl_shared")
+        set(QT_ANDROID_STDCPP_PATH "${QT_ANDROID_NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${ANDROID_ABI}/lib${ANDROID_STL}.so")
+    elseif( "${ANDROID_STL}" STREQUAL "c++_shared")
+        # "llvm-libc++" "c++_shared"
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    else ()
+        message(FATAL_ERROR "STL configuration ANDROID_STL=${ANDROID_STL} is not supported")
+    endif ()
+
     # create the configuration file that will feed androiddeployqt
     configure_file(${QT_ANDROID_SOURCE_DIR}/qtdeploy.json.in ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json @ONLY)
 
@@ -170,15 +204,24 @@ macro(add_qt_android_apk TARGET SOURCE_TARGET)
         set(TARGET_LEVEL_OPTIONS --android-platform android-${ANDROID_NATIVE_API_LEVEL})
     endif()
 
+    # copy/overwrite files from custom package source dir
+    if(ARG_PACKAGE_SOURCES)
+        add_custom_target(
+            ${TARGET}_custompackagesources
+            ALL
+            DEPENDS ${SOURCE_TARGET}
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${ARG_PACKAGE_SOURCES} ${QT_ANDROID_APP_PACKAGE_SOURCE_ROOT}
+        )
+    endif()
+
     # create a custom command that will run the androiddeployqt utility to prepare the Android package
     add_custom_target(
-        ${TARGET}
+        ${TARGET}_androiddeployqt
         ALL
-        DEPENDS ${SOURCE_TARGET}
+        DEPENDS ${TARGET}_custompackagesources
         COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI} # it seems that recompiled libraries are not copied if we don't remove them first
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI}
         COMMAND ${CMAKE_COMMAND} -E copy ${QT_ANDROID_APP_PATH} ${CMAKE_CURRENT_BINARY_DIR}/libs/${ANDROID_ABI}
         COMMAND ${QT_ANDROID_QT_ROOT}/bin/androiddeployqt --verbose --output ${CMAKE_CURRENT_BINARY_DIR} --input ${CMAKE_CURRENT_BINARY_DIR}/qtdeploy.json --gradle ${TARGET_LEVEL_OPTIONS} ${INSTALL_OPTIONS} ${SIGN_OPTIONS}
     )
-
 endmacro()
