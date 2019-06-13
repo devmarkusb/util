@@ -488,3 +488,8 @@ TEST(bits_Field, overflow)
     EXPECT_THROW(lambda(), too::fail_fast);
 #endif
 }
+
+TEST(bits_isBigEndian, basics)
+{
+    std::cout << "is_bigendian: " << too::bits::is_bigendian() << "\n";
+}
