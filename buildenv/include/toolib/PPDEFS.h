@@ -134,6 +134,8 @@
 
 //####################################################################################################################
 //! Languages
+/** Note, it's very much common and ok to use __cplusplus directly of course (instead of TOO_LANG_STANDARD_CPP).
+*/
 //!@{
 
 #ifdef __STDC__
@@ -355,6 +357,12 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 
 //! To express an empty statement.
 #define TOO_NOOP (void)0
+
+#ifdef __cplusplus
+#define TOO_DEPRECATED [[deprecated]]
+#else
+#define TOO_DEPRECATED
+#endif
 
 
 //####################################################################################################################

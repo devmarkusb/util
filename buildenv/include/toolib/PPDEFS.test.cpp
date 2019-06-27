@@ -42,3 +42,16 @@ TEST(TOO_STRINGIFYTest, macro)
     EXPECT_EQ("42", s2);
 #undef SOMETHING
 }
+
+namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
+{
+TOO_DEPRECATED void deprecated_function() {}
+}
+
+using ppdefs::test::impl::treat_this_as_anonymous_namespace::deprecated_function;
+
+TEST(TOO_DEPRECATEDTest, test)
+{
+    //uncomment for experimentation
+    //deprecated_function();
+}
