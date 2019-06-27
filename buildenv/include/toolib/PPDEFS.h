@@ -147,8 +147,15 @@
 #endif
 
 #ifdef __cplusplus
+#if __cplusplus != 0
+#define TOO_LANG_STANDARD_CPP __cplusplus
+#else
 #define TOO_LANG_STANDARD_CPP 1
-#define TOO_LANG_STANDARD_CPP98 1
+#endif
+constexpr auto TOO_LANG_STANDARD_CPP98{199711L};
+constexpr auto TOO_LANG_STANDARD_CPP11{201103L};
+constexpr auto TOO_LANG_STANDARD_CPP14{201402L};
+constexpr auto TOO_LANG_STANDARD_CPP17{201703L};
 #endif
 
 #ifdef __cplusplus_cli

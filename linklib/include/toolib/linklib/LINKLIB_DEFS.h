@@ -89,7 +89,7 @@
 
 //! Put TOO_EXTERN_C_DECLS in front of your YOURLIBSHARED_EXPORT-define
 //! (being switch-wise TOO_DECL_EXPORT/TOO_DECL_IMPORT) if appropriate.
-#if TOO_LANG_STANDARD_CPP == 1
+#if TOO_LANG_STANDARD_CPP
 #define TOO_EXTERN_C_DECLS extern "C"
 #define TOO_EXTERN_C_DECLS_BEGIN extern "C" {
 #define TOO_EXTERN_C_DECLS_END }
