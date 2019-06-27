@@ -40,8 +40,8 @@
 */
 //! \file
 
-#ifndef LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
-#define LINKLIB_DEFS_H_INCL_kjdsnfxiwzgfny38tgn38g
+#ifndef LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
+#define LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
 
 #include "toolib/PPDEFS.h"
 

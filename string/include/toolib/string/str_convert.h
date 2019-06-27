@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef STR_CONVERT_H_INCL_827rt82rtrxjr38t
-#define STR_CONVERT_H_INCL_827rt82rtrxjr38t
+#ifndef STR_CONVERT_H_827rt82rtrxjr38t
+#define STR_CONVERT_H_827rt82rtrxjr38t
 
 //! toostring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.

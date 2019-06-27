@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef LOCALE_H_INCL_condwhxnu23mhy8mr
-#define LOCALE_H_INCL_condwhxnu23mhy8mr
+#ifndef LOCALE_H_condwhxnu23mhy8mr
+#define LOCALE_H_condwhxnu23mhy8mr
 
 #include "toolib/PPDEFS.h"
 #include "toolib/std/std_extensions.h"

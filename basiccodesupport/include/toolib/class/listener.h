@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef LISTENER_H_INCL_sjkdzth78tn2378xgh73fr
-#define LISTENER_H_INCL_sjkdzth78tn2378xgh73fr
+#ifndef LISTENER_H_sjkdzth78tn2378xgh73fr
+#define LISTENER_H_sjkdzth78tn2378xgh73fr
 
 #include "toolib/assert.h"
 #include <algorithm>

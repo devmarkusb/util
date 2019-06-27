@@ -7,8 +7,8 @@
 //! \file
 
 
-#ifndef STRING_MISC_H_INCL_ciubhwduibgwi37
-#define STRING_MISC_H_INCL_ciubhwduibgwi37
+#ifndef STRING_MISC_H_ciubhwduibgwi37
+#define STRING_MISC_H_ciubhwduibgwi37
 
 #include "toolib/assert.h"
 #include "toolib/narrow.h"

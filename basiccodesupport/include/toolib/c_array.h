@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef C_ARRAY_H_INCL_lnm45hxn73rmnfy2738yrn873rg
-#define C_ARRAY_H_INCL_lnm45hxn73rmnfy2738yrn873rg
+#ifndef C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
+#define C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
 
 #include "toolib/assert.h"
 

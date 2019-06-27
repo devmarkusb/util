@@ -7,8 +7,8 @@
 //! \file
 
 
-#ifndef MAKESTR_H_INCL_92nzr29h3f8
-#define MAKESTR_H_INCL_92nzr29h3f8
+#ifndef MAKESTR_H_92nzr29h3f8
+#define MAKESTR_H_92nzr29h3f8
 
 #include <sstream>
 #include <string>

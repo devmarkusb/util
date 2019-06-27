@@ -6,8 +6,8 @@
 */
 //! \file
 
-#ifndef ERROR_H_INCL_cosndzcriwu4ezr3
-#define ERROR_H_INCL_cosndzcriwu4ezr3
+#ifndef ERROR_H_cosndzcriwu4ezr3
+#define ERROR_H_cosndzcriwu4ezr3
 
 #include "toolib/assert.h"
 #include "toolib/std/std_extensions.h"

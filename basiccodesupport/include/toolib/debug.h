@@ -7,8 +7,8 @@
 //! \file
 
 
-#ifndef DEBUG_MISC_H_INCL_n9283zr823rz832
-#define DEBUG_MISC_H_INCL_n9283zr823rz832
+#ifndef DEBUG_MISC_H_n9283zr823rz832
+#define DEBUG_MISC_H_n9283zr823rz832
 
 #include "toolib/assert.h"
 #include "toolib/PPDEFS.h"
