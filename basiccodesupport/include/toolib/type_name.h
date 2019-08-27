@@ -10,6 +10,7 @@
 #define TYPE_NAME_H_4387t73824t378t371y47ym47
 
 #include "debug.h"
+#include "error.h"
 #include "toolib/PPDEFS.h"
 #include <string_view>
 
@@ -33,7 +34,8 @@ constexpr std::string_view type_name()
 #if TOO_LANG_STANDARD_CPP < TOO_LANG_STANDARD_CPP14
     return string_view(p.data() + 36, p.size() - 36 - 1);
 #else
-    return string_view(p.data() + 49, p.find(';', 49) - 49);
+    throw too::not_implemented{"type_name"};
+    //return string_view(p.data() + 49, p.find(';', 49) - 49);
 #endif
 #elif defined(_MSC_VER)
     return string_view(p.data() + 84, p.size() - 84 - 7);
