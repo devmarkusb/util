@@ -136,6 +136,16 @@ public:
         return Bytes{peakSize_.load()};
     }
 
+    void reset() noexcept
+    {
+        newCalls_ = {};
+        deleteCalls_ = {};
+        currentSize_ = {};
+        peakSize_ = {};
+        allocatedSize_ = {};
+        deallocatedSize_ = {};
+    }
+
 private:
     std::atomic<std::size_t> newCalls_{};
     std::atomic<std::size_t> deleteCalls_{};

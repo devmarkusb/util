@@ -39,7 +39,9 @@ too_add_test(${Target_tooMemTest})
 
 target_include_directories(${Target_tooMemTest} PRIVATE ${tooMem_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooMemTest} PRIVATE gtest_main) #${Target_tooMem}
+# using own main, implemented in new_statistics.applied.test.cpp, in order to test new_statistics in an 'application'
+# like environment
+target_link_libraries(${Target_tooMemTest} PRIVATE gtest) #${Target_tooMem}
 
 too_set_target_defaults(${Target_tooMemTest})
 
