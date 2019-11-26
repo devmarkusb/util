@@ -46,7 +46,7 @@ public:
 
     static too::bits::FieldsLookup<fieldCount> makeFieldLookup()
     {
-        return makeFieldLookup_impl(too::idx::gen_seq<bitCounts.size()>());
+        return makeFieldLookup_impl(too::idx::gen_seq<bitCounts_.size()>());
     }
 
     template <typename SourceDataType>
@@ -63,11 +63,11 @@ public:
     }
 
 private:
-    static constexpr auto bitCounts{too::array::make(
+    static constexpr auto bitCounts_{too::array::make(
             40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
     )};
-    static_assert(fieldCount == bitCounts.size());
-    static_assert(too::bits::count<BitsType>() >= too::ct_accumulate(bitCounts, 0));
+    static_assert(fieldCount == bitCounts_.size());
+    static_assert(too::bits::count<BitsType>() >= too::ct_accumulate(bitCounts_, 0));
 
     too::bits::FieldsRaw<BitsType, Field, too::as_number(Field::end)> bits_;
 
@@ -75,7 +75,7 @@ private:
     static too::bits::FieldsLookup<fieldCount> makeFieldLookup_impl(too::idx::seq<Is...>)
     {
         return too::bits::FieldsLookup<fieldCount>{too::bits::count<StatsHeader::BitsType>(),
-                                                   StatsHeader::bitCounts[Is]...};
+                                                   StatsHeader::bitCounts_[Is]...};
     }
 };
 
