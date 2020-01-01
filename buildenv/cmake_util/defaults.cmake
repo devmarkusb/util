@@ -173,7 +173,7 @@ macro(too_set_target_filesystem target)
 endmacro()
 
 macro(too_set_target_pthread target)
-    if (LINUX)
+    if (TOO_LINUX)
         target_link_libraries(${target} PUBLIC pthread)
     endif ()
 endmacro()
