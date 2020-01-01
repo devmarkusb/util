@@ -470,7 +470,7 @@ TEST(bits_Field, overflow)
             too::bits::Fields<uint32_t, Field, too::as_number(Field::end)> bits_{16, 17};
         } s;
     };
-#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER == 80300
+#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 80200 && TOO_COMP_GNU_CPP_VER < 90000
     too::ignore_arg(lambda);
     // strange and disturbing, it just terminates when throwing
     //{
