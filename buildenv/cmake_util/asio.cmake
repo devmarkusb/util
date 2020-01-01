@@ -3,7 +3,7 @@
 # 1) Add to your app's CMakeLists.txt
 #       too_include(asio.cmake)
 #   and add to target with e.g.
-#       too_use_asio(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/sdks/asio-1.12.2.tar.gz)
+#       too_use_asio(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz)
 
 macro(too_use_asio target path_to_zip hash)
     if (NOT TARGET asio)

@@ -3,7 +3,7 @@
 # 1) Add to your app's CMakeLists.txt
 #       too_include(gperftools.cmake)
 #   and add to target with e.g.
-#       too_use_gperftools(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/sdks/gperftools-2.6.3.tar.gz)
+#       too_use_gperftools(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/gperftools-2.6.3.tar.gz)
 # 2) Add CMake parameter -DTOO_ENABLE_PROFILING_GPERF=ON
 # 3) Run the target with environment variable CPUPROFILE=result.prof (if that doesn't work in
 #   CLion, consult your psychologist, or find the right place for the var to actually work).
