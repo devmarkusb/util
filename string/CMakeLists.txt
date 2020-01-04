@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.4.1)
 
+include(${tooBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
+
 project(tooString VERSION 0.1.0.0)
+
+too_include(defaults.cmake)
+
 set(Target_tooString ${PROJECT_NAME})
 
 add_subdirectory(sdks)

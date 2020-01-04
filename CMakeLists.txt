@@ -14,5 +14,9 @@ set(tfl_INCLUDE_DIRS
         ${tooLinklib_INCLUDE_DIRS}
         CACHE INTERNAL "tfl include directories" FORCE)
 
+set(tfl_CMAKE_DIRS
+        ${tooBuildEnv_CMAKE_DIRS}
+        CACHE INTERNAL "tfl cmake util directories" FORCE)
+
 # Note, there are no libs that need linking, everything just header only.
 # Internally some static libs are built for testing.

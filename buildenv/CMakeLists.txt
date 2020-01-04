@@ -4,6 +4,8 @@ include(cmake_util.cmake)
 
 project(tooBuildEnv VERSION 0.1.0.0)
 
+too_include(defaults.cmake)
+
 set(Target_tooBuildEnv ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
@@ -16,6 +18,8 @@ file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 
 set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
+set(${Target_tooBuildEnv}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
+        CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
 
 
 ################################################################################################
