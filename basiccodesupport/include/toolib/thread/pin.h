@@ -127,7 +127,7 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     Further note that in an example setup of 4 cores where 2 of them (which ones?) are only hyperthreading
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half
     of them might be sufficient sometimes then.*/
-inline void pinToLogicalCore(std::thread &t, int logicalCoreIdx)
+inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 {
     TOO_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
     TOO_EXPECT(logicalCoreIdx >= 0);
