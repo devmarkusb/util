@@ -27,7 +27,7 @@ macro(too_use_gperftools target_to_profile path_to_zip)
 
     if (TOO_ENABLE_PROFILING_GPERF AND NOT TOO_DEPLOYMENT_BUILD AND NOT WIN32)
         include(ExternalProject)
-        set(gperftools_PREFIX ${CMAKE_BINARY_DIR}/sdks/gperftools)
+        set(gperftools_PREFIX ${CMAKE_BINARY_DIR}/3rdparty/gperftools)
         ExternalProject_Add(gperftools
                 URL                ${path_to_zip}
                 SOURCE_DIR         ${gperftools_PREFIX}/src
