@@ -1,14 +1,13 @@
-// Markus Borris, 2011-17
+// Markus Borris, 2011-20
 // This file is part of tfl library.
 
-//! DEPRECATED! Use macros.h and macros_end.h.
+//!
 /** Most common and basic preprocessor defines.
+*   If you include this file within a header you should also include macros_end.h when finished.
 */
 //! \file
 
-#ifndef PPDEFS_H_o85nzumvt424cmt75tn
-#define PPDEFS_H_o85nzumvt424cmt75tn
-
+// no include guard intentionally
 
 //####################################################################################################################
 //! Operating Systems
@@ -152,10 +151,10 @@
 #else
 #define TOO_LANG_STANDARD_CPP 1
 #endif
-constexpr auto TOO_LANG_STANDARD_CPP98{199711L};
-constexpr auto TOO_LANG_STANDARD_CPP11{201103L};
-constexpr auto TOO_LANG_STANDARD_CPP14{201402L};
-constexpr auto TOO_LANG_STANDARD_CPP17{201703L};
+#define TOO_LANG_STANDARD_CPP98 199711L
+#define TOO_LANG_STANDARD_CPP11 201103L
+#define TOO_LANG_STANDARD_CPP14 201402L
+#define TOO_LANG_STANDARD_CPP17 201703L
 #endif
 
 #ifdef __cplusplus_cli
@@ -369,8 +368,4 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define TOO_DEPRECATED [[deprecated]]
 #else
 #define TOO_DEPRECATED
-#endif
-
-
-//####################################################################################################################
 #endif
