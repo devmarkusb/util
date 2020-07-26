@@ -1,13 +1,13 @@
-// Markus Borris, 2014-2016
+// Markus Borris, 2014-2020
 // This file is part of tfl library.
 
-//! DEPRECATED! Use ignore_unused.
+//!
 /**
 */
 //! \file
 
-#ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
-#define IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
+#ifndef IGNORE_UNUSED_H_fklh3874gy78342
+#define IGNORE_UNUSED_H_fklh3874gy78342
 
 #include "toolib/PPDEFS.h"
 
@@ -18,14 +18,14 @@ namespace too
 //! even usable for a function itself (e.g. gcc shows a warning for unused functions).
 /** Example:
     \code
-    f(int i) { ignore_arg(i); }
+    f(int i) { ignore_unused(i); }
     \endcode
     Or:
     \code
-    f() { ignore_arg(f); }
+    f() { ignore_unused(f); }
     \endcode*/
 template <typename T>
-void ignore_arg(T&&)
+void ignore_unused(T&&)
 {
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
     TOO_NOOP;
