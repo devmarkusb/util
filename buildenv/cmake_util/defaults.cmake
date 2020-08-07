@@ -187,6 +187,9 @@ macro(too_set_target_cuda_separable_compilation target)
 endmacro()
 
 macro(too_run_target_postbuild target)
+#    add_custom_command(TARGET ${target}
+#            POST_BUILD
+#            COMMAND ctest -V -C $<CONFIGURATION>)
     add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND ${target})
