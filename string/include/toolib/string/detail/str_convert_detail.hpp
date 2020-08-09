@@ -204,7 +204,7 @@ namespace detail_impl
 #pragma warning(disable: 4702)
 #endif
 template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigned int from, unsigned int to>
-inline std::string utf8_to_latin1_range(const std::string& s)
+std::string utf8_to_latin1_range(const std::string& s)
 {
     std::string ret;
 
@@ -212,21 +212,24 @@ inline std::string utf8_to_latin1_range(const std::string& s)
     unsigned int ui_codepoint{};
     while (*cptr != 0)
     {
-        unsigned char uc = static_cast<unsigned char>(*cptr);
+        const auto uc = static_cast<unsigned char>(*cptr);
         if (uc <= 0x7f)
             ui_codepoint = uc;
         else if (uc <= 0xbf)
-            ui_codepoint = (ui_codepoint << 6) | (uc & 0x3f);
+            ui_codepoint = (ui_codepoint << 6u) | (uc & 0x3fu);
         else if (uc <= 0xdf)
-            ui_codepoint = uc & 0x1f;
+            ui_codepoint = uc & 0x1fu;
         else if (uc <= 0xef)
-            ui_codepoint = uc & 0x0f;
+            ui_codepoint = uc & 0x0fu;
         else
-            ui_codepoint = uc & 0x07;
+            ui_codepoint = uc & 0x07u;
         ++cptr;
-        if (((*cptr & 0xc0) != 0x80) && (ui_codepoint <= 0x10ffff))
+        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu))
         {
-            if (from <= ui_codepoint && ui_codepoint <= to)
+            bool in_range{ui_codepoint <= to};
+            if constexpr (from)
+                in_range = in_range && from <= ui_codepoint;
+            if (in_range)
                 ret.append(1, static_cast<char>(ui_codepoint));
             else
                 // for that the wrong warning in msvc2015 occurs, but tests prove that the code is
@@ -243,7 +246,7 @@ inline std::string utf8_to_latin1_range(const std::string& s)
 } // detail_impl
 
 template <class OnConversionErrorPolicy>
-inline std::string utf8_to_latin1(const std::string& s)
+std::string utf8_to_latin1(const std::string& s)
 {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 0, 255>(s);
 }
@@ -254,15 +257,15 @@ inline std::string latin1_to_utf8(const std::string& s)
 
     for (const auto& c : s)
     {
-        uint8_t c_ = static_cast<uint8_t>(c);
+        const auto c_ = static_cast<uint8_t>(c);
 
         if (c_ < 0x80)
             ret.append(1, c);
         else
         {
-            const auto c_pt1 = 0xc0 | (c_ & 0xc0) >> 6;
+            const auto c_pt1 = 0xc0u | (c_ & 0xc0u) >> 6u;
             ret.append(1, static_cast<char>(c_pt1));
-            const auto c_pt2 = 0x80 | (c_ & 0x3f);
+            const auto c_pt2 = 0x80u | (c_ & 0x3fu);
             ret.append(1, static_cast<char>(c_pt2));
         }
     }
@@ -270,7 +273,7 @@ inline std::string latin1_to_utf8(const std::string& s)
 }
 
 template <class OnConversionErrorPolicy>
-inline std::string utf8_to_printableASCII(const std::string& s)
+std::string utf8_to_printableASCII(const std::string& s)
 {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }

@@ -10,6 +10,7 @@
 #define CT_ARRAY_H_uixngt3h478gh389xgh3984g
 
 #include <array>
+#include <cstddef>
 
 
 namespace too
