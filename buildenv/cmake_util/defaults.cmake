@@ -93,7 +93,9 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(cpp_compile_options
             ${cpp_compile_options}
-            -Wall -Wextra -Werror)
+            -Wall -Wextra -Werror
+            -Wno-c++11-narrowing
+    )
 endif ()
 
 # switch to 1 and adapt details if you want to see a maximum of warnings
