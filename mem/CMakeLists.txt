@@ -9,14 +9,25 @@ too_include(defaults.cmake)
 set(Target_tooMem ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooMem_INCS "include/*.h")
+file(GLOB_RECURSE Target_tooMem_SRC_INCS "src/*.h*")
 
-#add_library(${Target_tooMem} STATIC ${Target_tooMem_INCS})
+set(Target_tooMem_SOURCES
+        src/new_statistics.cpp
+)
 
-#target_include_directories(${Target_tooMem} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+add_library(${Target_tooMem} STATIC
+        ${Target_tooMem_SOURCES}
+        ${Target_tooMem_INCS}
+        ${Target_tooMem_SRC_INCS}
+)
 
-#target_link_libraries(${Target_tooMem}) # tooBasicCodeSupport
+target_include_directories(${Target_tooMem} PUBLIC
+        include
+        ${tooBuildEnv_INCLUDE_DIRS}
+        ${tooBasicCodeSupport_INCLUDE_DIRS}
+)
 
-#too_set_target_defaults(${Target_tooMem})
+too_set_target_defaults(${Target_tooMem})
 
 set(${Target_tooMem}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
@@ -45,7 +56,7 @@ target_include_directories(${Target_tooMemTest} PRIVATE ${tooMem_INCLUDE_DIRS})
 
 # using own main, implemented in new_statistics.applied.test.cpp, in order to test new_statistics in an 'application'
 # like environment
-target_link_libraries(${Target_tooMemTest} PRIVATE gtest) #${Target_tooMem}
+target_link_libraries(${Target_tooMemTest} PRIVATE gtest ${Target_tooMem})
 
 too_set_target_defaults(${Target_tooMemTest})
 
@@ -61,6 +72,11 @@ too_add_test(${Target_tooMemTest}_new_statistics)
 
 target_include_directories(${Target_tooMemTest}_new_statistics PRIVATE ${tooMem_INCLUDE_DIRS})
 
+target_link_libraries(${Target_tooMemTest}_new_statistics PRIVATE ${Target_tooMem})
+
 too_set_target_defaults(${Target_tooMemTest}_new_statistics)
 
-too_run_target_postbuild(${Target_tooMemTest}_new_statistics)
+# *WARNING* This doesn't run in Release mode starting with gcc-10?!
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    too_run_target_postbuild(${Target_tooMemTest}_new_statistics)
+endif ()

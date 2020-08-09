@@ -159,26 +159,9 @@ private:
 };
 } // too::mem
 
-void* operator new(std::size_t sizeInBytes) {
-    const auto p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(too::mem::StatsHeader) + sizeInBytes));
-    if (!p)
-        throw std::bad_alloc{};
-    too::mem::Statistics::instance().newCall(too::mem::Bytes{sizeInBytes}, p);
-    return p + sizeof(too::mem::StatsHeader);
-}
-
-void operator delete(void* p) noexcept
-{
-    p = reinterpret_cast<uint8_t*>(p) - sizeof(too::mem::StatsHeader);
-    too::mem::Statistics::instance().deleteCall(p);
-    std::free(p);
-}
-
-void operator delete(void* p, size_t) noexcept
-{
-    p = reinterpret_cast<uint8_t*>(p) - sizeof(too::mem::StatsHeader);
-    too::mem::Statistics::instance().deleteCall(p);
-    std::free(p);
-}
+// redundant declarations by standard; you get the implementations overrides by linking the lib
+//void* operator new(std::size_t sizeInBytes);
+//void operator delete(void* p) noexcept;
+//void operator delete(void* p, size_t) noexcept;
 
 #endif
