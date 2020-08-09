@@ -219,3 +219,13 @@ macro(too_add_executable target)
         add_executable(${target} ${impl_target_input})
     endif ()
 endmacro()
+
+macro(too_target_coverage target)
+    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+        setup_target_for_coverage_lcov(NAME ${target}_coverage EXECUTABLE ${target}Test)
+    endif ()
+endmacro()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    include(${CMAKE_CURRENT_LIST_DIR}/3rdparty/bilke/cmake-modules/CodeCoverage.cmake)
+endif ()
