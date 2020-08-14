@@ -3,7 +3,7 @@
 
 //!
 /** Implements default new+delete as example allocation strategy.
-*/
+ */
 //! \file
 
 #ifndef EXAMPLE_H_sdufhi3gn78325tx7635tn27
@@ -33,7 +33,7 @@ public:
         ::operator delete(p);
     }
 };
-} // alloc
-} // mem
-} // too
+} // namespace alloc
+} // namespace mem
+} // namespace too
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef NON_COPYABLE_H_imcutoiu34o5
@@ -30,6 +30,6 @@ protected:
     non_copyable& operator=(non_copyable&&) noexcept = default;
 #endif
 };
-}
+} // namespace too
 
 #endif

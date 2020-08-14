@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef CT_SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
@@ -16,7 +16,8 @@
     \see TOO_CT_SIZEOF_OPT2 as alternative to be used e.g. within functions.
 */
 #define TOO_CT_SIZEOF(Type) \
-    template <size_t> class sizeof_##Type##_is_; \
+    template <size_t> \
+    class sizeof_##Type##_is_; \
     sizeof_##Type##_is_<sizeof(Type)> you_must_put_this_where_template_declarations_are_allowed;
 
 /** Like TOO_CT_SIZEOF, but usable e.g. within functions.

@@ -39,9 +39,12 @@ namespace too
 //! This is thrown by any throwing assertion.
 struct fail_fast : public std::runtime_error
 {
-    explicit fail_fast(char const* const message) : std::runtime_error(message) {}
+    explicit fail_fast(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
-} /// too
+} // namespace too
 
 
 //####################################################################################################################
@@ -57,10 +60,10 @@ TOO_WARNING_DISABLE_MSVC(4127)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 #if TOO_DEBUG
 #define TOO_ASSERT_IMPL(cond) \
-    do                        \
-    {                         \
-        if (!(cond))          \
-            __debugbreak();   \
+    do \
+    { \
+        if (!(cond)) \
+            __debugbreak(); \
     } while (false)
 #else
 #define TOO_ASSERT_IMPL(cond) TOO_NOOP
@@ -72,10 +75,10 @@ TOO_WARNING_DISABLE_MSVC(4127)
 #ifdef TOO_ASSERT_THROW_DISABLE
 #define TOO_ASSERT_THROW_IMPL(cond, textstart) TOO_ASSERT_IMPL(cond)
 #else
-#define TOO_ASSERT_THROW_IMPL(cond, textstart)                                               \
-    do                                                                                       \
-    {                                                                                        \
-        if (!(cond))                                                                         \
+#define TOO_ASSERT_THROW_IMPL(cond, textstart) \
+    do \
+    { \
+        if (!(cond)) \
             throw too::fail_fast(textstart " " __FILE__ ": " TOO_STRINGIFY_VALUE(__LINE__)); \
     } while (false)
 
@@ -92,13 +95,13 @@ TOO_WARNING_DISABLE_MSVC(4127)
 #ifdef TOO_ASSERT_SLEEP_DISABLE
 #define TOO_ASSERT_SLEEP_IMPL(cond) TOO_ASSERT_IMPL(cond)
 #else
-#define TOO_ASSERT_SLEEP_IMPL(cond)                                    \
-    do                                                                 \
-    {                                                                  \
-        for (;;)                                                       \
-        {                                                              \
+#define TOO_ASSERT_SLEEP_IMPL(cond) \
+    do \
+    { \
+        for (;;) \
+        { \
             std::this_thread::sleep_for(std::chrono::milliseconds(1)); \
-        }                                                              \
+        } \
     } while (false)
 #endif
 
@@ -106,10 +109,10 @@ TOO_WARNING_DISABLE_MSVC(4127)
 #define TOO_ASSERT_TERMINATE_IMPL(cond) TOO_ASSERT_IMPL(cond)
 #else
 #define TOO_ASSERT_TERMINATE_IMPL(cond) \
-    do                                  \
-    {                                   \
-        if (!(cond))                    \
-            std::terminate();           \
+    do \
+    { \
+        if (!(cond)) \
+            std::terminate(); \
     } while (false)
 #endif
 
@@ -172,11 +175,11 @@ TOO_WARNING_DISABLE_MSVC(4127)
 // It was quite some try and error getting the tests run successfully, which means (cond) not getting optimized away
 // in release build. The assignment to bool lately seemed to be the crucial point; volatile not even necessary.
 // But hopefully chances are that real production code's functionality won't be cut off.
-#define TOO_VERIFY(cond)                  \
-    do                                    \
-    {                                     \
+#define TOO_VERIFY(cond) \
+    do \
+    { \
         volatile bool TOO_DUMMY = (cond); \
-        TOO_DUMMY;                        \
+        TOO_DUMMY; \
     } while (false)
 #endif
 
@@ -187,7 +190,7 @@ static const char* const death_assert_regex{""};
 #else
 static const char* const death_assert_regex{"[Aa]ssert"};
 #endif
-} // too
+} // namespace too
 
 //####################################################################################################################
 
@@ -218,30 +221,30 @@ struct StaticAssert_v0<true>
 
 //! Compile time assert.
 #define TOO_STATIC_ASSERTv1_CONCAT_(a, b) a##b
-#define TOO_STATIC_ASSERTv1_CONCAT(a, b) TOO_STATIC_ASSERTv1_CONCAT_(a, b)
+#define TOO_STATIC_ASSERTv1_CONCAT(a, b)  TOO_STATIC_ASSERTv1_CONCAT_(a, b)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP && __COUNTER__
-#define TOO_STATIC_ASSERTv1(t, msg)                                                    \
-    {                                                                                  \
-        enum                                                                           \
-        {                                                                              \
+#define TOO_STATIC_ASSERTv1(t, msg) \
+    { \
+        enum \
+        { \
             TOO_STATIC_ASSERTv1_CONCAT(msg, __COUNTER__) = 1 / static_cast<int>(!!(t)) \
-        };                                                                             \
+        }; \
     }
 #else
-#define TOO_STATIC_ASSERTv1(t, msg)                                                 \
-    {                                                                               \
-        enum                                                                        \
-        {                                                                           \
+#define TOO_STATIC_ASSERTv1(t, msg) \
+    { \
+        enum \
+        { \
             TOO_STATIC_ASSERTv1_CONCAT(msg, __LINE__) = 1 / static_cast<int>(!!(t)) \
-        };                                                                          \
+        }; \
     }
 #endif
 
 //! Compile time assert.
-#define TOO_STATIC_ASSERTv2(t, msg) typedef char static_assertion_##msg[static_cast<int>(!!(t)) * 2 - 1]
+#define TOO_STATIC_ASSERTv2(t, msg)       typedef char static_assertion_##msg[static_cast<int>(!!(t)) * 2 - 1]
 #define TOO_STATIC_ASSERTv2_CONCAT3(X, L) TOO_STATIC_ASSERTv2_CONCAT4(X, static_assertion_at_line_##L)
 #define TOO_STATIC_ASSERTv2_CONCAT2(X, L) TOO_STATIC_ASSERTv2_CONCAT3(X, L)
-#define TOO_STATIC_ASSERTv2L(X) TOO_STATIC_ASSERTv2_CONCAT2(X, __LINE__)
+#define TOO_STATIC_ASSERTv2L(X)           TOO_STATIC_ASSERTv2_CONCAT2(X, __LINE__)
 
 //! Compile time assert.
 #define TOO_STATIC_ASSERTv3(t, msg) typedef char static_assertion_##msg[(t) ? 1 : -1]
@@ -251,6 +254,6 @@ struct StaticAssert_v0<true>
 //	#define TOO_STATIC_ASSERT_L TOO_STATIC_ASSERTv2L
 /** ... now with C++11 the problem is settled. You can just plainly use static_assert.*/
 #define TOO_STATIC_ASSERT static_assert
-} // too
+} // namespace too
 
 #endif

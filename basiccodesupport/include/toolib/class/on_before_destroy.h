@@ -3,7 +3,7 @@
 
 //!
 /** More than just a first example of using the too::Listener/too::ListenerRegister pair.
-*/
+ */
 //! \file
 
 #ifndef ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1
@@ -30,10 +30,12 @@ namespace too
 */
 struct OnBeforeDestroyListener : public Listener
 {
-    virtual ~OnBeforeDestroyListener() {}
+    virtual ~OnBeforeDestroyListener()
+    {
+    }
 
     virtual void onBeforeDestroy() = 0;
 };
-} // too
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef CT_ARRAY_H_uixngt3h478gh389xgh3984g
@@ -27,7 +27,7 @@ constexpr T ct_accumulate(Container&& arr, T init_val)
 
     return sum;
 }
-} // detail
+} // namespace detail
 
 //! Compile-time equivalent of std::accumulate at least for array.
 template <typename T, std::size_t N>
@@ -42,5 +42,5 @@ constexpr T ct_accumulate(const T (&arr)[N], T init_val)
 {
     return detail::ct_accumulate<T, N>(arr, init_val);
 }
-} // too
+} // namespace too
 #endif

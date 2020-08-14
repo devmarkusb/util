@@ -47,5 +47,5 @@ inline size_t hashCombine(std::size_t hash1, Size_ts... hashes) noexcept
     return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2));
 }
 //!@}
-} // too
+} // namespace too
 #endif

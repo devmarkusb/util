@@ -24,6 +24,6 @@ constexpr auto make(FirstT first, RemainingTs... remaining) noexcept -> std::arr
     std::array<FirstT, 1 + sizeof...(RemainingTs)> ret = {first, remaining...};
     return ret;
 }
-} // array
-} // too
+} // namespace array
+} // namespace too
 #endif

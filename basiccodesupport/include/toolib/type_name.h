@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef TYPE_NAME_H_4387t73824t378t371y47ym47
@@ -41,6 +41,6 @@ constexpr std::string_view type_name()
     return string_view(p.data() + 84, p.size() - 84 - 7);
 #endif
 }
-} // too
+} // namespace too
 
 #endif

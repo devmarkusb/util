@@ -29,7 +29,7 @@ namespace detail
 {
 namespace circbuf_impl_container
 {
-template<typename T, size_t capacity__>
+template <typename T, size_t capacity__>
 class Array
 {
 protected:
@@ -44,14 +44,15 @@ protected:
     }
 };
 
-template<typename T>
+template <typename T>
 class Vector
 {
 protected:
     std::vector<T> buf_;
     size_t capacity_{};
 
-    explicit Vector(size_t capacity) : capacity_{capacity}
+    explicit Vector(size_t capacity)
+        : capacity_{capacity}
     {
         TOO_EXPECT(capacity > 0);
 
@@ -71,8 +72,8 @@ protected:
 
 template <typename T, size_t capacity__>
 using Base = std::conditional_t<capacity__ == 0, Vector<T>, Array<T, capacity__>>;
-} // circbuf_impl_container
-} // detail
+} // namespace circbuf_impl_container
+} // namespace detail
 
 
 /** If you know the (always fixed) capacity of the circular buffer at compile time you should definitely prefer
@@ -87,10 +88,15 @@ public:
 
     //! Expects \param capacity > 0.
     template <typename = std::enable_if<capacity__ == 0>>
-    explicit CircularBuffer(size_t capacity) : Base{capacity} {}
+    explicit CircularBuffer(size_t capacity)
+        : Base{capacity}
+    {
+    }
 
     template <typename = std::enable_if<capacity__ != 0>>
-    CircularBuffer() {} // = default, not working here
+    CircularBuffer()
+    {
+    } // = default, not working here
 
     template <typename T_>
     void push(T_&& item) noexcept
@@ -140,8 +146,8 @@ public:
             return false;
 
         poppedItem = Base::buf_[tail_];
-        full_      = false;
-        tail_      = (tail_ + 1) % capacity();
+        full_ = false;
+        tail_ = (tail_ + 1) % capacity();
 
         return true;
     }
@@ -190,5 +196,5 @@ private:
     size_t tail_{0};
     bool full_{};
 };
-} // too
+} // namespace too
 #endif

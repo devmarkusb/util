@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef NEW_HANDLER_H_n2io38zre2387xnz27r
@@ -67,7 +67,7 @@ void* NewHandlerSupport<T>::operator new(size_t size)
     std::set_new_handler(globalHandler);
     return memory;
 }
-}
-}
+} // namespace mem
+} // namespace too
 
 #endif

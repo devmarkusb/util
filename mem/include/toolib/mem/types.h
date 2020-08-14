@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef TYPES_H_eroui342zt347g8hx3xg713h4
@@ -60,22 +60,46 @@ inline constexpr Bytes operator-(Bytes a, Bytes b) noexcept
     return a;
 }
 
-inline constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept { return lhs.value == rhs.value; }
-inline constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept { return !operator==(lhs, rhs); }
-inline constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept { return lhs.value < rhs.value; }
-inline constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept { return operator<(rhs, lhs); }
-inline constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept { return !operator>(lhs, rhs); }
-inline constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept { return !operator<(lhs, rhs); }
+inline constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept
+{
+    return lhs.value == rhs.value;
+}
+inline constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept
+{
+    return !operator==(lhs, rhs);
+}
+inline constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept
+{
+    return lhs.value < rhs.value;
+}
+inline constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept
+{
+    return operator<(rhs, lhs);
+}
+inline constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept
+{
+    return !operator>(lhs, rhs);
+}
+inline constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept
+{
+    return !operator<(lhs, rhs);
+}
 
 namespace impl
 {
 class ThousandsSep : public std::numpunct<char>
 {
 protected:
-    char do_thousands_sep() const override { return '\''; }
-    std::string do_grouping() const override { return "\003"; }
+    char do_thousands_sep() const override
+    {
+        return '\'';
+    }
+    std::string do_grouping() const override
+    {
+        return "\003";
+    }
 };
-} // impl
+} // namespace impl
 
 inline std::ostream& operator<<(std::ostream& os, Bytes x)
 {
@@ -86,7 +110,7 @@ inline std::ostream& operator<<(std::ostream& os, Bytes x)
     os << x.value << " B";
     return os;
 }
-} // mem
-} // too
+} // namespace mem
+} // namespace too
 
 #endif

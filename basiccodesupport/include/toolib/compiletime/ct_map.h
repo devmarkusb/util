@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef CT_MAP_H_54982dn78txhwgf1236784g
@@ -29,7 +29,7 @@ namespace too
 template <typename TypeForKey, typename TypeForValue, TypeForKey KEY, TypeForValue VALUE>
 struct key_value
 {
-    static const TypeForKey key     = KEY;
+    static const TypeForKey key = KEY;
     static const TypeForValue value = VALUE;
 };
 
@@ -60,13 +60,14 @@ struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValu
     template <TypeForKey THIS_KEY>
     struct at
     {
-        static const TypeForValue value = (THIS_KEY == KEY)
-            ? VALUE
-            : ct_mapTT<TypeForValue, NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
+        static const TypeForValue value =
+            (THIS_KEY == KEY)
+                ? VALUE
+                : ct_mapTT<TypeForValue, NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
     };
 };
 
 //!@}
-}
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef XOR_H_eruighx784zug84bvg283bvgsadf
@@ -56,6 +56,6 @@ inline bool XOR(const bool& lhs, const bool& rhs)
     return !XNOR(lhs, rhs);
 }
 
-} // too
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef RANDOM_H_94xt4378j37843784n3
@@ -22,6 +22,6 @@ inline double random_frac()
     static std::uniform_real_distribution<double> dist{0.0, 1.0};
     return dist(mt);
 }
-} // too::math
+} // namespace too::math
 
 #endif

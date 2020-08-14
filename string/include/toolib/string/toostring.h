@@ -82,7 +82,7 @@ inline size_t get_length(const std::string& s)
 {
     return static_cast<size_t>(utf8::distance(std::begin(s), std::end(s)));
 }
-}
-}
+} // namespace str
+} // namespace too
 
 #endif

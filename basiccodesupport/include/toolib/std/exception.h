@@ -50,6 +50,6 @@ private:
 
     std::exception_ptr exceptionPtr_;
 };
-} // exception
-} // too
+} // namespace exception
+} // namespace too
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef THREE_WAY_COMPARE_H_eruotzxgh23g3
@@ -24,12 +24,12 @@ namespace too
  * Cf. https://stackoverflow.com/questions/48042955/how-is-the-three-way-comparison-operator-different-from-subtraction
  * Impl. note: didn't consider implementing this for floating types as well, might be easy, might be not.
  */
-template<typename LessComparableType>
+template <typename LessComparableType>
 int three_way_compare(LessComparableType lhs, LessComparableType rhs)
 {
     static_assert(!std::is_floating_point_v<LessComparableType>);
     return (rhs < lhs) - (lhs < rhs);
 }
-} // too
+} // namespace too
 
 #endif

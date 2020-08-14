@@ -24,20 +24,21 @@ namespace detail
 {
 namespace waitcircbuf_impl_container
 {
-template<typename T, size_t capacity__>
+template <typename T, size_t capacity__>
 class CapacityCompiletime
 {
 protected:
     too::CircularBuffer<T, capacity__> buf_;
 };
 
-template<typename T>
+template <typename T>
 class CapacityRuntime
 {
 protected:
     too::CircularBuffer<T> buf_;
 
-    explicit CapacityRuntime(size_t capacity) : buf_{capacity}
+    explicit CapacityRuntime(size_t capacity)
+        : buf_{capacity}
     {
         TOO_EXPECT(capacity > 0);
     }
@@ -45,8 +46,8 @@ protected:
 
 template <typename T, size_t capacity__>
 using Base = std::conditional_t<capacity__ == 0, CapacityRuntime<T>, CapacityCompiletime<T, capacity__>>;
-} // waitcircbuf_impl_container
-} // detail
+} // namespace waitcircbuf_impl_container
+} // namespace detail
 
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 /** Note, unlike the behavior of CircularBuffer this WaitCircularBuffer protects against overwrites.*/
@@ -58,10 +59,15 @@ public:
 
     //! Expects \param capacity > 0.
     template <typename = std::enable_if<capacity__ == 0>>
-    explicit WaitCircularBuffer(size_t capacity) : Base{capacity} {}
+    explicit WaitCircularBuffer(size_t capacity)
+        : Base{capacity}
+    {
+    }
 
     template <typename = std::enable_if<capacity__ != 0>>
-    WaitCircularBuffer() noexcept {} // = default, not working here
+    WaitCircularBuffer() noexcept
+    {
+    } // = default, not working here
 
     template <typename T_>
     bool push(T_&& elem)
@@ -143,5 +149,5 @@ private:
     std::condition_variable conditionVariable_;
     bool stopped_{false};
 };
-} // too::thread
+} // namespace too::thread
 #endif

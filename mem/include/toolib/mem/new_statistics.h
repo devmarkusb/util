@@ -63,9 +63,9 @@ public:
     }
 
 private:
-    static constexpr auto bitCounts_{too::array::make(
-            40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
-    )};
+    static constexpr auto bitCounts_{
+        too::array::make(40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
+            )};
     static_assert(fieldCount == bitCounts_.size());
     static_assert(too::bits::count<BitsType>() >= too::ct_accumulate(bitCounts_, 0));
 
@@ -74,8 +74,8 @@ private:
     template <int... Is>
     static too::bits::FieldsLookup<fieldCount> makeFieldLookup_impl(too::idx::seq<Is...>)
     {
-        return too::bits::FieldsLookup<fieldCount>{too::bits::count<StatsHeader::BitsType>(),
-                                                   StatsHeader::bitCounts_[Is]...};
+        return too::bits::FieldsLookup<fieldCount>{
+            too::bits::count<StatsHeader::BitsType>(), StatsHeader::bitCounts_[Is]...};
     }
 };
 
@@ -96,7 +96,7 @@ public:
         currentSize_.fetch_add(size.value, std::memory_order_seq_cst);
         too::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
         allocatedSize_.fetch_add(size.value, std::memory_order_relaxed);
-        auto sh = new(p) StatsHeader;
+        auto sh = new (p) StatsHeader;
         sh->set(fieldsLookup_, StatsHeader::Field::size, size.value);
     }
 
@@ -157,7 +157,7 @@ private:
 
     Statistics() = default;
 };
-} // too::mem
+} // namespace too::mem
 
 // redundant declarations by standard; you get the implementations overrides by linking the lib
 //void* operator new(std::size_t sizeInBytes);

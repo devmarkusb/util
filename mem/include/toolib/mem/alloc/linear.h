@@ -31,7 +31,9 @@ namespace mem
 namespace alloc
 {
 template <typename StatisticsPolicy = NoStatistics>
-class Linear : private too::non_copyable, public StatisticsPolicy
+class Linear
+    : private too::non_copyable
+    , public StatisticsPolicy
 {
 public:
     explicit Linear(Bytes capacity, Bytes alignment = Bytes{__STDCPP_DEFAULT_NEW_ALIGNMENT__})
@@ -72,7 +74,8 @@ public:
         const auto old_offset = curr_offset_;
         const auto new_offset = curr_offset_ + size;
 
-        if (new_offset > capacity_) {
+        if (new_offset > capacity_)
+        {
             throw std::bad_alloc{};
         }
 
@@ -95,7 +98,7 @@ private:
     Bytes curr_offset_{};
     Bytes capacity_{};
 };
-} // alloc
-} // mem
-} // too
+} // namespace alloc
+} // namespace mem
+} // namespace too
 #endif

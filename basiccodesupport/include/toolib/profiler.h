@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef PROFILER_H_958x2g58sdjkfh23789hgxt34
@@ -27,6 +27,6 @@ inline double profiler_diff_s(ProfilerTimePoint start, ProfilerTimePoint end)
 {
     return static_cast<double>(end - start) / 1e9;
 }
-} // too
+} // namespace too
 
 #endif

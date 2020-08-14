@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef JSON_H_yxdsngfezrbnyz8e3bqzf
@@ -35,6 +35,6 @@ public:
 
 template <typename JSON_value>
 using IJSON_stdstr = IJSON<std::string, JSON_value>;
-}
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef ONBEFOREDESTROY_NOTIFIER_H_sduifgh5st78247hg
@@ -24,6 +24,6 @@ struct OnBeforeDestroyNotifier : public ListenerRegister
             dynamic_cast<OnBeforeDestroyListener*>(l)->onBeforeDestroy();
     }
 };
-} // too
+} // namespace too
 
 #endif

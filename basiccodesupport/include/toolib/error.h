@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef ERROR_H_cosndzcriwu4ezr3
@@ -62,7 +62,7 @@ enum class retcode
 {
     //! Return values indicating success
     //!@{
-    none    = 0,
+    none = 0,
     success = none,
     //!@}
 
@@ -130,15 +130,24 @@ inline std::string retcode_str(retcode rc)
 //    return rc == retcode::none ? true : false;
 //}
 //! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
-inline auto operator!(retcode rc) -> bool { return rc == retcode::none ? false : true; }
+inline auto operator!(retcode rc) -> bool
+{
+    return rc == retcode::none ? false : true;
+}
 
 namespace publish__is_ok
 {
 //! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
-inline bool is_ok(retcode rc) { return !operator!(rc); }
-//! Equivalent for convenience.
-inline bool is_ok(const std::pair<retcode, std::string>& rc_str) { return is_ok(rc_str.first); }
+inline bool is_ok(retcode rc)
+{
+    return !operator!(rc);
 }
+//! Equivalent for convenience.
+inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
+{
+    return is_ok(rc_str.first);
+}
+} // namespace publish__is_ok
 
 
 //! Definition of some exceptions for the pendant of throwing functions, not returning
@@ -150,23 +159,38 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str) { return is_ok(
 //!@{
 struct would_crash : public std::runtime_error
 {
-    explicit would_crash(char const* const message) : std::runtime_error(message) {}
+    explicit would_crash(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 struct division_by_zero : public std::runtime_error
 {
-    explicit division_by_zero(char const* const message) : std::runtime_error(message) {}
+    explicit division_by_zero(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 struct not_implemented : public std::runtime_error
 {
-    explicit not_implemented(char const* const message) : std::runtime_error(message) {}
+    explicit not_implemented(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 struct did_no_op : public std::runtime_error
 {
-    explicit did_no_op(char const* const message) : std::runtime_error(message) {}
+    explicit did_no_op(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 struct time_out : public std::runtime_error
 {
-    explicit time_out(char const* const message) : std::runtime_error(message) {}
+    explicit time_out(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 //!@}
 
@@ -184,8 +208,8 @@ struct time_out : public std::runtime_error
     \endcode
 */
 template <typename Callable, typename Callable2>
-std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_alloc_handler = []()
-    {
+std::pair<retcode, std::string> call_noexcept(
+    Callable&& f, Callable2&& bad_alloc_handler = []() {
     }) noexcept
 {
     try
@@ -263,7 +287,7 @@ std::pair<retcode, std::string> call_noexcept(Callable&& f, Callable2&& bad_allo
         return std::make_pair(retcode::unknown_error, std::string{});
     }
 }
-} // too
+} // namespace too
 
 using retcode = too::retcode;
 TOO_PRAGMA_WARNINGS_PUSH

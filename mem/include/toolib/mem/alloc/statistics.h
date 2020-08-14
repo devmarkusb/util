@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef STATISTICS_H_eorxmgh9385g257xgishuv
@@ -81,7 +81,7 @@ protected:
         TOO_NOOP;
     }
 };
-} // alloc
-} // mem
-} // too
+} // namespace alloc
+} // namespace mem
+} // namespace too
 #endif

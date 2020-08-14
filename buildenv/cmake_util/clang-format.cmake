@@ -3,7 +3,7 @@
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
         s
-        ${dir}/*.[chi]pp ${dir}/*.[chi]xx ${dir}/*.cc ${dir}/*.hh ${dir}/*.ii ${dir}/*.[CHI]
+        ${dir}/*.[chi]pp ${dir}/*.[chi]xx ${dir}/*.cc ${dir}/*.hh ${dir}/*.ii ${dir}/*.[CHI] ${dir}/*.[chi]
     )
     list(APPEND ${cxx_sources} ${s})
 endmacro()

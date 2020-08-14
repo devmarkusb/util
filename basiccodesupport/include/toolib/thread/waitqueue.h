@@ -23,7 +23,10 @@ template <typename T>
 class WaitQueue
 {
 public:
-    explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max()) : maxElems_(maxElems) {}
+    explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max())
+        : maxElems_(maxElems)
+    {
+    }
 
     template <typename T_>
     bool push(T_&& elem)
@@ -95,5 +98,5 @@ private:
     std::queue<T> queue_;
     bool stopped_{false};
 };
-} // too::thread
+} // namespace too::thread
 #endif

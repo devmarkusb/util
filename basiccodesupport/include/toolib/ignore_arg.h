@@ -3,7 +3,7 @@
 
 //! DEPRECATED! Use ignore_unused.
 /**
-*/
+ */
 //! \file
 
 #ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
@@ -30,6 +30,6 @@ void ignore_arg(T&&)
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
     TOO_NOOP;
 }
-} // too
+} // namespace too
 
 #endif

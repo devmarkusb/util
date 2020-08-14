@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 
@@ -27,7 +27,9 @@ namespace str
 {
 inline std::string makeUpper(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) { return too::narrow_cast<char>(std::toupper(c)); });
+    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
+        return too::narrow_cast<char>(std::toupper(c));
+    });
     return s;
 }
 
@@ -39,7 +41,9 @@ inline char makeUpper(char& c)
 
 inline std::string makeLower(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) { return too::narrow_cast<char>(std::tolower(c)); });
+    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
+        return too::narrow_cast<char>(std::tolower(c));
+    });
     return s;
 }
 
@@ -79,8 +83,14 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::ve
 
 struct BoolStr_1_0
 {
-    static std::string toStr(bool b) { return b ? "1" : "0"; }
-    static bool toBool(const std::string& s) { return s == "1" ? true : false; }
+    static std::string toStr(bool b)
+    {
+        return b ? "1" : "0";
+    }
+    static bool toBool(const std::string& s)
+    {
+        return s == "1" ? true : false;
+    }
 };
 
 struct BoolStr_boolalpha
@@ -132,7 +142,7 @@ inline bool ends_with(const std::string& s, const std::string& ending)
         return false;
     return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
 }
-} // str
-} // too
+} // namespace str
+} // namespace too
 
 #endif

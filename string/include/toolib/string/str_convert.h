@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef STR_CONVERT_H_827rt82rtrxjr38t
@@ -24,7 +24,10 @@ namespace str
 {
 struct conversion_error : public std::runtime_error
 {
-    explicit conversion_error(char const* const message) : std::runtime_error(message) {}
+    explicit conversion_error(char const* const message)
+        : std::runtime_error(message)
+    {
+    }
 };
 
 //! Whenever a std::wstring crosses your path (god forbid!).
@@ -109,7 +112,10 @@ struct ThrowOnConversionError
 };
 struct ConversionErrorToQuestionMark
 {
-    static char onConversionError(unsigned int) { return '?'; }
+    static char onConversionError(unsigned int)
+    {
+        return '?';
+    }
 };
 
 //! Latin1 means ISO-8859-1.
@@ -123,8 +129,8 @@ inline std::string printableASCII_to_utf8(const std::string& s);
 
 
 inline std::string toHexString(const std::string& s, const std::string& prefix = {});
-} // str
-} // too
+} // namespace str
+} // namespace too
 
 
 //####################################################################################################################

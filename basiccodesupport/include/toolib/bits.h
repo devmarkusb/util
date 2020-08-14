@@ -26,7 +26,7 @@ using Count = Idx;
 using Diff = int;
 
 //! \Returns number of bits of the arbitrary \param Type.
-template<typename Type>
+template <typename Type>
 constexpr Count count() noexcept
 {
     return 8 * sizeof(Type);
@@ -184,10 +184,10 @@ public:
     }
 
 private:
-    constexpr static Count partsCount{static_cast<Count>
-        ((bits + (too::bits::count<BaseType>() - Count{1})) / too::bits::count<BaseType>())};
+    constexpr static Count partsCount{
+        static_cast<Count>((bits + (too::bits::count<BaseType>() - Count{1})) / too::bits::count<BaseType>())};
     std::array<BaseType, partsCount> array{};
-    
+
     Idx N(Idx idx) const noexcept
     {
         return idx / too::bits::count<BaseType>();
@@ -205,10 +205,10 @@ private:
 
     template <Count bits_, typename BaseType_>
     friend Array<bits_, BaseType_> operator&(
-            const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
+        const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
     template <Count bits_, typename BaseType_>
     friend Array<bits_, BaseType_> operator|(
-            const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
+        const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
 };
 
 template <Count bits, typename BaseType = uint32_t>
@@ -342,6 +342,6 @@ inline bool is_bigendian() noexcept
     static const int one{1};
     return *reinterpret_cast<const uint8_t*>(&one) == uint8_t{0};
 }
-} // bits
-} // too
+} // namespace bits
+} // namespace too
 #endif

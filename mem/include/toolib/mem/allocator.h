@@ -28,10 +28,16 @@ public:
     using value_type = T;
 
     //Allocator() noexcept = default;
-    explicit Allocator(AllocArenaStrategy& a) noexcept : a_{a} {}
+    explicit Allocator(AllocArenaStrategy& a) noexcept
+        : a_{a}
+    {
+    }
 
     template <typename T2>
-    /*implicit*/ Allocator(const Allocator<T2, AllocArenaStrategy>& other) noexcept : a_{other.a_} {}
+    /*implicit*/ Allocator(const Allocator<T2, AllocArenaStrategy>& other) noexcept
+        : a_{other.a_}
+    {
+    }
 
     value_type* allocate(size_t objcount)
     {
@@ -43,14 +49,17 @@ public:
         a_.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
     }
 
-    size_t max_size() const noexcept { return std::numeric_limits<size_t>::max() / sizeof(value_type); }
+    size_t max_size() const noexcept
+    {
+        return std::numeric_limits<size_t>::max() / sizeof(value_type);
+    }
 
 private:
     AllocArenaStrategy& a_;
 
     template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
-    friend bool operator==(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs)
-    noexcept;
+    friend bool operator==(
+        const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs) noexcept;
 
     template <typename T2, typename AllocArenaStrategy2>
     friend class Allocator;
@@ -67,6 +76,6 @@ bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T
 {
     return !(lhs == rhs);
 }
-} // mem
-} // too
+} // namespace mem
+} // namespace too
 #endif

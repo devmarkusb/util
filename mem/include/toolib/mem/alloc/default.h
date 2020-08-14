@@ -3,7 +3,7 @@
 
 //!
 /** Implements default new+delete as allocation strategy, plus optional statistics.
-*/
+ */
 //! \file
 
 #ifndef DEFAULT_H_4576gdjfcghkwh45t7428335
@@ -37,7 +37,7 @@ public:
         ::operator delete(p);
     }
 };
-} // alloc
-} // mem
-} // too
+} // namespace alloc
+} // namespace mem
+} // namespace too
 #endif

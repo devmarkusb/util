@@ -3,8 +3,8 @@
 
 //!
 /** Most common and basic preprocessor defines.
-*   If you include this file within a header you should also include macros_end.h when finished.
-*/
+ *   If you include this file within a header you should also include macros_end.h when finished.
+ */
 //! \file
 
 // no include guard intentionally
@@ -12,8 +12,9 @@
 //####################################################################################################################
 //! Operating Systems
 //!@{
-	
-#if defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+
+#if defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || \
+    defined(__TOS_WIN__)
 #define TOO_OS_WINDOWS 1
 #if defined(_WIN64)
 #define TOO_OS_WINDOWS_64 1
@@ -23,12 +24,12 @@
 #define TOO_OS_WINDOWS_DESKTOP_GE_WIN81 1
 #define TOO_OS_WINDOWS_DESKTOP          1
 #elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
-#define TOO_OS_WINDOWS_UWP_APP  1
+#define TOO_OS_WINDOWS_UWP_APP 1
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP)
-#define TOO_OS_WINDOWS_UWP_DESKTOP_APP  1
+#define TOO_OS_WINDOWS_UWP_DESKTOP_APP 1
 #endif
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PHONE_APP)
-#define TOO_OS_WINDOWS_UWP_PHONE_APP  1
+#define TOO_OS_WINDOWS_UWP_PHONE_APP 1
 #endif
 #else
 #define TOO_OS_WINDOWS_DESKTOP_LT_WIN81 1
@@ -80,7 +81,7 @@
 
 #if defined(_MSC_VER)
 #define TOO_COMP_MS_VISUAL_STUDIO_CPP 1
-#define TOO_COMP_MS_VS_VER _MSC_VER
+#define TOO_COMP_MS_VS_VER            _MSC_VER
 #endif
 
 #if defined(__BORLANDC__) || defined(__CODEGEARC__)
@@ -88,18 +89,18 @@
 #endif
 
 #if defined(__clang__) && (__clang__ == 1)
-#define TOO_COMP_CLANG 1
+#define TOO_COMP_CLANG     1
 #define TOO_COMP_CLANG_VER (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #endif
 
 #if defined(__GNUC__) && !TOO_COMP_CLANG
-#define TOO_COMP_GNU_CPP 1
-#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#define TOO_COMP_GNU_CPP     1
+#define GCC_VERSION          (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #define TOO_COMP_GNU_CPP_VER GCC_VERSION
 #endif
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
-#define TOO_COMP_MINGW 1
+#define TOO_COMP_MINGW     1
 #define TOO_COMP_MINGW_VER GCC_VERSION
 #endif
 
@@ -119,12 +120,12 @@
 //!@{
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
-#define TOO_STDLIB_MSVC				1
+#define TOO_STDLIB_MSVC 1
 #else
 #if __GLIBCXX__
-#define TOO_STDLIB_GNU_LIBSTDCPP	1
+#define TOO_STDLIB_GNU_LIBSTDCPP 1
 #else
-#define TOO_STDLIB_CLANG_LIBCPP		1
+#define TOO_STDLIB_CLANG_LIBCPP 1
 #endif
 #endif
 
@@ -134,11 +135,11 @@
 //####################################################################################################################
 //! Languages
 /** Note, it's very much common and ok to use __cplusplus directly of course (instead of TOO_LANG_STANDARD_CPP).
-*/
+ */
 //!@{
 
 #ifdef __STDC__
-#define TOO_LANG_STANDARD_C 1
+#define TOO_LANG_STANDARD_C   1
 #define TOO_LANG_STANDARD_C89 1
 #if __STDC_VERSION__ >= 199901L
 #define TOO_LANG_STANDARD_C99 1
@@ -158,7 +159,7 @@
 #endif
 
 #ifdef __cplusplus_cli
-#define TOO_LANG_STANDARD_CPP_CLI 1
+#define TOO_LANG_STANDARD_CPP_CLI   1
 #define TOO_LANG_STANDARD_CPP_CLI04 1
 #endif
 
@@ -238,8 +239,8 @@
 #define TOO_HAS_NO_CPP14_MAKE_UNIQUE 0
 #endif
 
-#if (TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300) || (TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900) \
-	|| (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1914)
+#if (TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300) || (TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900) || \
+    (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1914)
 #define TOO_HAS_NO_CODECVT 1
 #else
 #define TOO_HAS_NO_CODECVT 0
@@ -290,17 +291,17 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 // Some common general preprocessor magic (as little as possible)
 
 /** Usage:
-	\code
-	TOO_STRINGIFY(I want this to be in double quotes)
-	// or
-	#define SOMETHING 42
-	#pragma message TOO_STRINGIFY(SOMETHING) // prints SOMETHING
-	#pragma message TOO_STRINGIFY_VALUE(SOMETHING) // prints 42
-	\endcode
+    \code
+    TOO_STRINGIFY(I want this to be in double quotes)
+    // or
+    #define SOMETHING 42
+    #pragma message TOO_STRINGIFY(SOMETHING) // prints SOMETHING
+    #pragma message TOO_STRINGIFY_VALUE(SOMETHING) // prints 42
+    \endcode
 */
 //!@{
-#define TOO_STRINGIFY_VALUE(MACRO)	TOO_STRINGIFY(MACRO)
-#define TOO_STRINGIFY(MACRO)		#MACRO
+#define TOO_STRINGIFY_VALUE(MACRO) TOO_STRINGIFY(MACRO)
+#define TOO_STRINGIFY(MACRO)       #MACRO
 //!@}
 
 /** If you have for example:
@@ -313,31 +314,31 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
     Note that you can even combine TOO_STRINGIFY_VALUE(TOO_CONCAT_2(...)) or TOO_STRINGIFY_VALUE(TOO_CONCAT_VALUES_2(...)), which
     additionally puts "" around. (TOO_STRINGIFY probably doesn't make much sense here.)*/
 //!@{
-#define TOO_CONCAT_2(a, b)              a##b
-#define TOO_CONCAT_VALUES_2(a, b)       TOO_CONCAT_2(a, b)
+#define TOO_CONCAT_2(a, b)        a##b
+#define TOO_CONCAT_VALUES_2(a, b) TOO_CONCAT_2(a, b)
 //!@}
 
 //! \See TOO_CONCAT_2, TOO_CONCAT_VALUES_2, just for 3 values.
 //!@{
-#define TOO_CONCAT_3(a, b, c)           a##b##c
-#define TOO_CONCAT_VALUES_3(a, b, c)    TOO_CONCAT_3(a, b, c)
+#define TOO_CONCAT_3(a, b, c)        a##b##c
+#define TOO_CONCAT_VALUES_3(a, b, c) TOO_CONCAT_3(a, b, c)
 //!@}
 
-#define TOO_ANONYMOUS_IDENTIFIER_IMPL(str)  TOO_CONCAT_VALUES_2(str, __LINE__)
+#define TOO_ANONYMOUS_IDENTIFIER_IMPL(str) TOO_CONCAT_VALUES_2(str, __LINE__)
 /** TOO_ANONYMOUS_IDENTIFIER and convenient short version TOO_DUMMY are e.g. for cases where you don't need to reference
     a variable ever again and don't want to think of a name but need a unique identifier.
     Except for usage within a macro definition: since this is expanded on a single line always, you can refer to
     the (implicitly same) variable multiple times.*/
 //!@{
-#define TOO_ANONYMOUS_IDENTIFIER            TOO_ANONYMOUS_IDENTIFIER_IMPL(anonymous_)
-#define TOO_DUMMY                           TOO_ANONYMOUS_IDENTIFIER
+#define TOO_ANONYMOUS_IDENTIFIER TOO_ANONYMOUS_IDENTIFIER_IMPL(anonymous_)
+#define TOO_DUMMY                TOO_ANONYMOUS_IDENTIFIER
 //!@}
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 //! You shouldn't use this. It might not be compiler-portable and as just an implementation detail of TOO_PRAGMA.
 #define TOO_PRAGMA_STR(str) __pragma(str)
 //! Used for planting a pragma within a macro. \Param nostr has to be passed without surrounding "".
-#define TOO_PRAGMA(nostr)   __pragma(nostr)
+#define TOO_PRAGMA(nostr) __pragma(nostr)
 #elif TOO_COMP_CLANG || TOO_COMP_GNU_CPP || TOO_COMP_MINGW
 //! You shouldn't use this. It might not be compiler-portable and as just an implementation detail of TOO_PRAGMA.
 #define TOO_PRAGMA_STR(str) _Pragma(str)

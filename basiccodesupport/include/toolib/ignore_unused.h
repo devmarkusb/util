@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef IGNORE_UNUSED_H_fklh3874gy78342
@@ -30,6 +30,6 @@ void ignore_unused(T&&)
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
     TOO_NOOP;
 }
-} // too
+} // namespace too
 
 #endif

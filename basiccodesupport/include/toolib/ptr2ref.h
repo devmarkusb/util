@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef PTR2REF_H_sjhdxfggberz38f2g36ygfn123f9v
@@ -59,6 +59,6 @@ const T* Ref2PtrC(const T* t)
 }
 
 //!@}
-}
+} // namespace too
 
 #endif

@@ -32,7 +32,7 @@ inline void checked_array_delete(T* x)
     (void)sizeof(type_must_be_complete);
     delete[] x;
 }
-} // mem
-} // too
+} // namespace mem
+} // namespace too
 
 #endif

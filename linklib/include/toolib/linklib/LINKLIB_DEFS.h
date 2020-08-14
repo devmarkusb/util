@@ -91,7 +91,9 @@
 //! (being switch-wise TOO_DECL_EXPORT/TOO_DECL_IMPORT) if appropriate.
 #if TOO_LANG_STANDARD_CPP
 #define TOO_EXTERN_C_DECLS extern "C"
-#define TOO_EXTERN_C_DECLS_BEGIN extern "C" {
+#define TOO_EXTERN_C_DECLS_BEGIN \
+    extern "C" \
+    {
 #define TOO_EXTERN_C_DECLS_END }
 #else
 #define TOO_EXTERN_C_DECLS

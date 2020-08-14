@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef ANY_H_sdfuiofx37tn3z47txn378xtfg43n8g3
@@ -107,20 +107,31 @@ public:
     }
 
     //!
-    void clear() { holder = nullptr; }
+    void clear()
+    {
+        holder = nullptr;
+    }
 
     //! Would be true on default construction.
-    bool empty() const { return !holder; }
+    bool empty() const
+    {
+        return !holder;
+    }
 
     //!
-    const std::type_info& type() const { return (!empty()) ? holder->type() : typeid(void); }
+    const std::type_info& type() const
+    {
+        return (!empty()) ? holder->type() : typeid(void);
+    }
 
 private:
     struct ibase
     {
         virtual std::unique_ptr<ibase> clone() const = 0;
         virtual const std::type_info& type() const = 0;
-        virtual ~ibase() {}
+        virtual ~ibase()
+        {
+        }
         //            ibase(const ibase&) = default;
         //            ibase& operator=(const ibase&) = default;
         //#if TOO_HAS_CPP11_DEFAULT_MOVES
@@ -132,13 +143,25 @@ private:
     template <typename T>
     struct concrete : public ibase
     {
-        explicit concrete(T&& x) : value(std::forward<T>(x)) {}
+        explicit concrete(T&& x)
+            : value(std::forward<T>(x))
+        {
+        }
 
-        explicit concrete(const T& x) : value(x) {}
+        explicit concrete(const T& x)
+            : value(x)
+        {
+        }
 
-        virtual std::unique_ptr<ibase> clone() const override { return too::make_unique<concrete<T>>(value); }
+        virtual std::unique_ptr<ibase> clone() const override
+        {
+            return too::make_unique<concrete<T>>(value);
+        }
 
-        virtual const std::type_info& type() const override { return typeid(T); }
+        virtual const std::type_info& type() const override
+        {
+            return typeid(T);
+        }
 
         T value;
     };
@@ -190,6 +213,6 @@ const Type* any_cast(const any* pval)
         throw bad_any_cast();
     return &(static_cast<any::concrete<Type>*>(pval->holder.get())->value);
 }
-}
+} // namespace too
 
 #endif

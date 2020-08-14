@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef LISTENER_H_sjkdzth78tn2378xgh73fr
@@ -53,7 +53,9 @@ struct Listener
 {
     virtual ~Listener() = 0;
 };
-inline Listener::~Listener() {}
+inline Listener::~Listener()
+{
+}
 
 //! Base class for every sender/notifier.
 /** Usage:
@@ -105,7 +107,7 @@ public:
     {
         TOO_EXPECT(l);
         TOO_EXPECT(std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) ==
-            std::end(this->registered_listeners));
+                   std::end(this->registered_listeners));
 
         this->registered_listeners.push_back(l);
     }
@@ -127,7 +129,7 @@ public:
         TOO_EXPECT(l);
 
         return std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l) !=
-            std::end(this->registered_listeners);
+               std::end(this->registered_listeners);
     }
 
 protected:
@@ -148,7 +150,7 @@ public:
     {
         TOO_EXPECT(l);
         TOO_EXPECT(std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l) ==
-            std::end(registered_listeners()));
+                   std::end(registered_listeners()));
 
         registered_listeners().push_back(l);
     }
@@ -170,7 +172,7 @@ public:
         TOO_EXPECT(l);
 
         return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l) !=
-            std::end(registered_listeners());
+               std::end(registered_listeners());
     }
 
 protected:
@@ -181,6 +183,6 @@ protected:
         return inst;
     }
 };
-}
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /** Taken from / inspired by the Cpp Guidelines Support Library GSL.
-*/
+ */
 //! \file
 
 #ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
@@ -53,7 +53,11 @@ class not_null
     static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
 
 public:
-    not_null(T t) : ptr(t) { ensure_invariant(); }
+    not_null(T t)
+        : ptr(t)
+    {
+        ensure_invariant();
+    }
     not_null& operator=(const T& t)
     {
         this->ptr = t;
@@ -76,7 +80,7 @@ public:
     }
 
     template <typename U, typename Dummy = too::enable_if_t<std::is_convertible<U, T>::value>>
-    not_null& operator                   =(const not_null<U>& other)
+    not_null& operator=(const not_null<U>& other)
     {
         this->ptr = other.get();
         return *this;
@@ -96,18 +100,33 @@ public:
         return ptr;
     }
 
-    operator T() const { return get(); }
-    T operator->() const { return get(); }
+    operator T() const
+    {
+        return get();
+    }
+    T operator->() const
+    {
+        return get();
+    }
 
-    bool operator==(const T& rhs) const { return this->ptr == rhs; }
-    bool operator!=(const T& rhs) const { return !(*this == rhs); }
+    bool operator==(const T& rhs) const
+    {
+        return this->ptr == rhs;
+    }
+    bool operator!=(const T& rhs) const
+    {
+        return !(*this == rhs);
+    }
 
 private:
     T ptr;
 
     // we assume that the compiler can hoist/prove away most of the checks inlined from this function
     // if not, we could make them optional via conditional compilation
-    void ensure_invariant() const { TOO_EXPECT_THROW(this->ptr != nullptr); }
+    void ensure_invariant() const
+    {
+        TOO_EXPECT_THROW(this->ptr != nullptr);
+    }
 
     // unwanted operators...pointers only point to single objects!
     // untested, ensure all arithmetic ops on this type are unavailable, also list still incomplete
@@ -120,6 +139,6 @@ private:
     not_null<T>& operator-(size_t) = delete;
     not_null<T>& operator-=(size_t) = delete;
 };
-}
+} // namespace too
 
 #endif

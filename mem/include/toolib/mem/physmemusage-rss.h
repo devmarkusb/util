@@ -29,7 +29,7 @@ namespace too::mem
 void usage(double& virtual_mem_usage, double& physical_mem_usage)
 {
 #if TOO_OS_LINUX
-    virtual_mem_usage  = {};
+    virtual_mem_usage = {};
     physical_mem_usage = {};
 
     std::ifstream stat_stream("/proc/self/stat", std::ios_base::in);
@@ -50,14 +50,14 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
         dummy.utime >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >>
         dummy.itrealvalue >> dummy.starttime >> vsize >> rss;
 
-    long page_size_kb  = sysconf(_SC_PAGE_SIZE) / too::mem::KiB;
-    virtual_mem_usage  = vsize / static_cast<double>(too::mem::KiB);
+    long page_size_kb = sysconf(_SC_PAGE_SIZE) / too::mem::KiB;
+    virtual_mem_usage = vsize / static_cast<double>(too::mem::KiB);
     physical_mem_usage = rss * page_size_kb;
 #else
     too::ignore_arg(virtual_mem_usage);
     too::ignore_arg(physical_mem_usage);
-    throw too::not_implemented{TOO_LOCATION" too::mem::usage not yet for non-Linux"};
+    throw too::not_implemented{TOO_LOCATION " too::mem::usage not yet for non-Linux"};
 #endif
 }
-} // too::mem
+} // namespace too::mem
 #endif

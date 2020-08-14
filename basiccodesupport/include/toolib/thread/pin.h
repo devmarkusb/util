@@ -46,44 +46,52 @@ inline void CPU_ZERO(cpu_set_t* cs)
     cs->count = 0;
 }
 
-inline void CPU_SET(int num, cpu_set_t* cs) { cs->count |= (1 << num); }
+inline void CPU_SET(int num, cpu_set_t* cs)
+{
+    cs->count |= (1 << num);
+}
 
-inline int CPU_ISSET(int num, cpu_set_t* cs) { return (cs->count & (1 << num)); }
+inline int CPU_ISSET(int num, cpu_set_t* cs)
+{
+    return (cs->count & (1 << num));
+}
 
-int sched_getaffinity(pid_t, size_t, cpu_set_t *cpu_set)
+int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set)
 {
     int32_t core_count = 0;
-    size_t  len = sizeof(core_count);
+    size_t len = sizeof(core_count);
     int ret = sysctlbyname(SYSCTL_CORE_COUNT, &core_count, &len, 0, 0);
-    if (ret) {
+    if (ret)
+    {
         printf("error while get core count %d\n", ret);
         return -1;
     }
     cpu_set->count = 0;
-    for (int i = 0; i < core_count; i++) {
+    for (int i = 0; i < core_count; i++)
+    {
         cpu_set->count |= (1 << i);
     }
 
     return 0;
 }
 
-int pthread_setaffinity_np(pthread_t thread, size_t cpu_size,
-                           cpu_set_t *cpu_set)
+int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set)
 {
     thread_port_t mach_thread;
     int core = 0;
 
-    for (core = 0; core < 8 * cpu_size; core++) {
-        if (CPU_ISSET(core, cpu_set)) break;
+    for (core = 0; core < 8 * cpu_size; core++)
+    {
+        if (CPU_ISSET(core, cpu_set))
+            break;
     }
     printf("binding to core %d\n", core);
-    thread_affinity_policy_data_t policy = { core };
+    thread_affinity_policy_data_t policy = {core};
     mach_thread = pthread_mach_thread_np(thread);
-    thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY,
-                      (thread_policy_t)&policy, 1);
+    thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, (thread_policy_t)&policy, 1);
     return 0;
 }
-} // mac
+} // namespace mac
 #endif
 
 #if TOO_OS_UNIX
@@ -118,7 +126,7 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 #else
     too::ignore_arg(h);
     too::ignore_arg(logicalCoreIdx);
-    throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
+    throw too::not_implemented{TOO_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -144,7 +152,7 @@ inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 #else
     too::ignore_arg(t);
     too::ignore_arg(logicalCoreIdx);
-    throw too::not_implemented{TOO_LOCATION" pinToLogicalCore not yet for non-Unix"};
+    throw too::not_implemented{TOO_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -161,8 +169,8 @@ inline int numLogicalCores()
     const auto ok = sched_getaffinity({}, {}, &cpuset);
     return ok <= 0 ? -1 : cpuset.count;
 #else
-    throw too::not_implemented{TOO_LOCATION" numLogicalCores not yet for non-Unix"};
+    throw too::not_implemented{TOO_LOCATION " numLogicalCores not yet for non-Unix"};
 #endif
 }
-} // too::thread
+} // namespace too::thread
 #endif

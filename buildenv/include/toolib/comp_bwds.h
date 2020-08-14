@@ -3,7 +3,7 @@
 
 //!
 /** Bucket for unexpectedly needed compiler backwards compatibility.
-*/
+ */
 //! \file
 
 #ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h
@@ -12,23 +12,23 @@
 #include "PPDEFS.h"
 
 #if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
-#define TOO_HAS_LLROUND   0
+#define TOO_HAS_LLROUND 0
 #else
-#define TOO_HAS_LLROUND   1
+#define TOO_HAS_LLROUND 1
 #endif
 
 #if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
-#define TOO_HAS_STOI    0
+#define TOO_HAS_STOI 0
 #else
-#define TOO_HAS_STOI    1
+#define TOO_HAS_STOI 1
 #endif
 
-#define TOO_HAS_FROM_STRING   0
+#define TOO_HAS_FROM_STRING 0
 
 #if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
-#define TOO_HAS_TO_STRING   0
+#define TOO_HAS_TO_STRING 0
 #else
-#define TOO_HAS_TO_STRING   1
+#define TOO_HAS_TO_STRING 1
 #endif
 
 #if TOO_HAS_LLROUND
@@ -99,6 +99,6 @@ std::string to_string(const StringStreamable& x)
     return ss.str();
 #endif
 }
-} // too
+} // namespace too
 
 #endif

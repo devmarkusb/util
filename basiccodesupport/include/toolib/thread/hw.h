@@ -29,5 +29,5 @@ inline unsigned int numAvailLogicalCores() noexcept
     return std::thread::hardware_concurrency();
 #endif
 }
-} // too::thread
+} // namespace too::thread
 #endif

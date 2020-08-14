@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
@@ -58,14 +58,23 @@ struct OutputToConsole
         return true;
     }
 
-    static bool is_activated() { return true; }
+    static bool is_activated()
+    {
+        return true;
+    }
 };
 
 struct NoOutputToConsole
 {
-    static bool trace(const std::ostringstream&) { return false; }
+    static bool trace(const std::ostringstream&)
+    {
+        return false;
+    }
 
-    static bool is_activated() { return false; }
+    static bool is_activated()
+    {
+        return false;
+    }
 };
 
 struct OutputToIDEWindow
@@ -79,7 +88,7 @@ struct OutputToIDEWindow
 #if TOO_OS_WINDOWS
             OutputDebugStringA(ss.str().c_str());
 #else
-            std::cerr << ss.str();
+        std::cerr << ss.str();
 #endif
     }
 };
@@ -96,7 +105,10 @@ struct NoOutputToIDEWindow
 
 struct DontAlsoBindStdout
 {
-    static void bind(bool& ret_bound) { ret_bound = false; }
+    static void bind(bool& ret_bound)
+    {
+        ret_bound = false;
+    }
 };
 
 struct AlsoBindStdout
@@ -184,7 +196,9 @@ namespace detail_impl
 {
 struct StreamTracer
 {
-    virtual ~StreamTracer() {}
+    virtual ~StreamTracer()
+    {
+    }
     virtual void trace(const std::ostringstream&) const = 0;
 };
 
@@ -211,10 +225,14 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine&)
 }
 
 template <class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
-    class OutputToConsolePolicy                                = NoOutputToConsole>
+    class OutputToConsolePolicy = NoOutputToConsole>
 struct StreamTracer_impl : public StreamTracer
 {
-    StreamTracer_impl(bool close_stderr, bool close_stdout) : close_stderr{close_stderr}, close_stdout{close_stdout} {}
+    StreamTracer_impl(bool close_stderr, bool close_stdout)
+        : close_stderr{close_stderr}
+        , close_stdout{close_stdout}
+    {
+    }
 
     ~StreamTracer_impl() override
     {
@@ -242,7 +260,10 @@ struct StreamTracerWrapperSingleton
         return inst;
     }
 
-    std::unique_ptr<StreamTracer>& tracer() { return t; }
+    std::unique_ptr<StreamTracer>& tracer()
+    {
+        return t;
+    }
 
 private:
     std::unique_ptr<StreamTracer> t;
@@ -257,7 +278,7 @@ inline StreamTracer& stream()
     TOO_EXPECT(ret);
     return *ret;
 }
-} // detail_impl
+} // namespace detail_impl
 
 //! This needs to be called before any call to too::trace and only once.
 //! That is yopu can fix your configuration only once and for all for the whole program.
@@ -302,20 +323,27 @@ inline void init()
         detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
         ret_stderrBound, ret_stdoutBound);
 }
-} // tracer
+} // namespace tracer
 
 struct trace : private too::non_copyable
 {
-    explicit trace(const std::string& level = "ERROR") : stream_{&too::tracer::detail_impl::stream()}
+    explicit trace(const std::string& level = "ERROR")
+        : stream_{&too::tracer::detail_impl::stream()}
     {
         std::ostringstream tmp;
         tmp << std::left << std::setw(level.empty() ? 0 : 6) << level;
         *this->stream_ << tmp.str();
     }
 
-    ~trace() { *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{}; }
+    ~trace()
+    {
+        *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{};
+    }
 
-    tracer::detail_impl::StreamTracer& stream() const { return *this->stream_; }
+    tracer::detail_impl::StreamTracer& stream() const
+    {
+        return *this->stream_;
+    }
 
 private:
     mutable tracer::detail_impl::StreamTracer* stream_;
@@ -335,12 +363,20 @@ namespace deprecated
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
 /** Impl. notes: Also tried std::cerr and std::clog under Windows - without success.*/
-inline void trace(const std::ostringstream& os) { OutputDebugStringA(os.str().c_str()); }
-inline void trace(const std::wostringstream& os) { OutputDebugStringW(os.str().c_str()); }
+inline void trace(const std::ostringstream& os)
+{
+    OutputDebugStringA(os.str().c_str());
+}
+inline void trace(const std::wostringstream& os)
+{
+    OutputDebugStringW(os.str().c_str());
+}
 #else
-inline void trace(const std::ostringstream&) {}
+inline void trace(const std::ostringstream&)
+{
+}
 #endif
-} // deprecated
-} // too
+} // namespace deprecated
+} // namespace too
 
 #endif

@@ -3,7 +3,7 @@
 
 //!
 /** Cf. std_extensions.h
-    */
+ */
 //! \file
 
 #ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
@@ -23,7 +23,7 @@ namespace std_fs = std::experimental::filesystem;
 #else
 namespace std_fs = std::filesystem;
 #endif
-} // too
+} // namespace too
 
 #else
 
@@ -68,13 +68,27 @@ struct path
     static const auto preferred_separator = '/';
 
     //! Constructs an empty path (which is semantically equivalent to current dir '.').
-    path() noexcept {}
+    path() noexcept
+    {
+    }
     //! Expects \param s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
-    path(std::string s) : s_{std::move(s)} {}
-    path(const char* s) : s_{s} {}
+    path(std::string s)
+        : s_{std::move(s)}
+    {
+    }
+    path(const char* s)
+        : s_{s}
+    {
+    }
 
-    path& make_preferred() { return *this; }
-    const char* c_str() const noexcept { return s_.c_str(); }
+    path& make_preferred()
+    {
+        return *this;
+    }
+    const char* c_str() const noexcept
+    {
+        return s_.c_str();
+    }
     std::string string() const
     {
         return s_;
@@ -232,11 +246,20 @@ inline std::ostream& operator<<(std::ostream& os, const path& p)
 
 struct directory_entry
 {
-    explicit directory_entry(path p) : p_{std::move(p)} {}
+    explicit directory_entry(path p)
+        : p_{std::move(p)}
+    {
+    }
 
-    void assign(const path& p) { p_ = p; }
+    void assign(const path& p)
+    {
+        p_ = p;
+    }
     //! Implicit conversion.
-    operator const path& () const noexcept { return p_; }
+    operator const path&() const noexcept
+    {
+        return p_;
+    }
 
 private:
     std_fs::path p_;
@@ -259,7 +282,8 @@ struct directory_iterator : public std::iterator<std::input_iterator_tag, direct
 {
     //! Constructs an iterator pointing behind the last element.
     directory_iterator() = default;
-    explicit directory_iterator(path p) : p_{std::move(p)}
+    explicit directory_iterator(path p)
+        : p_{std::move(p)}
     {
         init_dir();
         next_entry();
@@ -287,7 +311,8 @@ struct directory_iterator : public std::iterator<std::input_iterator_tag, direct
 private:
     struct DIR_scoped
     {
-        explicit DIR_scoped(path p) : p_{std::move(p)}
+        explicit DIR_scoped(path p)
+            : p_{std::move(p)}
         {
             d_ = opendir(p_.c_str());
             if (!d_)
@@ -350,10 +375,9 @@ private:
         do
         {
             entry_impl_ = readdir(d_->get());
-        }
-        while (entry_impl_ && (
-                (entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == 0) ||
-                (entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == '.' && entry_impl_->d_name[2] == 0)));
+        } while (entry_impl_ &&
+                 ((entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == 0) ||
+                     (entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == '.' && entry_impl_->d_name[2] == 0)));
 
         if (entry_impl_)
             entry_.assign(p_ / path{entry_impl_->d_name});
@@ -508,8 +532,8 @@ inline void current_path(const path& p, std::error_code& ec) noexcept
 #error "not implemented"
 #endif
 }
-} // std_fs
-} // too
+} // namespace std_fs
+} // namespace too
 
 #endif
 
@@ -521,7 +545,7 @@ inline void touch(const too::std_fs::path& p)
 {
     std::ofstream f{p.string()};
 }
-} // file
-} // too
+} // namespace file
+} // namespace too
 
 #endif

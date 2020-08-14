@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef UTILITY_H_ui3gnt3784xgh25g7523gyg
@@ -20,6 +20,6 @@ inline constexpr size_t pad_up(size_t n, size_t alignment) noexcept
 {
     return (n + (alignment - 1)) & ~(alignment - 1);
 }
-} // mem
-} // too
+} // namespace mem
+} // namespace too
 #endif

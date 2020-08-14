@@ -31,7 +31,9 @@ namespace alloc
 /** You should adapt max_alignment_in_bytes to at least the alignment of the largest type you're going to
     allocate frequently. But not larger as this wastes space due to padding.*/
 template <size_t capacity_in_bytes, size_t max_alignment_in_bytes, typename StatisticsPolicy = NoStatistics>
-class OnStack : private too::non_copyable, public StatisticsPolicy
+class OnStack
+    : private too::non_copyable
+    , public StatisticsPolicy
 {
 public:
     uint8_t* allocate(Bytes size)
@@ -55,18 +57,27 @@ public:
             curr_memptr_ = p;
     }
 
-    static constexpr Bytes capacity() noexcept { return Bytes{capacity_in_bytes}; }
-    Bytes size() const noexcept { return Bytes{static_cast<size_t>(curr_memptr_ - buf_)}; }
-    void reset() noexcept { curr_memptr_ = buf_; }
+    static constexpr Bytes capacity() noexcept
+    {
+        return Bytes{capacity_in_bytes};
+    }
+    Bytes size() const noexcept
+    {
+        return Bytes{static_cast<size_t>(curr_memptr_ - buf_)};
+    }
+    void reset() noexcept
+    {
+        curr_memptr_ = buf_;
+    }
 
 private:
-TOO_PRAGMA_WARNINGS_PUSH
-TOO_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
+    TOO_PRAGMA_WARNINGS_PUSH
+    TOO_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
     alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes];
-TOO_PRAGMA_WARNINGS_POP
+    TOO_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };
-} // alloc
-} // mem
-} // too
+} // namespace alloc
+} // namespace mem
+} // namespace too
 #endif

@@ -21,7 +21,10 @@ namespace detail
 class GroupThousands_numpunct : public std::numpunct<char>
 {
 public:
-    explicit GroupThousands_numpunct(char sep) noexcept : sep_{sep} {}
+    explicit GroupThousands_numpunct(char sep) noexcept
+        : sep_{sep}
+    {
+    }
 
 protected:
     char do_thousands_sep() const noexcept override
@@ -37,7 +40,7 @@ protected:
 private:
     char sep_{};
 };
-} // detail
+} // namespace detail
 
 //! Strange, crashes for non-Linux?!
 template <typename T>
@@ -48,5 +51,5 @@ inline std::string groupThousands(T t, char sep = '\'')
     ss << t;
     return ss.str();
 }
-} // too::fmt
+} // namespace too::fmt
 #endif

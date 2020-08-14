@@ -3,7 +3,7 @@
 
 //!
 /** Contains useful tools for debugging, like run-time breakpoints.
-*/
+ */
 //! \file
 
 
@@ -22,33 +22,33 @@
 #if TOO_OS_WINDOWS_64 // using portable common solution for x64 configuration
 #include <crtdbg.h>
 #define TOO_DEBUG_BREAK_IF(_CONDITION_) \
-    do                                  \
-    {                                   \
-        if ((_CONDITION_))              \
-        {                               \
-            _CrtDbgBreak();             \
-        }                               \
+    do \
+    { \
+        if ((_CONDITION_)) \
+        { \
+            _CrtDbgBreak(); \
+        } \
     } while (false)
 #else
 #define TOO_DEBUG_BREAK_IF(_CONDITION_) \
-    do                                  \
-    {                                   \
-        if ((_CONDITION_))              \
-        {                               \
-            __asm int 3                 \
-        }                               \
+    do \
+    { \
+        if ((_CONDITION_)) \
+        { \
+            __asm int 3 \
+        } \
     } while (false)
 #endif
 #else
 #define TOO_DEBUG_BREAK_IF(_CONDITION_) \
-    do                                  \
-    {                                   \
-        TOO_ASSERT(!(_CONDITION_));     \
+    do \
+    { \
+        TOO_ASSERT(!(_CONDITION_)); \
     } while (false)
 #endif
-#define TOO_DEBUG_BREAK           \
-    do                            \
-    {                             \
+#define TOO_DEBUG_BREAK \
+    do \
+    { \
         TOO_DEBUG_BREAK_IF(true); \
     } while (false)
 #else

@@ -3,7 +3,7 @@
 
 //!
 /** Taken from / inspired by the Cpp Guidelines Support Library GSL.
-*/
+ */
 //! \file
 
 #ifndef FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx
@@ -19,9 +19,18 @@ template <class F>
 class final_act
 {
 public:
-    explicit final_act(F f) noexcept : f(std::move(f)), invoke(true) {}
+    explicit final_act(F f) noexcept
+        : f(std::move(f))
+        , invoke(true)
+    {
+    }
 
-    final_act(final_act&& other) noexcept : f(std::move(other.f)), invoke(other.invoke) { other.invoke = false; }
+    final_act(final_act&& other) noexcept
+        : f(std::move(other.f))
+        , invoke(other.invoke)
+    {
+        other.invoke = false;
+    }
 
     final_act(const final_act&) = delete;
     final_act& operator=(const final_act&) = delete;
@@ -61,6 +70,6 @@ inline final_act<F> finally(F&& f) noexcept
 {
     return final_act<F>(std::forward<F>(f));
 }
-} // too
+} // namespace too
 
 #endif

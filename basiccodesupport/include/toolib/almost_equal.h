@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr
@@ -19,9 +19,9 @@
 namespace too
 {
 //! \Returns true, if \params x and y are almost equal. Expects \param ulp >= 1.
-template<typename FloatType>
+template <typename FloatType>
 typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type almost_equal(
-        FloatType x, FloatType y, int ulp = 1)
+    FloatType x, FloatType y, int ulp = 1)
 {
     TOO_EXPECT(ulp >= 1);
     return std::abs(x - y) < std::numeric_limits<FloatType>::epsilon() * std::abs(x + y) * ulp ||
@@ -32,7 +32,7 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type al
 /** Useful if ArithmeticType is already a more general template parameter in your context.*/
 template <typename ArithmeticType>
 typename std::enable_if<std::is_floating_point<ArithmeticType>::value, bool>::type almost_equal_alltypes(
-        ArithmeticType x, ArithmeticType y, int ulp = 1)
+    ArithmeticType x, ArithmeticType y, int ulp = 1)
 {
     return almost_equal(x, y, ulp);
 }
@@ -40,11 +40,11 @@ typename std::enable_if<std::is_floating_point<ArithmeticType>::value, bool>::ty
 //! Cf. other declaration of almost_equal_alltypes.
 template <typename ArithmeticType>
 typename std::enable_if<std::is_integral<ArithmeticType>::value, bool>::type almost_equal_alltypes(
-        ArithmeticType x, ArithmeticType y, int ulp = 1)
+    ArithmeticType x, ArithmeticType y, int ulp = 1)
 {
     too::ignore_arg(ulp);
     return x == y;
 }
-} // too
+} // namespace too
 
 #endif

@@ -38,8 +38,9 @@ struct NextGreaterOrEqPow2_;
 template <typename NumberType, NumberType number>
 struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
 {
-    static constexpr NumberType value_ = NextGreaterOrEqPow2_<NumberType,
-            std::integral_constant<NumberType, number / NumberType{2}>>::value_ * NumberType{2};
+    static constexpr NumberType value_ =
+        NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number / NumberType{2}>>::value_ *
+        NumberType{2};
 };
 
 template <typename NumberType>
@@ -47,7 +48,7 @@ struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, (Numb
 {
     static constexpr NumberType value_ = NumberType{1};
 };
-} // impl
+} // namespace detail
 
 /** Next greater or equal power of two. Found at compile-time only.
     Function value \returns a power of two that is greater than or equal to the passed \param number.
@@ -56,8 +57,7 @@ struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, (Numb
         static_assert(too::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 4);
         static_assert(too::math::NextGreaterOrEqualPowerOfTwo<int, 5>::value() == 8);*/
 template <typename NumberType, NumberType number>
-struct NextGreaterOrEqPow2
-        : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
+struct NextGreaterOrEqPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
 {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
 
@@ -70,7 +70,8 @@ struct NextGreaterOrEqPow2
         else
         {
             // yes, this still keeps the function compile-time, cf. unit tests
-            if (number < NumberType{}) {
+            if (number < NumberType{})
+            {
                 return NumberType{1};
             }
             return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
@@ -111,7 +112,7 @@ constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
     v |= v >> 8u;
     v |= v >> 16u;
     v |= v >> 32u;
-    return v+1;
+    return v + 1;
 }
-} // too::math
+} // namespace too::math
 #endif

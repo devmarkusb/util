@@ -3,7 +3,7 @@
 
 //!
 /** Most common and basic preprocessor defines.
-*/
+ */
 //! \file
 
 // no include guard intentionally
@@ -12,12 +12,12 @@
 #undef TOO_OS_WINDOWS
 #undef TOO_OS_WINDOWS_64
 #undef TOO_OS_WINDOWS_DESKTOP_GE_WIN81
-#undef TOO_OS_WINDOWS_DESKTOP         
-#undef TOO_OS_WINDOWS_UWP_APP 
-#undef TOO_OS_WINDOWS_UWP_DESKTOP_APP 
-#undef TOO_OS_WINDOWS_UWP_PHONE_APP 
+#undef TOO_OS_WINDOWS_DESKTOP
+#undef TOO_OS_WINDOWS_UWP_APP
+#undef TOO_OS_WINDOWS_UWP_DESKTOP_APP
+#undef TOO_OS_WINDOWS_UWP_PHONE_APP
 #undef TOO_OS_WINDOWS_DESKTOP_LT_WIN81
-#undef TOO_OS_WINDOWS_DESKTOP         
+#undef TOO_OS_WINDOWS_DESKTOP
 #undef TOO_OS_UNIX
 #undef TOO_OS_LINUX
 #undef TOO_OS_MAC

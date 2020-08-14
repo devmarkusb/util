@@ -3,7 +3,7 @@
 
 //!
 /** From David Rodr�guez - dribeas, stackoverflow.
-*/
+ */
 //! \file
 
 
@@ -28,12 +28,15 @@ public:
         m_buffer << data;
         return *this;
     }
-    operator std::string() const { return m_buffer.str(); }
+    operator std::string() const
+    {
+        return m_buffer.str();
+    }
 
 private:
     std::ostringstream m_buffer;
 };
-}
-}
+} // namespace str
+} // namespace too
 
 #endif

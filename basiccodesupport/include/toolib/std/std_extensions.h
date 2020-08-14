@@ -72,7 +72,7 @@ template <class T>
 using remove_volatile_t = typename std::remove_volatile<T>::type;
 
 template <bool B, class T = void>
-using enable_if_t         = typename std::enable_if<B, T>::type;
+using enable_if_t = typename std::enable_if<B, T>::type;
 
 template <bool B, class T, class F>
 using conditional_t = typename std::conditional<B, T, F>::type;
@@ -113,7 +113,7 @@ template <class T>
 using remove_volatile_t = std::remove_volatile_t<T>;
 
 template <bool B, class T = void>
-using enable_if_t         = std::enable_if_t<B, T>;
+using enable_if_t = std::enable_if_t<B, T>;
 
 template <bool B, class T, class F>
 using conditional_t = std::conditional_t<B, T, F>;
@@ -158,6 +158,6 @@ T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
         std::forward<BinaryOperation>(op));
 }
 #endif
-}
+} // namespace too
 
 #endif

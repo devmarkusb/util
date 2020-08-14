@@ -38,5 +38,5 @@ std::shared_ptr<T> getSharedInstance()
 
     return object;
 }
-} // too
+} // namespace too
 #endif

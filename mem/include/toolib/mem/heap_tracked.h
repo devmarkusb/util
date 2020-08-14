@@ -3,7 +3,7 @@
 
 //!
 /** Taken from Meyers' book.
-*/
+ */
 //! \file
 
 #include "toolib/debug.h"
@@ -51,7 +51,7 @@ public:
 
     bool isOnHeap() const
     {
-        const void* rawAddress             = dynamic_cast<const void*>(this);
+        const void* rawAddress = dynamic_cast<const void*>(this);
         std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), rawAddress);
         return it != addresses().end();
     }
@@ -64,5 +64,5 @@ private:
         return addresses_;
     }
 };
-} // mem
-} // too
+} // namespace mem
+} // namespace too

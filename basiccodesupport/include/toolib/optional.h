@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 #ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
@@ -55,28 +55,48 @@ const none_t none = nullptr;
 template <typename T>
 struct opt
 {
-    opt() {}
+    opt()
+    {
+    }
     ~opt() = default;
 
-    opt(const opt<T>& other) : holder(other.holder ? too::make_unique<T>(*other.holder) : nullptr) {}
+    opt(const opt<T>& other)
+        : holder(other.holder ? too::make_unique<T>(*other.holder) : nullptr)
+    {
+    }
     opt<T>& operator=(const opt<T>& other)
     {
         holder = other.holder ? too::make_unique<T>(*other.holder) : nullptr;
         return *this;
     }
 
-    explicit opt(const none_t&) : holder(nullptr) {}
-    explicit opt(none_t&&) : holder(nullptr) {}
+    explicit opt(const none_t&)
+        : holder(nullptr)
+    {
+    }
+    explicit opt(none_t&&)
+        : holder(nullptr)
+    {
+    }
 
 #if TOO_HAS_CPP11_DEFAULT_MOVES
     opt(opt<T>&&) = default;
     opt& operator=(opt<T>&&) = default;
 #endif
 
-    opt(const T& x) : holder(too::make_unique<T>(x)) {}
-    opt(T&& x) : holder(too::make_unique<T>(std::move(x))) {}
+    opt(const T& x)
+        : holder(too::make_unique<T>(x))
+    {
+    }
+    opt(T&& x)
+        : holder(too::make_unique<T>(std::move(x)))
+    {
+    }
 
-    operator T*() const { return this->holder.get(); }
+    operator T*() const
+    {
+        return this->holder.get();
+    }
 
 // otherwise we get warnings of implicit conversions to bool (performance issue, theoretically)
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
@@ -108,7 +128,10 @@ struct opt
         return *this;
     }
 
-    void reset() { this->holder.reset(); }
+    void reset()
+    {
+        this->holder.reset();
+    }
 
 private:
     std::unique_ptr<T> holder;
@@ -160,6 +183,6 @@ bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
 {
     return !operator<(lhs, rhs);
 }
-}
+} // namespace too
 
 #endif
