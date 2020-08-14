@@ -10,9 +10,12 @@
 // intentionally without include guard
 
 #include "../macros.h"
+
+
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
 // You shouldn't f***ing care restoring original defs for these...
 #undef max
 #undef min
 #endif
+
 #include "../macros_end.h"
