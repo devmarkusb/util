@@ -8,7 +8,9 @@
 
 TOO_PRAGMA_WARNINGS_PUSH
 TOO_WARNING_DISABLE_MSVC(4127)
+// clang-format off
 TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
+// clang-format on
 
 TEST(AssertExpectEnsureTest, Assert)
 {

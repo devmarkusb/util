@@ -157,7 +157,7 @@ TEST(bits_setRange, someMiddleRangeOfBits)
 
 TEST(bits_setRange, someMiddleRangeOfBits_castedToSufficientSmallerType)
 {
-    EXPECT_EQ(too::bits::setRange<uint8_t>(2, 6),   0b11111100u);
+    EXPECT_EQ(too::bits::setRange<uint8_t>(2, 6), 0b11111100u);
     EXPECT_DEBUG_DEATH(too::bits::setRange<uint8_t>(2, 7), too::death_assert_regex);
     EXPECT_EQ(too::bits::setRange<uint16_t>(2, 7), 0b111111100u);
 }
@@ -174,7 +174,7 @@ namespace
 {
 // workaround, because gtest understands comma between template parameters as comma for the gtest macro;
 // so we need a template with one instead of two parameters
-template<typename TargetType>
+template <typename TargetType>
 constexpr TargetType read_from16_testhelper(uint16_t data, too::bits::Idx idx, too::bits::Count count) noexcept
 {
     return too::bits::readAndCast<TargetType>(data, idx, count);
@@ -264,7 +264,8 @@ namespace
 // workaround, because gtest understands comma between template parameters as comma for the gtest macro;
 // so we need a template with one instead of two parameters
 template <typename SourceType = uint8_t>
-inline constexpr uint8_t write_to8_testhelper(uint8_t to, too::bits::Idx idx, too::bits::Count count, SourceType from) noexcept
+inline constexpr uint8_t write_to8_testhelper(
+    uint8_t to, too::bits::Idx idx, too::bits::Count count, SourceType from) noexcept
 {
     return too::bits::write<uint8_t, SourceType>(to, idx, count, from);
 }
@@ -274,8 +275,8 @@ TEST(bits_write, range_overflows)
 {
     EXPECT_DEBUG_DEATH(too::bits::write<uint16_t>(0, 0, 17, 0), too::death_assert_regex);
     auto _ = too::bits::write<uint16_t>(0, 0, 16, 0);
-    EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t >(0, 0, 9, 0), too::death_assert_regex);
-    _ = write_to8_testhelper<uint8_t >(0, 0, 8, 0);
+    EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t>(0, 0, 9, 0), too::death_assert_regex);
+    _ = write_to8_testhelper<uint8_t>(0, 0, 8, 0);
     too::ignore_arg(_);
 }
 

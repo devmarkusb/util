@@ -11,8 +11,9 @@ TEST(alloc_Example, basics)
 {
     too::mem::alloc::Example a;
     auto mem = reinterpret_cast<int*>(a.allocate(Bytes{42 * sizeof(int)}));
-    const auto autoDeallocate = too::finally([mem, &a]()
-    { a.deallocate(reinterpret_cast<uint8_t*>(mem)); });
+    const auto autoDeallocate = too::finally([mem, &a]() {
+        a.deallocate(reinterpret_cast<uint8_t*>(mem));
+    });
     too::ignore_arg(autoDeallocate);
 
     mem[0] = 1;

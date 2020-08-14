@@ -14,21 +14,21 @@ retcode f_with_retcode(char x) noexcept
 {
     switch (x)
     {
-    case 's':
-        return retcode::success;
-    case 'f':
-        return retcode::failed;
-    case 'n':
-        return retcode::not_implemented;
-    case 'r':
-        return retcode::runtime_error;
-    case 'c':
-        return retcode::would_crash;
-    default:
-        return retcode::none;
+        case 's':
+            return retcode::success;
+        case 'f':
+            return retcode::failed;
+        case 'n':
+            return retcode::not_implemented;
+        case 'r':
+            return retcode::runtime_error;
+        case 'c':
+            return retcode::would_crash;
+        default:
+            return retcode::none;
     }
 }
-}
+} // namespace
 
 TEST(too_retcodeTest, test)
 {

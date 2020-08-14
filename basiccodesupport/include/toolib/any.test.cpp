@@ -43,43 +43,43 @@ struct A : public IA
     {
         switch (a)
         {
-        case Attr::a1:
-            this->a1 = too::any_cast<int>(val);
-            break;
-        default:
-            break;
+            case Attr::a1:
+                this->a1 = too::any_cast<int>(val);
+                break;
+            default:
+                break;
         }
     }
     virtual too::any get(Attr a) const override
     {
         switch (a)
         {
-        case Attr::a1:
-            return this->a1;
-        default:
-            return too::any{};
+            case Attr::a1:
+                return this->a1;
+            default:
+                return too::any{};
         }
     }
     virtual bool copy_to(LargeData d, const too::any& data) override
     {
         switch (d)
         {
-        case LargeData::d1:
-            this->d1 = too::any_cast<std::vector<int>>(data);
-            return true;
-        default:
-            return false;
+            case LargeData::d1:
+                this->d1 = too::any_cast<std::vector<int>>(data);
+                return true;
+            default:
+                return false;
         }
     }
     virtual bool copy_from(LargeData d, too::any& data) const override
     {
         switch (d)
         {
-        case LargeData::d1:
-            data = this->d1;
-            return true;
-        default:
-            return false;
+            case LargeData::d1:
+                data = this->d1;
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -88,9 +88,12 @@ private:
     std::vector<int> d1;
 };
 
-std::unique_ptr<IA> AFactory::createA() { return too::make_unique<A>(); }
+std::unique_ptr<IA> AFactory::createA()
+{
+    return too::make_unique<A>();
 }
-}
+} // namespace A
+} // namespace
 
 TEST(too_anyTest, test)
 {
@@ -121,7 +124,7 @@ TEST(too_anyTest, test)
     std::vector<int>* pvres = too::any_cast<std::vector<int>>(pd1get);
     EXPECT_EQ(test_v, *pvres);
 
-    const too::any* cpd1get        = pd1get;
+    const too::any* cpd1get = pd1get;
     const std::vector<int>* cpvres = too::any_cast<std::vector<int>>(cpd1get);
     EXPECT_EQ(test_v, *cpvres);
 }
