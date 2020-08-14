@@ -130,4 +130,3 @@ TEST(xorTest, xor_mixedtypes)
     EXPECT_TRUE(too::XOR(-1, nullptr));
     EXPECT_TRUE(too::XOR(nullptr, -1));
 }
-

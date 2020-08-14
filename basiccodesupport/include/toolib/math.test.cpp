@@ -125,14 +125,14 @@ TEST(math_nextGreaterOrEqPow2, some)
     static_assert(too::math::nextGreaterOrEqPow2(9) == 16);
     static_assert(too::math::nextGreaterOrEqPow2(10) == 16);
 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(1) == 1); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(2) == 2); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(3) == 4); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(4) == 4); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(5) == 8); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(6) == 8); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(7) == 8); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(8) == 8); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(9) == 16); 
-    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(10) == 16); 
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(1) == 1);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(2) == 2);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(3) == 4);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(4) == 4);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(5) == 8);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(6) == 8);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(7) == 8);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(8) == 8);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(9) == 16);
+    EXPECT_TRUE(too::math::nextGreaterOrEqPow2(10) == 16);
 }

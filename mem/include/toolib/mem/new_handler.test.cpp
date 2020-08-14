@@ -12,7 +12,7 @@ void my_new_handler()
     g_my_new_handler_got_called = true;
     throw std::bad_alloc();
 }
-}
+} // namespace
 
 TEST(NewHandlerSupportTest, test)
 {

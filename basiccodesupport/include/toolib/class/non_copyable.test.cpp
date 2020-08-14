@@ -12,7 +12,7 @@ class A : private too::non_copyable
 class B : public A
 {
 };
-}
+} // namespace
 
 TEST(non_copyableTest, test)
 {

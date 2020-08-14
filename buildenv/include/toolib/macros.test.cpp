@@ -45,8 +45,10 @@ TEST(TOO_STRINGIFYTest, macro)
 
 namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
 {
-TOO_DEPRECATED void deprecated_function() {}
+TOO_DEPRECATED void deprecated_function()
+{
 }
+} // namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
 
 using ppdefs::test::impl::treat_this_as_anonymous_namespace::deprecated_function;
 

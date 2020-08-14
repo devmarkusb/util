@@ -15,17 +15,15 @@ struct UserType
 
 namespace std
 {
-template<>
+template <>
 struct hash<UserType>
 {
     size_t operator()(const UserType& ut) const
     {
-        return too::hashCombine(
-                std::hash<int>()(ut.a),
-                std::hash<std::string>()(ut.b));
+        return too::hashCombine(std::hash<int>()(ut.a), std::hash<std::string>()(ut.b));
     }
 };
-} // std
+} // namespace std
 
 TEST(hashCombine, basic)
 {

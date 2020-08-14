@@ -3,7 +3,7 @@
 
 //!
 /**
-*/
+ */
 //! \file
 
 
@@ -161,7 +161,7 @@ inline std::wstring acp_s2ws(const std::string& s)
     {
         slength = std::numeric_limits<int>::max();
     }
-    int len      = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+    int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
     wchar_t* buf = new wchar_t[len];
     try
     {
@@ -183,7 +183,7 @@ inline std::wstring s2ws(const std::string& s)
     std::copy(s.begin(), s.end(), ws.begin());
     return ws;
 }
-}
+} // namespace detail
 
 inline std::wstring locenc_s2ws(const std::string& s)
 {
@@ -197,11 +197,11 @@ inline std::wstring locenc_s2ws(const std::string& s)
 namespace detail_impl
 {
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER == 1900
-#define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE    1
+#define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE 1
 #endif
 #if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
 #pragma warning(push)
-#pragma warning(disable: 4702)
+#pragma warning(disable : 4702)
 #endif
 template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigned int from, unsigned int to>
 std::string utf8_to_latin1_range(const std::string& s)
@@ -243,7 +243,7 @@ std::string utf8_to_latin1_range(const std::string& s)
 #undef TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
 #endif
 }
-} // detail_impl
+} // namespace detail_impl
 
 template <class OnConversionErrorPolicy>
 std::string utf8_to_latin1(const std::string& s)
@@ -278,7 +278,10 @@ std::string utf8_to_printableASCII(const std::string& s)
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }
 
-inline std::string printableASCII_to_utf8(const std::string& s) { return latin1_to_utf8(s); }
+inline std::string printableASCII_to_utf8(const std::string& s)
+{
+    return latin1_to_utf8(s);
+}
 
 inline std::string toHexString(const std::string& s, const std::string& prefix)
 {
@@ -286,15 +289,14 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
     size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
-    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c)
-        {
-            const auto uc = static_cast<unsigned char>(c);
-            ret.append(prefix);
-            ret.push_back(lut[uc >> 4]);
-            ret.push_back(lut[uc & 15]);
-        });
+    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {
+        const auto uc = static_cast<unsigned char>(c);
+        ret.append(prefix);
+        ret.push_back(lut[uc >> 4]);
+        ret.push_back(lut[uc & 15]);
+    });
     return ret;
 }
-} // str
-} // too
+} // namespace str
+} // namespace too
 #endif

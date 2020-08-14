@@ -44,7 +44,7 @@ TEST(optTest, none_constr)
 }
 
 // VLD detects 3 memory leaks (unclear)
-TEST(optTest, not)
+TEST(optTest, not_)
 {
     too::opt<bool> b;
     if (!b)
@@ -55,15 +55,16 @@ TEST(optTest, not)
     // EXPECT_FALSE(b);
     EXPECT_EQ(too::none, b);
 #if GTEST_HAS_DEATH_TEST
-TOO_PRAGMA_WARNINGS_PUSH
-TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
+    TOO_PRAGMA_WARNINGS_PUSH
+// clang-format off
+    TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
+// clang-format on
     EXPECT_DEATH(
-        [&]()
-        {
+        [&]() {
             *b = false;
         }(),
         "");
-TOO_PRAGMA_WARNINGS_POP
+    TOO_PRAGMA_WARNINGS_POP
 #endif
 }
 
@@ -93,7 +94,7 @@ TEST(optTest, constr_assign_moves)
         EXPECT_TRUE(false);
     EXPECT_FALSE(*copy);
 
-    b    = true;
+    b = true;
     copy = b;
     if (copy)
         EXPECT_TRUE(true);
@@ -119,8 +120,10 @@ TEST(optTest, constr_assign_moves)
 
 namespace
 {
-void f_with_opt_string_arg(const too::opt<std::string>&) {}
+void f_with_opt_string_arg(const too::opt<std::string>&)
+{
 }
+} // namespace
 
 TEST(optTest, types)
 {

@@ -29,40 +29,40 @@ TEST(thread_WaitQueue, massive_parallel)
     std::atomic<int> current{};
     const size_t threadCount{100};
     std::vector<std::thread> producer(threadCount);
-    for (auto& p : producer) {
-        p = std::thread{
-                [&q, &current]()
-                {
-                    q.emplace(++current);
-                }};
+    for (auto& p : producer)
+    {
+        p = std::thread{[&q, &current]() {
+            q.emplace(++current);
+        }};
     }
 
     std::set<int> poppedValues;
     std::mutex mutex;
     std::vector<std::thread> consumer(threadCount - 1);
-    for (auto& c : consumer) {
-        c = std::thread{
-                [&q, &mutex, &poppedValues]()
-                {
-                    int elem{};
-                    q.waitAndPop(elem);
-                    std::lock_guard<std::mutex> lk{mutex};
-                    EXPECT_FALSE(poppedValues.count/*contains*/(elem));
-                    poppedValues.insert(elem);
-                }};
+    for (auto& c : consumer)
+    {
+        c = std::thread{[&q, &mutex, &poppedValues]() {
+            int elem{};
+            q.waitAndPop(elem);
+            std::lock_guard<std::mutex> lk{mutex};
+            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
+            poppedValues.insert(elem);
+        }};
     }
 
-    for (auto& p : producer) {
+    for (auto& p : producer)
+    {
         p.join();
     }
-    for (auto& c : consumer) {
+    for (auto& c : consumer)
+    {
         c.join();
     }
 
     EXPECT_EQ(poppedValues.size(), threadCount - 1);
     int elem{};
     q.waitAndPop(elem);
-    EXPECT_FALSE(poppedValues.count/*contains*/(elem));
+    EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
 }
 
 TEST(thread_WaitQueue, stop)

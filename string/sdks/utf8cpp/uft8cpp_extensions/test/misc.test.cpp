@@ -1,12 +1,12 @@
-#include "gtest/gtest.h"
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <vector>
-#include <iterator>
-#include "toolib/string/toostring.h"
-#include "toolib/ignore_arg.h"
 #include "toolib/PPDEFS.h"
+#include "toolib/ignore_arg.h"
+#include "toolib/string/toostring.h"
+#include "gtest/gtest.h"
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <string>
+#include <vector>
 
 
 TEST(utf8cpp_is_validTest, test)
@@ -58,7 +58,7 @@ TEST(utf8cpp_appendTest, test)
 TEST(utf8cpp_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w         = twochars;
+    char* w = twochars;
     auto cp = utf8::next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
@@ -67,7 +67,7 @@ TEST(utf8cpp_nextTest, test)
 TEST(utf8cpp_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w         = twochars;
+    char* w = twochars;
     auto cp = utf8::peek_next(w, twochars + 6);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -76,7 +76,7 @@ TEST(utf8cpp_peek_nextTest, test)
 TEST(utf8cpp_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w         = twochars + 3;
+    char* w = twochars + 3;
     auto cp = utf8::prior(w, twochars);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -165,7 +165,7 @@ TEST(utf8cpp_unchecked_appendTest, test)
 TEST(utf8cpp_unchecked_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88"; // 'U+65E5' 3 bytes + cyrillic scha 2 bytes
-    char* w         = twochars;
+    char* w = twochars;
     auto cp = utf8::unchecked::next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars + 3);
@@ -174,7 +174,7 @@ TEST(utf8cpp_unchecked_nextTest, test)
 TEST(utf8cpp_unchecked_peek_nextTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w         = twochars;
+    char* w = twochars;
     auto cp = utf8::unchecked::peek_next(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);
@@ -183,7 +183,7 @@ TEST(utf8cpp_unchecked_peek_nextTest, test)
 TEST(utf8cpp_unchecked_priorTest, test)
 {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
-    char* w         = twochars + 3;
+    char* w = twochars + 3;
     auto cp = utf8::unchecked::prior(w);
     EXPECT_EQ(0x65e5, cp);
     EXPECT_EQ(w, twochars);

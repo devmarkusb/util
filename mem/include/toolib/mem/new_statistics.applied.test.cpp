@@ -69,7 +69,7 @@ struct AGlobalDestructor
 #else
             peakSize
 #endif
-            << "\n";
+                  << "\n";
     }
 };
 } // namespace

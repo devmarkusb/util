@@ -20,7 +20,9 @@ protected:
         m_v7.push_back('g');
     }
 
-    virtual void TearDown() {}
+    virtual void TearDown()
+    {
+    }
 
     std::string Vec2Str(const std::vector<char>& v)
     {

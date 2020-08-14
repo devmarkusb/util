@@ -36,11 +36,13 @@ void LoadFromTextFile(const std::string& FilePathNameExt, std::string& Content)
         throw std::runtime_error("file seek");
     file.read(&Content[0], size);
 }
-}
+} // namespace
 
 struct char_encoding_fileTest : public ::testing::Test
 {
-    char_encoding_fileTest() {}
+    char_encoding_fileTest()
+    {
+    }
 
     void SetUp()
     {
@@ -62,7 +64,10 @@ struct char_encoding_fileTest : public ::testing::Test
         return ret;
     }
 
-    bool is_valid_utf8(const std::string& s) { return utf8::is_valid(s.begin(), s.end()); }
+    bool is_valid_utf8(const std::string& s)
+    {
+        return utf8::is_valid(s.begin(), s.end());
+    }
 
     void TearDown()
     {
@@ -70,7 +75,9 @@ struct char_encoding_fileTest : public ::testing::Test
         ASSERT_EQ(0, ret);
     }
 
-    ~char_encoding_fileTest() {}
+    ~char_encoding_fileTest()
+    {
+    }
 
 private:
     std::string FilePathNameExt;

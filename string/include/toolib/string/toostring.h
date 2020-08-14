@@ -51,7 +51,9 @@
 #include "toolib/PPDEFS.h"
 #include "toolib/warnings.h"
 TOO_PRAGMA_WARNINGS_PUSH
+// clang-format off
 TOO_WARNING_DISABLE_CLANG(sign-conversion)
+// clang-format on
 //! Including this header regardless of whether it is being used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"

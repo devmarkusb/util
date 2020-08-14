@@ -4,7 +4,7 @@
     own implementation by default otherwise.*/
 #include "toolib/PPDEFS.h"
 #if TOO_OS_LINUX
-#define TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL   1
+#define TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL 1
 #endif
 #include "std_ext_filesystem.h"
 #undef TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
@@ -31,8 +31,9 @@ const fs::path physical_test_dir{physical_test_dir_s};
     Note, this implies a decrease every tenth step and possible leading zeros.*/
 std::string getSteadyUniqueNr()
 {
-    std::string ret = std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now().time_since_epoch()).count());
+    std::string ret = std::to_string(
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch())
+            .count());
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     std::reverse(std::begin(ret), std::end(ret));
     return ret;
@@ -369,8 +370,7 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set)
     std::cout << orig.string() << "\n";
     fs::current_path(physical_test_dir, ec);
     ASSERT_FALSE(ec);
-    const auto chdir_back_to_orig = too::finally([&orig]()
-    {
+    const auto chdir_back_to_orig = too::finally([&orig]() {
         std::error_code ec_;
         fs::current_path(orig, ec_);
         EXPECT_FALSE(ec_);

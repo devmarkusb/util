@@ -5,7 +5,7 @@
 
 namespace test_int
 {
-template<typename... T>
+template <typename... T>
 void toBeCalled(T... t)
 {
     std::array<int, 3> ta = {t...};
@@ -19,7 +19,7 @@ void caller_impl(const std::array<int, 3>& theArray, too::idx::seq<Is...>)
 {
     toBeCalled(theArray[Is]...);
 }
-} // test_int
+} // namespace test_int
 
 TEST(idx_seq, array)
 {
@@ -31,7 +31,7 @@ TEST(idx_seq, array)
 
 namespace test_size_t
 {
-template<typename... T>
+template <typename... T>
 void toBeCalled(T... t)
 {
     std::array<size_t, 3> ta = {t...};
@@ -45,7 +45,7 @@ void caller_impl(const std::array<size_t, 3>& theArray, too::idx::seq<Is...>)
 {
     toBeCalled(theArray[Is]...);
 }
-} // test_size_t
+} // namespace test_size_t
 
 TEST(idx_seq, array_size_t)
 {

@@ -14,12 +14,15 @@ TEST(ownerTest, Test)
 
 namespace
 {
-int* id_with_not_null_param(too::not_null<int*> param) { return param; }
+int* id_with_not_null_param(too::not_null<int*> param)
+{
+    return param;
 }
+} // namespace
 
 TEST(not_nullTest, Test)
 {
-    int x   = 2;
+    int x = 2;
     int* px = &x;
     EXPECT_EQ(px, id_with_not_null_param(px));
     int* nullp = nullptr;

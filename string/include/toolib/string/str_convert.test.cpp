@@ -147,7 +147,7 @@ TEST(utf8_to_printableASCII, failtest)
     std::string ascii{too::str::utf8_to_printableASCII(utf8)};
     EXPECT_EQ('?', ascii[0]);
 
-    utf8  = "\x7f"; // 127
+    utf8 = "\x7f"; // 127
     ascii = too::str::utf8_to_printableASCII(utf8);
     EXPECT_EQ('?', ascii[0]);
 }
