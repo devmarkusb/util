@@ -11,11 +11,12 @@
 #ifndef STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 #define STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 
-#include "toolib/PPDEFS.h"
 #include <algorithm> // included for the most probable find of std::accumulate (if ever)
 #include <memory>
 #include <numeric> // included for the most probable find of std::accumulate (if ever)
 #include <type_traits>
+
+#include "toolib/macros.h"
 
 
 //! Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
@@ -159,5 +160,7 @@ T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
 }
 #endif
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

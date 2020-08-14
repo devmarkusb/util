@@ -9,9 +9,10 @@
 #ifndef LOCALE_H_condwhxnu23mhy8mr
 #define LOCALE_H_condwhxnu23mhy8mr
 
-#include "toolib/PPDEFS.h"
 #include "toolib/std/std_extensions.h"
 #include <locale>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -96,5 +97,7 @@ private:
     std::locale backup;
 };
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

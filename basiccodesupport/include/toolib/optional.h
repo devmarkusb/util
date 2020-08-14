@@ -9,12 +9,13 @@
 #ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
 #define OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
 
-#include "toolib/PPDEFS.h"
 #include "toolib/assert.h"
 #include "toolib/std/std_extensions.h"
 #include <cstddef>
 #include <memory>
 #include <utility>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -184,5 +185,7 @@ bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
     return !operator<(lhs, rhs);
 }
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

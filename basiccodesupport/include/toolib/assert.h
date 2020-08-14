@@ -23,7 +23,6 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #ifndef ASSERT_H_onvdr589tz3758ct438tzcn
 #define ASSERT_H_onvdr589tz3758ct438tzcn
 
-#include "toolib/PPDEFS.h"
 #include "toolib/warnings.h"
 #ifndef TOO_COMP_MS_VISUAL_STUDIO_CPP
 #include <cassert>
@@ -32,6 +31,8 @@ TOO_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <exception>
 #include <stdexcept>
 #include <thread>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -255,5 +256,7 @@ struct StaticAssert_v0<true>
 /** ... now with C++11 the problem is settled. You can just plainly use static_assert.*/
 #define TOO_STATIC_ASSERT static_assert
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

@@ -11,8 +11,9 @@
 
 #include "debug.h"
 #include "error.h"
-#include "toolib/PPDEFS.h"
 #include <string_view>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -42,5 +43,7 @@ constexpr std::string_view type_name()
 #endif
 }
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

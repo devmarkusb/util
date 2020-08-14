@@ -9,8 +9,9 @@
 #ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
 #define STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
 
-#include "toolib/PPDEFS.h"
 #include <fstream>
+
+#include "toolib/macros.h"
 
 
 #if __has_include(<filesystem>) && !TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
@@ -547,5 +548,7 @@ inline void touch(const too::std_fs::path& p)
 }
 } // namespace file
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

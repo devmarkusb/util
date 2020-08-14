@@ -9,7 +9,6 @@
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 #define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 
-#include "toolib/PPDEFS.h"
 #include "toolib/class/non_copyable.h"
 #include "toolib/error.h"
 #include "toolib/std/std_extensions.h"
@@ -26,6 +25,8 @@
 #endif
 #include <windows.h>
 #endif
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -378,5 +379,7 @@ inline void trace(const std::ostringstream&)
 #endif
 } // namespace deprecated
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

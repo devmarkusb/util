@@ -10,7 +10,6 @@
 #define PHYSMEMUSAGE_RSS_H_fuigh76x3nfg3
 
 #include "types.h"
-#include "toolib/PPDEFS.h"
 #include "toolib/debug.h"
 #include "toolib/error.h"
 #include "toolib/ignore_arg.h"
@@ -20,6 +19,8 @@
 #if TOO_OS_LINUX
 #include <unistd.h>
 #endif
+
+#include "toolib/macros.h"
 
 
 namespace too::mem
@@ -60,4 +61,7 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
 #endif
 }
 } // namespace too::mem
+
+#include "toolib/macros_end.h"
+
 #endif

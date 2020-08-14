@@ -1,8 +1,9 @@
 #include "type_name.h"
 #include "ignore_arg.h"
-#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
 #include <tuple>
+
+#include "toolib/macros.h"
 
 
 TEST(type_nameTest, basic)

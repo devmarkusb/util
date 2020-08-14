@@ -1,10 +1,11 @@
 #include "pin.h"
-#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
+
+#include "toolib/macros.h"
 
 
 class pinToCPUTest : public testing::Test

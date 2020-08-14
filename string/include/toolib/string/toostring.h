@@ -48,7 +48,6 @@
 #ifndef TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 #define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
-#include "toolib/PPDEFS.h"
 #include "toolib/warnings.h"
 TOO_PRAGMA_WARNINGS_PUSH
 // clang-format off
@@ -58,6 +57,8 @@ TOO_WARNING_DISABLE_CLANG(sign-conversion)
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
 TOO_PRAGMA_WARNINGS_POP
+
+#include "toolib/macros.h"
 
 
 //####################################################################################################################
@@ -84,5 +85,7 @@ inline size_t get_length(const std::string& s)
 }
 } // namespace str
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

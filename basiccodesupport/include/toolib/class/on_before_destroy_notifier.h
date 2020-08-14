@@ -9,8 +9,8 @@
 #ifndef ONBEFOREDESTROY_NOTIFIER_H_sduifgh5st78247hg
 #define ONBEFOREDESTROY_NOTIFIER_H_sduifgh5st78247hg
 
-#include "listener.h"
 #include "on_before_destroy.h"
+#include "listener.h"
 
 
 namespace too

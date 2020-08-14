@@ -1,6 +1,7 @@
 #include "math.h"
-#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
+
+#include "toolib/macros.h"
 
 
 TEST(math_isPowerOfTwo, some)

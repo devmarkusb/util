@@ -1,7 +1,8 @@
 #include "exception.h"
-#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
 #include <exception>
+
+#include "toolib/macros.h"
 
 
 TEST(exception_Capture, basics)

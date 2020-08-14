@@ -1,7 +1,8 @@
-#include "toolib/PPDEFS.h"
 #include "toolib/mem/heap_tracked.h"
 #include "gtest/gtest.h"
 #include <memory>
+
+#include "toolib/macros.h"
 
 
 TEST(HeapTrackedTest, test)

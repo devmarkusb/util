@@ -9,9 +9,10 @@
 #ifndef TYPES_H_eroui342zt347g8hx3xg713h4
 #define TYPES_H_eroui342zt347g8hx3xg713h4
 
-#include "toolib/PPDEFS.h"
 #include <cstddef>
 #include <ostream>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -112,5 +113,7 @@ inline std::ostream& operator<<(std::ostream& os, Bytes x)
 }
 } // namespace mem
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

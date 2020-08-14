@@ -11,11 +11,12 @@
 
 //! toostring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
-#include "toolib/PPDEFS.h"
 #include "toolib/comp_bwds.h"
 #include "toolib/string/toostring.h"
 #include <stdexcept>
 #include <string>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -137,5 +138,7 @@ inline std::string toHexString(const std::string& s, const std::string& prefix =
 // implementation details
 
 #include "detail/str_convert_detail.hpp"
+
+#include "toolib/macros_end.h"
 
 #endif

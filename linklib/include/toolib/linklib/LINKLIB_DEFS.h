@@ -43,7 +43,7 @@
 #ifndef LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
 #define LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
 
-#include "toolib/PPDEFS.h"
+#include "toolib/macros.h"
 
 
 //####################################################################################################################
@@ -103,5 +103,7 @@
 
 
 //####################################################################################################################
+
+#include "toolib/macros_end.h"
 
 #endif

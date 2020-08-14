@@ -10,7 +10,6 @@
 #ifndef STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 #define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 
-#include "toolib/PPDEFS.h"
 #include "toolib/error.h"
 #include "toolib/ignore_arg.h"
 #include "toolib/string/toostring.h"
@@ -28,6 +27,8 @@
 #if TOO_OS_WINDOWS
 #include <windows.h>
 #endif
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -299,4 +300,7 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
 }
 } // namespace str
 } // namespace too
+
+#include "toolib/macros_end.h"
+
 #endif

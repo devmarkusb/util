@@ -9,8 +9,9 @@
 #ifndef NON_COPYABLE_H_imcutoiu34o5
 #define NON_COPYABLE_H_imcutoiu34o5
 
-#include "toolib/PPDEFS.h"
 #include "toolib/std/std_extensions.h"
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -31,5 +32,7 @@ protected:
 #endif
 };
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

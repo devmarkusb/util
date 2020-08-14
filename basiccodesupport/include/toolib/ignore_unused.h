@@ -9,7 +9,7 @@
 #ifndef IGNORE_UNUSED_H_fklh3874gy78342
 #define IGNORE_UNUSED_H_fklh3874gy78342
 
-#include "toolib/PPDEFS.h"
+#include "toolib/macros.h"
 
 
 namespace too
@@ -31,5 +31,7 @@ void ignore_unused(T&&)
     TOO_NOOP;
 }
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

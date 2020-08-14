@@ -9,7 +9,6 @@
 #ifndef PIN_H_viehrxgzuh34782tg5
 #define PIN_H_viehrxgzuh34782tg5
 
-#include "toolib/PPDEFS.h"
 #include "toolib/assert.h"
 #include "toolib/debug.h"
 #include "toolib/error.h"
@@ -28,6 +27,8 @@
 #include <mach/thread_act.h>
 #include <sys/sysctl.h>
 #endif
+
+#include "toolib/macros.h"
 
 namespace too::thread
 {
@@ -173,4 +174,7 @@ inline int numLogicalCores()
 #endif
 }
 } // namespace too::thread
+
+#include "toolib/macros_end.h"
+
 #endif

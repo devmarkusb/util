@@ -15,8 +15,9 @@ void f_with_some_sourcefile_location_info()
 //#####!!!!! TO HERE (actually to the end of the clang format directive below) } unless you also update test TOO_LOCATIONTest below! ######
 // clang-format on
 
-#include "toolib/PPDEFS.h"
 #include "toolib/warnings.h"
+
+#include "toolib/macros.h"
 
 TOO_PRAGMA_WARNINGS_PUSH
 TOO_WARNING_DISABLE_MSVC(4127)

@@ -1,4 +1,3 @@
-#include "toolib/PPDEFS.h"
 #include "toolib/ignore_arg.h"
 #include "toolib/string/toostring.h"
 #include "gtest/gtest.h"
@@ -7,6 +6,8 @@
 #include <iterator>
 #include <string>
 #include <vector>
+
+#include "toolib/macros.h"
 
 
 TEST(utf8cpp_is_validTest, test)

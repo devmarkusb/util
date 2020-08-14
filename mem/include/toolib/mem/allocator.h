@@ -9,12 +9,13 @@
 #ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 #define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 
-#include "toolib/PPDEFS.h"
 #include "toolib/mem/types.h"
 #include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <type_traits>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -78,4 +79,7 @@ bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T
 }
 } // namespace mem
 } // namespace too
+
+#include "toolib/macros_end.h"
+
 #endif

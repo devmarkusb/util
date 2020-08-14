@@ -9,10 +9,11 @@
 #ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 #define PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 
-#include "toolib/PPDEFS.h"
 #include "toolib/assert.h"
 #include "toolib/std/std_extensions.h"
 #include <type_traits>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -140,5 +141,7 @@ private:
     not_null<T>& operator-=(size_t) = delete;
 };
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

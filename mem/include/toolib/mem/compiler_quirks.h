@@ -9,8 +9,9 @@
 #ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 #define COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 
-#include "toolib/PPDEFS.h"
 #include "toolib/mem/types.h"
+
+#include "toolib/macros.h"
 
 
 namespace too::mem::quirk
@@ -30,5 +31,7 @@ constexpr too::mem::Bytes constr_heap_alloc_size
 };
 } // namespace vector
 } // namespace too::mem::quirk
+
+#include "toolib/macros_end.h"
 
 #endif

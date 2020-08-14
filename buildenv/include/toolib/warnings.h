@@ -15,7 +15,7 @@
 #ifndef WARNINGS_H_erufh35782xz3785th183
 #define WARNINGS_H_erufh35782xz3785th183
 
-#include "toolib/PPDEFS.h"
+#include "toolib/macros.h"
 
 
 #if TOO_COMP_MS_VISUAL_STUDIO_CPP
@@ -50,5 +50,6 @@
 
 #endif
 
+#include "toolib/macros_end.h"
 
 #endif

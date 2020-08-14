@@ -9,9 +9,10 @@
 #ifndef MATH_H_skuy3478ngt8247gg2
 #define MATH_H_skuy3478ngt8247gg2
 
-#include "toolib/PPDEFS.h"
 #include <cstdint>
 #include <type_traits>
+
+#include "toolib/macros.h"
 
 
 namespace too::math
@@ -115,4 +116,7 @@ constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
     return v + 1;
 }
 } // namespace too::math
+
+#include "toolib/macros_end.h"
+
 #endif

@@ -9,7 +9,7 @@
 #ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
 #define IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
 
-#include "toolib/PPDEFS.h"
+#include "toolib/macros.h"
 
 
 namespace too
@@ -31,5 +31,7 @@ void ignore_arg(T&&)
     TOO_NOOP;
 }
 } // namespace too
+
+#include "toolib/macros_end.h"
 
 #endif

@@ -9,9 +9,10 @@
 #ifndef STATISTICS_H_eorxmgh9385g257xgishuv
 #define STATISTICS_H_eorxmgh9385g257xgishuv
 
-#include "toolib/PPDEFS.h"
 #include "toolib/mem/types.h"
 #include <optional>
+
+#include "toolib/macros.h"
 
 
 namespace too
@@ -84,4 +85,7 @@ protected:
 } // namespace alloc
 } // namespace mem
 } // namespace too
+
+#include "toolib/macros_end.h"
+
 #endif

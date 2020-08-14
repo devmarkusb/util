@@ -9,8 +9,9 @@
 #ifndef ATOMIC_H_e7tzx3785tz78g2xh4h2gg
 #define ATOMIC_H_e7tzx3785tz78g2xh4h2gg
 
-#include "toolib/PPDEFS.h"
 #include <atomic>
+
+#include "toolib/macros.h"
 
 
 namespace too::thread::atomic
@@ -25,5 +26,7 @@ void updateMaximum(std::atomic<T>& maximum_value, const T& value) noexcept
     }
 }
 } // namespace too::thread::atomic
+
+#include "toolib/macros_end.h"
 
 #endif

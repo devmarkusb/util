@@ -2,7 +2,6 @@
     *Important* From time to time you also want to test compliance of the tests with the standard library
     implementation. For that to happen, please set TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL to 0, which only tests our
     own implementation by default otherwise.*/
-#include "toolib/PPDEFS.h"
 #if TOO_OS_LINUX
 #define TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL 1
 #endif
@@ -14,6 +13,8 @@
 #include <chrono>
 #include <string>
 #include <thread>
+
+#include "toolib/macros.h"
 
 namespace fs = too::std_fs;
 

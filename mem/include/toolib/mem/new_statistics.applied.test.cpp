@@ -1,9 +1,10 @@
 #define TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "toolib/mem/new_statistics.h"
 #undef TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE
-#include "toolib/PPDEFS.h"
 #include "toolib/format_number.h"
 #include "gtest/gtest.h"
+
+#include "toolib/macros.h"
 
 
 namespace

@@ -1,6 +1,7 @@
 #include "toolib/finally.h"
-#include "toolib/PPDEFS.h"
 #include "gtest/gtest.h"
+
+#include "toolib/macros.h"
 
 
 TEST(FinallyTest, Test)
