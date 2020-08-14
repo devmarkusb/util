@@ -10,11 +10,12 @@
 #define HW_H_gi4uhx548hnx4875h7xg785h
 
 #include <thread>
+
+#include "toolib/macros.h"
+
 #if TOO_OS_LINUX
 #include <unistd.h>
 #endif
-
-#include "toolib/macros.h"
 
 
 namespace too::thread

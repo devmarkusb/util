@@ -16,11 +16,11 @@
 #include <fstream>
 #include <string>
 
+#include "toolib/macros.h"
+
 #if TOO_OS_LINUX
 #include <unistd.h>
 #endif
-
-#include "toolib/macros.h"
 
 
 namespace too::mem

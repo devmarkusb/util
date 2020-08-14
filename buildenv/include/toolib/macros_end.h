@@ -2,13 +2,15 @@
 // This file is part of tfl library.
 
 //!
-/** Most common and basic preprocessor defines.
+/**
+ * Most common and basic preprocessor defines.
  */
 //! \file
 
 // no include guard intentionally
 
-
+// Impl. note: you can't undef those that are used in definitions of other macros themselves, the most fundamental
+// ones, so to say.
 #undef TOO_OS_WINDOWS
 #undef TOO_OS_WINDOWS_64
 #undef TOO_OS_WINDOWS_DESKTOP_GE_WIN81
@@ -20,6 +22,7 @@
 #undef TOO_OS_WINDOWS_DESKTOP
 #undef TOO_OS_UNIX
 #undef TOO_OS_LINUX
+#undef TOO_OS_MAC
 #undef TOO_OS_MAC
 #undef TOO_OS_MSDOS
 #undef TOO_OS_WINDOWS_CE
@@ -48,7 +51,7 @@
 #undef TOO_LANG_STANDARD_CPP_CLI
 #undef TOO_LANG_STANDARD_CPP_CLI04
 #undef TOO_LANG_STANDARD_EMBCPP
-#undef TOO_DEBUG
+//#undef TOO_DEBUG
 #undef TOO_HAS_NO_CPP11_U8
 #undef TOO_HAS_CPP11_DEFAULT_MOVES
 #undef TOO_HAS_NO_CPP11_CONSTEXPR
@@ -62,16 +65,16 @@
 #undef TOO_HAS_BRACE_INIT_MEMBER_NON_STATIC
 #undef TOO_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE
 #undef TOO_CAN_BUILD_WINRT_WRL_UWP
-#undef TOO_STRINGIFY_VALUE
-#undef TOO_STRINGIFY
+//#undef TOO_STRINGIFY_VALUE
+//#undef TOO_STRINGIFY
 #undef TOO_CONCAT_2
 #undef TOO_CONCAT_VALUES_2
 #undef TOO_CONCAT_3
 #undef TOO_CONCAT_VALUES_3
 #undef TOO_ANONYMOUS_IDENTIFIER_IMPL
-#undef TOO_ANONYMOUS_IDENTIFIER
-#undef TOO_DUMMY
-#undef TOO_PRAGMA_STR
-#undef TOO_PRAGMA
-#undef TOO_NOOP
-#undef TOO_DEPRECATED
+//#undef TOO_ANONYMOUS_IDENTIFIER
+//#undef TOO_DUMMY
+//#undef TOO_PRAGMA_STR
+//#undef TOO_PRAGMA
+//#undef TOO_NOOP
+//#undef TOO_DEPRECATED

@@ -9,7 +9,8 @@
 #ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h
 #define COMP_BWDS_H_uiregb74n398734gf478gy8734h
 
-#include "PPDEFS.h"
+#include "macros.h"
+
 
 #if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER < 41000
 #define TOO_HAS_LLROUND 0
@@ -100,5 +101,7 @@ std::string to_string(const StringStreamable& x)
 #endif
 }
 } // namespace too
+
+#include "macros_end.h"
 
 #endif
