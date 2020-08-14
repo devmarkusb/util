@@ -3,11 +3,11 @@
 
 //!
 /** Most common and basic preprocessor defines.
+ *   If you include this file within a header you should also include macros_end.h when finished.
  */
 //! \file
 
-#ifndef MACROS_H_783g81248gh2uhf
-#define MACROS_H_783g81248gh2uhf
+// no include guard intentionally
 
 //####################################################################################################################
 //! Operating Systems
@@ -369,6 +369,4 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define TOO_DEPRECATED [[deprecated]]
 #else
 #define TOO_DEPRECATED
-#endif
-
 #endif

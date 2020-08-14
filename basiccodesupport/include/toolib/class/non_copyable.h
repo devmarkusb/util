@@ -33,4 +33,6 @@ protected:
 };
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

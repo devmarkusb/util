@@ -216,4 +216,6 @@ const Type* any_cast(const any* pval)
 }
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

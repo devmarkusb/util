@@ -301,4 +301,6 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
 } // namespace str
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

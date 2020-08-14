@@ -114,4 +114,6 @@ inline std::ostream& operator<<(std::ostream& os, Bytes x)
 } // namespace mem
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

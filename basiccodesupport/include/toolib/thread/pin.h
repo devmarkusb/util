@@ -175,4 +175,6 @@ inline int numLogicalCores()
 }
 } // namespace too::thread
 
+#include "toolib/macros_end.h"
+
 #endif

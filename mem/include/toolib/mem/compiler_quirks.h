@@ -32,4 +32,6 @@ constexpr too::mem::Bytes constr_heap_alloc_size
 } // namespace vector
 } // namespace too::mem::quirk
 
+#include "toolib/macros_end.h"
+
 #endif

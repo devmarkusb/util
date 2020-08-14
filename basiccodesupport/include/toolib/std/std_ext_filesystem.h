@@ -549,4 +549,6 @@ inline void touch(const too::std_fs::path& p)
 } // namespace file
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

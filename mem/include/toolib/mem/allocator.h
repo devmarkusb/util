@@ -80,4 +80,6 @@ bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T
 } // namespace mem
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

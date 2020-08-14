@@ -161,4 +161,6 @@ T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
 #endif
 } // namespace too
 
+#include "toolib/macros_end.h"
+
 #endif

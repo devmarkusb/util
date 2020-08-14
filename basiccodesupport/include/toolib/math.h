@@ -117,4 +117,6 @@ constexpr inline uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
 }
 } // namespace too::math
 
+#include "toolib/macros_end.h"
+
 #endif
