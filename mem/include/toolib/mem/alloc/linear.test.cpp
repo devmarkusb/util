@@ -1,9 +1,9 @@
 #include "linear.h"
+#include "toolib/PPDEFS.h"
 #include "toolib/assert.h"
 #include "toolib/ignore_arg.h"
-#include "toolib/PPDEFS.h"
-#include <cstddef>
 #include "gtest/gtest.h"
+#include <cstddef>
 
 using too::mem::Bytes;
 

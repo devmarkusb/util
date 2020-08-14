@@ -9,9 +9,9 @@
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 #define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 
+#include "toolib/PPDEFS.h"
 #include "toolib/class/non_copyable.h"
 #include "toolib/error.h"
-#include "toolib/PPDEFS.h"
 #include "toolib/std/std_extensions.h"
 #include <iomanip>
 #include <iostream>

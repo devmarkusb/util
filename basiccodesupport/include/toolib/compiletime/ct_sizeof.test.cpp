@@ -1,6 +1,6 @@
 #include "ct_sizeof.h"
-#include <cstdint>
 #include "gtest/gtest.h"
+#include <cstdint>
 
 
 namespace

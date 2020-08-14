@@ -1,12 +1,12 @@
 #include "toolib/PPDEFS.h"
 #if !TOO_OS_MAC
 #include "physmemusage-rss.h"
-#include "toolib/mem/types.h"
 #include "toolib/PPDEFS.h"
+#include "toolib/mem/types.h"
 #include "gtest/gtest.h"
-#include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <iostream>
 
 
 TEST(physmemusage, usage)

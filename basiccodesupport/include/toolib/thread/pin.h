@@ -9,11 +9,11 @@
 #ifndef PIN_H_viehrxgzuh34782tg5
 #define PIN_H_viehrxgzuh34782tg5
 
+#include "toolib/PPDEFS.h"
 #include "toolib/assert.h"
 #include "toolib/debug.h"
 #include "toolib/error.h"
 #include "toolib/ignore_arg.h"
-#include "toolib/PPDEFS.h"
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>

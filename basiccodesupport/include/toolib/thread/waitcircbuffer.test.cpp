@@ -1,8 +1,8 @@
 #include "waitcircbuffer.h"
 #include "gtest/gtest.h"
 #include <atomic>
-#include <thread>
 #include <set>
+#include <thread>
 
 
 TEST(thread_WaitCircularBuffer, basics)

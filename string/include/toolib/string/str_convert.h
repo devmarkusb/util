@@ -11,8 +11,8 @@
 
 //! toostring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
-#include "toolib/comp_bwds.h"
 #include "toolib/PPDEFS.h"
+#include "toolib/comp_bwds.h"
 #include "toolib/string/toostring.h"
 #include <stdexcept>
 #include <string>

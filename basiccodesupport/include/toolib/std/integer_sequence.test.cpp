@@ -1,6 +1,6 @@
 #include "integer_sequence.h"
-#include <array>
 #include "gtest/gtest.h"
+#include <array>
 
 
 namespace test_int

@@ -1,14 +1,14 @@
 #include "allocator.h"
+#include "compiler_quirks.h"
+#include "types.h"
 #include "alloc/default.h"
 #include "alloc/example.h"
 #include "alloc/linear.h"
 #include "alloc/onstack.h"
-#include "compiler_quirks.h"
-#include "types.h"
+#include "gtest/gtest.h"
 #include <map>
 #include <string>
 #include <vector>
-#include "gtest/gtest.h"
 
 using Bytes = too::mem::Bytes;
 

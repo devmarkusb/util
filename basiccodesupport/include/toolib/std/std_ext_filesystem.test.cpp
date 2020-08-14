@@ -9,11 +9,11 @@
 #include "std_ext_filesystem.h"
 #undef TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 #include "toolib/finally.h"
+#include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>
 #include <string>
 #include <thread>
-#include "gtest/gtest.h"
 
 namespace fs = too::std_fs;
 

@@ -1,7 +1,7 @@
 #include "onstack.h"
 #include "toolib/ignore_arg.h"
-#include <cstddef>
 #include "gtest/gtest.h"
+#include <cstddef>
 
 using too::mem::Bytes;
 

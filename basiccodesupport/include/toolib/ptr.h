@@ -9,8 +9,8 @@
 #ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 #define PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 
-#include "toolib/assert.h"
 #include "toolib/PPDEFS.h"
+#include "toolib/assert.h"
 #include "toolib/std/std_extensions.h"
 #include <type_traits>
 

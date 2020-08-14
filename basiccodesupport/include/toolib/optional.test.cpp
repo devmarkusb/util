@@ -1,8 +1,8 @@
 #include "toolib/optional.h"
 #include "toolib/warnings.h"
+#include "gtest/gtest.h"
 #include <string>
 #include <vector>
-#include "gtest/gtest.h"
 
 
 TEST(optTest, empty_constr)

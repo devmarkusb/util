@@ -10,9 +10,9 @@
 #ifndef STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 #define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 
+#include "toolib/PPDEFS.h"
 #include "toolib/error.h"
 #include "toolib/ignore_arg.h"
-#include "toolib/PPDEFS.h"
 #include "toolib/string/toostring.h"
 #include <algorithm>
 #include <iomanip>

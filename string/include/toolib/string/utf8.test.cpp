@@ -1,12 +1,12 @@
+#include "toolib/string/locale.h"
 #include "toolib/string/toostring.h"
 #include "gtest/gtest.h"
-#include <string>
 #include <fstream>
-#include <iostream>
-#include <locale>
-#include <iterator>
 #include <ios>
-#include "toolib/string/locale.h"
+#include <iostream>
+#include <iterator>
+#include <locale>
+#include <string>
 
 
 namespace

@@ -1,8 +1,8 @@
 #include "type_name.h"
 #include "ignore_arg.h"
 #include "toolib/PPDEFS.h"
-#include <tuple>
 #include "gtest/gtest.h"
+#include <tuple>
 
 
 TEST(type_nameTest, basic)

@@ -17,9 +17,9 @@
 #define LINEAR_H_jsdkdbhfzu34gt2837tnyg13
 
 #include "toolib/assert.h"
+#include "toolib/class/non_copyable.h"
 #include "toolib/mem/alloc/statistics.h"
 #include "toolib/mem/types.h"
-#include "toolib/class/non_copyable.h"
 #include <cstddef>
 #include <new>
 

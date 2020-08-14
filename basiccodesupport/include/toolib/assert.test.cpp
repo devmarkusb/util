@@ -1,9 +1,9 @@
 // VLD detects lots of memory leaks for this file (unclear)
 #include "toolib/assert.h"
 #include "toolib/warnings.h"
+#include "gtest/gtest.h"
 #include <exception>
 #include <iostream>
-#include "gtest/gtest.h"
 
 
 TOO_PRAGMA_WARNINGS_PUSH
