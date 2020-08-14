@@ -139,6 +139,4 @@ inline std::string toHexString(const std::string& s, const std::string& prefix =
 
 #include "detail/str_convert_detail.hpp"
 
-#include "toolib/macros_end.h"
-
 #endif

@@ -1,7 +1,7 @@
 // Markus Borris, 2011-17
 // This file is part of tfl library.
 
-//! DEPRECATED! Use macros.h and macros_end.h.
+//! DEPRECATED! Use macros.h.
 /** Most common and basic preprocessor defines.
  */
 //! \file

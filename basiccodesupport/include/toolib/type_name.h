@@ -44,6 +44,4 @@ constexpr std::string_view type_name()
 }
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

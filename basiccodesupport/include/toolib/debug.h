@@ -11,6 +11,7 @@
 #define DEBUG_MISC_H_n9283zr823rz832
 
 #include "toolib/assert.h"
+
 #include "toolib/macros.h"
 
 
@@ -74,7 +75,5 @@
 /** This would evaluate to "...somepath.../toolib/debug/debug_misc.h (71) some message". Useful e.g. as #pragma
  * message (TOO_LOCATION"some message")*/
 #define TOO_LOCATION __FILE__ " (" TOO_STRINGIFY_VALUE(__LINE__) ")"
-
-#include "toolib/macros_end.h"
 
 #endif

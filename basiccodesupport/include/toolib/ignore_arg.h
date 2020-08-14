@@ -32,6 +32,4 @@ void ignore_arg(T&&)
 }
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

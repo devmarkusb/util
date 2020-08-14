@@ -50,6 +50,4 @@
 
 #endif
 
-#include "toolib/macros_end.h"
-
 #endif

@@ -27,6 +27,4 @@ void updateMaximum(std::atomic<T>& maximum_value, const T& value) noexcept
 }
 } // namespace too::thread::atomic
 
-#include "toolib/macros_end.h"
-
 #endif

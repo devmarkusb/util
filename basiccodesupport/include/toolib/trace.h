@@ -380,6 +380,4 @@ inline void trace(const std::ostringstream&)
 } // namespace deprecated
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

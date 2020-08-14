@@ -86,6 +86,4 @@ inline size_t get_length(const std::string& s)
 } // namespace str
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

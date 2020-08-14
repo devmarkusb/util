@@ -186,6 +186,4 @@ bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
 }
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

@@ -86,6 +86,4 @@ protected:
 } // namespace mem
 } // namespace too
 
-#include "toolib/macros_end.h"
-
 #endif

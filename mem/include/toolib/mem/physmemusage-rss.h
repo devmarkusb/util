@@ -62,6 +62,4 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
 }
 } // namespace too::mem
 
-#include "toolib/macros_end.h"
-
 #endif

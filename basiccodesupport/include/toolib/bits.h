@@ -16,6 +16,7 @@
 #include <limits>
 #include <numeric>
 
+#include "assert.h"
 
 namespace too
 {
