@@ -24,7 +24,8 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type al
     FloatType x, FloatType y, int ulp = 1)
 {
     TOO_EXPECT(ulp >= 1);
-    return std::abs(x - y) < std::numeric_limits<FloatType>::epsilon() * std::abs(x + y) * ulp ||
+    return std::abs(x - y) <
+               std::numeric_limits<FloatType>::epsilon() * std::abs(x + y) * static_cast<FloatType>(ulp) ||
            std::abs(x - y) < std::numeric_limits<FloatType>::min();
 }
 

@@ -11,6 +11,7 @@
 
 #include "toolib/assert.h"
 #include "toolib/enum_cast.h"
+#include "toolib/narrow.h"
 #include <array>
 #include <cstdint>
 #include <limits>
@@ -51,21 +52,21 @@ template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unset(SourceType from, Idx idx) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
-    return from & ~(TargetType{1} << idx);
+    return too::narrow_cast<TargetType>(from & ~(TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType toggle(SourceType from, Idx idx) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
-    return static_cast<TargetType>(from ^ (TargetType{1} << idx));
+    return too::narrow_cast<TargetType>(from ^ (TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType check(SourceType from, Idx idx) noexcept
 {
     TOO_EXPECT(idx < too::bits::count<SourceType>());
-    return (from >> idx) & TargetType{1};
+    return too::narrow_cast<TargetType>((from >> idx) & TargetType{1});
 }
 
 template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
@@ -73,7 +74,7 @@ constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noe
 {
     TOO_EXPECT(idx < too::bits::count<TargetType>());
     const SourceType newbit = !!x; // ensure 1 or 0
-    return from ^ ((-newbit ^ from) & (TargetType{1} << idx));
+    return too::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx)));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
@@ -85,7 +86,7 @@ constexpr TargetType setMask(SourceType from, SourceType mask) noexcept
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept
 {
-    return from & ~mask;
+    return too::narrow_cast<TargetType>(from & ~mask);
 }
 
 template <typename SourceType, typename TargetType = SourceType>

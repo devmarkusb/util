@@ -99,7 +99,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif ()
 
 # switch to 1 and adapt details if you want to see a maximum of warnings
-if (0)
+if (1)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # partially implemented
         set(cpp_compile_options
