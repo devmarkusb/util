@@ -102,7 +102,7 @@ public:
 
     /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
-        The same \param l also mustn't be registered more than once.*/
+        The same l also mustn't be registered more than once.*/
     virtual void register_listener(Listener* l)
     {
         TOO_EXPECT(l);
@@ -113,7 +113,7 @@ public:
     }
 
     /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
-        The same \param l also mustn't be unregistered more than once.*/
+        The same l also mustn't be unregistered more than once.*/
     virtual void unregister_listener(Listener* l)
     {
         TOO_EXPECT(l);
@@ -145,7 +145,7 @@ class ListenerStaticRegister
 public:
     /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
-        The same \param l also mustn't be registered more than once.*/
+        The same l also mustn't be registered more than once.*/
     static void register_listener(Listener* l)
     {
         TOO_EXPECT(l);
@@ -156,7 +156,7 @@ public:
     }
 
     /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
-        The same \param l also mustn't be unregistered more than once.*/
+        The same l also mustn't be unregistered more than once.*/
     static void unregister_listener(Listener* l)
     {
         TOO_EXPECT(l);

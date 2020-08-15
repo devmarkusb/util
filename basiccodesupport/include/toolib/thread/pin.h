@@ -131,7 +131,7 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 #endif
 }
 
-/** Pins (sets affinity of) executing thread \param t to CPU number \param logicalCoreIdx (0-based).
+/** Pins (sets affinity of) executing thread t to CPU number logicalCoreIdx (0-based).
     \Throws std::runtime_error on error. Note: an empty constructed std::thread won't do.
     Further note that in an example setup of 4 cores where 2 of them (which ones?) are only hyperthreading
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half

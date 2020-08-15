@@ -77,8 +77,8 @@ using Base = std::conditional_t<capacity__ == 0, Vector<T>, Array<T, capacity__>
 
 
 /** If you know the (always fixed) capacity of the circular buffer at compile time you should definitely prefer
-    to pass it as template \param capacity__ != 0. Then there is only a default constructor (no parameters).
-    Otherwise for a capacity only known as soon as runtime, you keep \param capacity__ at 0 and pass the desired
+    to pass it as template capacity__ != 0. Then there is only a default constructor (no parameters).
+    Otherwise for a capacity only known as soon as runtime, you keep capacity__ at 0 and pass the desired
     capacity as constructor parameter.*/
 template <typename T, size_t capacity__ = 0>
 class CircularBuffer : private detail::circbuf_impl_container::Base<T, capacity__>
@@ -86,7 +86,7 @@ class CircularBuffer : private detail::circbuf_impl_container::Base<T, capacity_
 public:
     using Base = detail::circbuf_impl_container::Base<T, capacity__>;
 
-    //! Expects \param capacity > 0.
+    //! Expects capacity > 0.
     template <typename = std::enable_if<capacity__ == 0>>
     explicit CircularBuffer(size_t capacity)
         : Base{capacity}

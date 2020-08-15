@@ -53,7 +53,7 @@ inline char makeLower(char& c)
     return c;
 }
 
-//! Expects \param fromSub non-empty.
+//! Expects fromSub non-empty.
 inline void replaceAll(std::string& s, const std::string& fromSub, const std::string& toSub)
 {
     TOO_EXPECT(!fromSub.empty());
@@ -121,8 +121,8 @@ inline bool str2bool(const std::string& s)
     return BoolStrFormat::toBool(s);
 }
 
-//! For text lengths greater than \param textellipse_threshold the text is abbreviated by an
-//! ellipse '...'. No ellipse is ever used if the param is 0. Expects \param in_str to be utf8.*/
+//! For text lengths greater than textellipse_threshold the text is abbreviated by an
+//! ellipse '...'. No ellipse is ever used if the param is 0. Expects in_str to be utf8.*/
 inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_threshold)
 {
     if (!ellipse_threshold)

@@ -83,9 +83,9 @@ inline char* s2psz(const std::string& s)
     return s_;
 }
 
-//! Converts \param s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but
+//! Converts s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but
 //! replacements
-//! like "&#228;" for non-ASCII. Throws if \param s is not valid UTF8.
+//! like "&#228;" for non-ASCII. Throws if s is not valid UTF8.
 inline std::string utf8toHTML(const std::string& s)
 {
     std::string ret;

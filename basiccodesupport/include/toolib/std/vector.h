@@ -17,8 +17,8 @@ namespace too
 {
 namespace vector
 {
-//! Only makes sense for \param dst not within [\param start, \param start + \param length).
-/** Whereas \param dst == \param start + \param length (also, for this function) means doing nothing.*/
+//! Only makes sense for dst not within [start, start + length).
+/** Whereas dst == start + length (also, for this function) means doing nothing.*/
 template <typename T>
 inline void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v)
 {

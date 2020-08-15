@@ -154,8 +154,8 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
-/** Choose your desired bit count \param bits freely. The underlying type of the parts being glued together might
-    also be chosen: \param BaseType.*/
+/** Choose your desired bit count bits freely. The underlying type of the parts being glued together might
+    also be chosen: BaseType.*/
 template <Count bits, typename BaseType = uint32_t>
 class Array
 {
@@ -309,7 +309,7 @@ public:
     static_assert(std::is_enum_v<EnumType>);
     static_assert(fields > 0);
 
-    //! Needs exactly as many \param counts arguments as there are fields.
+    //! Needs exactly as many counts arguments as there are fields.
     /** But you don't need to use up the full space of bits.*/
     template <typename... Counts>
     explicit constexpr Fields(Counts... counts)

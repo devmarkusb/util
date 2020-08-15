@@ -57,7 +57,7 @@ class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, c
 public:
     using Base = detail::waitcircbuf_impl_container::Base<T, capacity__>;
 
-    //! Expects \param capacity > 0.
+    //! Expects capacity > 0.
     template <typename = std::enable_if<capacity__ == 0>>
     explicit WaitCircularBuffer(size_t capacity)
         : Base{capacity}

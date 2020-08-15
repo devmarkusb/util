@@ -26,7 +26,7 @@
 namespace too::mem
 {
 /** Returns virtual memory usage and physical memory usage (more precisely RSS, resident set size )
-    via \param virtual_mem_usage and \param physical_mem_usage.*/
+    via virtual_mem_usage and physical_mem_usage.*/
 void usage(double& virtual_mem_usage, double& physical_mem_usage)
 {
 #if TOO_OS_LINUX

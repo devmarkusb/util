@@ -72,7 +72,7 @@ struct path
     path() noexcept
     {
     }
-    //! Expects \param s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
+    //! Expects s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
     path(std::string s)
         : s_{std::move(s)}
     {

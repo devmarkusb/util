@@ -54,7 +54,7 @@ public:
         return curr_offset_;
     }
 
-    /** If you know for sure you will never need to access a certain known amount \param size of the latest
+    /** If you know for sure you will never need to access a certain known amount size of the latest
         previously allocated memory again, you can shrink (only the shrinking direction makes sense) the used up
         memory to the original size again. This amounts to more capacity being left over to allocate.*/
     void resize(Bytes size) noexcept
