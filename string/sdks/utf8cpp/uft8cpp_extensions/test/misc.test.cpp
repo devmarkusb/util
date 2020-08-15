@@ -233,8 +233,8 @@ TEST(utf8cpp_unchecked_8to16to8Test, test)
     /*std::vector <char16_t> */ std::u16string utf16result;
     utf8::unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, std::back_inserter(utf16result));
     EXPECT_EQ(4u, utf16result.size());
-    EXPECT_EQ(0xd834, utf16result[2]);
-    EXPECT_EQ(0xdd1e, utf16result[3]);
+    EXPECT_EQ(0xd834, static_cast<int>(utf16result[2]));
+    EXPECT_EQ(0xdd1e, static_cast<int>(utf16result[3]));
     // full result: 0x65e5 0x0448 0xd834 0xdd1e
     std::string backto8;
     utf8::unchecked::utf16to8(utf16result.begin(), utf16result.end(), std::back_inserter(backto8));
@@ -345,7 +345,7 @@ TEST(utf8cpp_unchecked_8to16Test, spelling)
     std::u16string utf16_test{0xe4, 'h', 'n', 'l', 'i', 'c', 'h', '!'}; // can I write this? yes...
     std::u16string utf16;
     utf8::utf8to16(utf8s.begin(), utf8s.end(), std::back_inserter(utf16));
-    EXPECT_EQ(utf16_test, utf16);
+    EXPECT_TRUE(utf16_test == utf16);
 }
 
 TEST(utf8cpp_unchecked_8to32to8Test, test)

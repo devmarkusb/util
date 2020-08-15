@@ -1,4 +1,4 @@
-# include in your project root once; generates a 'clang-format' target
+# include in your project root once; generates a 'clang-tidy' target
 
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
@@ -25,15 +25,17 @@ glob_recurse_append_cxx_sources(all_cxx_sources source)
 glob_recurse_append_cxx_sources(all_cxx_sources src)
 glob_recurse_append_cxx_sources(all_cxx_sources test)
 
-set(CLANG_FORMAT_VER 10)
+set(CLANG_TIDY_VER 10)
 
-find_program(CLANG_FORMAT "clang-format-${CLANG_FORMAT_VER}")
-if (CLANG_FORMAT)
+find_program(CLANG_TIDY "clang-tidy-${CLANG_TIDY_VER}")
+if (CLANG_TIDY)
     add_custom_target(
-        clang-format
-        COMMAND /usr/bin/clang-format-${CLANG_FORMAT_VER}
-        -i
-        -style=file
+        clang-tidy
+        COMMAND /usr/bin/clang-tidy-${CLANG_TIDY_VER}
         ${all_cxx_sources}
+        -config=''
+        --
+        -std=c++20
+        ${INCLUDE_DIRECTORIES}
     )
 endif ()
