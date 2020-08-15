@@ -1,4 +1,5 @@
 # include in your project root once; generates a 'clang-tidy' target
+# *IMPORTANT* This is wip, not yet working. There is a strange segfault around chrono that interrupts the run.
 
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
@@ -27,15 +28,20 @@ glob_recurse_append_cxx_sources(all_cxx_sources test)
 
 set(CLANG_TIDY_VER 10)
 
-find_program(CLANG_TIDY "clang-tidy-${CLANG_TIDY_VER}")
-if (CLANG_TIDY)
-    add_custom_target(
-        clang-tidy
-        COMMAND /usr/bin/clang-tidy-${CLANG_TIDY_VER}
-        ${all_cxx_sources}
-        -config=''
-        --
-        -std=c++20
-        ${INCLUDE_DIRECTORIES}
-    )
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    find_program(CLANG_TIDY "clang-tidy-${CLANG_TIDY_VER}")
+    if (CLANG_TIDY)
+        if (NOT CMAKE_EXPORT_COMPILE_COMMANDS)
+            message(SEND_ERROR "You need to run cmake with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON fo clang-tidy to recognise "
+                    "include paths")
+        endif ()
+        add_custom_target(
+            clang-tidy
+            COMMAND /usr/bin/clang-tidy-${CLANG_TIDY_VER}
+            --config=''
+            -p ${CMAKE_BINARY_DIR}
+            ${all_cxx_sources}
+        )
+    endif ()
 endif ()
+

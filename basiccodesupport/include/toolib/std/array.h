@@ -12,9 +12,7 @@
 #include <array>
 
 
-namespace too
-{
-namespace array
+namespace too::array
 {
 /** Declaring and initialising an array without explicit (and redundant) statement of size, e.g.
     auto myarray = util::make_array(42, 43, 44); // which is a std::array<int, 3> then*/
@@ -24,6 +22,6 @@ constexpr auto make(FirstT first, RemainingTs... remaining) noexcept -> std::arr
     std::array<FirstT, 1 + sizeof...(RemainingTs)> ret = {first, remaining...};
     return ret;
 }
-} // namespace array
-} // namespace too
+} // namespace too::array
+
 #endif
