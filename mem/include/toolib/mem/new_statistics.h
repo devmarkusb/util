@@ -130,7 +130,7 @@ public:
         return Bytes{deallocatedSize_.load()};
     }
 
-    /** \Returns the maximum/peak size allocated.*/
+    /** \return the maximum/peak size allocated.*/
     Bytes peakSize() const noexcept
     {
         return Bytes{peakSize_.load()};

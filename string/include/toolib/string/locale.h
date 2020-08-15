@@ -28,7 +28,7 @@ enum class Global_locale
 /** \param locname "" means the user preferred locale, "C" the classic, minimal one, set by default
     on program start. Other options are e.g. "de", "de_DE", "de_DE.utf8". The preferred locale
     could e.g. be "German_Germany.1252"
-    \returns the old locale. On first call this is std::locale::classic.*/
+    \return the old locale. On first call this is std::locale::classic.*/
 inline std::locale set_global_locale(const std::string& locname)
 {
     return std::locale::global(std::locale(locname.c_str()));

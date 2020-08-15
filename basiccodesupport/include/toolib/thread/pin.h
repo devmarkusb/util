@@ -102,8 +102,8 @@ using native_handle = pthread_t;
 using native_handle = int;
 #endif
 
-/** Pins (sets affinity of) executing thread with native handle \param h to CPU number \param logicalCoreIdx (0-based).
-    \Returns 0 on success and a certain error code otherwise (with errno set). Also cf. doc. of function overload.*/
+/** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
+    \return 0 on success and a certain error code otherwise (with errno set). Also cf. doc. of function overload.*/
 inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 #if TOO_OS_LINUX || TOO_OS_MAC
     noexcept
@@ -157,7 +157,7 @@ inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 #endif
 }
 
-//! \Returns number of current, this_thread's, CPU (0-based) and -1 on error (with errno set).
+//! \return number of current, this_thread's, CPU (0-based) and -1 on error (with errno set).
 inline int numLogicalCores()
 #if TOO_OS_LINUX || TOO_OS_MAC
     noexcept

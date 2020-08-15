@@ -3,8 +3,7 @@
 
 //!
 /** Most common and basic preprocessor defines.
- *   If you include this file within a header you should also include macros_end.h when finished.
- */
+    If you include this file within a header you should also include macros_end.h when finished.*/
 //! \file
 
 // intentionally without include guard

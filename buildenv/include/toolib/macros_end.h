@@ -2,9 +2,7 @@
 // This file is part of tfl library.
 
 //!
-/**
- * Most common and basic preprocessor defines.
- */
+/** Most common and basic preprocessor defines.*/
 //! \file
 
 // no include guard intentionally

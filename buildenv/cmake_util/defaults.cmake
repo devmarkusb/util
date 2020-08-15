@@ -120,7 +120,7 @@ if (0)
                 -Wno-redundant-parens # can be interesting, but appears a lot in Qt moc_ files, so...
                 -Wno-undefined-reinterpret-cast # same here
                 -Wno-documentation # might want to turn that on - fires a lot due to misuse of multiline //!'s
-                -Wno-documentation-unknown-command # investigate use of \Returns, \params etc., unfortunate
+                -Wno-documentation-unknown-command # investigate use of \return, \param etc., unfortunate
                 -Wno-global-constructors -Wno-exit-time-destructors
                 -Wno-switch-enum -Wno-covered-switch-default # a no default warning would be more useful
                 -Wno-missing-noreturn

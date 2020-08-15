@@ -25,7 +25,7 @@ using Idx = int;
 using Count = Idx;
 using Diff = int;
 
-//! \Returns number of bits of the arbitrary \param Type.
+//! \return number of bits of the arbitrary Type.
 template <typename Type>
 constexpr Count count() noexcept
 {
@@ -106,8 +106,8 @@ constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept
     return from & mask;
 }
 
-//! Makes a bit mask of \param count 1's, > 0 starting at 0-based index \param idx.
-/** \Param TargetType is typically chosen to be uintX_t, that is unsigned with some arbitrary bit count.
+//! Makes a bit mask of count 1's, > 0 starting at 0-based index idx.
+/** \tparam TargetType is typically chosen to be uintX_t, that is unsigned with some arbitrary bit count.
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
     of big endian, but endianess doesn't matter considering the realm of this function alone).*/
 template <typename TargetType = uint64_t>
@@ -120,7 +120,7 @@ constexpr TargetType setRange(Idx idx, Count count) noexcept
     return static_cast<TargetType>(((TargetType{1} << count) - 1) << idx);
 }
 
-//! Reads \param count > 0 bits of \param from starting at 0-based index \param idx (0 is LSB).
+//! Reads count > 0 bits of from starting at 0-based index idx (0 is LSB).
 template <typename SourceType>
 constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 {
@@ -142,7 +142,7 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
     return static_cast<TargetType>((from & too::bits::setRange<SourceType>(idx, count)) >> idx);
 }
 
-//! Write \param count > 0 bits of \param from into \param to starting at 0-based index \param idx there (0 is LSB).
+//! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
 template <typename TargetType, typename SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept
 {

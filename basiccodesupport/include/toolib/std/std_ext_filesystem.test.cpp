@@ -27,7 +27,7 @@ const std::string physical_test_dir_s{"/tmp/tfl/test"};
 } // namespace
 const fs::path physical_test_dir{physical_test_dir_s};
 
-//! \Returns finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.
+//! \return finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.
 /** There is also a helping sleep for 1ms included. Features preferred changing of leading digits.
     Note, this implies a decrease every tenth step and possible leading zeros.*/
 std::string getSteadyUniqueNr()

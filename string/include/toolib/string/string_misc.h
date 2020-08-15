@@ -65,8 +65,8 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::st
     }
 }
 
-//! Expects \param fromSub non-empty. Expects \params toSubs to be of at least the
-//! count of occurrences of \param fromSub within \param s.
+/** Expects fromSub non-empty. Expects toSubs to be of at least the
+    count of occurrences of fromSub within s.*/
 inline void replaceAll(std::string& s, const std::string& fromSub, const std::vector<std::string>& toSubs)
 {
     TOO_EXPECT(!fromSub.empty());

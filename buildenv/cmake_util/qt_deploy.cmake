@@ -1,6 +1,6 @@
 # File to include for cmake Qt postbuild deployment dependency additions.
 
-# \Param path_to_qml needs to be the one pointing to the root of *all* qml files, containing qml.qrc also.
+# \param path_to_qml needs to be the one pointing to the root of *all* qml files, containing qml.qrc also.
 macro(too_qt_deploy target path_to_qml)
     set(impl_TargetFileName $<TARGET_FILE_NAME:${target}>)
     if (TOO_WINDOWS)

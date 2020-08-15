@@ -111,7 +111,7 @@ public:
 #endif
     }
 
-    //! \Returns false if the queue has been stopped (this interrupts waiting even if the queue is empty).
+    //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
     bool waitAndPop(T& poppedElem)
     {
         std::unique_lock<std::mutex> lk(mutex_);

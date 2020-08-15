@@ -20,7 +20,7 @@
 
 namespace too::thread
 {
-//! \Returns number of available logical cores and 0 on error.
+//! \return number of available logical cores and 0 on error.
 inline unsigned int numAvailLogicalCores() noexcept
 {
 #if TOO_OS_LINUX // for safety, not changing existing code (yet)

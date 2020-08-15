@@ -17,7 +17,7 @@
 
 namespace too::math
 {
-/** \Returns true if the number \param number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.
+/** \return true if the number number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.
     This is done at compile-time (if possible).
     Negative numbers are handled as well.*/
 template <typename NumberType>
@@ -52,7 +52,7 @@ struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, (Numb
 } // namespace detail
 
 /** Next greater or equal power of two. Found at compile-time only.
-    Function value \returns a power of two that is greater than or equal to the passed \param number.
+    Function value returns a power of two that is greater than or equal to the passed number.
     Negative numbers are handled as well.
     Examples:
         static_assert(too::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 4);
@@ -81,7 +81,7 @@ struct NextGreaterOrEqPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std
 };
 
 /** Next greater power of two. Found at compile-time only.
-    Function value \returns a power of two that is greater than the passed \param number.
+    Function value returns a power of two that is greater than the passed number.
     Negative numbers are handled as well.
     Examples:
         static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 3>::value() == 4);

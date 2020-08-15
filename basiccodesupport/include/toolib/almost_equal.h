@@ -18,7 +18,7 @@
 
 namespace too
 {
-//! \Returns true, if \params x and y are almost equal. Expects \param ulp >= 1.
+//! \return true, if x and y are almost equal. Expects ulp >= 1.
 template <typename FloatType>
 typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type almost_equal(
     FloatType x, FloatType y, int ulp = 1)
