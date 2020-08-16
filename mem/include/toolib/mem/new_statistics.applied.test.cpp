@@ -34,7 +34,9 @@ struct AGlobalDestructor
         std::cout << "delete calls: " << deleteCalls << "\n";
 #if TOO_OS_LINUX
         // compensates for gtest leaks, + 1 accounts for using EXPECT_DEBUG_DEATH
-        EXPECT_EQ(newCalls - deleteCalls, 78 - 75 + 1);
+#if !TOO_DEBUG
+        EXPECT_EQ(newCalls - deleteCalls, 78 - 75);
+#endif
 #else
         // untested
         EXPECT_EQ(newCalls - deleteCalls, 78 - 75 + 1);
@@ -50,9 +52,25 @@ struct AGlobalDestructor
         std::cout << allocDeallocDiff;
 #endif
 #if TOO_COMP_CLANG
+#if TOO_COMP_CLANG_VER == 100001
+#if TOO_DEBUG
+        const auto compensation_EXPECT_DEBUG_DEATH{91};
+#else
+        const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
+#endif
+#else
         const auto compensation_EXPECT_DEBUG_DEATH{63};
+#endif
 #elif TOO_COMP_GNU_CPP
+#if TOO_COMP_GNU_CPP_VER == 100100
+#if TOO_DEBUG
+        const auto compensation_EXPECT_DEBUG_DEATH{59 - 37 + 65};
+#else
+        const auto compensation_EXPECT_DEBUG_DEATH{59 - 37};
+#endif
+#else
         const auto compensation_EXPECT_DEBUG_DEATH{59};
+#endif
 #else
         const auto compensation_EXPECT_DEBUG_DEATH{59};
 #endif

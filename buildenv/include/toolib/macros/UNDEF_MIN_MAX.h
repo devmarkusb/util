@@ -16,5 +16,3 @@
 #undef max
 #undef min
 #endif
-
-#include "../macros_end.h"
