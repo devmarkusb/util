@@ -2,9 +2,8 @@
 #include "gtest/gtest.h"
 
 #include "toolib/macros.h"
-
-
 #include "toolib/macros/UNDEF_MIN_MAX.h"
+
 
 TEST(NarrowTest, Cast)
 {
@@ -36,7 +35,7 @@ TEST(NarrowTest, floating_point)
     const auto more_precise_than_float{std::numeric_limits<int64_t>::max()};
 #if !TOO_DEBUG && (TOO_COMP_MINGW && TOO_COMP_MINGW_VER == 50300 || \
                       TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 60201 && TOO_COMP_GNU_CPP_VER <= 100100 || \
-                      TOO_COMP_CLANG && TOO_COMP_CLANG_VER <= 60000)
+                      TOO_COMP_CLANG && TOO_COMP_CLANG_VER <= 100100)
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(too::narrow<float>(more_precise_than_float));
 #else
@@ -49,8 +48,8 @@ TEST(NarrowTest, floating_point)
     // and this shouldn't compile yet
     // float x = too::narrow<double>(2.0);
     // but this is ok
-    const float f = too::narrow_cast<float>(2.0);
+    const auto f = too::narrow_cast<float>(2.0);
     EXPECT_EQ(static_cast<float>(2.0), f);
-    const double d = too::narrow_cast<double>(2.0L);
+    const auto d = too::narrow_cast<double>(2.0L);
     EXPECT_EQ(static_cast<double>(2.0L), d);
 }

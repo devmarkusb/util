@@ -81,7 +81,7 @@ TEST(VERIFY_ASSERT_Test, Test)
 #if TOO_DEBUG
     int i = 1;
 #else
-    volatile int i = 1;
+    /*volatile*/ int i = 1;
 #endif
     TOO_VERIFY(++i == 2);
     EXPECT_EQ(2, i);
