@@ -22,11 +22,7 @@
 #include <cstdint>
 
 
-namespace too
-{
-namespace mem
-{
-namespace alloc
+namespace too::mem::alloc
 {
 /** You should adapt max_alignment_in_bytes to at least the alignment of the largest type you're going to
     allocate frequently. But not larger as this wastes space due to padding.*/
@@ -77,7 +73,6 @@ private:
     TOO_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };
-} // namespace alloc
-} // namespace mem
 } // namespace too
+
 #endif

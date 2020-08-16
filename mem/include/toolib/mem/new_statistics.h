@@ -162,6 +162,6 @@ private:
 // redundant declarations by standard; you get the implementations overrides by linking the lib
 //void* operator new(std::size_t sizeInBytes);
 //void operator delete(void* p) noexcept;
-//void operator delete(void* p, size_t) noexcept;
+void operator delete(void* p, size_t) noexcept;
 
 #endif

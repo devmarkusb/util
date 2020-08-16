@@ -52,6 +52,7 @@
 TOO_PRAGMA_WARNINGS_PUSH
 // clang-format off
 TOO_WARNING_DISABLE_CLANG(sign-conversion)
+TOO_WARNING_DISABLE_CLANG(zero-as-null-pointer-constant)
 // clang-format on
 //! Including this header regardless of whether it is being used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.

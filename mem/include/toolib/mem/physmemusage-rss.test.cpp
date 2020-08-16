@@ -35,4 +35,5 @@ TEST(physmemusage, usage)
     EXPECT_TRUE(vm > vm_final || pm > pm_final);
 #endif
 }
+
 #endif

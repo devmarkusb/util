@@ -21,7 +21,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(TOO_gtest_compile_options
             -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-shift-sign-overflow
             -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused
-            -Wno-disabled-macro-expansion -Wno-missing-prototypes)
+            -Wno-disabled-macro-expansion -Wno-missing-prototypes
+            -Wno-extra-semi-stmt -Wno-comma)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(TOO_gtest_compile_options
             /wd4389)

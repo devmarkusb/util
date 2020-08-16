@@ -45,7 +45,7 @@ struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, numbe
 };
 
 template <typename NumberType>
-struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, (NumberType)0>>
+struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, NumberType{0}>>
 {
     static constexpr NumberType value_ = NumberType{1};
 };
