@@ -94,6 +94,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(cpp_compile_options
             ${cpp_compile_options}
             -Wall -Wextra -Wconversion -Werror
+            -Wmissing-prototypes
             -Wno-c++11-narrowing
     )
 endif ()
