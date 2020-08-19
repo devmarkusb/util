@@ -5,7 +5,7 @@ set(CLANG_FORMAT_VER 10)
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
         s
-        ${dir}/*.[chi]pp ${dir}/*.[chi] ${dir}/*.in ${dir}/*.cu
+        ${dir}/*.[chi]pp ${dir}/*.[chi] ${dir}/*.cu
     )
     list(APPEND ${cxx_sources} ${s})
 endmacro()
