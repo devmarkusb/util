@@ -215,7 +215,8 @@ TEST_F(pinToCPUTest, invalidCPUNr_throws)
 {
     std::thread thread([] {
     });
-    EXPECT_THROW(too::thread::pinToLogicalCore(thread, 1 + static_cast<int>(std::thread::hardware_concurrency())),
+    EXPECT_THROW(
+        too::thread::pinToLogicalCore(thread, 1 + static_cast<int>(std::thread::hardware_concurrency())),
         std::runtime_error);
     thread.join();
 }

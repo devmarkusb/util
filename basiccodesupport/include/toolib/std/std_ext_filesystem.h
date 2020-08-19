@@ -167,8 +167,8 @@ struct path
     {
         const size_t start = s_.rfind('.');
         const size_t last_slash = s_.rfind('/');
-        if (start == 0 || start == std::string::npos || s_[start - 1] == '/' ||
-            (last_slash != std::string::npos && start < last_slash))
+        if (start == 0 || start == std::string::npos || s_[start - 1] == '/'
+            || (last_slash != std::string::npos && start < last_slash))
             s_ += replacement.string();
         else
             s_.replace(std::begin(s_) + start, std::end(s_), replacement.string());
@@ -376,9 +376,10 @@ private:
         do
         {
             entry_impl_ = readdir(d_->get());
-        } while (entry_impl_ &&
-                 ((entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == 0) ||
-                     (entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == '.' && entry_impl_->d_name[2] == 0)));
+        } while (
+            entry_impl_
+            && ((entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == 0)
+                || (entry_impl_->d_name[0] == '.' && entry_impl_->d_name[1] == '.' && entry_impl_->d_name[2] == 0)));
 
         if (entry_impl_)
             entry_.assign(p_ / path{entry_impl_->d_name});

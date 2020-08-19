@@ -4,7 +4,6 @@
 
 namespace
 {
-
 class A : private too::non_copyable
 {
 };

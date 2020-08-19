@@ -12,8 +12,8 @@
 //! Operating Systems
 //!@{
 
-#if defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || \
-    defined(__TOS_WIN__)
+#if defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) \
+    || defined(__TOS_WIN__)
 #define TOO_OS_WINDOWS 1
 #if defined(_WIN64)
 #define TOO_OS_WINDOWS_64 1
@@ -238,8 +238,8 @@
 #define TOO_HAS_NO_CPP14_MAKE_UNIQUE 0
 #endif
 
-#if (TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300) || (TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900) || \
-    (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1914)
+#if (TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300) || (TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER <= 40900) \
+    || (TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER >= 1914)
 #define TOO_HAS_NO_CODECVT 1
 #else
 #define TOO_HAS_NO_CODECVT 0

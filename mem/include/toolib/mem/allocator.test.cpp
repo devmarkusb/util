@@ -135,9 +135,8 @@ TEST(allocator_linear, map)
 
 TEST(allocator_onstack, vector)
 {
-    using Arena =
-        too::mem::alloc::OnStack<100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value,
-            alignof(int)>;
+    using Arena = too::mem::alloc::OnStack<
+        100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = too::mem::Allocator<int, Arena>;
     try
     {

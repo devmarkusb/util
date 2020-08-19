@@ -20,7 +20,6 @@
 
 namespace too
 {
-
 using none_t = std::nullptr_t;
 //! Used to set some \code too::opt<T> x \endcode variable to empty.
 /** Note that this unfortunately does not always work well when being passed as return value.

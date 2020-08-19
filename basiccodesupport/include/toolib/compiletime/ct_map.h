@@ -53,7 +53,8 @@ struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE>
     };
 };
 
-template <typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE,
+template <
+    typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE,
     typename... FURTHER_KEY_VALUEs>
 struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValue, KEY, VALUE>, FURTHER_KEY_VALUEs...>
 {

@@ -225,7 +225,8 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine&)
     return t;
 }
 
-template <class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
+template <
+    class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
     class OutputToConsolePolicy = NoOutputToConsole>
 struct StreamTracer_impl : public StreamTracer
 {
@@ -301,7 +302,8 @@ inline StreamTracer& stream()
                             window by the previous policy; then youn have the option to not only
                             bind stderr (cerr) - which is done by default and used for traces
                             to the console - but also stdout (cout) to the console window output.*/
-template <class EnabledIfPolicy = Enabled, class OutputToIDEWindowPolicy = OutputToIDEWindow,
+template <
+    class EnabledIfPolicy = Enabled, class OutputToIDEWindowPolicy = OutputToIDEWindow,
     class OutputToConsolePolicy = NoOutputToConsole, class CheckConsoleOpenPolicy = DontCheckConsoleOpen,
     class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
 // EnabledIfPolicy expected to be Enabled or Disabled

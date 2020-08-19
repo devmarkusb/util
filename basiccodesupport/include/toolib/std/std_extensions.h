@@ -34,7 +34,6 @@
 
 namespace too
 {
-
 //! A must have.
 #if TOO_HAS_NO_CPP14_MAKE_UNIQUE
 template <typename T, typename... Args>
@@ -155,7 +154,8 @@ T accumulate(InputIt first, InputIt last, T init, BinaryOperation op)
 template <class InputIt, class T, class BinaryOperation>
 T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
 {
-    return std::accumulate(std::forward<InputIt>(first), std::forward<InputIt>(last), std::forward<T>(init),
+    return std::accumulate(
+        std::forward<InputIt>(first), std::forward<InputIt>(last), std::forward<T>(init),
         std::forward<BinaryOperation>(op));
 }
 #endif

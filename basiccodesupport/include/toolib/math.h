@@ -40,8 +40,8 @@ template <typename NumberType, NumberType number>
 struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>
 {
     static constexpr NumberType value_ =
-        NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number / NumberType{2}>>::value_ *
-        NumberType{2};
+        NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number / NumberType{2}>>::value_
+        * NumberType{2};
 };
 
 template <typename NumberType>

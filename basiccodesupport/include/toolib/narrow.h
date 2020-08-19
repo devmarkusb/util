@@ -34,7 +34,8 @@ struct narrowing_error : public std::exception
 template <class T, class U>
 T narrow(U u)
 {
-    static_assert(!(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
+    static_assert(
+        !(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
         "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");
     T t = narrow_cast<T>(u);
     if (!too::almost_equal_alltypes(static_cast<U>(t), u))

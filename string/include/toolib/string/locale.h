@@ -17,7 +17,6 @@
 
 namespace too
 {
-
 enum class Global_locale
 {
     default_classic,

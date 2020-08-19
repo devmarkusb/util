@@ -7,9 +7,10 @@
 
 TEST(exception_Capture, basics)
 {
-    too::exception::Capture ec1{[](std::string s) {
-                                    throw std::runtime_error{s};
-                                },
+    too::exception::Capture ec1{
+        [](std::string s) {
+            throw std::runtime_error{s};
+        },
         "test error 1"};
     EXPECT_THROW(ec1.rethrow(), std::runtime_error);
     try

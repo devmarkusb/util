@@ -46,10 +46,10 @@ void usage(double& virtual_mem_usage, double& physical_mem_usage)
     double vsize{};
     double rss{};
 
-    stat_stream >> dummy.pid >> dummy.comm >> dummy.state >> dummy.ppid >> dummy.pgrp >> dummy.session >>
-        dummy.tty_nr >> dummy.tpgid >> dummy.flags >> dummy.minflt >> dummy.cminflt >> dummy.majflt >> dummy.cmajflt >>
-        dummy.utime >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >>
-        dummy.itrealvalue >> dummy.starttime >> vsize >> rss;
+    stat_stream >> dummy.pid >> dummy.comm >> dummy.state >> dummy.ppid >> dummy.pgrp >> dummy.session >> dummy.tty_nr
+        >> dummy.tpgid >> dummy.flags >> dummy.minflt >> dummy.cminflt >> dummy.majflt >> dummy.cmajflt >> dummy.utime
+        >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >> dummy.itrealvalue
+        >> dummy.starttime >> vsize >> rss;
 
     double page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / too::mem::KiB;
     virtual_mem_usage = vsize / too::mem::KiB;

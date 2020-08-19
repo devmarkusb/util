@@ -73,6 +73,6 @@ private:
     TOO_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };
-} // namespace too
+} // namespace too::mem::alloc
 
 #endif

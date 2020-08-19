@@ -57,15 +57,16 @@ public:
     }
 
     template <typename TargetDataType = BitsType>
-    constexpr TargetDataType get(const too::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field) const noexcept
+    [[nodiscard]] constexpr TargetDataType get(
+        const too::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field) const noexcept
     {
         return bits_.template get<TargetDataType>(fieldsLookup, field);
     }
 
 private:
-    static constexpr auto bitCounts_{
-        too::array::make(40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
-            )};
+    static constexpr auto bitCounts_{too::array::make(
+        40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
+        )};
     static_assert(fieldCount == bitCounts_.size());
     static_assert(too::bits::count<BitsType>() >= too::ct_accumulate(bitCounts_, 0));
 
