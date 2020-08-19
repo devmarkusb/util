@@ -1,9 +1,11 @@
 # include in your project root once; generates a 'clang-format' target
 
+set(CLANG_FORMAT_VER 10)
+
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
         s
-        ${dir}/*.[chi]pp ${dir}/*.[chi]xx ${dir}/*.cc ${dir}/*.hh ${dir}/*.ii ${dir}/*.[CHI] ${dir}/*.[chi]
+        ${dir}/*.[chi]pp ${dir}/*.[chi] ${dir}/*.in ${dir}/*.cu
     )
     list(APPEND ${cxx_sources} ${s})
 endmacro()
@@ -11,7 +13,7 @@ endmacro()
 #macro(glob_append_cxx_sources cxx_sources dir)
 #    file(GLOB
 #        s
-#        ${dir}/*.[chi]pp ${dir}/*.[chi]xx ${dir}/*.cc ${dir}/*.hh ${dir}/*.ii ${dir}/*.[CHI]
+#        ${dir}/*.[chi]pp ${dir}/*.[chi] ${dir}/*.in ${dir}/*.cu
 #    )
 #    list(APPEND ${cxx_sources} ${s})
 #endmacro()
@@ -25,13 +27,11 @@ glob_recurse_append_cxx_sources(all_cxx_sources source)
 glob_recurse_append_cxx_sources(all_cxx_sources src)
 glob_recurse_append_cxx_sources(all_cxx_sources test)
 
-set(CLANG_FORMAT_VER 10)
-
 find_program(CLANG_FORMAT "clang-format-${CLANG_FORMAT_VER}")
 if (CLANG_FORMAT)
     add_custom_target(
         clang-format
-        COMMAND /usr/bin/clang-format-${CLANG_FORMAT_VER}
+        COMMAND ${CLANG_FORMAT}
         -i
         -style=file
         ${all_cxx_sources}
