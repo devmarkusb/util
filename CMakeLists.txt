@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
 
+project(tfl)
+
+include(buildenv-bootstrap.cmake)
+too_include(googletest.cmake)
+
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
 add_subdirectory(string)

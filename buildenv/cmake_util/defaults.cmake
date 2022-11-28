@@ -143,7 +143,8 @@ add_compile_options(
 ######################################################################################################################
 # cpp standard
 
-set(CMAKE_CXX_STANDARD 20)
+set(TOO_CXX_STANDARD "20" CACHE STRING "Use C++ Standard")
+set(CMAKE_CXX_STANDARD ${TOO_CXX_STANDARD})
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

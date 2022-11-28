@@ -1,5 +1,8 @@
 ## build dir naming ###
 
+# Here you can download, build and use 3rdparty libs.
+set(TOO_3RDPARTY_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/3rdparty)
+
 # CMAKE_SYSTEM_NAME didn't work to differentiate e.g. windows desktop and windows rt uwp, so introduce a customizable string
 set(impl_CustomTargetSpecifierHelpStr "can be used to append the bin dir 'bin_compiler' name by some custom string")
 if (TOO_ANDROID)
