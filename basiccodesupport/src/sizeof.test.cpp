@@ -1,4 +1,4 @@
-#include "toolib/compiletime/ct_sizeof.h"
+#include "toolib/sizeof.h"
 #include "gtest/gtest.h"
 #include <cstdint>
 

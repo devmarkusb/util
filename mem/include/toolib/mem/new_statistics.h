@@ -12,8 +12,8 @@
 #define NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
 
 #include "types.h"
+#include "toolib/array.h"
 #include "toolib/bits.h"
-#include "toolib/compiletime/ct_array.h"
 #include "toolib/enum_cast.h"
 #include "toolib/std/array.h"
 #include "toolib/std/integer_sequence.h"

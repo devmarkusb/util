@@ -6,8 +6,8 @@
  */
 //! \file
 
-#ifndef CT_ARRAY_H_uixngt3h478gh389xgh3984g
-#define CT_ARRAY_H_uixngt3h478gh389xgh3984g
+#ifndef ARRAY_H_uixngt3h478gh389xgh3984g
+#define ARRAY_H_uixngt3h478gh389xgh3984g
 
 #include <array>
 #include <cstddef>

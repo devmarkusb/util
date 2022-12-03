@@ -1,4 +1,4 @@
-#include "toolib/compiletime/ct_map.h"
+#include "toolib/map.h"
 #include "gtest/gtest.h"
 
 

@@ -1,4 +1,4 @@
-#include "toolib/compiletime/ct_array.h"
+#include "toolib/array.h"
 #include "toolib/std/array.h"
 #include "gtest/gtest.h"
 

@@ -6,8 +6,8 @@
  */
 //! \file
 
-#ifndef CT_MAP_H_54982dn78txhwgf1236784g
-#define CT_MAP_H_54982dn78txhwgf1236784g
+#ifndef MAP_H_54982dn78txhwgf1236784g
+#define MAP_H_54982dn78txhwgf1236784g
 
 
 namespace too

@@ -6,8 +6,8 @@
  */
 //! \file
 
-#ifndef CT_SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
-#define CT_SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
+#ifndef SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
+#define SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
 
 
 /** Generates a compile error telling you sizeof Type.
