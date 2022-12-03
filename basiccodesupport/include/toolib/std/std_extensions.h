@@ -1,5 +1,4 @@
-// Markus Borris, 2014-16
-// This file is part of tfl library.
+// 2014-16
 
 //!
 /** 'Extending namespace std' - not really, we but it in namespace too to be safe - with stuff that isn't

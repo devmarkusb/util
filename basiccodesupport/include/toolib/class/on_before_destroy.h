@@ -1,5 +1,4 @@
-// Markus Borris, 2017
-// This file is part of tfl library.
+// 2017
 
 //!
 /** More than just a first example of using the too::Listener/too::ListenerRegister pair.

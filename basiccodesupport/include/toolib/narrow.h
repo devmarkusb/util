@@ -1,5 +1,4 @@
-// Markus Borris, 2015-16
-// This file is part of tfl library.
+// 2015-16
 
 //!
 /** Taken from / inspired by the Cpp Guidelines Support Library GSL.

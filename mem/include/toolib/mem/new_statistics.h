@@ -1,5 +1,4 @@
-// Markus Borris, 2019
-// This file is part of tfl library.
+// 2019
 
 //! Replaces (overrides) global new and delete to collect memory usage statistics.
 /** Usage: You just need to include this header in a single arbitrary source file of your target. Then every

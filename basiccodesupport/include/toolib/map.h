@@ -1,5 +1,4 @@
-// Markus Borris, 2016
-// This file is part of tfl library.
+// 2016
 
 //!
 /**

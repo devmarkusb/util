@@ -1,5 +1,4 @@
-// Markus Borris, 2018
-// This file is part of tfl library.
+// 2018
 
 //!
 /** An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies

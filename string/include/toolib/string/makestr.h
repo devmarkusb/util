@@ -1,8 +1,7 @@
-// Markus Borris, 2011-2016
-// This file is part of tfl library.
+// 2011-2016
 
 //!
-/** From David Rodr�guez - dribeas, stackoverflow.
+/** From David Rodr?guez - dribeas, stackoverflow.
  */
 //! \file
 

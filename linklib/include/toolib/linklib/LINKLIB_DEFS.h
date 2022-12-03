@@ -1,5 +1,4 @@
-// Markus Borris, 2015-17
-// This file is part of tfl library.
+// 2015-17
 
 //!
 /** Usage I: The following steps are for a library (shared or static) as intended target.

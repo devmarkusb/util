@@ -1,5 +1,4 @@
-// Markus Borris, 2011-20
-// This file is part of tfl library.
+// 2011-20
 
 //!
 /** Most common and basic preprocessor defines.*/

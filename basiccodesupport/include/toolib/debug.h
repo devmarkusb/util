@@ -1,5 +1,4 @@
-// Markus Borris, 2011-19
-// This file is part of tfl library.
+// 2011-19
 
 //!
 /** Contains useful tools for debugging, like run-time breakpoints.

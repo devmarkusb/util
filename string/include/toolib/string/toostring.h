@@ -1,5 +1,4 @@
-// Markus Borris, 2011-2017
-// This file is part of tfl library.
+// 2011-2017
 
 //! If you expected this file to define yet another custom string type, you are fortunately wrong.
 //! Instead it serves just as a documentation of guidelines of how to deal with strings in your

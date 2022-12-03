@@ -1,5 +1,4 @@
-// Markus Borris, 2019
-// This file is part of tfl library.
+// 2019
 
 //! Circular buffer structure(s).
 /** They make a perfect replacement for queue if the needed capacity is known beforehand.

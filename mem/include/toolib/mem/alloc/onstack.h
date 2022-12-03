@@ -1,5 +1,4 @@
-// Markus Borris, 2018-19
-// This file is part of tfl library.
+// 2018-19
 
 //!
 /** Implements allocation on the stack as arena/strategy.

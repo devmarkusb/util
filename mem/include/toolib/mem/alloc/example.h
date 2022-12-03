@@ -1,5 +1,4 @@
-// Markus Borris, 2018
-// This file is part of tfl library.
+// 2018
 
 //!
 /** Implements default new+delete as example allocation strategy.

@@ -1,5 +1,4 @@
-// Markus Borris, 2011
-// This file is part of tfl library.
+// 2011
 
 //!
 /** Generating compiler errors when deleting incomplete types (types of objects for which delete doesn't see the

@@ -1,5 +1,4 @@
-// Markus Borris, 2019
-// This file is part of tfl library.
+// 2019
 
 //! Specialities that were observed to be compiler implementation specific.
 /**

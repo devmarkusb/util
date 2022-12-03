@@ -1,5 +1,4 @@
-// Markus Borris, 2017-19
-// This file is part of tfl library.
+// 2017-19
 
 //!
 /** Cf. std_extensions.h
