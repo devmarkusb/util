@@ -8,6 +8,7 @@
 #include <locale>
 #include <string>
 
+namespace ul = mb::ul;
 
 namespace
 {
