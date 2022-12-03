@@ -6,22 +6,22 @@ project(tooLinklib VERSION 0.1.0.0)
 
 too_include(defaults.cmake)
 
-set(Target_tooLinklib ${PROJECT_NAME})
+set(target ${PROJECT_NAME})
 
-file(GLOB_RECURSE Target_tooLinklib_INCS "include/*.h")
+file(GLOB_RECURSE target_INCS "include/*.h")
 
-#add_library(${Target_tooLinklib} STATIC ${Target_tooLinklib_INCS})
+#add_library(${target} STATIC ${target_INCS})
 
-#target_include_directories(${Target_tooLinklib} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
+#target_include_directories(${target} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
 
-#target_link_libraries(${Target_tooLinklib}) # tooBuildEnv
+#target_link_libraries(${target}) # tooBuildEnv
 
-#too_set_target_defaults(${Target_tooLinklib})
+#too_set_target_defaults(${target})
 
-set(${Target_tooLinklib}_INCLUDE_DIRS
+set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${tooBuildEnv_INCLUDE_DIRS}
-    CACHE INTERNAL "${Target_tooLinklib}: include directories" FORCE)
+    CACHE INTERNAL "${target}: include directories" FORCE)
 
 
 ################################################################################################
@@ -30,21 +30,21 @@ if (NOT TOO_BUILD_UNITTESTS)
     return ()
 endif ()
 
-set(Target_tooLinklibTest ${PROJECT_NAME}Test)
+set(targetTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooLinklibTest_SOURCES "include/toolib/*.test.cpp")
+file(GLOB_RECURSE targetTest_SOURCES "include/toolib/*.test.cpp")
 
-add_executable(${Target_tooLinklibTest}
-    ${Target_tooLinklibTest_SOURCES}
-    ${Target_tooLinklib_INCS}
+add_executable(${targetTest}
+    ${targetTest_SOURCES}
+    ${target_INCS}
 )
 
-too_add_test(${Target_tooLinklibTest})
+too_add_test(${targetTest})
 
-target_include_directories(${Target_tooLinklibTest} PRIVATE ${tooLinklib_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${tooLinklib_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooLinklibTest} PRIVATE gtest_main) #${Target_tooLinklib}
+target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
 
-too_set_target_defaults(${Target_tooLinklibTest})
+too_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${Target_tooLinklibTest})
+too_run_target_postbuild(${targetTest})

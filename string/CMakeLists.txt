@@ -6,26 +6,26 @@ project(tooString VERSION 0.1.0.0)
 
 too_include(defaults.cmake)
 
-set(Target_tooString ${PROJECT_NAME})
+set(target ${PROJECT_NAME})
 
 add_subdirectory(sdks)
 
-file(GLOB_RECURSE Target_tooString_INCS "include/*.h*")
+file(GLOB_RECURSE target_INCS "include/*.h*")
 
-#add_library(${Target_tooString} STATIC ${Target_tooString_INCS})
+#add_library(${target} STATIC ${target_INCS})
 
-#target_include_directories(${Target_tooString} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
-#target_include_directories(${Target_tooString} PUBLIC ${utf8cpp_INCLUDE_DIRS})
+#target_include_directories(${target} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+#target_include_directories(${target} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
-#target_link_libraries(${Target_tooString}) # tooBasicCodeSupport utf8cpp
+#target_link_libraries(${target}) # tooBasicCodeSupport utf8cpp
 
-#too_set_target_defaults(${Target_tooString})
+#too_set_target_defaults(${target})
 
-set(${Target_tooString}_INCLUDE_DIRS
+set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${utf8cpp_INCLUDE_DIRS}
     ${tooBasicCodeSupport_INCLUDE_DIRS}
-    CACHE INTERNAL "${Target_tooString}: include directories" FORCE)
+    CACHE INTERNAL "${target}: include directories" FORCE)
 
 
 ################################################################################################
@@ -34,21 +34,21 @@ if (NOT TOO_BUILD_UNITTESTS)
     return ()
 endif ()
 
-set(Target_tooStringTest ${PROJECT_NAME}Test)
+set(targetTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooStringTest_SOURCES "include/toolib/*.test.cpp")
+file(GLOB_RECURSE targetTest_SOURCES "include/toolib/*.test.cpp")
 
-add_executable(${Target_tooStringTest}
-    ${Target_tooStringTest_SOURCES}
-    ${Target_tooString_INCS}
+add_executable(${targetTest}
+    ${targetTest_SOURCES}
+    ${target_INCS}
 )
 
-too_add_test(${Target_tooStringTest})
+too_add_test(${targetTest})
 
-target_include_directories(${Target_tooStringTest} PRIVATE ${tooString_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${tooString_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooStringTest} PRIVATE gtest_main) #${Target_tooString}
+target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
 
-too_set_target_defaults(${Target_tooStringTest})
+too_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${Target_tooStringTest})
+too_run_target_postbuild(${targetTest})

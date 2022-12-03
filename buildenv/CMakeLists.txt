@@ -7,24 +7,24 @@ project(tooBuildEnv VERSION 0.1.0.0)
 too_include(defaults.cmake)
 too_include(gsl.cmake)
 
-set(Target_tooBuildEnv ${PROJECT_NAME})
+set(target ${PROJECT_NAME})
 
-file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
+file(GLOB_RECURSE target_INCS "include/*.h")
 
-add_library(${Target_tooBuildEnv} INTERFACE ${Target_tooBuildEnv_INCS})
+add_library(${target} INTERFACE ${target_INCS})
 
-target_include_directories(${Target_tooBuildEnv} INTERFACE ${GSL_SOURCE_DIR}/include)
+target_include_directories(${target} INTERFACE ${GSL_SOURCE_DIR}/include)
 
-target_link_libraries(${Target_tooBuildEnv} INTERFACE Microsoft.GSL::GSL)
+target_link_libraries(${target} INTERFACE Microsoft.GSL::GSL)
 
-#too_set_target_defaults(${Target_tooBuildEnv})
+#too_set_target_defaults(${target})
 
-get_target_property(interfaceInclDirs ${Target_tooBuildEnv} INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(interfaceInclDirs ${target} INTERFACE_INCLUDE_DIRECTORIES)
 
-set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include ${interfaceInclDirs}
-    CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
-set(${Target_tooBuildEnv}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
-        CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
+set(${target}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include ${interfaceInclDirs}
+    CACHE INTERNAL "${target}: include directories" FORCE)
+set(${target}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
+        CACHE INTERNAL "${target}: include directories" FORCE)
 
 
 ################################################################################################
@@ -33,21 +33,21 @@ if (NOT TOO_BUILD_UNITTESTS)
     return ()
 endif ()
 
-set(Target_tooBuildEnvTest ${PROJECT_NAME}Test)
+set(targetTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE Target_tooBuildEnvTest_SOURCES "include/toolib/*.test.cpp")
+file(GLOB_RECURSE targetTest_SOURCES "include/toolib/*.test.cpp")
 
-add_executable(${Target_tooBuildEnvTest}
-    ${Target_tooBuildEnvTest_SOURCES}
-    ${Target_tooBuildEnv_INCS}
+add_executable(${targetTest}
+    ${targetTest_SOURCES}
+    ${target_INCS}
 )
 
-too_add_test(${Target_tooBuildEnvTest})
+too_add_test(${targetTest})
 
-target_include_directories(${Target_tooBuildEnvTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
 
-target_link_libraries(${Target_tooBuildEnvTest} PRIVATE gtest_main) #${Target_tooBuildEnv}
+target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
 
-too_set_target_defaults(${Target_tooBuildEnvTest})
+too_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${Target_tooBuildEnvTest})
+too_run_target_postbuild(${targetTest})
