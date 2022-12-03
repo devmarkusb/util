@@ -10,18 +10,18 @@ set(Target_tooBasicCodeSupport ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooBasicCodeSupport_INCS "include/*.h")
 
-#add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS})
-
-#target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS})
-
-#target_link_libraries(${Target_tooBasicCodeSupport}) # tooBuildEnv
-
-#too_set_target_defaults(${Target_tooBasicCodeSupport})
+add_library(${Target_tooBasicCodeSupport} STATIC ${Target_tooBasicCodeSupport_INCS} src/empty.cpp)
 
 set(${Target_tooBasicCodeSupport}_INCLUDE_DIRS
-    ${PROJECT_SOURCE_DIR}/include
-    ${tooBuildEnv_INCLUDE_DIRS}
-    CACHE INTERNAL "${Target_tooBasicCodeSupport}: include directories" FORCE)
+        ${PROJECT_SOURCE_DIR}/include
+        ${tooBuildEnv_INCLUDE_DIRS}
+        CACHE INTERNAL "${Target_tooBasicCodeSupport}: include directories" FORCE)
+
+target_include_directories(${Target_tooBasicCodeSupport} PUBLIC ${tooBuildEnv_INCLUDE_DIRS} ${tooBasicCodeSupport_INCLUDE_DIRS})
+
+target_link_libraries(${Target_tooBasicCodeSupport} PUBLIC tooBuildEnv)
+
+#too_set_target_defaults(${Target_tooBasicCodeSupport})
 
 
 ################################################################################################

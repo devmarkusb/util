@@ -5,18 +5,23 @@ include(cmake_util.cmake)
 project(tooBuildEnv VERSION 0.1.0.0)
 
 too_include(defaults.cmake)
+too_include(gsl.cmake)
 
 set(Target_tooBuildEnv ${PROJECT_NAME})
 
 file(GLOB_RECURSE Target_tooBuildEnv_INCS "include/*.h")
 
-#add_library(${Target_tooBuildEnv} STATIC ${Target_tooBuildEnv_INCS})
+add_library(${Target_tooBuildEnv} INTERFACE ${Target_tooBuildEnv_INCS})
 
-#target_link_libraries(${Target_tooBuildEnv})
+target_include_directories(${Target_tooBuildEnv} INTERFACE ${GSL_SOURCE_DIR}/include)
+
+target_link_libraries(${Target_tooBuildEnv} INTERFACE Microsoft.GSL::GSL)
 
 #too_set_target_defaults(${Target_tooBuildEnv})
 
-set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+get_target_property(interfaceInclDirs ${Target_tooBuildEnv} INTERFACE_INCLUDE_DIRECTORIES)
+
+set(${Target_tooBuildEnv}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include ${interfaceInclDirs}
     CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
 set(${Target_tooBuildEnv}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
         CACHE INTERNAL "${Target_tooBuildEnv}: include directories" FORCE)
