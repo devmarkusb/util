@@ -8,7 +8,7 @@
 #include "compiler_quirks.h"
 #include "heap_tracked.h"
 #include "new_handler.h"
-#include "new_statistics.h"
+//#include "new_statistics.h" // needs to stay opt-in
 #include "physmemusage-rss.h"
 #include "types.h"
 #include "utility.h"
