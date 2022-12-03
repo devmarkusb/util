@@ -44,8 +44,8 @@
         */
 //! \file
 
-#ifndef TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
-#define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
+#ifndef ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
+#define ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
 #include "ul/warnings.h"
 UL_PRAGMA_WARNINGS_PUSH

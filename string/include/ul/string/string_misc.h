@@ -11,7 +11,7 @@
 
 #include "ul/assert.h"
 #include "ul/narrow.h"
-#include "ul/string/toostring.h"
+#include "ul/string/ulstring.h"
 #include <algorithm>
 #include <cctype>
 #include <iomanip>

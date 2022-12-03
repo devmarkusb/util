@@ -8,10 +8,10 @@
 #ifndef STR_CONVERT_H_827rt82rtrxjr38t
 #define STR_CONVERT_H_827rt82rtrxjr38t
 
-//! toostring.h included for the major conversion support; whether used in this file or not.
+//! ulstring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "ul/comp_bwds.h"
-#include "ul/string/toostring.h"
+#include "ul/string/ulstring.h"
 #include <stdexcept>
 #include <string>
 
