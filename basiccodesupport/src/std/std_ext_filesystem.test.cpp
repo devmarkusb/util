@@ -1,12 +1,12 @@
 /** Includes some physical tests on the filesystem. The playground are subdirs under root's tmp dir.
     *Important* From time to time you also want to test compliance of the tests with the standard library
-    implementation. For that to happen, please set TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL to 0, which only tests our
+    implementation. For that to happen, please set UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL to 0, which only tests our
     own implementation by default otherwise.*/
-#if TOO_OS_LINUX
-#define TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL 1
+#if UL_OS_LINUX
+#define UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL 1
 #endif
 #include "ul/std/std_ext_filesystem.h"
-#undef TOO_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
+#undef UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 #include "ul/finally.h"
 #include "gtest/gtest.h"
 #include <algorithm>
@@ -248,7 +248,7 @@ TEST(pathTest, append)
     const fs::path some2{"bar"};
     fs::path some{some1 / some2};
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar"});
-#if !TOO_OS_WINDOWS
+#if !UL_OS_WINDOWS
     some /= fs::path{};
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar/"});
 #endif
@@ -278,7 +278,7 @@ class PhysicalFilesystemTest : public ::testing::Test
     void TearDown() override
     {
         // don't risk deleting anything important accidentally, just keep the playground's base dir and content
-        TOO_NOOP;
+        UL_NOOP;
     }
 };
 
@@ -380,10 +380,10 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set)
     const auto changed_dir = fs::current_path(ec);
     std::cout << changed_dir.string() << "\n";
     std::cout << physical_test_dir.string() << "\n";
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
     const auto comparable_changed_dir = changed_dir.root_directory() / changed_dir.relative_path();
     EXPECT_TRUE(comparable_changed_dir == physical_test_dir);
-#elif TOO_OS_MAC
+#elif UL_OS_MAC
     auto comparable_physical_dir = "/private" + physical_test_dir_s;
     EXPECT_TRUE(changed_dir == comparable_physical_dir);
 #else

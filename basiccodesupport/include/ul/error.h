@@ -153,7 +153,7 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
 //! \code retcode \endcode. Note that the standard library already defines most of the
 //! exceptions analogous to the \code retcode \endcode values.
 //! Also note that \code precond_failed, assertion_failed, postcond_failed\endcode
-//! are handled by the \code TOO_EXPECT, TOO_ASSERT, TOO_ENSURE \endcode macros, resulting
+//! are handled by the \code UL_EXPECT, UL_ASSERT, UL_ENSURE \endcode macros, resulting
 //! in throwing \code ul::fail_fast \endcode, cf. assert.h.
 //!@{
 struct would_crash : public std::runtime_error
@@ -289,12 +289,12 @@ std::pair<retcode, std::string> call_noexcept(
 } // namespace mb::ul
 
 using retcode = mb::ul::retcode;
-TOO_PRAGMA_WARNINGS_PUSH
+UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
-TOO_WARNING_DISABLE_CLANG(header-hygiene)
+UL_WARNING_DISABLE_CLANG(header-hygiene)
 // clang-format on
 // since, `const auto& is_ok = ul::is_ok;` would lead to multiple defs, even with constexpr
 using namespace mb::ul::publish__is_ok;
-TOO_PRAGMA_WARNINGS_POP
+UL_PRAGMA_WARNINGS_POP
 
 #endif

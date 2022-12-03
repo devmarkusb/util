@@ -12,7 +12,7 @@
 
 #include "ul/macros.h"
 
-#if TOO_OS_LINUX
+#if UL_OS_LINUX
 #include <unistd.h>
 #endif
 
@@ -22,7 +22,7 @@ namespace mb::ul::thread
 //! \return number of available logical cores and 0 on error.
 inline unsigned int numAvailLogicalCores() noexcept
 {
-#if TOO_OS_LINUX // for safety, not changing existing code (yet)
+#if UL_OS_LINUX // for safety, not changing existing code (yet)
     const auto nproc = sysconf(_SC_NPROCESSORS_ONLN);
     const auto ret = static_cast<unsigned int>(nproc == -1 ? 0u : nproc);
     return ret;

@@ -34,10 +34,10 @@ TEST(NarrowTest, floating_point)
     EXPECT_EQ(2, ul::narrow<int>(2.0));
 
     const auto more_precise_than_float{std::numeric_limits<int64_t>::max()};
-#if !TOO_DEBUG \
-    && (TOO_COMP_MINGW && TOO_COMP_MINGW_VER == 50300 \
-        || TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 60201 && TOO_COMP_GNU_CPP_VER <= 100100 \
-        || TOO_COMP_CLANG && TOO_COMP_CLANG_VER <= 100001)
+#if !UL_DEBUG \
+    && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50300 \
+        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER <= 100100 \
+        || UL_COMP_CLANG && UL_COMP_CLANG_VER <= 100001)
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
 #else

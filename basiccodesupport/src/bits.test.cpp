@@ -472,7 +472,7 @@ TEST(bits_Field, overflow)
             ul::bits::Fields<uint32_t, Field, ul::as_number(Field::end)> bits_{16, 17};
         } s;
     };
-#if TOO_COMP_GNU_CPP && TOO_COMP_GNU_CPP_VER >= 80200 && TOO_COMP_GNU_CPP_VER < 90000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80200 && UL_COMP_GNU_CPP_VER < 90000
     ul::ignore_arg(lambda);
     // strange and disturbing, it just terminates when throwing
     //{

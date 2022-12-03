@@ -1,6 +1,6 @@
-#define TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
+#define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "ul/mem/new_statistics.h"
-#undef TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE
+#undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 
 namespace ul = mb::ul;
 

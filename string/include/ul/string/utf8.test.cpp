@@ -147,7 +147,7 @@ TEST(consoleTest, utf8_to_utf16)
     std::wstring ws(utf16to.begin(), utf16to.end());
 
     // Cf. locale.test.cpp #locale_facet-exception for explanation.
-#if !(TOO_COMP_MINGW && TOO_COMP_MINGW_VER <= 50300)
+#if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
     ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
 #endif
     std::wcout << ws << L"\n";

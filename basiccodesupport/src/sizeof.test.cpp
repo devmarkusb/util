@@ -15,12 +15,12 @@ struct S
 } // namespace
 
 // uncomment for experimentation
-//TOO_CT_SIZEOF(Empty)
-//TOO_CT_SIZEOF(S)
-//TOO_CT_SIZEOF(int)
+//UL_CT_SIZEOF(Empty)
+//UL_CT_SIZEOF(S)
+//UL_CT_SIZEOF(int)
 
 TEST(ct_sizeof, basics)
 {
     // uncomment for experimentation
-    //TOO_CT_SIZEOF_OPT2(S);
+    //UL_CT_SIZEOF_OPT2(S);
 }

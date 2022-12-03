@@ -55,7 +55,7 @@ inline char makeLower(char& c)
 //! Expects fromSub non-empty.
 inline void replaceAll(std::string& s, const std::string& fromSub, const std::string& toSub)
 {
-    TOO_EXPECT(!fromSub.empty());
+    UL_EXPECT(!fromSub.empty());
     size_t start_pos{};
     while ((start_pos = s.find(fromSub, start_pos)) != std::string::npos)
     {
@@ -68,12 +68,12 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::st
     count of occurrences of fromSub within s.*/
 inline void replaceAll(std::string& s, const std::string& fromSub, const std::vector<std::string>& toSubs)
 {
-    TOO_EXPECT(!fromSub.empty());
+    UL_EXPECT(!fromSub.empty());
     size_t counter{};
     size_t start_pos{};
     while ((start_pos = s.find(fromSub, start_pos)) != std::string::npos)
     {
-        TOO_ASSERT(toSubs.size() > counter);
+        UL_ASSERT(toSubs.size() > counter);
         s.replace(start_pos, fromSub.length(), toSubs[counter]);
         start_pos += toSubs[counter].length();
         ++counter;

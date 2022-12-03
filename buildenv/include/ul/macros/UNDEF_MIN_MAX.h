@@ -10,7 +10,7 @@
 #include "../macros.h"
 
 
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if UL_COMP_MS_VISUAL_STUDIO_CPP
 // You shouldn't f***ing care restoring original defs for these...
 #undef max
 #undef min

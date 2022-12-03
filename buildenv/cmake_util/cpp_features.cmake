@@ -1,5 +1,5 @@
 # Collection of C++ feature tests:
-# TOO_HAS_CPP_FILESYSTEM
+# UL_HAS_CPP_FILESYSTEM
 
 include(CheckCXXSourceCompiles)
 
@@ -13,6 +13,6 @@ check_cxx_source_compiles(
     #endif
     int main() { return 0; }
     "
-    TOO_HAS_CPP_FILESYSTEM_IMPL)
+    UL_HAS_CPP_FILESYSTEM_IMPL)
 
-set(TOO_HAS_CPP_FILESYSTEM ${TOO_HAS_CPP_FILESYSTEM_IMPL} CACHE INTERNAL "" FORCE)
+set(UL_HAS_CPP_FILESYSTEM ${UL_HAS_CPP_FILESYSTEM_IMPL} CACHE INTERNAL "" FORCE)

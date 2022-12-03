@@ -26,7 +26,7 @@ constexpr bool isPowerOfTwo(NumberType number) noexcept
     return number && ((number & (number - 1)) == 0);
 }
 
-#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if !UL_COMP_MS_VISUAL_STUDIO_CPP
 namespace detail
 {
 // Impl. notes: Workaround for partially specializing non-type template parameters of dependent type.

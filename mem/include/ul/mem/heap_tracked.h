@@ -43,7 +43,7 @@ public:
         }
         else
         {
-            TOO_DEBUG_BREAK_IF(false); // missing address!
+            UL_DEBUG_BREAK_IF(false); // missing address!
             std::terminate(); // delete is nothrow since C++11
         }
     }

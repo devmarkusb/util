@@ -9,7 +9,7 @@ TEST(FinallyTest, Test)
 {
     bool isChanged = false;
     {
-        const auto TOO_ANONYMOUS_VARIABLE = ul::finally([&]() {
+        const auto UL_ANONYMOUS_VARIABLE = ul::finally([&]() {
             isChanged = true;
         });
         isChanged = false;

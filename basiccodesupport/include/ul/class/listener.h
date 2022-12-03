@@ -104,8 +104,8 @@ public:
         The same l also mustn't be registered more than once.*/
     virtual void register_listener(Listener* l)
     {
-        TOO_EXPECT(l);
-        TOO_EXPECT(
+        UL_EXPECT(l);
+        UL_EXPECT(
             std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l)
             == std::end(this->registered_listeners));
 
@@ -116,9 +116,9 @@ public:
         The same l also mustn't be unregistered more than once.*/
     virtual void unregister_listener(Listener* l)
     {
-        TOO_EXPECT(l);
+        UL_EXPECT(l);
         const auto it = std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l);
-        TOO_EXPECT(it != std::end(this->registered_listeners));
+        UL_EXPECT(it != std::end(this->registered_listeners));
 
         this->registered_listeners.erase(it);
     }
@@ -126,7 +126,7 @@ public:
     //! \param l has to be non-nullptr.
     virtual bool is_registered(Listener* l) const
     {
-        TOO_EXPECT(l);
+        UL_EXPECT(l);
 
         return std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l)
                != std::end(this->registered_listeners);
@@ -148,8 +148,8 @@ public:
         The same l also mustn't be registered more than once.*/
     static void register_listener(Listener* l)
     {
-        TOO_EXPECT(l);
-        TOO_EXPECT(
+        UL_EXPECT(l);
+        UL_EXPECT(
             std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
             == std::end(registered_listeners()));
 
@@ -160,9 +160,9 @@ public:
         The same l also mustn't be unregistered more than once.*/
     static void unregister_listener(Listener* l)
     {
-        TOO_EXPECT(l);
+        UL_EXPECT(l);
         const auto it = std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l);
-        TOO_EXPECT(it != std::end(registered_listeners()));
+        UL_EXPECT(it != std::end(registered_listeners()));
 
         registered_listeners().erase(it);
     }
@@ -170,7 +170,7 @@ public:
     //! \param l has to be non-nullptr.
     static bool is_registered(Listener* l)
     {
-        TOO_EXPECT(l);
+        UL_EXPECT(l);
 
         return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
                != std::end(registered_listeners());

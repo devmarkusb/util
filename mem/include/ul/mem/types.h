@@ -104,7 +104,7 @@ protected:
 inline std::ostream& operator<<(std::ostream& os, Bytes x)
 {
     // strangely under Windows this crashes (Mac the same or otherwise malfunctioning)
-#if TOO_OS_LINUX
+#if UL_OS_LINUX
     os.imbue(std::locale(os.getloc(), new impl::ThousandsSep));
 #endif
     os << x.value << " B";

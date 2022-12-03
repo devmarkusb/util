@@ -20,7 +20,7 @@ TEST(math_isPowerOfTwo, some)
     static_assert(!ul::math::isPowerOfTwo(-256));
 }
 
-#if !TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if !UL_COMP_MS_VISUAL_STUDIO_CPP
 TEST(math_NextGreaterOrEqPow2, int_zero)
 {
     static_assert(ul::math::NextGreaterOrEqPow2<int, 0>::value() == 1);

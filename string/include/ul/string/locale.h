@@ -81,7 +81,7 @@ struct set_global_locale_scoped
 
     set_global_locale_scoped(const set_global_locale_scoped&) = delete;
     set_global_locale_scoped& operator=(const set_global_locale_scoped&) = delete;
-#if TOO_HAS_CPP11_DEFAULT_MOVES
+#if UL_HAS_CPP11_DEFAULT_MOVES
     set_global_locale_scoped(set_global_locale_scoped&&) = delete;
     set_global_locale_scoped& operator=(set_global_locale_scoped&&) = delete;
 #endif

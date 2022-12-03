@@ -21,7 +21,7 @@ void updateMaximum(std::atomic<T>& maximum_value, const T& value) noexcept
     T prev_value = maximum_value;
     while (prev_value < value && !maximum_value.compare_exchange_weak(prev_value, value))
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 }
 } // namespace mb::ul::thread::atomic

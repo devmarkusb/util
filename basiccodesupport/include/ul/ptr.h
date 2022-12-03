@@ -68,7 +68,7 @@ public:
     not_null(const not_null&) = default;
     not_null& operator=(const not_null&) = default;
 
-#if TOO_HAS_CPP11_DEFAULT_MOVES
+#if UL_HAS_CPP11_DEFAULT_MOVES
     not_null(not_null&&) = default;
     not_null& operator=(not_null&&) = default;
 #endif
@@ -94,7 +94,7 @@ public:
 
     T get() const
     {
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if UL_COMP_MS_VISUAL_STUDIO_CPP
         __assume(ptr != nullptr); // the assume() should help the optimizer
 #endif
         return ptr;
@@ -125,7 +125,7 @@ private:
     // if not, we could make them optional via conditional compilation
     void ensure_invariant() const
     {
-        TOO_EXPECT_THROW(this->ptr != nullptr);
+        UL_EXPECT_THROW(this->ptr != nullptr);
     }
 
     // unwanted operators...pointers only point to single objects!

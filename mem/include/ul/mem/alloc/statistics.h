@@ -68,17 +68,17 @@ public:
 protected:
     void statsCollect_currentSize(Bytes)
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 
     void statsCollect_alloc(Bytes)
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 
     void statsCollect_dealloc(Bytes)
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 };
 } // namespace alloc

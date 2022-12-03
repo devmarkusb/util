@@ -58,7 +58,7 @@ TEST(utf8to16_s2ws_portableTest, test)
 
 TEST(utf16to8_ws2s_codecvtTest, test)
 {
-#if !TOO_HAS_NO_CODECVT
+#if !UL_HAS_NO_CODECVT
     // use the perfectly tested utf8cpp lib to construct an utf16 wstring
     std::string utf8("\xc3\xa4"
                      "hnlich\x21");
@@ -73,7 +73,7 @@ TEST(utf16to8_ws2s_codecvtTest, test)
 
 TEST(utf8to16_s2ws_codecvtTest, test)
 {
-#if !TOO_HAS_NO_CODECVT
+#if !UL_HAS_NO_CODECVT
     // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
     std::string utf8("\xc3\xa4"
                      "hnlich\x21");
@@ -90,7 +90,7 @@ TEST(locenc_s2wsTest, test)
 {
     std::string loc("local stuff: \xe4"); // latin1 ae
     std::wstring ws(ul::str::locenc_s2ws(loc));
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
     EXPECT_EQ(L"local stuff: \xe4", ws);
 #else
     EXPECT_EQ(L"local stuff: \xffffffe4", ws);

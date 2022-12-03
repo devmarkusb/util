@@ -24,7 +24,7 @@ TEST(HeapTrackedTest, test)
     //    EXPECT_TRUE(c_heap->isOnHeap());
     //
     //// still needs to be explored why this seems to fail under mingw
-    //#if !TOO_COMP_MINGW
+    //#if !UL_COMP_MINGW
     //    EXPECT_DEATH(delete c_stack, "");
     //#endif
     //    EXPECT_NO_FATAL_FAILURE(delete c_heap);

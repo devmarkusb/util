@@ -56,16 +56,16 @@ TEST(optTest, not_)
     // EXPECT_FALSE(b);
     EXPECT_EQ(ul::none, b);
 #if GTEST_HAS_DEATH_TEST
-    TOO_PRAGMA_WARNINGS_PUSH
+    UL_PRAGMA_WARNINGS_PUSH
     // clang-format off
-    TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
+    UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
     // clang-format on
     EXPECT_DEATH(
         [&]() {
             *b = false;
         }(),
         "");
-    TOO_PRAGMA_WARNINGS_POP
+    UL_PRAGMA_WARNINGS_POP
 #endif
 }
 

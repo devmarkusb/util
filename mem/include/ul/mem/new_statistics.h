@@ -24,7 +24,7 @@
 #include <new>
 
 
-#if !TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE
+#if !UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 #error "To really activate, also define this to 1 before the include."
 #endif
 

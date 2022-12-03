@@ -263,13 +263,13 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2)
     utf8::unchecked::utf16to8(utf16.begin(), utf16.end(), std::back_inserter(back));
     EXPECT_EQ(back, utf8);
 
-#if TOO_OS_WINDOWS && TOO_SIZEOF_WCHAR_T == 2 // && Windows uses UTF16, which we can assume, I guess
+#if UL_OS_WINDOWS && UL_SIZEOF_WCHAR_T == 2 // && Windows uses UTF16, which we can assume, I guess
     std::wstring ws = {0xe4};
     ws += L"hnlich!";
     std::wstring ws_from_utf16(utf16.begin(), utf16.end());
     EXPECT_EQ(ws, ws_from_utf16);
 // mingw doesn't compile: 'converting to execution character set: Illegal byte sequence'
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if UL_COMP_MS_VISUAL_STUDIO_CPP
     ws = L"\xe4hnlich!";
     EXPECT_EQ(ws, ws_from_utf16);
 #endif

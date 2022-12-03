@@ -68,7 +68,7 @@ public:
             holder = x.holder->clone();
     }
 
-#if TOO_HAS_CPP11_DEFAULT_MOVES
+#if UL_HAS_CPP11_DEFAULT_MOVES
     any(any&& x) = default;
     any& operator=(any&& rhs) = default;
 #endif
@@ -134,7 +134,7 @@ private:
         }
         //            ibase(const ibase&) = default;
         //            ibase& operator=(const ibase&) = default;
-        //#if TOO_HAS_CPP11_DEFAULT_MOVES
+        //#if UL_HAS_CPP11_DEFAULT_MOVES
         //            ibase(ibase&&) = default;
         //            ibase& operator=(ibase&&) = default;
         //#endif

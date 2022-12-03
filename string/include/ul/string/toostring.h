@@ -48,15 +48,15 @@
 #define TOOSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
 #include "ul/warnings.h"
-TOO_PRAGMA_WARNINGS_PUSH
+UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
-TOO_WARNING_DISABLE_CLANG(sign-conversion)
-TOO_WARNING_DISABLE_CLANG(zero-as-null-pointer-constant)
+UL_WARNING_DISABLE_CLANG(sign-conversion)
+UL_WARNING_DISABLE_CLANG(zero-as-null-pointer-constant)
 // clang-format on
 //! Including this header regardless of whether it is being used here. You will need it in combination with the
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
-TOO_PRAGMA_WARNINGS_POP
+UL_PRAGMA_WARNINGS_POP
 
 #include "ul/macros.h"
 
@@ -64,7 +64,7 @@ TOO_PRAGMA_WARNINGS_POP
 //####################################################################################################################
 //! Under Windows make sure you compile everything using UNICODE-setting - otherwise API
 //! restricts everything to ASCII 7bit (perhaps ANSI 8bit and local encodings).
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
 #if !defined(UNICODE) && !defined(_UNICODE)
 #error \
     "Under Windows your code has to be compiled with Unicode setting - according to a desired choice of encoding >= UTF8"

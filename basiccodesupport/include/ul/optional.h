@@ -78,7 +78,7 @@ struct opt
     {
     }
 
-#if TOO_HAS_CPP11_DEFAULT_MOVES
+#if UL_HAS_CPP11_DEFAULT_MOVES
     opt(opt<T>&&) = default;
     opt& operator=(opt<T>&&) = default;
 #endif
@@ -98,7 +98,7 @@ struct opt
     }
 
 // otherwise we get warnings of implicit conversions to bool (performance issue, theoretically)
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP
+#if UL_COMP_MS_VISUAL_STUDIO_CPP
 //! Change to explicit cast, as soon as possible!
 ///*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
 #endif

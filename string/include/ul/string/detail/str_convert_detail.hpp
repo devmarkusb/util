@@ -20,10 +20,10 @@
 #include <string>
 #include <vector>
 
-#if !TOO_HAS_NO_CODECVT
+#if !UL_HAS_NO_CODECVT
 #include <codecvt>
 #endif
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
 #include <windows.h>
 #endif
 
@@ -38,7 +38,7 @@ inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr);
 
 inline std::string utf16to8_ws2s(const std::wstring& wstr)
 {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
     std::string convertedString;
     int requiredSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, 0, 0, 0, 0);
     if (requiredSize > 0)
@@ -55,11 +55,11 @@ inline std::string utf16to8_ws2s(const std::wstring& wstr)
 
 inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
 {
-#if TOO_SIZEOF_WCHAR_T == 2
+#if UL_SIZEOF_WCHAR_T == 2
     std::string ret;
     utf8::utf16to8(wstr.begin(), wstr.end(), std::back_inserter(ret));
     return ret;
-#elif TOO_SIZEOF_WCHAR_T == 4
+#elif UL_SIZEOF_WCHAR_T == 4
     // not tested!
     std::u32string tmp(wstr.begin(), wstr.end());
     std::string ret;
@@ -75,7 +75,7 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
 
 inline std::wstring utf8to16_s2ws(const std::string& str)
 {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
     std::wstring convertedString;
     int requiredSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, 0, 0);
     if (requiredSize > 0)
@@ -92,11 +92,11 @@ inline std::wstring utf8to16_s2ws(const std::string& str)
 
 inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
 {
-#if TOO_SIZEOF_WCHAR_T == 2
+#if UL_SIZEOF_WCHAR_T == 2
     std::wstring ret;
     utf8::utf8to16(str.begin(), str.end(), std::back_inserter(ret));
     return ret;
-#elif TOO_SIZEOF_WCHAR_T == 4
+#elif UL_SIZEOF_WCHAR_T == 4
     // not tested!
     std::u32string utf32;
     utf8::utf8to32(str.begin(), str.end(), std::back_inserter(utf32));
@@ -108,7 +108,7 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
 #endif
 }
 
-#if !TOO_HAS_NO_CODECVT
+#if !UL_HAS_NO_CODECVT
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr)
 {
     using cc = std::codecvt_utf8_utf16<wchar_t>;
@@ -152,7 +152,7 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
 
 namespace detail
 {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
 #undef max
 inline std::wstring acp_s2ws(const std::string& s)
 {
@@ -187,7 +187,7 @@ inline std::wstring s2ws(const std::string& s)
 
 inline std::wstring locenc_s2ws(const std::string& s)
 {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
     return detail::acp_s2ws(s);
 #else
     return detail::s2ws(s);
@@ -196,7 +196,7 @@ inline std::wstring locenc_s2ws(const std::string& s)
 
 namespace detail_impl
 {
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_COMP_MS_VS_VER == 1900
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1900
 #define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE 1
 #endif
 #if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE

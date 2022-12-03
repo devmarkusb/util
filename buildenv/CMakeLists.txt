@@ -29,7 +29,7 @@ set(${target}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
 
 ################################################################################################
 
-if (NOT TOO_BUILD_UNITTESTS)
+if (NOT UL_BUILD_UNITTESTS)
     return ()
 endif ()
 

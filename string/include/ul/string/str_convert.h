@@ -50,7 +50,7 @@ inline std::wstring utf8to16_s2ws(const std::string& str);
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
 inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
 
-#if !TOO_HAS_NO_CODECVT
+#if !UL_HAS_NO_CODECVT
 //! Implementation using C++11 codecvt. Cf. utf16or32to8_ws2s_portable().
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr);
 

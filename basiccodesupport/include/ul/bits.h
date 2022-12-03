@@ -43,35 +43,35 @@ constexpr uint32_t countSet(uint32_t data) noexcept
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType set(SourceType from, Idx idx) noexcept
 {
-    TOO_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < ul::bits::count<TargetType>());
     return static_cast<TargetType>(from | (TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unset(SourceType from, Idx idx) noexcept
 {
-    TOO_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < ul::bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from & ~(TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType toggle(SourceType from, Idx idx) noexcept
 {
-    TOO_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < ul::bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from ^ (TargetType{1} << idx));
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType check(SourceType from, Idx idx) noexcept
 {
-    TOO_EXPECT(idx < ul::bits::count<SourceType>());
+    UL_EXPECT(idx < ul::bits::count<SourceType>());
     return ul::narrow_cast<TargetType>((from >> idx) & TargetType{1});
 }
 
 template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
 constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept
 {
-    TOO_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < ul::bits::count<TargetType>());
     const SourceType newbit = !!x; // ensure 1 or 0
     return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx)));
 }
@@ -114,8 +114,8 @@ template <typename TargetType = uint64_t>
 constexpr TargetType setRange(Idx idx, Count count) noexcept
 {
     static_assert(std::is_unsigned_v<TargetType>);
-    TOO_EXPECT(count > 0);
-    TOO_EXPECT(idx + count <= ul::bits::count<TargetType>());
+    UL_EXPECT(count > 0);
+    UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
 
     return static_cast<TargetType>(((TargetType{1} << count) - 1) << idx);
 }
@@ -124,8 +124,8 @@ constexpr TargetType setRange(Idx idx, Count count) noexcept
 template <typename SourceType>
 constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 {
-    TOO_EXPECT(count > 0);
-    TOO_EXPECT(idx + count <= ul::bits::count<SourceType>());
+    UL_EXPECT(count > 0);
+    UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
 
     return (from & ul::bits::setRange<SourceType>(idx, count)) >> idx;
 }
@@ -135,9 +135,9 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 template <typename TargetType, typename SourceType /*>= TargetType*/>
 constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 {
-    TOO_EXPECT(count > 0);
-    TOO_EXPECT(idx + count <= ul::bits::count<SourceType>());
-    TOO_EXPECT(count <= ul::bits::count<TargetType>());
+    UL_EXPECT(count > 0);
+    UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
+    UL_EXPECT(count <= ul::bits::count<TargetType>());
 
     return static_cast<TargetType>((from & ul::bits::setRange<SourceType>(idx, count)) >> idx);
 }
@@ -146,9 +146,9 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 template <typename TargetType, typename SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept
 {
-    TOO_EXPECT(count > 0);
-    TOO_EXPECT(idx + count <= ul::bits::count<TargetType>());
-    TOO_EXPECT(count <= ul::bits::count<SourceType>());
+    UL_EXPECT(count > 0);
+    UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
+    UL_EXPECT(count <= ul::bits::count<SourceType>());
 
     return static_cast<TargetType>((to & (~ul::bits::setRange(idx, count))) | (from << idx));
 }
@@ -162,13 +162,13 @@ class Array
 public:
     void set(Idx idx) noexcept
     {
-        TOO_EXPECT(idx < bits);
+        UL_EXPECT(idx < bits);
         array[N(idx)] |= partBit(I(idx));
     }
 
     void reset(Idx idx) noexcept
     {
-        TOO_EXPECT(idx < bits);
+        UL_EXPECT(idx < bits);
         array[N(idx)] &= ~partBit(I(idx));
     }
 
@@ -179,7 +179,7 @@ public:
 
     bool isSet(Idx idx) const noexcept
     {
-        TOO_EXPECT(idx < bits);
+        UL_EXPECT(idx < bits);
         return array[N(idx)] & partBit(I(idx));
     }
 
@@ -245,7 +245,7 @@ struct FieldsLookup
         indices_[0] = {};
         std::partial_sum(std::begin(counts_), std::end(counts_) - 1, std::begin(indices_) + 1);
         // runtime check as long as we don't have a compiletime partial_sum
-        TOO_ENSURE_THROW(indices_.back() + counts_.back() <= maxCount);
+        UL_ENSURE_THROW(indices_.back() + counts_.back() <= maxCount);
     }
 };
 

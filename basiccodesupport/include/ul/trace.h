@@ -15,7 +15,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <stdio.h>
 #define WIN32_LEAN_AND_MEAN
@@ -82,10 +82,10 @@ struct OutputToIDEWindow
     template <class OutputToConsolePolicy>
     static void trace(const std::ostringstream& ss)
     {
-#if !(TOO_OS_WINDOWS && TOO_COMP_MS_VISUAL_STUDIO_CPP)
+#if !(UL_OS_WINDOWS && UL_COMP_MS_VISUAL_STUDIO_CPP)
         if (!OutputToConsolePolicy::is_activated())
 #endif
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
             OutputDebugStringA(ss.str().c_str());
 #else
         std::cerr << ss.str();
@@ -99,7 +99,7 @@ struct NoOutputToIDEWindow
     static void trace(const std::ostringstream&)
     {
         // Note: e.g. for mingw we can't prevent output from showing up in IDE window
-        TOO_NOOP;
+        UL_NOOP;
     }
 };
 
@@ -115,14 +115,14 @@ struct AlsoBindStdout
 {
     static void bind(bool& ret_bound)
     {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
         ret_bound = false;
         FILE* nsp{};
         const auto open_failed = freopen_s(&nsp, "CONOUT$", "w", stdout);
         if (!open_failed && nsp)
             ret_bound = true;
         else
-            TOO_ASSERT(false);
+            UL_ASSERT(false);
 #else
         ret_bound = true;
 #endif
@@ -134,14 +134,14 @@ struct CheckConsoleOpen
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
     static void openConsoleIfNecessary(bool& ret_stderrBound, bool& ret_stdoutBound)
     {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
         ret_stderrBound = false;
         ret_stdoutBound = false;
 
         const auto alloc_ok = AllocConsole();
         if (!alloc_ok)
         {
-            TOO_ASSERT(false); // you don't need to try to open a new console, you already have one
+            UL_ASSERT(false); // you don't need to try to open a new console, you already have one
             return;
         }
 
@@ -150,7 +150,7 @@ struct CheckConsoleOpen
         if (!open_failed && nsp)
             ret_stderrBound = true;
         else
-            TOO_ASSERT(false);
+            UL_ASSERT(false);
 
         AlsoBindStdoutToNewConsolePolicy::bind(ret_stdoutBound);
 #else
@@ -165,7 +165,7 @@ struct DontCheckConsoleOpen
     template <class>
     static void openConsoleIfNecessary(bool&, bool&)
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 };
 
@@ -186,7 +186,7 @@ struct Disabled
     template <class, class>
     static void trace(const std::ostringstream&)
     {
-        TOO_NOOP;
+        UL_NOOP;
     }
 
     static const bool isEnabled{false};
@@ -276,7 +276,7 @@ inline StreamTracer& stream()
 {
     auto& ret = StreamTracerWrapperSingleton::getInstance().tracer();
     // if you crash shortly after, you probably forgot to call ul::tracer::init before your first trace
-    TOO_EXPECT(ret);
+    UL_EXPECT(ret);
     return *ret;
 }
 } // namespace detail_impl
@@ -361,7 +361,7 @@ const trace& operator<<(const trace& t, T&& arg)
 
 namespace deprecated
 {
-#if TOO_OS_WINDOWS
+#if UL_OS_WINDOWS
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
 /** Impl. notes: Also tried std::cerr and std::clog under Windows - without success.*/

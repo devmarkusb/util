@@ -53,7 +53,7 @@ protected:
     explicit Vector(size_t capacity)
         : capacity_{capacity}
     {
-        TOO_EXPECT(capacity > 0);
+        UL_EXPECT(capacity > 0);
 
         buf_.resize(capacity);
     }

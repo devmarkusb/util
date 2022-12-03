@@ -58,7 +58,7 @@ public:
         memory to the original size again. This amounts to more capacity being left over to allocate.*/
     void resize(Bytes size) noexcept
     {
-        TOO_EXPECT(size <= curr_offset_);
+        UL_EXPECT(size <= curr_offset_);
 
         curr_offset_ = size;
     }

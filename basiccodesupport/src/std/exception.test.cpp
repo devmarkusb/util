@@ -39,7 +39,7 @@ TEST(exception_Capture, basics)
     }
 
     ul::exception::Capture ec3{[]() {
-        TOO_NOOP;
+        UL_NOOP;
     }};
     EXPECT_NO_THROW(ec3.rethrow());
 }

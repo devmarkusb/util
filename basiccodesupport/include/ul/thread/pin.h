@@ -16,12 +16,12 @@
 #include <sstream>
 #include <stdexcept>
 
-#if TOO_OS_UNIX
+#if UL_OS_UNIX
 #include <pthread.h>
 #else
 // not implemented
 #endif
-#if TOO_OS_MAC
+#if UL_OS_MAC
 #include <mach/mach_types.h>
 #include <mach/thread_act.h>
 #include <sys/sysctl.h>
@@ -31,7 +31,7 @@
 
 namespace mb::ul::thread
 {
-#if TOO_OS_MAC
+#if UL_OS_MAC
 namespace mac
 {
 const auto SYSCTL_CORE_COUNT = "machdep.cpu.core_count";
@@ -94,7 +94,7 @@ int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set
 } // namespace mac
 #endif
 
-#if TOO_OS_UNIX
+#if UL_OS_UNIX
 using native_handle = pthread_t;
 #else
 // not implemented
@@ -104,20 +104,20 @@ using native_handle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
     \return 0 on success and a certain error code otherwise (with errno set). Also cf. doc. of function overload.*/
 inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
-#if TOO_OS_LINUX || TOO_OS_MAC
+#if UL_OS_LINUX || UL_OS_MAC
     noexcept
 #endif
 {
-    TOO_EXPECT(h);
-    TOO_EXPECT(logicalCoreIdx >= 0);
+    UL_EXPECT(h);
+    UL_EXPECT(logicalCoreIdx >= 0);
 
-#if TOO_OS_LINUX
+#if UL_OS_LINUX
     const auto nh = static_cast<pthread_t>(h);
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     CPU_SET(logicalCoreIdx, &cpuset);
     return pthread_setaffinity_np(nh, sizeof(cpu_set_t), &cpuset);
-#elif TOO_OS_MAC
+#elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);
     mac::cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -126,7 +126,7 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 #else
     ul::ignore_arg(h);
     ul::ignore_arg(logicalCoreIdx);
-    throw ul::not_implemented{TOO_LOCATION " pinToLogicalCore not yet for non-Unix"};
+    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -137,10 +137,10 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     of them might be sufficient sometimes then.*/
 inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 {
-    TOO_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
-    TOO_EXPECT(logicalCoreIdx >= 0);
+    UL_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
+    UL_EXPECT(logicalCoreIdx >= 0);
 
-#if TOO_OS_LINUX || TOO_OS_MAC
+#if UL_OS_LINUX || UL_OS_MAC
     const auto nh = static_cast<native_handle>(t.native_handle());
     const auto err = pinToLogicalCore(nh, logicalCoreIdx);
     if (err)
@@ -152,24 +152,24 @@ inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 #else
     ul::ignore_arg(t);
     ul::ignore_arg(logicalCoreIdx);
-    throw ul::not_implemented{TOO_LOCATION " pinToLogicalCore not yet for non-Unix"};
+    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
 //! \return number of current, this_thread's, CPU (0-based) and -1 on error (with errno set).
 inline int numLogicalCores()
-#if TOO_OS_LINUX || TOO_OS_MAC
+#if UL_OS_LINUX || UL_OS_MAC
     noexcept
 #endif
 {
-#if TOO_OS_LINUX
+#if UL_OS_LINUX
     return sched_getcpu();
-#elif TOO_OS_MAC
+#elif UL_OS_MAC
     mac::cpu_set_t cpuset{};
     const auto ok = sched_getaffinity({}, {}, &cpuset);
     return ok <= 0 ? -1 : cpuset.count;
 #else
-    throw ul::not_implemented{TOO_LOCATION " numLogicalCores not yet for non-Unix"};
+    throw ul::not_implemented{UL_LOCATION " numLogicalCores not yet for non-Unix"};
 #endif
 }
 } // namespace mb::ul::thread

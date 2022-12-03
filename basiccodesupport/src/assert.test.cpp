@@ -7,57 +7,57 @@
 
 namespace ul = mb::ul;
 
-TOO_PRAGMA_WARNINGS_PUSH
-TOO_WARNING_DISABLE_MSVC(4127)
+UL_PRAGMA_WARNINGS_PUSH
+UL_WARNING_DISABLE_MSVC(4127)
 // clang-format off
-TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
+UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
 // clang-format on
 
 TEST(AssertExpectEnsureTest, Assert)
 {
-#ifdef TOO_ASSERT_ALWAYS_THROWING
-    EXPECT_THROW(TOO_ASSERT(false), ul::fail_fast);
-    EXPECT_THROW(TOO_EXPECT(false), ul::fail_fast);
-    EXPECT_THROW(TOO_ENSURE(false), ul::fail_fast);
+#ifdef UL_ASSERT_ALWAYS_THROWING
+    EXPECT_THROW(UL_ASSERT(false), ul::fail_fast);
+    EXPECT_THROW(UL_EXPECT(false), ul::fail_fast);
+    EXPECT_THROW(UL_ENSURE(false), ul::fail_fast);
 #else
-#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
-    EXPECT_DEBUG_DEATH(TOO_ASSERT(false), "");
-    EXPECT_DEBUG_DEATH(TOO_EXPECT(false), "");
-    EXPECT_DEBUG_DEATH(TOO_ENSURE(false), "");
+#if UL_DEBUG && GTEST_HAS_DEATH_TEST
+    EXPECT_DEBUG_DEATH(UL_ASSERT(false), "");
+    EXPECT_DEBUG_DEATH(UL_EXPECT(false), "");
+    EXPECT_DEBUG_DEATH(UL_ENSURE(false), "");
 #endif
 #endif
 }
 
 TEST(AssertExpectEnsureTest, Throw)
 {
-#ifdef TOO_ASSERT_THROW_DISABLE
-#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
-    EXPECT_DEBUG_DEATH(TOO_ASSERT_THROW(false), "");
-    EXPECT_DEBUG_DEATH(TOO_EXPECT_THROW(false), "");
-    EXPECT_DEBUG_DEATH(TOO_ENSURE_THROW(false), "");
+#ifdef UL_ASSERT_THROW_DISABLE
+#if UL_DEBUG && GTEST_HAS_DEATH_TEST
+    EXPECT_DEBUG_DEATH(UL_ASSERT_THROW(false), "");
+    EXPECT_DEBUG_DEATH(UL_EXPECT_THROW(false), "");
+    EXPECT_DEBUG_DEATH(UL_ENSURE_THROW(false), "");
 #endif
 #else
-    EXPECT_THROW(TOO_ASSERT_THROW(false), ul::fail_fast);
-    EXPECT_NO_THROW(TOO_ASSERT_THROW(true));
-    EXPECT_THROW(TOO_EXPECT_THROW(false), ul::fail_fast);
-    EXPECT_NO_THROW(TOO_EXPECT_THROW(true));
-    EXPECT_THROW(TOO_ENSURE_THROW(false), ul::fail_fast);
-    EXPECT_NO_THROW(TOO_ENSURE_THROW(true));
+    EXPECT_THROW(UL_ASSERT_THROW(false), ul::fail_fast);
+    EXPECT_NO_THROW(UL_ASSERT_THROW(true));
+    EXPECT_THROW(UL_EXPECT_THROW(false), ul::fail_fast);
+    EXPECT_NO_THROW(UL_EXPECT_THROW(true));
+    EXPECT_THROW(UL_ENSURE_THROW(false), ul::fail_fast);
+    EXPECT_NO_THROW(UL_ENSURE_THROW(true));
 #endif
 }
 
 TEST(AssertExpectEnsureTest, Terminate)
 {
 #if GTEST_HAS_DEATH_TEST
-#ifdef TOO_ASSERT_TERMINATE_DISABLE
-    EXPECT_DEBUG_DEATH(TOO_ASSERT_TERMINATE(false), "");
-    EXPECT_DEBUG_DEATH(TOO_EXPECT_TERMINATE(false), "");
-    EXPECT_DEBUG_DEATH(TOO_ENSURE_TERMINATE(false), "");
+#ifdef UL_ASSERT_TERMINATE_DISABLE
+    EXPECT_DEBUG_DEATH(UL_ASSERT_TERMINATE(false), "");
+    EXPECT_DEBUG_DEATH(UL_EXPECT_TERMINATE(false), "");
+    EXPECT_DEBUG_DEATH(UL_ENSURE_TERMINATE(false), "");
 #else
-#if TOO_DEBUG
-    EXPECT_DEATH(TOO_ASSERT_TERMINATE(false), "");
-    EXPECT_DEATH(TOO_EXPECT_TERMINATE(false), "");
-    EXPECT_DEATH(TOO_ENSURE_TERMINATE(false), "");
+#if UL_DEBUG
+    EXPECT_DEATH(UL_ASSERT_TERMINATE(false), "");
+    EXPECT_DEATH(UL_EXPECT_TERMINATE(false), "");
+    EXPECT_DEATH(UL_ENSURE_TERMINATE(false), "");
 #endif
 #endif
 #endif
@@ -65,34 +65,34 @@ TEST(AssertExpectEnsureTest, Terminate)
 
 TEST(AssertExpectEnsureTest, Sleep)
 {
-#ifdef TOO_ASSERT_SLEEP_DISABLE
-#if TOO_DEBUG && GTEST_HAS_DEATH_TEST
-    EXPECT_DEBUG_DEATH(TOO_ASSERT_SLEEP(false), "");
-    EXPECT_DEBUG_DEATH(TOO_EXPECT_SLEEP(false), "");
-    EXPECT_DEBUG_DEATH(TOO_ENSURE_SLEEP(false), "");
+#ifdef UL_ASSERT_SLEEP_DISABLE
+#if UL_DEBUG && GTEST_HAS_DEATH_TEST
+    EXPECT_DEBUG_DEATH(UL_ASSERT_SLEEP(false), "");
+    EXPECT_DEBUG_DEATH(UL_EXPECT_SLEEP(false), "");
+    EXPECT_DEBUG_DEATH(UL_ENSURE_SLEEP(false), "");
 #endif
 #else
 // untestable so far, whether not returning after some reasonable time
-// TOO_ASSERT_SLEEP, TOO_EXPECT_SLEEP, TOO_ENSURE_SLEEP
+// UL_ASSERT_SLEEP, UL_EXPECT_SLEEP, UL_ENSURE_SLEEP
 #endif
 }
 
 TEST(VERIFY_ASSERT_Test, Test)
 {
-#if TOO_DEBUG
+#if UL_DEBUG
     int i = 1;
 #else
     /*volatile*/ int i = 1;
 #endif
-    TOO_VERIFY(++i == 2);
+    UL_VERIFY(++i == 2);
     EXPECT_EQ(2, i);
     --i;
-    TOO_ASSERT(++i == 2);
-#if TOO_DEBUG
+    UL_ASSERT(++i == 2);
+#if UL_DEBUG
     EXPECT_EQ(2, i);
 #else
     EXPECT_NE(2, i);
 #endif
 }
 
-TOO_PRAGMA_WARNINGS_POP
+UL_PRAGMA_WARNINGS_POP

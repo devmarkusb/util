@@ -3,7 +3,7 @@
 # Otherwise you would have to make adaptions here. And out of experience it is just not recommended to prebuild
 # this lib separately.
 
-include(${TOO_CMAKE_UTIL_DIR}/mathgl2_defaults.cmake)
+include(${UL_CMAKE_UTIL_DIR}/mathgl2_defaults.cmake)
 
 find_path(MATHGL2_INCLUDE_DIRS NAMES mgl2/mgl.h
   PATHS

@@ -17,7 +17,7 @@ namespace mb::ul
 template <typename T>
 inline T& Ptr2Ref(T* pT)
 {
-    TOO_EXPECT(pT);
+    UL_EXPECT(pT);
     return *pT;
 }
 
@@ -25,7 +25,7 @@ inline T& Ptr2Ref(T* pT)
 template <typename T>
 inline const T& Ptr2RefC(const T* pT)
 {
-    TOO_EXPECT(pT);
+    UL_EXPECT(pT);
     return *pT;
 }
 

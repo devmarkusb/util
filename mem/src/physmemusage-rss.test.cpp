@@ -1,4 +1,4 @@
-#if !TOO_OS_MAC
+#if !UL_OS_MAC
 #include "ul/mem/physmemusage-rss.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
@@ -12,7 +12,7 @@ namespace ul = mb::ul;
 
 TEST(physmemusage, usage)
 {
-#if TOO_OS_LINUX
+#if UL_OS_LINUX
     const size_t memsize{1 * ul::mem::MB};
 
     double vm_initial{};

@@ -22,20 +22,20 @@ include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
-set(TOO_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
-if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
-    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
+set(UL_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
+if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
+    set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
 endif ()
-if (TOO_ANDROID)
-    set(TOO_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
+if (UL_ANDROID)
+    set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
 endif ()
 
-# TOO_BITS will be 32, 64, ...
-math(EXPR TOO_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+# UL_BITS will be 32, 64, ...
+math(EXPR UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 
-# TOO_NPROC will contain processor count and 0 if count couldn't be determined
+# UL_NPROC will contain processor count and 0 if count couldn't be determined
 include(ProcessorCount)
-ProcessorCount(TOO_NPROC)
+ProcessorCount(UL_NPROC)
 
 # this disturbs linking to gtest, expects d there as well...
 # so better handle this via set_target_properties
@@ -143,8 +143,8 @@ add_compile_options(
 ######################################################################################################################
 # cpp standard
 
-set(TOO_CXX_STANDARD "20" CACHE STRING "Use C++ Standard")
-set(CMAKE_CXX_STANDARD ${TOO_CXX_STANDARD})
+set(UL_CXX_STANDARD "20" CACHE STRING "Use C++ Standard")
+set(CMAKE_CXX_STANDARD ${UL_CXX_STANDARD})
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -153,7 +153,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # target specific general choices
 
 macro(ul_set_target_defaults target)
-    if (NOT TOO_ANDROID) # easier than to fix the follow-up processes
+    if (NOT UL_ANDROID) # easier than to fix the follow-up processes
         set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
     endif ()
 
@@ -165,21 +165,21 @@ macro(ul_set_target_defaults target)
         set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE)
     endif ()
 
-    if ("${TOO_DEPLOY_TARGET}" STREQUAL "uwp")
+    if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
         target_compile_definitions(${target} PUBLIC _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
     endif ()
 endmacro()
 
 macro(ul_set_target_filesystem target)
-    if (TOO_HAS_CPP_FILESYSTEM)
-        if ("${TOO_CPP_STD_LIB}" STREQUAL "libstdc++")
+    if (UL_HAS_CPP_FILESYSTEM)
+        if ("${UL_CPP_STD_LIB}" STREQUAL "libstdc++")
             target_link_libraries(${target} PUBLIC stdc++fs)
         endif ()
     endif ()
 endmacro()
 
 macro(ul_set_target_pthread target)
-    if (TOO_LINUX)
+    if (UL_LINUX)
         target_link_libraries(${target} PUBLIC pthread)
     endif ()
 endmacro()
@@ -216,9 +216,9 @@ macro(ul_add_executable target)
     foreach(arg ${ARGN})
         list(APPEND impl_target_input ${arg})
     endforeach()
-    if (TOO_ANDROID)
+    if (UL_ANDROID)
         add_library(${target} SHARED ${impl_target_input})
-    elseif (TOO_MACOS)
+    elseif (UL_MACOS)
         add_executable(${target} MACOSX_BUNDLE ${impl_target_input})
         set_target_properties(${target} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist)
     else ()

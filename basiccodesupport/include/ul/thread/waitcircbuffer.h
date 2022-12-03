@@ -39,7 +39,7 @@ protected:
     explicit CapacityRuntime(size_t capacity)
         : buf_{capacity}
     {
-        TOO_EXPECT(capacity > 0);
+        UL_EXPECT(capacity > 0);
     }
 };
 
@@ -120,7 +120,7 @@ public:
         if (stopped_)
             return false;
 
-        TOO_VERIFY(Base::buf_.try_pop(poppedElem));
+        UL_VERIFY(Base::buf_.try_pop(poppedElem));
 
         return true;
     }

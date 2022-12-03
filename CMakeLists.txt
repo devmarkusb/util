@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-project(ul)
+project(util)
 
 include(buildenv-bootstrap.cmake)
 ul_include(googletest.cmake)

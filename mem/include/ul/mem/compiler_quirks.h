@@ -22,7 +22,7 @@ namespace vector
     behavior*/
 constexpr ul::mem::Bytes constr_heap_alloc_size
 {
-#if TOO_COMP_MS_VISUAL_STUDIO_CPP && TOO_DEBUG
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_DEBUG
     16
 #else
     0

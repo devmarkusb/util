@@ -25,7 +25,7 @@ protected:
     ~non_copyable() = default;
     non_copyable(const non_copyable&) = delete;
     non_copyable& operator=(const non_copyable&) = delete;
-#if TOO_HAS_CPP11_DEFAULT_MOVES
+#if UL_HAS_CPP11_DEFAULT_MOVES
     non_copyable(non_copyable&&) noexcept = default;
     non_copyable& operator=(non_copyable&&) noexcept = default;
 #endif

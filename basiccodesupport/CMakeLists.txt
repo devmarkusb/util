@@ -26,7 +26,7 @@ target_link_libraries(${target} PUBLIC ulBuildEnv)
 
 ################################################################################################
 
-if (NOT TOO_BUILD_UNITTESTS)
+if (NOT UL_BUILD_UNITTESTS)
     return ()
 endif ()
 

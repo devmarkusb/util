@@ -21,12 +21,12 @@
 //! Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
 //! noexcept yet, so...
 /** This header serves as a shutdown of these keywords beyond its boundaries.*/
-#if TOO_HAS_NO_CPP11_CONSTEXPR
+#if UL_HAS_NO_CPP11_CONSTEXPR
 #undef constexpr
 #define constexpr
 #endif
 
-#if TOO_HAS_NO_CPP11_NOEXCEPT
+#if UL_HAS_NO_CPP11_NOEXCEPT
 #undef noexcept
 #define noexcept throw()
 #endif
@@ -34,7 +34,7 @@
 namespace mb::ul
 {
 //! A must have.
-#if TOO_HAS_NO_CPP14_MAKE_UNIQUE
+#if UL_HAS_NO_CPP14_MAKE_UNIQUE
 template <typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args)
 {
@@ -51,7 +51,7 @@ std::unique_ptr<T> make_unique(Args&&... args)
 //! Lots of nice to have type_traits.
 //!@{
 
-#if TOO_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS
+#if UL_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS
 template <class T>
 using add_lvalue_reference_t = typename std::add_lvalue_reference<T>::type;
 template <class T>
@@ -137,7 +137,7 @@ using underlying_type_t = std::underlying_type_t<T>;
 //!@}
 
 
-#if TOO_HAS_NO_ACCUMULATE_ALG
+#if UL_HAS_NO_ACCUMULATE_ALG
 //! A missing algorithm, accumulating a range by an arbitrary operation (e.g. summing up by +).
 template <class InputIt, class T, class BinaryOperation>
 //	requires // cf. cpp doc

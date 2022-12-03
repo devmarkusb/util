@@ -17,7 +17,7 @@ set(${TargetUtf8cpp}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/../source
 
 ################################################################################################
 
-if (NOT TOO_BUILD_UNITTESTS)
+if (NOT UL_BUILD_UNITTESTS)
     return ()
 endif ()
 
