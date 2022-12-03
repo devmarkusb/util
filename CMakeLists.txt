@@ -17,6 +17,7 @@ set(ul_INCLUDE_DIRS
         ${ulString_INCLUDE_DIRS}
         ${ulMem_INCLUDE_DIRS}
         ${ulLinklib_INCLUDE_DIRS}
+        include
         CACHE INTERNAL "ul include directories" FORCE)
 
 set(ul_CMAKE_DIRS
