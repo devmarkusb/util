@@ -1,10 +1,11 @@
 // VLD detects lots of memory leaks for this file (unclear)
-#include "toolib/assert.h"
-#include "toolib/warnings.h"
+#include "ul/assert.h"
+#include "ul/warnings.h"
 #include "gtest/gtest.h"
 #include <exception>
 #include <iostream>
 
+namespace ul = mb::ul;
 
 TOO_PRAGMA_WARNINGS_PUSH
 TOO_WARNING_DISABLE_MSVC(4127)
@@ -15,9 +16,9 @@ TOO_WARNING_DISABLE_CLANG(used-but-marked-unused)
 TEST(AssertExpectEnsureTest, Assert)
 {
 #ifdef TOO_ASSERT_ALWAYS_THROWING
-    EXPECT_THROW(TOO_ASSERT(false), too::fail_fast);
-    EXPECT_THROW(TOO_EXPECT(false), too::fail_fast);
-    EXPECT_THROW(TOO_ENSURE(false), too::fail_fast);
+    EXPECT_THROW(TOO_ASSERT(false), ul::fail_fast);
+    EXPECT_THROW(TOO_EXPECT(false), ul::fail_fast);
+    EXPECT_THROW(TOO_ENSURE(false), ul::fail_fast);
 #else
 #if TOO_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(TOO_ASSERT(false), "");
@@ -36,11 +37,11 @@ TEST(AssertExpectEnsureTest, Throw)
     EXPECT_DEBUG_DEATH(TOO_ENSURE_THROW(false), "");
 #endif
 #else
-    EXPECT_THROW(TOO_ASSERT_THROW(false), too::fail_fast);
+    EXPECT_THROW(TOO_ASSERT_THROW(false), ul::fail_fast);
     EXPECT_NO_THROW(TOO_ASSERT_THROW(true));
-    EXPECT_THROW(TOO_EXPECT_THROW(false), too::fail_fast);
+    EXPECT_THROW(TOO_EXPECT_THROW(false), ul::fail_fast);
     EXPECT_NO_THROW(TOO_EXPECT_THROW(true));
-    EXPECT_THROW(TOO_ENSURE_THROW(false), too::fail_fast);
+    EXPECT_THROW(TOO_ENSURE_THROW(false), ul::fail_fast);
     EXPECT_NO_THROW(TOO_ENSURE_THROW(true));
 #endif
 }

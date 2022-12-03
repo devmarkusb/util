@@ -1,7 +1,8 @@
-#include "toolib/mem/new_handler.h"
-#include "toolib/ignore_arg.h"
+#include "ul/mem/new_handler.h"
+#include "ul/ignore_arg.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 namespace
 {
@@ -16,18 +17,18 @@ void my_new_handler()
 
 TEST(NewHandlerSupportTest, test)
 {
-    class C : public too::mem::NewHandlerSupport<C>
+    class C : public ul::mem::NewHandlerSupport<C>
     {
     };
-    class C_heavy_to_alloc : public too::mem::NewHandlerSupport<C>
+    class C_heavy_to_alloc : public ul::mem::NewHandlerSupport<C>
     {
     public:
         C_heavy_to_alloc()
         {
-            too::ignore_arg(i1);
-            too::ignore_arg(i2);
-            too::ignore_arg(i3);
-            too::ignore_arg(i4);
+            ul::ignore_arg(i1);
+            ul::ignore_arg(i2);
+            ul::ignore_arg(i3);
+            ul::ignore_arg(i4);
         }
 
     private:
@@ -37,9 +38,9 @@ TEST(NewHandlerSupportTest, test)
         int i3[0x7ffffff];
         int i4[0x7ffffff];
     };
-    too::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
+    ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
     C c;
-    too::ignore_arg(c);
+    ul::ignore_arg(c);
     EXPECT_FALSE(g_my_new_handler_got_called);
     C* pc = nullptr;
     try

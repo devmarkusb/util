@@ -1,14 +1,15 @@
-#include "toolib/finally.h"
+#include "ul/finally.h"
 #include "gtest/gtest.h"
 
-#include "toolib/macros.h"
+#include "ul/macros.h"
 
+namespace ul = mb::ul;
 
 TEST(FinallyTest, Test)
 {
     bool isChanged = false;
     {
-        const auto TOO_ANONYMOUS_VARIABLE = too::finally([&]() {
+        const auto TOO_ANONYMOUS_VARIABLE = ul::finally([&]() {
             isChanged = true;
         });
         isChanged = false;

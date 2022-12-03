@@ -1,10 +1,11 @@
-#include "toolib/class/listener.h"
+#include "ul/class/listener.h"
 #include <gtest/gtest.h>
 
+namespace ul = mb::ul;
 
 namespace
 {
-struct Model_listener : public too::Listener
+struct Model_listener : public ul::Listener
 {
     virtual ~Model_listener()
     {
@@ -13,7 +14,7 @@ struct Model_listener : public too::Listener
     virtual void on_prop_changed() = 0;
 };
 
-struct Model_notifier : public too::ListenerRegister
+struct Model_notifier : public ul::ListenerRegister
 {
     void on_prop_changed()
     {

@@ -1,6 +1,7 @@
-#include "toolib/enum_cast.h"
+#include "ul/enum_cast.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 TEST(EnumCast_as_numberTest, test)
 {
@@ -10,7 +11,7 @@ TEST(EnumCast_as_numberTest, test)
         first,
         second,
     };
-    auto number = too::as_number(EC::first);
+    auto number = ul::as_number(EC::first);
     EXPECT_EQ(1, number);
     enum class E
     {
@@ -18,7 +19,7 @@ TEST(EnumCast_as_numberTest, test)
         first,
         second,
     };
-    auto number_ = too::as_number(E::first);
+    auto number_ = ul::as_number(E::first);
     EXPECT_EQ(1, number_);
 }
 
@@ -30,7 +31,7 @@ TEST(EnumCast_as_numberTest, TypeSpecific)
         first,
         second,
     };
-    auto number = too::as_number(EC::first);
+    auto number = ul::as_number(EC::first);
     EXPECT_EQ(1ul, number);
     EXPECT_TRUE(typeid(number) == typeid(unsigned long));
 }

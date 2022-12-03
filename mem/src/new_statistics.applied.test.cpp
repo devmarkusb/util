@@ -1,11 +1,12 @@
 #define TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
-#include "toolib/mem/new_statistics.h"
+#include "ul/mem/new_statistics.h"
 #undef TOO_I_AM_SURE_TO_REPLACE_NEW_DELETE
-#include "toolib/format_number.h"
+#include "ul/format_number.h"
 #include "gtest/gtest.h"
 
-#include "toolib/macros.h"
+#include "ul/macros.h"
 
+namespace ul = mb::ul;
 
 namespace
 {
@@ -13,14 +14,14 @@ struct AGlobalDestructor
 {
     AGlobalDestructor()
     {
-        auto& memstats = too::mem::Statistics::instance();
+        auto& memstats = ul::mem::Statistics::instance();
 
         memstats.reset();
     }
 
     ~AGlobalDestructor()
     {
-        const auto& memstats = too::mem::Statistics::instance();
+        const auto& memstats = ul::mem::Statistics::instance();
 
         const auto newCalls{memstats.newCalls()};
         const auto deleteCalls{memstats.deleteCalls()};
@@ -47,7 +48,7 @@ struct AGlobalDestructor
         std::cout << "allocated size minus deallocated size: ";
 #if !TOO_OS_MAC && !TOO_OS_WINDOWS
         // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
-        std::cout << too::fmt::groupThousands(allocDeallocDiff);
+        std::cout << ul::fmt::groupThousands(allocDeallocDiff);
 #else
         std::cout << allocDeallocDiff;
 #endif
@@ -76,15 +77,15 @@ struct AGlobalDestructor
 #endif
 #if !TOO_OS_MAC
         // compensates for gtest leaks, + compensation_EXPECT_DEBUG_DEATH accounts for EXPECT_DEBUG_DEATH usages
-        EXPECT_EQ(allocDeallocDiff, too::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
+        EXPECT_EQ(allocDeallocDiff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
 #else
         // untested
-        EXPECT_EQ(allocDeallocDiff, too::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
+        EXPECT_EQ(allocDeallocDiff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
 #endif
         std::cout << "\n";
         std::cout << "peak mem usage: " <<
 #if !TOO_OS_MAC && !TOO_OS_WINDOWS
-            too::fmt::groupThousands(peakSize)
+            ul::fmt::groupThousands(peakSize)
 #else
             peakSize
 #endif

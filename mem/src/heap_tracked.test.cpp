@@ -1,14 +1,15 @@
-#include "toolib/mem/heap_tracked.h"
+#include "ul/mem/heap_tracked.h"
 #include "gtest/gtest.h"
 #include <memory>
 
-#include "toolib/macros.h"
+#include "ul/macros.h"
 
+namespace ul = mb::ul;
 
 TEST(HeapTrackedTest, test)
 {
     // commented out because that leaks a lot according to VLD (perhaps false positives?); to investigate why
-    //    class C : public too::mem::HeapTracked
+    //    class C : public ul::mem::HeapTracked
     //    {
     //    public:
     //        C() {}

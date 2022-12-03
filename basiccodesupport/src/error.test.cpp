@@ -1,11 +1,12 @@
-#include "toolib/error.h"
+#include "ul/error.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 TEST(prog_exit_successTest, test)
 {
-    EXPECT_EQ(0, too::prog_exit_success);
-    EXPECT_NE(0, too::prog_exit_failure);
+    EXPECT_EQ(0, ul::prog_exit_success);
+    EXPECT_NE(0, ul::prog_exit_failure);
 }
 
 namespace

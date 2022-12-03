@@ -1,10 +1,11 @@
-#include "toolib/trace.h"
+#include "ul/trace.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 TEST(traceTest, test)
 {
     std::ostringstream os;
     os << "#TEST# This is just testing the debug output window trace messaging.\n";
-    too::deprecated::trace(os);
+    ul::deprecated::trace(os);
 }

@@ -1,40 +1,41 @@
-#include "toolib/mem/alloc/linear.h"
-#include "toolib/assert.h"
-#include "toolib/ignore_arg.h"
+#include "ul/mem/alloc/linear.h"
+#include "ul/assert.h"
+#include "ul/ignore_arg.h"
 #include "gtest/gtest.h"
 #include <cstddef>
 
-#include "toolib/macros.h"
+#include "ul/macros.h"
 
-using too::mem::Bytes;
+namespace ul = mb::ul;
+using ul::mem::Bytes;
 
 
 TEST(alloc_Linear, constr)
 {
-    too::mem::alloc::Linear<> a{{}};
+    ul::mem::alloc::Linear<> a{{}};
     EXPECT_EQ(a.size(), Bytes{0});
 
     EXPECT_THROW(a.allocate(Bytes{1}), std::bad_alloc);
 
-    EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), too::death_assert_regex);
+    EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), ul::death_assert_regex);
 }
 
 TEST(alloc_Linear, prealloc)
 {
     using Type = int;
-    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     EXPECT_EQ(a.size(), Bytes{0});
 
     EXPECT_THROW(a.allocate(Bytes{11 * sizeof(Type)}), std::bad_alloc);
 
-    EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), too::death_assert_regex);
+    EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), ul::death_assert_regex);
 }
 
 TEST(alloc_Linear, alloc)
 {
     using Type = int;
-    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     EXPECT_EQ(a.size(), Bytes{5 * sizeof(Type)});
@@ -44,7 +45,7 @@ TEST(alloc_Linear, alloc)
     EXPECT_EQ(p[4], 1);
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 
     EXPECT_THROW(a.allocate(Bytes{1 * sizeof(Type)}), std::bad_alloc);
@@ -53,10 +54,10 @@ TEST(alloc_Linear, alloc)
 TEST(alloc_Linear, dealloc)
 {
     using Type = int;
-    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
@@ -66,13 +67,13 @@ TEST(alloc_Linear, dealloc)
 TEST(alloc_Linear, dealloc_noop)
 {
     using Type = int;
-    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
 
     auto q = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(q);
+    ul::ignore_arg(q);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
@@ -82,31 +83,31 @@ TEST(alloc_Linear, dealloc_noop)
 TEST(alloc_Linear, resize)
 {
     using Type = int;
-    too::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
 
     a.resize(Bytes{0});
     EXPECT_EQ(a.size(), Bytes{0});
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{10 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 }
 
 TEST(alloc_Linear, with_stats)
 {
     using Type = int;
-    too::mem::alloc::Linear<too::mem::alloc::Statistics> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
+    ul::mem::alloc::Linear<ul::mem::alloc::Statistics> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{4 * sizeof(Type)}));
-    too::ignore_arg(p);
+    ul::ignore_arg(p);
 
     ASSERT_TRUE(a.peak());
     EXPECT_EQ(*a.peak(), Bytes{5 * sizeof(Type)});

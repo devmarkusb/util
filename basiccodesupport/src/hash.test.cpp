@@ -1,8 +1,9 @@
-#include "toolib/hash.h"
+#include "ul/hash.h"
 #include "gtest/gtest.h"
 #include <string>
 #include <unordered_set>
 
+namespace ul = mb::ul;
 
 namespace
 {
@@ -20,7 +21,7 @@ struct hash<UserType>
 {
     size_t operator()(const UserType& ut) const
     {
-        return too::hashCombine(std::hash<int>()(ut.a), std::hash<std::string>()(ut.b));
+        return ul::hashCombine(std::hash<int>()(ut.a), std::hash<std::string>()(ut.b));
     }
 };
 } // namespace std

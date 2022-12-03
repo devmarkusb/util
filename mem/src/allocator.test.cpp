@@ -1,16 +1,17 @@
-#include "toolib/mem/allocator.h"
-#include "toolib/mem/alloc/default.h"
-#include "toolib/mem/alloc/example.h"
-#include "toolib/mem/alloc/linear.h"
-#include "toolib/mem/alloc/onstack.h"
-#include "toolib/mem/compiler_quirks.h"
-#include "toolib/mem/types.h"
+#include "ul/mem/allocator.h"
+#include "ul/mem/alloc/default.h"
+#include "ul/mem/alloc/example.h"
+#include "ul/mem/alloc/linear.h"
+#include "ul/mem/alloc/onstack.h"
+#include "ul/mem/compiler_quirks.h"
+#include "ul/mem/types.h"
 #include "gtest/gtest.h"
 #include <map>
 #include <string>
 #include <vector>
 
-using Bytes = too::mem::Bytes;
+namespace ul = mb::ul;
+using Bytes = ul::mem::Bytes;
 
 
 template <typename Vector>
@@ -57,8 +58,8 @@ void common_map_test(Map&& m)
 
 TEST(allocator_example, vector)
 {
-    using Arena = too::mem::alloc::Example;
-    using Allocator = too::mem::Allocator<int, Arena>;
+    using Arena = ul::mem::alloc::Example;
+    using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
     Allocator al{a};
     std::vector<int, Allocator> v{al};
@@ -68,9 +69,9 @@ TEST(allocator_example, vector)
 
 TEST(allocator_example, map)
 {
-    using Arena = too::mem::alloc::Example;
+    using Arena = ul::mem::alloc::Example;
     using MapPair = std::pair<const int, std::string>;
-    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
     Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
@@ -80,8 +81,8 @@ TEST(allocator_example, map)
 
 TEST(allocator_default, vector)
 {
-    using Arena = too::mem::alloc::DefaultNewDelete<>;
-    using Allocator = too::mem::Allocator<int, Arena>;
+    using Arena = ul::mem::alloc::DefaultNewDelete<>;
+    using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
     Allocator al{a};
     std::vector<int, Allocator> v{al};
@@ -91,9 +92,9 @@ TEST(allocator_default, vector)
 
 TEST(allocator_default, map)
 {
-    using Arena = too::mem::alloc::DefaultNewDelete<>;
+    using Arena = ul::mem::alloc::DefaultNewDelete<>;
     using MapPair = std::pair<const int, std::string>;
-    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
     Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
@@ -103,12 +104,12 @@ TEST(allocator_default, map)
 
 TEST(allocator_linear, vector)
 {
-    using Arena = too::mem::alloc::Linear<>;
-    using Allocator = too::mem::Allocator<int, Arena>;
+    using Arena = ul::mem::alloc::Linear<>;
+    using Allocator = ul::mem::Allocator<int, Arena>;
     try
     {
         Arena a{
-            Bytes{100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
+            Bytes{100'000 * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
         Allocator al{a};
         std::vector<int, Allocator> v{al};
 
@@ -122,9 +123,9 @@ TEST(allocator_linear, vector)
 
 TEST(allocator_linear, map)
 {
-    using Arena = too::mem::alloc::Linear<>;
+    using Arena = ul::mem::alloc::Linear<>;
     using MapPair = std::pair<const int, std::string>;
-    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    using Allocator = ul::mem::Allocator<MapPair, Arena>;
     std::cout << "sizeof(MapPair): " << sizeof(MapPair) << ", alignof(MapPair): " << alignof(MapPair) << "\n";
     Arena a{Bytes{100'000}, Bytes{alignof(MapPair)}};
     Allocator al{a};
@@ -135,9 +136,9 @@ TEST(allocator_linear, map)
 
 TEST(allocator_onstack, vector)
 {
-    using Arena = too::mem::alloc::OnStack<
-        100'000 * sizeof(int) + too::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
-    using Allocator = too::mem::Allocator<int, Arena>;
+    using Arena = ul::mem::alloc::OnStack<
+        100'000 * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
+    using Allocator = ul::mem::Allocator<int, Arena>;
     try
     {
         Arena a;
@@ -155,8 +156,8 @@ TEST(allocator_onstack, vector)
 TEST(allocator_onstack, map)
 {
     using MapPair = std::pair<const int, std::string>;
-    using Arena = too::mem::alloc::OnStack<100'000, alignof(MapPair)>;
-    using Allocator = too::mem::Allocator<MapPair, Arena>;
+    using Arena = ul::mem::alloc::OnStack<100'000, alignof(MapPair)>;
+    using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
     Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};

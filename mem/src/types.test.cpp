@@ -1,7 +1,8 @@
-#include "toolib/mem/types.h"
+#include "ul/mem/types.h"
 #include "gtest/gtest.h"
 
-using too::mem::Bytes;
+namespace ul = mb::ul;
+using ul::mem::Bytes;
 
 
 TEST(Bytes, equal)

@@ -1,13 +1,14 @@
-#include "toolib/thread/waitcircbuffer.h"
+#include "ul/thread/waitcircbuffer.h"
 #include "gtest/gtest.h"
 #include <atomic>
 #include <set>
 #include <thread>
 
+namespace ul = mb::ul;
 
 TEST(thread_WaitCircularBuffer, basics)
 {
-    too::thread::WaitCircularBuffer<int> q{2};
+    ul::thread::WaitCircularBuffer<int> q{2};
 
     ASSERT_TRUE(q.push(42));
     int elem{};
@@ -25,7 +26,7 @@ TEST(thread_WaitCircularBuffer, basics)
 
 TEST(thread_WaitCircularBuffer, massive_parallel)
 {
-    too::thread::WaitCircularBuffer<int> q{100};
+    ul::thread::WaitCircularBuffer<int> q{100};
     std::atomic<int> current{};
     const size_t threadCount{100};
     std::vector<std::thread> producer(threadCount);
@@ -67,7 +68,7 @@ TEST(thread_WaitCircularBuffer, massive_parallel)
 
 TEST(thread_WaitCircularBuffer, stop)
 {
-    too::thread::WaitCircularBuffer<int> q{2};
+    ul::thread::WaitCircularBuffer<int> q{2};
 
     q.stop();
 

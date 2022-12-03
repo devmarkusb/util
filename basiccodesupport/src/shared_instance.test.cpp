@@ -1,10 +1,11 @@
-#include "toolib/shared_instance.h"
+#include "ul/shared_instance.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 TEST(getSharedInstance, basics)
 {
-    auto i1 = too::getSharedInstance<int>();
+    auto i1 = ul::getSharedInstance<int>();
     // yes you can assume the implementation to call a value initializing make_shared (for POD types)
     EXPECT_EQ(*i1, 0);
     *i1 = 42;
@@ -13,14 +14,14 @@ TEST(getSharedInstance, basics)
     EXPECT_EQ(*i2, 42);
     i2 = nullptr;
 
-    i1 = too::getSharedInstance<int>();
+    i1 = ul::getSharedInstance<int>();
     *i1 = 42;
-    i2 = too::getSharedInstance<int>();
+    i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 42);
     i1 = nullptr;
-    i2 = too::getSharedInstance<int>();
+    i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 42);
     i2 = nullptr;
-    i2 = too::getSharedInstance<int>();
+    i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 0);
 }

@@ -1,13 +1,14 @@
-#include "toolib/thread/waitqueue.h"
+#include "ul/thread/waitqueue.h"
 #include "gtest/gtest.h"
 #include <atomic>
 #include <set>
 #include <thread>
 
+namespace ul = mb::ul;
 
 TEST(thread_WaitQueue, basics)
 {
-    too::thread::WaitQueue<int> q{2};
+    ul::thread::WaitQueue<int> q{2};
 
     ASSERT_TRUE(q.emplace(42));
     int elem{};
@@ -25,7 +26,7 @@ TEST(thread_WaitQueue, basics)
 
 TEST(thread_WaitQueue, massive_parallel)
 {
-    too::thread::WaitQueue<int> q{100};
+    ul::thread::WaitQueue<int> q{100};
     std::atomic<int> current{};
     const size_t threadCount{100};
     std::vector<std::thread> producer(threadCount);
@@ -67,7 +68,7 @@ TEST(thread_WaitQueue, massive_parallel)
 
 TEST(thread_WaitQueue, stop)
 {
-    too::thread::WaitQueue<int> q{2};
+    ul::thread::WaitQueue<int> q{2};
 
     q.stop();
 

@@ -1,10 +1,11 @@
-#include "toolib/class/non_copyable.h"
+#include "ul/class/non_copyable.h"
 #include "gtest/gtest.h"
 
+namespace ul = mb::ul;
 
 namespace
 {
-class A : private too::non_copyable
+class A : private ul::non_copyable
 {
 };
 

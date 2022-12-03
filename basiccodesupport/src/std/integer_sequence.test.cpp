@@ -1,7 +1,8 @@
-#include "toolib/std/integer_sequence.h"
+#include "ul/std/integer_sequence.h"
 #include "gtest/gtest.h"
 #include <array>
 
+namespace ul = mb::ul;
 
 namespace test_int
 {
@@ -15,7 +16,7 @@ void toBeCalled(T... t)
 }
 
 template <int... Is>
-void caller_impl(const std::array<int, 3>& theArray, too::idx::seq<Is...>)
+void caller_impl(const std::array<int, 3>& theArray, ul::idx::seq<Is...>)
 {
     toBeCalled(theArray[Is]...);
 }
@@ -25,7 +26,7 @@ TEST(idx_seq, array)
 {
     std::array<int, 3> arr{1, 2, 3};
 
-    test_int::caller_impl(arr, too::idx::gen_seq<arr.size()>{});
+    test_int::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
 }
 
 
@@ -41,7 +42,7 @@ void toBeCalled(T... t)
 }
 
 template <int... Is>
-void caller_impl(const std::array<size_t, 3>& theArray, too::idx::seq<Is...>)
+void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::seq<Is...>)
 {
     toBeCalled(theArray[Is]...);
 }
@@ -51,5 +52,5 @@ TEST(idx_seq, array_size_t)
 {
     std::array<size_t, 3> arr{1, 2, 3};
 
-    test_size_t::caller_impl(arr, too::idx::gen_seq<arr.size()>{});
+    test_size_t::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
 }

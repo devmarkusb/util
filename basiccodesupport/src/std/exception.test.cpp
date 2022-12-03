@@ -1,13 +1,14 @@
-#include "toolib/std/exception.h"
+#include "ul/std/exception.h"
 #include "gtest/gtest.h"
 #include <exception>
 
-#include "toolib/macros.h"
+#include "ul/macros.h"
 
+namespace ul = mb::ul;
 
 TEST(exception_Capture, basics)
 {
-    too::exception::Capture ec1{
+    ul::exception::Capture ec1{
         [](std::string s) {
             throw std::runtime_error{s};
         },
@@ -22,7 +23,7 @@ TEST(exception_Capture, basics)
         EXPECT_STREQ(e.what(), "test error 1");
     }
 
-    too::exception::Capture ec2{
+    ul::exception::Capture ec2{
         []() {
             throw std::runtime_error{"test error 2"};
         },
@@ -37,7 +38,7 @@ TEST(exception_Capture, basics)
         EXPECT_STREQ(e.what(), "test error 2");
     }
 
-    too::exception::Capture ec3{[]() {
+    ul::exception::Capture ec3{[]() {
         TOO_NOOP;
     }};
     EXPECT_NO_THROW(ec3.rethrow());

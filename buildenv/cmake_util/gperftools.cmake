@@ -14,7 +14,7 @@
 #   ...
 #   #if TOO_ENABLE_PROFILING_GPERF
 #       ProfilerStart("./app.prof");
-#       auto autoStopProfiling = too::finally([](){ ProfilerStop(); });
+#       auto autoStopProfiling = ul::finally([](){ ProfilerStop(); });
 #   #endif
 # 4) Analyse results by
 #   -changing dir to bin dir, where the binary and the prof file reside
