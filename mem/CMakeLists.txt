@@ -43,8 +43,8 @@ endif ()
 
 set(targetTest ${PROJECT_NAME}Test)
 
-file(GLOB_RECURSE targetTest_SOURCES "include/toolib/*.test.cpp")
-list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/include/toolib/mem/new_statistics.test.cpp")
+file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
+list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.test.cpp")
 add_executable(${targetTest}
     ${targetTest_SOURCES}
     ${target_INCS}
@@ -64,7 +64,7 @@ too_run_target_postbuild(${targetTest})
 
 
 add_executable(${targetTest}_new_statistics
-        include/toolib/mem/new_statistics.test.cpp
+        src/new_statistics.test.cpp
         ${target_INCS}
 )
 
