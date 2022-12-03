@@ -152,7 +152,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 ######################################################################################################################
 # target specific general choices
 
-macro(too_set_target_defaults target)
+macro(ul_set_target_defaults target)
     if (NOT TOO_ANDROID) # easier than to fix the follow-up processes
         set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
     endif ()
@@ -170,7 +170,7 @@ macro(too_set_target_defaults target)
     endif ()
 endmacro()
 
-macro(too_set_target_filesystem target)
+macro(ul_set_target_filesystem target)
     if (TOO_HAS_CPP_FILESYSTEM)
         if ("${TOO_CPP_STD_LIB}" STREQUAL "libstdc++")
             target_link_libraries(${target} PUBLIC stdc++fs)
@@ -178,21 +178,21 @@ macro(too_set_target_filesystem target)
     endif ()
 endmacro()
 
-macro(too_set_target_pthread target)
+macro(ul_set_target_pthread target)
     if (TOO_LINUX)
         target_link_libraries(${target} PUBLIC pthread)
     endif ()
 endmacro()
 
-macro(too_set_target_openmp target)
+macro(ul_set_target_openmp target)
     target_link_libraries(${target} PUBLIC -fopenmp)
 endmacro()
 
-macro(too_set_target_cuda_separable_compilation target)
+macro(ul_set_target_cuda_separable_compilation target)
     set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 endmacro()
 
-macro(too_run_target_postbuild target)
+macro(ul_run_target_postbuild target)
 #    add_custom_command(TARGET ${target}
 #            POST_BUILD
 #            COMMAND ctest -V -C $<CONFIGURATION>)
@@ -202,16 +202,16 @@ macro(too_run_target_postbuild target)
 endmacro()
 
 # shared lib export define (such that the build know whether to export or import symbols)
-macro(too_set_target_lib_export_def target define)
+macro(ul_set_target_lib_export_def target define)
     set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS ${define})
 endmacro()
 
-macro(too_add_test target)
+macro(ul_add_test target)
     add_test(NAME ${target} COMMAND ${target})
 endmacro()
 
 # a platform independent 'executable', extra args are just all sources, lead by optional additional switches
-macro(too_add_executable target)
+macro(ul_add_executable target)
     set(impl_target_input)
     foreach(arg ${ARGN})
         list(APPEND impl_target_input ${arg})
@@ -226,7 +226,7 @@ macro(too_add_executable target)
     endif ()
 endmacro()
 
-macro(too_target_coverage target)
+macro(ul_target_coverage target)
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         setup_target_for_coverage_lcov(NAME ${target}_coverage EXECUTABLE ${target}Test)
     endif ()

@@ -96,7 +96,7 @@ std::unique_ptr<IA> AFactory::createA()
 } // namespace A
 } // namespace
 
-TEST(too_anyTest, test)
+TEST(ul_anyTest, test)
 {
     A::AFactory afactory;
     std::unique_ptr<A::IA> ia = afactory.createA();

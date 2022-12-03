@@ -3,11 +3,11 @@
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
      set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
-too_include(mathgl2_defaults.cmake)
+ul_include(mathgl2_defaults.cmake)
 
 add_subdirectory(mathgl)
-too_set_target_defaults(mgl)
-too_set_target_defaults(mgl-static)
+ul_set_target_defaults(mgl)
+ul_set_target_defaults(mgl-static)
 if (TOO_ANDROID)
     set(mglAdditionalTargetSources
             ${TOO_CMAKE_UTIL_DIR}/assets/std_ext/glob.c

@@ -85,7 +85,7 @@ private:
 };
 } // namespace
 
-TEST(too_listenerTest, test)
+TEST(ul_listenerTest, test)
 {
     View v;
     v.slot1();

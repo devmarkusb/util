@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-include(${tooBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
+include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
-project(tooMem VERSION 0.1.0.0)
+project(ulMem VERSION 0.1.0.0)
 
-too_include(defaults.cmake)
+ul_include(defaults.cmake)
 
 set(target ${PROJECT_NAME})
 
@@ -23,15 +23,15 @@ add_library(${target} STATIC
 
 target_include_directories(${target} PUBLIC
         include
-        ${tooBuildEnv_INCLUDE_DIRS}
-        ${tooBasicCodeSupport_INCLUDE_DIRS}
+        ${ulBuildEnv_INCLUDE_DIRS}
+        ${ulBasicCodeSupport_INCLUDE_DIRS}
 )
 
-too_set_target_defaults(${target})
+ul_set_target_defaults(${target})
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
-    ${tooBasicCodeSupport_INCLUDE_DIRS}
+    ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
 
 
@@ -50,17 +50,17 @@ add_executable(${targetTest}
     ${target_INCS}
 )
 
-too_add_test(${targetTest})
+ul_add_test(${targetTest})
 
-target_include_directories(${targetTest} PRIVATE ${tooMem_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${ulMem_INCLUDE_DIRS})
 
 # using own main, implemented in new_statistics.applied.test.cpp, in order to test new_statistics in an 'application'
 # like environment
 target_link_libraries(${targetTest} PRIVATE gtest ${target})
 
-too_set_target_defaults(${targetTest})
+ul_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${targetTest})
+ul_run_target_postbuild(${targetTest})
 
 
 add_executable(${targetTest}_new_statistics
@@ -68,15 +68,15 @@ add_executable(${targetTest}_new_statistics
         ${target_INCS}
 )
 
-too_add_test(${targetTest}_new_statistics)
+ul_add_test(${targetTest}_new_statistics)
 
-target_include_directories(${targetTest}_new_statistics PRIVATE ${tooMem_INCLUDE_DIRS})
+target_include_directories(${targetTest}_new_statistics PRIVATE ${ulMem_INCLUDE_DIRS})
 
 target_link_libraries(${targetTest}_new_statistics PRIVATE ${target})
 
-too_set_target_defaults(${targetTest}_new_statistics)
+ul_set_target_defaults(${targetTest}_new_statistics)
 
 # *WARNING* This doesn't run in Release mode starting with gcc-10?!
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    too_run_target_postbuild(${targetTest}_new_statistics)
+    ul_run_target_postbuild(${targetTest}_new_statistics)
 endif ()

@@ -1,9 +1,9 @@
 # File to include for using gperftools.
 # Usage:
 # 1) Add to your app's CMakeLists.txt
-#       too_include(gperftools.cmake)
+#       ul_include(gperftools.cmake)
 #   and add to target with e.g.
-#       too_use_gperftools(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/gperftools-2.6.3.tar.gz)
+#       ul_use_gperftools(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/gperftools-2.6.3.tar.gz)
 # 2) Add CMake parameter -DTOO_ENABLE_PROFILING_GPERF=ON
 # 3) Run the target with environment variable CPUPROFILE=result.prof (if that doesn't work in
 #   CLion, consult your psychologist, or find the right place for the var to actually work).
@@ -22,7 +22,7 @@
 #       <path-to-pprof>/pprof --gv targetbinary app.prof
 #       path-to-pprof could e.g. be builddir/sdks/gpertools/bin
 
-macro(too_use_gperftools target_to_profile path_to_zip)
+macro(ul_use_gperftools target_to_profile path_to_zip)
     option(TOO_ENABLE_PROFILING_GPERF "enable profiling using gperftools" OFF)
 
     if (TOO_ENABLE_PROFILING_GPERF AND NOT TOO_DEPLOYMENT_BUILD AND NOT WIN32)

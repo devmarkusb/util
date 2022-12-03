@@ -9,7 +9,7 @@ file(GLOB_RECURSE TargetUtf8cpp_INCS "../source/*.h")
 
 #target_link_libraries(${TargetUtf8cpp})
 
-#too_set_target_defaults(${TargetUtf8cpp})
+#ul_set_target_defaults(${TargetUtf8cpp})
 
 set(${TargetUtf8cpp}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/../source
     CACHE INTERNAL "${TargetUtf8cpp}: include directories" FORCE)
@@ -32,11 +32,11 @@ add_executable(${TargetUtf8cppTest}
 )
 
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${PROJECT_SOURCE_DIR}/../../../include)
-target_include_directories(${TargetUtf8cppTest} PRIVATE ${tooBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(${TargetUtf8cppTest} PRIVATE ${ulBasicCodeSupport_INCLUDE_DIRS})
 target_include_directories(${TargetUtf8cppTest} PRIVATE ${utf8cpp_INCLUDE_DIRS})
 
-target_link_libraries(${TargetUtf8cppTest} PRIVATE gtest_main) #tooBasicCodeSupport ${TargetUtf8cpp}
+target_link_libraries(${TargetUtf8cppTest} PRIVATE gtest_main) #ulBasicCodeSupport ${TargetUtf8cpp}
 
-too_set_target_defaults(${TargetUtf8cppTest})
+ul_set_target_defaults(${TargetUtf8cppTest})
 
-too_run_target_postbuild(${TargetUtf8cppTest})
+ul_run_target_postbuild(${TargetUtf8cppTest})

@@ -4,7 +4,7 @@
 set(impl_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # prepares the app dir for linux deployment with the executable
-macro(too_linux_prepare_package TARGET_NAME DISPLAYNAME)
+macro(ul_linux_prepare_package TARGET_NAME DISPLAYNAME)
     if (TOO_LINUX AND "${TOO_DEPLOY_TARGET}" STREQUAL "linuxAppDir")
         file(MAKE_DIRECTORY ${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE})
         file(MAKE_DIRECTORY ${TOO_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/usr)

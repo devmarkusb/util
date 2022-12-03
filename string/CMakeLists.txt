@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-include(${tooBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
+include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
-project(tooString VERSION 0.1.0.0)
+project(ulString VERSION 0.1.0.0)
 
-too_include(defaults.cmake)
+ul_include(defaults.cmake)
 
 set(target ${PROJECT_NAME})
 
@@ -14,17 +14,17 @@ file(GLOB_RECURSE target_INCS "include/*.h*")
 
 #add_library(${target} STATIC ${target_INCS})
 
-#target_include_directories(${target} PUBLIC ${tooBasicCodeSupport_INCLUDE_DIRS})
+#target_include_directories(${target} PUBLIC ${ulBasicCodeSupport_INCLUDE_DIRS})
 #target_include_directories(${target} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
-#target_link_libraries(${target}) # tooBasicCodeSupport utf8cpp
+#target_link_libraries(${target}) # ulBasicCodeSupport utf8cpp
 
-#too_set_target_defaults(${target})
+#ul_set_target_defaults(${target})
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${utf8cpp_INCLUDE_DIRS}
-    ${tooBasicCodeSupport_INCLUDE_DIRS}
+    ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
 
 
@@ -43,12 +43,12 @@ add_executable(${targetTest}
     ${target_INCS}
 )
 
-too_add_test(${targetTest})
+ul_add_test(${targetTest})
 
-target_include_directories(${targetTest} PRIVATE ${tooString_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${ulString_INCLUDE_DIRS})
 
 target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
 
-too_set_target_defaults(${targetTest})
+ul_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${targetTest})
+ul_run_target_postbuild(${targetTest})

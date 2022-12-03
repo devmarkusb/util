@@ -3,7 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(too_almost_equal_Test, test)
+TEST(ul_almost_equal_Test, test)
 {
     EXPECT_TRUE(ul::almost_equal(1.0, 1.0));
     EXPECT_FALSE(ul::almost_equal(1.0, 1.0000001));

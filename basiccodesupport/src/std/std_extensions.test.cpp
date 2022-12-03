@@ -5,13 +5,13 @@
 
 namespace ul = mb::ul;
 
-TEST(too_make_uniqueTest, test)
+TEST(ul_make_uniqueTest, test)
 {
     std::unique_ptr<int> pi = ul::make_unique<int>(1);
     EXPECT_TRUE(pi != nullptr);
 }
 
-TEST(too_accumulateTest, test)
+TEST(ul_accumulateTest, test)
 {
     std::vector<int> v{1, 2, 3, 4, 5};
     int sumSelfmade = 0;

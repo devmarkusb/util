@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.4.1)
 
 include(cmake_util.cmake)
 
-project(tooBuildEnv VERSION 0.1.0.0)
+project(ulBuildEnv VERSION 0.1.0.0)
 
-too_include(defaults.cmake)
-too_include(gsl.cmake)
+ul_include(defaults.cmake)
+ul_include(gsl.cmake)
 
 set(target ${PROJECT_NAME})
 
@@ -17,7 +17,7 @@ target_include_directories(${target} INTERFACE ${GSL_SOURCE_DIR}/include)
 
 target_link_libraries(${target} INTERFACE Microsoft.GSL::GSL)
 
-#too_set_target_defaults(${target})
+#ul_set_target_defaults(${target})
 
 get_target_property(interfaceInclDirs ${target} INTERFACE_INCLUDE_DIRECTORIES)
 
@@ -42,12 +42,12 @@ add_executable(${targetTest}
     ${target_INCS}
 )
 
-too_add_test(${targetTest})
+ul_add_test(${targetTest})
 
-target_include_directories(${targetTest} PRIVATE ${tooBuildEnv_INCLUDE_DIRS})
+target_include_directories(${targetTest} PRIVATE ${ulBuildEnv_INCLUDE_DIRS})
 
 target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
 
-too_set_target_defaults(${targetTest})
+ul_set_target_defaults(${targetTest})
 
-too_run_target_postbuild(${targetTest})
+ul_run_target_postbuild(${targetTest})

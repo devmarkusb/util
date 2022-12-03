@@ -31,7 +31,7 @@ retcode f_with_retcode(char x) noexcept
 }
 } // namespace
 
-TEST(too_retcodeTest, test)
+TEST(ul_retcodeTest, test)
 {
     bool ok = false;
     if (is_ok(f_with_retcode('s')))
