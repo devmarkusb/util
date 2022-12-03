@@ -1,3 +1,6 @@
+#ifndef BASICCODESUPPORT_H_trhog4589hg3589hg
+#define BASICCODESUPPORT_H_trhog4589hg3589hg
+
 #include "almost_equal.h"
 #include "any.h"
 #include "array.h"
@@ -42,3 +45,5 @@
 #include "thread/pin.h"
 #include "thread/waitcircbuffer.h"
 #include "thread/waitqueue.h"
+
+#endif

@@ -5,6 +5,9 @@
  */
 //! \file
 
+#ifndef HEAP_TRACKED_H_x4tm7839g934
+#define HEAP_TRACKED_H_x4tm7839g934
+
 #include "ul/debug.h"
 #include "ul/std/std_extensions.h"
 #include <algorithm>
@@ -65,3 +68,5 @@ private:
 };
 } // namespace mem
 } // namespace mb::ul
+
+#endif

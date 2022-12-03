@@ -26,7 +26,7 @@ namespace mb::ul::mem
 {
 /** Returns virtual memory usage and physical memory usage (more precisely RSS, resident set size )
     via virtual_mem_usage and physical_mem_usage.*/
-void usage(double& virtual_mem_usage, double& physical_mem_usage)
+inline void usage(double& virtual_mem_usage, double& physical_mem_usage)
 {
 #if UL_OS_LINUX
     virtual_mem_usage = {};

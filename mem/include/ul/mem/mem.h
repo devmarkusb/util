@@ -1,3 +1,6 @@
+#ifndef MEM_H_oriehxtn37834hn789g4h8934hg
+#define MEM_H_oriehxtn37834hn789g4h8934hg
+
 #include "alloc/default.h"
 #include "alloc/example.h"
 #include "alloc/linear.h"
@@ -12,3 +15,5 @@
 #include "physmemusage-rss.h"
 #include "types.h"
 #include "utility.h"
+
+#endif
