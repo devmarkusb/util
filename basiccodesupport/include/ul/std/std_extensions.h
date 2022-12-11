@@ -1,11 +1,10 @@
 // 2014-16
 
-//!
+//! \file
 /** 'Extending namespace std' - not really, we but it in namespace mb::ul to be safe - with stuff that isn't
     there yet for certain compilers. We only allow those things to be placed here that have a good chance
     to make it into some standard C++xx.
     */
-//! \file
 
 #ifndef STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 #define STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
@@ -18,9 +17,9 @@
 #include "ul/macros.h"
 
 
-//! Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
-//! noexcept yet, so...
-/** This header serves as a shutdown of these keywords beyond its boundaries.*/
+/** Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
+    noexcept yet, so...
+    This header serves as a shutdown of these keywords beyond its boundaries.*/
 #if UL_HAS_NO_CPP11_CONSTEXPR
 #undef constexpr
 #define constexpr

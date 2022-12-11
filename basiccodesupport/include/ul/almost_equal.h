@@ -1,8 +1,5 @@
 // 2018
 
-//!
-/**
- */
 //! \file
 
 #ifndef ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr
@@ -12,12 +9,13 @@
 #include "ul/ignore_arg.h"
 #include <cmath>
 
-
 #include "ul/macros/UNDEF_MIN_MAX.h"
+
 
 namespace mb::ul
 {
-//! \return true, if x and y are almost equal. Expects ulp >= 1.
+/** Expects ulp >= 1.
+    \return true, if x and y are almost equal.*/
 template <typename FloatType>
 typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type almost_equal(
     FloatType x, FloatType y, int ulp = 1)

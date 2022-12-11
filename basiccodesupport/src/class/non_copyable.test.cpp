@@ -5,7 +5,7 @@ namespace ul = mb::ul;
 
 namespace
 {
-class A : private ul::non_copyable
+class A : private ul::NonCopyable
 {
 };
 

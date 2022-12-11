@@ -1,8 +1,5 @@
 // 2011
 
-//!
-/**
- */
 //! \file
 
 #ifndef NEW_HANDLER_H_n2io38zre2387xnz27r

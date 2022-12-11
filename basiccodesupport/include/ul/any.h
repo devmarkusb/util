@@ -1,8 +1,5 @@
 // 2016
 
-//!
-/**
- */
 //! \file
 
 #ifndef ANY_H_sdfuiofx37tn3z47txn378xtfg43n8g3
@@ -19,10 +16,10 @@
 
 namespace mb::ul
 {
-//! Can be used like any built-in value type, like \code int \endcode.
-//! You can assign everything you want. If you want it back as a concrete type
-//! you need to use \code ul::any_cast<>() \endcode.
-/** Usage
+/** Can be used like any built-in value type, like \code int \endcode.
+    You can assign everything you want. If you want it back as a concrete type
+    you need to use \code ul::any_cast<>() \endcode.
+    Usage
     \code
     ul::any x = std::vector<long>{1,2,3,4,5};
     std::vector<long> back = ul::any_cast<std::vector<long>>(x);
@@ -113,13 +110,13 @@ public:
     }
 
     //! Would be true on default construction.
-    bool empty() const
+    [[nodiscard]] bool empty() const
     {
         return !holder;
     }
 
     //!
-    const std::type_info& type() const
+    [[nodiscard]] const std::type_info& type() const
     {
         return (!empty()) ? holder->type() : typeid(void);
     }
@@ -127,11 +124,9 @@ public:
 private:
     struct ibase
     {
-        virtual std::unique_ptr<ibase> clone() const = 0;
-        virtual const std::type_info& type() const = 0;
-        virtual ~ibase()
-        {
-        }
+        [[nodiscard]] virtual std::unique_ptr<ibase> clone() const = 0;
+        [[nodiscard]] virtual const std::type_info& type() const = 0;
+        virtual ~ibase() = default;
         //            ibase(const ibase&) = default;
         //            ibase& operator=(const ibase&) = default;
         //#if UL_HAS_CPP11_DEFAULT_MOVES
@@ -153,12 +148,12 @@ private:
         {
         }
 
-        virtual std::unique_ptr<ibase> clone() const override
+        [[nodiscard]] std::unique_ptr<ibase> clone() const override
         {
             return ul::make_unique<concrete<T>>(value);
         }
 
-        virtual const std::type_info& type() const override
+        [[nodiscard]] const std::type_info& type() const override
         {
             return typeid(T);
         }

@@ -1,9 +1,6 @@
 // 2015
 
-//!
-/** Taken from / inspired by the Cpp Guidelines Support Library GSL.
- */
-//! \file
+//! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 #define PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
@@ -53,7 +50,7 @@ class not_null
     static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
 
 public:
-    not_null(T t)
+    explicit not_null(T t)
         : ptr(t)
     {
         ensure_invariant();
@@ -69,12 +66,12 @@ public:
     not_null& operator=(const not_null&) = default;
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    not_null(not_null&&) = default;
-    not_null& operator=(not_null&&) = default;
+    not_null(not_null&&) noexcept = default;
+    not_null& operator=(not_null&&) noexcept = default;
 #endif
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    not_null(const not_null<U>& other)
+    explicit not_null(const not_null<U>& other)
     {
         *this = other;
     }
@@ -100,7 +97,7 @@ public:
         return ptr;
     }
 
-    operator T() const
+    explicit operator T() const
     {
         return get();
     }
@@ -118,16 +115,6 @@ public:
         return !(*this == rhs);
     }
 
-private:
-    T ptr;
-
-    // we assume that the compiler can hoist/prove away most of the checks inlined from this function
-    // if not, we could make them optional via conditional compilation
-    void ensure_invariant() const
-    {
-        UL_EXPECT_THROW(this->ptr != nullptr);
-    }
-
     // unwanted operators...pointers only point to single objects!
     // untested, ensure all arithmetic ops on this type are unavailable, also list still incomplete
     not_null<T>& operator++() = delete;
@@ -138,6 +125,16 @@ private:
     not_null<T>& operator+=(size_t) = delete;
     not_null<T>& operator-(size_t) = delete;
     not_null<T>& operator-=(size_t) = delete;
+
+private:
+    T ptr;
+
+    // we assume that the compiler can hoist/prove away most of the checks inlined from this function
+    // if not, we could make them optional via conditional compilation
+    void ensure_invariant() const
+    {
+        UL_EXPECT_THROW(this->ptr != nullptr);
+    }
 };
 } // namespace mb::ul
 

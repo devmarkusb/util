@@ -1,9 +1,6 @@
 // 2015-16
 
-//!
-/** Taken from / inspired by the Cpp Guidelines Support Library GSL.
- */
-//! \file
+//! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
 #define NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
@@ -15,8 +12,8 @@
 
 namespace mb::ul
 {
-//! Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value
-//! not to change at all.
+/** Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value
+    not to change at all.*/
 template <class T, class U>
 constexpr T narrow_cast(U u) noexcept
 {
@@ -28,8 +25,8 @@ struct narrowing_error : public std::exception
 {
 };
 
-//! Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
-//! Expects at least one of the casting types to be non floating point.
+/** Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
+    Expects at least one of the casting types to be non floating point.*/
 template <class T, class U>
 T narrow(U u)
 {

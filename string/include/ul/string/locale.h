@@ -1,8 +1,5 @@
 // 2011-2016
 
-//!
-/**
- */
 //! \file
 
 #ifndef LOCALE_H_condwhxnu23mhy8mr

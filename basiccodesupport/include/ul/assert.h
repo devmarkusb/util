@@ -1,7 +1,7 @@
 // 2011-19
 
-//!
 /**
+\file
 Note that, the following compiler defines are supported:
 - UL_ASSERT_THROW_DISABLE for downgrading throwing 'asserts'
 (that is UL_ASSERT_THROW, UL_EXPECT_THROW, UL_ENSURE_THROW) to only assert,
@@ -17,7 +17,6 @@ So these are noticeable in release builds, too.
 You get a compile hint for that, which can be turned off defining
 UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 */
-//! \file
 
 #ifndef ASSERT_H_onvdr589tz3758ct438tzcn
 #define ASSERT_H_onvdr589tz3758ct438tzcn
@@ -49,8 +48,8 @@ struct fail_fast : public std::runtime_error
 
 //####################################################################################################################
 // impl. details
-/*	Note that there is no way around macros here, because we need file and line informations as well as
-    complete vanishing for release or compile-define switched builds.*/
+/* Note that there is no way around macros here, because we need file and line information as well as
+   complete vanishing for release or compile-define switched builds.*/
 
 // Begin warning suppression, and don't end! There is no other chance, or do you know an alternative to do {...} while
 // (false)?

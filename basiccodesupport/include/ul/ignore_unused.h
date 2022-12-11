@@ -1,8 +1,5 @@
 // 2014-2020
 
-//!
-/**
- */
 //! \file
 
 #ifndef IGNORE_UNUSED_H_fklh3874gy78342
@@ -13,9 +10,9 @@
 
 namespace mb::ul
 {
-//! To 'suppress' compiler warning of an unused function parameter. Beyond that, it is
-//! even usable for a function itself (e.g. gcc shows a warning for unused functions).
-/** Example:
+/** To 'suppress' compiler warning of an unused function parameter. Beyond that, it is
+    even usable for a function itself (e.g. gcc shows a warning for unused functions).
+    Example:
     \code
     f(int i) { ignore_unused(i); }
     \endcode

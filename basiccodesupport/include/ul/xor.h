@@ -1,8 +1,5 @@
 // 2017-18
 
-//!
-/**
- */
 //! \file
 
 #ifndef XOR_H_eruighx784zug84bvg283bvgsadf
@@ -26,13 +23,13 @@ bool XNOR(const T1& lhs, const T2& rhs)
 template <typename T1>
 bool XNOR(const T1& lhs, const std::nullptr_t& rhs)
 {
-    return !lhs == (rhs == nullptr);
+    return !lhs == true;
 }
 
 template <typename T2>
 bool XNOR(const std::nullptr_t& lhs, const T2& rhs)
 {
-    return (lhs == nullptr) == !rhs;
+    return true == !rhs;
 }
 //!@}
 

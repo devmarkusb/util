@@ -1,9 +1,6 @@
 // 2015
 
-//!
-/** Taken from / inspired by the Cpp Guidelines Support Library GSL.
- */
-//! \file
+//! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx
 #define FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx

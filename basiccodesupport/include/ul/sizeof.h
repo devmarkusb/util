@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t

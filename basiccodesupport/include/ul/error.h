@@ -1,8 +1,5 @@
 // 2011
 
-//!
-/**
- */
 //! \file
 
 #ifndef ERROR_H_cosndzcriwu4ezr3
@@ -131,7 +128,7 @@ inline std::string retcode_str(retcode rc)
 //! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
 inline auto operator!(retcode rc) -> bool
 {
-    return rc == retcode::none ? false : true;
+    return rc != retcode::none;
 }
 
 namespace publish__is_ok
@@ -149,12 +146,12 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
 } // namespace publish__is_ok
 
 
-//! Definition of some exceptions for the pendant of throwing functions, not returning
-//! \code retcode \endcode. Note that the standard library already defines most of the
-//! exceptions analogous to the \code retcode \endcode values.
-//! Also note that \code precond_failed, assertion_failed, postcond_failed\endcode
-//! are handled by the \code UL_EXPECT, UL_ASSERT, UL_ENSURE \endcode macros, resulting
-//! in throwing \code ul::fail_fast \endcode, cf. assert.h.
+/** Definition of some exceptions for the pendant of throwing functions, not returning
+    \code retcode \endcode. Note that the standard library already defines most of the
+    exceptions analogous to the \code retcode \endcode values.
+    Also note that \code precond_failed, assertion_failed, postcond_failed\endcode
+    are handled by the \code UL_EXPECT, UL_ASSERT, UL_ENSURE \endcode macros, resulting
+    in throwing \code ul::fail_fast \endcode, cf. assert.h.*/
 //!@{
 struct would_crash : public std::runtime_error
 {
@@ -194,9 +191,9 @@ struct time_out : public std::runtime_error
 //!@}
 
 
-//! At certain interface boundaries it could be desirable to not throw anything, but
-//! return an error code. This function conveniently wraps this as general concept.
-/** Usage: best with a lambda
+/** At certain interface boundaries it could be desirable to not throw anything, but
+    return an error code. This function conveniently wraps this as general concept.
+    Usage: best with a lambda
     \code
     std::pair<ul::retcode, std::string> myfunction() noexcept
     {

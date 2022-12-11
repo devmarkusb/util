@@ -1,8 +1,5 @@
 // 2011-2017
 
-//!
-/**
- */
 //! \file
 
 #ifndef STR_CONVERT_H_827rt82rtrxjr38t

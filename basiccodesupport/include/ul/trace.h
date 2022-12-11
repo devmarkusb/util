@@ -1,8 +1,5 @@
 // 2013-17
 
-//!
-/**
- */
 //! \file
 
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
@@ -30,10 +27,10 @@
 
 namespace mb::ul
 {
-//! Purpose of ul::trace is a quick&dirty substitute for logging. That is you can print to console window
-//! and/or IDE output window. For GUI applications you can even open an console window and redirect cout and cerr
-//! calls there. The initialization of the tracing is highly configurable, cf. ul::trace::init.
-/** Usage:
+/** Purpose of ul::trace is a quick&dirty substitute for logging. That is you can print to console window
+    and/or IDE output window. For GUI applications you can even open an console window and redirect cout and cerr
+    calls there. The initialization of the tracing is highly configurable, cf. ul::trace::init.
+    Usage:
         #include "ul/trace.h" // for the file you want to trace something.
 
         int main()
@@ -58,7 +55,7 @@ struct OutputToConsole
         return true;
     }
 
-    static bool is_activated()
+    static bool isActivated()
     {
         return true;
     }
@@ -71,7 +68,7 @@ struct NoOutputToConsole
         return false;
     }
 
-    static bool is_activated()
+    static bool isActivated()
     {
         return false;
     }
@@ -83,7 +80,7 @@ struct OutputToIDEWindow
     static void trace(const std::ostringstream& ss)
     {
 #if !(UL_OS_WINDOWS && UL_COMP_MS_VISUAL_STUDIO_CPP)
-        if (!OutputToConsolePolicy::is_activated())
+        if (!OutputToConsolePolicy::isActivated())
 #endif
 #if UL_OS_WINDOWS
             OutputDebugStringA(ss.str().c_str());
@@ -196,9 +193,7 @@ namespace detail_impl
 {
 struct StreamTracer
 {
-    virtual ~StreamTracer()
-    {
-    }
+    virtual ~StreamTracer() = default;
     virtual void trace(const std::ostringstream&) const = 0;
 };
 
@@ -327,7 +322,7 @@ inline void init()
 }
 } // namespace tracer
 
-struct trace : private ul::non_copyable
+struct trace : private ul::NonCopyable
 {
     explicit trace(const std::string& level = "ERROR")
         : stream_{&ul::tracer::detail_impl::stream()}

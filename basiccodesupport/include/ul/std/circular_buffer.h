@@ -130,7 +130,7 @@ public:
         full_ = head_ == tail_;
     }
 
-    bool try_front(T& frontItem) noexcept
+    bool tryFront(T& frontItem) noexcept
     {
         if (empty())
             return false;
@@ -139,7 +139,7 @@ public:
         return true;
     }
 
-    bool try_pop(T& poppedItem) noexcept
+    bool tryPop(T& poppedItem) noexcept
     {
         if (empty())
             return false;
@@ -157,17 +157,17 @@ public:
         full_ = false;
     }
 
-    bool empty() const noexcept
+    [[nodiscard]] bool empty() const noexcept
     {
         return (!full_ && (head_ == tail_));
     }
 
-    bool full() const noexcept
+    [[nodiscard]] bool full() const noexcept
     {
         return full_;
     }
 
-    constexpr size_t capacity() const noexcept
+    [[nodiscard]] constexpr size_t capacity() const noexcept
     {
         if constexpr (capacity__ > 0)
             return capacity__;
@@ -175,7 +175,7 @@ public:
             return Base::capacity_;
     }
 
-    size_t size() const noexcept
+    [[nodiscard]] size_t size() const noexcept
     {
         size_t size = capacity();
 
@@ -196,4 +196,5 @@ private:
     bool full_{};
 };
 } // namespace mb::ul
+
 #endif

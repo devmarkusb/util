@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef TYPE_NAME_H_4387t73824t378t371y47ym47
@@ -24,7 +21,7 @@ namespace mb::ul
     \return name of the type T.
     \see https://stackoverflow.com/a/20170989/636486*/
 template <typename T>
-constexpr std::string_view type_name()
+constexpr std::string_view typeName()
 {
     using std::string_view;
     string_view p = UL_FUNCTIONSIGN;

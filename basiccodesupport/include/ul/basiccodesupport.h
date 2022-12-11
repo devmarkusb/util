@@ -1,3 +1,8 @@
+/**
+\file
+All-in-one include file for this part of the lib.
+*/
+
 #ifndef BASICCODESUPPORT_H_trhog4589hg3589hg
 #define BASICCODESUPPORT_H_trhog4589hg3589hg
 

@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef HASH_H_erugxh7842g873hgx782gh3
@@ -47,4 +44,5 @@ inline size_t hashCombine(std::size_t hash1, Size_ts... hashes) noexcept
 }
 //!@}
 } // namespace mb::ul
+
 #endif

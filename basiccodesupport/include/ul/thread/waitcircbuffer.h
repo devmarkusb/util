@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef WAITCIRCBUFFER_H_4z894527892xh5
@@ -120,7 +117,7 @@ public:
         if (stopped_)
             return false;
 
-        UL_VERIFY(Base::buf_.try_pop(poppedElem));
+        UL_VERIFY(Base::buf_.tryPop(poppedElem));
 
         return true;
     }
@@ -149,4 +146,5 @@ private:
     bool stopped_{false};
 };
 } // namespace mb::ul::thread
+
 #endif

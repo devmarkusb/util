@@ -1,20 +1,15 @@
 // 2014
 
-//!
-/**
- */
 //! \file
 
 #ifndef VECTOR_H_sixe38grf38gxfn34x8gfn4
 #define VECTOR_H_sixe38grf38gxfn34x8gfn4
 
-#include <stddef.h>
+#include <cstddef>
 #include <vector>
 
 
-namespace mb::ul
-{
-namespace vector
+namespace mb::ul::vector
 {
 //! Only makes sense for dst not within [start, start + length).
 /** Whereas dst == start + length (also, for this function) means doing nothing.*/
@@ -35,7 +30,6 @@ inline void move_range(size_t start, size_t length, size_t dst, std::vector<T>& 
     else
         v.insert(v.begin() + final_dst, std::make_move_iterator(tmp.begin()), std::make_move_iterator(tmp.end()));
 }
-} // namespace vector
 } // namespace mb::ul
 
 #endif

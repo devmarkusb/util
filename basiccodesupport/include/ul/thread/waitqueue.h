@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef WAITQUEUE_H_ejvhnxg853nh8g2h
@@ -98,4 +95,5 @@ private:
     bool stopped_{false};
 };
 } // namespace mb::ul::thread
+
 #endif

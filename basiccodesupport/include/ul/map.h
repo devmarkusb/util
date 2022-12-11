@@ -1,8 +1,5 @@
 // 2016
 
-//!
-/**
- */
 //! \file
 
 #ifndef MAP_H_54982dn78txhwgf1236784g

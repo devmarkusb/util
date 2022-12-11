@@ -31,7 +31,7 @@ namespace alloc
 {
 template <typename StatisticsPolicy = NoStatistics>
 class Linear
-    : private ul::non_copyable
+    : private ul::NonCopyable
     , public StatisticsPolicy
 {
 public:

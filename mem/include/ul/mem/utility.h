@@ -1,8 +1,5 @@
 // 2018
 
-//!
-/**
- */
 //! \file
 
 #ifndef UTILITY_H_ui3gnt3784xgh25g7523gyg

@@ -1,9 +1,6 @@
 // 2014-2016
 
-//! DEPRECATED! Use ignore_unused.
-/**
- */
-//! \file
+//! \file DEPRECATED! Use ignore_unused.
 
 #ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
 #define IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd
@@ -13,9 +10,9 @@
 
 namespace mb::ul
 {
-//! To 'suppress' compiler warning of an unused function parameter. Beyond that, it is
-//! even usable for a function itself (e.g. gcc shows a warning for unused functions).
-/** Example:
+/** To 'suppress' compiler warning of an unused function parameter. Beyond that, it is
+    even usable for a function itself (e.g. gcc shows a warning for unused functions).
+    Example:
     \code
     f(int i) { ignore_arg(i); }
     \endcode

@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef EXCEPTION_H_afsfjdig3478tg4
@@ -11,9 +8,7 @@
 #include <exception>
 
 
-namespace mb::ul
-{
-namespace exception
+namespace mb::ul::exception
 {
 //! This class can e.g. be used to capture exceptions in (OpenMP) threads and rethrow them afterwards.
 class Capture final
@@ -21,7 +16,7 @@ class Capture final
 public:
     //! Construct the object with the code that may throw an exception but shouldn't yet.
     template <typename Callable, typename... Args>
-    Capture(Callable&& f, Args... args) noexcept
+    explicit Capture(Callable&& f, Args... args) noexcept
     {
         try
         {
@@ -49,6 +44,6 @@ private:
 
     std::exception_ptr exceptionPtr_;
 };
-} // namespace exception
 } // namespace mb::ul
+
 #endif

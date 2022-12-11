@@ -27,7 +27,7 @@ namespace mb::ul::mem::alloc
     allocate frequently. But not larger as this wastes space due to padding.*/
 template <size_t capacity_in_bytes, size_t max_alignment_in_bytes, typename StatisticsPolicy = NoStatistics>
 class OnStack
-    : private ul::non_copyable
+    : private ul::NonCopyable
     , public StatisticsPolicy
 {
 public:

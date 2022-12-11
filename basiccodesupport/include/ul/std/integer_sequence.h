@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef INTEGER_SEQUENCE_H_eruix4gh8452gh3g8xh3
@@ -11,7 +8,7 @@
 #include <utility>
 
 
-namespace mb::ul
+namespace mb::ul::idx
 {
 // I would have liked to use the documentation https://en.cppreference.com/w/cpp/utility/integer_sequence
 // in order to use C++1x board tools to simplify things. But wtf do they expect one should do with the
@@ -45,8 +42,6 @@ namespace mb::ul
     The use of ul::idx::gen_seq generates a sequence of a certain array length, which is then used to fill in a
     template parameter that allows fold-expanding the array by index - the function parameter ul::idx::seq itself
     isn't used directly.*/
-namespace idx
-{
 template <int... Is>
 struct seq
 {
@@ -61,7 +56,6 @@ template <int... Is>
 struct gen_seq<0, Is...> : seq<Is...>
 {
 };
-} // namespace idx
-} // namespace mb::ul
+} // namespace mb::ul::idx
 
 #endif

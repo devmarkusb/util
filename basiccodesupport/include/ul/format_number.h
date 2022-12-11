@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef FORMAT_NUMBER_H_sdkihfx378gh87234xgh33h3

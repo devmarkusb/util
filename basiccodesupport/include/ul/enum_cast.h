@@ -1,8 +1,5 @@
 // 2014-19
 
-//!
-/**
- */
 //! \file
 
 #ifndef ENUM_CAST_H_ydjgfrenxzuigfnewgyf8e3q2ygn4

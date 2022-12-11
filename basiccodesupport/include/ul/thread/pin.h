@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef PIN_H_viehrxgzuh34782tg5
@@ -102,7 +99,8 @@ using native_handle = int;
 #endif
 
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
-    \return 0 on success and a certain error code otherwise (with errno set). Also cf. doc. of function overload.*/
+    Also cf. doc. of function overload.
+    \return 0 on success and a certain error code otherwise (with errno set).*/
 inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 #if UL_OS_LINUX || UL_OS_MAC
     noexcept
@@ -131,10 +129,10 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
 }
 
 /** Pins (sets affinity of) executing thread t to CPU number logicalCoreIdx (0-based).
-    \Throws std::runtime_error on error. Note: an empty constructed std::thread won't do.
     Further note that in an example setup of 4 cores where 2 of them (which ones?) are only hyperthreading
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half
-    of them might be sufficient sometimes then.*/
+    of them might be sufficient sometimes then.
+    \throws std::runtime_error on error. Note: an empty constructed std::thread won't do.*/
 inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
 {
     UL_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t

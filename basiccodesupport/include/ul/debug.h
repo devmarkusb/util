@@ -1,10 +1,6 @@
 // 2011-19
 
-//!
-/** Contains useful tools for debugging, like run-time breakpoints.
- */
-//! \file
-
+//! \file Contains useful tools for debugging, like run-time breakpoints.
 
 #ifndef DEBUG_MISC_H_n9283zr823rz832
 #define DEBUG_MISC_H_n9283zr823rz832

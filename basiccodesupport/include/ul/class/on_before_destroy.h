@@ -1,9 +1,6 @@
 // 2017
 
-//!
-/** More than just a first example of using the ul::Listener/ul::ListenerRegister pair.
- */
-//! \file
+//! \file More than just a first example of using the ul::Listener/ul::ListenerRegister pair.
 
 #ifndef ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1
 #define ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1
@@ -13,10 +10,10 @@
 
 namespace mb::ul
 {
-//! This could be a very useful listener/notifier pair in any situation where you
-//! want to manage lifetimes in dependency injection situations and don't want to
-//! use a shared pointer.
-/** If you inject an object pointer that won't live as long as the containing
+/** This could be a very useful listener/notifier pair in any situation where you
+    want to manage lifetimes in dependency injection situations and don't want to
+    use a shared pointer.
+    If you inject an object pointer that won't live as long as the containing
     object (the one that contains the injected object), you just need to make
     the containing object listen to the injected object notifying about its own
     destructtion. That is you need to
@@ -29,9 +26,7 @@ namespace mb::ul
 */
 struct OnBeforeDestroyListener : public Listener
 {
-    virtual ~OnBeforeDestroyListener()
-    {
-    }
+    ~OnBeforeDestroyListener() override = default;
 
     virtual void onBeforeDestroy() = 0;
 };

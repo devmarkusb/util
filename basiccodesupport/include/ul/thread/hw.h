@@ -1,9 +1,6 @@
 // 2019
 
-//! Hardware diagnostics.
-/**
- */
-//! \file
+//! \file Hardware diagnostics.
 
 #ifndef HW_H_gi4uhx548hnx4875h7xg785h
 #define HW_H_gi4uhx548hnx4875h7xg785h

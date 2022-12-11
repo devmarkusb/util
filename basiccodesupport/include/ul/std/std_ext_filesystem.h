@@ -1,9 +1,6 @@
 // 2017-19
 
-//!
-/** Cf. std_extensions.h
- */
-//! \file
+//! \file Cf. std_extensions.h
 
 #ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
 #define STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
@@ -538,15 +535,12 @@ inline void current_path(const path& p, std::error_code& ec) noexcept
 
 #endif
 
-namespace mb::ul
-{
-namespace file
+namespace mb::ul::file
 {
 inline void touch(const ul::std_fs::path& p)
 {
     std::ofstream f{p.string()};
 }
-} // namespace file
 } // namespace mb::ul
 
 #include "ul/macros_end.h"

@@ -1,8 +1,5 @@
 // 2016-17
 
-//!
-/**
- */
 //! \file
 
 #ifndef LISTENER_H_sjkdzth78tn2378xgh73fr
@@ -32,11 +29,11 @@ namespace mb::ul
     {
         View()
         {
-            this->m_in_v.register_listener(this);
+            this->m_in_v.registerListener(this);
         }
         ~View()
         {
-            this->m_in_v.unregister_listener(this);
+            this->m_in_v.unregisterListener(this);
         }
     private:
         Model m_in_v;
@@ -52,9 +49,7 @@ struct Listener
 {
     virtual ~Listener() = 0;
 };
-inline Listener::~Listener()
-{
-}
+inline Listener::~Listener() = default;
 
 //! Base class for every sender/notifier.
 /** Usage:
@@ -63,7 +58,7 @@ inline Listener::~Listener()
     {
         void on_prop_changed()
         {
-            for (auto& l : this->registered_listeners)
+            for (auto& l : this->registeredListeners)
                 dynamic_cast<Model_listener*>(l)->on_prop_changed();
         }
     };
@@ -99,88 +94,88 @@ class ListenerRegister
 public:
     virtual ~ListenerRegister() = default;
 
-    /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
+    /** \param l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    virtual void register_listener(Listener* l)
+    virtual void registerListener(Listener* l)
     {
         UL_EXPECT(l);
         UL_EXPECT(
-            std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l)
-            == std::end(this->registered_listeners));
+            std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
+            == std::end(this->registeredListeners_));
 
-        this->registered_listeners.push_back(l);
+        this->registeredListeners_.push_back(l);
     }
 
-    /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
+    /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    virtual void unregister_listener(Listener* l)
+    virtual void unregisterListener(Listener* l)
     {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l);
-        UL_EXPECT(it != std::end(this->registered_listeners));
+        const auto it = std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l);
+        UL_EXPECT(it != std::end(this->registeredListeners_));
 
-        this->registered_listeners.erase(it);
+        this->registeredListeners_.erase(it);
     }
 
     //! \param l has to be non-nullptr.
-    virtual bool is_registered(Listener* l) const
+    virtual bool isRegistered(Listener* l) const
     {
         UL_EXPECT(l);
 
-        return std::find(std::begin(this->registered_listeners), std::end(this->registered_listeners), l)
-               != std::end(this->registered_listeners);
+        return std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
+               != std::end(this->registeredListeners_);
     }
 
 protected:
-    using listener_container = std::vector<Listener*>;
-    listener_container registered_listeners;
+    using ListenerContainer = std::vector<Listener*>;
+    ListenerContainer registeredListeners_;
 };
 
-//! Static version of ListenerRegister. That is, you can let your
-//! class be a notfier statically and not per object.
+/** Static version of ListenerRegister. That is, you can let your
+    class be a notfier statically and not per object.*/
 template <class StaticNotifier>
 class ListenerStaticRegister
 {
 public:
-    /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
+    /** \param l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    static void register_listener(Listener* l)
+    static void registerListener(Listener* l)
     {
         UL_EXPECT(l);
         UL_EXPECT(
-            std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
-            == std::end(registered_listeners()));
+            std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
+            == std::end(registeredListeners()));
 
-        registered_listeners().push_back(l);
+        registeredListeners().push_back(l);
     }
 
-    /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
+    /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    static void unregister_listener(Listener* l)
+    static void unregisterListener(Listener* l)
     {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l);
-        UL_EXPECT(it != std::end(registered_listeners()));
+        const auto it = std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l);
+        UL_EXPECT(it != std::end(registeredListeners()));
 
-        registered_listeners().erase(it);
+        registeredListeners().erase(it);
     }
 
     //! \param l has to be non-nullptr.
-    static bool is_registered(Listener* l)
+    static bool isRegistered(Listener* l)
     {
         UL_EXPECT(l);
 
-        return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
-               != std::end(registered_listeners());
+        return std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
+               != std::end(registeredListeners());
     }
 
 protected:
-    using listener_container = std::vector<Listener*>;
-    static listener_container& registered_listeners()
+    using ListenerContainer = std::vector<Listener*>;
+    static ListenerContainer& registeredListeners()
     {
-        static listener_container inst;
+        static ListenerContainer inst;
         return inst;
     }
 };

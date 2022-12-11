@@ -1,8 +1,5 @@
 // 2016
 
-//!
-/**
- */
 //! \file
 
 #ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
@@ -54,9 +51,7 @@ const none_t none = nullptr;
 template <typename T>
 struct opt
 {
-    opt()
-    {
-    }
+    opt() = default;
     ~opt() = default;
 
     opt(const opt<T>& other)
@@ -79,20 +74,20 @@ struct opt
     }
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    opt(opt<T>&&) = default;
-    opt& operator=(opt<T>&&) = default;
+    opt(opt<T>&&) noexcept = default;
+    opt& operator=(opt<T>&&) noexcept = default;
 #endif
 
-    opt(const T& x)
+    /*implicit*/ opt(const T& x)
         : holder(ul::make_unique<T>(x))
     {
     }
-    opt(T&& x)
+    /*implicit*/ opt(T&& x)
         : holder(ul::make_unique<T>(std::move(x)))
     {
     }
 
-    operator T*() const
+    /*implicit*/ operator T*() const
     {
         return this->holder.get();
     }
@@ -162,7 +157,7 @@ bool operator<(const opt<T>& lhs, const opt<T>& rhs)
     else if (!lhs && !rhs)
         return false;
     else
-        return !lhs && rhs ? true : false; // decide none to be the smallest
+        return !lhs && rhs; // decide none to be the smallest
 }
 
 template <typename T>

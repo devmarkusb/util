@@ -18,7 +18,7 @@ struct Model_notifier : public ul::ListenerRegister
 {
     void on_prop_changed()
     {
-        for (auto& l : this->registered_listeners)
+        for (auto& l : this->registeredListeners_)
             dynamic_cast<Model_listener*>(l)->on_prop_changed();
     }
 };
@@ -48,11 +48,11 @@ struct View : private Model_listener
 {
     View()
     {
-        this->m_in_v.register_listener(this);
+        this->m_in_v.registerListener(this);
     }
     ~View() override
     {
-        this->m_in_v.unregister_listener(this);
+        this->m_in_v.unregisterListener(this);
     }
 
     int get_prop() const

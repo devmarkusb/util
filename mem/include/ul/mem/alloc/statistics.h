@@ -1,8 +1,5 @@
 // 2018
 
-//!
-/**
- */
 //! \file
 
 #ifndef STATISTICS_H_eorxmgh9385g257xgishuv

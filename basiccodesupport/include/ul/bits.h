@@ -1,8 +1,5 @@
 // 2019
 
-//!
-/**
- */
 //! \file
 
 #ifndef BITS_H_sljkhvnx2hng7835ghm3g7h3
@@ -17,9 +14,7 @@
 #include <numeric>
 
 
-namespace mb::ul
-{
-namespace bits
+namespace mb::ul::bits
 {
 using Idx = int;
 using Count = Idx;
@@ -109,7 +104,7 @@ constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept
 //! Makes a bit mask of count 1's, > 0 starting at 0-based index idx.
 /** \tparam TargetType is typically chosen to be uintX_t, that is unsigned with some arbitrary bit count.
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
-    of big endian, but endianess doesn't matter considering the realm of this function alone).*/
+    of big endian, but endianness doesn't matter considering the realm of this function alone).*/
 template <typename TargetType = uint64_t>
 constexpr TargetType setRange(Idx idx, Count count) noexcept
 {
@@ -177,7 +172,7 @@ public:
         array.fill({});
     }
 
-    bool isSet(Idx idx) const noexcept
+    [[nodiscard]] bool isSet(Idx idx) const noexcept
     {
         UL_EXPECT(idx < bits);
         return array[N(idx)] & partBit(I(idx));
@@ -188,12 +183,12 @@ private:
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
     std::array<BaseType, partsCount> array{};
 
-    Idx N(Idx idx) const noexcept
+    [[nodiscard]] Idx N(Idx idx) const noexcept
     {
         return idx / ul::bits::count<BaseType>();
     }
 
-    Idx I(Idx idx) const noexcept
+    [[nodiscard]] Idx I(Idx idx) const noexcept
     {
         return idx % ul::bits::count<BaseType>();
     }
@@ -342,6 +337,6 @@ inline bool is_bigendian() noexcept
     static const int one{1};
     return *reinterpret_cast<const uint8_t*>(&one) == uint8_t{0};
 }
-} // namespace bits
 } // namespace mb::ul
+
 #endif
