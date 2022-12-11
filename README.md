@@ -6,7 +6,7 @@ after or next to std.
 Practically util or util library is abbreviated as
 namespace ul or prefix UL_ everywhere.
 
-# What's in it?
+## What's in it?
 
 * Above all your entry point is browsing the header files.
 * buildenv just contains stuff helping you in setting up build
@@ -17,9 +17,9 @@ are shifted into other, separate parts of the lib.
 * Note that, ul (buildenv) also includes/contains the gsl lib
 from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 
-# Usage
+## Usage
 
-## Cmake
+### Cmake
 
 ```
 add_subdirectory(util)
@@ -30,7 +30,7 @@ should be all you need.
 If a part of the lib requires static linking, you will get to this
 automatically, or via a local README.
 
-# Contributing
+## Contributing
 
 * In case you're wondering, file preambles like `// 2015-17` are the
 only remainder of old 'Copyright' notices. They denote the year of
