@@ -1,4 +1,4 @@
-// 2018
+// 2018-22
 
 //! \file
 
@@ -8,14 +8,12 @@
 #include <cstddef>
 
 
-namespace mb::ul
+namespace mb::ul::mem
 {
-namespace mem
-{
-inline constexpr size_t pad_up(size_t n, size_t alignment) noexcept
+inline constexpr size_t padUp(size_t n, size_t alignment) noexcept
 {
     return (n + (alignment - 1)) & ~(alignment - 1);
 }
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
+
 #endif

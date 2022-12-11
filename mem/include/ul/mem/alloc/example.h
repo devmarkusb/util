@@ -1,9 +1,6 @@
-// 2018
+// 2018-22
 
-//!
-/** Implements default new+delete as example allocation strategy.
- */
-//! \file
+//! \file Implements default new+delete as example allocation strategy.
 
 #ifndef EXAMPLE_H_sdufhi3gn78325tx7635tn27
 #define EXAMPLE_H_sdufhi3gn78325tx7635tn27
@@ -13,26 +10,21 @@
 #include <new>
 
 
-namespace mb::ul
-{
-namespace mem
-{
-namespace alloc
+namespace mb::ul::mem::alloc
 {
 class Example
 {
 public:
-    uint8_t* allocate(Bytes size)
+    static uint8_t* allocate(Bytes size)
     {
         return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
-    void deallocate(uint8_t* p, Bytes = {}) noexcept
+    static void deallocate(uint8_t* p, Bytes = {}) noexcept
     {
         ::operator delete(p);
     }
 };
-} // namespace alloc
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem::alloc
+
 #endif

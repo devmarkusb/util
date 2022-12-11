@@ -1,9 +1,8 @@
-// 2018
+// 2018-22
 
-//!
-/** An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies
+/** \file
+    An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies
     or arenas implemented in subdir alloc.*/
-//! \file
 
 #ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 #define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
@@ -17,9 +16,7 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul
-{
-namespace mem
+namespace mb::ul::mem
 {
 template <typename T, typename AllocArenaStrategy>
 class Allocator
@@ -49,7 +46,7 @@ public:
         a_.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
     }
 
-    size_t max_size() const noexcept
+    [[nodiscard]] size_t max_size() const noexcept
     {
         return std::numeric_limits<size_t>::max() / sizeof(value_type);
     }
@@ -76,8 +73,7 @@ bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T
 {
     return !(lhs == rhs);
 }
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
 
 #include "ul/macros_end.h"
 

@@ -9,9 +9,7 @@
 #include <new>
 
 
-namespace mb::ul
-{
-namespace mem
+namespace mb::ul::mem
 {
 //! Provides a base class to equip arbitrary classes with their *own* new handler support.
 /** Usage: \code class X : public ul::NewHandlerSupport<X>{...}; \endcode
@@ -63,7 +61,6 @@ void* NewHandlerSupport<T>::operator new(size_t size)
     std::set_new_handler(globalHandler);
     return memory;
 }
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
 
 #endif

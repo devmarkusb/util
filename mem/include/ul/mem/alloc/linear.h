@@ -1,7 +1,7 @@
-// 2018-19
+// 2018-22
 
-//!
-/** Implements the most simple (but perhaps also most efficient) linear memory allocation arena/strategy.
+/** \file
+    Implements the most simple (but perhaps also most efficient) linear memory allocation arena/strategy.
     The idea is that physical allocation and deallocation happen at the beginning and the end only, but nowhere in
     between.
     Important notes:
@@ -10,7 +10,6 @@
     - You should be aware that deallocate here does nothing (except for corner cases when deallocating
     a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
     erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
-//! \file
 
 #ifndef LINEAR_H_jsdkdbhfzu34gt2837tnyg13
 #define LINEAR_H_jsdkdbhfzu34gt2837tnyg13
@@ -23,11 +22,7 @@
 #include <new>
 
 
-namespace mb::ul
-{
-namespace mem
-{
-namespace alloc
+namespace mb::ul::mem::alloc
 {
 template <typename StatisticsPolicy = NoStatistics>
 class Linear
@@ -48,7 +43,7 @@ public:
         ::operator delete(buf_, alignment_);
     }
 
-    Bytes size() const noexcept
+    [[nodiscard]] Bytes size() const noexcept
     {
         return curr_offset_;
     }
@@ -85,7 +80,7 @@ public:
         return buf_ + old_offset.value;
     }
 
-    void deallocate(uint8_t* p, Bytes size) noexcept
+    void deallocate(const uint8_t* p, Bytes size) noexcept
     {
         if (p + size.value == buf_ + curr_offset_.value)
             curr_offset_ -= size;
@@ -97,7 +92,6 @@ private:
     Bytes curr_offset_{};
     Bytes capacity_{};
 };
-} // namespace alloc
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem::alloc
+
 #endif

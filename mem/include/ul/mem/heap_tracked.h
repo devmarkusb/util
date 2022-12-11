@@ -1,9 +1,6 @@
-// 2011-18
+// 2011-22
 
-//!
-/** Taken from Meyers' book.
- */
-//! \file
+/** \file Taken from Meyers' book.*/
 
 #ifndef HEAP_TRACKED_H_x4tm7839g934
 #define HEAP_TRACKED_H_x4tm7839g934
@@ -15,9 +12,7 @@
 #include <list>
 
 
-namespace mb::ul
-{
-namespace mem
+namespace mb::ul::mem
 {
 //! Usage: let your class publically derive from this one.
 /** Note: doesn't work with smart pointers, except they are explicitly created by new.
@@ -37,7 +32,7 @@ public:
 
     static void operator delete(void* ptr) noexcept
     {
-        std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), ptr);
+        auto it = std::find(addresses().begin(), addresses().end(), ptr);
 
         if (it != addresses().end())
         {
@@ -51,10 +46,10 @@ public:
         }
     }
 
-    bool isOnHeap() const
+    [[nodiscard]] bool isOnHeap() const
     {
         const void* rawAddress = dynamic_cast<const void*>(this);
-        std::list<RawAddress>::iterator it = std::find(addresses().begin(), addresses().end(), rawAddress);
+        auto it = std::find(addresses().begin(), addresses().end(), rawAddress);
         return it != addresses().end();
     }
 
@@ -66,7 +61,6 @@ private:
         return addresses_;
     }
 };
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
 
 #endif

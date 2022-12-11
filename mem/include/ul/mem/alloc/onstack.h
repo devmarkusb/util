@@ -1,12 +1,11 @@
-// 2018-19
+// 2018-22
 
-//!
-/** Implements allocation on the stack as arena/strategy.
+/** \file
+    Implements allocation on the stack as arena/strategy.
     Important note:
     You should be aware that deallocate here does nothing (except for corner cases when deallocating
     a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
     erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
-//! \file
 
 #ifndef ONSTACK_H_eourtz3478xth378tgh
 #define ONSTACK_H_eourtz3478xth378tgh
@@ -56,7 +55,7 @@ public:
     {
         return Bytes{capacity_in_bytes};
     }
-    Bytes size() const noexcept
+    [[nodiscard]] Bytes size() const noexcept
     {
         return Bytes{static_cast<size_t>(curr_memptr_ - buf_)};
     }
@@ -68,7 +67,7 @@ public:
 private:
     UL_PRAGMA_WARNINGS_PUSH
     UL_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
-    alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes];
+    alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes]{};
     UL_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };

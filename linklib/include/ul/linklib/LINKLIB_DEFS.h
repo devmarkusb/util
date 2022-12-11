@@ -1,7 +1,7 @@
 // 2015-17
 
-//!
-/** Usage I: The following steps are for a library (shared or static) as intended target.
+/** \file
+    Usage I: The following steps are for a library (shared or static) as intended target.
     (1) In the build configuration of your library define sth. like YOURLIB_LIBRARY. This is
     the indicator, that a library should be built from the code. Of course you don't do this in
     the application which later uses the library.
@@ -37,7 +37,6 @@
         Nothing to do. Just include your library headers with the exported symbols that you like to use.
     - Note: Never use late binding, if not absolutely necessary. There are just more pitfalls.
 */
-//! \file
 
 #ifndef LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
 #define LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g

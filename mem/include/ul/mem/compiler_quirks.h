@@ -1,9 +1,6 @@
 // 2019
 
-//! Specialities that were observed to be compiler implementation specific.
-/**
- */
-//! \file
+//! \file Specialities that were observed to be compiler implementation specific.
 
 #ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 #define COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
@@ -13,9 +10,7 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul::mem::quirk
-{
-namespace vector
+namespace mb::ul::mem::quirk::vector
 {
 /** Quite 'funny' that msvc allocates a certain amount when constructing a vector,
     at least capacity still being zero. But, no offense at all: this is debug-only
@@ -28,8 +23,7 @@ constexpr ul::mem::Bytes constr_heap_alloc_size
     0
 #endif
 };
-} // namespace vector
-} // namespace mb::ul::mem::quirk
+} // namespace mb::ul::mem::quirk::vector
 
 #include "ul/macros_end.h"
 

@@ -11,9 +11,7 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul
-{
-namespace mem
+namespace mb::ul::mem
 {
 const size_t KB = 1000;
 constexpr size_t MB = 1000 * KB;
@@ -39,7 +37,7 @@ struct Bytes
         return *this;
     }
 
-    constexpr operator bool() const noexcept
+    constexpr /*implicit*/ operator bool() const noexcept
     {
         return value;
     }
@@ -107,8 +105,7 @@ inline std::ostream& operator<<(std::ostream& os, Bytes x)
     os << x.value << " B";
     return os;
 }
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
 
 #include "ul/macros_end.h"
 

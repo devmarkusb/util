@@ -1,4 +1,4 @@
-// 2018
+// 2018-22
 
 //! \file
 
@@ -11,16 +11,12 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul
-{
-namespace mem
-{
-namespace alloc
+namespace mb::ul::mem::alloc
 {
 class Statistics
 {
 public:
-    std::optional<Bytes> peak() const
+    [[nodiscard]] std::optional<Bytes> peak() const
     {
         if (peak_)
             return peak_;
@@ -57,30 +53,28 @@ private:
 class NoStatistics
 {
 public:
-    std::optional<Bytes> peak() const
+    [[nodiscard]] static std::optional<Bytes> peak()
     {
         return std::nullopt;
     }
 
 protected:
-    void statsCollect_currentSize(Bytes)
+    static void statsCollect_currentSize(Bytes)
     {
         UL_NOOP;
     }
 
-    void statsCollect_alloc(Bytes)
+    static void statsCollect_alloc(Bytes)
     {
         UL_NOOP;
     }
 
-    void statsCollect_dealloc(Bytes)
+    static void statsCollect_dealloc(Bytes)
     {
         UL_NOOP;
     }
 };
-} // namespace alloc
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem::alloc
 
 #include "ul/macros_end.h"
 

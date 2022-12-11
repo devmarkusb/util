@@ -1,21 +1,17 @@
 // 2011
 
-//!
-/** Generating compiler errors when deleting incomplete types (types of objects for which delete doesn't see the
+/** \file
+    Generating compiler errors when deleting incomplete types (types of objects for which delete doesn't see the
     whole declaration and a non-trivial destructor exists).
     Implementation inspired by boost.
 */
-//! \file
 
 #ifndef CHECKED_DELETE_H_f3287rn32r7nz237
 #define CHECKED_DELETE_H_f3287rn32r7nz237
 
 
-namespace mb::ul
+namespace mb::ul::mem
 {
-namespace mem
-{
-//!
 template <class T>
 inline void checked_delete(T* x)
 {
@@ -23,7 +19,7 @@ inline void checked_delete(T* x)
     (void)sizeof(type_must_be_complete);
     delete x;
 }
-//!
+
 template <class T>
 inline void checked_array_delete(T* x)
 {
@@ -31,7 +27,6 @@ inline void checked_array_delete(T* x)
     (void)sizeof(type_must_be_complete);
     delete[] x;
 }
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem
 
 #endif

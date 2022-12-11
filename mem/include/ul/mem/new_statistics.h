@@ -1,11 +1,9 @@
-// 2019
+// 2019-22
 
-//! Replaces (overrides) global new and delete to collect memory usage statistics.
+//! \file Replaces (overrides) global new and delete to collect memory usage statistics.
 /** Usage: You just need to include this header in a single arbitrary source file of your target. Then every
     use of new/delete will be replaced with the custom version here (even standard library calls, everything).
-    So please take care that you're absolutely conscious whether you want to do this.
- */
-//! \file
+    So please take care that you're absolutely conscious whether you want to do this.*/
 
 #ifndef NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
 #define NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
@@ -110,28 +108,28 @@ public:
         sh->~StatsHeader();
     }
 
-    std::size_t newCalls() const noexcept
+    [[nodiscard]] std::size_t newCalls() const noexcept
     {
         return newCalls_.load();
     }
 
-    std::size_t deleteCalls() const noexcept
+    [[nodiscard]] std::size_t deleteCalls() const noexcept
     {
         return deleteCalls_.load();
     }
 
-    Bytes allocatedSize() const noexcept
+    [[nodiscard]] Bytes allocatedSize() const noexcept
     {
         return Bytes{allocatedSize_.load()};
     }
 
-    Bytes deallocatedSize() const noexcept
+    [[nodiscard]] Bytes deallocatedSize() const noexcept
     {
         return Bytes{deallocatedSize_.load()};
     }
 
     /** \return the maximum/peak size allocated.*/
-    Bytes peakSize() const noexcept
+    [[nodiscard]] Bytes peakSize() const noexcept
     {
         return Bytes{peakSize_.load()};
     }

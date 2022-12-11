@@ -1,9 +1,6 @@
 // 2018
 
-//!
-/** Implements default new+delete as allocation strategy, plus optional statistics.
- */
-//! \file
+//! \file Implements default new+delete as allocation strategy, plus optional statistics.
 
 #ifndef DEFAULT_H_4576gdjfcghkwh45t7428335
 #define DEFAULT_H_4576gdjfcghkwh45t7428335
@@ -14,11 +11,7 @@
 #include <new>
 
 
-namespace mb::ul
-{
-namespace mem
-{
-namespace alloc
+namespace mb::ul::mem::alloc
 {
 template <typename StatisticsPolicy = NoStatistics>
 class DefaultNewDelete : public StatisticsPolicy
@@ -36,7 +29,6 @@ public:
         ::operator delete(p);
     }
 };
-} // namespace alloc
-} // namespace mem
-} // namespace mb::ul
+} // namespace mb::ul::mem::alloc
+
 #endif
