@@ -32,7 +32,7 @@ class OnStack
 public:
     uint8_t* allocate(Bytes size)
     {
-        const auto padded_size = pad_up(size.value, max_alignment_in_bytes);
+        const auto padded_size = padUp(size.value, max_alignment_in_bytes);
         if (static_cast<decltype(padded_size)>(buf_ + capacity_in_bytes - curr_memptr_) < padded_size)
             throw std::bad_alloc{};
 
@@ -46,7 +46,7 @@ public:
 
     void deallocate(uint8_t* p, Bytes size) noexcept
     {
-        size.value = pad_up(size.value, max_alignment_in_bytes);
+        size.value = padUp(size.value, max_alignment_in_bytes);
         if (p + size.value == curr_memptr_)
             curr_memptr_ = p;
     }

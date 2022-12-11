@@ -21,13 +21,13 @@ bool XNOR(const T1& lhs, const T2& rhs)
 //! we use that strange workaround.
 //!@{
 template <typename T1>
-bool XNOR(const T1& lhs, const std::nullptr_t& rhs)
+bool XNOR(const T1& lhs, const std::nullptr_t&)
 {
     return !lhs == true;
 }
 
 template <typename T2>
-bool XNOR(const std::nullptr_t& lhs, const T2& rhs)
+bool XNOR(const std::nullptr_t&, const T2& rhs)
 {
     return true == !rhs;
 }

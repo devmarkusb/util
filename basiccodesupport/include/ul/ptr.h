@@ -50,7 +50,7 @@ class not_null
     static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
 
 public:
-    explicit not_null(T t)
+    /*implicit*/ not_null(T t)
         : ptr(t)
     {
         ensure_invariant();
@@ -97,7 +97,7 @@ public:
         return ptr;
     }
 
-    explicit operator T() const
+    /*implicit*/ operator T() const
     {
         return get();
     }

@@ -3,7 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(pad_up, alignment4)
+TEST(padUp, alignment4)
 {
     EXPECT_EQ(ul::mem::padUp(1, 4), 4);
     EXPECT_EQ(ul::mem::padUp(2, 4), 4);
@@ -16,7 +16,7 @@ TEST(pad_up, alignment4)
     EXPECT_EQ(ul::mem::padUp(9, 4), 12);
 }
 
-TEST(pad_up, pathological)
+TEST(padUp, pathological)
 {
     EXPECT_EQ(ul::mem::padUp(0, 0), 0);
     EXPECT_EQ(ul::mem::padUp(0, 1), 0);
@@ -27,7 +27,7 @@ TEST(pad_up, pathological)
     EXPECT_EQ(ul::mem::padUp(42, 0), 0);
 }
 
-TEST(pad_up, alignment1)
+TEST(padUp, alignment1)
 {
     EXPECT_EQ(ul::mem::padUp(1, 1), 1);
     EXPECT_EQ(ul::mem::padUp(2, 1), 2);

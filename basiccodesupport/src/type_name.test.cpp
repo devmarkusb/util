@@ -13,7 +13,7 @@ TEST(type_nameTest, basic)
     {
     };
 #if !UL_COMP_GNU_CPP
-    EXPECT_STREQ(ul::typeName<SomeTypeName>().data(), "() [T = SomeTypeName]");
+    EXPECT_STREQ(ul::typeName<SomeTypeName>().data(), ") [T = SomeTypeName]");
 #endif
 }
 
@@ -21,7 +21,7 @@ TEST(type_nameTest, special)
 {
     auto whatType = std::make_tuple("bla", 42, 1.33);
 #if !UL_COMP_GNU_CPP
-    EXPECT_STREQ(ul::typeName<decltype(whatType)>().data(), "() [T = std::tuple<const char *, int, double>]");
+    EXPECT_STREQ(ul::typeName<decltype(whatType)>().data(), ") [T = std::tuple<const char *, int, double>]");
 #else
     ul::ignore_arg(whatType);
 #endif
