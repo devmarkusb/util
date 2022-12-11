@@ -1,9 +1,6 @@
 // 2017
 
-//!
-/** Bucket for unexpectedly needed compiler backwards compatibility.
- */
-//! \file
+//! \file Bucket for unexpectedly needed compiler backwards compatibility.
 
 #ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h
 #define COMP_BWDS_H_uiregb74n398734gf478gy8734h

@@ -1,8 +1,6 @@
 // 2011-20
 
-//!
-/** Most common and basic preprocessor defines.*/
-//! \file
+//! \file Most common and basic preprocessor defines.
 
 // no include guard intentionally
 

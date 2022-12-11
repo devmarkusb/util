@@ -1,7 +1,7 @@
 // 2018
 
-//!
-/** Disable/enable compiler/linker warnings.
+/** \file
+    Disable/enable compiler/linker warnings.
     UL_PRAGMA_WARNINGS_PUSH saves the current warning settings, UL_PRAGMA_WARNINGS_POP resets the
     warning settings to the state before calling UL_PRAGMA_WARNINGS_PUSH.
     UL_WARNING_DISABLE_<compiler>(w) disables warning w for a specific compiler.
@@ -9,7 +9,6 @@
     every compiler. But for MSVC this additionally disables *all* all warnings (useful when including 3rd party headers,
     but this problem might also be solvable in another way).
 */
-//! \file
 
 #ifndef WARNINGS_H_erufh35782xz3785th183
 #define WARNINGS_H_erufh35782xz3785th183
