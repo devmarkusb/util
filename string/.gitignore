@@ -4,3 +4,5 @@ bin
 bin_*
 lib
 lib_*
+
+!.clang-format

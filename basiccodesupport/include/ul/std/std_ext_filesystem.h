@@ -541,7 +541,7 @@ inline void touch(const ul::std_fs::path& p)
 {
     std::ofstream f{p.string()};
 }
-} // namespace mb::ul
+} // namespace mb::ul::file
 
 #include "ul/macros_end.h"
 

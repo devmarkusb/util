@@ -93,7 +93,7 @@
 
 #if defined(__GNUC__) && !UL_COMP_CLANG
 #define UL_COMP_GNU_CPP     1
-#define GCC_VERSION          (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#define GCC_VERSION         (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #define UL_COMP_GNU_CPP_VER GCC_VERSION
 #endif
 

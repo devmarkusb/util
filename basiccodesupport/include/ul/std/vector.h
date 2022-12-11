@@ -30,6 +30,6 @@ inline void move_range(size_t start, size_t length, size_t dst, std::vector<T>& 
     else
         v.insert(v.begin() + final_dst, std::make_move_iterator(tmp.begin()), std::make_move_iterator(tmp.end()));
 }
-} // namespace mb::ul
+} // namespace mb::ul::vector
 
 #endif
