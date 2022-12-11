@@ -1,4 +1,4 @@
-// 2011-2017
+// 2011-2022
 
 //! \file
 
@@ -15,9 +15,7 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul
-{
-namespace str
+namespace mb::ul::str
 {
 struct conversion_error : public std::runtime_error
 {
@@ -82,7 +80,7 @@ inline char* s2psz(const std::string& s)
 //! Converts s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but
 //! replacements
 //! like "&#228;" for non-ASCII. Throws if s is not valid UTF8.
-inline std::string utf8toHTML(const std::string& s)
+inline std::string utf8_to_HTML(const std::string& s)
 {
     std::string ret;
     ret.reserve(s.size());
@@ -125,9 +123,8 @@ inline std::string utf8_to_printableASCII(const std::string& s);
 inline std::string printableASCII_to_utf8(const std::string& s);
 
 
-inline std::string toHexString(const std::string& s, const std::string& prefix = {});
-} // namespace str
-} // namespace mb::ul
+inline std::string to_hex_string(const std::string& s, const std::string& prefix = {});
+} // namespace mb::ul::str
 
 
 //####################################################################################################################

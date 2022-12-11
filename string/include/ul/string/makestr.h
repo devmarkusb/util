@@ -1,9 +1,6 @@
 // 2011-2016
 
-//!
-/** From David Rodr?guez - dribeas, stackoverflow.
- */
-//! \file
+//! \file From David Rodr?guez - dribeas, stackoverflow.
 
 
 #ifndef MAKESTR_H_92nzr29h3f8
@@ -13,9 +10,7 @@
 #include <string>
 
 
-namespace mb::ul
-{
-namespace str
+namespace mb::ul::str
 {
 //! Usage: f( (makestr() << "Some string" << sSome_string << iSomeInt << dSomeDouble << "...").c_str() );
 class makestr
@@ -27,7 +22,7 @@ public:
         m_buffer << data;
         return *this;
     }
-    operator std::string() const
+    /*implicit*/ operator std::string() const
     {
         return m_buffer.str();
     }
@@ -35,7 +30,6 @@ public:
 private:
     std::ostringstream m_buffer;
 };
-} // namespace str
-} // namespace mb::ul
+} // namespace mb::ul::str
 
 #endif

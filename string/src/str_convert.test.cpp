@@ -101,7 +101,7 @@ TEST(utf8toHTML, test)
 {
     std::string s("\xc3\xa4"
                   "hnlich\x21 Und nochmal:\xc3\xa4");
-    std::string ret = ul::str::utf8toHTML(s);
+    std::string ret = ul::str::utf8_to_HTML(s);
     EXPECT_EQ("&#228;hnlich! Und nochmal:&#228;", ret);
 }
 
@@ -155,6 +155,6 @@ TEST(utf8_to_printableASCII, failtest)
 
 TEST(toHexString, test)
 {
-    EXPECT_STREQ("c3a4", ul::str::toHexString("\xc3\xa4").c_str());
-    EXPECT_STREQ("\\xc3\\xa4", ul::str::toHexString("\xc3\xa4", "\\x").c_str());
+    EXPECT_STREQ("c3a4", ul::str::to_hex_string("\xc3\xa4").c_str());
+    EXPECT_STREQ("\\xc3\\xa4", ul::str::to_hex_string("\xc3\xa4", "\\x").c_str());
 }

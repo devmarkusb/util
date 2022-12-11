@@ -1,3 +1,8 @@
+/**
+\file
+All-in-one include file for this part of the lib.
+*/
+
 #ifndef STRING_H_erjixgth3478og3487g
 #define STRING_H_erjixgth3478og3487g
 

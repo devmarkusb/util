@@ -1,4 +1,4 @@
-// 2011-2016
+// 2011-2022
 
 //! \file
 
@@ -27,12 +27,8 @@
 #include "ul/macros.h"
 
 
-namespace mb::ul
+namespace mb::ul::str
 {
-namespace str
-{
-inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr);
-
 inline std::string utf16to8_ws2s(const std::wstring& wstr)
 {
 #if UL_OS_WINDOWS
@@ -67,8 +63,6 @@ inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
     throw ul::not_implemented{"utf16or32to8_ws2s_portable"};
 #endif
 }
-
-inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
 
 inline std::wstring utf8to16_s2ws(const std::string& str)
 {
@@ -280,7 +274,7 @@ inline std::string printableASCII_to_utf8(const std::string& s)
     return latin1_to_utf8(s);
 }
 
-inline std::string toHexString(const std::string& s, const std::string& prefix)
+inline std::string to_hex_string(const std::string& s, const std::string& prefix)
 {
     static const char* const lut{"0123456789abcdef"};
     size_t length = s.size();
@@ -294,8 +288,7 @@ inline std::string toHexString(const std::string& s, const std::string& prefix)
     });
     return ret;
 }
-} // namespace str
-} // namespace mb::ul
+} // namespace mb::ul::str
 
 #include "ul/macros_end.h"
 

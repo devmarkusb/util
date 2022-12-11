@@ -1,4 +1,4 @@
-// 2011-2016
+// 2011-2022
 
 //! \file
 
@@ -55,12 +55,12 @@ inline std::locale set_global_locale(const std::locale& loc)
 //! This does an auto reset when leaving scope. For convenience, cf. set_global_locale().
 struct set_global_locale_scoped
 {
-    set_global_locale_scoped(const std::string& locname)
+    explicit set_global_locale_scoped(const std::string& locname)
     {
         this->backup = set_global_locale(locname);
     }
 
-    set_global_locale_scoped(Global_locale gl)
+    explicit set_global_locale_scoped(Global_locale gl)
     {
         this->backup = set_global_locale(gl);
     }
@@ -83,7 +83,7 @@ struct set_global_locale_scoped
     set_global_locale_scoped& operator=(set_global_locale_scoped&&) = delete;
 #endif
 
-    std::locale get_original_locale() const
+    [[nodiscard]] std::locale get_original_locale() const
     {
         return this->backup;
     }

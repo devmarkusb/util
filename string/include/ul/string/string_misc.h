@@ -1,4 +1,4 @@
-// 2011-17
+// 2011-22
 
 //! \file
 
@@ -17,9 +17,7 @@
 #include <vector>
 
 
-namespace mb::ul
-{
-namespace str
+namespace mb::ul::str
 {
 inline std::string makeUpper(std::string& s)
 {
@@ -85,7 +83,7 @@ struct BoolStr_1_0
     }
     static bool toBool(const std::string& s)
     {
-        return s == "1" ? true : false;
+        return s == "1";
     }
 };
 
@@ -101,7 +99,7 @@ struct BoolStr_boolalpha
     {
         std::stringstream ss;
         ss << std::boolalpha << true;
-        return s == ss.str() ? true : false;
+        return s == ss.str();
     }
 };
 
@@ -119,7 +117,7 @@ inline bool str2bool(const std::string& s)
 
 //! For text lengths greater than textellipse_threshold the text is abbreviated by an
 //! ellipse '...'. No ellipse is ever used if the param is 0. Expects in_str to be utf8.*/
-inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_threshold)
+inline std::string applyEllipse(const std::string& in_str, size_t ellipse_threshold)
 {
     if (!ellipse_threshold)
         return in_str;
@@ -132,13 +130,12 @@ inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_thres
     return ret;
 }
 
-inline bool ends_with(const std::string& s, const std::string& ending)
+inline bool endsWith(const std::string& s, const std::string& ending)
 {
     if (ending.size() > s.size())
         return false;
     return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
 }
-} // namespace str
-} // namespace mb::ul
+} // namespace mb::ul::str
 
 #endif

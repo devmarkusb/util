@@ -1,11 +1,12 @@
-// 2011-2017
+// 2011-2022
 
-//! If you expected this file to define yet another custom string type, you are fortunately wrong.
-//! Instead it serves just as a documentation of guidelines of how to deal with strings in your
-//! program.
-//! A short glance at function get_length and its implementation below should give you an immediate
-//! idea of what your dealing with here. (The count of bytes isn't equal to the count of characters...)
 /**
+    \file
+    If you expected this file to define yet another custom string type, you are fortunately wrong.
+    Instead it serves just as a documentation of guidelines of how to deal with strings in your
+    program.
+    A short glance at function getLength and its implementation below should give you an immediate
+    idea of what your dealing with here. (The count of bytes isn't equal to the count of characters...)
     (1) By default use std::string everywhere.
         BUT, be aware of
         (i)   You take care that std:string is understood to contain UTF-8 everywhere, except
@@ -42,7 +43,6 @@
         and std::string for local encodings only as little and as explicitly as possible.
 
         */
-//! \file
 
 #ifndef ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 #define ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
@@ -74,17 +74,14 @@ UL_PRAGMA_WARNINGS_POP
 
 //####################################################################################################################
 
-namespace mb::ul
-{
-namespace str
+namespace mb::ul::str
 {
 //! Expects s to be utf8.
-inline size_t get_length(const std::string& s)
+inline size_t getLength(const std::string& s)
 {
     return static_cast<size_t>(utf8::distance(std::begin(s), std::end(s)));
 }
-} // namespace str
-} // namespace mb::ul
+} // namespace mb::ul::str
 
 #include "ul/macros_end.h"
 
