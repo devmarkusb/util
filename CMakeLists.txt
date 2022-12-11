@@ -11,8 +11,9 @@ add_subdirectory(string)
 add_subdirectory(mem)
 add_subdirectory(linklib)
 
-ul_include(githooks.cmake)
+ul_include(fetch-clangformat-repo.cmake)
 ul_include(clang-format.cmake)
+ul_include(githooks.cmake)
 
 set(ul_INCLUDE_DIRS
         ${ulBuildEnv_INCLUDE_DIRS}

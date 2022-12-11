@@ -8,3 +8,4 @@ lib_*
 .idea
 cmake-build-*
 venv
+.clang-format
