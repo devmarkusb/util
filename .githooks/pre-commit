@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# no .in files, they get broken (and also aren't always source files)
+CXX_CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -Ee "\.([chi](pp)|[chi]|cu)$")
+CLANGFORMAT_VER=10
+
+# if not working, run $ sudo apt install clang-format-x
+/usr/bin/clang-format-${CLANGFORMAT_VER} -i -style=file ${CXX_CHANGED_FILES}
+git add ${CXX_CHANGED_FILES}
