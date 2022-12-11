@@ -1,4 +1,4 @@
-// 2019
+// 2019-22
 
 //! \file
 
@@ -337,6 +337,6 @@ inline bool is_bigendian() noexcept
     static const int one{1};
     return *reinterpret_cast<const uint8_t*>(&one) == uint8_t{0};
 }
-} // namespace mb::ul
+} // namespace mb::ul::bits
 
 #endif

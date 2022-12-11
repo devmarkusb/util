@@ -1,4 +1,4 @@
-// 2015
+// 2015-22
 
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 

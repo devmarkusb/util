@@ -1,4 +1,4 @@
-// 2019
+// 2019-22
 
 //! \file
 
@@ -44,6 +44,6 @@ private:
 
     std::exception_ptr exceptionPtr_;
 };
-} // namespace mb::ul
+} // namespace mb::ul::exception
 
 #endif
