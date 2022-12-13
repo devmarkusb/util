@@ -18,6 +18,7 @@ macro(ul_use_asio target path_to_zip hash)
                 CONFIGURE_COMMAND ""
                 BUILD_COMMAND ""
                 INSTALL_COMMAND ""
+                DOWNLOAD_EXTRACT_TIMESTAMP true
         )
     endif ()
     add_dependencies(${target} asio)
