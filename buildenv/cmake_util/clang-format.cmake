@@ -38,7 +38,7 @@ endif ()
 find_program(CLANG_FORMAT "clang-format-${CLANG_FORMAT_VER}")
 if (CLANG_FORMAT)
     add_custom_target(
-        clang-format
+        clang-format-${PROJECT_NAME}
         COMMAND ${CLANG_FORMAT}
         -i
         -style=file
