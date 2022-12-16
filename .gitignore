@@ -1,11 +1,11 @@
-.DS_Store
-_build*
 *.user
+.DS_Store
+.clang-format
+.idea
+_build*
 bin
 bin_*
+cmake-build-*
 lib
 lib_*
-.idea
-cmake-build-*
 venv
-.clang-format
