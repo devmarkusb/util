@@ -10,7 +10,7 @@
 
 namespace mb::ul::mem
 {
-inline constexpr size_t padUp(size_t n, size_t alignment) noexcept
+constexpr size_t padUp(size_t n, size_t alignment) noexcept
 {
     return (n + (alignment - 1)) & ~(alignment - 1);
 }

@@ -25,7 +25,7 @@ struct narrowing_error : public std::exception
 {
 };
 
-/** Checked version of narrow_cast(), throwing \ref narrowing_error if the cast changed the value.
+/** Checked version of narrow_cast(), throwing narrowing_error if the cast changed the value.
     Expects at least one of the casting types to be non floating point.*/
 template <class T, class U>
 T narrow(U u)

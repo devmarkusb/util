@@ -43,39 +43,39 @@ struct Bytes
     }
 };
 
-inline constexpr Bytes operator+(Bytes a, Bytes b) noexcept
+constexpr Bytes operator+(Bytes a, Bytes b) noexcept
 {
     a += b;
     return a;
 }
 
-inline constexpr Bytes operator-(Bytes a, Bytes b) noexcept
+constexpr Bytes operator-(Bytes a, Bytes b) noexcept
 {
     a -= b;
     return a;
 }
 
-inline constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept
 {
     return lhs.value == rhs.value;
 }
-inline constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator==(lhs, rhs);
 }
-inline constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept
 {
     return lhs.value < rhs.value;
 }
-inline constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept
 {
     return operator<(rhs, lhs);
 }
-inline constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator>(lhs, rhs);
 }
-inline constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept
+constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator<(lhs, rhs);
 }

@@ -265,7 +265,7 @@ namespace
 // workaround, because gtest understands comma between template parameters as comma for the gtest macro;
 // so we need a template with one instead of two parameters
 template <typename SourceType = uint8_t>
-inline constexpr uint8_t write_to8_testhelper(
+constexpr uint8_t write_to8_testhelper(
     uint8_t to, ul::bits::Idx idx, ul::bits::Count count, SourceType from) noexcept
 {
     return ul::bits::write<uint8_t, SourceType>(to, idx, count, from);

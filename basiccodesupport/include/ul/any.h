@@ -29,12 +29,12 @@ namespace mb::ul
     So you can parametrize interface functions with (1.) an enum type as attribute
     description plus commenting the expected concrete type, and (2.) ul::any.
 
-    Attention: use any_cast() on pointers to \ref any by specifying the *non*-pointer
+    Attention: use any_cast() on pointers to any by specifying the *non*-pointer
     concrete type as cast type within <>, but of course the pointer type as the cast
     return type.*/
 class any;
 
-//! Cf. \ref any.
+//! Cf. any.
 //!@{
 template <typename Type>
 Type any_cast(any&);
@@ -46,13 +46,13 @@ template <typename Type>
 const Type* any_cast(const any*);
 //!@}
 
-//! Applied to \ref any type. Thrown if \ref any is empty or casted to the wrong concrete type.
+//! Applied to any type. Thrown if any is empty or casted to the wrong concrete type.
 struct bad_any_cast : public std::bad_cast
 {
 };
 
 //! Details.
-/** If \ref any is empty or casted to the wrong type, \ref ul::bad_any_cast is thrown.*/
+/** If any is empty or casted to the wrong type, ul::bad_any_cast is thrown.*/
 class any
 {
 public:
@@ -103,7 +103,6 @@ public:
         return *this;
     }
 
-    //!
     void clear()
     {
         holder = nullptr;
@@ -115,7 +114,6 @@ public:
         return !holder;
     }
 
-    //!
     [[nodiscard]] const std::type_info& type() const
     {
         return (!empty()) ? holder->type() : typeid(void);

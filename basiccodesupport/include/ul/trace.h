@@ -198,7 +198,7 @@ struct StreamTracer
 };
 
 template <class T>
-inline StreamTracer& operator<<(StreamTracer& t, const T& x)
+StreamTracer& operator<<(StreamTracer& t, const T& x)
 {
     std::ostringstream ss;
     ss << x;
@@ -305,7 +305,7 @@ template <
 // OutputToConsolePolicy expected to be OutputToConsole or NoOutputToConsole
 // CheckConsoleOpenPolicy expected to be CheckConsoleOpen or DontCheckConsoleOpen
 // AlsoBindStdoutToNewConsolePolicy expected to be AlsoBindStdout or DontAlsoBindStdout
-inline void init()
+void init()
 {
     if (detail_impl::StreamTracerWrapperSingleton::getInstance().tracer())
         throw std::runtime_error{"trace init called more often than once"};
