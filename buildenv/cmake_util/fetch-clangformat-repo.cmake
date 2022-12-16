@@ -11,4 +11,4 @@ FetchContent_Declare(mb-clangformat
 FetchContent_MakeAvailable(mb-clangformat)
 
 # of course the copied file is not intended to be edited
-file(COPY ${mb-clangformat_SOURCE_DIR}/.clang-format DESTINATION ${CMAKE_SOURCE_DIR}/)
+file(COPY ${mb-clangformat_SOURCE_DIR}/.clang-format DESTINATION ${PROJECT_SOURCE_DIR}/)
