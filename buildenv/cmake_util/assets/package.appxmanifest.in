@@ -18,7 +18,7 @@
         @LANGUAGES@
     </Resources>
     <Applications>
-        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="@TargetAppName@.App">
+        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="@Target@.App">
             <uap:VisualElements
                 DisplayName="@DISPLAYNAME@"
                 Description="@DISPLAYNAME@"

@@ -3,7 +3,7 @@
 # 1) Add to your app's CMakeLists.txt
 #       ul_include(asio.cmake)
 #   and add to target with e.g.
-#       ul_use_asio(${TargetAppNameAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz
+#       ul_use_asio(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz
 #           MD5=43c53b8d255edc385dc4e704e59b3641)
 
 macro(ul_use_asio target path_to_zip hash)

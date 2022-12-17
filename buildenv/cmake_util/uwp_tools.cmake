@@ -13,7 +13,7 @@ set(UL_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
 #       "${CMAKE_SOURCE_DIR}/installer/_content_for_bindir"
 #       "#336699"
 #       "<Resource Language=\"en\" /><Resource Language=\"de\" />"
-#       TargetAppName_UWP_ASSETS)
+#       Target_UWP_ASSETS)
 #   For quick tests you can also use ${UL_CMAKE_INC_UWP_TOOLS_DEF_ICO} for the _ico parent path and pass "" as PUBLISHER_NAME,
 #   PHONE_PRODUCT_GUID, PHONE_PUBLISHER_GUID and LANGUAGES.
 function(ul_obtain_UWP_resources
