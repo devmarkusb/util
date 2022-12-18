@@ -16,12 +16,12 @@ ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
 
 set(ul_INCLUDE_DIRS
-        ${ulBuildEnv_INCLUDE_DIRS}
-        ${ulBasicCodeSupport_INCLUDE_DIRS}
-        ${ulString_INCLUDE_DIRS}
-        ${ulMem_INCLUDE_DIRS}
-        ${ulLinklib_INCLUDE_DIRS}
         ${CMAKE_CURRENT_LIST_DIR}/include
+        ${ulBasicCodeSupport_INCLUDE_DIRS}
+        ${ulBuildEnv_INCLUDE_DIRS}
+        ${ulLinklib_INCLUDE_DIRS}
+        ${ulMem_INCLUDE_DIRS}
+        ${ulString_INCLUDE_DIRS}
         CACHE INTERNAL "ul include directories" FORCE)
 
 set(ul_CMAKE_DIRS
