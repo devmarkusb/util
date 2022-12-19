@@ -21,4 +21,8 @@ All-in-one include file for this part of the lib.
 #include "types.h"
 #include "utility.h"
 
+#include "ul/config.h"
+
+UL_HEADER_END
+
 #endif

@@ -13,4 +13,8 @@ All-in-one include file for this part of the lib.
 #include "string_misc.h"
 #include "ulstring.h"
 
+#include "ul/config.h"
+
+UL_HEADER_END
+
 #endif

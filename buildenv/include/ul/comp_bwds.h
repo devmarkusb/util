@@ -6,6 +6,7 @@
 #define COMP_BWDS_H_uiregb74n398734gf478gy8734h
 
 #include "macros.h"
+#include "ul/config.h"
 
 
 #if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
@@ -99,5 +100,7 @@ std::string to_string(const StringStreamable& x)
 } // namespace mb::ul
 
 #include "macros_end.h"
+
+UL_HEADER_END
 
 #endif

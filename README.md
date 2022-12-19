@@ -30,6 +30,14 @@ should be all you need.
 If a part of the lib requires static linking, you will get to this
 automatically, or via a local README.
 
+## FAQ
+
+### Namespace clashes
+
+In rare cases when you need to have another namespace `ul`
+around, you can do something like
+`add_compile_definitions(UL_DISABLE_NAMESPACE_ALIAS=1)`.
+
 ## Contributing
 
 * In case you're wondering, file preambles like `// 2015-17` are the

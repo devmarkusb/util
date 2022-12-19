@@ -51,4 +51,8 @@ All-in-one include file for this part of the lib.
 #include "thread/waitcircbuffer.h"
 #include "thread/waitqueue.h"
 
+#include "ul/config.h"
+
+UL_HEADER_END
+
 #endif

@@ -10,9 +10,14 @@ set(target ${PROJECT_NAME})
 
 file(GLOB_RECURSE target_INCS "include/*.h")
 
-add_library(${target} STATIC ${target_INCS})
+set(${target}_INCLUDE_DIRS
+        ${PROJECT_SOURCE_DIR}/include
+        CACHE INTERNAL "${target}: include directories" FORCE)
+
+add_library(${target} STATIC ${target_INCS} src/empty.cpp)
 
 target_include_directories(${target} PUBLIC
+        ${mb-util_INCLUDE_DIRS}
         ${ulBasicCodeSupport_INCLUDE_DIRS}
         ${ulBuildEnv_INCLUDE_DIRS}
         ${ulLinklib_INCLUDE_DIRS}
@@ -21,7 +26,3 @@ target_include_directories(${target} PUBLIC
 )
 
 target_link_libraries(${target} PUBLIC ulBasicCodeSupport)
-
-set(${target}_INCLUDE_DIRS
-        ${PROJECT_SOURCE_DIR}/include
-        CACHE INTERNAL "${target}: include directories" FORCE)
