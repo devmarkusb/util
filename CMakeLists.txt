@@ -10,23 +10,24 @@ add_subdirectory(basiccodesupport)
 add_subdirectory(string)
 add_subdirectory(mem)
 add_subdirectory(linklib)
+add_subdirectory(util)
 
 ul_include(fetch-clangformat-repo.cmake)
 ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
 
 set(ul_INCLUDE_DIRS
-        ${CMAKE_CURRENT_LIST_DIR}/include
         ${ulBasicCodeSupport_INCLUDE_DIRS}
         ${ulBuildEnv_INCLUDE_DIRS}
         ${ulLinklib_INCLUDE_DIRS}
         ${ulMem_INCLUDE_DIRS}
         ${ulString_INCLUDE_DIRS}
-        CACHE INTERNAL "ul include directories" FORCE)
+        ${mb-util_INCLUDE_DIRS}
+        CACHE INTERNAL "util include directories" FORCE)
 
 set(ul_CMAKE_DIRS
         ${ulBuildEnv_CMAKE_DIRS}
-        CACHE INTERNAL "ul cmake util directories" FORCE)
+        CACHE INTERNAL "util cmake util directories" FORCE)
 
 # Note, there are no libs that need linking, everything just header only.
 # Internally some static libs are built for testing.
