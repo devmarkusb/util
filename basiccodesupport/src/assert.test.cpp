@@ -5,7 +5,6 @@
 #include <exception>
 #include <iostream>
 
-namespace ul = mb::ul;
 
 UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_MSVC(4127)

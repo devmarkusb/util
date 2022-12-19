@@ -21,6 +21,7 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #ifndef ASSERT_H_onvdr589tz3758ct438tzcn
 #define ASSERT_H_onvdr589tz3758ct438tzcn
 
+#include "ul/config.h"
 #include "ul/warnings.h"
 #ifndef UL_COMP_MS_VISUAL_STUDIO_CPP
 #include <cassert>
@@ -256,5 +257,7 @@ struct StaticAssert_v0<true>
 } // namespace mb::ul
 
 #include "ul/macros_end.h"
+
+UL_HEADER_END
 
 #endif
