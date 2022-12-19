@@ -4,7 +4,7 @@ include(FetchContent)
 
 FetchContent_Declare(mb-clangformat
         GIT_REPOSITORY "https://github.com/MarkusBorris/clangformat"
-        GIT_TAG HEAD
+        GIT_TAG origin/HEAD
         GIT_SHALLOW ON
         )
 
