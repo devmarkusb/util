@@ -12,17 +12,17 @@ namespace ul = mb::ul;
 
 namespace
 {
-void SaveToTextFile(const std::string& FilePathNameExt, const std::string& Content)
+void saveToTextFile(const std::string& filePathNameExt, const std::string& Content)
 {
-    std::ofstream file(FilePathNameExt);
+    std::ofstream file(filePathNameExt);
     if (!file)
         throw std::runtime_error("file open");
     file << Content;
 }
 
-void LoadFromTextFile(const std::string& FilePathNameExt, std::string& Content)
+void loadFromTextFile(const std::string& filePathNameExt, std::string& Content)
 {
-    std::ifstream file(FilePathNameExt);
+    std::ifstream file(filePathNameExt);
     if (!file)
         throw std::runtime_error("file open");
     file.seekg(0, std::ios::end);
@@ -41,47 +41,43 @@ void LoadFromTextFile(const std::string& FilePathNameExt, std::string& Content)
 
 struct char_encoding_fileTest : public ::testing::Test
 {
-    char_encoding_fileTest()
-    {
-    }
+    char_encoding_fileTest() = default;
 
-    void SetUp()
+    void SetUp() override
     {
-        FilePathNameExt = "i_can_be_deleted__temp_txt_file_";
-        FilePathNameExt += this->counter++;
-        FilePathNameExt += ".txt";
+        filePathNameExt = "i_can_be_deleted__temp_txt_file_";
+        filePathNameExt += char_encoding_fileTest::counter++;
+        filePathNameExt += ".txt";
     }
 
     void write_file(const std::string& text)
     {
         this->content = text;
-        SaveToTextFile(FilePathNameExt, text);
+        saveToTextFile(filePathNameExt, text);
     }
 
     std::string read_file()
     {
         std::string ret;
-        LoadFromTextFile(FilePathNameExt, ret);
+        loadFromTextFile(filePathNameExt, ret);
         return ret;
     }
 
-    bool is_valid_utf8(const std::string& s)
+    static bool is_valid_utf8(const std::string& s)
     {
         return utf8::is_valid(s.begin(), s.end());
     }
 
-    void TearDown()
+    void TearDown() override
     {
-        int ret = std::remove(FilePathNameExt.c_str());
+        int ret = std::remove(filePathNameExt.c_str());
         ASSERT_EQ(0, ret);
     }
 
-    ~char_encoding_fileTest()
-    {
-    }
+    ~char_encoding_fileTest() override = default;
 
 private:
-    std::string FilePathNameExt;
+    std::string filePathNameExt;
     std::string content;
     static char counter;
 };
