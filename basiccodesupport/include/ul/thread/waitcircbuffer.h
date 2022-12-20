@@ -16,9 +16,7 @@
 
 namespace mb::ul::thread
 {
-namespace detail
-{
-namespace waitcircbuf_impl_container
+namespace detail::waitcircbuf_impl_container
 {
 template <typename T, size_t capacity__>
 class CapacityCompiletime
@@ -42,8 +40,7 @@ protected:
 
 template <typename T, size_t capacity__>
 using Base = std::conditional_t<capacity__ == 0, CapacityRuntime<T>, CapacityCompiletime<T, capacity__>>;
-} // namespace waitcircbuf_impl_container
-} // namespace detail
+} // namespace detail::waitcircbuf_impl_container
 
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 /** Note, unlike the behavior of CircularBuffer this WaitCircularBuffer protects against overwrites.*/
