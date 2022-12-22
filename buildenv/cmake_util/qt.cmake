@@ -1,10 +1,6 @@
 # File to include for cmake Qt settings.
 # Include this file and just add e.g.
-#   find_package(Qt5Quick)
-#   find_package(Qt5LinguistTools)
-#   find_package(Qt5Widgets)
-#   find_package(Qt5Qml)
-#   # ...
+#   find_package(Qt5 COMPONENTS Quick LinguistTools Widgets Qml) # ...
 
 # Note: it's important not to give default values here. Otherwise the configuration could
 # succeed in a wrong way. Also if you like to change these parameters later on you would have to delete
@@ -18,3 +14,5 @@ set(CMAKE_AUTOMOC ON)
 
 set(UL_QT_VER_COMP_PATH "$ENV{dev_qt_base}/${UL_QT5_VERSION}/${UL_QT_COMPILER_SUBDIR}")
 list(APPEND CMAKE_PREFIX_PATH ${UL_QT_VER_COMP_PATH})
+message(UL_QT_VER_COMP_PATH: ${UL_QT_VER_COMP_PATH})
+message(CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH})
