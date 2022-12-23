@@ -14,5 +14,5 @@ set(CMAKE_AUTOMOC ON)
 
 set(UL_QT_VER_COMP_PATH "$ENV{dev_qt_base}/${UL_QT5_VERSION}/${UL_QT_COMPILER_SUBDIR}")
 list(APPEND CMAKE_PREFIX_PATH ${UL_QT_VER_COMP_PATH})
-message(UL_QT_VER_COMP_PATH: ${UL_QT_VER_COMP_PATH})
-message(CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH})
+# for android builds the CMAKE_PREFIX_PATH didn't suffice, but the following helps (don't know why)
+list(APPEND CMAKE_FIND_ROOT_PATH ${UL_QT_VER_COMP_PATH})
