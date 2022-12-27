@@ -8,10 +8,12 @@
 #include "ul/assert.h"
 #include "ul/debug.h"
 #include "ul/error.h"
-#include "ul/ignore_arg.h"
+#include "ul/ul.h"
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
+
+#include "ul/macros.h"
 
 #if UL_OS_UNIX
 #include <pthread.h>
@@ -23,8 +25,6 @@
 #include <mach/thread_act.h>
 #include <sys/sysctl.h>
 #endif
-
-#include "ul/macros.h"
 
 namespace mb::ul::thread
 {
@@ -102,7 +102,7 @@ using native_handle = int;
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
 inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
-#if UL_OS_LINUX || UL_OS_MAC
+#if UL_OS_MAC
     noexcept
 #endif
 {
@@ -110,11 +110,8 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX
-    const auto nh = static_cast<pthread_t>(h);
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(logicalCoreIdx, &cpuset);
-    return pthread_setaffinity_np(nh, sizeof(cpu_set_t), &cpuset);
+    ul::ignore_unused(h);
+    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);
     mac::cpu_set_t cpuset;
@@ -125,6 +122,19 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     ul::ignore_arg(h);
     ul::ignore_arg(logicalCoreIdx);
     throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
+#endif
+}
+
+//! Like pinToLogicalCore but current thread only.
+inline int pinToLogicalCore(int logicalCoreIdx)
+{
+#if UL_OS_LINUX
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(logicalCoreIdx, &cpuset);
+    return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
+#else
+    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore"};
 #endif
 }
 
