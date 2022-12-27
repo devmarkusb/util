@@ -10,7 +10,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::mem::alloc
 {
 class Statistics

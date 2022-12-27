@@ -14,12 +14,11 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::str
 {
 struct conversion_error : public std::runtime_error
 {
-    explicit conversion_error(char const* const message)
+    explicit conversion_error(const char* const message)
         : std::runtime_error(message)
     {
     }
@@ -57,7 +56,6 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str);
 //! DEPRECATED!
 /** You probably want to use sth. more precise for your encodings.*/
 inline std::wstring locenc_s2ws(const std::string& s);
-
 
 //! REMOVED! Keeping UTF-8. Use with caution: I still have a hard time imagining the usefulness of a correct
 //! utf8-wstring.
@@ -105,6 +103,7 @@ struct ThrowOnConversionError
         throw conversion_error(s.c_str());
     }
 };
+
 struct ConversionErrorToQuestionMark
 {
     static char onConversionError(unsigned int)
@@ -125,7 +124,6 @@ inline std::string printableASCII_to_utf8(const std::string& s);
 
 inline std::string to_hex_string(const std::string& s, const std::string& prefix = {});
 } // namespace mb::ul::str
-
 
 //####################################################################################################################
 // implementation details

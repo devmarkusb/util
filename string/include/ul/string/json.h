@@ -7,7 +7,6 @@
 
 #include <string>
 
-
 namespace mb::ul
 {
 template <typename JSON_strtype, typename JSON_value>

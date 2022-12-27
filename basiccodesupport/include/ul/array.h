@@ -8,7 +8,6 @@
 #include <array>
 #include <cstddef>
 
-
 namespace mb::ul
 {
 namespace detail

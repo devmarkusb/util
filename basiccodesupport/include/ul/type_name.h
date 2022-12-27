@@ -11,7 +11,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 //! Prints type of variable objectOfType in the form of a compile error.

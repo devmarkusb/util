@@ -14,7 +14,6 @@
 #include <string>
 #include <utility>
 
-
 namespace mb::ul
 {
 //! Use these constants to exit your program by \code return \endcode out of \code main \endcode.
@@ -138,13 +137,13 @@ inline bool is_ok(retcode rc)
 {
     return !operator!(rc);
 }
+
 //! Equivalent for convenience.
 inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
 {
     return is_ok(rc_str.first);
 }
 } // namespace publish__is_ok
-
 
 /** Definition of some exceptions for the pendant of throwing functions, not returning
     \code retcode \endcode. Note that the standard library already defines most of the
@@ -155,39 +154,44 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
 //!@{
 struct would_crash : public std::runtime_error
 {
-    explicit would_crash(char const* const message)
+    explicit would_crash(const char* const message)
         : std::runtime_error(message)
     {
     }
 };
+
 struct division_by_zero : public std::runtime_error
 {
-    explicit division_by_zero(char const* const message)
+    explicit division_by_zero(const char* const message)
         : std::runtime_error(message)
     {
     }
 };
+
 struct not_implemented : public std::runtime_error
 {
-    explicit not_implemented(char const* const message)
+    explicit not_implemented(const char* const message)
         : std::runtime_error(message)
     {
     }
 };
+
 struct did_no_op : public std::runtime_error
 {
-    explicit did_no_op(char const* const message)
+    explicit did_no_op(const char* const message)
         : std::runtime_error(message)
     {
     }
 };
+
 struct time_out : public std::runtime_error
 {
-    explicit time_out(char const* const message)
+    explicit time_out(const char* const message)
         : std::runtime_error(message)
     {
     }
 };
+
 //!@}
 
 

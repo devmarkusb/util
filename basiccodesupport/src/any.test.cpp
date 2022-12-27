@@ -19,6 +19,7 @@ enum class LargeData
     d1, // std::vector<int>
     d2, // std::vector<long>
 };
+
 struct IA
 {
     virtual ~IA() = default;
@@ -29,6 +30,7 @@ struct IA
     virtual bool copy_to(LargeData, const ul::any&) = 0;
     virtual bool copy_from(LargeData, ul::any&) const = 0;
 };
+
 struct AFactory
 {
     std::unique_ptr<IA> createA();
@@ -40,6 +42,7 @@ struct A : public IA
     {
         return true; // untested
     }
+
     virtual void set(Attr a, const ul::any& val) override
     {
         switch (a)
@@ -51,6 +54,7 @@ struct A : public IA
                 break;
         }
     }
+
     virtual ul::any get(Attr a) const override
     {
         switch (a)
@@ -61,6 +65,7 @@ struct A : public IA
                 return ul::any{};
         }
     }
+
     virtual bool copy_to(LargeData d, const ul::any& data) override
     {
         switch (d)
@@ -72,6 +77,7 @@ struct A : public IA
                 return false;
         }
     }
+
     virtual bool copy_from(LargeData d, ul::any& data) const override
     {
         switch (d)

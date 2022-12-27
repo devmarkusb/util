@@ -7,7 +7,6 @@
 
 #include <type_traits>
 
-
 namespace mb::ul
 {
 /**

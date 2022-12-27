@@ -9,7 +9,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::thread::atomic
 {
 template <typename T>

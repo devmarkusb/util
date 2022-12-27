@@ -15,7 +15,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::mem
 {
 template <typename T, typename AllocArenaStrategy>

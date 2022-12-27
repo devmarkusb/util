@@ -13,7 +13,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 using none_t = std::nullptr_t;
@@ -58,6 +57,7 @@ struct opt
         : holder(other.holder ? ul::make_unique<T>(*other.holder) : nullptr)
     {
     }
+
     opt<T>& operator=(const opt<T>& other)
     {
         holder = other.holder ? ul::make_unique<T>(*other.holder) : nullptr;
@@ -68,6 +68,7 @@ struct opt
         : holder(nullptr)
     {
     }
+
     explicit opt(none_t&&)
         : holder(nullptr)
     {
@@ -82,6 +83,7 @@ struct opt
         : holder(ul::make_unique<T>(x))
     {
     }
+
     /*implicit*/ opt(T&& x)
         : holder(ul::make_unique<T>(std::move(x)))
     {

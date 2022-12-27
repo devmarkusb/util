@@ -21,7 +21,6 @@
 #include <type_traits>
 #include <vector>
 
-
 namespace mb::ul
 {
 namespace detail
@@ -73,7 +72,6 @@ template <typename T, size_t capacity__>
 using Base = std::conditional_t<capacity__ == 0, Vector<T>, Array<T, capacity__>>;
 } // namespace circbuf_impl_container
 } // namespace detail
-
 
 /** If you know the (always fixed) capacity of the circular buffer at compile time you should definitely prefer
     to pass it as template capacity__ != 0. Then there is only a default constructor (no parameters).

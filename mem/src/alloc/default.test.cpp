@@ -7,7 +7,6 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-
 TEST(alloc_DefaultNewDelete, basics)
 {
     ul::mem::alloc::DefaultNewDelete<> a;

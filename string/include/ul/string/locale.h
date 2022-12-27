@@ -10,7 +10,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 enum class Global_locale

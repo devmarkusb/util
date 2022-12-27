@@ -8,7 +8,6 @@
 #include "on_before_destroy.h"
 #include "listener.h"
 
-
 namespace mb::ul
 {
 //! Cf. OnBeforeDestroyListener.

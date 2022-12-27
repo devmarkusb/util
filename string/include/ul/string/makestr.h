@@ -9,7 +9,6 @@
 #include <sstream>
 #include <string>
 
-
 namespace mb::ul::str
 {
 //! Usage: f( (makestr() << "Some string" << sSome_string << iSomeInt << dSomeDouble << "...").c_str() );
@@ -22,6 +21,7 @@ public:
         m_buffer << data;
         return *this;
     }
+
     /*implicit*/ operator std::string() const
     {
         return m_buffer.str();

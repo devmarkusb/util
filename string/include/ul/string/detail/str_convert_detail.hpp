@@ -26,7 +26,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::str
 {
 inline std::string utf16to8_ws2s(const std::wstring& wstr)
@@ -145,6 +144,7 @@ namespace detail
 {
 #if UL_OS_WINDOWS
 #undef max
+
 inline std::wstring acp_s2ws(const std::string& s)
 {
     int slength = static_cast<int>(s.length()) + 1;

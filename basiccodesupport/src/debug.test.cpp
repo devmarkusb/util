@@ -28,10 +28,12 @@ void f_with_debug_break()
 {
     UL_DEBUG_BREAK;
 }
+
 void f_with_debug_break_if()
 {
     UL_DEBUG_BREAK_IF(1 == 1);
 }
+
 void f_with_debug_break_if_wont()
 {
     UL_DEBUG_BREAK_IF(1 == 0);

@@ -9,7 +9,6 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-
 TEST(alloc_Linear, constr)
 {
     ul::mem::alloc::Linear<> a{{}};

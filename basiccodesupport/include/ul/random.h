@@ -7,7 +7,6 @@
 
 #include <random>
 
-
 namespace mb::ul::math
 {
 //! Generates a random number within half-open interval [0.0, 1.0).

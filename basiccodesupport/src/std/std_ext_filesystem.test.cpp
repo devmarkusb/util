@@ -19,13 +19,13 @@
 namespace ul = mb::ul;
 namespace fs = ul::std_fs;
 
-
 namespace
 {
 namespace
 {
 const std::string physical_test_dir_s{"/tmp/ul/test"};
 } // namespace
+
 const fs::path physical_test_dir{physical_test_dir_s};
 
 //! \return finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.

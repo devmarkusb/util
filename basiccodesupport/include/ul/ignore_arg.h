@@ -7,7 +7,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 /** To 'suppress' compiler warning of an unused function parameter. Beyond that, it is

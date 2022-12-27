@@ -21,7 +21,6 @@
 #include <cstddef>
 #include <new>
 
-
 namespace mb::ul::mem::alloc
 {
 template <typename StatisticsPolicy = NoStatistics>

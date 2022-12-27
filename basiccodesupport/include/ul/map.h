@@ -5,7 +5,6 @@
 #ifndef MAP_H_54982dn78txhwgf1236784g
 #define MAP_H_54982dn78txhwgf1236784g
 
-
 namespace mb::ul
 {
 //! Compile time map int->int.

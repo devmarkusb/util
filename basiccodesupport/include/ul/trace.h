@@ -24,7 +24,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 /** Purpose of ul::trace is a quick&dirty substitute for logging. That is you can print to console window
@@ -353,7 +352,6 @@ const trace& operator<<(const trace& t, T&& arg)
     return t;
 }
 
-
 namespace deprecated
 {
 #if UL_OS_WINDOWS
@@ -364,6 +362,7 @@ inline void trace(const std::ostringstream& os)
 {
     OutputDebugStringA(os.str().c_str());
 }
+
 inline void trace(const std::wostringstream& os)
 {
     OutputDebugStringW(os.str().c_str());

@@ -8,7 +8,6 @@
 #include <memory>
 #include <mutex>
 
-
 namespace mb::ul
 {
 //! Thread-safe singleton creator and accessor with life time ending when last reference is gone.

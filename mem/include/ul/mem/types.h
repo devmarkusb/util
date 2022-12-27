@@ -10,7 +10,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::mem
 {
 const size_t KB = 1000;
@@ -59,22 +58,27 @@ constexpr bool operator==(Bytes lhs, Bytes rhs) noexcept
 {
     return lhs.value == rhs.value;
 }
+
 constexpr bool operator!=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator==(lhs, rhs);
 }
+
 constexpr bool operator<(Bytes lhs, Bytes rhs) noexcept
 {
     return lhs.value < rhs.value;
 }
+
 constexpr bool operator>(Bytes lhs, Bytes rhs) noexcept
 {
     return operator<(rhs, lhs);
 }
+
 constexpr bool operator<=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator>(lhs, rhs);
 }
+
 constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept
 {
     return !operator<(lhs, rhs);
@@ -89,6 +93,7 @@ protected:
     {
         return '\'';
     }
+
     std::string do_grouping() const override
     {
         return "\003";

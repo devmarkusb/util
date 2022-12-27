@@ -9,7 +9,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::mem::quirk::vector
 {
 /** Quite 'funny' that msvc allocates a certain amount when constructing a vector,

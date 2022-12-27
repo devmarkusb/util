@@ -7,7 +7,6 @@
 
 #include "listener.h"
 
-
 namespace mb::ul
 {
 /** This could be a very useful listener/notifier pair in any situation where you

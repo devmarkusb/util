@@ -7,7 +7,6 @@
 
 #include <cstddef>
 
-
 namespace mb::ul
 {
 //! Equivalence. True if and only if both are equally true or false.
@@ -31,6 +30,7 @@ bool XNOR(const std::nullptr_t&, const T2& rhs)
 {
     return true == !rhs;
 }
+
 //!@}
 
 template <>

@@ -7,7 +7,6 @@
 
 #include <cstddef>
 
-
 namespace mb::ul::mem
 {
 constexpr size_t padUp(size_t n, size_t alignment) noexcept

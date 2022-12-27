@@ -34,7 +34,6 @@ TEST(str_apply_ellipse, test_german)
     EXPECT_STREQ("xyz", ret4.c_str());
 }
 
-
 TEST(str_apply_ellipse, test_wider_chars)
 {
     // U+10346 GOTHIC LETTER FAIHU 4 bytes + U+65E5 3 bytes + U+0448 cyrillic scha 2 bytes.

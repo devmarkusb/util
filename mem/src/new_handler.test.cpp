@@ -20,6 +20,7 @@ TEST(NewHandlerSupportTest, test)
     class C : public ul::mem::NewHandlerSupport<C>
     {
     };
+
     class C_heavy_to_alloc : public ul::mem::NewHandlerSupport<C>
     {
     public:
@@ -38,6 +39,7 @@ TEST(NewHandlerSupportTest, test)
         int i3[0x7ffffff];
         int i4[0x7ffffff];
     };
+
     ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
     C c;
     ul::ignore_arg(c);

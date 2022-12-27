@@ -8,7 +8,6 @@
 #include <chrono>
 #include <cstdint>
 
-
 namespace mb::ul
 {
 using ProfilerTimePoint = int64_t;

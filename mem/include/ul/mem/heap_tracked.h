@@ -11,7 +11,6 @@
 #include <exception>
 #include <list>
 
-
 namespace mb::ul::mem
 {
 //! Usage: let your class publically derive from this one.
@@ -55,6 +54,7 @@ public:
 
 private:
     using RawAddress = const void*;
+
     static std::list<RawAddress>& addresses()
     {
         static std::list<RawAddress> addresses_;

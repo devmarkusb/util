@@ -13,7 +13,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 /** Can be used like any built-in value type, like \code int \endcode.
@@ -44,6 +43,7 @@ template <typename Type>
 Type* any_cast(any*);
 template <typename Type>
 const Type* any_cast(const any*);
+
 //!@}
 
 //! Applied to any type. Thrown if any is empty or casted to the wrong concrete type.
@@ -189,7 +189,6 @@ Type any_cast(const any& val)
         throw bad_any_cast();
     return static_cast<any::concrete<Type>*>(any(val).holder.get())->value;
 }
-
 
 template <typename Type>
 Type* any_cast(any* pval)

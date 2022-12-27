@@ -11,7 +11,6 @@
 
 #include "ul/macros/UNDEF_MIN_MAX.h"
 
-
 namespace mb::ul
 {
 /** Expects ulp >= 1.

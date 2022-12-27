@@ -4,7 +4,6 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-
 TEST(Bytes, equal)
 {
     EXPECT_EQ(Bytes{4}, Bytes{4});

@@ -8,7 +8,6 @@
 #include <cstddef>
 #include <new>
 
-
 namespace mb::ul::mem
 {
 //! Provides a base class to equip arbitrary classes with their *own* new handler support.

@@ -42,7 +42,6 @@
 #endif
 #include <string>
 
-
 namespace mb::ul
 {
 template <typename FloatingPointNumber>

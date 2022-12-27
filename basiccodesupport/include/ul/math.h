@@ -10,7 +10,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul::math
 {
 /** \return true if the number number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.

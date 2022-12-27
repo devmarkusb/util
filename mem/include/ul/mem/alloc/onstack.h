@@ -19,7 +19,6 @@
 #include <cstddef>
 #include <cstdint>
 
-
 namespace mb::ul::mem::alloc
 {
 /** You should adapt max_alignment_in_bytes to at least the alignment of the largest type you're going to
@@ -55,10 +54,12 @@ public:
     {
         return Bytes{capacity_in_bytes};
     }
+
     [[nodiscard]] Bytes size() const noexcept
     {
         return Bytes{static_cast<size_t>(curr_memptr_ - buf_)};
     }
+
     void reset() noexcept
     {
         curr_memptr_ = buf_;

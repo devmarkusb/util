@@ -9,7 +9,6 @@
 #include "std/std_extensions.h"
 #include <type_traits>
 
-
 namespace mb::ul
 {
 /** Nothing else than a usual static_cast, but communicating intent of converting to a smaller type, assuming the value

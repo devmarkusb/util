@@ -9,7 +9,6 @@
 #include <sstream>
 #include <string>
 
-
 namespace mb::ul::fmt
 {
 namespace detail

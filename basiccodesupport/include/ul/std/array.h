@@ -7,7 +7,6 @@
 
 #include <array>
 
-
 namespace mb::ul::array
 {
 /** Declaring and initialising an array without explicit (and redundant) statement of size, e.g.

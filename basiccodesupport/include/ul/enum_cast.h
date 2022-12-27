@@ -7,7 +7,6 @@
 
 #include "std/std_extensions.h"
 
-
 namespace mb::ul
 {
 template <typename Enumeration>

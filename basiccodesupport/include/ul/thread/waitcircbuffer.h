@@ -13,7 +13,6 @@
 #include <queue>
 #include <type_traits>
 
-
 namespace mb::ul::thread
 {
 namespace detail::waitcircbuf_impl_container

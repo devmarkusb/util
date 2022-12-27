@@ -11,7 +11,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 //! Mark a raw pointer as owner of the memory. Should be rarely needed, in low level code at the most.
@@ -24,7 +23,6 @@ delete owning_the_mem;
 */
 template <typename T>
 using owner = T;
-
 
 //! Restricts a pointer or smart pointer to only hold non-null values.
 /** (Cf. Cpp Guidelines Support Library GSL) Has zero size overhead over T.
@@ -55,6 +53,7 @@ public:
     {
         ensure_invariant();
     }
+
     not_null& operator=(const T& t)
     {
         this->ptr = t;
@@ -101,6 +100,7 @@ public:
     {
         return get();
     }
+
     T operator->() const
     {
         return get();
@@ -110,6 +110,7 @@ public:
     {
         return this->ptr == rhs;
     }
+
     bool operator!=(const T& rhs) const
     {
         return !(*this == rhs);

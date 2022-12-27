@@ -13,7 +13,6 @@
 namespace ul = mb::ul;
 using Bytes = ul::mem::Bytes;
 
-
 template <typename Vector>
 void common_vector_test(Vector&& v)
 {

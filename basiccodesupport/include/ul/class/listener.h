@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <vector>
 
-
 namespace mb::ul
 {
 //! Base class for every abstract listener interface.
@@ -49,6 +48,7 @@ struct Listener
 {
     virtual ~Listener() = 0;
 };
+
 inline Listener::~Listener() = default;
 
 //! Base class for every sender/notifier.
@@ -173,6 +173,7 @@ public:
 
 protected:
     using ListenerContainer = std::vector<Listener*>;
+
     static ListenerContainer& registeredListeners()
     {
         static ListenerContainer inst;

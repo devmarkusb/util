@@ -29,7 +29,6 @@ TEST(idx_seq, array)
     test_int::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
 }
 
-
 namespace test_size_t
 {
 template <typename... T>

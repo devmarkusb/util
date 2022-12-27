@@ -16,7 +16,6 @@
 #include <string>
 #include <vector>
 
-
 namespace mb::ul::str
 {
 inline std::string makeUpper(std::string& s)
@@ -87,6 +86,7 @@ struct BoolStr_1_0
     {
         return b ? "1" : "0";
     }
+
     static bool toBool(const std::string& s)
     {
         return s == "1";
@@ -101,6 +101,7 @@ struct BoolStr_boolalpha
         ss << std::boolalpha << b;
         return ss.str();
     }
+
     static bool toBool(const std::string& s)
     {
         std::stringstream ss;

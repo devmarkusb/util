@@ -32,7 +32,6 @@ protected:
     }
 };
 
-
 TEST_F(VectorMoveRangeTest, Move1FromStartMiddleEndToLeftOrRight)
 {
     ul::vector::move_range(0, 1, 2, m_v7);

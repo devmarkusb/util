@@ -13,6 +13,7 @@
 #if __has_include(<filesystem>) && !UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
+
 namespace mb::ul
 {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1914
@@ -68,11 +69,13 @@ struct path
     path() noexcept
     {
     }
+
     //! Expects s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
     path(std::string s)
         : s_{std::move(s)}
     {
     }
+
     path(const char* s)
         : s_{s}
     {
@@ -82,10 +85,12 @@ struct path
     {
         return *this;
     }
+
     const char* c_str() const noexcept
     {
         return s_.c_str();
     }
+
     std::string string() const
     {
         return s_;
@@ -252,6 +257,7 @@ struct directory_entry
     {
         p_ = p;
     }
+
     //! Implicit conversion.
     operator const path&() const noexcept
     {
@@ -279,6 +285,7 @@ struct directory_iterator : public std::iterator<std::input_iterator_tag, direct
 {
     //! Constructs an iterator pointing behind the last element.
     directory_iterator() = default;
+
     explicit directory_iterator(path p)
         : p_{std::move(p)}
     {

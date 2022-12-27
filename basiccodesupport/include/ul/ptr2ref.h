@@ -7,7 +7,6 @@
 
 #include "ul/assert.h"
 
-
 namespace mb::ul
 {
 //! Converts pointer to reference.
@@ -25,7 +24,6 @@ inline const T& ptr2RefC(const T* pT)
     UL_EXPECT(pT);
     return *pT;
 }
-
 
 //! Converts reference to pointer.
 //!@{

@@ -7,7 +7,6 @@
 
 #include "std/std_extensions.h"
 
-
 namespace mb::ul
 {
 //! It's not so convenient to use this directly; call the associated helper function instead.

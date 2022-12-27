@@ -40,6 +40,7 @@ TEST(math_NextGreaterOrEqPow2, ints)
     static_assert(ul::math::NextGreaterOrEqPow2<int, 9>::value() == 16);
     static_assert(ul::math::NextGreaterOrEqPow2<int, 10>::value() == 16);
 }
+
 TEST(math_NextGreaterOrEqPow2, int_neg)
 {
     static_assert(ul::math::NextGreaterOrEqPow2<int, -1>::value() == 1);

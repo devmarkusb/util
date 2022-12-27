@@ -7,7 +7,6 @@
 
 #include "ul/assert.h"
 
-
 namespace mb::ul
 {
 /**

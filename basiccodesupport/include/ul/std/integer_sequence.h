@@ -7,7 +7,6 @@
 
 #include <utility>
 
-
 namespace mb::ul::idx
 {
 // I would have liked to use the documentation https://en.cppreference.com/w/cpp/utility/integer_sequence

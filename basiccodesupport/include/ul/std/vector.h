@@ -8,7 +8,6 @@
 #include <cstddef>
 #include <vector>
 
-
 namespace mb::ul::vector
 {
 //! Only makes sense for dst not within [start, start + length).

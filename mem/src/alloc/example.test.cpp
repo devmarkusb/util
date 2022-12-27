@@ -7,7 +7,6 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-
 TEST(alloc_Example, basics)
 {
     ul::mem::alloc::Example a;

@@ -11,7 +11,6 @@
 #include <queue>
 #include <type_traits>
 
-
 namespace mb::ul::thread
 {
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.

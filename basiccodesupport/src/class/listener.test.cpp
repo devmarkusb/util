@@ -29,6 +29,7 @@ struct Model : public Model_notifier
     {
         return this->prop;
     }
+
     void set_prop(int x)
     {
         this->prop = x;
@@ -50,6 +51,7 @@ struct View : private Model_listener
     {
         this->m_in_v.registerListener(this);
     }
+
     ~View() override
     {
         this->m_in_v.unregisterListener(this);
@@ -59,6 +61,7 @@ struct View : private Model_listener
     {
         return this->m_in_v.get_prop();
     }
+
     void set_prop(int x)
     {
         if (x == this->m_in_v.get_prop())
@@ -66,6 +69,7 @@ struct View : private Model_listener
         this->m_in_v.set_prop(x);
         prop_changed();
     }
+
     void prop_changed()
     {
     }

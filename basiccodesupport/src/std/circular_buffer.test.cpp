@@ -302,7 +302,6 @@ TEST(CircularBuffer, other_type)
     EXPECT_TRUE(!cb.full());
 }
 
-
 //####################################################################################################################
 
 TEST(CircularBuffer_compiletime, construction)

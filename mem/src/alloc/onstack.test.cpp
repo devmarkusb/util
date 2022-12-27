@@ -6,7 +6,6 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-
 TEST(alloc_OnStack, constr)
 {
     ul::mem::alloc::OnStack<1024, 1> a;

@@ -371,6 +371,7 @@ TEST(bits_Field, basics)
             flags,
             end, // one behind last
         };
+
         ul::bits::Fields<uint8_t, Field, ul::as_number(Field::end)> bits_{3, 1, 4};
     } s;
 
@@ -413,6 +414,7 @@ TEST(bits_Field, experiment_char)
             flags,
             end, // one behind last
         };
+
         ul::bits::Fields<uint16_t, Field, ul::as_number(Field::end)> bits_{8, 8};
     } s;
 
@@ -432,6 +434,7 @@ TEST(bits_Field, one)
             number,
             end, // one behind last
         };
+
         ul::bits::Fields<uint16_t, Field, ul::as_number(Field::end)> bits_{16};
     } s;
 
@@ -449,6 +452,7 @@ TEST(bits_Field, some_capacity_left)
             number,
             end, // one behind last
         };
+
         ul::bits::Fields<uint32_t, Field, ul::as_number(Field::end)> bits_{20};
     } s;
 

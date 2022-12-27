@@ -9,7 +9,6 @@
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 //! Provides a shortcut ultility to declare classes that are supposed to forbid copying.

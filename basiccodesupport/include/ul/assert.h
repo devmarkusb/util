@@ -33,13 +33,12 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 
 #include "ul/macros.h"
 
-
 namespace mb::ul
 {
 //! This is thrown by any throwing assertion.
 struct fail_fast : public std::runtime_error
 {
-    explicit fail_fast(char const* const message)
+    explicit fail_fast(const char* const message)
         : std::runtime_error(message)
     {
     }
@@ -205,8 +204,10 @@ struct AssertCT
     {
         N = 1 - 2 * static_cast<int>(!t)
     };
+
     static char A[N];
 };
+
 template <bool t>
 char AssertCT<t>::A[N];
 
@@ -214,6 +215,7 @@ char AssertCT<t>::A[N];
 /** Alexey Malistov, SO*/
 template <bool>
 struct StaticAssert_v0;
+
 template <>
 struct StaticAssert_v0<true>
 {

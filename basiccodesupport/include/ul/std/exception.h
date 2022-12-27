@@ -7,7 +7,6 @@
 
 #include <exception>
 
-
 namespace mb::ul::exception
 {
 //! This class can e.g. be used to capture exceptions in (OpenMP) threads and rethrow them afterwards.

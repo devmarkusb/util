@@ -13,7 +13,6 @@
 #include <limits>
 #include <numeric>
 
-
 namespace mb::ul::bits
 {
 using Idx = int;
@@ -179,7 +178,7 @@ public:
     }
 
 private:
-    constexpr static Count partsCount{
+    static constexpr Count partsCount{
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
     std::array<BaseType, partsCount> array{};
 

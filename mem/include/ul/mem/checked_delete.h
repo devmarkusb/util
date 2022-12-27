@@ -9,7 +9,6 @@
 #ifndef CHECKED_DELETE_H_f3287rn32r7nz237
 #define CHECKED_DELETE_H_f3287rn32r7nz237
 
-
 namespace mb::ul::mem
 {
 template <class T>
