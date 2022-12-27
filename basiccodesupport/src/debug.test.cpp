@@ -54,7 +54,7 @@ UL_PRAGMA_WARNINGS_POP
 namespace
 {
 std::string g_sig_of__f_with_some_sig; // just testing, so please don't cry about global data
-}
+} // namespace
 
 static const int* __cdecl f_with_some_sig(int, bool, long*, bool&)
 {
