@@ -280,12 +280,15 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
     size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
-    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {
-        const auto uc = static_cast<unsigned char>(c);
-        ret.append(prefix);
-        ret.push_back(lut[uc >> 4]);
-        ret.push_back(lut[uc & 15]);
-    });
+    std::for_each(
+        std::begin(s), std::end(s),
+        [&ret, &prefix](char c)
+        {
+            const auto uc = static_cast<unsigned char>(c);
+            ret.append(prefix);
+            ret.push_back(lut[uc >> 4]);
+            ret.push_back(lut[uc & 15]);
+        });
     return ret;
 }
 } // namespace mb::ul::str

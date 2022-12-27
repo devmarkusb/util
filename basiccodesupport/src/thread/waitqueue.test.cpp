@@ -32,9 +32,10 @@ TEST(thread_WaitQueue, massive_parallel)
     std::vector<std::thread> producer(threadCount);
     for (auto& p : producer)
     {
-        p = std::thread{[&q, &current]() {
-            q.emplace(++current);
-        }};
+        p = std::thread{[&q, &current]()
+                        {
+                            q.emplace(++current);
+                        }};
     }
 
     std::set<int> poppedValues;
@@ -42,13 +43,14 @@ TEST(thread_WaitQueue, massive_parallel)
     std::vector<std::thread> consumer(threadCount - 1);
     for (auto& c : consumer)
     {
-        c = std::thread{[&q, &mutex, &poppedValues]() {
-            int elem{};
-            q.waitAndPop(elem);
-            std::lock_guard<std::mutex> lk{mutex};
-            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
-            poppedValues.insert(elem);
-        }};
+        c = std::thread{[&q, &mutex, &poppedValues]()
+                        {
+                            int elem{};
+                            q.waitAndPop(elem);
+                            std::lock_guard<std::mutex> lk{mutex};
+                            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
+                            poppedValues.insert(elem);
+                        }};
     }
 
     for (auto& p : producer)

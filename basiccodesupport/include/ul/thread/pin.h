@@ -101,7 +101,7 @@ using native_handle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
+inline int pinToLogicalCore([[maybe_unused]] native_handle h, [[maybe_unused]] int logicalCoreIdx)
 #if UL_OS_MAC
     noexcept
 #endif
@@ -110,7 +110,6 @@ inline int pinToLogicalCore(native_handle h, int logicalCoreIdx)
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX
-    ul::ignore_unused(h);
     throw ul::not_implemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);

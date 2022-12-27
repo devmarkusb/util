@@ -205,8 +205,10 @@ struct time_out : public std::runtime_error
 */
 template <typename Callable, typename Callable2>
 std::pair<retcode, std::string> call_noexcept(
-    Callable&& f, Callable2&& bad_alloc_handler = []() {
-    }) noexcept
+    Callable&& f, Callable2&& bad_alloc_handler =
+                      []()
+                  {
+                  }) noexcept
 {
     try
     {

@@ -459,7 +459,8 @@ TEST(bits_Field, some_capacity_left)
 
 TEST(bits_Field, overflow)
 {
-    auto lambda = []() {
+    auto lambda = []()
+    {
         struct S
         {
             enum Field

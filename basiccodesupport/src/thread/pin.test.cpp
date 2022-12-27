@@ -38,18 +38,23 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms)
     std::vector<Ready2go> ready2go(num_threads);
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
     {
-        threads[i] = std::thread([i, &ready2go] {
-            std::unique_lock<std::mutex> lk(ready2go[i].m);
-            ready2go[i].cv.wait(lk, [i, &ready2go] {
-                return ready2go[i].ok;
-            });
-            lk.unlock();
-            for (auto j = 0; j < 5; ++j)
+        threads[i] = std::thread(
+            [i, &ready2go]
             {
-                EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
-            }
-        });
+                std::unique_lock<std::mutex> lk(ready2go[i].m);
+                ready2go[i].cv.wait(
+                    lk,
+                    [i, &ready2go]
+                    {
+                        return ready2go[i].ok;
+                    });
+                lk.unlock();
+                for (auto j = 0; j < 5; ++j)
+                {
+                    EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
+                    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                }
+            });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
             std::lock_guard<std::mutex> lk(ready2go[i].m);
@@ -78,18 +83,23 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms)
     std::vector<Ready2go> ready2go(num_threads);
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
     {
-        threads[i] = std::thread([i, &ready2go] {
-            std::unique_lock<std::mutex> lk(ready2go[i].m);
-            ready2go[i].cv.wait(lk, [i, &ready2go] {
-                return ready2go[i].ok;
-            });
-            lk.unlock();
-            for (auto j = 0; j < 5; ++j)
+        threads[i] = std::thread(
+            [i, &ready2go]
             {
-                EXPECT_EQ(1, ul::thread::numLogicalCores());
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
-            }
-        });
+                std::unique_lock<std::mutex> lk(ready2go[i].m);
+                ready2go[i].cv.wait(
+                    lk,
+                    [i, &ready2go]
+                    {
+                        return ready2go[i].ok;
+                    });
+                lk.unlock();
+                for (auto j = 0; j < 5; ++j)
+                {
+                    EXPECT_EQ(1, ul::thread::numLogicalCores());
+                    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                }
+            });
         ul::thread::pinToLogicalCore(threads[i], 1);
         {
             std::lock_guard<std::mutex> lk(ready2go[i].m);
@@ -118,7 +128,8 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
     std::vector<Ready2go> ready2go(num_threads);
     bool switched{};
     std::mutex switched_m;
-    auto switchCores = [&threads, &num_threads]() {
+    auto switchCores = [&threads, &num_threads]()
+    {
         for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
         {
             ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i + 1 % num_threads));
@@ -126,33 +137,38 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
     };
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
     {
-        threads[i] = std::thread([i, &ready2go, &switched, &switched_m, &switchCores, &num_threads] {
-            std::unique_lock<std::mutex> lk(ready2go[i].m);
-            ready2go[i].cv.wait(lk, [i, &ready2go] {
-                return ready2go[i].ok;
-            });
-            lk.unlock();
-            for (auto j = 0; j < 10; ++j)
+        threads[i] = std::thread(
+            [i, &ready2go, &switched, &switched_m, &switchCores, &num_threads]
             {
-                {
-                    std::lock_guard<std::mutex> switch_lk(switched_m);
-                    if (!switched)
+                std::unique_lock<std::mutex> lk(ready2go[i].m);
+                ready2go[i].cv.wait(
+                    lk,
+                    [i, &ready2go]
                     {
-                        EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
-                        if (j == 2)
+                        return ready2go[i].ok;
+                    });
+                lk.unlock();
+                for (auto j = 0; j < 10; ++j)
+                {
+                    {
+                        std::lock_guard<std::mutex> switch_lk(switched_m);
+                        if (!switched)
                         {
-                            switched = true;
-                            switchCores();
+                            EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
+                            if (j == 2)
+                            {
+                                switched = true;
+                                switchCores();
+                            }
+                        }
+                        else
+                        {
+                            EXPECT_EQ(static_cast<int>(i + 1u % num_threads), ul::thread::numLogicalCores());
                         }
                     }
-                    else
-                    {
-                        EXPECT_EQ(static_cast<int>(i + 1u % num_threads), ul::thread::numLogicalCores());
-                    }
+                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-            }
-        });
+            });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
             std::lock_guard<std::mutex> lk(ready2go[i].m);
@@ -181,18 +197,23 @@ TEST_F(pinToCPUTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms)
     std::vector<Ready2go> ready2go(num_threads);
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
     {
-        threads[i] = std::thread([i, &ready2go] {
-            std::unique_lock<std::mutex> lk(ready2go[i].m);
-            ready2go[i].cv.wait(lk, [i, &ready2go] {
-                return ready2go[i].ok;
-            });
-            lk.unlock();
-            for (auto j = 0; j < 5; ++j)
+        threads[i] = std::thread(
+            [i, &ready2go]
             {
-                EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
-            }
-        });
+                std::unique_lock<std::mutex> lk(ready2go[i].m);
+                ready2go[i].cv.wait(
+                    lk,
+                    [i, &ready2go]
+                    {
+                        return ready2go[i].ok;
+                    });
+                lk.unlock();
+                for (auto j = 0; j < 5; ++j)
+                {
+                    EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
+                    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                }
+            });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
             std::lock_guard<std::mutex> lk(ready2go[i].m);
@@ -214,8 +235,10 @@ TEST_F(pinToCPUTest, DISABLED_invalidCPUNr_throws)
 #else
 TEST_F(pinToCPUTest, invalidCPUNr_throws)
 {
-    std::thread thread([] {
-    });
+    std::thread thread(
+        []
+        {
+        });
     EXPECT_THROW(
         ul::thread::pinToLogicalCore(thread, 1 + static_cast<int>(std::thread::hardware_concurrency())),
         std::runtime_error);

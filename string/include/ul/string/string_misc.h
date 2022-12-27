@@ -21,9 +21,12 @@ namespace mb::ul::str
 {
 inline std::string makeUpper(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
-        return ul::narrow_cast<char>(std::toupper(c));
-    });
+    std::transform(
+        s.begin(), s.end(), s.begin(),
+        [](char c)
+        {
+            return ul::narrow_cast<char>(std::toupper(c));
+        });
     return s;
 }
 
@@ -35,9 +38,12 @@ inline char makeUpper(char& c)
 
 inline std::string makeLower(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
-        return ul::narrow_cast<char>(std::tolower(c));
-    });
+    std::transform(
+        s.begin(), s.end(), s.begin(),
+        [](char c)
+        {
+            return ul::narrow_cast<char>(std::tolower(c));
+        });
     return s;
 }
 

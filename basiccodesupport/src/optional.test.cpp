@@ -61,7 +61,8 @@ TEST(optTest, not_)
     UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
     // clang-format on
     EXPECT_DEATH(
-        [&]() {
+        [&]()
+        {
             *b = false;
         }(),
         "");

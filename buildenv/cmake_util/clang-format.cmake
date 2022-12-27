@@ -1,6 +1,6 @@
 # include in your project root once; generates a 'clang-format' target
 
-set(CLANG_FORMAT_VER 10)
+set(CLANG_FORMAT_VER 15)
 
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE

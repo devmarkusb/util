@@ -9,9 +9,11 @@ TEST(FinallyTest, Test)
 {
     bool isChanged = false;
     {
-        const auto UL_ANONYMOUS_VARIABLE = ul::finally([&]() {
-            isChanged = true;
-        });
+        const auto UL_ANONYMOUS_VARIABLE = ul::finally(
+            [&]()
+            {
+                isChanged = true;
+            });
         isChanged = false;
     }
     EXPECT_TRUE(isChanged);
