@@ -64,7 +64,7 @@ private:
 template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
 bool operator==(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T2, AllocArenaStrategy2>& rhs) noexcept
 {
-    return lhs.a_ == rhs.a_;
+    return std::is_same_v<decltype(lhs), decltype(rhs)>;
 }
 
 template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
