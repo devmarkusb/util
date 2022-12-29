@@ -8,6 +8,8 @@ ul_include(mathgl2_defaults.cmake)
 add_subdirectory(mathgl)
 ul_set_target_defaults(mgl)
 ul_set_target_defaults(mgl-static)
+set_target_properties(mgl_translations PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
 if (UL_ANDROID)
     set(mglAdditionalTargetSources
             ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.c

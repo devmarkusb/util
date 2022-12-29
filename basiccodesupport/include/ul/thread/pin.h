@@ -8,7 +8,6 @@
 #include "ul/assert.h"
 #include "ul/debug.h"
 #include "ul/error.h"
-#include "ul/ul.h"
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
@@ -17,6 +16,8 @@
 
 #if UL_OS_UNIX
 #include <pthread.h>
+#include <sched.h>
+#include <unistd.h>
 #else
 // not implemented
 #endif
