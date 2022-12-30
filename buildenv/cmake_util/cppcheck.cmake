@@ -10,7 +10,7 @@ if (CMAKE_CXX_CPPCHECK)
         "--inconclusive"
         "--force"
         "--inline-suppr"
-        "--suppressions-list=${CMAKE_SOURCE_DIR}/CppCheckSuppressions.txt"
+        "--suppressions-list=${CMAKE_PROJECT_DIR}/CppCheckSuppressions.txt"
     )
     message(CMAKE_CXX_CPPCHECK: ${CMAKE_CXX_CPPCHECK})
 endif()

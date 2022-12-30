@@ -16,6 +16,8 @@ ul_include(fetch-clangformat-repo.cmake)
 ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
 
+#ul_include(cppcheck.cmake)
+
 set(ul_INCLUDE_DIRS
         ${ulBasicCodeSupport_INCLUDE_DIRS}
         ${ulBuildEnv_INCLUDE_DIRS}
