@@ -3,15 +3,18 @@
 A personal library serving purposes that come right
 after or next to std.
 
-Practically util or util library is abbreviated as
-namespace ul or prefix UL_ everywhere.
+For convenience, util or util library is abbreviated as
+namespace ul or prefix UL_ for macros everywhere.
 
 ## What's in it?
 
-* Above all your entry point is browsing the header files.
+* Above all, your entry point is browsing the header files.
+* The subdirs are just for topic-wise organization - in the end
+it is just one lib, accessible by include `#include "ul/ul.h"`, except
+for some macro heavy headers or exotics.
 * buildenv just contains stuff helping you in setting up build
 environments, no real coding support.
-* basiccodesupport contains the core coding utilities, sometimes
+* basiccodesupport contains the core coding utilities. Sometimes,
 parts that are getting bigger or should get a name standing out,
 are shifted into other, separate parts of the lib.
 * Note that, ul (buildenv) also includes/contains the gsl lib
@@ -26,7 +29,7 @@ add_subdirectory(util)
 # ...
 target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
 ```
-should be all you need.
+and `#include "ul/ul.h"` should be all you need.
 If a part of the lib requires static linking, you will get to this
 automatically, or via a local README.
 
