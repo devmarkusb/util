@@ -45,6 +45,7 @@ set(targetTest ${PROJECT_NAME}Test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
 list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.test.cpp")
+list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.applied.test.cpp")
 add_executable(${targetTest}
     ${targetTest_SOURCES}
     ${target_INCS}
@@ -62,6 +63,7 @@ ul_set_target_defaults(${targetTest})
 
 ul_run_target_postbuild(${targetTest})
 
+###
 
 add_executable(${targetTest}_new_statistics
         src/new_statistics.test.cpp
@@ -80,3 +82,20 @@ ul_set_target_defaults(${targetTest}_new_statistics)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     ul_run_target_postbuild(${targetTest}_new_statistics)
 endif ()
+
+###
+
+add_executable(${targetTest}_new_statistics_applied
+        src/new_statistics.applied.test.cpp
+        ${target_INCS}
+        )
+
+ul_add_test(${targetTest}_new_statistics_applied)
+
+target_include_directories(${targetTest}_new_statistics_applied PRIVATE ${ulMem_INCLUDE_DIRS})
+
+target_link_libraries(${targetTest}_new_statistics_applied PRIVATE ${target})
+
+ul_set_target_defaults(${targetTest}_new_statistics_applied)
+
+ul_run_target_postbuild(${targetTest}_new_statistics_applied)
