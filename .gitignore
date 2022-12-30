@@ -2,6 +2,7 @@
 .DS_Store
 .clang-format
 .idea
+.vs
 _build*
 bin
 bin_*
