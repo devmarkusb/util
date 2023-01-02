@@ -34,10 +34,6 @@ All-in-one include file for this part of the lib.
 #include "trace.h"
 #include "type_name.h"
 #include "xor.h"
-#include "class/listener.h"
-#include "class/non_copyable.h"
-#include "class/on_before_destroy.h"
-#include "class/on_before_destroy_notifier.h"
 #include "std/array.h"
 #include "std/circular_buffer.h"
 #include "std/exception.h"
@@ -50,6 +46,10 @@ All-in-one include file for this part of the lib.
 #include "thread/pin.h"
 #include "thread/waitcircbuffer.h"
 #include "thread/waitqueue.h"
+#include "type/listener.h"
+#include "type/non_copyable.h"
+#include "type/on_before_destroy.h"
+#include "type/on_before_destroy_notifier.h"
 
 #include "ul/config.h"
 

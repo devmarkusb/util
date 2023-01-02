@@ -11,10 +11,10 @@
 #define ONSTACK_H_eourtz3478xth378tgh
 
 #include "ul/assert.h"
-#include "ul/class/non_copyable.h"
 #include "ul/mem/alloc/statistics.h"
 #include "ul/mem/types.h"
 #include "ul/mem/utility.h"
+#include "ul/type/non_copyable.h"
 #include "ul/warnings.h"
 #include <cstddef>
 #include <cstdint>

@@ -5,9 +5,9 @@
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 #define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 
-#include "ul/class/non_copyable.h"
 #include "ul/error.h"
 #include "ul/std/std_extensions.h"
+#include "ul/type/non_copyable.h"
 #include <iomanip>
 #include <iostream>
 #include <memory>

@@ -1,4 +1,4 @@
-#include "ul/class/non_copyable.h"
+#include "ul/type/non_copyable.h"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;
