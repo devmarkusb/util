@@ -8,7 +8,9 @@ ul_include(mathgl2_defaults.cmake)
 add_subdirectory(mathgl)
 ul_set_target_defaults(mgl)
 ul_set_target_defaults(mgl-static)
-set_target_properties(mgl_translations PROPERTIES EXCLUDE_FROM_ALL TRUE)
+if (NOT UL_ANDROID)
+    set_target_properties(mgl_translations PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif ()
 
 if (UL_ANDROID)
     set(mglAdditionalTargetSources
