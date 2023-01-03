@@ -5,9 +5,8 @@
 #ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 #define COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 
-#include "ul/mem/types.h"
-
 #include "ul/macros.h"
+#include "ul/mem/types.h"
 
 namespace mb::ul::mem::quirk::vector
 {
@@ -23,7 +22,5 @@ constexpr ul::mem::Bytes constr_heap_alloc_size
 #endif
 };
 } // namespace mb::ul::mem::quirk::vector
-
-#include "ul/macros_end.h"
 
 #endif

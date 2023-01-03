@@ -7,9 +7,8 @@
 
 #include "debug.h"
 #include "error.h"
-#include <string_view>
-
 #include "ul/macros.h"
+#include <string_view>
 
 namespace mb::ul
 {
@@ -38,7 +37,5 @@ constexpr std::string_view typeName()
 #endif
 }
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

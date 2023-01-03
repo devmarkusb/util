@@ -5,9 +5,8 @@
 #ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
 #define STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
 
-#include <fstream>
-
 #include "ul/macros.h"
+#include <fstream>
 
 
 #if __has_include(<filesystem>) && !UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
@@ -549,7 +548,5 @@ inline void touch(const ul::std_fs::path& p)
     std::ofstream f{p.string()};
 }
 } // namespace mb::ul::file
-
-#include "ul/macros_end.h"
 
 #endif

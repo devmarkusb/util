@@ -6,10 +6,9 @@
 #define PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
 
 #include "ul/assert.h"
+#include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include <type_traits>
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -138,7 +137,5 @@ private:
     }
 };
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

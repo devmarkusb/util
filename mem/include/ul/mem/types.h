@@ -5,10 +5,9 @@
 #ifndef TYPES_H_eroui342zt347g8hx3xg713h4
 #define TYPES_H_eroui342zt347g8hx3xg713h4
 
+#include "ul/macros.h"
 #include <cstddef>
 #include <ostream>
-
-#include "ul/macros.h"
 
 namespace mb::ul::mem
 {
@@ -111,7 +110,5 @@ inline std::ostream& operator<<(std::ostream& os, Bytes x)
     return os;
 }
 } // namespace mb::ul::mem
-
-#include "ul/macros_end.h"
 
 #endif

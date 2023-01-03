@@ -8,11 +8,10 @@
 #include "ul/assert.h"
 #include "ul/debug.h"
 #include "ul/error.h"
+#include "ul/macros.h"
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
-
-#include "ul/macros.h"
 
 #if UL_OS_UNIX
 #include <pthread.h>
@@ -181,7 +180,5 @@ inline int numLogicalCores()
 #endif
 }
 } // namespace mb::ul::thread
-
-#include "ul/macros_end.h"
 
 #endif

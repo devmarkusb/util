@@ -5,9 +5,8 @@
 #ifndef ATOMIC_H_e7tzx3785tz78g2xh4h2gg
 #define ATOMIC_H_e7tzx3785tz78g2xh4h2gg
 
-#include <atomic>
-
 #include "ul/macros.h"
+#include <atomic>
 
 namespace mb::ul::thread::atomic
 {
@@ -21,7 +20,5 @@ void updateMaximum(std::atomic<T>& maximum_value, const T& value) noexcept
     }
 }
 } // namespace mb::ul::thread::atomic
-
-#include "ul/macros_end.h"
 
 #endif

@@ -5,10 +5,9 @@
 #ifndef LOCALE_H_condwhxnu23mhy8mr
 #define LOCALE_H_condwhxnu23mhy8mr
 
+#include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include <locale>
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -91,7 +90,5 @@ private:
     std::locale backup;
 };
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

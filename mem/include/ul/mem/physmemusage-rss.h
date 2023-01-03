@@ -9,10 +9,9 @@
 #include "ul/debug.h"
 #include "ul/error.h"
 #include "ul/ignore_arg.h"
+#include "ul/macros.h"
 #include <fstream>
 #include <string>
-
-#include "ul/macros.h"
 
 #if UL_OS_LINUX
 #include <unistd.h>
@@ -57,7 +56,5 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage)
 #endif
 }
 } // namespace mb::ul::mem
-
-#include "ul/macros_end.h"
 
 #endif

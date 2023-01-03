@@ -1,8 +1,7 @@
 #include "ul/mem/heap_tracked.h"
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <memory>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

@@ -1,11 +1,10 @@
 #include "ul/thread/pin.h"
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

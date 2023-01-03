@@ -1,12 +1,11 @@
 #if !UL_OS_MAC
+#include "ul/macros.h"
 #include "ul/mem/physmemusage-rss.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

@@ -5,10 +5,9 @@
 #ifndef MATH_H_skuy3478ngt8247gg2
 #define MATH_H_skuy3478ngt8247gg2
 
+#include "ul/macros.h"
 #include <cstdint>
 #include <type_traits>
-
-#include "ul/macros.h"
 
 namespace mb::ul::math
 {
@@ -111,7 +110,5 @@ constexpr uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
     return v + 1;
 }
 } // namespace mb::ul::math
-
-#include "ul/macros_end.h"
 
 #endif

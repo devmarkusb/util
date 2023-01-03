@@ -1,4 +1,5 @@
 #include "ul/ignore_arg.h"
+#include "ul/macros.h"
 #include "ul/string/ulstring.h"
 #include "gtest/gtest.h"
 #include <cstring>
@@ -6,8 +7,6 @@
 #include <iterator>
 #include <string>
 #include <vector>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

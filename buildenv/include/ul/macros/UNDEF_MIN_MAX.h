@@ -1,8 +1,7 @@
 // 2011-20
 
 /** \file
-    Most common and basic preprocessor defines.
-    If you include this file within a header you should also include macros_end.h when finished.*/
+    Most common and basic preprocessor defines.*/
 
 // intentionally without include guard
 

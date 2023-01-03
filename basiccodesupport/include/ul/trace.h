@@ -6,6 +6,7 @@
 #define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
 
 #include "ul/error.h"
+#include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include "ul/type/non_copyable.h"
 #include <iomanip>
@@ -21,8 +22,6 @@
 #endif
 #include <windows.h>
 #endif
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -374,7 +373,5 @@ inline void trace(const std::ostringstream&)
 #endif
 } // namespace deprecated
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

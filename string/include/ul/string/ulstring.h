@@ -47,6 +47,7 @@
 #ifndef ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 #define ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 
+#include "ul/macros.h"
 #include "ul/warnings.h"
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
@@ -57,8 +58,6 @@ UL_WARNING_DISABLE_CLANG(zero-as-null-pointer-constant)
 //! proposed usage of std::string as UTF-8-everywhere.
 #include "../../../sdks/utf8cpp/source/utf8.h"
 UL_PRAGMA_WARNINGS_POP
-
-#include "ul/macros.h"
 
 
 //####################################################################################################################
@@ -82,7 +81,5 @@ inline size_t getLength(const std::string& s)
     return static_cast<size_t>(utf8::distance(std::begin(s), std::end(s)));
 }
 } // namespace mb::ul::str
-
-#include "ul/macros_end.h"
 
 #endif

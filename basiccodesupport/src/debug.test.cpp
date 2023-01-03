@@ -15,9 +15,8 @@ void f_with_some_sourcefile_location_info()
 //#####!!!!! TO HERE (actually to the end of the clang format directive below) } unless you also update test UL_LOCATIONTest below! ######
 // clang-format on
 
-#include "ul/warnings.h"
-
 #include "ul/macros.h"
+#include "ul/warnings.h"
 
 UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_MSVC(4127)

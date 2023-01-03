@@ -9,13 +9,11 @@
 #ifndef STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 #define STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
 
+#include "ul/macros.h"
 #include <algorithm> // included for the most probable find of std::accumulate (if ever)
 #include <memory>
 #include <numeric> // included for the most probable find of std::accumulate (if ever)
 #include <type_traits>
-
-#include "ul/macros.h"
-
 
 /** Unfortunately some compiler whose name doesn't want to be called doesn't support constexpr and
     noexcept yet, so...
@@ -158,7 +156,5 @@ T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
 }
 #endif
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

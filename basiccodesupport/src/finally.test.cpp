@@ -1,7 +1,6 @@
 #include "ul/finally.h"
-#include "gtest/gtest.h"
-
 #include "ul/macros.h"
+#include "gtest/gtest.h"
 
 namespace ul = mb::ul;
 

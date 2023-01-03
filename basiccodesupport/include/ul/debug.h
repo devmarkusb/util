@@ -70,6 +70,4 @@
  * message (UL_LOCATION"some message")*/
 #define UL_LOCATION __FILE__ " (" UL_STRINGIFY_VALUE(__LINE__) ")"
 
-#include "ul/macros_end.h"
-
 #endif

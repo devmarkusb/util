@@ -1,9 +1,8 @@
 #include "ul/type_name.h"
 #include "ul/ignore_arg.h"
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <tuple>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

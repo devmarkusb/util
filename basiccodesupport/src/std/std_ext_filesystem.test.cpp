@@ -8,13 +8,12 @@
 #include "ul/std/std_ext_filesystem.h"
 #undef UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 #include "ul/finally.h"
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>
 #include <string>
 #include <thread>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 namespace fs = ul::std_fs;

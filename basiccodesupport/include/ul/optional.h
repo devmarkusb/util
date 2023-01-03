@@ -6,12 +6,11 @@
 #define OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
 
 #include "ul/assert.h"
+#include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include <cstddef>
 #include <memory>
 #include <utility>
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -180,7 +179,5 @@ bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
     return !operator<(lhs, rhs);
 }
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

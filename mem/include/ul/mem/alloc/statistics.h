@@ -5,10 +5,9 @@
 #ifndef STATISTICS_H_eorxmgh9385g257xgishuv
 #define STATISTICS_H_eorxmgh9385g257xgishuv
 
+#include "ul/macros.h"
 #include "ul/mem/types.h"
 #include <optional>
-
-#include "ul/macros.h"
 
 namespace mb::ul::mem::alloc
 {
@@ -74,7 +73,5 @@ protected:
     }
 };
 } // namespace mb::ul::mem::alloc
-
-#include "ul/macros_end.h"
 
 #endif

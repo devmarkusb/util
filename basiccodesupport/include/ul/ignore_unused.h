@@ -27,6 +27,4 @@ void ignore_unused(T&&)
 }
 } // namespace mb::ul
 
-#include "ul/macros_end.h"
-
 #endif

@@ -8,6 +8,7 @@
 
 #include "ul/error.h"
 #include "ul/ignore_arg.h"
+#include "ul/macros.h"
 #include "ul/string/ulstring.h"
 #include <algorithm>
 #include <iomanip>
@@ -23,8 +24,6 @@
 #if UL_OS_WINDOWS
 #include <windows.h>
 #endif
-
-#include "ul/macros.h"
 
 namespace mb::ul::str
 {
@@ -292,7 +291,5 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
     return ret;
 }
 } // namespace mb::ul::str
-
-#include "ul/macros_end.h"
 
 #endif

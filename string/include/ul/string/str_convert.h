@@ -8,11 +8,10 @@
 //! ulstring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "ul/comp_bwds.h"
+#include "ul/macros.h"
 #include "ul/string/ulstring.h"
 #include <stdexcept>
 #include <string>
-
-#include "ul/macros.h"
 
 namespace mb::ul::str
 {
@@ -129,7 +128,5 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
 // implementation details
 
 #include "detail/str_convert_detail.hpp"
-
-#include "ul/macros_end.h"
 
 #endif

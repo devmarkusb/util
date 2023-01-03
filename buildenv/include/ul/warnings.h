@@ -15,7 +15,6 @@
 
 #include "ul/macros.h"
 
-
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
 #define UL_PRAGMA_WARNINGS_PUSH                      UL_PRAGMA(warning(push))
 #define UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC UL_PRAGMA(warning(push, 0))
@@ -47,7 +46,5 @@
 #define UL_WARNING_DISABLE_GCC(w) UL_PRAGMA(GCC diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
 
 #endif
-
-#include "ul/macros_end.h"
 
 #endif

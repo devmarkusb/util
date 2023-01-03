@@ -22,6 +22,7 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #define ASSERT_H_onvdr589tz3758ct438tzcn
 
 #include "ul/config.h"
+#include "ul/macros.h"
 #include "ul/warnings.h"
 #ifndef UL_COMP_MS_VISUAL_STUDIO_CPP
 #include <cassert>
@@ -30,8 +31,6 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <exception>
 #include <stdexcept>
 #include <thread>
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -257,8 +256,6 @@ struct StaticAssert_v0<true>
 /** ... now with C++11 the problem is settled. You can just plainly use static_assert.*/
 #define UL_STATIC_ASSERT static_assert
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 UL_HEADER_END
 

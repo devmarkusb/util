@@ -1,10 +1,10 @@
 // 2011-20
 
 /** \file
-    Most common and basic preprocessor defines.
-    If you include this file within a header you should also include macros_end.h when finished.*/
+    Most common and basic preprocessor defines.*/
 
-// no include guard intentionally
+#ifndef MACROS_H_ehv389gh3489yg3489gny4389g48gj4
+#define MACROS_H_ehv389gh3489yg3489gny4389g48gj4
 
 //####################################################################################################################
 //! Operating Systems
@@ -366,4 +366,6 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_DEPRECATED [[deprecated]]
 #else
 #define UL_DEPRECATED
+#endif
+
 #endif

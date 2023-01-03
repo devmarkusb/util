@@ -1,8 +1,7 @@
 #include "ul/std/exception.h"
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <exception>
-
-#include "ul/macros.h"
 
 namespace ul = mb::ul;
 

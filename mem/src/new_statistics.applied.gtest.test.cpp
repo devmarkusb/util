@@ -2,9 +2,8 @@
 #include "ul/mem/new_statistics.h"
 #undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 #include "ul/format_number.h"
-#include "gtest/gtest.h"
-
 #include "ul/macros.h"
+#include "gtest/gtest.h"
 
 namespace ul = mb::ul;
 

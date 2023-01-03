@@ -3,9 +3,8 @@
 #undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 #include "ul/error.h"
 #include "ul/format_number.h"
-#include <iostream>
-
 #include "ul/macros.h"
+#include <iostream>
 
 namespace ul = mb::ul;
 

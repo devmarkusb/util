@@ -7,13 +7,12 @@
 #ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 #define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 
+#include "ul/macros.h"
 #include "ul/mem/types.h"
 #include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <type_traits>
-
-#include "ul/macros.h"
 
 namespace mb::ul::mem
 {
@@ -73,7 +72,5 @@ bool operator!=(const Allocator<T1, AllocArenaStrategy1>& lhs, const Allocator<T
     return !(lhs == rhs);
 }
 } // namespace mb::ul::mem
-
-#include "ul/macros_end.h"
 
 #endif

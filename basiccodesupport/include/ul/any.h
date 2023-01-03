@@ -5,13 +5,12 @@
 #ifndef ANY_H_sdfuiofx37tn3z47txn378xtfg43n8g3
 #define ANY_H_sdfuiofx37tn3z47txn378xtfg43n8g3
 
+#include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include <exception>
 #include <memory>
 #include <type_traits>
 #include <typeinfo>
-
-#include "ul/macros.h"
 
 namespace mb::ul
 {
@@ -206,7 +205,5 @@ const Type* any_cast(const any* pval)
     return &(static_cast<any::concrete<Type>*>(pval->holder.get())->value);
 }
 } // namespace mb::ul
-
-#include "ul/macros_end.h"
 
 #endif

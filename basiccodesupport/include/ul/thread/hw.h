@@ -5,9 +5,8 @@
 #ifndef HW_H_gi4uhx548hnx4875h7xg785h
 #define HW_H_gi4uhx548hnx4875h7xg785h
 
-#include <thread>
-
 #include "ul/macros.h"
+#include <thread>
 
 #if UL_OS_LINUX
 #include <unistd.h>
@@ -22,7 +21,5 @@ inline unsigned int numAvailLogicalCores() noexcept
     return std::thread::hardware_concurrency();
 }
 } // namespace mb::ul::thread
-
-#include "ul/macros_end.h"
 
 #endif
