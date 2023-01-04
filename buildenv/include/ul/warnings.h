@@ -33,7 +33,7 @@
 
 #define UL_WARNING_DISABLE_MSVC(w)
 //! E.g. UL_WARNING_DISABLE_CLANG(sign-conversion) is equivalent to compiler flag -Wno-sign-conversion
-#define UL_WARNING_DISABLE_CLANG(w) UL_PRAGMA(clang diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
+#define UL_WARNING_DISABLE_CLANG(w)  UL_PRAGMA(clang diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
 #define UL_WARNING_DISABLE_CLANG_ALL UL_WARNING_DISABLE_CLANG(everything)
 #define UL_WARNING_DISABLE_GCC(w)
 
