@@ -98,6 +98,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -Wall -Wextra -Wconversion -Werror
             -Wmissing-prototypes
             -Wno-c++11-narrowing
+            -Wdocumentation
     )
 endif ()
 
