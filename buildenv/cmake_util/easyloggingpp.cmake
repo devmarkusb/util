@@ -1,6 +1,6 @@
 FetchContent_Declare(
      easyloggingpp
-     GIT_REPOSITORY https://github.com/MarkusBorris/easyloggingpp
+     GIT_REPOSITORY https://github.com/devmarkusb/easyloggingpp
      GIT_TAG        v9.96.7
 )
 

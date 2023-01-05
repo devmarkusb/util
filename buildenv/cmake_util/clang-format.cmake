@@ -1,7 +1,5 @@
 # include in your project root once; generates a 'clang-format' target
 
-set(CLANG_FORMAT_VER 15)
-
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
     file(GLOB_RECURSE
         s
@@ -35,7 +33,9 @@ if (${PROJECT_NAME} STREQUAL "util")
     glob_recurse_append_cxx_sources(all_cxx_sources string)
 endif ()
 
-find_program(CLANG_FORMAT "clang-format-${CLANG_FORMAT_VER}")
+message("CLANGFORMAT_VER: ${CLANGFORMAT_VER}")
+
+find_program(CLANG_FORMAT "clang-format-${CLANGFORMAT_VER}")
 if (CLANG_FORMAT)
     add_custom_target(
         clang-format-${PROJECT_NAME}

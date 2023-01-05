@@ -6,6 +6,7 @@
 _build*
 bin
 bin_*
+clangformat.sh
 cmake-build-*
 lib
 lib_*
