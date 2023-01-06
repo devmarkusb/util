@@ -10,7 +10,7 @@ FetchContent_Declare(mb-clangformat
 
 FetchContent_MakeAvailable(mb-clangformat)
 
-# of course the copied file is not intended to be edited
+# of course the copied files are not intended to be edited
 file(COPY ${mb-clangformat_SOURCE_DIR}/.clang-format DESTINATION ${PROJECT_SOURCE_DIR}/)
 file(COPY ${mb-clangformat_SOURCE_DIR}/clangformat.sh DESTINATION ${PROJECT_SOURCE_DIR}/
         FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)

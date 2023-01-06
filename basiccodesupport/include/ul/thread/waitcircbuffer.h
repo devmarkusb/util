@@ -17,11 +17,11 @@ namespace mb::ul::thread
 {
 namespace detail::waitcircbuf_impl_container
 {
-template <typename T, size_t capacity__>
+template <typename T, size_t staticCapacity>
 class CapacityCompiletime
 {
 protected:
-    ul::CircularBuffer<T, capacity__> buf_;
+    ul::CircularBuffer<T, staticCapacity> buf_;
 };
 
 template <typename T>
@@ -37,26 +37,26 @@ protected:
     }
 };
 
-template <typename T, size_t capacity__>
-using Base = std::conditional_t<capacity__ == 0, CapacityRuntime<T>, CapacityCompiletime<T, capacity__>>;
+template <typename T, size_t staticCapacity>
+using Base = std::conditional_t<staticCapacity == 0, CapacityRuntime<T>, CapacityCompiletime<T, staticCapacity>>;
 } // namespace detail::waitcircbuf_impl_container
 
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 /** Note, unlike the behavior of CircularBuffer this WaitCircularBuffer protects against overwrites.*/
-template <typename T, size_t capacity__ = 0>
-class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, capacity__>
+template <typename T, size_t staticCapacity = 0>
+class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, staticCapacity>
 {
 public:
-    using Base = detail::waitcircbuf_impl_container::Base<T, capacity__>;
+    using Base = detail::waitcircbuf_impl_container::Base<T, staticCapacity>;
 
     //! Expects capacity > 0.
-    template <typename = std::enable_if<capacity__ == 0>>
+    template <typename = std::enable_if<staticCapacity == 0>>
     explicit WaitCircularBuffer(size_t capacity)
         : Base{capacity}
     {
     }
 
-    template <typename = std::enable_if<capacity__ != 0>>
+    template <typename = std::enable_if<staticCapacity != 0>>
     WaitCircularBuffer() noexcept
     {
     } // = default, not working here
@@ -79,7 +79,7 @@ public:
     }
 
     //! Don't use! Doesn't work yet. Implementation of CircularBuffer is the guilty one.
-    /** (At least not working in the 'dynamic' capacity__ == 0 case, whereas in the 'static' capacity != 0 case
+    /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
     template <typename T_>
     bool emplace(T_&& elem)

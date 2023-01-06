@@ -23,15 +23,13 @@
 
 namespace mb::ul
 {
-namespace detail
+namespace detail::circbuf_impl_container
 {
-namespace circbuf_impl_container
-{
-template <typename T, size_t capacity__>
+template <typename T, size_t staticCapacity>
 class Array
 {
 protected:
-    std::array<T, capacity__> buf_;
+    std::array<T, staticCapacity> buf_;
 
     template <typename T_, typename Buffer>
     void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
@@ -68,29 +66,28 @@ protected:
     }
 };
 
-template <typename T, size_t capacity__>
-using Base = std::conditional_t<capacity__ == 0, Vector<T>, Array<T, capacity__>>;
-} // namespace circbuf_impl_container
-} // namespace detail
+template <typename T, size_t staticCapacity>
+using Base = std::conditional_t<staticCapacity == 0, Vector<T>, Array<T, staticCapacity>>;
+} // namespace detail::circbuf_impl_container
 
 /** If you know the (always fixed) capacity of the circular buffer at compile time you should definitely prefer
-    to pass it as template capacity__ != 0. Then there is only a default constructor (no parameters).
-    Otherwise for a capacity only known as soon as runtime, you keep capacity__ at 0 and pass the desired
+    to pass it as template staticCapacity != 0. Then there is only a default constructor (no parameters).
+    Otherwise for a capacity only known as soon as runtime, you keep staticCapacity at 0 and pass the desired
     capacity as constructor parameter.*/
-template <typename T, size_t capacity__ = 0>
-class CircularBuffer : private detail::circbuf_impl_container::Base<T, capacity__>
+template <typename T, size_t staticCapacity = 0>
+class CircularBuffer : private detail::circbuf_impl_container::Base<T, staticCapacity>
 {
 public:
-    using Base = detail::circbuf_impl_container::Base<T, capacity__>;
+    using Base = detail::circbuf_impl_container::Base<T, staticCapacity>;
 
     //! Expects capacity > 0.
-    template <typename = std::enable_if<capacity__ == 0>>
+    template <typename = std::enable_if<staticCapacity == 0>>
     explicit CircularBuffer(size_t capacity)
         : Base{capacity}
     {
     }
 
-    template <typename = std::enable_if<capacity__ != 0>>
+    template <typename = std::enable_if<staticCapacity != 0>>
     CircularBuffer()
     {
     } // = default, not working here
@@ -111,7 +108,7 @@ public:
     }
 
     //! Don't use! Doesn't work yet.
-    /** (At least not working in the 'dynamic' capacity__ == 0 case, whereas in the 'static' capacity != 0 case
+    /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
     template <typename T_>
     void emplace(T_&& item)
@@ -167,8 +164,8 @@ public:
 
     [[nodiscard]] constexpr size_t capacity() const noexcept
     {
-        if constexpr (capacity__ > 0)
-            return capacity__;
+        if constexpr (staticCapacity > 0)
+            return staticCapacity;
         else
             return Base::capacity_;
     }

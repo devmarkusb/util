@@ -130,7 +130,7 @@ inline auto operator!(retcode rc) -> bool
     return rc != retcode::none;
 }
 
-namespace publish__is_ok
+namespace publish_is_ok
 {
 //! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
 inline bool is_ok(retcode rc)
@@ -143,7 +143,7 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str)
 {
     return is_ok(rc_str.first);
 }
-} // namespace publish__is_ok
+} // namespace publish_is_ok
 
 /** Definition of some exceptions for the pendant of throwing functions, not returning
     \code retcode \endcode. Note that the standard library already defines most of the
@@ -297,7 +297,7 @@ UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_CLANG(header-hygiene)
 // clang-format on
 // since, `const auto& is_ok = ul::is_ok;` would lead to multiple defs, even with constexpr
-using namespace mb::ul::publish__is_ok;
+using namespace mb::ul::publish_is_ok;
 UL_PRAGMA_WARNINGS_POP
 
 #endif
