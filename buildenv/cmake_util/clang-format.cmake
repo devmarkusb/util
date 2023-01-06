@@ -7,4 +7,4 @@ endif ()
 
 string(CONCAT cxx_dirs "${cxx_dirs_general}" "${cxx_dirs_util}")
 
-make_clang_format_project_target("${cxx_dirs}")
+add_clang_format_project_target("${cxx_dirs}")
