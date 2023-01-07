@@ -100,8 +100,8 @@ TEST(utf8cpp_distanceTest, test)
 
 TEST(utf8cpp_is_bomTest, test)
 {
-    unsigned char byte_order_mark[] = {0xef, 0xbb, 0xbf};
-    bool bbom = utf8::is_bom(byte_order_mark);
+    char byte_order_mark[] = "\xef\xbb\xbf";
+    bool bbom = utf8::starts_with_bom(byte_order_mark);
     EXPECT_TRUE(bbom);
 }
 

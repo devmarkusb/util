@@ -40,9 +40,7 @@
     (5) Whenever you need other encodings, use
         std::u16string for UTF16 and u"...",
         std::u32string for UTF32 and U"...",
-        and std::string for local encodings only as little and as explicitly as possible.
-
-        */
+        and std::string for local encodings only as little and as explicitly as possible.*/
 
 #ifndef ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
 #define ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
@@ -54,9 +52,9 @@ UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_CLANG(sign-conversion)
 UL_WARNING_DISABLE_CLANG(zero-as-null-pointer-constant)
 // clang-format on
-//! Including this header regardless of whether it is being used here. You will need it in combination with the
-//! proposed usage of std::string as UTF-8-everywhere.
-#include "../../../sdks/utf8cpp/source/utf8.h"
+/** Including this header regardless of whether it is being used here. You will need it in combination with the
+    proposed usage of std::string as UTF-8-everywhere.*/
+#include "utf8.h"
 UL_PRAGMA_WARNINGS_POP
 
 

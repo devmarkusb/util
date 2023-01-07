@@ -15,7 +15,6 @@ file(GLOB_RECURSE target_INCS "include/*.h*")
 #add_library(${target} STATIC ${target_INCS})
 
 #target_include_directories(${target} PUBLIC ${ulBasicCodeSupport_INCLUDE_DIRS})
-#target_include_directories(${target} PUBLIC ${utf8cpp_INCLUDE_DIRS})
 
 #target_link_libraries(${target}) # ulBasicCodeSupport utf8cpp
 
@@ -23,7 +22,7 @@ file(GLOB_RECURSE target_INCS "include/*.h*")
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
-    ${utf8cpp_INCLUDE_DIRS}
+    ${utfcpp_INCLUDE_DIRS}
     ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
 
