@@ -52,7 +52,6 @@ struct char_encoding_fileTest : public ::testing::Test
 
     void write_file(const std::string& text)
     {
-        this->content = text;
         saveToTextFile(filePathNameExt, text);
     }
 
@@ -78,7 +77,6 @@ struct char_encoding_fileTest : public ::testing::Test
 
 private:
     std::string filePathNameExt;
-    std::string content;
     static char counter;
 };
 

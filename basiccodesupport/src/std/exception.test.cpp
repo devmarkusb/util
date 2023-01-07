@@ -2,15 +2,16 @@
 #include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <exception>
+#include <string_view>
 
 namespace ul = mb::ul;
 
 TEST(exception_Capture, basics)
 {
     ul::exception::Capture ec1{
-        [](std::string s)
+        [](std::string_view s)
         {
-            throw std::runtime_error{s};
+            throw std::runtime_error{s.data()};
         },
         "test error 1"};
     EXPECT_THROW(ec1.rethrow(), std::runtime_error);

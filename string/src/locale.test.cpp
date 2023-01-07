@@ -18,7 +18,7 @@ TEST(consoleTest, set_global_localeTest_localenc)
 // C++ exception with description "locale::facet::_S_create_c_locale name not valid" thrown in the test body.
 // Strange stuff: Happens only during unit test as part of compilation. Not failing when
 // starting the test exe separately - so no debugging possible :/
-// Also the buildserver doesn't fail!
+// Also the build server doesn't fail!
 #if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
     ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
     std::locale first = loc.get_original_locale();

@@ -7,9 +7,7 @@ namespace
 {
 struct Model_listener : public ul::Listener
 {
-    virtual ~Model_listener()
-    {
-    }
+    ~Model_listener() override = default;
 
     virtual void on_prop_changed() = 0;
 };
@@ -25,7 +23,7 @@ struct Model_notifier : public ul::ListenerRegister
 
 struct Model : public Model_notifier
 {
-    int get_prop() const
+    [[nodiscard]] int get_prop() const
     {
         return this->prop;
     }
@@ -57,7 +55,7 @@ struct View : private Model_listener
         this->m_in_v.unregisterListener(this);
     }
 
-    int get_prop() const
+    [[nodiscard]] int get_prop() const
     {
         return this->m_in_v.get_prop();
     }
@@ -82,7 +80,7 @@ struct View : private Model_listener
 private:
     Model m_in_v;
 
-    virtual void on_prop_changed() override
+    void on_prop_changed() override
     {
         prop_changed();
     }

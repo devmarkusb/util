@@ -1,2 +1,2 @@
 DisableFormat: true
-SortIncludes: false # change to Never for newer clang-format version
+SortIncludes: Never

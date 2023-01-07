@@ -86,6 +86,7 @@ public:
     {
         static_assert(std::is_convertible_v<T_, T>);
 
+        ul::ignore_arg(elem);
         throw ul::not_implemented{"WaitCircularBuffer::emplace"};
 #if 0
         {
@@ -98,8 +99,6 @@ public:
         }
         conditionVariable_.notify_one();
         return true;
-#else
-        ul::ignore_arg(elem);
 #endif
     }
 

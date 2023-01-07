@@ -10,18 +10,18 @@ TEST(getSharedInstance, basics)
     EXPECT_EQ(*i1, 0);
     *i1 = 42;
     auto i2 = i1;
-    i1 = nullptr;
+    i1 = {};
     EXPECT_EQ(*i2, 42);
-    i2 = nullptr;
+    i2 = {};
 
     i1 = ul::getSharedInstance<int>();
     *i1 = 42;
     i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 42);
-    i1 = nullptr;
+    i1 = {};
     i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 42);
-    i2 = nullptr;
+    i2 = {};
     i2 = ul::getSharedInstance<int>();
     EXPECT_EQ(*i2, 0);
 }
