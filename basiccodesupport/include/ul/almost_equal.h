@@ -8,7 +8,6 @@
 #include "ul/assert.h"
 #include "ul/ignore_arg.h"
 #include <cmath>
-#include <concepts>
 
 #include "ul/macros/UNDEF_MIN_MAX.h"
 
@@ -16,8 +15,9 @@ namespace mb::ul
 {
 /** Expects ulp >= 1.
     \return true, if x and y are almost equal.*/
-template <std::floating_point FloatType>
-bool almost_equal(FloatType x, FloatType y, int ulp = 1)
+template <typename FloatType>
+typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type almost_equal(
+    FloatType x, FloatType y, int ulp = 1)
 {
     UL_EXPECT(ulp >= 1);
     return std::abs(x - y) < std::numeric_limits<FloatType>::epsilon() * std::abs(x + y) * static_cast<FloatType>(ulp)
