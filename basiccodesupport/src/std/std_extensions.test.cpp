@@ -17,6 +17,6 @@ TEST(ul_accumulateTest, test)
     int sumSelfmade = 0;
     for (const auto& elem : v)
         sumSelfmade += elem;
-    int sum = ul::accumulate(v.begin(), v.end(), 0, std::plus<int>());
+    int sum = ul::accumulate(v.begin(), v.end(), 0, std::plus<>());
     EXPECT_TRUE(sum == sumSelfmade);
 }

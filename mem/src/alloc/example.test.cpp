@@ -9,12 +9,11 @@ using ul::mem::Bytes;
 
 TEST(alloc_Example, basics)
 {
-    ul::mem::alloc::Example a;
-    auto mem = reinterpret_cast<int*>(a.allocate(Bytes{42 * sizeof(int)}));
+    auto mem = reinterpret_cast<int*>(ul::mem::alloc::Example::allocate(Bytes{42 * sizeof(int)}));
     const auto autoDeallocate = ul::finally(
-        [mem, &a]()
+        [mem]()
         {
-            a.deallocate(reinterpret_cast<uint8_t*>(mem));
+            ul::mem::alloc::Example::deallocate(reinterpret_cast<uint8_t*>(mem));
         });
     ul::ignore_arg(autoDeallocate);
 

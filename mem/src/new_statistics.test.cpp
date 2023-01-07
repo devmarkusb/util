@@ -17,7 +17,7 @@ int main()
 
     UL_ASSERT_THROW(memstats.newCalls() == 0);
     UL_ASSERT_THROW(memstats.deleteCalls() == 0);
-    UL_ASSERT_THROW(memstats.peakSize() == 0);
+    UL_ASSERT_THROW(memstats.peakSize() == ul::mem::Bytes{});
 
     std::size_t exp_new_calls{};
     std::size_t exp_delete_calls{};

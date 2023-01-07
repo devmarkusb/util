@@ -77,13 +77,13 @@ public:
     }
 
     template <typename T>
-    any(T&& x)
+    /*implicit*/ any(T&& x)
         : holder(ul::make_unique<concrete<T>>(std::forward<T>(x)))
     {
     }
 
     template <typename T>
-    any(const T& x)
+    /*implicit*/ any(const T& x)
         : holder(ul::make_unique<concrete<T>>(x))
     {
     }

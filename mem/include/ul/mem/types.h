@@ -35,7 +35,7 @@ struct Bytes
         return *this;
     }
 
-    constexpr /*implicit*/ operator bool() const noexcept
+    constexpr explicit operator bool() const noexcept
     {
         return value;
     }

@@ -9,7 +9,7 @@ class VectorMoveRangeTest : public ::testing::Test
 protected:
     std::vector<char> m_v7;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         // abcdefg
         m_v7.push_back('a');
@@ -21,11 +21,11 @@ protected:
         m_v7.push_back('g');
     }
 
-    virtual void TearDown()
+    void TearDown() override
     {
     }
 
-    std::string Vec2Str(const std::vector<char>& v)
+    static std::string Vec2Str(const std::vector<char>& v)
     {
         std::string s(v.begin(), v.end());
         return s;
