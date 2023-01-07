@@ -1,7 +1,8 @@
 #include "ul/ignore_arg.h"
 #include "ul/macros.h"
-#include "ul/string/ulstring.h"
+
 #include "gtest/gtest.h"
+#include "utf8.h"
 #include <cstring>
 #include <iostream>
 #include <iterator>
