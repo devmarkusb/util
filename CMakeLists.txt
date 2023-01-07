@@ -12,7 +12,6 @@ add_subdirectory(mem)
 add_subdirectory(linklib)
 add_subdirectory(util)
 
-ul_include(clang-format-repo-fetch.cmake)
 ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
 
