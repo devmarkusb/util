@@ -29,6 +29,9 @@ endif ()
 if (UL_ANDROID)
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
 endif ()
+option(UL_RUN_UNITTESTS_POSTBUILD
+        "unit tests are run as part of the build - recommended to be diabled for debugging"
+        ON)
 
 # UL_BITS will be 32, 64, ...
 math(EXPR UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
@@ -194,12 +197,14 @@ macro(ul_set_target_cuda_separable_compilation target)
 endmacro()
 
 macro(ul_run_target_postbuild target)
+    if (UL_RUN_UNITTESTS_POSTBUILD)
 #    add_custom_command(TARGET ${target}
 #            POST_BUILD
 #            COMMAND ctest -V -C $<CONFIGURATION>)
-    add_custom_command(
-            TARGET ${target} POST_BUILD
-            COMMAND ${target})
+        add_custom_command(
+                TARGET ${target} POST_BUILD
+                COMMAND ${target})
+    endif ()
 endmacro()
 
 # shared lib export define (such that the build know whether to export or import symbols)
