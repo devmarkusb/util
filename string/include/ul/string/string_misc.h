@@ -69,6 +69,10 @@ inline void replaceAll(std::string& s, const std::string& fromSub, const std::st
 inline void replaceAll(std::string& s, const std::string& fromSub, const std::vector<std::string>& toSubs)
 {
     UL_EXPECT(!fromSub.empty());
+    if (s.empty())
+    {
+        return;
+    }
     size_t counter{};
     size_t start_pos{};
     while ((start_pos = s.find(fromSub, start_pos)) != std::string::npos)
