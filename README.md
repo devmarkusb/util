@@ -16,7 +16,7 @@ for some macro heavy headers or exotics.
 environments, no real coding support.
 * basiccodesupport contains the core coding utilities. Sometimes,
 parts that are getting bigger or should get a name standing out,
-are shifted into other, separate parts of the lib.
+are shifted into other, separate parts of the lib. 
 * Note that, ul (buildenv) also includes/contains the gsl lib
 from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 
@@ -29,9 +29,7 @@ add_subdirectory(util)
 # ...
 target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
 ```
-and `#include "ul/ul.h"` should be all you need.
-If a part of the lib requires static linking, you will get to this
-automatically, or via a local README.
+and `#include "ul/ul.h"` should be all you need. The library is header-only.
 
 ## FAQ
 
