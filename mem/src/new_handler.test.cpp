@@ -1,5 +1,5 @@
 #include "ul/mem/new_handler.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;
@@ -26,10 +26,10 @@ TEST(NewHandlerSupportTest, test)
     public:
         C_heavy_to_alloc()
         {
-            ul::ignore_arg(i1);
-            ul::ignore_arg(i2);
-            ul::ignore_arg(i3);
-            ul::ignore_arg(i4);
+            ul::ignore_unused(i1);
+            ul::ignore_unused(i2);
+            ul::ignore_unused(i3);
+            ul::ignore_unused(i4);
         }
 
     private:
@@ -42,7 +42,7 @@ TEST(NewHandlerSupportTest, test)
 
     ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
     C c;
-    ul::ignore_arg(c);
+    ul::ignore_unused(c);
     EXPECT_FALSE(g_my_new_handler_got_called);
     C* pc = nullptr;
     try

@@ -6,7 +6,7 @@
 #define ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr
 
 #include "ul/assert.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include <cmath>
 
 #include "ul/macros/UNDEF_MIN_MAX.h"
@@ -38,7 +38,7 @@ template <typename ArithmeticType>
 typename std::enable_if<std::is_integral<ArithmeticType>::value, bool>::type almost_equal_alltypes(
     ArithmeticType x, ArithmeticType y, int ulp = 1)
 {
-    ul::ignore_arg(ulp);
+    ul::ignore_unused(ulp);
     return x == y;
 }
 } // namespace mb::ul

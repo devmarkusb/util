@@ -8,6 +8,7 @@
 #include "ul/assert.h"
 #include "ul/debug.h"
 #include "ul/error.h"
+#include "ul/ignore_unused.h"
 #include "ul/macros.h"
 #include <cstdint>
 #include <sstream>
@@ -118,8 +119,8 @@ inline int pinToLogicalCore([[maybe_unused]] native_handle h, [[maybe_unused]] i
     CPU_SET(logicalCoreIdx, &cpuset);
     return mac::pthread_setaffinity_np(nh, sizeof(mac::cpu_set_t), &cpuset);
 #else
-    ul::ignore_arg(h);
-    ul::ignore_arg(logicalCoreIdx);
+    ul::ignore_unused(h);
+    ul::ignore_unused(logicalCoreIdx);
     throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
@@ -133,6 +134,7 @@ inline int pinToLogicalCore(int logicalCoreIdx)
     CPU_SET(logicalCoreIdx, &cpuset);
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
+    ul::ignore_unused(logicalCoreIdx);
     throw ul::not_implemented{UL_LOCATION " pinToLogicalCore"};
 #endif
 }
@@ -157,8 +159,8 @@ inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx)
         throw std::runtime_error{ss.str()};
     }
 #else
-    ul::ignore_arg(t);
-    ul::ignore_arg(logicalCoreIdx);
+    ul::ignore_unused(t);
+    ul::ignore_unused(logicalCoreIdx);
     throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }

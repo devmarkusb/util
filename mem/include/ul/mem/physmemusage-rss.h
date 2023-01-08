@@ -8,7 +8,7 @@
 #include "types.h"
 #include "ul/debug.h"
 #include "ul/error.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/macros.h"
 #include <fstream>
 #include <string>
@@ -50,8 +50,8 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage)
     virtual_mem_usage = vsize / ul::mem::KiB;
     physical_mem_usage = rss * page_size_kb;
 #else
-    ul::ignore_arg(virtual_mem_usage);
-    ul::ignore_arg(physical_mem_usage);
+    ul::ignore_unused(virtual_mem_usage);
+    ul::ignore_unused(physical_mem_usage);
     throw ul::not_implemented{UL_LOCATION " ul::mem::usage not yet for non-Linux"};
 #endif
 }

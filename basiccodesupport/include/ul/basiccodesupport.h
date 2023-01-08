@@ -18,7 +18,6 @@ All-in-one include file for this part of the lib.
 #include "finally.h"
 #include "format_number.h"
 #include "hash.h"
-#include "ignore_arg.h"
 #include "ignore_unused.h"
 #include "map.h"
 #include "math.h"

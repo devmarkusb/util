@@ -7,7 +7,7 @@
 #define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 
 #include "ul/error.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/macros.h"
 #include "ul/string/ulstring.h"
 #include <algorithm>
@@ -57,7 +57,7 @@ inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
     utf8::utf32to8(tmp.begin(), tmp.end(), std::back_inserter(ret));
     return ret;
 #else
-    ul::ignore_arg(wstr);
+    ul::ignore_unused(wstr);
     throw ul::not_implemented{"utf16or32to8_ws2s_portable"};
 #endif
 }
@@ -92,7 +92,7 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
     std::wstring ret(utf32.begin(), utf32.end());
     return ret;
 #else
-    ul::ignore_arg(str);
+    ul::ignore_unused(str);
     throw ul::not_implemented{"utf8to16or32_s2ws_portable"};
 #endif
 }

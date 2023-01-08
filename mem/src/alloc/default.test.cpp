@@ -1,6 +1,6 @@
 #include "ul/mem/alloc/default.h"
 #include "ul/finally.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
 

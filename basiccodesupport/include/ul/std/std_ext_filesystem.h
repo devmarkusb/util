@@ -39,7 +39,7 @@ namespace std_fs = std::filesystem;
 #include <unistd.h>
 #endif
 #include "ul/assert.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include <cstdio>
 #include <cstring>
 #include <fstream>
@@ -338,7 +338,7 @@ private:
                 std::stringstream ss;
                 ss << "could not close dir, error code: " << errno << ", dir: " << p_.string();
                 std::string errmsg{ss.str()};
-                ul::ignore_arg(errmsg);
+                ul::ignore_unused(errmsg);
 #endif
                 UL_ASSERT(false);
             }

@@ -10,4 +10,5 @@ clangformat.sh
 cmake-build-*
 lib
 lib_*
+out
 venv

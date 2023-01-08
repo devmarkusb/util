@@ -1,6 +1,6 @@
 #include "ul/mem/alloc/example.h"
 #include "ul/finally.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
 
@@ -15,7 +15,7 @@ TEST(alloc_Example, basics)
         {
             ul::mem::alloc::Example::deallocate(reinterpret_cast<uint8_t*>(mem));
         });
-    ul::ignore_arg(autoDeallocate);
+    ul::ignore_unused(autoDeallocate);
 
     mem[0] = 1;
     mem[41] = 1;

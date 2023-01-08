@@ -26,3 +26,5 @@ target_include_directories(${target} PUBLIC
 )
 
 target_link_libraries(${target} PUBLIC ulBasicCodeSupport)
+
+ul_set_target_defaults(${target})

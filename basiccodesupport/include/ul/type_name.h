@@ -15,7 +15,9 @@ namespace mb::ul
 //! Prints type of variable objectOfType in the form of a compile error.
 #define UL_COMPILETIME_TYPE_NAME(objectOfType) decltype(objectOfType)::type_of_##objectOfType##_is = {};
 
-/** \tparam T required to be any type you want to print the name of.
+// todo
+/** WARNING: Don't use, this doesn't work anymore.
+    \tparam T required to be any type you want to print the name of.
     \return name of the type T.
     \see https://stackoverflow.com/a/20170989/636486*/
 template <typename T>

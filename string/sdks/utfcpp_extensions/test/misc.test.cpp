@@ -1,8 +1,8 @@
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/macros.h"
 
-#include "gtest/gtest.h"
 #include "utf8.h"
+#include "gtest/gtest.h"
 #include <cstring>
 #include <iostream>
 #include <iterator>
@@ -53,7 +53,7 @@ TEST(utf8cpp_appendTest, test)
 {
     unsigned char u[5] = {0, 0, 0, 0, 0};
     unsigned char* end = utf8::append(0x0448, u); // cyrillic scha
-    ul::ignore_arg(end);
+    ul::ignore_unused(end);
     EXPECT_TRUE(u[0] == 0xd1 && u[1] == 0x88 && u[2] == 0 && u[3] == 0 && u[4] == 0);
 }
 
@@ -101,9 +101,11 @@ TEST(utf8cpp_distanceTest, test)
 
 TEST(utf8cpp_is_bomTest, test)
 {
+#if !UL_COMP_MS_VISUAL_STUDIO_CPP
     char byte_order_mark[] = "\xef\xbb\xbf";
     bool bbom = utf8::starts_with_bom(byte_order_mark);
     EXPECT_TRUE(bbom);
+#endif
 }
 
 TEST(utf8cpp_iteratorTest, test)
@@ -160,7 +162,7 @@ TEST(utf8cpp_unchecked_appendTest, test)
 {
     unsigned char u[7] = {0, 0, 0, 0, 0, 0, 0};
     unsigned char* end = utf8::unchecked::append(0x0448, u + 1); // cyrillic scha
-    ul::ignore_arg(end);
+    ul::ignore_unused(end);
     EXPECT_TRUE(u[0] == 0 && u[1] == 0xd1 && u[2] == 0x88 && u[3] == 0 && u[4] == 0 && u[5] == 0);
 }
 

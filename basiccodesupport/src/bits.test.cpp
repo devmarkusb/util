@@ -1,7 +1,7 @@
 #include "ul/bits.h"
 #include "ul/assert.h"
 #include "ul/enum_cast.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 #include <type_traits>
 
@@ -277,7 +277,7 @@ TEST(bits_write, range_overflows)
     auto _ = ul::bits::write<uint16_t>(0, 0, 16, 0);
     EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t>(0, 0, 9, 0), ul::death_assert_regex);
     _ = write_to8_testhelper<uint8_t>(0, 0, 8, 0);
-    ul::ignore_arg(_);
+    ul::ignore_unused(_);
 }
 
 TEST(bits_write, last)
@@ -477,7 +477,7 @@ TEST(bits_Field, overflow)
         } s;
     };
 #if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80200 && UL_COMP_GNU_CPP_VER < 90000
-    ul::ignore_arg(lambda);
+    ul::ignore_unused(lambda);
     // strange and disturbing, it just terminates when throwing
     //{
     //    bool ok{};

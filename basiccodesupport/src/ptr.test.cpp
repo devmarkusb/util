@@ -1,5 +1,5 @@
 #include "ul/ptr.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;
@@ -9,7 +9,7 @@ TEST(ownerTest, Test)
     // just a compile check
     ul::owner<int*> po = new int;
     int* non_owning = po;
-    ul::ignore_arg(non_owning);
+    ul::ignore_unused(non_owning);
     delete po;
 }
 

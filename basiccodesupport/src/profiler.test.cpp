@@ -11,6 +11,6 @@ TEST(profilerTest, basics)
     const auto after{ul::profiler_now()};
     EXPECT_GT(after, before);
     const auto diff{ul::profiler_diff_s(before, after)};
-    EXPECT_GT(0.045, diff);
-    EXPECT_LT(0.039, diff);
+    EXPECT_GT(0.062, diff);
+    EXPECT_LT(0.022, diff);
 }

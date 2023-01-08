@@ -6,7 +6,7 @@
 #define WAITCIRCBUFFER_H_4z894527892xh5
 
 #include "ul/error.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/std/circular_buffer.h"
 #include <condition_variable>
 #include <mutex>
@@ -86,7 +86,7 @@ public:
     {
         static_assert(std::is_convertible_v<T_, T>);
 
-        ul::ignore_arg(elem);
+        ul::ignore_unused(elem);
         throw ul::not_implemented{"WaitCircularBuffer::emplace"};
 #if 0
         {

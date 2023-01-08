@@ -256,7 +256,7 @@ public:
     constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept
     {
         const auto fieldnr{as_number(field)};
-        assert(fieldnr >= 0);
+        UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
         data_ = write<BitDataType, SourceDataType>(
             data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_], value);
@@ -266,7 +266,7 @@ public:
     constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
     {
         const auto fieldnr{as_number(field)};
-        assert(fieldnr >= 0);
+        UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
         return readAndCast<TargetDataType, BitDataType>(
             data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_]);
@@ -292,7 +292,7 @@ private:
     void f()
     {
         bits_.set(Fields::second, 255);
-        assert(bits_.get(Fields::second) == 255);
+        UL_ASSERT(bits_.get(Fields::second) == 255);
     }
     */
 template <typename BitDataType, typename EnumType, size_t fields>

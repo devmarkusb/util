@@ -18,7 +18,7 @@ target_include_directories(${target} INTERFACE ${GSL_SOURCE_DIR}/include)
 
 target_link_libraries(${target} INTERFACE Microsoft.GSL::GSL)
 
-#ul_set_target_defaults(${target})
+ul_set_target_defaults(${target})
 
 get_target_property(interfaceInclDirs ${target} INTERFACE_INCLUDE_DIRECTORIES)
 

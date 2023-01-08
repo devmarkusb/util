@@ -1,6 +1,6 @@
 #include "ul/mem/alloc/linear.h"
 #include "ul/assert.h"
-#include "ul/ignore_arg.h"
+#include "ul/ignore_unused.h"
 #include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <cstddef>
@@ -43,7 +43,7 @@ TEST(alloc_Linear, alloc)
     EXPECT_EQ(p[4], 1);
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 
     EXPECT_THROW(a.allocate(Bytes{1 * sizeof(Type)}), std::bad_alloc);
@@ -55,7 +55,7 @@ TEST(alloc_Linear, dealloc)
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
@@ -68,10 +68,10 @@ TEST(alloc_Linear, dealloc_noop)
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
 
     auto q = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(q);
+    ul::ignore_unused(q);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
@@ -84,13 +84,13 @@ TEST(alloc_Linear, resize)
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
 
     a.resize(Bytes{0});
     EXPECT_EQ(a.size(), Bytes{0});
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{10 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 }
 
@@ -100,12 +100,12 @@ TEST(alloc_Linear, with_stats)
     ul::mem::alloc::Linear<ul::mem::alloc::Statistics> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
     auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
 
     p = reinterpret_cast<Type*>(a.allocate(Bytes{4 * sizeof(Type)}));
-    ul::ignore_arg(p);
+    ul::ignore_unused(p);
 
     ASSERT_TRUE(a.peak());
     EXPECT_EQ(*a.peak(), Bytes{5 * sizeof(Type)});

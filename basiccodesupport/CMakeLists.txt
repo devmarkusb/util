@@ -21,7 +21,7 @@ target_include_directories(${target} PUBLIC ${ulBuildEnv_INCLUDE_DIRS} ${ulBasic
 
 target_link_libraries(${target} PUBLIC ulBuildEnv)
 
-#ul_set_target_defaults(${target})
+ul_set_target_defaults(${target})
 
 
 ################################################################################################
