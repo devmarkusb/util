@@ -1,5 +1,3 @@
-// 2017
-
 //! \file Bucket for unexpectedly needed compiler backwards compatibility.
 
 #ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h

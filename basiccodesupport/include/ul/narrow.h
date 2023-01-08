@@ -1,5 +1,3 @@
-// 2015-16
-
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47

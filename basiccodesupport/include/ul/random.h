@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef RANDOM_H_94xt4378j37843784n3

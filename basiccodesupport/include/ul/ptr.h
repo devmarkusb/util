@@ -1,5 +1,3 @@
-// 2015-22
-
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y

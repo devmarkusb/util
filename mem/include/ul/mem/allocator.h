@@ -1,5 +1,3 @@
-// 2018-22
-
 /** \file
     An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies
     or arenas implemented in subdir alloc.*/

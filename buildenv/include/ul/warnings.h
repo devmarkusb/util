@@ -1,5 +1,3 @@
-// 2018
-
 /** \file
     Disable/enable compiler/linker warnings.
     UL_PRAGMA_WARNINGS_PUSH saves the current warning settings, UL_PRAGMA_WARNINGS_POP resets the

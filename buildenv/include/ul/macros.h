@@ -1,5 +1,3 @@
-// 2011-20
-
 /** \file
     Most common and basic preprocessor defines.*/
 

@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef EXCEPTION_H_afsfjdig3478tg4

@@ -38,12 +38,11 @@ automatically, or via a local README.
 ### Namespace clashes
 
 In rare cases when you need to have another namespace `ul`
-around, you can do something like
-`add_compile_definitions(UL_DISABLE_NAMESPACE_ALIAS=1)`.
+around, you can set `UL_DISABLE_NAMESPACE_ALIAS` to `ON`
+which yields base namespace `mb::ul` instead.
 
 ## Contributing
 
-* In case you're wondering, file preambles like `// 2015-17` are the
-only remainder of old 'Copyright' notices. They denote the year of
-creation up to the year of the latest change.
+### todo
 
+* use concepts, but don't merge as long as Android build needs old compiler

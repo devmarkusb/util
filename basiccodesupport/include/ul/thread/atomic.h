@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef ATOMIC_H_e7tzx3785tz78g2xh4h2gg

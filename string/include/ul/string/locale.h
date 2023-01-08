@@ -1,5 +1,3 @@
-// 2011-2022
-
 //! \file
 
 #ifndef LOCALE_H_condwhxnu23mhy8mr

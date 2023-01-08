@@ -1,5 +1,3 @@
-// 2017-22
-
 //! \file More than just a first example of using the ul::Listener/ul::ListenerRegister pair.
 
 #ifndef ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1

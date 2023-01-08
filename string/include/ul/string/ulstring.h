@@ -1,5 +1,3 @@
-// 2011-2022
-
 /**
     \file
     If you expected this file to define yet another custom string type, you are fortunately wrong.

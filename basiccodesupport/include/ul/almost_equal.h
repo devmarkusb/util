@@ -1,5 +1,3 @@
-// 2018
-
 //! \file
 
 #ifndef ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr

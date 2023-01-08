@@ -1,5 +1,3 @@
-// 2013-22
-
 //! \file
 
 #ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh

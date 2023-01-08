@@ -1,5 +1,3 @@
-// 2017-22
-
 //! \file
 
 #ifndef XOR_H_eruighx784zug84bvg283bvgsadf

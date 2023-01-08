@@ -1,5 +1,3 @@
-// 2017-22
-
 //! \file
 
 #ifndef ONBEFOREDESTROY_NOTIFIER_H_sduifgh5st78247hg

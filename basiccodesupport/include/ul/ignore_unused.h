@@ -1,5 +1,3 @@
-// 2014-2020
-
 //! \file
 
 #ifndef IGNORE_UNUSED_H_fklh3874gy78342

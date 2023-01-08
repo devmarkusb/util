@@ -1,5 +1,3 @@
-// 2016-22
-
 //! \file
 
 #ifndef ANY_H_sdfuiofx37tn3z47txn378xtfg43n8g3

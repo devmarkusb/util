@@ -1,5 +1,3 @@
-// 2018
-
 //! \file Implements default new+delete as allocation strategy, plus optional statistics.
 
 #ifndef DEFAULT_H_4576gdjfcghkwh45t7428335

@@ -1,5 +1,3 @@
-// 2014-22
-
 /** \file
     'Extending namespace std' - not really, we but it in namespace mb::ul to be safe - with stuff that isn't
     there yet for certain compilers. We only allow those things to be placed here that have a good chance

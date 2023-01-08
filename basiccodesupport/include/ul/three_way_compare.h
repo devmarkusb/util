@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef THREE_WAY_COMPARE_H_eruotzxgh23g3

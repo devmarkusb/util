@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef PIN_H_viehrxgzuh34782tg5

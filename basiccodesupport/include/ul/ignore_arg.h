@@ -1,5 +1,3 @@
-// 2014-2016
-
 //! \file DEPRECATED! Use ignore_unused.
 
 #ifndef IGNORE_ARG_H_kasgfuznfgzwngfz27gwfnsdfsd

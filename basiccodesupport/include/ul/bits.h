@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef BITS_H_sljkhvnx2hng7835ghm3g7h3

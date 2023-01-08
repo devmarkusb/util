@@ -1,5 +1,3 @@
-// 2011-19
-
 //! \file Contains useful tools for debugging, like run-time breakpoints.
 
 #ifndef DEBUG_MISC_H_n9283zr823rz832

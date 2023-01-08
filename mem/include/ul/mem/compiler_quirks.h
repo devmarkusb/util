@@ -1,5 +1,3 @@
-// 2019
-
 //! \file Specialities that were observed to be compiler implementation specific.
 
 #ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4

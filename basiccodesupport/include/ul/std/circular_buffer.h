@@ -1,5 +1,3 @@
-// 2019-22
-
 //! Circular buffer structure(s).
 /** They make a perfect replacement for queue if the needed capacity is known beforehand.
     The behavior for further pushes in case of a full buffer is simple overwriting of the oldest elements.

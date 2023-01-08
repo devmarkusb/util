@@ -1,5 +1,3 @@
-// 2011
-
 /** \file
     Generating compiler errors when deleting incomplete types (types of objects for which delete doesn't see the
     whole declaration and a non-trivial destructor exists).

@@ -1,5 +1,3 @@
-// 2014-2016
-
 //! \file
 
 #ifndef JSON_H_yxdsngfezrbnyz8e3bqzf

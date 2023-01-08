@@ -1,5 +1,3 @@
-// 2011-19
-
 /**
 \file
 Note that, the following compiler defines are supported:

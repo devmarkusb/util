@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef ARRAY_H_uixngt3h478gh389xgh3984g

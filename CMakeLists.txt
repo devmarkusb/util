@@ -5,6 +5,12 @@ project(util)
 include(buildenv-bootstrap.cmake)
 ul_include(googletest.cmake)
 
+option(UL_DISABLE_NAMESPACE_ALIAS "Set to ON if you want the base namespace to be mb::ul instead of ul" OFF)
+configure_file(
+        ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h.in
+        ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h
+        @ONLY)
+
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
 add_subdirectory(string)

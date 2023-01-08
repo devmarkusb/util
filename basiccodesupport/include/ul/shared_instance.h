@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef SHARED_INSTANCE_H_cjklht78g428ghxn3g34g

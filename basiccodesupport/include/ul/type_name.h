@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef TYPE_NAME_H_4387t73824t378t371y47ym47

@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef WAITQUEUE_H_ejvhnxg853nh8g2h

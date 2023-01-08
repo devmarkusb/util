@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef INTEGER_SEQUENCE_H_eruix4gh8452gh3g8xh3

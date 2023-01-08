@@ -1,5 +1,3 @@
-// 2014
-
 //! \file
 
 #ifndef VECTOR_H_sixe38grf38gxfn34x8gfn4

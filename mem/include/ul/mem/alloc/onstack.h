@@ -1,5 +1,3 @@
-// 2018-22
-
 /** \file
     Implements allocation on the stack as arena/strategy.
     Important note:

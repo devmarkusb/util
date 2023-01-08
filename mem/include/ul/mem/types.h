@@ -1,5 +1,3 @@
-// 2018-19
-
 //! \file
 
 #ifndef TYPES_H_eroui342zt347g8hx3xg713h4

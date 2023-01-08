@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file
 
 #ifndef WAITCIRCBUFFER_H_4z894527892xh5

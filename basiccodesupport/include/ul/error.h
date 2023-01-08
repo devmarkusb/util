@@ -1,5 +1,3 @@
-// 2011-22
-
 //! \file
 
 #ifndef ERROR_H_cosndzcriwu4ezr3

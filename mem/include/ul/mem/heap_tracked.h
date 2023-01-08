@@ -1,5 +1,3 @@
-// 2011-22
-
 /** \file Taken from Meyers' book.*/
 
 #ifndef HEAP_TRACKED_H_x4tm7839g934

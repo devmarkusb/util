@@ -1,5 +1,3 @@
-// 2016-22
-
 //! \file
 
 #ifndef LISTENER_H_sjkdzth78tn2378xgh73fr

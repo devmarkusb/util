@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef PROFILER_H_958x2g58sdjkfh23789hgxt34

@@ -1,5 +1,3 @@
-// 2015-17
-
 /** \file
     Usage I: The following steps are for a library (shared or static) as intended target.
     (1) In the build configuration of your library define sth. like YOURLIB_LIBRARY. This is

@@ -1,5 +1,3 @@
-// 2017-19
-
 //! \file Cf. std_extensions.h
 
 #ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t

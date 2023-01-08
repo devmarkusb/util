@@ -1,5 +1,3 @@
-// 2015
-
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
 #ifndef FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx

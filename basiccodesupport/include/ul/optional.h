@@ -1,5 +1,3 @@
-// 2016-22
-
 //! \file
 
 #ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387

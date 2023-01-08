@@ -1,5 +1,3 @@
-// 2011-2016
-
 //! \file From David Rodr?guez - dribeas, stackoverflow.
 
 

@@ -1,5 +1,3 @@
-// 2011-22
-
 //! \file
 
 #ifndef NON_COPYABLE_H_imcutoiu34o5

@@ -1,5 +1,3 @@
-// 2011
-
 //! \file
 
 #ifndef C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg

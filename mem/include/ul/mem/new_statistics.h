@@ -1,5 +1,3 @@
-// 2019-22
-
 //! \file Replaces (overrides) global new and delete to collect memory usage statistics.
 /** Usage: You just need to include this header in a single arbitrary source file of your target. Then every
     use of new/delete will be replaced with the custom version here (even standard library calls, everything).

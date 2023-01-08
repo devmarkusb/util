@@ -1,5 +1,3 @@
-// 2019
-
 //! \file
 
 #ifndef PHYSMEMUSAGE_RSS_H_fuigh76x3nfg3

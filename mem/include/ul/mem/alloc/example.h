@@ -1,5 +1,3 @@
-// 2018-22
-
 //! \file Implements default new+delete as example allocation strategy.
 
 #ifndef EXAMPLE_H_sdufhi3gn78325tx7635tn27

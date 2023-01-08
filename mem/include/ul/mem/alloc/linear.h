@@ -1,5 +1,3 @@
-// 2018-22
-
 /** \file
     Implements the most simple (but perhaps also most efficient) linear memory allocation arena/strategy.
     The idea is that physical allocation and deallocation happen at the beginning and the end only, but nowhere in
