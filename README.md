@@ -22,12 +22,30 @@ from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 
 ## Usage
 
-### Cmake
+### CMake
 
 ```
 add_subdirectory(util)
 # ...
 target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
+```
+or
+```
+cmake_minimum_required(VERSION 3.14)
+
+if (TARGET ulBuildEnv)
+    return ()
+endif ()
+
+include(FetchContent)
+
+FetchContent_Declare(mb-util
+        GIT_REPOSITORY "/home/markus/projects/git/libs/util"
+        GIT_TAG origin/HEAD
+        GIT_SHALLOW ON
+        )
+
+FetchContent_MakeAvailable(mb-util)
 ```
 and `#include "ul/ul.h"` should be all you need. The library is header-only.
 
