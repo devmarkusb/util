@@ -17,13 +17,13 @@ public:
     typedef JSON_value JSONval_type;
 
     //! Generate JSON string of object.
-    virtual JSONstr_type GetJsonStr() const = 0;
+    virtual JSONstr_type getJsonStr() const = 0;
     //! Generate JSON value of object.
-    virtual JSONval_type GetJsonValue() const = 0;
+    virtual JSONval_type getJsonValue() const = 0;
     //! Load JSON string into this object.
-    virtual void SetFromJsonStr(const JSONstr_type& str) = 0;
+    virtual void setFromJsonStr(const JSONstr_type& str) = 0;
     //! Load Json::JsonValue into this object.
-    virtual void SetJsonValue(const JSONval_type& root) = 0;
+    virtual void setJsonValue(const JSONval_type& root) = 0;
 };
 
 template <typename JSON_value>
