@@ -8,6 +8,7 @@ All-in-one include file for this part of the lib.
 
 #include "config.h"
 #include "macros.h"
+#include "warnings.h"
 
 UL_HEADER_END
 
