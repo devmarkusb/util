@@ -46,6 +46,8 @@ FetchContent_Declare(mb-util
         )
 
 FetchContent_MakeAvailable(mb-util)
+# ...
+target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
 ```
 and `#include "ul/ul.h"` should be all you need. The library is header-only.
 
