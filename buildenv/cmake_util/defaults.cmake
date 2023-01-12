@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.15)
-
 # File to include for various useful cmake default settings.
 # Important: it is recommended to include it in the topmost cmake file. The reason is the contained configuration
 # of output dirs. So all libs and bins fall into the same designated place.
+
+cmake_minimum_required(VERSION 3.15)
+
+# to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
+include(CMakePrintHelpers)
 
 ######################################################################################################################
 # general defaults and helper declarations
