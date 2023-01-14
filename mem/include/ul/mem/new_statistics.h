@@ -100,7 +100,7 @@ public:
     {
         deleteCalls_.fetch_add(1, std::memory_order_relaxed);
         auto sh = reinterpret_cast<StatsHeader*>(p);
-        const auto size = sh->get(fieldsLookup_, StatsHeader::Field::size);
+        const auto size = sh->get<size_t>(fieldsLookup_, StatsHeader::Field::size);
         currentSize_.fetch_sub(size, std::memory_order_seq_cst);
         deallocatedSize_.fetch_add(size, std::memory_order_relaxed);
         sh->~StatsHeader();
