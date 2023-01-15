@@ -14,6 +14,15 @@
 #      What about the 'llvm-'? Just provide a link llvm- -> llvm.
 #   3. 'No platform plugin, neither libqtforandroid.so or libqtforandroidGL.so, included in package.'?
 #      This might get solved by 2).
+#   4. 'Could not determine java version from '11.0.2''?
+#      Use an older Java version, gradle has a compatibility matrix:
+#      https://docs.gradle.org/current/userguide/compatibility.html
+#      Also cf. https://stackoverflow.com/questions/54358107/gradle-could-not-determine-java-version-from-11-0-2
+#   5. 'Could not find method google() for arguments [] on repository container'?
+#      Try edit distributionUrl in gradle-wrapper.properties to newer gradle version (3.4->4.6?).
+#      Be careful with big version jumps because of incompatibilities.
+#   6. I just can't it working. Any general ideas?
+#      - downgrade Qt version, 5.9.1 was working some day
 
 FetchContent_Declare(
      QtAndroidCMake
