@@ -14,7 +14,7 @@
 #      What about the 'llvm-'? Just provide a link llvm- -> llvm.
 #   3. 'No platform plugin, neither libqtforandroid.so or libqtforandroidGL.so, included in package.'?
 #      This might get solved by 2).
-#   4. 'Could not determine java version from '11.0.2''?
+#   4. 'Could not determine java version from '11.0.2'?
 #      Use an older Java version, gradle has a compatibility matrix:
 #      https://docs.gradle.org/current/userguide/compatibility.html
 #      Also cf. https://stackoverflow.com/questions/54358107/gradle-could-not-determine-java-version-from-11-0-2
@@ -26,8 +26,8 @@
 
 FetchContent_Declare(
      QtAndroidCMake
-     GIT_REPOSITORY https://github.com/LaurentGomila/qt-android-cmake
-     GIT_TAG        fa363d60e389afbcd56c31ab4dd9723708b79fbe
+     GIT_REPOSITORY https://github.com/devmarkusb/qt-android-cmake
+     GIT_TAG        c9a97464
 )
 
 FetchContent_MakeAvailable(QtAndroidCMake)
