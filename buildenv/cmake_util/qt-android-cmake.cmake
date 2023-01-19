@@ -21,8 +21,11 @@
 #   5. 'Could not find method google() for arguments [] on repository container'?
 #      Try edit distributionUrl in gradle-wrapper.properties to newer gradle version (3.4->4.6?).
 #      Be careful with big version jumps because of incompatibilities.
-#   6. I just can't it working. Any general ideas?
+#   6. CMake error 'add_custom_target cannot create target "apk" because another target with' in a Qt cmake file?
+#      Manually apply 'if (NOT TARGET apk)...' patches to the mentioned file.
+#   7. I just can't it working. Any general ideas?
 #      - downgrade Qt version, 5.9.1 was working some day
+#      - try gradle updates (if you reach that stage at all)
 
 FetchContent_Declare(
      QtAndroidCMake
