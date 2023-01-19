@@ -3,8 +3,8 @@
 #ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 #define COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
 
+#include "types.h"
 #include "ul/macros.h"
-#include "ul/mem/types.h"
 
 namespace mb::ul::mem::quirk::vector
 {

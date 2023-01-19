@@ -5,9 +5,9 @@
 
 //! ulstring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
+#include "ulstring.h"
 #include "ul/comp_bwds.h"
 #include "ul/macros.h"
-#include "ul/string/ulstring.h"
 #include <stdexcept>
 #include <string>
 
