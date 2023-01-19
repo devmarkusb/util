@@ -3,9 +3,9 @@
 #ifndef BITS_H_sljkhvnx2hng7835ghm3g7h3
 #define BITS_H_sljkhvnx2hng7835ghm3g7h3
 
-#include "ul/assert.h"
-#include "ul/enum_cast.h"
-#include "ul/narrow.h"
+#include "assert.h"
+#include "enum_cast.h"
+#include "narrow.h"
 #include <array>
 #include <cstdint>
 #include <limits>

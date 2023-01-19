@@ -12,7 +12,7 @@
 #ifndef CIRCULAR_BUFFER_H_gfhcio489cghx4m9gh39u8hx3gh
 #define CIRCULAR_BUFFER_H_gfhcio489cghx4m9gh39u8hx3gh
 
-#include "ul/assert.h"
+#include "../assert.h"
 #include <array>
 #include <cstddef>
 #include <memory>

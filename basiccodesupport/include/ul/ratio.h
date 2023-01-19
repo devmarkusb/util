@@ -3,8 +3,9 @@
 #ifndef RATIO_H_louiuzlik79hi965gi6
 #define RATIO_H_louiuzlik79hi965gi6
 
-#include "ul/almost_equal.h"
-#include "ul/assert.h"
+#include "almost_equal.h"
+#include "assert.h"
+
 #include "ul/config.h"
 #include <cstdint>
 #include <initializer_list>

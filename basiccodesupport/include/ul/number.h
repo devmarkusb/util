@@ -3,15 +3,16 @@
 #ifndef NUMBER_H_f29jh8hnf238hrxz23
 #define NUMBER_H_f29jh8hnf238hrxz23
 
-#include "ul/almost_equal.h"
-#include "ul/assert.h"
+#include "almost_equal.h"
+#include "assert.h"
+#include "enum_cast.h"
+#include "floating_point.h"
+#include "math.h"
+#include "narrow.h"
+#include "optional.h"
+
 #include "ul/comp_bwds.h"
 #include "ul/config.h"
-#include "ul/enum_cast.h"
-#include "ul/floating_point.h"
-#include "ul/math.h"
-#include "ul/narrow.h"
-#include "ul/optional.h"
 #include <cmath>
 #include <iomanip>
 #include <sstream>

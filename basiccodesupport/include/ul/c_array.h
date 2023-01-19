@@ -3,7 +3,7 @@
 #ifndef C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
 #define C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
 
-#include "ul/assert.h"
+#include "assert.h"
 
 namespace mb::ul
 {

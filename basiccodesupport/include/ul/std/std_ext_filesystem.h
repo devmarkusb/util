@@ -6,7 +6,6 @@
 #include "ul/macros.h"
 #include <fstream>
 
-
 #if __has_include(<filesystem>) && !UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
@@ -36,8 +35,8 @@ namespace std_fs = std::filesystem;
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
-#include "ul/assert.h"
-#include "ul/ignore_unused.h"
+#include "assert.h"
+#include "ignore_unused.h"
 #include <cstdio>
 #include <cstring>
 #include <fstream>
