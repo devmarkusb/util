@@ -24,11 +24,14 @@ All-in-one include file for this part of the lib.
 #include "map.h"
 #include "math.h"
 #include "narrow.h"
+#include "number.h"
 #include "optional.h"
 #include "profiler.h"
 #include "ptr.h"
 #include "ptr2ref.h"
 #include "random.h"
+#include "ratio.h"
+#include "round.h"
 #include "shared_instance.h"
 #include "sizeof.h"
 #include "three_way_compare.h"
@@ -51,6 +54,7 @@ All-in-one include file for this part of the lib.
 #include "type/non_copyable.h"
 #include "type/on_before_destroy.h"
 #include "type/on_before_destroy_notifier.h"
+#include "type/standaloneop.h"
 
 #include "ul/config.h"
 

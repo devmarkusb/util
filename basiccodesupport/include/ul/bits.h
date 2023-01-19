@@ -336,4 +336,12 @@ inline bool is_bigendian() noexcept
 }
 } // namespace mb::ul::bits
 
+namespace mb::ul
+{
+using Bits8 = bits::Array<8, uint8_t>;
+using Bits16 = bits::Array<16, uint16_t>;
+using Bits32 = bits::Array<32, uint32_t>;
+using Bits64 = bits::Array<64, uint64_t>;
+}
+
 #endif

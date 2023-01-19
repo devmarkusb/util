@@ -4,11 +4,21 @@
 #define MATH_H_skuy3478ngt8247gg2
 
 #include "ul/macros.h"
+#include <cmath>
 #include <cstdint>
 #include <type_traits>
 
 namespace mb::ul::math
 {
+namespace consts
+{
+template <typename T>
+constexpr T pi()
+{
+    return std::acos(static_cast<T>(-1));
+}
+}
+
 /** \return true if the number number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.
     This is done at compile-time (if possible).
     Negative numbers are handled as well.*/

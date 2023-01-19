@@ -1,8 +1,38 @@
 #include "ul/math.h"
-#include "ul/macros.h"
+#include "ul/almost_equal.h"
+#include "ul/floating_point.h"
+#include "ul/warnings.h"
 #include "gtest/gtest.h"
 
-namespace ul = mb::ul;
+UL_PRAGMA_WARNINGS_PUSH
+// clang-format off
+UL_WARNING_DISABLE_CLANG(reserved-id-macro)
+UL_WARNING_DISABLE_CLANG(unused-macros)
+// clang-format on
+#define _USE_MATH_DEFINES
+#include <cmath> // needs to be the first include for the upper macro to work
+#undef _USE_MATH_DEFINES
+UL_PRAGMA_WARNINGS_POP
+
+#ifndef M_PI // mingw53 doesn't have it
+#define M_PI 3.141592653589793
+#endif
+
+TEST(math_constsTest, test)
+{
+    const auto pi = static_cast<double>(M_PI);
+    EXPECT_DOUBLE_EQ(pi, ul::math::consts::pi<double>());
+    EXPECT_TRUE(ul::almost_equal(pi, ul::math::consts::pi<double>()));
+
+    const auto pi_f = static_cast<float>(M_PI);
+    EXPECT_FLOAT_EQ(pi_f, ul::math::consts::pi<float>());
+    EXPECT_TRUE(ul::almost_equal(pi_f, ul::math::consts::pi<float>()));
+
+    const auto pi_ld = static_cast<long double>(M_PI);
+    EXPECT_TRUE(ul::math::approx_equal(pi_ld, ul::math::consts::pi<long double>(), 1e-15L));
+}
+
+#undef M_PI // anyway
 
 TEST(math_isPowerOfTwo, some)
 {
