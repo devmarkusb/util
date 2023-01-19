@@ -3,8 +3,9 @@
 #ifndef NON_COPYABLE_H_imcutoiu34o5
 #define NON_COPYABLE_H_imcutoiu34o5
 
+#include "../std/std_extensions.h"
+
 #include "ul/macros.h"
-#include "ul/std/std_extensions.h"
 
 namespace mb::ul
 {

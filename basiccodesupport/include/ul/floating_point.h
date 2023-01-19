@@ -3,10 +3,11 @@
 #ifndef FLOATING_POINT_H_09458t87t5twd2874t57rbn6
 #define FLOATING_POINT_H_09458t87t5twd2874t57rbn6
 
-#include "ul/assert.h"
+#include "assert.h"
+
 #include "ul/comp_bwds.h"
-#include "ul/config.h"
 #include "ul/macros/UNDEF_MIN_MAX.h"
+#include "ul/config.h"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>

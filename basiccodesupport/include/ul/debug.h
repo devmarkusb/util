@@ -3,7 +3,7 @@
 #ifndef DEBUG_MISC_H_n9283zr823rz832
 #define DEBUG_MISC_H_n9283zr823rz832
 
-#include "ul/assert.h"
+#include "assert.h"
 #include "ul/macros.h"
 
 
