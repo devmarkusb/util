@@ -4,10 +4,10 @@
 #ifndef STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 #define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
 
+#include "../ulstring.h"
 #include "ul/error.h"
 #include "ul/ignore_unused.h"
 #include "ul/macros.h"
-#include "ul/string/ulstring.h"
 #include <algorithm>
 #include <iomanip>
 #include <iterator>

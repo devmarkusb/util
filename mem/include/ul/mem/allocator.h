@@ -5,8 +5,8 @@
 #ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 #define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
 
+#include "types.h"
 #include "ul/macros.h"
-#include "ul/mem/types.h"
 #include <cstddef>
 #include <cstdint>
 #include <limits>

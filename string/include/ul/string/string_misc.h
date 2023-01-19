@@ -4,9 +4,9 @@
 #ifndef STRING_MISC_H_ciubhwduibgwi37
 #define STRING_MISC_H_ciubhwduibgwi37
 
+#include "ulstring.h"
 #include "ul/assert.h"
 #include "ul/narrow.h"
-#include "ul/string/ulstring.h"
 #include <algorithm>
 #include <cctype>
 #include <iomanip>
