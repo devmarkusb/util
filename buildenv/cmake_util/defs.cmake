@@ -26,9 +26,3 @@ endif ()
 if (UL_ANDROID)
     set(UL_APP TRUE)
 endif ()
-
-
-### make sdk path environment variable usable in cmake ###
-
-file(TO_CMAKE_PATH "$ENV{dev_sdk_path}" dev_sdk_path_ENV_CMAKE_PATH_impl)
-set(dev_sdk_path_ENV_CMAKE_PATH "${dev_sdk_path_ENV_CMAKE_PATH_impl}" CACHE INTERNAL "cmake normalized path" FORCE)
