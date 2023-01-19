@@ -27,6 +27,18 @@
 #      - downgrade Qt version, 5.9.1 was working some day
 #      - try gradle updates (if you reach that stage at all)
 
+if (NOT DEFINED ENV{ANDROID_NDK})
+    message(FATAL_ERROR "Configure env variable ANDROID_NDK to point to e.g. android-ndk-r25b dir.")
+endif()
+
+if (NOT DEFINED ENV{ANDROID_SDK})
+    message(FATAL_ERROR "Configure env variable ANDROID_SDK to point to Android SDK install dir.")
+endif()
+
+if (NOT DEFINED ENV{JAVA_HOME})
+    message(FATAL_ERROR "Configure env variable JAVA_HOME to point to a Java jvm like e.g. java-8-openjdk-amd64.")
+endif()
+
 FetchContent_Declare(
      QtAndroidCMake
      GIT_REPOSITORY https://github.com/devmarkusb/qt-android-cmake
