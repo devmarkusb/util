@@ -36,6 +36,9 @@ option(UL_RUN_UNITTESTS_POSTBUILD
         "unit tests are run as part of the build - recommended to be diabled for debugging"
         ON)
 
+# Might be used by clang-tidy and coverage, why not on by default.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # UL_BITS will be 32, 64, ...
 math(EXPR UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 
