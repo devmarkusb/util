@@ -1,7 +1,6 @@
 #include "ul/number.h"
 #include "gtest/gtest.h"
 
-
 TEST(MathNumberGetDecDigitCountTest, Dec)
 {
     EXPECT_EQ(1, ul::math::getDigitCount(0));

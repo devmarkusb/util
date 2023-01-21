@@ -6,8 +6,8 @@
 #include "assert.h"
 
 #include "ul/comp_bwds.h"
-#include "ul/macros/UNDEF_MIN_MAX.h"
 #include "ul/config.h"
+#include "ul/macros/UNDEF_MIN_MAX.h"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
