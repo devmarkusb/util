@@ -17,7 +17,7 @@ constexpr T pi()
 {
     return std::acos(static_cast<T>(-1));
 }
-}
+} // namespace consts
 
 /** \return true if the number number is a power of two, e.g. 1, 2, 4, 8, ..., and false otherwise.
     This is done at compile-time (if possible).
