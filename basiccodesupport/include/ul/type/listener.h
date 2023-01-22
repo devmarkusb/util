@@ -14,7 +14,7 @@ namespace mb::ul
     \code
     struct Model_listener : public ul::Listener
     {
-        virtual ~Model_listener() {}
+        virtual ~Model_listener() = default;
         virtual void on_prop_changed() = 0;
     };
     \endcode
@@ -44,10 +44,8 @@ namespace mb::ul
     */
 struct Listener
 {
-    virtual ~Listener() = 0;
-};
-
-inline Listener::~Listener() = default;
+    virtual ~Listener() = default;
+} __attribute__((packed, aligned(1)));
 
 //! Base class for every sender/notifier.
 /** Usage:

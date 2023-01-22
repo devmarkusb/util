@@ -12,6 +12,6 @@ TEST(ct_accumulate, array)
 
 TEST(ct_accumulate, c_array)
 {
-    const int arr[]{1, 2, 3, 4};
+    const int arr[]{1, 2, 3, 4}; // NOLINT
     EXPECT_EQ(ul::ct_accumulate(arr, 0), 1 + 2 + 3 + 4);
 }

@@ -11,6 +11,8 @@ configure_file(
         ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h
         @ONLY)
 
+#ul_include(clang-tidy.cmake)
+
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
 add_subdirectory(string)

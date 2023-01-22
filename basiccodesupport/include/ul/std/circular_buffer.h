@@ -85,10 +85,7 @@ public:
     {
     }
 
-    template <typename = std::enable_if<staticCapacity != 0>>
-    CircularBuffer()
-    {
-    } // = default, not working here
+    CircularBuffer() noexcept = default;
 
     template <typename T_>
     void push(T_&& item) noexcept
