@@ -1,4 +1,5 @@
 # util library (ul)
+[![build](https://github.com/devmarkusb/util/actions/workflows/build.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/build.yml)
 
 A personal library serving purposes that come right
 after or next to std.
