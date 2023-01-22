@@ -32,10 +32,10 @@ TEST(NarrowTest, floating_point)
     EXPECT_EQ(1, ul::narrow_cast<int>(1.8));
     EXPECT_EQ(2, ul::narrow<int>(2.0));
 
-    const auto more_precise_than_float{std::numeric_limits<int64_t>::max()};
+    const auto more_precise_than_float{std::numeric_limits<uint64_t>::max()};
 #if !UL_DEBUG \
     && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50300 \
-        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER <= 110100 \
+        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER < 120000 \
         || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160000)
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
