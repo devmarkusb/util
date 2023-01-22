@@ -157,7 +157,7 @@ struct CheckConsoleOpen
 struct DontCheckConsoleOpen
 {
     template <class>
-    static void openConsoleIfNecessary(bool&, bool&)
+    static void openConsoleIfNecessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/)
     {
         UL_NOOP;
     }
@@ -178,7 +178,7 @@ struct Enabled
 struct Disabled
 {
     template <class, class>
-    static void trace(const std::ostringstream&)
+    static void trace(const std::ostringstream& /*unused*/)
     {
         UL_NOOP;
     }
@@ -208,7 +208,7 @@ struct StreamTraceEndOfLine
 };
 
 template <>
-inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine&)
+inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*unused*/)
 {
     std::ostringstream ss;
     ss << '\n';
@@ -222,16 +222,16 @@ template <
 struct StreamTracer_impl : public StreamTracer
 {
     StreamTracer_impl(bool close_stderr, bool close_stdout)
-        : close_stderr{close_stderr}
-        , close_stdout{close_stdout}
+        : close_stderr_{close_stderr}
+        , close_stdout_{close_stdout}
     {
     }
 
     ~StreamTracer_impl() override
     {
-        if (close_stderr)
+        if (close_stderr_)
             fclose(stderr);
-        if (close_stdout)
+        if (close_stdout_)
             fclose(stdout);
     }
 
@@ -241,8 +241,8 @@ struct StreamTracer_impl : public StreamTracer
     }
 
 private:
-    bool close_stderr{};
-    bool close_stdout{};
+    bool close_stderr_{};
+    bool close_stdout_{};
 };
 
 struct StreamTracerWrapperSingleton
@@ -255,11 +255,11 @@ struct StreamTracerWrapperSingleton
 
     std::unique_ptr<StreamTracer>& tracer()
     {
-        return t;
+        return t_;
     }
 
 private:
-    std::unique_ptr<StreamTracer> t;
+    std::unique_ptr<StreamTracer> t_;
 
     StreamTracerWrapperSingleton() = default;
 };
@@ -321,11 +321,13 @@ void init()
 
 struct trace : private ul::NonCopyable
 {
-    explicit trace(const std::string& level = "ERROR")
+    static constexpr auto levelError{std::string_view{"ERROR"}};
+
+    explicit trace(std::string_view level = levelError)
         : stream_{&ul::tracer::detail_impl::stream()}
     {
         std::ostringstream tmp;
-        tmp << std::left << std::setw(level.empty() ? 0 : 6) << level;
+        tmp << std::left << std::setw(level.empty() ? 0 : levelError.size() + 1) << level;
         *this->stream_ << tmp.str();
     }
 
@@ -366,7 +368,7 @@ inline void trace(const std::wostringstream& os)
     OutputDebugStringW(os.str().c_str());
 }
 #else
-inline void trace(const std::ostringstream&)
+inline void trace(const std::ostringstream& /*unused*/)
 {
 }
 #endif

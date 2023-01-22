@@ -1,4 +1,5 @@
-# include in your project root once; generates a 'clang-tidy' target
+# include in your project root once and before any add_subdirectory calls (to get your hands on everything
+# starting from there)
 # *IMPORTANT* This is wip, not yet working.
 
 macro(glob_recurse_append_cxx_sources cxx_sources dir)
@@ -19,6 +20,7 @@ glob_recurse_append_cxx_sources(all_cxx_sources test)
 
 set(CLANG_TIDY_VER 15)
 
+## generates a 'clang-tidy' target
 #if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 #    find_program(CLANG_TIDY "clang-tidy-${CLANG_TIDY_VER}")
 #    if (CLANG_TIDY)
@@ -39,5 +41,4 @@ set(CLANG_TIDY_VER 15)
 # unfortunately I don't know how to restrict that to relevant dirs
 set(CMAKE_CXX_CLANG_TIDY
         clang-tidy-${CLANG_TIDY_VER};
-        -header-filter=.;
-        -checks=*;)
+        -header-filter=.*;)

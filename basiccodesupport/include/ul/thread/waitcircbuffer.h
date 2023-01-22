@@ -54,10 +54,7 @@ public:
     {
     }
 
-    template <typename = std::enable_if<staticCapacity != 0>>
-    WaitCircularBuffer() noexcept
-    {
-    } // = default, not working here
+    WaitCircularBuffer() noexcept = default;
 
     template <typename T_>
     bool push(T_&& elem)

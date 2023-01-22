@@ -42,7 +42,7 @@
 namespace mb::ul
 {
 template <typename FloatingPointNumber>
-inline long long llround(FloatingPointNumber x)
+inline int64_t llround(FloatingPointNumber x)
 {
 #if UL_HAS_LLROUND
     return std::llround(x);
@@ -57,7 +57,7 @@ StringStreamable from_string(const std::string& s)
 #if UL_HAS_FROM_STRING
     return std::from_string(s);
 #else
-    std::stringstream ss(s);
+    const std::stringstream ss(s);
     StringStreamable ret;
     ss >> ret;
     return ret;

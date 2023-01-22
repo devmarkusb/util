@@ -16,7 +16,7 @@ constexpr T ct_accumulate(Container&& arr, T init_val)
     T sum{init_val};
 
     for (size_t i = 0; i < N; ++i)
-        sum += arr[i];
+        sum += arr[i]; // NOLINT
 
     return sum;
 }
@@ -31,7 +31,7 @@ constexpr T ct_accumulate(const std::array<T, N>& arr, T init_val)
 
 //! C-array version. Cf. other ct_accumulate.
 template <typename T, std::size_t N>
-constexpr T ct_accumulate(const T (&arr)[N], T init_val)
+constexpr T ct_accumulate(const T (&arr)[N], T init_val) // NOLINT
 {
     return detail::ct_accumulate<T, N>(arr, init_val);
 }

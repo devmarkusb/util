@@ -18,7 +18,7 @@ namespace mb::ul
     f() { ignore_unused(f); }
     \endcode*/
 template <typename T>
-void ignore_unused(T&&)
+void ignore_unused(T&& /*unused*/)
 {
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
     UL_NOOP;

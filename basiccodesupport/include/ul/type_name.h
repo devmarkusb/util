@@ -24,7 +24,7 @@ constexpr std::string_view typeName()
     using std::string_view;
     string_view p = UL_FUNCTIONSIGN;
 #if UL_COMP_CLANG
-    return {p.data() + 34, p.size() - 34 - 1};
+    return {p.data() + 34, p.size() - 34 - 1}; // NOLINT // magic number
 #elif UL_COMP_GNU_CPP
 #if UL_LANG_STANDARD_CPP < UL_LANG_STANDARD_CPP14
     return string_view(p.data() + 36, p.size() - 36 - 1);
