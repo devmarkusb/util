@@ -32,9 +32,7 @@ endif ()
 if (UL_ANDROID)
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
 endif ()
-option(UL_RUN_UNITTESTS_POSTBUILD
-        "unit tests are run as part of the build - recommended to be diabled for debugging"
-        ON)
+option(UL_RUN_UNITTESTS_POSTBUILD "unit tests are run as part of the build - recommended to be disabled for debugging and CI" OFF)
 
 # Might be used by clang-tidy and coverage, why not on by default.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
