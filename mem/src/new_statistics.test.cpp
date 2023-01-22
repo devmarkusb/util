@@ -23,8 +23,9 @@ int main()
     std::size_t exp_delete_calls{};
     ul::mem::Bytes exp_peak_size{};
     {
-        int* p1 = new int;
-        UL_ASSERT_THROW(memstats.newCalls() == 1);
+        // volatile preventing the compiler from optimizing out not officially used p1
+        int* volatile p1 = new int;
+        UL_ASSERT_THROW(memstats.newCalls() == 1u);
         UL_ASSERT_THROW(memstats.peakSize() == ul::mem::Bytes{4});
 
         auto impl_correction_ofs = memstats.allocatedSize();
@@ -51,7 +52,7 @@ int main()
 
         UL_ASSERT_THROW(memstats.peakSize() == ul::mem::Bytes{44} + impl_correction_ofs);
 
-        int* p2 = new int[10];
+        int* volatile p2 = new int[10];
         ++exp_new_calls;
         UL_ASSERT_THROW(memstats.newCalls() == exp_new_calls);
         delete[] p2;
