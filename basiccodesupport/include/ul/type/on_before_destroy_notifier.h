@@ -16,7 +16,7 @@ struct OnBeforeDestroyNotifier : public ListenerRegister
         for (auto& l : this->registeredListeners_)
             dynamic_cast<OnBeforeDestroyListener*>(l)->onBeforeDestroy();
     }
-} __attribute__((aligned(1)));
+};
 } // namespace mb::ul
 
 #endif

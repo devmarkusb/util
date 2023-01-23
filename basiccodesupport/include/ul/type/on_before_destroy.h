@@ -26,7 +26,7 @@ struct OnBeforeDestroyListener : public Listener
     ~OnBeforeDestroyListener() override = default;
 
     virtual void onBeforeDestroy() = 0;
-} __attribute__((packed, aligned(1)));
+};
 } // namespace mb::ul
 
 #endif

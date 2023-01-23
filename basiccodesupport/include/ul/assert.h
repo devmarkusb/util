@@ -33,7 +33,7 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 namespace mb::ul
 {
 //! This is thrown by any throwing assertion.
-struct __attribute__((aligned(1))) fail_fast : public std::runtime_error
+struct fail_fast : public std::runtime_error
 {
     explicit fail_fast(const char* const message)
         : std::runtime_error(message)

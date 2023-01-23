@@ -33,7 +33,7 @@ namespace mb::ul
             this->m_in_v.unregisterListener(this);
         }
     private:
-        Model m_in_v;
+        Model in_v_;
 
         virtual void on_prop_changed() override
         {
@@ -45,7 +45,7 @@ namespace mb::ul
 struct Listener
 {
     virtual ~Listener() = default;
-} __attribute__((packed, aligned(1)));
+};
 
 //! Base class for every sender/notifier.
 /** Usage:
