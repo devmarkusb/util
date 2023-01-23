@@ -157,7 +157,7 @@ struct would_crash : public std::runtime_error
         : std::runtime_error(message)
     {
     }
-} __attribute__((packed, aligned(1)));
+};
 
 struct division_by_zero : public std::runtime_error
 {
@@ -165,7 +165,7 @@ struct division_by_zero : public std::runtime_error
         : std::runtime_error(message)
     {
     }
-} __attribute__((packed, aligned(1)));
+};
 
 struct not_implemented : public std::runtime_error
 {
@@ -173,7 +173,7 @@ struct not_implemented : public std::runtime_error
         : std::runtime_error(message)
     {
     }
-} __attribute__((packed, aligned(1)));
+};
 
 struct did_no_op : public std::runtime_error
 {
@@ -181,7 +181,7 @@ struct did_no_op : public std::runtime_error
         : std::runtime_error(message)
     {
     }
-} __attribute__((packed, aligned(1)));
+};
 
 struct time_out : public std::runtime_error
 {
@@ -189,7 +189,7 @@ struct time_out : public std::runtime_error
         : std::runtime_error(message)
     {
     }
-} __attribute__((packed, aligned(1)));
+};
 
 //!@}
 

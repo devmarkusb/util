@@ -25,12 +25,12 @@ struct Model : public Model_notifier
 {
     [[nodiscard]] int get_prop() const
     {
-        return this->prop;
+        return this->prop_;
     }
 
     void set_prop(int x)
     {
-        this->prop = x;
+        this->prop_ = x;
     }
 
     void do1()
@@ -40,31 +40,31 @@ struct Model : public Model_notifier
     }
 
 private:
-    int prop{};
+    int prop_{};
 };
 
 struct View : private Model_listener
 {
     View()
     {
-        this->m_in_v.registerListener(this);
+        this->in_v_.registerListener(this);
     }
 
     ~View() override
     {
-        this->m_in_v.unregisterListener(this);
+        this->in_v_.unregisterListener(this);
     }
 
     [[nodiscard]] int get_prop() const
     {
-        return this->m_in_v.get_prop();
+        return this->in_v_.get_prop();
     }
 
     void set_prop(int x)
     {
-        if (x == this->m_in_v.get_prop())
+        if (x == this->in_v_.get_prop())
             return;
-        this->m_in_v.set_prop(x);
+        this->in_v_.set_prop(x);
         prop_changed();
     }
 
@@ -74,11 +74,11 @@ struct View : private Model_listener
 
     void slot1()
     {
-        this->m_in_v.do1();
+        this->in_v_.do1();
     }
 
 private:
-    Model m_in_v;
+    Model in_v_;
 
     void on_prop_changed() override
     {

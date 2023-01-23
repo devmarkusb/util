@@ -16,17 +16,17 @@ public:
     template <typename T>
     makestr& operator<<(const T& data)
     {
-        m_buffer << data;
+        buffer_ << data;
         return *this;
     }
 
     /*implicit*/ operator std::string() const
     {
-        return m_buffer.str();
+        return buffer_.str();
     }
 
 private:
-    std::ostringstream m_buffer;
+    std::ostringstream buffer_;
 };
 } // namespace mb::ul::str
 

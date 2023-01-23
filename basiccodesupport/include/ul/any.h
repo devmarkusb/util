@@ -46,7 +46,7 @@ const Type* any_cast(const any* val);
 //! Applied to any type. Thrown if any is empty or casted to the wrong concrete type.
 struct bad_any_cast : public std::bad_cast
 {
-} __attribute__((packed, aligned(1)));
+};
 
 //! Details.
 /** If any is empty or casted to the wrong type, ul::bad_any_cast is thrown.*/
@@ -134,18 +134,18 @@ private:
     struct concrete : public ibase
     {
         explicit concrete(T&& x)
-            : value(std::forward<T>(x))
+            : value_(std::forward<T>(x))
         {
         }
 
         explicit concrete(const T& x)
-            : value(x)
+            : value_(x)
         {
         }
 
         [[nodiscard]] std::unique_ptr<ibase> clone() const override
         {
-            return ul::make_unique<concrete<T>>(value);
+            return ul::make_unique<concrete<T>>(value_);
         }
 
         [[nodiscard]] const std::type_info& type() const override
@@ -153,22 +153,22 @@ private:
             return typeid(T);
         }
 
-        T value;
+        T value_;
     };
 
     std::unique_ptr<ibase> holder_;
 
     template <typename Type>
-    friend Type any_cast(any&);
+    friend Type any_cast(any& val);
 
     template <typename Type>
-    friend Type any_cast(const any&);
+    friend Type any_cast(const any& val);
 
     template <typename Type>
-    friend Type* any_cast(any*);
+    friend Type* any_cast(any* pval);
 
     template <typename Type>
-    friend const Type* any_cast(const any*);
+    friend const Type* any_cast(const any* pval);
 };
 
 template <typename Type>
@@ -176,7 +176,7 @@ Type any_cast(any& val)
 {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw bad_any_cast();
-    return static_cast<any::concrete<Type>*>(val.holder_.get())->value;
+    return static_cast<any::concrete<Type>*>(val.holder_.get())->value_;
 }
 
 template <typename Type>
@@ -184,7 +184,7 @@ Type any_cast(const any& val)
 {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw bad_any_cast();
-    return static_cast<any::concrete<Type>*>(any(val).holder_.get())->value;
+    return static_cast<any::concrete<Type>*>(any(val).holder_.get())->value_;
 }
 
 template <typename Type>
@@ -192,7 +192,7 @@ Type* any_cast(any* pval)
 {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw bad_any_cast();
-    return &(static_cast<any::concrete<Type>*>(pval->holder_.get())->value);
+    return &(static_cast<any::concrete<Type>*>(pval->holder_.get())->value_);
 }
 
 template <typename Type>
@@ -200,7 +200,7 @@ const Type* any_cast(const any* pval)
 {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw bad_any_cast();
-    return &(static_cast<any::concrete<Type>*>(pval->holder_.get())->value);
+    return &(static_cast<any::concrete<Type>*>(pval->holder_.get())->value_);
 }
 } // namespace mb::ul
 
