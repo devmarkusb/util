@@ -7,6 +7,8 @@
 
 namespace ul = mb::ul;
 
+// NOLINTBEGIN
+
 TEST(bits_count, various)
 {
     static_assert(ul::bits::count<uint8_t>() == 8);
@@ -500,3 +502,5 @@ TEST(bits_isBigEndian, basics)
 {
     std::cout << "is_bigendian: " << ul::bits::is_bigendian() << "\n";
 }
+
+// NOLINTEND
