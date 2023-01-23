@@ -7,6 +7,7 @@
 #include "enum_cast.h"
 #include "narrow.h"
 #include <array>
+#include <climits>
 #include <cstdint>
 #include <limits>
 #include <numeric>
@@ -17,19 +18,23 @@ using Idx = int;
 using Count = Idx;
 using Diff = int;
 
+constexpr auto bitsPerByte{CHAR_BIT};
+
 //! \return number of bits of the arbitrary Type.
 template <typename Type>
 constexpr Count count() noexcept
 {
-    return 8 * sizeof(Type);
+    return bitsPerByte * sizeof(Type);
 }
 
 constexpr uint32_t countSet(uint32_t data) noexcept
 {
+    // NOLINTBEGIN
     // Hamming Weight algorithm
     data = data - ((data >> 1) & 0x55555555);
     data = (data & 0x33333333) + ((data >> 2) & 0x33333333);
     return (((data + (data >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+    // NOLINTEND
 }
 
 template <typename SourceType, typename TargetType = SourceType>
@@ -64,7 +69,7 @@ template <typename SourceType, typename ChangeBitSourceType, typename TargetType
 constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept
 {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
-    const SourceType newbit = !!x; // ensure 1 or 0
+    const SourceType newbit = static_cast<bool>(x); // ensure 1 or 0
     return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx)));
 }
 
@@ -106,16 +111,19 @@ template <typename TargetType = uint64_t>
 constexpr TargetType setRange(Idx idx, Count count) noexcept
 {
     static_assert(std::is_unsigned_v<TargetType>);
+    UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
 
-    return static_cast<TargetType>(((TargetType{1} << count) - 1) << idx);
+    return static_cast<TargetType>(
+        ((TargetType{1} << static_cast<TargetType>(count)) - 1) << static_cast<TargetType>(idx));
 }
 
 //! Reads count > 0 bits of from starting at 0-based index idx (0 is LSB).
 template <typename SourceType>
 constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 {
+    UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
 
@@ -127,6 +135,7 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 template <typename TargetType, typename SourceType /*>= TargetType*/>
 constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 {
+    UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
     UL_EXPECT(count <= ul::bits::count<TargetType>());
@@ -138,6 +147,7 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 template <typename TargetType, typename SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept
 {
+    UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
     UL_EXPECT(count <= ul::bits::count<SourceType>());
@@ -154,31 +164,34 @@ class Array
 public:
     void set(Idx idx) noexcept
     {
+        UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array[N(idx)] |= partBit(I(idx));
+        array_[N(idx)] |= partBit(I(idx));
     }
 
     void reset(Idx idx) noexcept
     {
+        UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array[N(idx)] &= ~partBit(I(idx));
+        array_[N(idx)] &= ~partBit(I(idx));
     }
 
     void reset() noexcept
     {
-        array.fill({});
+        array_.fill({});
     }
 
     [[nodiscard]] bool isSet(Idx idx) const noexcept
     {
+        UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        return array[N(idx)] & partBit(I(idx));
+        return array_[N(idx)] & partBit(I(idx));
     }
 
 private:
     static constexpr Count partsCount{
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
-    std::array<BaseType, partsCount> array{};
+    std::array<BaseType, partsCount> array_{};
 
     [[nodiscard]] Idx N(Idx idx) const noexcept
     {
@@ -190,7 +203,7 @@ private:
         return idx % ul::bits::count<BaseType>();
     }
 
-    BaseType partBit(Idx n) const noexcept
+    [[nodiscard]] BaseType partBit(Idx n) const noexcept
     {
         return static_cast<BaseType>(BaseType{1} << n);
     }
@@ -208,7 +221,7 @@ Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bi
 {
     Array<bits, BaseType> ret;
     for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
-        ret.array[i] = lhs.array[i] & rhs.array[i];
+        ret.array_[i] = lhs.array_[i] & rhs.array_[i];
     return ret;
 }
 
@@ -217,7 +230,7 @@ Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bi
 {
     Array<bits, BaseType> ret;
     for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
-        ret.array[i] = lhs.array[i] | rhs.array[i];
+        ret.array_[i] = lhs.array_[i] | rhs.array_[i];
     return ret;
 }
 
@@ -230,10 +243,10 @@ struct FieldsLookup
 
     template <typename... Counts>
     explicit FieldsLookup(Count maxCount, Counts... counts)
+        : counts_({static_cast<Count>(counts)...})
     {
         static_assert(fields == sizeof...(counts));
 
-        counts_ = {static_cast<Count>(counts)...};
         indices_[0] = {};
         std::partial_sum(std::begin(counts_), std::end(counts_) - 1, std::begin(indices_) + 1);
         // runtime check as long as we don't have a compiletime partial_sum
@@ -338,10 +351,12 @@ inline bool is_bigendian() noexcept
 
 namespace mb::ul
 {
+// NOLINTBEGIN
 using Bits8 = bits::Array<8, uint8_t>;
 using Bits16 = bits::Array<16, uint16_t>;
 using Bits32 = bits::Array<32, uint32_t>;
 using Bits64 = bits::Array<64, uint64_t>;
+// NOLINTEND
 } // namespace mb::ul
 
 #endif
