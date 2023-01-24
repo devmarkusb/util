@@ -74,6 +74,7 @@ public:
         return *this;
     }
 
+    // NOLINTBEGIN
     template <typename T>
     /*implicit*/ any(T&& x)
         : holder_(ul::make_unique<concrete<T>>(std::forward<T>(x)))
@@ -85,6 +86,8 @@ public:
         : holder_(ul::make_unique<concrete<T>>(x))
     {
     }
+
+    // NOLINTEND
 
     template <typename T>
     any& operator=(T&& x)

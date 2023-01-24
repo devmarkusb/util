@@ -15,11 +15,14 @@ for (size_t i = 0; i < ul::c_array_length(x); ++i)
     ; // do sth
 \endcode
 */
+// NOLINTBEGIN
 template <class T, size_t N>
 size_t c_array_length(T (&)[N])
 {
     return N;
 }
+
+// NOLINTEND
 } // namespace mb::ul
 
 #endif

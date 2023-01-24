@@ -62,6 +62,7 @@ which yields base namespace `mb::ul` instead.
 
 ## Contributing
 
-### todo
+### todos
 
+* any `//todo` comment in code
 * use concepts, but don't merge as long as Android build needs old compiler

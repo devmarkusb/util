@@ -6,12 +6,13 @@
 TEST(profilerTest, basics)
 {
     const auto before{ul::profiler_now()};
-    std::this_thread::sleep_for(std::chrono::milliseconds(42));
+    constexpr auto exampleDuration{std::chrono::milliseconds(42)};
+    std::this_thread::sleep_for(exampleDuration);
     const auto after{ul::profiler_now()};
     EXPECT_GT(after, before);
-    const auto diff{ul::profiler_diff_s(before, after)};
-    EXPECT_GT(0.062, diff);
-    EXPECT_LT(0.022, diff);
+    const auto diff{std::chrono::duration_cast<std::chrono::milliseconds>(ul::profiler_diff(before, after))};
+    EXPECT_GT(62, diff.count());
+    EXPECT_LT(22, diff.count());
 }
 
 TEST(ToFormattedStringTest, Rounding)

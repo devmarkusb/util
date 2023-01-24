@@ -24,23 +24,22 @@
 
 namespace mb::ul
 {
-using ProfilerTimePoint = int64_t;
+using ProfilerTimePoint = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
 inline ProfilerTimePoint profiler_now()
 {
-    const auto now = std::chrono::time_point_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now());
-    return now.time_since_epoch().count();
+    return std::chrono::high_resolution_clock::now();
 }
 
-inline double profiler_diff_s(ProfilerTimePoint start, ProfilerTimePoint end)
+inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end)
 {
-    return static_cast<double>(end - start) / 1e9;
+    return end - start;
 }
 
-namespace implDumpAllItems
+namespace impl_dump_all_items
 {
 struct KeyData;
-} // namespace implDumpAllItems
+} // namespace impl_dump_all_items
 
 //! Can only be used within one thread at the same time.
 /** Usage: Cf. unit tests.*/
@@ -90,8 +89,8 @@ public:
     }
 
 private:
-    friend struct implDumpAllItems::KeyData;
-    using UniqueItemStartNr = unsigned long long;
+    friend struct impl_dump_all_items::KeyData;
+    using UniqueItemStartNr = uint64_t;
 
     struct ItemData
     {
@@ -196,8 +195,8 @@ inline PerformanceProfiler::PerformanceProfiler(std::string NewItemName, Nesting
 
 inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_currentItem() const
 {
-    chrono_timepoint now = chrono_clock::now();
-    chrono_duration elapsed = now - startTime_;
+    const chrono_timepoint now = chrono_clock::now();
+    const chrono_duration elapsed = now - startTime_;
     return elapsed.count();
 }
 
@@ -218,7 +217,7 @@ inline void PerformanceProfiler::stopItem()
     stopCurrentItem();
 }
 
-namespace implDumpAllItems
+namespace impl_dump_all_items
 {
 struct KeyData
 {
@@ -235,7 +234,7 @@ struct KeyData
     {
     }
 };
-} // namespace implDumpAllItems
+} // namespace impl_dump_all_items
 
 template <PerformanceProfiler::DumpFormat fmt>
 std::string PerformanceProfiler::dumpAllItems()
@@ -249,15 +248,15 @@ std::string PerformanceProfiler::dumpAllItems()
         return ret.str();
     }
 
-    using TKeySet_unsorted = std::map<ItemNameAsKey, implDumpAllItems::KeyData>;
+    using TKeySet_unsorted = std::map<ItemNameAsKey, impl_dump_all_items::KeyData>;
     TKeySet_unsorted keys_unsorted;
     std::transform(
         items().begin(), items().end(), std::inserter(keys_unsorted, keys_unsorted.begin()),
         [](decltype(*items().begin())& i)
         {
-            return std::make_pair(i.first, implDumpAllItems::KeyData(i.second));
+            return std::make_pair(i.first, impl_dump_all_items::KeyData(i.second));
         });
-    using TKeyNameAndData = std::pair<ItemNameAsKey, implDumpAllItems::KeyData>;
+    using TKeyNameAndData = std::pair<ItemNameAsKey, impl_dump_all_items::KeyData>;
     using TKeySet = std::vector<TKeyNameAndData>;
     TKeySet keys(keys_unsorted.begin(), keys_unsorted.end());
     std::sort(

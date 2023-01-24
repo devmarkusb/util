@@ -49,10 +49,9 @@ UL_DEPRECATED void deprecated_function()
 }
 } // namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
 
-using ppdefs::test::impl::treat_this_as_anonymous_namespace::deprecated_function;
-
 TEST(UL_DEPRECATEDTest, test)
 {
-    //uncomment for experimentation
+    // uncomment for experimentation
+    //using ppdefs::test::impl::treat_this_as_anonymous_namespace::deprecated_function;
     //deprecated_function();
 }

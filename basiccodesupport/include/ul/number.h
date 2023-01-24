@@ -80,10 +80,11 @@ ul::opt<ArithType> isPowerOf(ArithType x, ArithType base)
             Though one could improve the hard-coded 1e-12 (std::numeric_limits<long double>::min() is
             much too small).*/
     const long double exp = std::log(x) / std::log(base);
-    const long long intpart = ul::llround(exp);
+    const int64_t intpart = ul::llround(exp);
     const auto intpart_dbl = ul::narrow_cast<long double>(intpart);
 
-    if (!ul::math::approx_equal(intpart_dbl, exp, 1e-12L))
+    constexpr auto sufficientlySmallDeviation{1e-12L};
+    if (!ul::math::approx_equal(intpart_dbl, exp, sufficientlySmallDeviation))
         return {};
     return ul::narrow_cast<ArithType>(intpart);
 }
