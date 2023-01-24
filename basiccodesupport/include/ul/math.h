@@ -110,11 +110,13 @@ constexpr uint64_t nextGreaterOrEqPow2(uint64_t v) noexcept
 {
     --v;
     v |= v >> 1u;
+    // NOLINTBEGIN
     v |= v >> 2u;
     v |= v >> 4u;
     v |= v >> 8u;
     v |= v >> 16u;
     v |= v >> 32u;
+    // NOLINTEND
     return v + 1;
 }
 } // namespace mb::ul::math

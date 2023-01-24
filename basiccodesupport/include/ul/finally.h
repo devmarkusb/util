@@ -13,16 +13,15 @@ class final_act
 {
 public:
     explicit final_act(F f) noexcept
-        : f(std::move(f))
-        , invoke(true)
+        : f_{std::move(f)}
     {
     }
 
     final_act(final_act&& other) noexcept
-        : f(std::move(other.f))
-        , invoke(other.invoke)
+        : f_{std::move(other.f_)}
+        , invoke_{other.invoke_}
     {
-        other.invoke = false;
+        other.invoke_ = false;
     }
 
     final_act(const final_act&) = delete;
@@ -30,13 +29,13 @@ public:
 
     ~final_act() noexcept
     {
-        if (this->invoke)
-            this->f();
+        if (this->invoke_)
+            this->f_();
     }
 
 private:
-    F f;
-    bool invoke;
+    F f_;
+    bool invoke_{true};
 };
 
 //! Most conveniently called with a lambda.

@@ -37,7 +37,7 @@ template <typename... Size_ts>
 inline size_t hashCombine(std::size_t hash1, Size_ts... hashes) noexcept
 {
     // implemented like boost's hash_combine
-    return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2));
+    return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6u) + (hash1 >> 2u)); // NOLINT
 }
 
 //!@}

@@ -52,23 +52,25 @@ struct opt
     ~opt() = default;
 
     opt(const opt<T>& other)
-        : holder(other.holder ? ul::make_unique<T>(*other.holder) : nullptr)
+        : holder_(other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr)
     {
     }
 
     opt<T>& operator=(const opt<T>& other)
     {
-        holder = other.holder ? ul::make_unique<T>(*other.holder) : nullptr;
+        if (std::addressof(other) == this)
+            return *this;
+        holder_ = other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr;
         return *this;
     }
 
-    explicit opt(const none_t&)
-        : holder(nullptr)
+    explicit opt(const none_t& /*unused*/)
+        : holder_(nullptr)
     {
     }
 
-    explicit opt(none_t&&)
-        : holder(nullptr)
+    explicit opt(none_t&& /*unused*/)
+        : holder_(nullptr)
     {
     }
 
@@ -78,18 +80,18 @@ struct opt
 #endif
 
     /*implicit*/ opt(const T& x)
-        : holder(ul::make_unique<T>(x))
+        : holder_(ul::make_unique<T>(x))
     {
     }
 
     /*implicit*/ opt(T&& x)
-        : holder(ul::make_unique<T>(std::move(x)))
+        : holder_(ul::make_unique<T>(std::move(x)))
     {
     }
 
     /*implicit*/ operator T*() const
     {
-        return this->holder.get();
+        return this->holder_.get();
     }
 
 // otherwise we get warnings of implicit conversions to bool (performance issue, theoretically)
@@ -100,35 +102,35 @@ struct opt
 
     opt<T>& operator=(const T& x)
     {
-        this->holder = ul::make_unique<T>(x);
+        this->holder_ = ul::make_unique<T>(x);
         return *this;
     }
 
     opt<T>& operator=(T&& x)
     {
-        this->holder = ul::make_unique<T>(std::move(x));
+        this->holder_ = ul::make_unique<T>(std::move(x));
         return *this;
     }
 
-    opt<T>& operator=(const none_t&)
+    opt<T>& operator=(const none_t& /*unused*/)
     {
-        this->holder.reset();
+        this->holder_.reset();
         return *this;
     }
 
-    opt<T>& operator=(none_t&&)
+    opt<T>& operator=(none_t&& /*unused*/)
     {
-        this->holder.reset();
+        this->holder_.reset();
         return *this;
     }
 
     void reset()
     {
-        this->holder.reset();
+        this->holder_.reset();
     }
 
 private:
-    std::unique_ptr<T> holder;
+    std::unique_ptr<T> holder_;
 };
 
 template <typename T>
@@ -136,10 +138,9 @@ bool operator==(const opt<T>& lhs, const opt<T>& rhs)
 {
     if (lhs && rhs)
         return *lhs == *rhs;
-    else if (!lhs && !rhs)
+    if (!lhs && !rhs)
         return true;
-    else
-        return false;
+    return false;
 }
 
 template <typename T>
@@ -154,10 +155,9 @@ bool operator<(const opt<T>& lhs, const opt<T>& rhs)
 {
     if (lhs && rhs)
         return *lhs < *rhs;
-    else if (!lhs && !rhs)
+    if (!lhs && !rhs)
         return false;
-    else
-        return !lhs && rhs; // decide none to be the smallest
+    return !lhs && rhs; // decide none to be the smallest
 }
 
 template <typename T>

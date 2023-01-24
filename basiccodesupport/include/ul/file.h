@@ -53,7 +53,8 @@ inline void throwError(const std::string& filePathNameExt, operation op, const s
             UL_ASSERT(false); // op not supported
     }
     ss << ", details: " << retErrDetail;
-    ss << ", ec: " << errno_ << ", " << std::strerror(errno_);
+    //todo use strerror_s and what platforms demand, remove nolint
+    ss << ", ec: " << errno_ << ", " << std::strerror(errno_); // NOLINT
     throw std::runtime_error{ss.str()};
 }
 } // namespace mb::ul::file
