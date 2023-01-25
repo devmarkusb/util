@@ -294,7 +294,7 @@ const std::string  mega_symb = "M";
 const std::string  giga_symb = "G";
 const std::string  tera_symb = "T";
 const std::string  peta_symb = "P";
-constexpr std::string_view   exa_symb = "E";
+const std::string   exa_symb = "E";
 
 UL_TEMPCONSTEXPR const Rational one_twelveth     {std::ratio<1, 12>{}};
 UL_TEMPCONSTEXPR const Rational one_seventh      {std::ratio<1, 7>{}};
