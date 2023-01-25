@@ -11,6 +11,10 @@
 #		ul_find_boost(${UL_USE_BOOST_ver1} ${UL_USE_BOOST_ver2} ${UL_USE_BOOST_ver3} "")
 #	or similar, in order to make the library use the same boost version as your project.
 
+set(UL_USE_BOOST_ver1 "1" CACHE STRING "Use boost version ver1.ver2.ver3")
+set(UL_USE_BOOST_ver2 "67" CACHE STRING "Cf. UL_USE_BOOST_ver1")
+set(UL_USE_BOOST_ver3 "0" CACHE STRING "Cf. UL_USE_BOOST_ver1")
+
 if (UL_ANDROID)
     include(${CMAKE_CURRENT_LIST_DIR}/detail/find_host_package.cmake)
 endif ()
