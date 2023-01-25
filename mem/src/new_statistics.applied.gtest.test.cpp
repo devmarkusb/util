@@ -54,9 +54,9 @@ struct AGlobalDestructor
 #if UL_COMP_CLANG
 #if UL_COMP_CLANG_VER == 100001
 #if UL_DEBUG
-        const auto compensation_EXPECT_DEBUG_DEATH{91};
+        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91};
 #else
-        const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
+        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
 #endif
 #else
         [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{63};
