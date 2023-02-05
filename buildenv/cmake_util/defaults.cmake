@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.15)
 
 # to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
 include(CMakePrintHelpers)
+include(GoogleTest)
 
 ######################################################################################################################
 # general defaults and helper declarations
@@ -217,7 +218,7 @@ macro(ul_set_target_lib_export_def target define)
 endmacro()
 
 macro(ul_add_test target)
-    add_test(NAME ${target} COMMAND ${target})
+    gtest_discover_tests(${target})
 endmacro()
 
 # a platform independent 'executable', extra args are just all sources, lead by optional additional switches
