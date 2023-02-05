@@ -1,0 +1,14 @@
+name: doxygen
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  doxygen:
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: mattnotmitt/doxygen-action@v1.9.5

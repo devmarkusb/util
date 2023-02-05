@@ -1,4 +1,5 @@
 # Include in your project root once. Then configure UL_DOXYGEN_GEN_DOXYFILE=ON.
+# Before including the file, search for all @...@ entries in Doxyfile.in and fill them appropriately.
 # For the actual generation of documentation you will need to use further tools.
 
 option(UL_DOXYGEN_GEN_DOXYFILE "Run build with Doxyfile creation. A Doxyfile is copied to your project root. \
