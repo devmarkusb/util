@@ -32,7 +32,7 @@ TR round_to(TP r, uint16_t decimal_places = 0)
     const TP d = round(r, decimal_places);
     if (d > static_cast<decltype(d)>(numeric_limits<TR>::max()))
         return numeric_limits<TR>::max();
-    else if (d < numeric_limits<TR>::min())
+    if (d < numeric_limits<TR>::min())
         return numeric_limits<TR>::min();
     return static_cast<TR>(d);
 }

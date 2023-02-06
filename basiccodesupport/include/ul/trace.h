@@ -60,7 +60,7 @@ struct OutputToConsole
 
 struct NoOutputToConsole
 {
-    static bool trace(const std::ostringstream&)
+    static bool trace(const std::ostringstream& /*unused*/)
     {
         return false;
     }
@@ -90,7 +90,7 @@ struct OutputToIDEWindow
 struct NoOutputToIDEWindow
 {
     template <class>
-    static void trace(const std::ostringstream&)
+    static void trace(const std::ostringstream& /*unused*/)
     {
         // Note: e.g. for mingw we can't prevent output from showing up in IDE window
         UL_NOOP;
@@ -229,10 +229,10 @@ struct StreamTracer_impl : public StreamTracer
 
     ~StreamTracer_impl() override
     {
-        if (close_stderr_)
-            fclose(stderr);
-        if (close_stdout_)
-            fclose(stdout);
+        if (close_stderr_) [[maybe_unused]]
+            const auto _ = fclose(stderr);
+        if (close_stdout_) [[maybe_unused]]
+            const auto _ = fclose(stdout);
     }
 
     void trace(const std::ostringstream& ss) const override
