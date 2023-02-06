@@ -296,7 +296,7 @@ UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_CLANG(header-hygiene)
 // clang-format on
 // since, `const auto& is_ok = ul::is_ok;` would lead to multiple defs, even with constexpr
-using namespace mb::ul::publish_is_ok;
+using namespace mb::ul::publish_is_ok; // NOLINT
 UL_PRAGMA_WARNINGS_POP
 
 #endif

@@ -34,8 +34,8 @@ TEST(bits_countSetBits, various)
 
 TEST(bits_set, various)
 {
-    EXPECT_EQ(ul::bits::set(0b000, 0), 0b001);
-    EXPECT_EQ(ul::bits::set(0b000, 1), 0b010);
+    EXPECT_EQ(ul::bits::set(0b000u, 0u), 0b001);
+    EXPECT_EQ(ul::bits::set(0b000u, 1u), 0b010);
     EXPECT_EQ(ul::bits::set<uint8_t>(0b1, 7), 0b10000001);
     EXPECT_DEBUG_DEATH(ul::bits::set<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
