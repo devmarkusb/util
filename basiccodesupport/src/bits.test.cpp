@@ -79,48 +79,48 @@ TEST(bits_change, various)
 
 TEST(bits_setMask, various)
 {
-    EXPECT_EQ(ul::bits::setMask(0b000, 0b001), 0b001);
-    EXPECT_EQ(ul::bits::setMask(0b000, 0b010), 0b010);
-    EXPECT_EQ(ul::bits::setMask(0b000, 0b101), 0b101);
+    EXPECT_EQ(ul::bits::setMask(0b000u, 0b001u), 0b001u);
+    EXPECT_EQ(ul::bits::setMask(0b000u, 0b010u), 0b010u);
+    EXPECT_EQ(ul::bits::setMask(0b000u, 0b101u), 0b101u);
     EXPECT_EQ(ul::bits::setMask<uint8_t>(0b1, 1 << 7), (1 << 7) | 0b1);
 }
 
 TEST(bits_unsetMask, various)
 {
-    EXPECT_EQ(ul::bits::unsetMask(0b111, 0b001), 0b110);
-    EXPECT_EQ(ul::bits::unsetMask(0b111, 0b010), 0b101);
-    EXPECT_EQ(ul::bits::unsetMask(0b111, 0b101), 0b010);
-    EXPECT_EQ(ul::bits::unsetMask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
+    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b001u), 0b110u);
+    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b010u), 0b101u);
+    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b101u), 0b010u);
+    EXPECT_EQ(ul::bits::unsetMask<uint8_t>((1u << 7u) | 0b1u, 1u << 7u), 0b1u);
 }
 
 TEST(bits_toggleMask, various)
 {
-    EXPECT_EQ(ul::bits::toggleMask(0b111, 0b001), 0b110);
-    EXPECT_EQ(ul::bits::toggleMask(0b110, 0b001), 0b111);
-    EXPECT_EQ(ul::bits::toggleMask(0b111, 0b101), 0b010);
+    EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b001u), 0b110u);
+    EXPECT_EQ(ul::bits::toggleMask(0b110u, 0b001u), 0b111u);
+    EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b101u), 0b010u);
     EXPECT_EQ(ul::bits::toggleMask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
 }
 
 TEST(bits_checkAllOfMask, various)
 {
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b111, 0b101));
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b101, 0b101));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b110, 0b101));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b010, 0b101));
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b010, 0b010));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b101, 0b010));
+    EXPECT_TRUE(ul::bits::checkAllOfMask(0b111u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAllOfMask(0b101u, 0b101u));
+    EXPECT_FALSE(ul::bits::checkAllOfMask(0b110u, 0b101u));
+    EXPECT_FALSE(ul::bits::checkAllOfMask(0b010u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAllOfMask(0b010u, 0b010u));
+    EXPECT_FALSE(ul::bits::checkAllOfMask(0b101u, 0b010u));
 }
 
 TEST(bits_checkAnyOfMask, various)
 {
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b111, 0b101));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b101, 0b101));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b100, 0b101));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b001, 0b101));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b110, 0b101));
-    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b010, 0b101));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b010, 0b010));
-    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b101, 0b010));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b111u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b101u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b100u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b001u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b110u, 0b101u));
+    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b010u, 0b101u));
+    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b010u, 0b010u));
+    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b101u, 0b010u));
 }
 
 TEST(bits_setRange, empty)

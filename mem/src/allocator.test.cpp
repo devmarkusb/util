@@ -13,15 +13,21 @@
 namespace ul = mb::ul;
 using Bytes = ul::mem::Bytes;
 
+namespace
+{
+constexpr auto mem100K{100'000};
+} // namespace
+
 template <typename Vector>
 void common_vector_test(Vector&& v)
 {
-    v.reserve(100'000);
+    // NOLINTBEGIN
+    v.reserve(mem100K);
     EXPECT_TRUE(v.empty());
     v.resize(50'000);
     EXPECT_EQ(v.size(), 50'000);
-    v.resize(100'000);
-    EXPECT_EQ(v.size(), 100'000);
+    v.resize(mem100K);
+    EXPECT_EQ(v.size(), mem100K);
     v[50'001] = 42;
     EXPECT_EQ(v[50'001], 42);
     v.pop_back();
@@ -38,6 +44,7 @@ void common_vector_test(Vector&& v)
     {
         v.push_back(42);
     }
+    // NOLINTEND
     std::cout << "capacity: " << v.capacity() << "\n";
     EXPECT_EQ(v.size(), 1000);
 }
@@ -48,7 +55,7 @@ void common_map_test(Map&& m)
     EXPECT_TRUE(m.empty());
     m[0] = "0";
     EXPECT_EQ(m.size(), 1);
-    for (int i = 1; i <= 999; ++i)
+    for (int i = 1; i <= 999; ++i) // NOLINT
     {
         m[i] = std::to_string(i);
     }
@@ -60,7 +67,7 @@ TEST(allocator_example, vector)
     using Arena = ul::mem::alloc::Example;
     using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
-    Allocator al{a};
+    const Allocator al{a};
     std::vector<int, Allocator> v{al};
 
     common_vector_test(v);
@@ -72,7 +79,7 @@ TEST(allocator_example, map)
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
-    Allocator al{a};
+    const Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 
     common_map_test(m);
@@ -83,7 +90,7 @@ TEST(allocator_default, vector)
     using Arena = ul::mem::alloc::DefaultNewDelete<>;
     using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
-    Allocator al{a};
+    const Allocator al{a};
     std::vector<int, Allocator> v{al};
 
     common_vector_test(v);
@@ -95,7 +102,7 @@ TEST(allocator_default, map)
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
-    Allocator al{a};
+    const Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 
     common_map_test(m);
@@ -108,8 +115,8 @@ TEST(allocator_linear, vector)
     try
     {
         Arena a{
-            Bytes{100'000 * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
-        Allocator al{a};
+            Bytes{mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
+        const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
         common_vector_test(v);
@@ -126,8 +133,8 @@ TEST(allocator_linear, map)
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     std::cout << "sizeof(MapPair): " << sizeof(MapPair) << ", alignof(MapPair): " << alignof(MapPair) << "\n";
-    Arena a{Bytes{100'000}, Bytes{alignof(MapPair)}};
-    Allocator al{a};
+    Arena a{Bytes{mem100K}, Bytes{alignof(MapPair)}};
+    const Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 
     common_map_test(m);
@@ -136,12 +143,12 @@ TEST(allocator_linear, map)
 TEST(allocator_onstack, vector)
 {
     using Arena = ul::mem::alloc::OnStack<
-        100'000 * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
+        mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = ul::mem::Allocator<int, Arena>;
     try
     {
         Arena a;
-        Allocator al{a};
+        const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
         common_vector_test(v);
@@ -155,10 +162,10 @@ TEST(allocator_onstack, vector)
 TEST(allocator_onstack, map)
 {
     using MapPair = std::pair<const int, std::string>;
-    using Arena = ul::mem::alloc::OnStack<100'000, alignof(MapPair)>;
+    using Arena = ul::mem::alloc::OnStack<mem100K, alignof(MapPair)>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
-    Allocator al{a};
+    const Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 
     common_map_test(m);

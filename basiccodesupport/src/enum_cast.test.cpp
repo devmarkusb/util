@@ -25,7 +25,7 @@ TEST(EnumCast_as_numberTest, test)
 
 TEST(EnumCast_as_numberTest, TypeSpecific)
 {
-    enum class EC : unsigned long
+    enum class EC : uint64_t
     {
         zeroth,
         first,
@@ -33,5 +33,5 @@ TEST(EnumCast_as_numberTest, TypeSpecific)
     };
     auto number = ul::as_number(EC::first);
     EXPECT_EQ(1ul, number);
-    EXPECT_TRUE(typeid(number) == typeid(unsigned long));
+    EXPECT_TRUE(typeid(number) == typeid(uint64_t));
 }

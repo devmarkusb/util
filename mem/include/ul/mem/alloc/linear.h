@@ -74,12 +74,12 @@ public:
 
         this->statsCollect_currentSize(curr_offset_);
 
-        return buf_ + old_offset.value;
+        return buf_ + old_offset.value; // NOLINT
     }
 
     void deallocate(const uint8_t* p, Bytes size) noexcept
     {
-        if (p + size.value == buf_ + curr_offset_.value)
+        if (p + size.value == buf_ + curr_offset_.value) // NOLINT
             curr_offset_ -= size;
     }
 
