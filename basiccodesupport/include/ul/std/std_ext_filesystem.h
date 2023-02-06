@@ -542,7 +542,7 @@ namespace mb::ul::file
 {
 inline void touch(const ul::std_fs::path& p)
 {
-    std::ofstream f{p.string()};
+    const std::ofstream f{p.string()};
 }
 } // namespace mb::ul::file
 
