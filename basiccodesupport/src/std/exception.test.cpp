@@ -8,7 +8,7 @@ namespace ul = mb::ul;
 
 TEST(exception_Capture, basics)
 {
-    ul::exception::Capture ec1{
+    const ul::exception::Capture ec1{
         [](std::string_view s)
         {
             throw std::runtime_error{s.data()};
@@ -24,7 +24,7 @@ TEST(exception_Capture, basics)
         EXPECT_STREQ(e.what(), "test error 1");
     }
 
-    ul::exception::Capture ec2{
+    const ul::exception::Capture ec2{
         []()
         {
             throw std::runtime_error{"test error 2"};
@@ -40,9 +40,9 @@ TEST(exception_Capture, basics)
         EXPECT_STREQ(e.what(), "test error 2");
     }
 
-    ul::exception::Capture ec3{[]()
-                               {
-                                   UL_NOOP;
-                               }};
+    const ul::exception::Capture ec3{[]()
+                                     {
+                                         UL_NOOP;
+                                     }};
     EXPECT_NO_THROW(ec3.rethrow());
 }
