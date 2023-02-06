@@ -22,10 +22,10 @@ namespace
 {
 namespace
 {
-const std::string physical_test_dir_s{"/tmp/ul/test"};
+constexpr std::string_view physical_test_dir_s{"/tmp/ul/test"};
 } // namespace
 
-const fs::path physical_test_dir{physical_test_dir_s};
+const fs::path physical_test_dir{physical_test_dir_s}; // NOLINT
 
 //! \return finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.
 /** There is also a helping sleep for 1ms included. Features preferred changing of leading digits.
@@ -405,8 +405,8 @@ TEST_F(PhysicalFilesystemTest, directory_iterator)
     ul::file::touch(dir / "f2");
     ul::file::touch(dir / "f3");
 
-    fs::directory_iterator begin(dir);
-    fs::directory_iterator end;
+    const fs::directory_iterator begin(dir);
+    const fs::directory_iterator end;
     std::vector<fs::directory_entry> entries(begin, end);
     ASSERT_EQ(entries.size(), 4);
     EXPECT_EQ(std::count(std::begin(entries), std::end(entries), dir / "f1"), 1);

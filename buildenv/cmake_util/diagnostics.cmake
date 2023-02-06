@@ -5,6 +5,9 @@
 set(cpp_compile_options)
 set(c_compile_options)
 
+option(UL_ALL_WARNINGS "all possible warnings, switch on and adapt details if you want to see \
+a maximum of warnings" OFF)
+
 # sanitizers, mutually exclusive for now
 option(UL_ADDRESS_SAN "address sanitizer (asan)" OFF)
 option(UL_THREAD_SAN "thread sanitizer" OFF)
@@ -46,6 +49,37 @@ elseif (UL_UNDEF_SAN)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options -fsanitize=undefined)
         set(cpp_link_options -fsanitize=undefined)
+    endif ()
+endif ()
+
+
+if (UL_ALL_WARNINGS)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        # partially implemented
+        set(cpp_compile_options
+                ${cpp_compile_options}
+                -Wconversion
+                )
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+        # not implemented
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        set(cpp_compile_options
+                ${cpp_compile_options}
+                -Weverything # should include -Wconversion
+                # category of must-be-blacklisted ones
+                -Wno-unused-member-function -Wno-c++98-compat -Wno-deprecated -Wno-weak-vtables
+                -Wno-shadow-field-in-constructor -Wno-undef -Wno-c++98-compat-pedantic
+                -Wno-double-promotion -Wmissing-prototypes
+                # category of could-be-useful ones
+                -Wno-redundant-parens # can be interesting, but appears a lot in Qt moc_ files, so...
+                -Wno-undefined-reinterpret-cast # same here
+                -Wno-documentation # might want to turn that on - fires a lot due to misuse of multiline //!'s
+                -Wno-documentation-unknown-command # investigate use of \return, \param etc., unfortunate
+                -Wno-global-constructors -Wno-exit-time-destructors
+                -Wno-switch-enum -Wno-covered-switch-default # a no default warning would be more useful
+                -Wno-missing-noreturn
+                -Wno-padded # this could be useful to turn on locally (at most) to find out about padding size
+                )
     endif ()
 endif ()
 
