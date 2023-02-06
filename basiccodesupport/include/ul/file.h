@@ -35,7 +35,7 @@ enum class operation
     load,
 };
 
-inline void throwError(const std::string& filePathNameExt, operation op, const std::string& retErrDetail)
+[[noreturn]] inline void throwError(const std::string& filePathNameExt, operation op, const std::string& retErrDetail)
 {
     const auto errno_ = errno;
     std::stringstream ss;
@@ -49,8 +49,6 @@ inline void throwError(const std::string& filePathNameExt, operation op, const s
         case operation::load:
             ss << "loaded";
             break;
-        default:
-            UL_ASSERT(false); // op not supported
     }
     ss << ", details: " << retErrDetail;
     //todo use strerror_s and what platforms demand, remove nolint
