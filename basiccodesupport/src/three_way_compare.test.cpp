@@ -40,8 +40,8 @@ TEST(three_way_compare, huge_unsigned)
 
 TEST(three_way_compare, strings)
 {
-    std::string xb{"xb"};
-    std::string xa{"xa"};
+    const std::string xb{"xb"};
+    const std::string xa{"xa"};
     EXPECT_EQ(ul::threeWayCompare(xb, xa), 1);
     EXPECT_EQ(ul::threeWayCompare(xb, xb), 0);
     EXPECT_EQ(ul::threeWayCompare(xa, xb), -1);

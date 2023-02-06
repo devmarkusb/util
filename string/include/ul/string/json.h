@@ -13,8 +13,8 @@ class IJSON
 public:
     virtual ~IJSON() = default;
 
-    typedef JSON_strtype JSONstr_type;
-    typedef JSON_value JSONval_type;
+    using JSONstr_type = JSON_strtype;
+    using JSONval_type = JSON_value;
 
     //! Generate JSON string of object.
     virtual JSONstr_type getJsonStr() const = 0;

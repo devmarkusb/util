@@ -116,7 +116,7 @@ TEST(xorTest, nxor_nonbool)
 
 TEST(xorTest, xor_mixedtypes)
 {
-    int a{0};
+    const int a{0};
     EXPECT_FALSE(ul::XOR(0, nullptr));
     EXPECT_FALSE(ul::XOR(nullptr, 0));
     EXPECT_FALSE(ul::XOR(1, &a));

@@ -22,7 +22,7 @@ template <typename T>
 constexpr std::string_view typeName()
 {
     using std::string_view;
-    string_view p = UL_FUNCTIONSIGN;
+    const string_view p{UL_FUNCTIONSIGN}; // NOLINT
 #if UL_COMP_CLANG
     return {p.data() + 34, p.size() - 34 - 1}; // NOLINT // magic number
 #elif UL_COMP_GNU_CPP
