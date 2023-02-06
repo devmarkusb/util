@@ -18,7 +18,7 @@ TEST(type_nameTest, basic)
 
 TEST(type_nameTest, special)
 {
-    auto whatType = std::make_tuple("bla", 42, 1.33);
+    auto whatType = std::make_tuple("bla", 42, 1.33); // NOLINT
 #if UL_COMP_CLANG
     EXPECT_STREQ(ul::typeName<decltype(whatType)>().data(), ") [T = std::tuple<const char *, int, double>]");
 #else
@@ -28,7 +28,7 @@ TEST(type_nameTest, special)
 
 TEST(UL_COMPILETIME_TYPE_NAMETest, special)
 {
-    auto whatType = std::make_tuple("bla", 42, 1.33);
+    auto whatType = std::make_tuple("bla", 42, 1.33); // NOLINT
     ul::ignore_unused(whatType);
     // uncomment for experimentation
     //UL_COMPILETIME_TYPE_NAME(whatType);
