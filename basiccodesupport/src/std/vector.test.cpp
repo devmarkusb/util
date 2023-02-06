@@ -32,6 +32,8 @@ protected:
     }
 };
 
+// NOLINTBEGIN
+
 TEST_F(VectorMoveRangeTest, Move1FromStartMiddleEndToLeftOrRight)
 {
     ul::vector::move_range(0, 1, 2, v7_);
@@ -113,3 +115,5 @@ TEST_F(VectorMoveRangeTest, MoveNothing)
     ul::vector::move_range(2, 0, 4, v7_);
     EXPECT_EQ("abcdefg", Vec2Str(v7_));
 }
+
+// NOLINTEND
