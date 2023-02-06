@@ -62,7 +62,7 @@ public:
         static_assert(std::is_convertible_v<T_, T>);
 
         {
-            std::unique_lock<std::mutex> lock(mutex_);
+            const std::unique_lock<std::mutex> lock(mutex_);
 
             if (Base::buf_.full())
                 return false;
@@ -114,7 +114,7 @@ public:
 
     void stop()
     {
-        std::unique_lock<std::mutex> lock(mutex_);
+        const std::unique_lock<std::mutex> lock(mutex_);
         stopped_ = true;
         conditionVariable_.notify_all();
     }

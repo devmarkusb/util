@@ -1,5 +1,5 @@
 #include "ul/type/listener.h"
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 
 namespace ul = mb::ul;
 
@@ -35,7 +35,7 @@ struct Model : public Model_notifier
 
     void do1()
     {
-        set_prop(get_prop() + 5);
+        set_prop(get_prop() + 3);
         on_prop_changed();
     }
 
