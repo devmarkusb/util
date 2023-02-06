@@ -8,6 +8,8 @@
 
 #if UL_OS_LINUX
 namespace ul = mb::ul;
+
+constexpr auto numWaits{5};
 #endif
 
 class pinToCPUTest : public testing::Test
@@ -50,7 +52,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
                         return ready2go[i].ok;
                     });
                 lk.unlock();
-                for (auto j = 0; j < 5; ++j)
+                for (auto j = 0; j < numWaits; ++j)
                 {
                     EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
                     std::this_thread::sleep_for(std::chrono::milliseconds(2));
@@ -58,7 +60,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
             });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
-            std::lock_guard<std::mutex> lk(ready2go[i].m);
+            const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
         }
         ready2go[i].cv.notify_one();
@@ -95,7 +97,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
                         return ready2go[i].ok;
                     });
                 lk.unlock();
-                for (auto j = 0; j < 5; ++j)
+                for (auto j = 0; j < numWaits; ++j)
                 {
                     EXPECT_EQ(1, ul::thread::numLogicalCores());
                     std::this_thread::sleep_for(std::chrono::milliseconds(2));
@@ -103,7 +105,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
             });
         ul::thread::pinToLogicalCore(threads[i], 1);
         {
-            std::lock_guard<std::mutex> lk(ready2go[i].m);
+            const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
         }
         ready2go[i].cv.notify_one();
@@ -120,6 +122,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 {
 }
 #else
+// NOLINTBEGIN
 TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms)
 {
     const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
@@ -149,10 +152,10 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
                         return ready2go[i].ok;
                     });
                 lk.unlock();
-                for (auto j = 0; j < 10; ++j)
+                for (auto j = 0; j < numWaits * 2; ++j)
                 {
                     {
-                        std::lock_guard<std::mutex> switch_lk(switched_m);
+                        const std::lock_guard<std::mutex> switch_lk(switched_m);
                         if (!switched)
                         {
                             EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
@@ -167,12 +170,12 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
                             EXPECT_EQ(static_cast<int>(i + 1u % num_threads), ul::thread::numLogicalCores());
                         }
                     }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                    std::this_thread::sleep_for(std::chrono::milliseconds(numWaits));
                 }
             });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
-            std::lock_guard<std::mutex> lk(ready2go[i].m);
+            const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
         }
         ready2go[i].cv.notify_one();
@@ -182,6 +185,8 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
         t.join();
     }
 }
+
+// NOLINTEND
 #endif
 
 #if !UL_OS_LINUX // mac also not working yet
@@ -209,7 +214,7 @@ TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
                         return ready2go[i].ok;
                     });
                 lk.unlock();
-                for (auto j = 0; j < 5; ++j)
+                for (auto j = 0; j < numWaits; ++j)
                 {
                     EXPECT_EQ(static_cast<int>(i), ul::thread::numLogicalCores());
                     std::this_thread::sleep_for(std::chrono::milliseconds(2));
@@ -217,7 +222,7 @@ TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
             });
         ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
         {
-            std::lock_guard<std::mutex> lk(ready2go[i].m);
+            const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
         }
         ready2go[i].cv.notify_one();
