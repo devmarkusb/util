@@ -69,6 +69,7 @@ TEST(ToFormattedStringTest, Inf)
     EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::toFormattedString(360000));
 }
 
+// NOLINTBEGIN
 TEST(DISABLED_DumpAllItemsTest, PracticalScenario)
 {
     ul::PerformanceProfiler perfscope0("1. 500ms");
@@ -84,7 +85,7 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario)
             ul::PerformanceProfiler perfscope2("5. for", 2);
             for (size_t i = 1; i <= 5; ++i)
             {
-                ul::PerformanceProfiler perfscope3("6. 500ms", 3);
+                ul::PerformanceProfiler const perfscope3("6. 500ms", 3);
                 ul::ignore_unused(perfscope3);
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
@@ -169,3 +170,5 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario)
         "No performance measurement data.\n");
     EXPECT_EQ(0u, data.size());
 }
+
+// NOLINTEND

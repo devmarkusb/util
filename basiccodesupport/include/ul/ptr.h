@@ -86,7 +86,7 @@ public:
     not_null<T>& operator=(std::nullptr_t) = delete;
     not_null<T>& operator=(int) = delete;
 
-    T get() const
+    [[nodiscard]] T get() const
     {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
         __assume(ptr_ != nullptr); // the assume() should help the optimizer

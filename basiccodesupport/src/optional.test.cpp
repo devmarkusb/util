@@ -8,7 +8,7 @@ namespace ul = mb::ul;
 
 TEST(optTest, empty_constr)
 {
-    ul::opt<bool> b;
+    const ul::opt<bool> b;
     if (b)
         EXPECT_TRUE(false);
     else
@@ -18,7 +18,7 @@ TEST(optTest, empty_constr)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    ul::opt<const bool> bc;
+    const ul::opt<const bool> bc;
     if (bc)
         EXPECT_TRUE(false);
     else
@@ -27,7 +27,7 @@ TEST(optTest, empty_constr)
 
 TEST(optTest, none_constr)
 {
-    ul::opt<bool> b{ul::none};
+    const ul::opt<bool> b{ul::none};
     if (b)
         EXPECT_TRUE(false);
     else
@@ -37,7 +37,7 @@ TEST(optTest, none_constr)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    ul::opt<const bool> bc{ul::none};
+    const ul::opt<const bool> bc{ul::none};
     if (bc)
         EXPECT_TRUE(false);
     else
@@ -111,8 +111,8 @@ TEST(optTest, constr_assign_moves)
         EXPECT_TRUE(false);
     EXPECT_TRUE(!*b);
 
-    bool boo = true;
-    ul::opt<bool> c(boo);
+    const bool boo = true;
+    const ul::opt<bool> c(boo);
     if (c)
         EXPECT_TRUE(true);
     else
@@ -122,21 +122,21 @@ TEST(optTest, constr_assign_moves)
 
 namespace
 {
-void f_with_opt_string_arg(const ul::opt<std::string>&)
+void f_with_opt_string_arg(const ul::opt<std::string>& /*unused*/)
 {
 }
 } // namespace
 
 TEST(optTest, types)
 {
-    ul::opt<double> d = 5.2;
+    const ul::opt<double> d = 5.2;
     if (d)
         EXPECT_TRUE(true);
     else
         EXPECT_TRUE(false);
     EXPECT_DOUBLE_EQ(5.2, *d);
 
-    ul::opt<std::string> s("Hi!");
+    const ul::opt<std::string> s("Hi!");
     if (s)
         EXPECT_TRUE(true);
     else
@@ -144,15 +144,15 @@ TEST(optTest, types)
     EXPECT_EQ("Hi!", *s);
     f_with_opt_string_arg(std::string("Hi!"));
 
-    ul::opt<std::vector<int>> v({1, 2, 3});
+    const ul::opt<std::vector<int>> v({1, 2, 3});
     if (v)
         EXPECT_TRUE(true);
     else
         EXPECT_TRUE(false);
-    std::vector<int> vtest{1, 2, 3};
+    const std::vector<int> vtest{1, 2, 3};
     EXPECT_EQ(vtest, *v);
 
-    ul::opt<double*> pd = nullptr;
+    const ul::opt<double*> pd = nullptr;
     if (pd)
         EXPECT_TRUE(true);
     else
