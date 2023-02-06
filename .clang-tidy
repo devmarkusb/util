@@ -4,6 +4,7 @@ Checks: >
   -altera-struct-pack-align,
   -altera-unroll-loops,
   -bugprone-easily-swappable-parameters,
+  -cert-dcl16-c,
   -cert-dcl21-cpp,
   -cppcoreguidelines-macro-usage,
   -cppcoreguidelines-non-private-member-variables-in-classes,
