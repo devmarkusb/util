@@ -6,6 +6,7 @@ project(ulBuildEnv VERSION 0.1.0.0)
 
 ul_include(defaults.cmake)
 ul_include(gsl.cmake)
+ul_include(diagnostics.cmake)
 
 set(target ${PROJECT_NAME})
 
