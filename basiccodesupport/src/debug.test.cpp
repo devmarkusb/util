@@ -5,13 +5,13 @@
 #include "gtest/gtest.h"
 namespace
 {
-std::string g_location_info_of_f_with_some_sourcefile_location_info; // just testing, so please don't cry about global data
+std::string g_location_info_of_f_with_some_sourcefile_location_info; // NOLINT // just testing, so please don't cry about global data
 
 void f_with_some_sourcefile_location_info()
 {
     g_location_info_of_f_with_some_sourcefile_location_info = UL_LOCATION;
 }
-}
+} // namespace
 //#####!!!!! TO HERE (actually to the end of the clang format directive below) } unless you also update test UL_LOCATIONTest below! ######
 // clang-format on
 

@@ -72,18 +72,19 @@ struct Rational
     Rational(std::initializer_list<ValueType> init)
     {
         UL_EXPECT(init.size() <= 2);
-        const auto* it = init.begin();
-        if (it == init.end())
+        bool first{true};
+        for (const auto& elem : init)
         {
-            num = {};
-            return;
-        }
-        num = *it;
-        ++it;
-        if (it != init.end())
-        {
-            denom = *it;
-            UL_EXPECT(denom > 0);
+            if (first)
+            {
+                first = false;
+                num = elem;
+            }
+            else
+            {
+                denom = elem;
+                UL_EXPECT(denom > 0);
+            }
         }
     }
 
@@ -280,7 +281,7 @@ constexpr std::string_view micro_symb{"\xC2\xB5"};
 constexpr std::string_view milli_symb{"m"};
 constexpr std::string_view centi_symb{"c"};
 constexpr std::string_view deci_symb{"d"};
-constexpr std::string_view one_symb{""};
+constexpr std::string_view one_symb{};
 constexpr std::string_view deka_symb{"da"};
 constexpr std::string_view hecto_symb{"h"};
 constexpr std::string_view kilo_symb{"k"};
