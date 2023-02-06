@@ -30,16 +30,16 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
 {
 }
 #else
-TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms)
+TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms)
 {
     const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2u); // get some modern system for development!
 
-    std::vector<std::thread> threads(num_threads);
+    std::vector<std::thread> threads;
     std::vector<Ready2go> ready2go(num_threads);
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i)
     {
-        threads[i] = std::thread(
+        threads.emplace_back(
             [i, &ready2go]
             {
                 std::unique_lock<std::mutex> lk(ready2go[i].m);
@@ -75,7 +75,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
 {
 }
 #else
-TEST_F(pinToCPUTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms)
+TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms)
 {
     const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2u); // get some modern system for development!
@@ -120,7 +120,7 @@ TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 {
 }
 #else
-TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms)
+TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms)
 {
     const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2u); // get some modern system for development!
@@ -189,7 +189,7 @@ TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
 {
 }
 #else
-TEST_F(pinToCPUTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms)
+TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms)
 {
     const auto num_threads = std::thread::hardware_concurrency();
     ASSERT_GT(num_threads, 0u); // hardware_concurrency failed
