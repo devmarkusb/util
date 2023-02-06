@@ -6,29 +6,34 @@
 
 namespace ul = mb::ul;
 
+namespace
+{
+constexpr auto someNumberChoice{42};
+constexpr auto threadCount{100};
+} // namespace
+
 TEST(thread_WaitCircularBuffer, basics)
 {
     ul::thread::WaitCircularBuffer<int> q{2};
 
-    ASSERT_TRUE(q.push(42));
+    ASSERT_TRUE(q.push(someNumberChoice));
     int elem{};
     q.waitAndPop(elem);
-    EXPECT_EQ(elem, 42);
+    EXPECT_EQ(elem, someNumberChoice);
 
-    ASSERT_TRUE(q.push(43));
-    ASSERT_TRUE(q.push(44));
-    ASSERT_FALSE(q.push(45));
+    ASSERT_TRUE(q.push(someNumberChoice + 1));
+    ASSERT_TRUE(q.push(someNumberChoice + 2));
+    ASSERT_FALSE(q.push(someNumberChoice + 3));
     q.waitAndPop(elem);
-    EXPECT_EQ(elem, 43);
+    EXPECT_EQ(elem, someNumberChoice + 1);
     q.waitAndPop(elem);
-    EXPECT_EQ(elem, 44);
+    EXPECT_EQ(elem, someNumberChoice + 2);
 }
 
 TEST(thread_WaitCircularBuffer, massive_parallel)
 {
-    ul::thread::WaitCircularBuffer<int> q{100};
+    ul::thread::WaitCircularBuffer<int> q{threadCount};
     std::atomic<int> current{};
-    const size_t threadCount{100};
     std::vector<std::thread> producer(threadCount);
     for (auto& p : producer)
     {
@@ -47,7 +52,7 @@ TEST(thread_WaitCircularBuffer, massive_parallel)
                         {
                             int elem{};
                             q.waitAndPop(elem);
-                            std::lock_guard<std::mutex> lk{mutex};
+                            const std::lock_guard<std::mutex> lk{mutex};
                             EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
                             poppedValues.insert(elem);
                         }};
