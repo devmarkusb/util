@@ -16,8 +16,7 @@ public:
     {
         if (peak_)
             return peak_;
-        else
-            return std::nullopt;
+        return std::nullopt;
     }
 
 protected:
@@ -55,17 +54,17 @@ public:
     }
 
 protected:
-    static void statsCollect_currentSize(Bytes)
+    static void statsCollect_currentSize(Bytes /*unused*/)
     {
         UL_NOOP;
     }
 
-    static void statsCollect_alloc(Bytes)
+    static void statsCollect_alloc(Bytes /*unused*/)
     {
         UL_NOOP;
     }
 
-    static void statsCollect_dealloc(Bytes)
+    static void statsCollect_dealloc(Bytes /*unused*/)
     {
         UL_NOOP;
     }

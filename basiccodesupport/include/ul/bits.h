@@ -41,28 +41,28 @@ template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType set(SourceType from, Idx idx) noexcept
 {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
-    return static_cast<TargetType>(from | (TargetType{1} << idx));
+    return static_cast<TargetType>(from | (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unset(SourceType from, Idx idx) noexcept
 {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
-    return ul::narrow_cast<TargetType>(from & ~(TargetType{1} << idx));
+    return ul::narrow_cast<TargetType>(from & ~(TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType toggle(SourceType from, Idx idx) noexcept
 {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
-    return ul::narrow_cast<TargetType>(from ^ (TargetType{1} << idx));
+    return ul::narrow_cast<TargetType>(from ^ (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType check(SourceType from, Idx idx) noexcept
 {
     UL_EXPECT(idx < ul::bits::count<SourceType>());
-    return ul::narrow_cast<TargetType>((from >> idx) & TargetType{1});
+    return ul::narrow_cast<TargetType>((from >> idx) & TargetType{1}); // NOLINT
 }
 
 template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
@@ -70,7 +70,7 @@ constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noe
 {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
     const SourceType newbit = static_cast<bool>(x); // ensure 1 or 0
-    return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx)));
+    return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx))); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>

@@ -30,11 +30,11 @@ public:
     uint8_t* allocate(Bytes size)
     {
         const auto padded_size = padUp(size.value, max_alignment_in_bytes);
-        if (static_cast<decltype(padded_size)>(buf_ + capacity_in_bytes - curr_memptr_) < padded_size)
+        if (static_cast<decltype(padded_size)>(buf_ + capacity_in_bytes - curr_memptr_) < padded_size) // NOLINT
             throw std::bad_alloc{};
 
-        auto old_memptr = curr_memptr_;
-        curr_memptr_ += padded_size;
+        auto* old_memptr = curr_memptr_;
+        curr_memptr_ += padded_size; // NOLINT
 
         this->statsCollect_currentSize(this->size());
 
@@ -44,7 +44,7 @@ public:
     void deallocate(uint8_t* p, Bytes size) noexcept
     {
         size.value = padUp(size.value, max_alignment_in_bytes);
-        if (p + size.value == curr_memptr_)
+        if (p + size.value == curr_memptr_) // NOLINT
             curr_memptr_ = p;
     }
 
@@ -66,7 +66,7 @@ public:
 private:
     UL_PRAGMA_WARNINGS_PUSH
     UL_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
-    alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes]{};
+    alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes]{}; // NOLINT
     UL_PRAGMA_WARNINGS_POP
     uint8_t* curr_memptr_{buf_};
 };

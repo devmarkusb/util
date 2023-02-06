@@ -17,7 +17,7 @@ public:
         return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
-    static void deallocate(uint8_t* p, Bytes = {}) noexcept
+    static void deallocate(uint8_t* p, Bytes /*unused*/ = {}) noexcept
     {
         ::operator delete(p);
     }
