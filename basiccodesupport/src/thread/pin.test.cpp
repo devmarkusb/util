@@ -6,7 +6,9 @@
 #include <condition_variable>
 #include <mutex>
 
+#if UL_OS_LINUX
 namespace ul = mb::ul;
+#endif
 
 class pinToCPUTest : public testing::Test
 {
@@ -23,7 +25,7 @@ protected:
     }
 };
 
-#if !UL_LINUX // mac also not working yet
+#if !UL_OS_LINUX // mac also not working yet
 TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms)
 {
 }
@@ -68,7 +70,7 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms)
 }
 #endif
 
-#if !UL_LINUX // mac also not working yet
+#if !UL_OS_LINUX // mac also not working yet
 TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms)
 {
 }
@@ -113,7 +115,7 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms)
 }
 #endif
 
-#if !UL_LINUX // mac also not working yet
+#if !UL_OS_LINUX // mac also not working yet
 TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms)
 {
 }
@@ -182,7 +184,7 @@ TEST_F(pinToCPUTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
 }
 #endif
 
-#if !UL_LINUX // mac also not working yet
+#if !UL_OS_LINUX // mac also not working yet
 TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms)
 {
 }
@@ -227,7 +229,7 @@ TEST_F(pinToCPUTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms)
 }
 #endif
 
-#if !UL_LINUX // mac also not working yet
+#if !UL_OS_LINUX // mac also not working yet
 TEST_F(pinToCPUTest, DISABLED_invalidCPUNr_throws)
 {
 }
