@@ -25,17 +25,17 @@ namespace
 {
 void f_with_debug_break()
 {
-    UL_DEBUG_BREAK;
+    UL_DEBUG_BREAK; // NOLINT
 }
 
 void f_with_debug_break_if()
 {
-    UL_DEBUG_BREAK_IF(1 == 1);
+    UL_DEBUG_BREAK_IF(1 == 1); // NOLINT
 }
 
 void f_with_debug_break_if_wont()
 {
-    UL_DEBUG_BREAK_IF(1 == 0);
+    UL_DEBUG_BREAK_IF(1 == 0); // NOLINT
 }
 } // namespace
 
@@ -52,12 +52,12 @@ UL_PRAGMA_WARNINGS_POP
 
 namespace
 {
-std::string g_sig_of_f_with_some_sig; // just testing, so please don't cry about global data
+std::string g_sig_of_f_with_some_sig; // NOLINT // just testing, so please don't cry about global data
 } // namespace
 
-static const int* __cdecl f_with_some_sig(int, bool, long*, bool&)
+static const int* __cdecl f_with_some_sig(int /*unused*/, bool /*unused*/, int64_t* /*unused*/, bool& /*unused*/)
 {
-    g_sig_of_f_with_some_sig = UL_FUNCTIONSIGN;
+    g_sig_of_f_with_some_sig = UL_FUNCTIONSIGN; // NOLINT
     return nullptr;
 }
 
@@ -85,6 +85,6 @@ TEST(UL_FUNCTIONSIGNTest, test)
 TEST(UL_LOCATIONTest, test)
 {
     f_with_some_sourcefile_location_info();
-    size_t pos = g_location_info_of_f_with_some_sourcefile_location_info.find("debug.test.cpp (12)");
+    const size_t pos = g_location_info_of_f_with_some_sourcefile_location_info.find("debug.test.cpp (12)");
     EXPECT_NE(std::string::npos, pos);
 }
