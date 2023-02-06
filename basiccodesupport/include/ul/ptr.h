@@ -89,7 +89,7 @@ public:
     T get() const
     {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
-        __assume(ptr != nullptr); // the assume() should help the optimizer
+        __assume(ptr_ != nullptr); // the assume() should help the optimizer
 #endif
         return ptr_;
     }
