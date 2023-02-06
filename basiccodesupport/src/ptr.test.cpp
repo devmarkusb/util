@@ -7,7 +7,7 @@ namespace ul = mb::ul;
 TEST(ownerTest, Test)
 {
     // just a compile check
-    ul::owner<int*> po = new int;
+    ul::owner<int*> po = new int; // NOLINT
     int* non_owning = po;
     ul::ignore_unused(non_owning);
     delete po;

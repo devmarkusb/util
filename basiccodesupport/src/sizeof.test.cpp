@@ -10,7 +10,7 @@ struct Empty
 
 struct S
 {
-    int8_t a[13];
+    int8_t a[13]; // NOLINT
 };
 } // namespace
 

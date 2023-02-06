@@ -16,7 +16,7 @@ void toBeCalled(T... t)
 }
 
 template <int... Is>
-void caller_impl(const std::array<int, 3>& theArray, ul::idx::seq<Is...>)
+void caller_impl(const std::array<int, 3>& theArray, ul::idx::seq<Is...> /*unused*/)
 {
     toBeCalled(theArray[Is]...);
 }
@@ -24,7 +24,7 @@ void caller_impl(const std::array<int, 3>& theArray, ul::idx::seq<Is...>)
 
 TEST(idx_seq, array)
 {
-    std::array<int, 3> arr{1, 2, 3};
+    const std::array<int, 3> arr{1, 2, 3};
 
     test_int::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
 }
@@ -41,7 +41,7 @@ void toBeCalled(T... t)
 }
 
 template <int... Is>
-void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::seq<Is...>)
+void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::seq<Is...> /*unused*/)
 {
     toBeCalled(theArray[Is]...);
 }
@@ -49,7 +49,7 @@ void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::seq<Is...>)
 
 TEST(idx_seq, array_size_t)
 {
-    std::array<size_t, 3> arr{1, 2, 3};
+    const std::array<size_t, 3> arr{1, 2, 3};
 
     test_size_t::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
 }

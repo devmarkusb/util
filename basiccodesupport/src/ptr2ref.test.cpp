@@ -5,7 +5,8 @@ namespace ul = mb::ul;
 
 TEST(ptr2refTest, test)
 {
-    int i = 5;
+    constexpr auto someNr{5};
+    int i = someNr;
     int* pi = &i;
     int& refi = ul::ptr2Ref(pi);
     EXPECT_TRUE(&refi == pi);
