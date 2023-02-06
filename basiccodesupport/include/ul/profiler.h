@@ -236,6 +236,7 @@ struct KeyData
 };
 } // namespace impl_dump_all_items
 
+// NOLINTBEGIN
 template <PerformanceProfiler::DumpFormat fmt>
 std::string PerformanceProfiler::dumpAllItems()
 {
@@ -336,6 +337,8 @@ std::string PerformanceProfiler::dumpAllItems()
     return ret.str();
 }
 
+// NOLINTEND
+
 inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d)
 {
     std::stringstream ret;
@@ -345,6 +348,7 @@ inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d)
         d_ = -d_;
         ret << '-';
     }
+    // NOLINTBEGIN
     if (d_ == 0.0 || d_ < 0.000000000099995) // 0.0000000001
         ret << std::setprecision(2) << std::fixed << ul::math::round(d_ * 1000000000000.0, 2) << " ps";
     else if (d_ < 0.000000099995) // 0.0000001
@@ -366,6 +370,7 @@ inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d)
             << std::fixed << floor(fmod(d_, 60.0));
     else
         ret << ">= 100 h";
+    // NOLINTEND
     return ret.str();
 }
 

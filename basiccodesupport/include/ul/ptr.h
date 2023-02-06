@@ -47,14 +47,14 @@ class not_null
 
 public:
     /*implicit*/ not_null(T t)
-        : ptr(t)
+        : ptr_(t)
     {
         ensure_invariant();
     }
 
     not_null& operator=(const T& t)
     {
-        this->ptr = t;
+        this->ptr_ = t;
         ensure_invariant();
         return *this;
     }
@@ -76,7 +76,7 @@ public:
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
     not_null& operator=(const not_null<U>& other)
     {
-        this->ptr = other.get();
+        this->ptr_ = other.get();
         return *this;
     }
 
@@ -91,7 +91,7 @@ public:
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
         __assume(ptr != nullptr); // the assume() should help the optimizer
 #endif
-        return ptr;
+        return ptr_;
     }
 
     /*implicit*/ operator T() const
@@ -106,7 +106,7 @@ public:
 
     bool operator==(const T& rhs) const
     {
-        return this->ptr == rhs;
+        return this->ptr_ == rhs;
     }
 
     bool operator!=(const T& rhs) const
@@ -126,13 +126,13 @@ public:
     not_null<T>& operator-=(size_t) = delete;
 
 private:
-    T ptr;
+    T ptr_;
 
     // we assume that the compiler can hoist/prove away most of the checks inlined from this function
     // if not, we could make them optional via conditional compilation
     void ensure_invariant() const
     {
-        UL_EXPECT_THROW(this->ptr != nullptr);
+        UL_EXPECT_THROW(this->ptr_ != nullptr);
     }
 };
 } // namespace mb::ul

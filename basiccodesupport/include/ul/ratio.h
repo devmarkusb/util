@@ -72,7 +72,7 @@ struct Rational
     Rational(std::initializer_list<ValueType> init)
     {
         UL_EXPECT(init.size() <= 2);
-        auto it = init.begin();
+        const auto* it = init.begin();
         if (it == init.end())
         {
             num = {};
@@ -88,7 +88,7 @@ struct Rational
     }
 
     template <intmax_t N, intmax_t D>
-    explicit constexpr Rational(std::ratio<N, D>)
+    explicit constexpr Rational(std::ratio<N, D> /*unused*/)
         : num{N}
         , denom{D}
     {
@@ -117,7 +117,7 @@ struct Rational
     template <typename T>
     [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type asFloatingPoint() const
     {
-        return T(this->num) / T(this->denom);
+        return static_cast<T>(this->num) / static_cast<T>(this->denom);
     }
 
     void reduce()
@@ -253,30 +253,24 @@ inline bool operator>=(const Rational& lhs, const Rational& rhs)
     return !operator<(lhs, rhs);
 }
 
-//todo just use constexpr here
-#if UL_HAS_NO_CONSTEXPR_STD_RATIO
-#define UL_TEMPCONSTEXPR
-#else
-#define UL_TEMPCONSTEXPR constexpr
-#endif
 // clang-format off
-UL_TEMPCONSTEXPR const Rational atto  {std::atto{}};
-UL_TEMPCONSTEXPR const Rational femto {std::femto{}};
-UL_TEMPCONSTEXPR const Rational pico  {std::pico{}};
-UL_TEMPCONSTEXPR const Rational nano  {std::nano{}};
-UL_TEMPCONSTEXPR const Rational micro {std::micro{}};
-UL_TEMPCONSTEXPR const Rational milli {std::milli{}};
-UL_TEMPCONSTEXPR const Rational centi {std::centi{}};
-UL_TEMPCONSTEXPR const Rational deci  {std::deci{}};
-UL_TEMPCONSTEXPR const Rational one   {std::ratio<1, 1>{}};
-UL_TEMPCONSTEXPR const Rational deca  {std::deca{}};
-UL_TEMPCONSTEXPR const Rational hecto {std::hecto{}};
-UL_TEMPCONSTEXPR const Rational kilo  {std::kilo{}};
-UL_TEMPCONSTEXPR const Rational mega  {std::mega{}};
-UL_TEMPCONSTEXPR const Rational giga  {std::giga{}};
-UL_TEMPCONSTEXPR const Rational tera  {std::tera{}};
-UL_TEMPCONSTEXPR const Rational peta  {std::peta{}};
-UL_TEMPCONSTEXPR const Rational exa   {std::exa{}};
+constexpr const Rational atto  {std::atto{}};
+constexpr const Rational femto {std::femto{}};
+constexpr const Rational pico  {std::pico{}};
+constexpr const Rational nano  {std::nano{}};
+constexpr const Rational micro {std::micro{}};
+constexpr const Rational milli {std::milli{}};
+constexpr const Rational centi {std::centi{}};
+constexpr const Rational deci  {std::deci{}};
+constexpr const Rational one   {std::ratio<1, 1>{}};
+constexpr const Rational deca  {std::deca{}};
+constexpr const Rational hecto {std::hecto{}};
+constexpr const Rational kilo  {std::kilo{}};
+constexpr const Rational mega  {std::mega{}};
+constexpr const Rational giga  {std::giga{}};
+constexpr const Rational tera  {std::tera{}};
+constexpr const Rational peta  {std::peta{}};
+constexpr const Rational exa   {std::exa{}};
 
 const std::string  atto_symb = "a";
 const std::string femto_symb = "f";
@@ -296,16 +290,15 @@ const std::string  tera_symb = "T";
 const std::string  peta_symb = "P";
 const std::string   exa_symb = "E";
 
-UL_TEMPCONSTEXPR const Rational one_twelveth     {std::ratio<1, 12>{}};
-UL_TEMPCONSTEXPR const Rational one_seventh      {std::ratio<1, 7>{}};
-UL_TEMPCONSTEXPR const Rational one_twentyfourth {std::ratio<1, 24>{}};
-UL_TEMPCONSTEXPR const Rational one_sixtyth      {std::ratio<1, 60>{}};
-UL_TEMPCONSTEXPR const Rational sixtytimes       {std::ratio<60, 1>{}};
-UL_TEMPCONSTEXPR const Rational twentyfourtimes  {std::ratio<24, 1>{}};
-UL_TEMPCONSTEXPR const Rational seventimes       {std::ratio<7, 1>{}};
-UL_TEMPCONSTEXPR const Rational twelvetimes      {std::ratio<12, 1>{}};
+constexpr const Rational one_twelveth     {std::ratio<1, 12>{}};
+constexpr const Rational one_seventh      {std::ratio<1, 7>{}};
+constexpr const Rational one_twentyfourth {std::ratio<1, 24>{}};
+constexpr const Rational one_sixtyth      {std::ratio<1, 60>{}};
+constexpr const Rational sixtytimes       {std::ratio<60, 1>{}};
+constexpr const Rational twentyfourtimes  {std::ratio<24, 1>{}};
+constexpr const Rational seventimes       {std::ratio<7, 1>{}};
+constexpr const Rational twelvetimes      {std::ratio<12, 1>{}};
 // clang-format on
-#undef UL_TEMPCONSTEXPR
 } // namespace mb::ul::math
 
 UL_HEADER_END
