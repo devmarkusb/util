@@ -9,7 +9,7 @@ UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_CLANG(reserved-id-macro)
 UL_WARNING_DISABLE_CLANG(unused-macros)
 // clang-format on
-#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES // NOLINT
 #include <cmath> // needs to be the first include for the upper macro to work
 #undef _USE_MATH_DEFINES
 UL_PRAGMA_WARNINGS_POP
@@ -33,6 +33,8 @@ TEST(math_constsTest, test)
 }
 
 #undef M_PI // anyway
+
+// NOLINTBEGIN
 
 TEST(math_isPowerOfTwo, some)
 {
@@ -168,3 +170,5 @@ TEST(math_nextGreaterOrEqPow2, some)
     EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(9) == 16);
     EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(10) == 16);
 }
+
+// NOLINTEND

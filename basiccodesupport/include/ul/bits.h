@@ -82,7 +82,7 @@ constexpr TargetType setMask(SourceType from, SourceType mask) noexcept
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept
 {
-    return ul::narrow_cast<TargetType>(from & ~mask);
+    return ul::narrow_cast<TargetType>(from & ~mask); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
@@ -116,7 +116,7 @@ constexpr TargetType setRange(Idx idx, Count count) noexcept
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
 
     return static_cast<TargetType>(
-        ((TargetType{1} << static_cast<TargetType>(count)) - 1) << static_cast<TargetType>(idx));
+        ((TargetType{1} << static_cast<TargetType>(count)) - 1) << static_cast<TargetType>(idx)); // NOLINT
 }
 
 //! Reads count > 0 bits of from starting at 0-based index idx (0 is LSB).
@@ -127,7 +127,7 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
 
-    return (from & ul::bits::setRange<SourceType>(idx, count)) >> idx;
+    return (from & ul::bits::setRange<SourceType>(idx, count)) >> idx; // NOLINT
 }
 
 //! Like read. But here you can also opt for a different target type.
@@ -140,7 +140,7 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
     UL_EXPECT(count <= ul::bits::count<TargetType>());
 
-    return static_cast<TargetType>((from & ul::bits::setRange<SourceType>(idx, count)) >> idx);
+    return static_cast<TargetType>((from & ul::bits::setRange<SourceType>(idx, count)) >> idx); // NOLINT
 }
 
 //! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
@@ -152,7 +152,7 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
     UL_EXPECT(count <= ul::bits::count<SourceType>());
 
-    return static_cast<TargetType>((to & (~ul::bits::setRange(idx, count))) | (from << idx));
+    return static_cast<TargetType>((to & (~ul::bits::setRange(idx, count))) | (from << idx)); // NOLINT
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
@@ -166,14 +166,14 @@ public:
     {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array_[N(idx)] |= partBit(I(idx));
+        array_[N(idx)] |= partBit(I(idx)); // NOLINT
     }
 
     void reset(Idx idx) noexcept
     {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array_[N(idx)] &= ~partBit(I(idx));
+        array_[N(idx)] &= ~partBit(I(idx)); // NOLINT
     }
 
     void reset() noexcept
@@ -185,7 +185,7 @@ public:
     {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        return array_[N(idx)] & partBit(I(idx));
+        return array_[N(idx)] & partBit(I(idx)); // NOLINT
     }
 
 private:
@@ -205,7 +205,7 @@ private:
 
     [[nodiscard]] BaseType partBit(Idx n) const noexcept
     {
-        return static_cast<BaseType>(BaseType{1} << n);
+        return static_cast<BaseType>(BaseType{1} << n); // NOLINT
     }
 
     template <Count bits_, typename BaseType_>
@@ -270,17 +270,17 @@ public:
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
         data_ = write<BitDataType, SourceDataType>(
-            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_], value);
+            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_], value); // NOLINT
     }
 
     template <typename TargetDataType = BitDataType>
-    constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
+    [[nodiscard]] constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
     {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
         return readAndCast<TargetDataType, BitDataType>(
-            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_]);
+            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_]); // NOLINT
     }
 
 private:
@@ -330,7 +330,7 @@ public:
     }
 
     template <typename TargetDataType = BitDataType>
-    constexpr TargetDataType get(EnumType field) const noexcept
+    [[nodiscard]] constexpr TargetDataType get(EnumType field) const noexcept
     {
         return raw_.template get<TargetDataType>(fieldsLookup_, field);
     }

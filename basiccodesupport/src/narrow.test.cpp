@@ -5,6 +5,8 @@
 
 namespace ul = mb::ul;
 
+// NOLINTBEGIN
+
 TEST(NarrowTest, Cast)
 {
     EXPECT_TRUE(static_cast<long>(ul::narrow_cast<unsigned char>(42l)) == 42l);
@@ -54,3 +56,5 @@ TEST(NarrowTest, floating_point)
     const auto d = ul::narrow_cast<double>(2.0L);
     EXPECT_EQ(static_cast<double>(2.0L), d);
 }
+
+// NOLINTEND
