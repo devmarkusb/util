@@ -67,12 +67,12 @@ TEST(UL_FUNCTIONSIGNTest, test)
     f_with_some_sig(1, false, nullptr, b);
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
     EXPECT_TRUE(
-        "const int *__cdecl f_with_some_sig(int,bool,long *,bool &)" == g_sig_of_f_with_some_sig
-        || "const int *__cdecl f_with_some_sig(int, bool, long *, bool &)" == g_sig_of_f_with_some_sig);
+        "const int *__cdecl f_with_some_sig(int,bool,int64_t *,bool &)" == g_sig_of_f_with_some_sig
+        || "const int *__cdecl f_with_some_sig(int, bool, int64_t *, bool &)" == g_sig_of_f_with_some_sig);
 #elif UL_COMP_CLANG
-    EXPECT_EQ("const int *f_with_some_sig(int, bool, long *, bool &)", g_sig_of_f_with_some_sig);
+    EXPECT_EQ("const int *f_with_some_sig(int, bool, int64_t *, bool &)", g_sig_of_f_with_some_sig);
 #elif UL_COMP_GNU_CPP || UL_COMP_MINGW
-    EXPECT_EQ("const int* f_with_some_sig(int, bool, long int*, bool&)", g_sig_of_f_with_some_sig);
+    EXPECT_EQ("const int* f_with_some_sig(int, bool, int64_t*, bool&)", g_sig_of_f_with_some_sig);
 #elif UL_COMP_INTEL
     EXPECT_EQ("f_with_some_sig", g_sig_of_f_with_some_sig); // untested, don't know, what the compiler spits out
 #elif UL_COMP_BORLAND_CPP
