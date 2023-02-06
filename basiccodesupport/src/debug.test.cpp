@@ -66,6 +66,7 @@ TEST(UL_FUNCTIONSIGNTest, test)
     bool b = false;
     f_with_some_sig(1, false, nullptr, b);
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
+    std::cout << "g_sig_of_f_with_some_sig: " << g_sig_of_f_with_some_sig;
     EXPECT_TRUE(
         "const int *__cdecl f_with_some_sig(int,bool,int64_t *,bool &)" == g_sig_of_f_with_some_sig
         || "const int *__cdecl f_with_some_sig(int, bool, int64_t *, bool &)" == g_sig_of_f_with_some_sig);
