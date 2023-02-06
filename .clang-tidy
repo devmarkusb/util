@@ -31,6 +31,7 @@ Checks: >
   -readability-braces-around-statements,
   -readability-identifier-length,
   -readability-implicit-bool-conversion,
+  -readability-function-cognitive-complexity,
   -readability-uppercase-literal-suffix
 
 WarningsAsErrors: "*"
