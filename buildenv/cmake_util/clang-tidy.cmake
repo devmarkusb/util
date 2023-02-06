@@ -8,8 +8,10 @@ if (NOT UL_CLANGTIDY)
     return()
 endif()
 
-if (NOT EXISTS ${PROJECT_SOURCE_DIR}/.clang_tidy)
-    file(COPY ${CMAKE_CURRENT_LIST_DIR}/clangtidy/.clang-tidy DESTINATION ${PROJECT_SOURCE_DIR}/)
+set(projsrc ${PROJECT_SOURCE_DIR})
+set(currlst ${CMAKE_CURRENT_LIST_DIR})
+if (NOT EXISTS ${projsrc}/.clang_tidy)
+    file(COPY ${currlst}/clangtidy/.clang-tidy DESTINATION ${projsrc}/)
 endif()
 
 # just a preferred version

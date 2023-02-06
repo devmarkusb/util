@@ -54,6 +54,8 @@ TEST(math_sgnTest, Hex)
     EXPECT_EQ(-1, ul::math::sgn(-1L));
 }
 
+// NOLINTBEGIN
+
 TEST(math_is_power_ofTest, simple)
 {
     EXPECT_EQ(2, *ul::math::isPowerOf(100, 10));
@@ -84,3 +86,5 @@ TEST(math_is_power_ofTest, corners)
 
     EXPECT_DOUBLE_EQ(-1.0, *ul::math::isPowerOf(0.25, 4.0));
 }
+
+// NOLINTEND

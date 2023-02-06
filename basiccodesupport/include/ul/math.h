@@ -26,7 +26,7 @@ template <typename NumberType>
 constexpr bool isPowerOfTwo(NumberType number) noexcept
 {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
-    return number && ((number & (number - 1)) == 0);
+    return number && ((number & (number - 1)) == 0); // NOLINT
 }
 
 #if !UL_COMP_MS_VISUAL_STUDIO_CPP

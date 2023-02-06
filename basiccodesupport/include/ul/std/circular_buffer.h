@@ -27,7 +27,7 @@ template <typename T, size_t staticCapacity>
 class Array
 {
 protected:
-    std::array<T, staticCapacity> buf_;
+    std::array<T, staticCapacity> buf_{};
 
     template <typename T_, typename Buffer>
     void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
@@ -95,7 +95,7 @@ public:
         if (full_)
             tail_ = (tail_ + 1) % capacity();
 
-        Base::buf_[head_] = std::forward<T_>(item);
+        Base::buf_[head_] = std::forward<T_>(item); // NOLINT
 
         head_ = (head_ + 1) % capacity();
 
@@ -134,7 +134,7 @@ public:
         if (empty())
             return false;
 
-        poppedItem = Base::buf_[tail_];
+        poppedItem = Base::buf_[tail_]; // NOLINT
         full_ = false;
         tail_ = (tail_ + 1) % capacity();
 

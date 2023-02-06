@@ -4,6 +4,12 @@
 
 namespace ul = mb::ul;
 
+namespace
+{
+constexpr auto someNumberChoice{42};
+constexpr auto someOtherNumberChoice{46};
+} // namespace
+
 TEST(CircularBuffer, construction)
 {
     ul::CircularBuffer<int> cb{3};
@@ -29,7 +35,7 @@ TEST(CircularBuffer, construction)
 TEST(CircularBuffer, push)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
+    cb.push(someNumberChoice);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -38,7 +44,7 @@ TEST(CircularBuffer, push)
 TEST(CircularBuffer, emplace)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.emplace(42);
+    cb.emplace(someNumberChoice);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -47,7 +53,7 @@ TEST(CircularBuffer, emplace)
 TEST(CircularBuffer, reset)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
+    cb.push(someNumberChoice);
     cb.reset();
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
@@ -57,10 +63,10 @@ TEST(CircularBuffer, reset)
 TEST(CircularBuffer, pop)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
+    cb.push(someNumberChoice);
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -69,10 +75,10 @@ TEST(CircularBuffer, pop)
 TEST(CircularBuffer, front)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
+    cb.push(someNumberChoice);
     int item{};
     ASSERT_TRUE(cb.tryFront(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -84,10 +90,10 @@ TEST(CircularBuffer, front)
 TEST(CircularBuffer, pop_toomuch)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
+    cb.push(someNumberChoice);
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     ASSERT_FALSE(cb.tryPop(item));
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
@@ -97,16 +103,16 @@ TEST(CircularBuffer, pop_toomuch)
 TEST(CircularBuffer, push_until_full_and_pop)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 }
@@ -114,9 +120,9 @@ TEST(CircularBuffer, push_until_full_and_pop)
 TEST(CircularBuffer, push_until_full_and_reset)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
@@ -130,24 +136,24 @@ TEST(CircularBuffer, push_until_full_and_reset)
 TEST(CircularBuffer, push_until_overflow_and_pop)
 {
     ul::CircularBuffer<int> cb{3};
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 43);
+    EXPECT_EQ(item, someNumberChoice + 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 44);
+    EXPECT_EQ(item, someNumberChoice + 2);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -208,29 +214,29 @@ TEST(CircularBuffer, doublebuffer_maxsize_2)
     ul::CircularBuffer<int> cb{2};
     EXPECT_EQ(cb.capacity(), 2);
     EXPECT_EQ(cb.size(), 0);
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 2);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 44);
+    EXPECT_EQ(item, someNumberChoice + 2);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
 
-    cb.push(46);
+    cb.push(someOtherNumberChoice);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 46);
+    EXPECT_EQ(item, someOtherNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -241,17 +247,17 @@ TEST(CircularBuffer, pathological_maxsize_1)
     ul::CircularBuffer<int> cb{1};
     EXPECT_EQ(cb.capacity(), 1);
     EXPECT_EQ(cb.size(), 0);
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -261,9 +267,9 @@ TEST(CircularBuffer, pathological_maxsize_1)
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
 
-    cb.push(46);
+    cb.push(someOtherNumberChoice);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 46);
+    EXPECT_EQ(item, someOtherNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -329,7 +335,7 @@ TEST(CircularBuffer_compiletime, construction)
 TEST(CircularBuffer_compiletime, push)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
+    cb.push(someNumberChoice);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -338,7 +344,7 @@ TEST(CircularBuffer_compiletime, push)
 TEST(CircularBuffer_compiletime, reset)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
+    cb.push(someNumberChoice);
     cb.reset();
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
@@ -348,10 +354,10 @@ TEST(CircularBuffer_compiletime, reset)
 TEST(CircularBuffer_compiletime, pop)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
+    cb.push(someNumberChoice);
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -360,10 +366,10 @@ TEST(CircularBuffer_compiletime, pop)
 TEST(CircularBuffer_compiletime, pop_toomuch)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
+    cb.push(someNumberChoice);
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     ASSERT_FALSE(cb.tryPop(item));
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
@@ -373,16 +379,16 @@ TEST(CircularBuffer_compiletime, pop_toomuch)
 TEST(CircularBuffer_compiletime, push_until_full_and_pop)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 42);
+    EXPECT_EQ(item, someNumberChoice);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 }
@@ -390,9 +396,9 @@ TEST(CircularBuffer_compiletime, push_until_full_and_pop)
 TEST(CircularBuffer_compiletime, push_until_full_and_reset)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
@@ -406,24 +412,24 @@ TEST(CircularBuffer_compiletime, push_until_full_and_reset)
 TEST(CircularBuffer_compiletime, push_until_overflow_and_pop)
 {
     ul::CircularBuffer<int, 3> cb;
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 3);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 43);
+    EXPECT_EQ(item, someNumberChoice + 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 44);
+    EXPECT_EQ(item, someNumberChoice + 2);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -461,29 +467,29 @@ TEST(CircularBuffer_compiletime, doubleBuffer_compiletime_maxsize_2)
     ul::CircularBuffer<int, 2> cb;
     EXPECT_EQ(cb.capacity(), 2);
     EXPECT_EQ(cb.size(), 0);
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 2);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 44);
+    EXPECT_EQ(item, someNumberChoice + 2);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(!cb.full());
 
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
 
-    cb.push(46);
+    cb.push(someOtherNumberChoice);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 46);
+    EXPECT_EQ(item, someOtherNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -494,17 +500,17 @@ TEST(CircularBuffer_compiletime, pathological_maxsize_1)
     ul::CircularBuffer<int, 1> cb;
     EXPECT_EQ(cb.capacity(), 1);
     EXPECT_EQ(cb.size(), 0);
-    cb.push(42);
-    cb.push(43);
-    cb.push(44);
-    cb.push(45);
+    cb.push(someNumberChoice);
+    cb.push(someNumberChoice + 1);
+    cb.push(someNumberChoice + 2);
+    cb.push(someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 1);
     EXPECT_TRUE(!cb.empty());
     EXPECT_TRUE(cb.full());
 
     int item{};
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 45);
+    EXPECT_EQ(item, someNumberChoice + 3);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
@@ -514,9 +520,9 @@ TEST(CircularBuffer_compiletime, pathological_maxsize_1)
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());
 
-    cb.push(46);
+    cb.push(someOtherNumberChoice);
     ASSERT_TRUE(cb.tryPop(item));
-    EXPECT_EQ(item, 46);
+    EXPECT_EQ(item, someOtherNumberChoice);
     EXPECT_EQ(cb.size(), 0);
     EXPECT_TRUE(cb.empty());
     EXPECT_TRUE(!cb.full());

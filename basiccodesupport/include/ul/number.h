@@ -45,7 +45,7 @@ unsigned char getDigitCount(T Number, ENumSys Base = ENumSys::DEC)
 template <typename T>
 int sgn(T val)
 {
-    return (T(0) < val) - (val < T(0));
+    return (static_cast<T>(0) < val) - (val < static_cast<T>(0));
 }
 
 template <typename T>
