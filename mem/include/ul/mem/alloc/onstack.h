@@ -55,7 +55,7 @@ public:
 
     [[nodiscard]] Bytes size() const noexcept
     {
-        return Bytes{static_cast<size_t>(curr_memptr_ - buf_)};
+        return Bytes{static_cast<size_t>(curr_memptr_ - buf_)}; // NOLINT
     }
 
     void reset() noexcept
@@ -68,7 +68,7 @@ private:
     UL_WARNING_DISABLE_MSVC(4324) // structure was padded due to __declspec(align())
     alignas(max_alignment_in_bytes) uint8_t buf_[capacity_in_bytes]{}; // NOLINT
     UL_PRAGMA_WARNINGS_POP
-    uint8_t* curr_memptr_{buf_};
+    uint8_t* curr_memptr_{buf_}; // NOLINT
 };
 } // namespace mb::ul::mem::alloc
 
