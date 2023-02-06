@@ -6,6 +6,11 @@
 
 namespace ul = mb::ul;
 
+namespace
+{
+constexpr auto threadCount{100};
+} // namespace
+
 TEST(thread_WaitQueue, basics)
 {
     ul::thread::WaitQueue<int> q{2};
@@ -26,9 +31,8 @@ TEST(thread_WaitQueue, basics)
 
 TEST(thread_WaitQueue, massive_parallel)
 {
-    ul::thread::WaitQueue<int> q{100};
+    ul::thread::WaitQueue<int> q{threadCount};
     std::atomic<int> current{};
-    const size_t threadCount{100};
     std::vector<std::thread> producer(threadCount);
     for (auto& p : producer)
     {
@@ -47,7 +51,7 @@ TEST(thread_WaitQueue, massive_parallel)
                         {
                             int elem{};
                             q.waitAndPop(elem);
-                            std::lock_guard<std::mutex> lk{mutex};
+                            const std::lock_guard<std::mutex> lk{mutex};
                             EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
                             poppedValues.insert(elem);
                         }};

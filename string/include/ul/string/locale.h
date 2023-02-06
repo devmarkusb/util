@@ -53,19 +53,19 @@ struct set_global_locale_scoped
 {
     explicit set_global_locale_scoped(const std::string& locname)
     {
-        this->backup = set_global_locale(locname);
+        this->backup_ = set_global_locale(locname);
     }
 
     explicit set_global_locale_scoped(Global_locale gl)
     {
-        this->backup = set_global_locale(gl);
+        this->backup_ = set_global_locale(gl);
     }
 
     ~set_global_locale_scoped() noexcept
     {
         try
         {
-            set_global_locale(this->backup);
+            set_global_locale(this->backup_);
         }
         catch (...)
         {
@@ -81,11 +81,11 @@ struct set_global_locale_scoped
 
     [[nodiscard]] std::locale get_original_locale() const
     {
-        return this->backup;
+        return this->backup_;
     }
 
 private:
-    std::locale backup;
+    std::locale backup_;
 };
 } // namespace mb::ul
 

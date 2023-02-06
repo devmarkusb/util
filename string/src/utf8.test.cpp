@@ -45,20 +45,20 @@ struct char_encoding_fileTest : public ::testing::Test
 
     void SetUp() override
     {
-        filePathNameExt = "i_can_be_deleted__temp_txt_file_";
-        filePathNameExt += char_encoding_fileTest::counter++;
-        filePathNameExt += ".txt";
+        filePathNameExt_ = "i_can_be_deleted__temp_txt_file_";
+        filePathNameExt_ += char_encoding_fileTest::counter_++;
+        filePathNameExt_ += ".txt";
     }
 
     void write_file(const std::string& text)
     {
-        saveToTextFile(filePathNameExt, text);
+        saveToTextFile(filePathNameExt_, text);
     }
 
     std::string read_file()
     {
         std::string ret;
-        loadFromTextFile(filePathNameExt, ret);
+        loadFromTextFile(filePathNameExt_, ret);
         return ret;
     }
 
@@ -69,18 +69,18 @@ struct char_encoding_fileTest : public ::testing::Test
 
     void TearDown() override
     {
-        int ret = std::remove(filePathNameExt.c_str());
+        const int ret = std::remove(filePathNameExt_.c_str());
         ASSERT_EQ(0, ret);
     }
 
     ~char_encoding_fileTest() override = default;
 
 private:
-    std::string filePathNameExt;
-    static char counter;
+    std::string filePathNameExt_;
+    static char counter_;
 };
 
-char char_encoding_fileTest::counter{'a'};
+char char_encoding_fileTest::counter_{'a'};
 
 TEST_F(char_encoding_fileTest, ASCII)
 {
@@ -139,11 +139,11 @@ TEST(consoleTest, utf8_to_utf16)
     std::u16string utf16to;
     utf8::utf8to16(s.begin(), s.end(), std::back_inserter(utf16to));
 
-    std::wstring ws(utf16to.begin(), utf16to.end());
+    const std::wstring ws(utf16to.begin(), utf16to.end());
 
     // Cf. locale.test.cpp #locale_facet-exception for explanation.
 #if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
-    ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
+    const ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
 #endif
     std::wcout << ws << L"\n";
     std::cout << s << "\n";

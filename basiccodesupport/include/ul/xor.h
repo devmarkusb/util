@@ -20,13 +20,13 @@ bool XNOR(const T1& lhs, const T2& rhs)
 template <typename T1>
 bool XNOR(const T1& lhs, const std::nullptr_t& /*pass_nullptr*/)
 {
-    return !lhs == true;
+    return !lhs;
 }
 
 template <typename T2>
 bool XNOR(const std::nullptr_t& /*pass_nullptr*/, const T2& rhs)
 {
-    return true == !rhs;
+    return !rhs;
 }
 
 //!@}
