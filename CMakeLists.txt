@@ -12,6 +12,7 @@ configure_file(
         @ONLY)
 
 ul_include(clang-tidy.cmake)
+ul_include(cppcheck.cmake)
 
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
@@ -22,8 +23,6 @@ add_subdirectory(util)
 
 ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
-
-#ul_include(cppcheck.cmake)
 
 set(dirs_to_doc README.md basiccodesupport buildenv linklib mem string util)
 ul_include(doxygen.cmake)
