@@ -19,8 +19,10 @@ set(CLANGTIDY_VER 15)
 
 find_program(CLANGTIDY_EXE NAMES clang-tidy-${CLANGTIDY_VER} clang-tidy)
 
+# For all the options see .clang-tidy file. There you can also specify something like
+# HeaderFilter: "^.*(?:_deps).*"gm
+# which seems to work there but not here.
 if (CLANGTIDY_EXE)
     set(CMAKE_CXX_CLANG_TIDY
-            ${CLANGTIDY_EXE};
-            -header-filter=.*;)
+            ${CLANGTIDY_EXE};)
 endif()
