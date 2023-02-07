@@ -69,6 +69,7 @@ TEST(alloc_OnStack, padding)
     p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
     ul::ignore_unused(p);
     p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    ul::ignore_unused(p);
 
     EXPECT_EQ(a.size(), Bytes{16});
 
