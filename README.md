@@ -1,5 +1,9 @@
 # util library (ul)
 [![build](https://github.com/devmarkusb/util/actions/workflows/build.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/build.yml)
+[![clang-tidy-review](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml)
+[![Codacy Security Scan](https://github.com/devmarkusb/util/actions/workflows/codacy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codacy.yml)
+[![CodeQL](https://github.com/devmarkusb/util/actions/workflows/codeql.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codeql.yml)
+[![Checkmarx Scan](https://github.com/devmarkusb/util/actions/workflows/checkmarx-one.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/checkmarx-one.yml)
 
 A personal library serving purposes that come right
 after or next to std.
