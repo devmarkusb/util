@@ -8,7 +8,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-shift-sign-overflow
             -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused
             -Wno-disabled-macro-expansion -Wno-missing-prototypes
-            -Wno-extra-semi-stmt -Wno-comma)
+            -Wno-extra-semi-stmt -Wno-comma
+            -Wno-reserved-identifier)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(UL_gtest_compile_options
             /wd4389)

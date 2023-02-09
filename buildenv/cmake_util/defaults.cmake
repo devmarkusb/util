@@ -4,6 +4,8 @@
 
 cmake_minimum_required(VERSION 3.15)
 
+include_guard(GLOBAL)
+
 # to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
 include(CMakePrintHelpers)
 include(GoogleTest)
@@ -25,6 +27,10 @@ include(${CMAKE_CURRENT_LIST_DIR}/builddir_cfg.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
+
+include(${CMAKE_CURRENT_LIST_DIR}/clang-tidy.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cppcheck.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
 
 set(UL_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
@@ -72,50 +78,28 @@ endif ()
 
 ### general ###
 
-set(cpp_compile_options)
-set(c_compile_options)
-
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(cpp_compile_options
-            -fext-numeric-literals
-            # introduced for gperftools, but shouldn't do any harm generally
-            -fno-omit-frame-pointer
-            -fno-builtin)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
+    # introduced for gperftools, but shouldn't do any harm generally
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # nothing yet
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(cpp_compile_options
-            -fno-limit-debug-info
-            -fno-builtin)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-limit-debug-info")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin")
 endif ()
-
 
 ### warnings ###
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(cpp_compile_options
-            ${cpp_compile_options}
-            -Wall -Wextra -Wconversion -Werror)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(cpp_compile_options
-            ${cpp_compile_options}
-            /W4)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(cpp_compile_options
-            ${cpp_compile_options}
-            -Wall -Wextra -Wconversion -Werror
-            -Wmissing-prototypes
-            -Wno-c++11-narrowing
-            -Wdocumentation
-    )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror \
+-Wmissing-prototypes -Wno-c++11-narrowing -Wdocumentation")
 endif ()
-
-
-### finally setting compile options ###
-
-add_compile_options(
-        "$<$<COMPILE_LANGUAGE:C>:${c_compile_options}>"
-        "$<$<COMPILE_LANGUAGE:CXX>:${cpp_compile_options}>")
 
 
 ######################################################################################################################
