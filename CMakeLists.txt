@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.4.1)
 project(util)
 
 include(buildenv-bootstrap.cmake)
-ul_include(googletest.cmake)
 
 option(UL_DISABLE_NAMESPACE_ALIAS "Set to ON if you want the base namespace to be mb::ul instead of ul" OFF)
 configure_file(
@@ -11,8 +10,9 @@ configure_file(
         ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h
         @ONLY)
 
-ul_include(clang-tidy.cmake)
-ul_include(cppcheck.cmake)
+ul_include(defaults.cmake)
+
+ul_include(googletest.cmake)
 
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
