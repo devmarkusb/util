@@ -24,10 +24,10 @@ public:
 
 private:
     //! Class specific new handler.
-    static std::new_handler& currentHandler_()
+    static std::new_handler& currentHandler()
     {
-        static std::new_handler currentHandler__ = nullptr;
-        return currentHandler__;
+        static std::new_handler theHandler = nullptr;
+        return theHandler;
     }
 };
 
@@ -36,15 +36,15 @@ private:
 template <typename T>
 std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p)
 {
-    std::new_handler old = currentHandler_();
-    currentHandler_() = p;
+    std::new_handler old = currentHandler();
+    currentHandler() = p;
     return old;
 }
 
 template <typename T>
 void* NewHandlerSupport<T>::operator new(size_t size)
 {
-    std::new_handler globalHandler = std::set_new_handler(currentHandler_());
+    std::new_handler globalHandler = std::set_new_handler(currentHandler());
     void* memory;
     try
     {
