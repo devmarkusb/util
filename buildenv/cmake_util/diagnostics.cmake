@@ -19,8 +19,10 @@ option(UL_UNDEF_SAN "undefined behavior sanitizer" OFF)
 if (UL_ADDRESS_SAN)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # nothing yet
+        message(FATAL_ERROR "UL_ADDRESS_SAN not implemented for GNU compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # nothing yet
+        message(FATAL_ERROR "UL_ADDRESS_SAN not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options ${cpp_compile_options} -fsanitize=address)
         set(cpp_link_options ${cpp_link_options}-fsanitize=address)
@@ -28,8 +30,10 @@ if (UL_ADDRESS_SAN)
 elseif (UL_THREAD_SAN)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # nothing yet
+        message(FATAL_ERROR "UL_THREAD_SAN not implemented for GNU compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # nothing yet
+        message(FATAL_ERROR "UL_THREAD_SAN not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options ${cpp_compile_options} -fsanitize=thread)
         set(cpp_link_options ${cpp_link_options} -fsanitize=thread)
@@ -37,8 +41,10 @@ elseif (UL_THREAD_SAN)
 elseif (UL_MEMORY_SAN)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # nothing yet
+        message(FATAL_ERROR "UL_MEMORY_SAN not implemented for GNU compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # nothing yet
+        message(FATAL_ERROR "UL_MEMORY_SAN not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options ${cpp_compile_options} -fsanitize=memory)
         set(cpp_link_options ${cpp_link_options} -fsanitize=memory)
@@ -46,8 +52,10 @@ elseif (UL_MEMORY_SAN)
 elseif (UL_UNDEF_SAN)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # nothing yet
+        message(FATAL_ERROR "UL_UNDEF_SAN not implemented for GNU compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # nothing yet
+        message(FATAL_ERROR "UL_UNDEF_SAN not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options ${cpp_compile_options} -fsanitize=undefined)
         set(cpp_link_options ${cpp_link_options} -fsanitize=undefined)
@@ -64,6 +72,7 @@ if (UL_ALL_WARNINGS)
                 )
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # not implemented
+        message(FATAL_ERROR "UL_ALL_WARNINGS not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(cpp_compile_options
                 ${cpp_compile_options}
@@ -94,6 +103,8 @@ if (UL_COVERAGE)
                     CACHE STRING "" FORCE)
             include(CodeCoverage)
         endif ()
+    else ()
+        message(FATAL_ERROR "UL_COVERAGE not implemented for this compiler")
     endif ()
 endif()
 

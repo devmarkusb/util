@@ -1,4 +1,5 @@
 ### OS ###
+# Note, in code we call them UL_OS_... instead of UL_...
 
 if (WIN32)
     # one might still prefer the very common WIN32
