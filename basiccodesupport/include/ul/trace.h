@@ -28,6 +28,7 @@ namespace mb::ul
     and/or IDE output window. For GUI applications you can even open an console window and redirect cout and cerr
     calls there. The initialization of the tracing is highly configurable, cf. ul::trace::init.
     Usage:
+        \code
         #include "ul/trace.h" // for the file you want to trace something.
 
         int main()
@@ -36,9 +37,10 @@ namespace mb::ul
             ul::tracer::init(); // cf. function doc. for configuration possiblities
             ul::trace("ERROR") << "not so good, " << 42;
             ul::trace() << "not so good, " << 42; // does the same, since "ERROR" is also default
-            }
+        }
+        \endcode
     It is recommended to use level strings "ERROR", "WARN", "INFO", "TRACE" in that order of decreasing severity.
-    Note that you don't need to append `\n` to your trace line, it's done automatically.
+    Note that you don't need to append \code \n \endcode to your trace line, it's done automatically.
     Also note, that "ERROR" is default and can be left out. If you don't want to show a level, pass an empty string.*/
 struct trace;
 
