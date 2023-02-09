@@ -38,7 +38,7 @@ namespace mb::ul
             ul::trace() << "not so good, " << 42; // does the same, since "ERROR" is also default
             }
     It is recommended to use level strings "ERROR", "WARN", "INFO", "TRACE" in that order of decreasing severity.
-    Note that you don't need to append '\n' to your trace line, it's done automatically.
+    Note that you don't need to append `\n` to your trace line, it's done automatically.
     Also note, that "ERROR" is default and can be left out. If you don't want to show a level, pass an empty string.*/
 struct trace;
 
