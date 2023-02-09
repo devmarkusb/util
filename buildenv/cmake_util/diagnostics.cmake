@@ -98,6 +98,17 @@ if (UL_COVERAGE)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage")
+
+        find_program(LCOV lcov REQUIRED)
+        find_program(GENHTML genhtml REQUIRED)
+
+        # add coverage target
+        add_custom_target(coverage
+            # gather data
+            COMMAND ${LCOV} --directory . --capture --output-file coverage.info
+            # generate report
+            COMMAND ${GENHTML} --demangle-cpp -o coverage coverage.info
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     else ()
         message(FATAL_ERROR "UL_COVERAGE not implemented for this compiler")
     endif ()
