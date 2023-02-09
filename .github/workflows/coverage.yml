@@ -4,8 +4,8 @@ on: push
 
 env:
   BUILD_TYPE: Debug
-  CC: clang
-  CXX: clang++
+  CC: gcc
+  CXX: g++
 
 jobs:
   coverage:
