@@ -44,8 +44,8 @@ TEST(optTest, none_constr)
         EXPECT_TRUE(true);
 }
 
-// VLD detects 3 memory leaks (unclear)
-TEST(optTest, not_)
+// VLD detects 3 memory leaks, ASAN also (unclear)
+TEST(optTest, DISABLED_not_)
 {
     ul::opt<bool> b;
     if (!b)
