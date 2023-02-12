@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <limits>
 #include <numeric>
+#include <type_traits>
 
 namespace mb::ul::bits
 {
