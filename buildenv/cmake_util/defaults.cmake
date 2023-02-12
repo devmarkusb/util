@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 # to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
 include(CMakePrintHelpers)
