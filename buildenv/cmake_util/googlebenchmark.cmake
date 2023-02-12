@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(BECHMARK_ENABLE_TESTING NO)
+set(BENCHMARK_ENABLE_TESTING OFF)
 
 include(FetchContent)
 
