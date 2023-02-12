@@ -1,7 +1,7 @@
 # Provides switches and tools to run diagnostics on your code.
 # *Warning* Please note that this is work in progress. It doesn't contain anything really usable at the moment.
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 option(UL_ALL_WARNINGS "all possible warnings, switch on and adapt details if you want to see \
 a maximum of warnings" OFF)
