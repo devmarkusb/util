@@ -15,7 +15,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(UL_gtest_compile_options
             /wd4389)
-else ()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(UL_gtest_compile_options)
 endif ()
 target_compile_options(gmock PUBLIC ${UL_gtest_compile_options})
