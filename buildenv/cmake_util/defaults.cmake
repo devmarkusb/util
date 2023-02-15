@@ -148,10 +148,6 @@ macro(ul_set_target_pthread target)
     endif ()
 endmacro()
 
-macro(ul_set_target_openmp target)
-    target_link_libraries(${target} PUBLIC -fopenmp)
-endmacro()
-
 macro(ul_set_target_cuda_separable_compilation target)
     set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 endmacro()
