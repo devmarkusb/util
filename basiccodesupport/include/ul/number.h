@@ -21,25 +21,39 @@
 
 namespace mb::ul::math
 {
-enum class ENumSys : unsigned char
+//! For values of single digits.
+using BaseDigitType = unsigned char;
+
+//! Base or radix, here just positive integers.
+enum class NumBase : BaseDigitType
 {
     BIN = 2,
     OCT = 8,
     DEC = 10,
     HEX = 16,
+    SGS = 60, ///< sexagesimal
 };
 
 template <typename T>
-unsigned char getDigitCount(T Number, ENumSys Base = ENumSys::DEC)
+T getDigitCount(T number, NumBase base = NumBase::DEC)
 {
-    static_assert(std::is_integral<T>::value, "only integral numbers are allowed as input");
-    unsigned char count = 0;
+    static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
+    T count = 0;
     do
     {
         ++count;
-        Number /= ul::as_number(Base);
-    } while (Number != 0);
+        number /= ul::as_number(base);
+    } while (number != 0);
     return count;
+}
+
+//! \param digitIdx counted from the right (least significant digit) 0-based
+template <typename T>
+BaseDigitType getDigit(T number, T digitIdx, NumBase base = NumBase::DEC)
+{
+    static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
+    return narrow_cast<BaseDigitType>(
+        number / static_cast<T>(std::pow(ul::enum_cast(base), digitIdx)) % ul::enum_cast(base));
 }
 
 template <typename T>
