@@ -17,23 +17,54 @@ TEST(MathNumberGetDecDigitCountTest, DecNeg)
 
 TEST(MathNumberGetDecDigitCountTest, Bin)
 {
-    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::ENumSys::BIN));
-    EXPECT_EQ(2, ul::math::getDigitCount(2, ul::math::ENumSys::BIN));
-    EXPECT_EQ(3, ul::math::getDigitCount(4, ul::math::ENumSys::BIN));
+    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::BIN));
+    EXPECT_EQ(2, ul::math::getDigitCount(2, ul::math::NumBase::BIN));
+    EXPECT_EQ(3, ul::math::getDigitCount(4, ul::math::NumBase::BIN));
 }
 
 TEST(MathNumberGetDecDigitCountTest, Oct)
 {
-    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::ENumSys::OCT));
-    EXPECT_EQ(1, ul::math::getDigitCount(7, ul::math::ENumSys::OCT));
-    EXPECT_EQ(2, ul::math::getDigitCount(8, ul::math::ENumSys::OCT));
+    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::OCT));
+    EXPECT_EQ(1, ul::math::getDigitCount(7, ul::math::NumBase::OCT));
+    EXPECT_EQ(2, ul::math::getDigitCount(8, ul::math::NumBase::OCT));
 }
 
 TEST(MathNumberGetDecDigitCountTest, Hex)
 {
-    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::ENumSys::HEX));
-    EXPECT_EQ(1, ul::math::getDigitCount(15, ul::math::ENumSys::HEX));
-    EXPECT_EQ(2, ul::math::getDigitCount(16, ul::math::ENumSys::HEX));
+    EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::HEX));
+    EXPECT_EQ(1, ul::math::getDigitCount(15, ul::math::NumBase::HEX));
+    EXPECT_EQ(2, ul::math::getDigitCount(16, ul::math::NumBase::HEX));
+}
+
+TEST(MathNumberGetDigit, Dec)
+{
+    EXPECT_EQ(5, ul::math::getDigit(12345, 0));
+    EXPECT_EQ(4, ul::math::getDigit(12345, 1));
+    EXPECT_EQ(3, ul::math::getDigit(12345, 2));
+    EXPECT_EQ(2, ul::math::getDigit(12345, 3));
+    EXPECT_EQ(1, ul::math::getDigit(12345, 4));
+    EXPECT_EQ(0, ul::math::getDigit(12345, 5));
+}
+
+TEST(MathNumberGetDigit, Hex)
+{
+    EXPECT_EQ(0xf, ul::math::getDigit(0x9abcdef, 0, ul::math::NumBase::HEX));
+    EXPECT_EQ(0xe, ul::math::getDigit(0x9abcdef, 1, ul::math::NumBase::HEX));
+    EXPECT_EQ(0xd, ul::math::getDigit(0x9abcdef, 2, ul::math::NumBase::HEX));
+    EXPECT_EQ(0xc, ul::math::getDigit(0x9abcdef, 3, ul::math::NumBase::HEX));
+    EXPECT_EQ(0xb, ul::math::getDigit(0x9abcdef, 4, ul::math::NumBase::HEX));
+    EXPECT_EQ(0xa, ul::math::getDigit(0x9abcdef, 5, ul::math::NumBase::HEX));
+    EXPECT_EQ(0x9, ul::math::getDigit(0x9abcdef, 6, ul::math::NumBase::HEX));
+    EXPECT_EQ(0x0, ul::math::getDigit(0x9abcdef, 7, ul::math::NumBase::HEX));
+}
+
+TEST(MathNumberGetDigit, Bin)
+{
+    EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 0, ul::math::NumBase::BIN));
+    EXPECT_EQ(0b1, ul::math::getDigit(0b1010, 1, ul::math::NumBase::BIN));
+    EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 2, ul::math::NumBase::BIN));
+    EXPECT_EQ(0b1, ul::math::getDigit(0b1010, 3, ul::math::NumBase::BIN));
+    EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 4, ul::math::NumBase::BIN));
 }
 
 TEST(math_sgnTest, Hex)
