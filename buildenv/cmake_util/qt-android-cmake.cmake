@@ -27,16 +27,52 @@
 #      - downgrade Qt version, 5.9.1 was working some day
 #      - try gradle updates (if you reach that stage at all)
 
+set(UL_ANDROID_NDK_HELPSTR "Path to e.g. android-ndk-r25b dir.")
+set(UL_ANDROID_NDK "" CACHE STRING "${UL_ANDROID_NDK_HELPSTR}")
+
+set(UL_ANDROID_SDK_HELPSTR "Path to Android SDK install dir.")
+set(UL_ANDROID_SDK "" CACHE STRING "${UL_ANDROID_SDK_HELPSTR}")
+
+set(UL_JAVA_HOME_HELPSTR "Path to a Java jvm like e.g. java-8-openjdk-amd64.")
+set(UL_JAVA_HOME "" CACHE STRING "${UL_JAVA_HOME_HELPSTR}")
+
+if (UL_ANDROID_NDK STREQUAL "")
+    if (DEFINED ENV{ANDROID_NDK})
+        set(UL_ANDROID_NDK $ENV{ANDROID_NDK} CACHE STRING "${UL_ANDROID_NDK_HELPSTR}" FORCE)
+    endif()
+else()
+    set(ENV{ANDROID_NDK} "${UL_ANDROID_NDK}")
+endif()
+
 if (NOT DEFINED ENV{ANDROID_NDK})
-    message(FATAL_ERROR "Configure env variable ANDROID_NDK to point to e.g. android-ndk-r25b dir.")
+    message(FATAL_ERROR "Configure cache variable UL_ANDROID_NDK or env variable ANDROID_NDK to point to e.g. \
+android-ndk-r25b dir.")
+endif()
+
+if (UL_ANDROID_SDK STREQUAL "")
+    if (DEFINED ENV{ANDROID_SDK})
+        set(UL_ANDROID_SDK $ENV{ANDROID_SDK} CACHE STRING "${UL_ANDROID_SDK_HELPSTR}" FORCE)
+    endif()
+else()
+    set(ENV{ANDROID_SDK} "${UL_ANDROID_SDK}")
 endif()
 
 if (NOT DEFINED ENV{ANDROID_SDK})
-    message(FATAL_ERROR "Configure env variable ANDROID_SDK to point to Android SDK install dir.")
+    message(FATAL_ERROR "Configure cache variable UL_ANDROID_SDK or env variable ANDROID_SDK to point to Android SDK \
+install dir.")
+endif()
+
+if (UL_JAVA_HOME STREQUAL "")
+    if (DEFINED ENV{JAVA_HOME})
+        set(UL_JAVA_HOME $ENV{JAVA_HOME} CACHE STRING "${UL_JAVA_HOME_HELPSTR}" FORCE)
+    endif()
+else()
+    set(ENV{JAVA_HOME} "${UL_JAVA_HOME}")
 endif()
 
 if (NOT DEFINED ENV{JAVA_HOME})
-    message(FATAL_ERROR "Configure env variable JAVA_HOME to point to a Java jvm like e.g. java-8-openjdk-amd64.")
+    message(FATAL_ERROR "Configure cache variable UL_JAVA_HOME or env variable JAVA_HOME to point to a Java jvm like \
+e.g. java-8-openjdk-amd64.")
 endif()
 
 FetchContent_Declare(
