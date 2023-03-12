@@ -24,6 +24,9 @@
 #   6. CMake error 'add_custom_target cannot create target "apk" because another target with' in a Qt cmake file?
 #      Manually apply 'if (NOT TARGET apk)...' patches to the mentioned file.
 #   7. I just can't it working. Any general ideas?
+#      - best thing you can do: experiment with original Qt examples in QtCreator with qmake, get some version
+#        mixture working, compare result build dir with your cmake build (might even want to move the example code
+#        over if entirely desperate)
 #      - downgrade Qt version, 5.9.1 was working some day
 #      - try gradle updates (if you reach that stage at all)
 
