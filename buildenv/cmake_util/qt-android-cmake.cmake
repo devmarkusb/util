@@ -9,6 +9,8 @@
 #     -DANDROID_STL="c++_shared"
 #     -DANDROID_ABI="arm64-v8a"
 #     -DANDROID_PLATFORM=28
+#     -DUL_ANDROID_SIGN_KEY_PATH=$sign_key_path
+#     -DUL_ANDROID_SIGN_KEY_PASS=$sign_key_pass
 #
 # FAQs
 #   1. 'STL library does not exist at ...'?
