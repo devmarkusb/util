@@ -1,10 +1,14 @@
 # Usage
-#   After including this file, call add_qt_android_apk like documented in qt-android-cmake README.
+#   After including this file, call add_qt_android_apk like documented in qt-android-cmake README (see FetchContent
+#   below).
 #   Besides necessary CMake parameters for desktop builds, you need (e.g.):
-#     -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake
+#     ndk_path=$dev_sdk_path/Android/Sdk/ndk/21.3.6528147
+#     -DCMAKE_TOOLCHAIN_FILE=$ndk_path/build/cmake/android.toolchain.cmake
+#     -DUL_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+#     -DUL_ANDROID_NDK=$ndk_path
 #     -DANDROID_STL="c++_shared"
-#     -DANDROID_ABI="x86"
-#     -DANDROID_PLATFORM=19
+#     -DANDROID_ABI="arm64-v8a"
+#     -DANDROID_PLATFORM=28
 #
 # FAQs
 #   1. 'STL library does not exist at ...'?
@@ -76,6 +80,10 @@ endif()
 if (NOT DEFINED ENV{JAVA_HOME})
     message(FATAL_ERROR "Configure cache variable UL_JAVA_HOME or env variable JAVA_HOME to point to a Java jvm like \
 e.g. java-8-openjdk-amd64.")
+endif()
+
+if (DEFINED ANDROID_PLATFORM)
+    set(ANDROID_PLATFORM_LEVEL ${ANDROID_PLATFORM})
 endif()
 
 FetchContent_Declare(
