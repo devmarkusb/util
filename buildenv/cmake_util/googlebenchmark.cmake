@@ -16,8 +16,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-shift-sign-overflow
             -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused
             -Wno-disabled-macro-expansion -Wno-missing-prototypes
-            -Wno-extra-semi-stmt -Wno-comma
-            -Wno-implicit-int-float-conversion)
+            -Wno-extra-semi-stmt -Wno-comma)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+        list(APPEND UL_google_benchmark_compile_options -Wno-implicit-int-float-conversion)
+    endif ()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(UL_google_benchmark_compile_options
             /wd4389)
