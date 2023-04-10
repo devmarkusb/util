@@ -65,6 +65,7 @@
 #if !UL_OS_LINUX
 #error "unexpected, Android should imply Linux"
 #endif
+#define UL_ANDROID_NDK_MAJOR __NDK_MAJOR__
 #endif
 
 //!@}

@@ -6,6 +6,10 @@
 #include "ul/macros.h"
 #include <fstream>
 
+#if UL_OS_ANDROID && UL_ANDROID_NDK_MAJOR < 22
+#define UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL 1
+#endif
+
 #if __has_include(<filesystem>) && !UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
@@ -35,8 +39,8 @@ namespace std_fs = std::filesystem;
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
-#include "assert.h"
-#include "ignore_unused.h"
+#include "../assert.h"
+#include "../ignore_unused.h"
 #include <cstdio>
 #include <cstring>
 #include <fstream>
@@ -168,7 +172,7 @@ struct path
             || (last_slash != std::string::npos && start < last_slash))
             s_ += replacement.string();
         else
-            s_.replace(std::begin(s_) + start, std::end(s_), replacement.string());
+            s_.replace(std::begin(s_) + static_cast<std::iterator_traits<decltype(std::begin(s_))>::difference_type>(start), std::end(s_), replacement.string());
 
         return *this;
     }
