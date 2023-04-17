@@ -12,7 +12,7 @@
         <activity
             android:label="@QT_ANDROID_APP_NAME@"
             android:name="org.qtproject.qt5.android.bindings.QtActivity"
-            android:screenOrientation="unspecified"
+            android:screenOrientation="@QT_ANDROID_SCREEN_ORIENTATION@"
             android:launchMode="singleTop"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation">
 

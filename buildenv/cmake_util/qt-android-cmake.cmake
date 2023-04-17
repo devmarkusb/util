@@ -91,6 +91,10 @@ if (DEFINED ANDROID_PLATFORM)
     set(ANDROID_PLATFORM_LEVEL ${ANDROID_PLATFORM})
 endif()
 
+if (NOT DEFINED QT_ANDROID_SCREEN_ORIENTATION)
+    set(QT_ANDROID_SCREEN_ORIENTATION "unspecified")
+endif()
+
 FetchContent_Declare(
      QtAndroidCMake
      GIT_REPOSITORY https://github.com/devmarkusb/qt-android-cmake
