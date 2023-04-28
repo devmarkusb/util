@@ -3,8 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(fmt_groupThousands, basics)
-{
+TEST(fmt_groupThousands, basics) {
     EXPECT_STREQ(ul::fmt::groupThousands(1000000, '.').c_str(), "1.000.000");
     EXPECT_STREQ(ul::fmt::groupThousands(1'000'000, '.').c_str(), "1.000.000");
     EXPECT_STREQ(ul::fmt::groupThousands(100'000, '.').c_str(), "100.000");

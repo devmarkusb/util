@@ -13,8 +13,7 @@
 #include <numeric>
 #include <type_traits>
 
-namespace mb::ul::bits
-{
+namespace mb::ul::bits {
 using Idx = int;
 using Count = Idx;
 using Diff = int;
@@ -23,13 +22,11 @@ constexpr auto bitsPerByte{CHAR_BIT};
 
 //! \return number of bits of the arbitrary Type.
 template <typename Type>
-constexpr Count count() noexcept
-{
+constexpr Count count() noexcept {
     return bitsPerByte * sizeof(Type);
 }
 
-constexpr uint32_t countSet(uint32_t data) noexcept
-{
+constexpr uint32_t countSet(uint32_t data) noexcept {
     // NOLINTBEGIN
     // Hamming Weight algorithm
     data = data - ((data >> 1) & 0x55555555);
@@ -39,68 +36,58 @@ constexpr uint32_t countSet(uint32_t data) noexcept
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType set(SourceType from, Idx idx) noexcept
-{
+constexpr TargetType set(SourceType from, Idx idx) noexcept {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
     return static_cast<TargetType>(from | (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType unset(SourceType from, Idx idx) noexcept
-{
+constexpr TargetType unset(SourceType from, Idx idx) noexcept {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from & ~(TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType toggle(SourceType from, Idx idx) noexcept
-{
+constexpr TargetType toggle(SourceType from, Idx idx) noexcept {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from ^ (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType check(SourceType from, Idx idx) noexcept
-{
+constexpr TargetType check(SourceType from, Idx idx) noexcept {
     UL_EXPECT(idx < ul::bits::count<SourceType>());
     return ul::narrow_cast<TargetType>((from >> idx) & TargetType{1}); // NOLINT
 }
 
 template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
-constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept
-{
+constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept {
     UL_EXPECT(idx < ul::bits::count<TargetType>());
     const SourceType newbit = static_cast<bool>(x); // ensure 1 or 0
     return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx))); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType setMask(SourceType from, SourceType mask) noexcept
-{
+constexpr TargetType setMask(SourceType from, SourceType mask) noexcept {
     return from | mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept
-{
+constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept {
     return ul::narrow_cast<TargetType>(from & ~mask); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType toggleMask(SourceType from, SourceType mask) noexcept
-{
+constexpr TargetType toggleMask(SourceType from, SourceType mask) noexcept {
     return from ^ mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType checkAllOfMask(SourceType from, SourceType mask) noexcept
-{
+constexpr TargetType checkAllOfMask(SourceType from, SourceType mask) noexcept {
     return (from & mask) == mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept
-{
+constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept {
     return from & mask;
 }
 
@@ -109,8 +96,7 @@ constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
     of big endian, but endianness doesn't matter considering the realm of this function alone).*/
 template <typename TargetType = uint64_t>
-constexpr TargetType setRange(Idx idx, Count count) noexcept
-{
+constexpr TargetType setRange(Idx idx, Count count) noexcept {
     static_assert(std::is_unsigned_v<TargetType>);
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
@@ -122,8 +108,7 @@ constexpr TargetType setRange(Idx idx, Count count) noexcept
 
 //! Reads count > 0 bits of from starting at 0-based index idx (0 is LSB).
 template <typename SourceType>
-constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
-{
+constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
@@ -134,8 +119,7 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept
 //! Like read. But here you can also opt for a different target type.
 /** As typically reading out a subset of bits results in a smaller type.*/
 template <typename TargetType, typename SourceType /*>= TargetType*/>
-constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
-{
+constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
@@ -146,8 +130,7 @@ constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept
 
 //! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
 template <typename TargetType, typename SourceType>
-constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept
-{
+constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
@@ -160,30 +143,25 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
 /** Choose your desired bit count bits freely. The underlying type of the parts being glued together might
     also be chosen: BaseType.*/
 template <Count bits, typename BaseType = uint32_t>
-class Array
-{
+class Array {
 public:
-    void set(Idx idx) noexcept
-    {
+    void set(Idx idx) noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
         array_[N(idx)] |= partBit(I(idx)); // NOLINT
     }
 
-    void reset(Idx idx) noexcept
-    {
+    void reset(Idx idx) noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
         array_[N(idx)] &= ~partBit(I(idx)); // NOLINT
     }
 
-    void reset() noexcept
-    {
+    void reset() noexcept {
         array_.fill({});
     }
 
-    [[nodiscard]] bool isSet(Idx idx) const noexcept
-    {
+    [[nodiscard]] bool isSet(Idx idx) const noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
         return array_[N(idx)] & partBit(I(idx)); // NOLINT
@@ -194,18 +172,15 @@ private:
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
     std::array<BaseType, partsCount> array_{};
 
-    [[nodiscard]] Idx N(Idx idx) const noexcept
-    {
+    [[nodiscard]] Idx N(Idx idx) const noexcept {
         return idx / ul::bits::count<BaseType>();
     }
 
-    [[nodiscard]] Idx I(Idx idx) const noexcept
-    {
+    [[nodiscard]] Idx I(Idx idx) const noexcept {
         return idx % ul::bits::count<BaseType>();
     }
 
-    [[nodiscard]] BaseType partBit(Idx n) const noexcept
-    {
+    [[nodiscard]] BaseType partBit(Idx n) const noexcept {
         return static_cast<BaseType>(BaseType{1} << n); // NOLINT
     }
 
@@ -218,8 +193,7 @@ private:
 };
 
 template <Count bits, typename BaseType = uint32_t>
-Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept
-{
+Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept {
     Array<bits, BaseType> ret;
     for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
         ret.array_[i] = lhs.array_[i] & rhs.array_[i];
@@ -227,8 +201,7 @@ Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bi
 }
 
 template <Count bits, typename BaseType = uint32_t>
-Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept
-{
+Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept {
     Array<bits, BaseType> ret;
     for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
         ret.array_[i] = lhs.array_[i] | rhs.array_[i];
@@ -237,15 +210,13 @@ Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bi
 
 //! Needed for FieldsRaw.
 template <size_t fields>
-struct FieldsLookup
-{
+struct FieldsLookup {
     std::array<Count, fields> counts_; // count of bits of each field
     std::array<Count, fields> indices_; // indices where field sits
 
     template <typename... Counts>
     explicit FieldsLookup(Count maxCount, Counts... counts)
-        : counts_({static_cast<Count>(counts)...})
-    {
+        : counts_({static_cast<Count>(counts)...}) {
         static_assert(fields == sizeof...(counts));
 
         indices_[0] = {};
@@ -257,16 +228,14 @@ struct FieldsLookup
 
 //! Just if can't use Fields (cf.) because you need it to be no larger than sizeof(BitDataType).
 template <typename BitDataType, typename EnumType, size_t fields>
-class FieldsRaw
-{
+class FieldsRaw {
 public:
     static_assert(std::is_unsigned_v<BitDataType>);
     static_assert(std::is_enum_v<EnumType>);
     static_assert(fields > 0);
 
     template <typename SourceDataType>
-    constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept
-    {
+    constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
@@ -275,8 +244,8 @@ public:
     }
 
     template <typename TargetDataType = BitDataType>
-    [[nodiscard]] constexpr TargetDataType get(const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept
-    {
+    [[nodiscard]] constexpr TargetDataType get(
+        const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_{static_cast<size_t>(fieldnr)};
@@ -308,8 +277,7 @@ private:
     }
     */
 template <typename BitDataType, typename EnumType, size_t fields>
-class Fields
-{
+class Fields {
 public:
     static_assert(std::is_unsigned_v<BitDataType>);
     static_assert(std::is_enum_v<EnumType>);
@@ -319,20 +287,17 @@ public:
     /** But you don't need to use up the full space of bits.*/
     template <typename... Counts>
     explicit constexpr Fields(Counts... counts)
-        : fieldsLookup_{count<BitDataType>(), counts...}
-    {
+        : fieldsLookup_{count<BitDataType>(), counts...} {
         static_assert(fields == sizeof...(counts));
     }
 
     template <typename SourceDataType>
-    constexpr void set(EnumType field, SourceDataType value) noexcept
-    {
+    constexpr void set(EnumType field, SourceDataType value) noexcept {
         raw_.set(fieldsLookup_, field, value);
     }
 
     template <typename TargetDataType = BitDataType>
-    [[nodiscard]] constexpr TargetDataType get(EnumType field) const noexcept
-    {
+    [[nodiscard]] constexpr TargetDataType get(EnumType field) const noexcept {
         return raw_.template get<TargetDataType>(fieldsLookup_, field);
     }
 
@@ -343,15 +308,13 @@ private:
 
 //! Evaluated at runtime, a compile-time implementation doesn't seem easy.
 /** Big endian means that the MSB (most significant bit) comes first in memory.*/
-inline bool is_bigendian() noexcept
-{
+inline bool is_bigendian() noexcept {
     static const int one{1};
     return *reinterpret_cast<const uint8_t*>(&one) == uint8_t{0};
 }
 } // namespace mb::ul::bits
 
-namespace mb::ul
-{
+namespace mb::ul {
 // NOLINTBEGIN
 using Bits8 = bits::Array<8, uint8_t>;
 using Bits16 = bits::Array<16, uint16_t>;

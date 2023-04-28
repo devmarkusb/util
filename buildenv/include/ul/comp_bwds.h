@@ -39,11 +39,9 @@
 #endif
 #include <string>
 
-namespace mb::ul
-{
+namespace mb::ul {
 template <typename FloatingPointNumber>
-inline int64_t llround(FloatingPointNumber x)
-{
+inline int64_t llround(FloatingPointNumber x) {
 #if UL_HAS_LLROUND
     return std::llround(x);
 #else
@@ -52,8 +50,7 @@ inline int64_t llround(FloatingPointNumber x)
 }
 
 template <typename StringStreamable>
-StringStreamable from_string(const std::string& s)
-{
+StringStreamable from_string(const std::string& s) {
 #if UL_HAS_FROM_STRING
     return std::from_string(s);
 #else
@@ -64,8 +61,7 @@ StringStreamable from_string(const std::string& s)
 #endif
 }
 
-inline int stoi(const std::string& s)
-{
+inline int stoi(const std::string& s) {
 #if UL_HAS_STOI
     return std::stoi(s);
 #else
@@ -73,8 +69,7 @@ inline int stoi(const std::string& s)
 #endif
 }
 
-inline long double stold(const std::string& s)
-{
+inline long double stold(const std::string& s) {
 #if UL_HAS_STOI
     return std::stold(s);
 #else
@@ -83,8 +78,7 @@ inline long double stold(const std::string& s)
 }
 
 template <typename StringStreamable>
-std::string to_string(const StringStreamable& x)
-{
+std::string to_string(const StringStreamable& x) {
 #if UL_HAS_TO_STRING
     return std::to_string(x);
 #else

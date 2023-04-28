@@ -22,8 +22,7 @@
 #include <windows.h>
 #endif
 
-namespace mb::ul
-{
+namespace mb::ul {
 /** Purpose of ul::trace is a quick&dirty substitute for logging. That is you can print to console window
     and/or IDE output window. For GUI applications you can even open an console window and redirect cout and cerr
     calls there. The initialization of the tracing is highly configurable, cf. ul::trace::init.
@@ -44,40 +43,31 @@ namespace mb::ul
     Also note, that "ERROR" is default and can be left out. If you don't want to show a level, pass an empty string.*/
 struct trace;
 
-namespace tracer
-{
-struct OutputToConsole
-{
-    static bool trace(const std::ostringstream& ss)
-    {
+namespace tracer {
+struct OutputToConsole {
+    static bool trace(const std::ostringstream& ss) {
         std::cerr << ss.str();
         return true;
     }
 
-    static bool isActivated()
-    {
+    static bool isActivated() {
         return true;
     }
 };
 
-struct NoOutputToConsole
-{
-    static bool trace(const std::ostringstream& /*unused*/)
-    {
+struct NoOutputToConsole {
+    static bool trace(const std::ostringstream& /*unused*/) {
         return false;
     }
 
-    static bool isActivated()
-    {
+    static bool isActivated() {
         return false;
     }
 };
 
-struct OutputToIDEWindow
-{
+struct OutputToIDEWindow {
     template <class OutputToConsolePolicy>
-    static void trace(const std::ostringstream& ss)
-    {
+    static void trace(const std::ostringstream& ss) {
 #if !(UL_OS_WINDOWS && UL_COMP_MS_VISUAL_STUDIO_CPP)
         if (!OutputToConsolePolicy::isActivated())
 #endif
@@ -89,28 +79,22 @@ struct OutputToIDEWindow
     }
 };
 
-struct NoOutputToIDEWindow
-{
+struct NoOutputToIDEWindow {
     template <class>
-    static void trace(const std::ostringstream& /*unused*/)
-    {
+    static void trace(const std::ostringstream& /*unused*/) {
         // Note: e.g. for mingw we can't prevent output from showing up in IDE window
         UL_NOOP;
     }
 };
 
-struct DontAlsoBindStdout
-{
-    static void bind(bool& ret_bound)
-    {
+struct DontAlsoBindStdout {
+    static void bind(bool& ret_bound) {
         ret_bound = false;
     }
 };
 
-struct AlsoBindStdout
-{
-    static void bind(bool& ret_bound)
-    {
+struct AlsoBindStdout {
+    static void bind(bool& ret_bound) {
 #if UL_OS_WINDOWS
         ret_bound = false;
         FILE* nsp{};
@@ -125,18 +109,15 @@ struct AlsoBindStdout
     }
 };
 
-struct CheckConsoleOpen
-{
+struct CheckConsoleOpen {
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
-    static void openConsoleIfNecessary(bool& ret_stderrBound, bool& ret_stdoutBound)
-    {
+    static void openConsoleIfNecessary(bool& ret_stderrBound, bool& ret_stdoutBound) {
 #if UL_OS_WINDOWS
         ret_stderrBound = false;
         ret_stdoutBound = false;
 
         const auto alloc_ok = AllocConsole();
-        if (!alloc_ok)
-        {
+        if (!alloc_ok) {
             UL_ASSERT(false); // you don't need to try to open a new console, you already have one
             return;
         }
@@ -156,20 +137,16 @@ struct CheckConsoleOpen
     }
 };
 
-struct DontCheckConsoleOpen
-{
+struct DontCheckConsoleOpen {
     template <class>
-    static void openConsoleIfNecessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/)
-    {
+    static void openConsoleIfNecessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/) {
         UL_NOOP;
     }
 };
 
-struct Enabled
-{
+struct Enabled {
     template <class OutputToIDEWindowPolicy, class OutputToConsolePolicy>
-    static void trace(const std::ostringstream& ss)
-    {
+    static void trace(const std::ostringstream& ss) {
         OutputToIDEWindowPolicy::template trace<OutputToConsolePolicy>(ss);
         OutputToConsolePolicy::trace(ss);
     }
@@ -177,41 +154,33 @@ struct Enabled
     static const bool isEnabled{true};
 };
 
-struct Disabled
-{
+struct Disabled {
     template <class, class>
-    static void trace(const std::ostringstream& /*unused*/)
-    {
+    static void trace(const std::ostringstream& /*unused*/) {
         UL_NOOP;
     }
 
     static const bool isEnabled{false};
 };
 
-namespace detail_impl
-{
-struct StreamTracer
-{
+namespace detail_impl {
+struct StreamTracer {
     virtual ~StreamTracer() = default;
     virtual void trace(const std::ostringstream&) const = 0;
 };
 
 template <class T>
-StreamTracer& operator<<(StreamTracer& t, const T& x)
-{
+StreamTracer& operator<<(StreamTracer& t, const T& x) {
     std::ostringstream ss;
     ss << x;
     t.trace(ss);
     return t;
 }
 
-struct StreamTraceEndOfLine
-{
-};
+struct StreamTraceEndOfLine {};
 
 template <>
-inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*unused*/)
-{
+inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*unused*/) {
     std::ostringstream ss;
     ss << '\n';
     t.trace(ss);
@@ -221,24 +190,20 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*u
 template <
     class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
     class OutputToConsolePolicy = NoOutputToConsole>
-struct StreamTracer_impl : public StreamTracer
-{
+struct StreamTracer_impl : public StreamTracer {
     StreamTracer_impl(bool close_stderr, bool close_stdout)
         : close_stderr_{close_stderr}
-        , close_stdout_{close_stdout}
-    {
+        , close_stdout_{close_stdout} {
     }
 
-    ~StreamTracer_impl() override
-    {
+    ~StreamTracer_impl() override {
         if (close_stderr_) [[maybe_unused]]
             const auto _ = fclose(stderr);
         if (close_stdout_) [[maybe_unused]]
             const auto _ = fclose(stdout);
     }
 
-    void trace(const std::ostringstream& ss) const override
-    {
+    void trace(const std::ostringstream& ss) const override {
         EnabledIfPolicy::template trace<OutputToIDEWindowPolicy, OutputToConsolePolicy>(ss);
     }
 
@@ -247,16 +212,13 @@ private:
     bool close_stdout_{};
 };
 
-struct StreamTracerWrapperSingleton
-{
-    static StreamTracerWrapperSingleton& getInstance()
-    {
+struct StreamTracerWrapperSingleton {
+    static StreamTracerWrapperSingleton& getInstance() {
         static StreamTracerWrapperSingleton inst;
         return inst;
     }
 
-    std::unique_ptr<StreamTracer>& tracer()
-    {
+    std::unique_ptr<StreamTracer>& tracer() {
         return t_;
     }
 
@@ -266,8 +228,7 @@ private:
     StreamTracerWrapperSingleton() = default;
 };
 
-inline StreamTracer& stream()
-{
+inline StreamTracer& stream() {
     auto& ret = StreamTracerWrapperSingleton::getInstance().tracer();
     // if you crash shortly after, you probably forgot to call ul::tracer::init before your first trace
     UL_EXPECT(ret);
@@ -304,8 +265,7 @@ template <
 // OutputToConsolePolicy expected to be OutputToConsole or NoOutputToConsole
 // CheckConsoleOpenPolicy expected to be CheckConsoleOpen or DontCheckConsoleOpen
 // AlsoBindStdoutToNewConsolePolicy expected to be AlsoBindStdout or DontAlsoBindStdout
-void init()
-{
+void init() {
     if (detail_impl::StreamTracerWrapperSingleton::getInstance().tracer())
         throw std::runtime_error{"trace init called more often than once"};
 
@@ -321,25 +281,21 @@ void init()
 }
 } // namespace tracer
 
-struct trace : private ul::NonCopyable
-{
+struct trace : private ul::NonCopyable {
     static constexpr auto levelError{std::string_view{"ERROR"}};
 
     explicit trace(std::string_view level = levelError)
-        : stream_{&ul::tracer::detail_impl::stream()}
-    {
+        : stream_{&ul::tracer::detail_impl::stream()} {
         std::ostringstream tmp;
         tmp << std::left << std::setw(level.empty() ? 0 : levelError.size() + 1) << level;
         *this->stream_ << tmp.str();
     }
 
-    ~trace()
-    {
+    ~trace() {
         *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{};
     }
 
-    tracer::detail_impl::StreamTracer& stream() const
-    {
+    tracer::detail_impl::StreamTracer& stream() const {
         return *this->stream_;
     }
 
@@ -348,30 +304,25 @@ private:
 };
 
 template <typename T>
-const trace& operator<<(const trace& t, T&& arg)
-{
+const trace& operator<<(const trace& t, T&& arg) {
     t.stream() << std::forward<T>(arg);
     return t;
 }
 
-namespace deprecated
-{
+namespace deprecated {
 #if UL_OS_WINDOWS
 //! Usage: std::ostringstream os; os << "bla" << 2 << "blabla"; trace(os);
 //! Only supported for Windows so far.
 /** Impl. notes: Also tried std::cerr and std::clog under Windows - without success.*/
-inline void trace(const std::ostringstream& os)
-{
+inline void trace(const std::ostringstream& os) {
     OutputDebugStringA(os.str().c_str());
 }
 
-inline void trace(const std::wostringstream& os)
-{
+inline void trace(const std::wostringstream& os) {
     OutputDebugStringW(os.str().c_str());
 }
 #else
-inline void trace(const std::ostringstream& /*unused*/)
-{
+inline void trace(const std::ostringstream& /*unused*/) {
 }
 #endif
 } // namespace deprecated

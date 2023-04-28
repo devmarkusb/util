@@ -17,18 +17,15 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace mb::ul::mem::alloc
-{
+namespace mb::ul::mem::alloc {
 /** You should adapt max_alignment_in_bytes to at least the alignment of the largest type you're going to
     allocate frequently. But not larger as this wastes space due to padding.*/
 template <size_t capacity_in_bytes, size_t max_alignment_in_bytes, typename StatisticsPolicy = NoStatistics>
 class OnStack
     : private ul::NonCopyable
-    , public StatisticsPolicy
-{
+    , public StatisticsPolicy {
 public:
-    uint8_t* allocate(Bytes size)
-    {
+    uint8_t* allocate(Bytes size) {
         const auto padded_size = padUp(size.value, max_alignment_in_bytes);
         if (static_cast<decltype(padded_size)>(buf_ + capacity_in_bytes - curr_memptr_) < padded_size) // NOLINT
             throw std::bad_alloc{};
@@ -41,25 +38,21 @@ public:
         return old_memptr;
     }
 
-    void deallocate(uint8_t* p, Bytes size) noexcept
-    {
+    void deallocate(uint8_t* p, Bytes size) noexcept {
         size.value = padUp(size.value, max_alignment_in_bytes);
         if (p + size.value == curr_memptr_) // NOLINT
             curr_memptr_ = p;
     }
 
-    static constexpr Bytes capacity() noexcept
-    {
+    static constexpr Bytes capacity() noexcept {
         return Bytes{capacity_in_bytes};
     }
 
-    [[nodiscard]] Bytes size() const noexcept
-    {
+    [[nodiscard]] Bytes size() const noexcept {
         return Bytes{static_cast<size_t>(curr_memptr_ - buf_)}; // NOLINT
     }
 
-    void reset() noexcept
-    {
+    void reset() noexcept {
         curr_memptr_ = buf_;
     }
 

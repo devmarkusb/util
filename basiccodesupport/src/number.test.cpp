@@ -1,43 +1,37 @@
 #include "ul/number.h"
 #include "gtest/gtest.h"
 
-TEST(MathNumberGetDecDigitCountTest, Dec)
-{
+TEST(MathNumberGetDecDigitCountTest, Dec) {
     EXPECT_EQ(1, ul::math::getDigitCount(0));
     EXPECT_EQ(1, ul::math::getDigitCount(1));
     EXPECT_EQ(2, ul::math::getDigitCount(12));
     EXPECT_EQ(3, ul::math::getDigitCount(123));
 }
 
-TEST(MathNumberGetDecDigitCountTest, DecNeg)
-{
+TEST(MathNumberGetDecDigitCountTest, DecNeg) {
     EXPECT_EQ(1, ul::math::getDigitCount(-1));
     EXPECT_EQ(2, ul::math::getDigitCount(-12));
 }
 
-TEST(MathNumberGetDecDigitCountTest, Bin)
-{
+TEST(MathNumberGetDecDigitCountTest, Bin) {
     EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::BIN));
     EXPECT_EQ(2, ul::math::getDigitCount(2, ul::math::NumBase::BIN));
     EXPECT_EQ(3, ul::math::getDigitCount(4, ul::math::NumBase::BIN));
 }
 
-TEST(MathNumberGetDecDigitCountTest, Oct)
-{
+TEST(MathNumberGetDecDigitCountTest, Oct) {
     EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::OCT));
     EXPECT_EQ(1, ul::math::getDigitCount(7, ul::math::NumBase::OCT));
     EXPECT_EQ(2, ul::math::getDigitCount(8, ul::math::NumBase::OCT));
 }
 
-TEST(MathNumberGetDecDigitCountTest, Hex)
-{
+TEST(MathNumberGetDecDigitCountTest, Hex) {
     EXPECT_EQ(1, ul::math::getDigitCount(0, ul::math::NumBase::HEX));
     EXPECT_EQ(1, ul::math::getDigitCount(15, ul::math::NumBase::HEX));
     EXPECT_EQ(2, ul::math::getDigitCount(16, ul::math::NumBase::HEX));
 }
 
-TEST(MathNumberGetDigit, Dec)
-{
+TEST(MathNumberGetDigit, Dec) {
     EXPECT_EQ(5, ul::math::getDigit(12345, 0));
     EXPECT_EQ(4, ul::math::getDigit(12345, 1));
     EXPECT_EQ(3, ul::math::getDigit(12345, 2));
@@ -46,8 +40,7 @@ TEST(MathNumberGetDigit, Dec)
     EXPECT_EQ(0, ul::math::getDigit(12345, 5));
 }
 
-TEST(MathNumberGetDigit, Hex)
-{
+TEST(MathNumberGetDigit, Hex) {
     EXPECT_EQ(0xf, ul::math::getDigit(0x9abcdef, 0, ul::math::NumBase::HEX));
     EXPECT_EQ(0xe, ul::math::getDigit(0x9abcdef, 1, ul::math::NumBase::HEX));
     EXPECT_EQ(0xd, ul::math::getDigit(0x9abcdef, 2, ul::math::NumBase::HEX));
@@ -58,8 +51,7 @@ TEST(MathNumberGetDigit, Hex)
     EXPECT_EQ(0x0, ul::math::getDigit(0x9abcdef, 7, ul::math::NumBase::HEX));
 }
 
-TEST(MathNumberGetDigit, Bin)
-{
+TEST(MathNumberGetDigit, Bin) {
     EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 0, ul::math::NumBase::BIN));
     EXPECT_EQ(0b1, ul::math::getDigit(0b1010, 1, ul::math::NumBase::BIN));
     EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 2, ul::math::NumBase::BIN));
@@ -67,8 +59,7 @@ TEST(MathNumberGetDigit, Bin)
     EXPECT_EQ(0b0, ul::math::getDigit(0b1010, 4, ul::math::NumBase::BIN));
 }
 
-TEST(math_sgnTest, Hex)
-{
+TEST(math_sgnTest, Hex) {
     EXPECT_EQ(0, ul::math::sgn(0));
     EXPECT_EQ(+1, ul::math::sgn(1));
     EXPECT_EQ(-1, ul::math::sgn(-1));
@@ -87,8 +78,7 @@ TEST(math_sgnTest, Hex)
 
 // NOLINTBEGIN
 
-TEST(math_is_power_ofTest, simple)
-{
+TEST(math_is_power_ofTest, simple) {
     EXPECT_EQ(2, *ul::math::isPowerOf(100, 10));
     if (ul::math::isPowerOf(10, 10))
         EXPECT_TRUE(true);
@@ -97,15 +87,13 @@ TEST(math_is_power_ofTest, simple)
     EXPECT_FALSE(ul::math::isPowerOf(101, 10));
 }
 
-TEST(math_is_power_ofTest, floatingpoint)
-{
+TEST(math_is_power_ofTest, floatingpoint) {
     EXPECT_DOUBLE_EQ(2.0, *ul::math::isPowerOf(100.0, 10.0));
     EXPECT_DOUBLE_EQ(-5.0, *ul::math::isPowerOf(0.00001, 10.0));
     EXPECT_FALSE(ul::math::isPowerOf(100.1, 10.0));
 }
 
-TEST(math_is_power_ofTest, corners)
-{
+TEST(math_is_power_ofTest, corners) {
     EXPECT_DOUBLE_EQ(0, *ul::math::isPowerOf(1, 2));
 
     EXPECT_DOUBLE_EQ(0.0, *ul::math::isPowerOf(1.0, 0.5));

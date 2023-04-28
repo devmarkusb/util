@@ -15,33 +15,27 @@
 #if UL_OS_WINDOWS_64 // using portable common solution for x64 configuration
 #include <crtdbg.h>
 #define UL_DEBUG_BREAK_IF(_CONDITION_) \
-    do \
-    { \
-        if ((_CONDITION_)) \
-        { \
+    do { \
+        if ((_CONDITION_)) { \
             _CrtDbgBreak(); \
         } \
     } while (false)
 #else
 #define UL_DEBUG_BREAK_IF(_CONDITION_) \
-    do \
-    { \
-        if ((_CONDITION_)) \
-        { \
+    do { \
+        if ((_CONDITION_)) { \
             __asm int 3 \
         } \
     } while (false)
 #endif
 #else
 #define UL_DEBUG_BREAK_IF(_CONDITION_) \
-    do \
-    { \
+    do { \
         UL_ASSERT(!(_CONDITION_)); \
     } while (false)
 #endif
 #define UL_DEBUG_BREAK \
-    do \
-    { \
+    do { \
         UL_DEBUG_BREAK_IF(true); \
     } while (false)
 #else

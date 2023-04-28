@@ -5,8 +5,7 @@
 
 #include "ul/macros.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 /** To 'suppress' compiler warning of an unused function parameter. Beyond that, it is
     even usable for a function itself (e.g. gcc shows a warning for unused functions).
     Example:
@@ -18,8 +17,7 @@ namespace mb::ul
     f() { ignore_unused(f); }
     \endcode*/
 template <typename T>
-void ignore_unused(T&& /*unused*/)
-{
+void ignore_unused(T&& /*unused*/) {
     // intentionally doing nothing; ideally the compiler optimizes away any call of this function
     UL_NOOP;
 }

@@ -5,8 +5,7 @@
 
 #include "assert.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 /**
 Usage:
 \code
@@ -17,8 +16,7 @@ for (size_t i = 0; i < ul::c_array_length(x); ++i)
 */
 // NOLINTBEGIN
 template <class T, size_t N>
-size_t c_array_length(T (&)[N])
-{
+size_t c_array_length(T (&)[N]) {
     return N;
 }
 

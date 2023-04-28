@@ -5,8 +5,7 @@
 
 #include <utility>
 
-namespace mb::ul::idx
-{
+namespace mb::ul::idx {
 // I would have liked to use the documentation https://en.cppreference.com/w/cpp/utility/integer_sequence
 // in order to use C++1x board tools to simplify things. But wtf do they expect one should do with the
 // non-compiling snippet of make_integer_sequence?!
@@ -40,19 +39,13 @@ namespace mb::ul::idx
     template parameter that allows fold-expanding the array by index - the function parameter ul::idx::seq itself
     isn't used directly.*/
 template <int... Is>
-struct seq
-{
-};
+struct seq {};
 
 template <int N, int... Is>
-struct gen_seq : gen_seq<N - 1, N - 1, Is...>
-{
-};
+struct gen_seq : gen_seq<N - 1, N - 1, Is...> {};
 
 template <int... Is>
-struct gen_seq<0, Is...> : seq<Is...>
-{
-};
+struct gen_seq<0, Is...> : seq<Is...> {};
 } // namespace mb::ul::idx
 
 #endif

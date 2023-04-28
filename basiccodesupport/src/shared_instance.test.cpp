@@ -3,13 +3,11 @@
 
 namespace ul = mb::ul;
 
-namespace
-{
+namespace {
 constexpr auto someNumberChoice{42};
 } // namespace
 
-TEST(getSharedInstance, basics)
-{
+TEST(getSharedInstance, basics) {
     auto i1 = ul::getSharedInstance<int>();
     // yes you can assume the implementation to call a value initializing make_shared (for POD types)
     EXPECT_EQ(*i1, 0);

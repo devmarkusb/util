@@ -9,21 +9,17 @@
 #include <queue>
 #include <type_traits>
 
-namespace mb::ul::thread
-{
+namespace mb::ul::thread {
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 template <typename T>
-class WaitQueue
-{
+class WaitQueue {
 public:
     explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max())
-        : maxElems_(maxElems)
-    {
+        : maxElems_(maxElems) {
     }
 
     template <typename T_>
-    bool push(T_&& elem)
-    {
+    bool push(T_&& elem) {
         static_assert(std::is_convertible_v<T_, T>);
 
         {
@@ -39,8 +35,7 @@ public:
     }
 
     template <typename T_>
-    bool emplace(T_&& elem)
-    {
+    bool emplace(T_&& elem) {
         static_assert(std::is_convertible_v<T_, T>);
 
         {
@@ -56,8 +51,7 @@ public:
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool waitAndPop(T& poppedElem)
-    {
+    bool waitAndPop(T& poppedElem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (queue_.empty() && !stopped_)
             conditionVariable_.wait(lk);
@@ -71,15 +65,13 @@ public:
         return true;
     }
 
-    void stop()
-    {
+    void stop() {
         const std::unique_lock<std::mutex> lock(mutex_);
         stopped_ = true;
         conditionVariable_.notify_all();
     }
 
-    size_t size() const
-    {
+    size_t size() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return queue_.size();
     }

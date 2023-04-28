@@ -10,11 +10,9 @@
 #include <limits>
 #include <type_traits>
 
-namespace mb::ul::math
-{
+namespace mb::ul::math {
 template <typename T>
-T round(T r, uint16_t decimal_places)
-{
+T round(T r, uint16_t decimal_places) {
     static_assert(std::is_floating_point<T>::value);
     constexpr auto ten{10.0};
     constexpr auto onehalf{0.5};
@@ -23,8 +21,7 @@ T round(T r, uint16_t decimal_places)
 }
 
 template <typename TR, typename TP>
-TR round_to(TP r, uint16_t decimal_places = 0)
-{
+TR round_to(TP r, uint16_t decimal_places = 0) {
     const volatile bool is_TR_integral = std::is_integral<TR>::value;
     if (is_TR_integral)
         decimal_places = 0; // for integral target values decimal_places make no sense

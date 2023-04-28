@@ -3,18 +3,14 @@
 
 namespace ul = mb::ul;
 
-TEST(prog_exit_successTest, test)
-{
+TEST(prog_exit_successTest, test) {
     EXPECT_EQ(0, ul::prog_exit_success);
     EXPECT_NE(0, ul::prog_exit_failure);
 }
 
-namespace
-{
-retcode f_with_retcode(char x) noexcept
-{
-    switch (x)
-    {
+namespace {
+retcode f_with_retcode(char x) noexcept {
+    switch (x) {
         case 's':
             return retcode::success;
         case 'f':
@@ -31,8 +27,7 @@ retcode f_with_retcode(char x) noexcept
 }
 } // namespace
 
-TEST(ul_retcodeTest, test)
-{
+TEST(ul_retcodeTest, test) {
     bool ok = false;
     if (is_ok(f_with_retcode('s')))
         ok = true;

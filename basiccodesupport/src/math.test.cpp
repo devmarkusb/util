@@ -18,8 +18,7 @@ UL_PRAGMA_WARNINGS_POP
 #define M_PI 3.141592653589793
 #endif
 
-TEST(math_constsTest, test)
-{
+TEST(math_constsTest, test) {
     const auto pi = static_cast<double>(M_PI);
     EXPECT_DOUBLE_EQ(pi, ul::math::consts::pi<double>());
     EXPECT_TRUE(ul::almost_equal(pi, ul::math::consts::pi<double>()));
@@ -36,8 +35,7 @@ TEST(math_constsTest, test)
 
 // NOLINTBEGIN
 
-TEST(math_isPowerOfTwo, some)
-{
+TEST(math_isPowerOfTwo, some) {
     static_assert(!ul::math::isPowerOfTwo(0));
     static_assert(ul::math::isPowerOfTwo(1));
     static_assert(ul::math::isPowerOfTwo(2));
@@ -52,14 +50,12 @@ TEST(math_isPowerOfTwo, some)
 }
 
 #if !UL_COMP_MS_VISUAL_STUDIO_CPP
-TEST(math_NextGreaterOrEqPow2, int_zero)
-{
+TEST(math_NextGreaterOrEqPow2, int_zero) {
     static_assert(ul::math::NextGreaterOrEqPow2<int, 0>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int, 0>::value() != 0);
 }
 
-TEST(math_NextGreaterOrEqPow2, ints)
-{
+TEST(math_NextGreaterOrEqPow2, ints) {
     static_assert(ul::math::NextGreaterOrEqPow2<int, 1>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int, 2>::value() == 2);
     static_assert(ul::math::NextGreaterOrEqPow2<int, 3>::value() == 4);
@@ -72,21 +68,18 @@ TEST(math_NextGreaterOrEqPow2, ints)
     static_assert(ul::math::NextGreaterOrEqPow2<int, 10>::value() == 16);
 }
 
-TEST(math_NextGreaterOrEqPow2, int_neg)
-{
+TEST(math_NextGreaterOrEqPow2, int_neg) {
     static_assert(ul::math::NextGreaterOrEqPow2<int, -1>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int, -2>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int, -1000>::value() == 1);
 }
 
-TEST(math_NextGreaterOrEqPow2, uint8_t_zero)
-{
+TEST(math_NextGreaterOrEqPow2, uint8_t_zero) {
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 0>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 0>::value() != 0);
 }
 
-TEST(math_NextGreaterOrEqPow2, uint8_ts)
-{
+TEST(math_NextGreaterOrEqPow2, uint8_ts) {
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 1>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 2>::value() == 2);
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 3>::value() == 4);
@@ -99,14 +92,12 @@ TEST(math_NextGreaterOrEqPow2, uint8_ts)
     static_assert(ul::math::NextGreaterOrEqPow2<uint8_t, 10>::value() == 16);
 }
 
-TEST(math_NextGreaterOrEqPow2, uint64_t_zero)
-{
+TEST(math_NextGreaterOrEqPow2, uint64_t_zero) {
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 0>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 0>::value() != 0);
 }
 
-TEST(math_NextGreaterOrEqPow2, int64_ts)
-{
+TEST(math_NextGreaterOrEqPow2, int64_ts) {
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 1>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 2>::value() == 2);
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 3>::value() == 4);
@@ -119,14 +110,12 @@ TEST(math_NextGreaterOrEqPow2, int64_ts)
     static_assert(ul::math::NextGreaterOrEqPow2<int64_t, 10>::value() == 16);
 }
 
-TEST(math_NextGreaterPow2, int_zero)
-{
+TEST(math_NextGreaterPow2, int_zero) {
     static_assert(ul::math::NextGreaterPow2<int, 0>::value() == 1);
     static_assert(ul::math::NextGreaterPow2<int, 0>::value() != 0);
 }
 
-TEST(math_NextGreaterPow2, ints)
-{
+TEST(math_NextGreaterPow2, ints) {
     static_assert(ul::math::NextGreaterPow2<int, 1>::value() == 2);
     static_assert(ul::math::NextGreaterPow2<int, 2>::value() == 4);
     static_assert(ul::math::NextGreaterPow2<int, 3>::value() == 4);
@@ -138,16 +127,14 @@ TEST(math_NextGreaterPow2, ints)
     static_assert(ul::math::NextGreaterPow2<int, 9>::value() == 16);
 }
 
-TEST(math_NextGreaterPow2, int_neg)
-{
+TEST(math_NextGreaterPow2, int_neg) {
     static_assert(ul::math::NextGreaterPow2<int, -1>::value() == 1);
     static_assert(ul::math::NextGreaterPow2<int, -2>::value() == 1);
     static_assert(ul::math::NextGreaterPow2<int, -1000>::value() == 1);
 }
 #endif
 
-TEST(math_nextGreaterOrEqPow2, some)
-{
+TEST(math_nextGreaterOrEqPow2, some) {
     static_assert(ul::math::nextGreaterOrEqPow2(1) == 1);
     static_assert(ul::math::nextGreaterOrEqPow2(2) == 2);
     static_assert(ul::math::nextGreaterOrEqPow2(3) == 4);

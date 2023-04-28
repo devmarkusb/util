@@ -1,14 +1,12 @@
 #include "ul/floating_point.h"
 #include "gtest/gtest.h"
 
-TEST(math_approx_equal_Test, test)
-{
+TEST(math_approx_equal_Test, test) {
     EXPECT_TRUE(ul::math::approx_equal(1.0, 1.001, 0.001));
     EXPECT_FALSE(ul::math::approx_equal(1.0, 1.00011, 0.0001));
 }
 
-TEST(math_to_string_Test, test)
-{
+TEST(math_to_string_Test, test) {
     EXPECT_STREQ("4.556000", ul::math::to_string(4.556).c_str());
     EXPECT_STREQ("4.6", ul::math::to_string(4.556, 2).c_str());
 

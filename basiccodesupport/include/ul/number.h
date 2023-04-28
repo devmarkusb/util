@@ -19,14 +19,12 @@
 #include <string>
 #include <type_traits>
 
-namespace mb::ul::math
-{
+namespace mb::ul::math {
 //! For values of single digits.
 using BaseDigitType = unsigned char;
 
 //! Base or radix, here just positive integers.
-enum class NumBase : BaseDigitType
-{
+enum class NumBase : BaseDigitType {
     BIN = 2,
     OCT = 8,
     DEC = 10,
@@ -35,12 +33,10 @@ enum class NumBase : BaseDigitType
 };
 
 template <typename T>
-T getDigitCount(T number, NumBase base = NumBase::DEC)
-{
+T getDigitCount(T number, NumBase base = NumBase::DEC) {
     static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
     T count = 0;
-    do
-    {
+    do {
         ++count;
         number /= ul::as_number(base);
     } while (number != 0);
@@ -49,22 +45,19 @@ T getDigitCount(T number, NumBase base = NumBase::DEC)
 
 //! \param digitIdx counted from the right (least significant digit) 0-based
 template <typename T>
-BaseDigitType getDigit(T number, T digitIdx, NumBase base = NumBase::DEC)
-{
+BaseDigitType getDigit(T number, T digitIdx, NumBase base = NumBase::DEC) {
     static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
     return narrow_cast<BaseDigitType>(
         number / static_cast<T>(std::pow(ul::enum_cast(base), digitIdx)) % ul::enum_cast(base));
 }
 
 template <typename T>
-int sgn(T val)
-{
+int sgn(T val) {
     return (static_cast<T>(0) < val) - (val < static_cast<T>(0));
 }
 
 template <typename T>
-std::string toLeadingZeros(T x, int digits)
-{
+std::string toLeadingZeros(T x, int digits) {
     static_assert(std::is_integral<T>::value);
     UL_EXPECT_THROW(x >= T());
     UL_EXPECT_THROW(digits >= 0);
@@ -79,8 +72,7 @@ std::string toLeadingZeros(T x, int digits)
     Note that the return value can be < 0, e.g. 0.5 is the -1 power of base 2.*/
 template <typename ArithType>
 //  ArithType expected to be is_arithmetic
-ul::opt<ArithType> isPowerOf(ArithType x, ArithType base)
-{
+ul::opt<ArithType> isPowerOf(ArithType x, ArithType base) {
     static_assert(std::is_arithmetic<ArithType>::value, "only arithmetic numbers are allowed as input");
     UL_EXPECT(x > ArithType{});
     UL_EXPECT(base > ArithType{});

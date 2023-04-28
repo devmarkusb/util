@@ -8,19 +8,15 @@
 
 namespace ul = mb::ul;
 
-namespace
-{
-struct AGlobalDestructor
-{
-    AGlobalDestructor()
-    {
+namespace {
+struct AGlobalDestructor {
+    AGlobalDestructor() {
         auto& memstats = ul::mem::Statistics::instance();
 
         memstats.reset();
     }
 
-    ~AGlobalDestructor()
-    {
+    ~AGlobalDestructor() {
         const auto& memstats = ul::mem::Statistics::instance();
 
         const auto newCalls{memstats.newCalls()};
@@ -69,8 +65,7 @@ struct AGlobalDestructor
 };
 } // namespace
 
-int main(int, char**)
-{
+int main(int, char**) {
     // Our definition of 'global'. By the way, a real global data's construction and destruction time is beyond
     // our control, so that would never yield proper new/delete statistics.
     AGlobalDestructor global;

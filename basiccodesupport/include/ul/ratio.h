@@ -13,16 +13,13 @@
 #include <string>
 #include <type_traits>
 
-namespace mb::ul::math
-{
+namespace mb::ul::math {
 //! Greatest common divisor. Expects at least on of a, b to be > 0.
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, T>::type gcd(T a, T b)
-{
+typename std::enable_if<std::is_integral<T>::value, T>::type gcd(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     T c = 0;
-    while (a != 0)
-    {
+    while (a != 0) {
         c = a;
         a = b % a;
         b = c;
@@ -32,8 +29,7 @@ typename std::enable_if<std::is_integral<T>::value, T>::type gcd(T a, T b)
 
 //! Lowest common multiple.
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, T>::type lcm(T a, T b)
-{
+typename std::enable_if<std::is_integral<T>::value, T>::type lcm(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     return a * (b / gcd(a, b));
 }
@@ -50,8 +46,7 @@ inline void make_common_denom(Rational& one, Rational& two);
         b) to  represent negative numbers by setting num < 0 only,
             so denom is even expected to be > 0 always.
     Otherwise there is undefined behavior.*/
-struct Rational
-{
+struct Rational {
     using ValueType = std::intmax_t;
 
     //! Numerator.
@@ -69,19 +64,14 @@ struct Rational
     /** Otherwise behavior is undefined. As it is of course also, if denominator is passed as 0.
         Note the ugly implementation detail: I need this init-list constructor to initialize conveniently
         because otherwise the default constructor seems to disturb.*/
-    Rational(std::initializer_list<ValueType> init)
-    {
+    Rational(std::initializer_list<ValueType> init) {
         UL_EXPECT(init.size() <= 2);
         bool first{true};
-        for (const auto& elem : init)
-        {
-            if (first)
-            {
+        for (const auto& elem : init) {
+            if (first) {
                 first = false;
                 num = elem;
-            }
-            else
-            {
+            } else {
                 denom = elem;
                 UL_EXPECT(denom > 0);
             }
@@ -91,8 +81,7 @@ struct Rational
     template <intmax_t N, intmax_t D>
     explicit constexpr Rational(std::ratio<N, D> /*unused*/)
         : num{N}
-        , denom{D}
-    {
+        , denom{D} {
         static_assert(D > 0, "denominator for Rational expected to be > 0");
     }
 
@@ -104,11 +93,9 @@ struct Rational
     //     }
 
     //! Note that this ensures the invariant of having denom > 0 always
-    void inverse()
-    {
+    void inverse() {
         std::swap(this->num, this->denom);
-        if (this->denom < 0)
-        {
+        if (this->denom < 0) {
             this->denom = -this->denom;
             this->num = -this->num;
         }
@@ -116,13 +103,11 @@ struct Rational
     }
 
     template <typename T>
-    [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type asFloatingPoint() const
-    {
+    [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type asFloatingPoint() const {
         return static_cast<T>(this->num) / static_cast<T>(this->denom);
     }
 
-    void reduce()
-    {
+    void reduce() {
         const auto d = gcd(this->num, this->denom);
         this->num /= d;
         this->denom /= d;
@@ -134,48 +119,41 @@ struct Rational
     //    return this->num != ValueType{};
     //}
 
-    bool operator!() const
-    {
+    bool operator!() const {
         return is_null();
     }
 
-    [[nodiscard]] bool is_null() const
-    {
+    [[nodiscard]] bool is_null() const {
         return this->num == ValueType{};
     }
 
-    Rational operator-() const
-    {
+    Rational operator-() const {
         Rational tmp{*this};
         tmp.num = -this->num;
         return tmp;
     }
 
-    Rational& operator+=(const Rational& rhs)
-    {
+    Rational& operator+=(const Rational& rhs) {
         Rational r = rhs;
         make_common_denom(*this, r);
         this->num += r.num;
         return *this;
     }
 
-    Rational& operator-=(const Rational& rhs)
-    {
+    Rational& operator-=(const Rational& rhs) {
         Rational r = rhs;
         make_common_denom(*this, r);
         this->num -= r.num;
         return *this;
     }
 
-    Rational& operator*=(const Rational& rhs)
-    {
+    Rational& operator*=(const Rational& rhs) {
         this->num *= rhs.num;
         this->denom *= rhs.denom;
         return *this;
     }
 
-    Rational& operator/=(const Rational& rhs)
-    {
+    Rational& operator/=(const Rational& rhs) {
         Rational r = rhs;
         r.inverse();
         *this *= r;
@@ -183,8 +161,7 @@ struct Rational
     }
 };
 
-inline void make_common_denom(Rational& one, Rational& two)
-{
+inline void make_common_denom(Rational& one, Rational& two) {
     const auto m = lcm(one.denom, two.denom);
     one.num *= m / one.denom;
     one.denom = m;
@@ -194,44 +171,37 @@ inline void make_common_denom(Rational& one, Rational& two)
     UL_ENSURE(one.denom == two.denom);
 }
 
-inline Rational operator+(Rational lhs, const Rational& rhs)
-{
+inline Rational operator+(Rational lhs, const Rational& rhs) {
     lhs += rhs;
     return lhs;
 }
 
-inline Rational operator-(Rational lhs, const Rational& rhs)
-{
+inline Rational operator-(Rational lhs, const Rational& rhs) {
     lhs -= rhs;
     return lhs;
 }
 
-inline Rational operator*(Rational lhs, const Rational& rhs)
-{
+inline Rational operator*(Rational lhs, const Rational& rhs) {
     lhs *= rhs;
     return lhs;
 }
 
-inline Rational operator/(Rational lhs, const Rational& rhs)
-{
+inline Rational operator/(Rational lhs, const Rational& rhs) {
     lhs /= rhs;
     return lhs;
 }
 
-inline bool operator==(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator==(const Rational& lhs, const Rational& rhs) {
     if (lhs.denom == rhs.denom)
         return lhs.num == rhs.num;
     return ul::almost_equal(lhs.asFloatingPoint<long double>(), rhs.asFloatingPoint<long double>());
 }
 
-inline bool operator!=(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator!=(const Rational& lhs, const Rational& rhs) {
     return !operator==(lhs, rhs);
 }
 
-inline bool operator<(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator<(const Rational& lhs, const Rational& rhs) {
     if (lhs.denom == rhs.denom)
         return lhs.num < rhs.num;
     if (lhs.num == rhs.num)
@@ -239,18 +209,15 @@ inline bool operator<(const Rational& lhs, const Rational& rhs)
     return lhs.asFloatingPoint<long double>() < rhs.asFloatingPoint<long double>();
 }
 
-inline bool operator>(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator>(const Rational& lhs, const Rational& rhs) {
     return operator<(rhs, lhs);
 }
 
-inline bool operator<=(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator<=(const Rational& lhs, const Rational& rhs) {
     return !operator>(lhs, rhs);
 }
 
-inline bool operator>=(const Rational& lhs, const Rational& rhs)
-{
+inline bool operator>=(const Rational& lhs, const Rational& rhs) {
     return !operator<(lhs, rhs);
 }
 

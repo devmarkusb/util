@@ -13,8 +13,7 @@ UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
 
 // clang-format on
 
-TEST(AssertExpectEnsureTest, Assert)
-{
+TEST(AssertExpectEnsureTest, Assert) {
 #ifdef UL_ASSERT_ALWAYS_THROWING
     EXPECT_THROW(UL_ASSERT(false), ul::fail_fast);
     EXPECT_THROW(UL_EXPECT(false), ul::fail_fast);
@@ -28,8 +27,7 @@ TEST(AssertExpectEnsureTest, Assert)
 #endif
 }
 
-TEST(AssertExpectEnsureTest, Throw)
-{
+TEST(AssertExpectEnsureTest, Throw) {
 #ifdef UL_ASSERT_THROW_DISABLE
 #if UL_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(UL_ASSERT_THROW(false), "");
@@ -46,8 +44,7 @@ TEST(AssertExpectEnsureTest, Throw)
 #endif
 }
 
-TEST(AssertExpectEnsureTest, Terminate)
-{
+TEST(AssertExpectEnsureTest, Terminate) {
 #if GTEST_HAS_DEATH_TEST
 #ifdef UL_ASSERT_TERMINATE_DISABLE
     EXPECT_DEBUG_DEATH(UL_ASSERT_TERMINATE(false), "");
@@ -63,8 +60,7 @@ TEST(AssertExpectEnsureTest, Terminate)
 #endif
 }
 
-TEST(AssertExpectEnsureTest, Sleep)
-{
+TEST(AssertExpectEnsureTest, Sleep) {
 #ifdef UL_ASSERT_SLEEP_DISABLE
 #if UL_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(UL_ASSERT_SLEEP(false), "");
@@ -77,8 +73,7 @@ TEST(AssertExpectEnsureTest, Sleep)
 #endif
 }
 
-TEST(VERIFY_ASSERT_Test, Test)
-{
+TEST(VERIFY_ASSERT_Test, Test) {
 #if UL_DEBUG
     int i = 1;
 #else

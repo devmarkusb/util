@@ -15,29 +15,25 @@
 #include <sstream>
 #include <type_traits>
 
-namespace mb::ul::math
-{
+namespace mb::ul::math {
 /** Rough version of almost_equal, where you can pass a user defined eps(ilon) within which x and y are
     understood approx. equal.
     HINT: a common mistake leading to compiler error is not providing eps with explicit type FloatType, as the
     other params.*/
 template <typename FloatType>
 typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type approx_equal(
-    FloatType x, FloatType y, FloatType eps)
-{
+    FloatType x, FloatType y, FloatType eps) {
     return std::abs(x - y) < eps;
 }
 
 //! Cf. to_string functions.
-enum class FloatFormat
-{
+enum class FloatFormat {
     default_,
     fixed,
     scientific,
 };
 
-namespace impl
-{
+namespace impl {
 template <typename FloatType, FloatFormat FF>
 struct ToStringConverter;
 } // namespace impl
@@ -51,8 +47,7 @@ struct ToStringConverter;
 template <FloatFormat FF = FloatFormat::default_, typename FloatType = double>
 //  FloatType expected as floating point
 typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(
-    FloatType x, int precision)
-{
+    FloatType x, int precision) {
     UL_EXPECT(precision >= 0);
     return impl::ToStringConverter<FloatType, FF>::convert(x, precision);
 }
@@ -62,28 +57,21 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::
     `fixed` meaning fixed count of decimal places and `scientific` an exponential formatting.*/
 template <FloatFormat FF = FloatFormat::default_, typename FloatType = double>
 //  FloatType expected as floating point
-typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(FloatType x)
-{
+typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(FloatType x) {
     return impl::ToStringConverter<FloatType, FF>::convert(x);
 }
 
-namespace impl
-{
+namespace impl {
 template <typename FloatType, FloatFormat FF>
-struct ToStringConverter
-{
-};
+struct ToStringConverter {};
 
 template <typename FloatType>
-struct ToStringConverter<FloatType, FloatFormat::default_>
-{
-    static std::string convert(FloatType x)
-    {
+struct ToStringConverter<FloatType, FloatFormat::default_> {
+    static std::string convert(FloatType x) {
         return ul::to_string(x);
     }
 
-    static std::string convert(FloatType x, int precision)
-    {
+    static std::string convert(FloatType x, int precision) {
         UL_EXPECT(precision >= 0);
         std::ostringstream ret;
         ret << std::setprecision(precision) << x;
@@ -92,17 +80,14 @@ struct ToStringConverter<FloatType, FloatFormat::default_>
 };
 
 template <typename FloatType>
-struct ToStringConverter<FloatType, FloatFormat::fixed>
-{
-    static std::string convert(FloatType x)
-    {
+struct ToStringConverter<FloatType, FloatFormat::fixed> {
+    static std::string convert(FloatType x) {
         std::ostringstream ret;
         ret << std::fixed << x;
         return ret.str();
     }
 
-    static std::string convert(FloatType x, int precision)
-    {
+    static std::string convert(FloatType x, int precision) {
         UL_EXPECT(precision >= 0);
         std::ostringstream ret;
         ret << std::fixed << std::setprecision(precision) << x;
@@ -111,17 +96,14 @@ struct ToStringConverter<FloatType, FloatFormat::fixed>
 };
 
 template <typename FloatType>
-struct ToStringConverter<FloatType, FloatFormat::scientific>
-{
-    static std::string convert(FloatType x)
-    {
+struct ToStringConverter<FloatType, FloatFormat::scientific> {
+    static std::string convert(FloatType x) {
         std::ostringstream ret;
         ret << std::scientific << x;
         return ret.str();
     }
 
-    static std::string convert(FloatType x, int precision)
-    {
+    static std::string convert(FloatType x, int precision) {
         UL_EXPECT(precision >= 0);
         std::ostringstream ret;
         ret << std::scientific << std::setprecision(precision) << x;

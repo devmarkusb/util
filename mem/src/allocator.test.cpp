@@ -13,14 +13,12 @@
 namespace ul = mb::ul;
 using Bytes = ul::mem::Bytes;
 
-namespace
-{
+namespace {
 constexpr auto mem100K{100'000};
 } // namespace
 
 template <typename Vector>
-void common_vector_test(Vector&& v)
-{
+void common_vector_test(Vector&& v) {
     // NOLINTBEGIN
     v.reserve(mem100K);
     EXPECT_TRUE(v.empty());
@@ -40,8 +38,7 @@ void common_vector_test(Vector&& v)
     v.push_back(42);
     EXPECT_EQ(v.size(), 1);
     EXPECT_GE(v.capacity(), 1);
-    for (int i = 1; i <= 999; ++i)
-    {
+    for (int i = 1; i <= 999; ++i) {
         v.push_back(42);
     }
     // NOLINTEND
@@ -50,8 +47,7 @@ void common_vector_test(Vector&& v)
 }
 
 template <typename Map>
-void common_map_test(Map&& m)
-{
+void common_map_test(Map&& m) {
     EXPECT_TRUE(m.empty());
     m[0] = "0";
     EXPECT_EQ(m.size(), 1);
@@ -62,8 +58,7 @@ void common_map_test(Map&& m)
     EXPECT_EQ(m.size(), 1'000);
 }
 
-TEST(allocator_example, vector)
-{
+TEST(allocator_example, vector) {
     using Arena = ul::mem::alloc::Example;
     using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
@@ -73,8 +68,7 @@ TEST(allocator_example, vector)
     common_vector_test(v);
 }
 
-TEST(allocator_example, map)
-{
+TEST(allocator_example, map) {
     using Arena = ul::mem::alloc::Example;
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
@@ -85,8 +79,7 @@ TEST(allocator_example, map)
     common_map_test(m);
 }
 
-TEST(allocator_default, vector)
-{
+TEST(allocator_default, vector) {
     using Arena = ul::mem::alloc::DefaultNewDelete<>;
     using Allocator = ul::mem::Allocator<int, Arena>;
     Arena a;
@@ -96,8 +89,7 @@ TEST(allocator_default, vector)
     common_vector_test(v);
 }
 
-TEST(allocator_default, map)
-{
+TEST(allocator_default, map) {
     using Arena = ul::mem::alloc::DefaultNewDelete<>;
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
@@ -108,27 +100,22 @@ TEST(allocator_default, map)
     common_map_test(m);
 }
 
-TEST(allocator_linear, vector)
-{
+TEST(allocator_linear, vector) {
     using Arena = ul::mem::alloc::Linear<>;
     using Allocator = ul::mem::Allocator<int, Arena>;
-    try
-    {
+    try {
         Arena a{
             Bytes{mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
         const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
         common_vector_test(v);
-    }
-    catch (const std::bad_alloc&)
-    {
+    } catch (const std::bad_alloc&) {
         std::cout << "low mem, omitted test";
     }
 }
 
-TEST(allocator_linear, map)
-{
+TEST(allocator_linear, map) {
     using Arena = ul::mem::alloc::Linear<>;
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
@@ -140,27 +127,22 @@ TEST(allocator_linear, map)
     common_map_test(m);
 }
 
-TEST(allocator_onstack, vector)
-{
+TEST(allocator_onstack, vector) {
     using Arena = ul::mem::alloc::OnStack<
         mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = ul::mem::Allocator<int, Arena>;
-    try
-    {
+    try {
         Arena a;
         const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
         common_vector_test(v);
-    }
-    catch (const std::bad_alloc&)
-    {
+    } catch (const std::bad_alloc&) {
         std::cout << "low mem, omitted test";
     }
 }
 
-TEST(allocator_onstack, map)
-{
+TEST(allocator_onstack, map) {
     using MapPair = std::pair<const int, std::string>;
     using Arena = ul::mem::alloc::OnStack<mem100K, alignof(MapPair)>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;

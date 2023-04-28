@@ -5,8 +5,7 @@
 
 #include <type_traits>
 
-namespace mb::ul
-{
+namespace mb::ul {
 /**
  * As long as there is no spaceship operator <=>, this is the equivalent.
  * The idea is to implement a safe three way comparison returning -1, 0, 1
@@ -18,8 +17,7 @@ namespace mb::ul
  * Impl. note: didn't consider implementing this for floating types as well, might be easy, might be not.
  */
 template <typename LessComparableType>
-int threeWayCompare(LessComparableType lhs, LessComparableType rhs)
-{
+int threeWayCompare(LessComparableType lhs, LessComparableType rhs) {
     static_assert(!std::is_floating_point_v<LessComparableType>);
     return (rhs < lhs) - (lhs < rhs);
 }

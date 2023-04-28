@@ -4,8 +4,7 @@
 
 namespace ul = mb::ul;
 
-TEST(xorTest, xor_bools)
-{
+TEST(xorTest, xor_bools) {
     bool a{false};
     bool b{false};
     EXPECT_FALSE(ul::XOR(a, b));
@@ -23,8 +22,7 @@ TEST(xorTest, xor_bools)
     EXPECT_TRUE(ul::XOR(a, b));
 }
 
-TEST(xorTest, xnor_bools)
-{
+TEST(xorTest, xnor_bools) {
     bool a{false};
     bool b{false};
     EXPECT_TRUE(ul::XNOR(a, b));
@@ -42,8 +40,7 @@ TEST(xorTest, xnor_bools)
     EXPECT_FALSE(ul::XNOR(a, b));
 }
 
-TEST(xorTest, xor_nonbool)
-{
+TEST(xorTest, xor_nonbool) {
     int a{0};
     int b{0};
     int* pa{nullptr};
@@ -78,8 +75,7 @@ TEST(xorTest, xor_nonbool)
     EXPECT_FALSE(ul::XOR(a, b)); // both non-0
 }
 
-TEST(xorTest, nxor_nonbool)
-{
+TEST(xorTest, nxor_nonbool) {
     int a{0};
     int b{0};
     int* pa{nullptr};
@@ -114,8 +110,7 @@ TEST(xorTest, nxor_nonbool)
     EXPECT_TRUE(ul::XNOR(a, b)); // both non-0
 }
 
-TEST(xorTest, xor_mixedtypes)
-{
+TEST(xorTest, xor_mixedtypes) {
     const int a{0};
     EXPECT_FALSE(ul::XOR(0, nullptr));
     EXPECT_FALSE(ul::XOR(nullptr, 0));

@@ -11,23 +11,20 @@
 
 namespace ul = mb::ul;
 
-TEST(utf8cpp_is_validTest, test)
-{
+TEST(utf8cpp_is_validTest, test) {
     std::string s = "schtscha:\xd0\xa9";
     EXPECT_TRUE(utf8::is_valid(s.begin(), s.end()));
     s = "\xe4\xf6\xfc"; // latin1 aeoeue
     EXPECT_FALSE(utf8::is_valid(s.begin(), s.end()));
 }
 
-TEST(utf8cpp_find_invalidTest, test)
-{
+TEST(utf8cpp_find_invalidTest, test) {
     char utf_invalid[] = "\xe6\x97\xa5\xd1\x88\xfa";
     char* invalid = utf8::find_invalid(utf_invalid, utf_invalid + 6);
     EXPECT_TRUE(invalid == utf_invalid + 5);
 }
 
-TEST(utf8cpp_replace_invalidTest, test)
-{
+TEST(utf8cpp_replace_invalidTest, test) {
     std::string res;
     std::string s = "some invalid ones: \xe4,\xf6,\xfc"; // latin1 ae oe ue
     char32_t rc = 0x3f;
@@ -49,16 +46,14 @@ TEST(utf8cpp_replace_invalidTest, test)
     EXPECT_TRUE(std::equal(replace_invalid_result.begin(), replace_invalid_result.end(), fixed_invalid_sequence));
 }
 
-TEST(utf8cpp_appendTest, test)
-{
+TEST(utf8cpp_appendTest, test) {
     unsigned char u[5] = {0, 0, 0, 0, 0};
     unsigned char* end = utf8::append(0x0448, u); // cyrillic scha
     ul::ignore_unused(end);
     EXPECT_TRUE(u[0] == 0xd1 && u[1] == 0x88 && u[2] == 0 && u[3] == 0 && u[4] == 0);
 }
 
-TEST(utf8cpp_nextTest, test)
-{
+TEST(utf8cpp_nextTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars;
     auto cp = utf8::next(w, twochars + 6);
@@ -66,8 +61,7 @@ TEST(utf8cpp_nextTest, test)
     EXPECT_EQ(w, twochars + 3);
 }
 
-TEST(utf8cpp_peek_nextTest, test)
-{
+TEST(utf8cpp_peek_nextTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars;
     auto cp = utf8::peek_next(w, twochars + 6);
@@ -75,8 +69,7 @@ TEST(utf8cpp_peek_nextTest, test)
     EXPECT_EQ(w, twochars);
 }
 
-TEST(utf8cpp_priorTest, test)
-{
+TEST(utf8cpp_priorTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars + 3;
     auto cp = utf8::prior(w, twochars);
@@ -84,23 +77,20 @@ TEST(utf8cpp_priorTest, test)
     EXPECT_EQ(w, twochars);
 }
 
-TEST(utf8cpp_advanceTest, test)
-{
+TEST(utf8cpp_advanceTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars;
     utf8::advance(w, 2, twochars + 6);
     EXPECT_EQ(w, twochars + 5);
 }
 
-TEST(utf8cpp_distanceTest, test)
-{
+TEST(utf8cpp_distanceTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     ptrdiff_t dist = utf8::distance(twochars, twochars + 5);
     EXPECT_EQ(2, dist);
 }
 
-TEST(utf8cpp_is_bomTest, test)
-{
+TEST(utf8cpp_is_bomTest, test) {
 #if !UL_COMP_MS_VISUAL_STUDIO_CPP
     char byte_order_mark[] = "\xef\xbb\xbf";
     bool bbom = utf8::starts_with_bom(byte_order_mark);
@@ -108,8 +98,7 @@ TEST(utf8cpp_is_bomTest, test)
 #endif
 }
 
-TEST(utf8cpp_iteratorTest, test)
-{
+TEST(utf8cpp_iteratorTest, test) {
     char threechars[] = "\xf0\x90\x8d\x86\xe6\x97\xa5\xd1\x88";
     utf8::iterator<char*> it(threechars, threechars, threechars + 9);
     utf8::iterator<char*> it2 = it;
@@ -128,8 +117,7 @@ TEST(utf8cpp_iteratorTest, test)
     EXPECT_EQ(0x10346u, *it);
 }
 
-TEST(utf8cpp_8to16to8Test, test)
-{
+TEST(utf8cpp_8to16to8Test, test) {
     // utf8::utf8to16(it, eos, back_inserter(u16string));
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
     std::vector<unsigned short> utf16result;
@@ -144,8 +132,7 @@ TEST(utf8cpp_8to16to8Test, test)
     EXPECT_EQ(10u, utf8result.size());
 }
 
-TEST(utf8cpp_8to32to8Test, test)
-{
+TEST(utf8cpp_8to32to8Test, test) {
     // utf8::utf8to16(it, eos, back_inserter(u16string));
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     std::vector<int> utf32result;
@@ -158,16 +145,14 @@ TEST(utf8cpp_8to32to8Test, test)
     EXPECT_EQ(9u, utf8result.size());
 }
 
-TEST(utf8cpp_unchecked_appendTest, test)
-{
+TEST(utf8cpp_unchecked_appendTest, test) {
     unsigned char u[7] = {0, 0, 0, 0, 0, 0, 0};
     unsigned char* end = utf8::unchecked::append(0x0448, u + 1); // cyrillic scha
     ul::ignore_unused(end);
     EXPECT_TRUE(u[0] == 0 && u[1] == 0xd1 && u[2] == 0x88 && u[3] == 0 && u[4] == 0 && u[5] == 0);
 }
 
-TEST(utf8cpp_unchecked_nextTest, test)
-{
+TEST(utf8cpp_unchecked_nextTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88"; // 'U+65E5' 3 bytes + cyrillic scha 2 bytes
     char* w = twochars;
     auto cp = utf8::unchecked::next(w);
@@ -175,8 +160,7 @@ TEST(utf8cpp_unchecked_nextTest, test)
     EXPECT_EQ(w, twochars + 3);
 }
 
-TEST(utf8cpp_unchecked_peek_nextTest, test)
-{
+TEST(utf8cpp_unchecked_peek_nextTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars;
     auto cp = utf8::unchecked::peek_next(w);
@@ -184,8 +168,7 @@ TEST(utf8cpp_unchecked_peek_nextTest, test)
     EXPECT_EQ(w, twochars);
 }
 
-TEST(utf8cpp_unchecked_priorTest, test)
-{
+TEST(utf8cpp_unchecked_priorTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars + 3;
     auto cp = utf8::unchecked::prior(w);
@@ -193,23 +176,20 @@ TEST(utf8cpp_unchecked_priorTest, test)
     EXPECT_EQ(w, twochars);
 }
 
-TEST(utf8cpp_unchecked_advanceTest, test)
-{
+TEST(utf8cpp_unchecked_advanceTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     char* w = twochars;
     utf8::unchecked::advance(w, 2);
     EXPECT_EQ(w, twochars + 5);
 }
 
-TEST(utf8cpp_unchecked_distanceTest, test)
-{
+TEST(utf8cpp_unchecked_distanceTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     auto dist = utf8::unchecked::distance(twochars, twochars + 5);
     EXPECT_EQ(2u, dist);
 }
 
-TEST(utf8cpp_unchecked_iteratorTest, test)
-{
+TEST(utf8cpp_unchecked_iteratorTest, test) {
     // U+10346 GOTHIC LETTER FAIHU 4 bytes + U+65E5 3 bytes + U+0448 cyrillic scha 2 bytes
     char threechars[] = "\xf0\x90\x8d\x86\xe6\x97\xa5\xd1\x88";
     utf8::unchecked::iterator<char*> it(threechars);
@@ -229,8 +209,7 @@ TEST(utf8cpp_unchecked_iteratorTest, test)
     EXPECT_EQ(0x10346u, *it);
 }
 
-TEST(utf8cpp_unchecked_8to16to8Test, test)
-{
+TEST(utf8cpp_unchecked_8to16to8Test, test) {
     // U+65E5 3 bytes + U+0448 cyrillic scha 2 bytes + U+1D11E MUSICAL SYMBOL G CLEF 4 bytes
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
     /*std::vector <char16_t> */ std::u16string utf16result;
@@ -255,8 +234,7 @@ TEST(utf8cpp_unchecked_8to16to8Test, test)
     EXPECT_EQ(10u, utf8result.size());
 }
 
-TEST(utf8cpp_unchecked_8to16to8Test, test2)
-{
+TEST(utf8cpp_unchecked_8to16to8Test, test2) {
     std::string utf8("\xc3\xa4"
                      "hnlich\x21");
     std::u16string utf16;
@@ -286,8 +264,7 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2)
 #endif
 }
 
-TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
-{
+TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     {
         std::string utf8("\xc3\xa4"
                          "hnlich\x21");
@@ -342,8 +319,7 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments)
     // from the compiler; so utf8:: can't do this, which is ok
 }
 
-TEST(utf8cpp_unchecked_8to16Test, spelling)
-{
+TEST(utf8cpp_unchecked_8to16Test, spelling) {
     std::string utf8s{"\xc3\xa4hnlich!"};
     std::u16string utf16_test{0xe4, 'h', 'n', 'l', 'i', 'c', 'h', '!'}; // can I write this? yes...
     std::u16string utf16;
@@ -351,8 +327,7 @@ TEST(utf8cpp_unchecked_8to16Test, spelling)
     EXPECT_TRUE(utf16_test == utf16);
 }
 
-TEST(utf8cpp_unchecked_8to32to8Test, test)
-{
+TEST(utf8cpp_unchecked_8to32to8Test, test) {
     // U+65E5 3 bytes + U+0448 cyrillic scha 2 bytes
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     std::vector<int> utf32result;
@@ -368,8 +343,7 @@ TEST(utf8cpp_unchecked_8to32to8Test, test)
     EXPECT_EQ(9u, utf8result.size());
 }
 
-TEST(utf8cpp_unchecked_8to32to8Test, readable_test)
-{
+TEST(utf8cpp_unchecked_8to32to8Test, readable_test) {
     const char* utf8 = "\xc3\xa4"
                        "hnlich\x21";
     std::vector<int> utf32result;

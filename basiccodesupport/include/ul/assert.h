@@ -30,14 +30,11 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <stdexcept>
 #include <thread>
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! This is thrown by any throwing assertion.
-struct fail_fast : public std::runtime_error
-{
+struct fail_fast : public std::runtime_error {
     explicit fail_fast(const char* const message)
-        : std::runtime_error(message)
-    {
+        : std::runtime_error(message) {
     }
 };
 } // namespace mb::ul
@@ -56,8 +53,7 @@ UL_WARNING_DISABLE_MSVC(4127)
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
 #if UL_DEBUG
 #define UL_ASSERT_IMPL(cond) \
-    do \
-    { \
+    do { \
         if (!(cond)) \
             __debugbreak(); \
     } while (false)
@@ -72,8 +68,7 @@ UL_WARNING_DISABLE_MSVC(4127)
 #define UL_ASSERT_THROW_IMPL(cond, textstart) UL_ASSERT_IMPL(cond)
 #else
 #define UL_ASSERT_THROW_IMPL(cond, textstart) \
-    do \
-    { \
+    do { \
         if (!(cond)) \
             throw ul::fail_fast(textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)); \
     } while (false)
@@ -92,10 +87,8 @@ UL_WARNING_DISABLE_MSVC(4127)
 #define UL_ASSERT_SLEEP_IMPL(cond) UL_ASSERT_IMPL(cond)
 #else
 #define UL_ASSERT_SLEEP_IMPL(cond) \
-    do \
-    { \
-        for (;;) \
-        { \
+    do { \
+        for (;;) { \
             std::this_thread::sleep_for(std::chrono::milliseconds(1)); \
         } \
     } while (false)
@@ -105,8 +98,7 @@ UL_WARNING_DISABLE_MSVC(4127)
 #define UL_ASSERT_TERMINATE_IMPL(cond) UL_ASSERT_IMPL(cond)
 #else
 #define UL_ASSERT_TERMINATE_IMPL(cond) \
-    do \
-    { \
+    do { \
         if (!(cond)) \
             std::terminate(); \
     } while (false)
@@ -172,15 +164,13 @@ UL_WARNING_DISABLE_MSVC(4127)
 // in release build. The assignment to bool lately seemed to be the crucial point; volatile not even necessary.
 // But hopefully chances are that real production code's functionality won't be cut off.
 #define UL_VERIFY(cond) \
-    do \
-    { \
+    do { \
         volatile bool UL_DUMMY = (cond); \
         UL_DUMMY; \
     } while (false)
 #endif
 
-namespace mb::ul
-{
+namespace mb::ul {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
 static const char* const death_assert_regex{""};
 #else

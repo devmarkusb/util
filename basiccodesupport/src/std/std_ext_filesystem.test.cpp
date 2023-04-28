@@ -18,10 +18,8 @@
 namespace ul = mb::ul;
 namespace fs = ul::std_fs;
 
-namespace
-{
-namespace
-{
+namespace {
+namespace {
 constexpr std::string_view physical_test_dir_s{"/tmp/ul/test"};
 } // namespace
 
@@ -30,8 +28,7 @@ const fs::path physical_test_dir{physical_test_dir_s}; // NOLINT
 //! \return finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.
 /** There is also a helping sleep for 1ms included. Features preferred changing of leading digits.
     Note, this implies a decrease every tenth step and possible leading zeros.*/
-std::string getSteadyUniqueNr()
-{
+std::string getSteadyUniqueNr() {
     std::string ret = std::to_string(
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch())
             .count());
@@ -41,8 +38,7 @@ std::string getSteadyUniqueNr()
 }
 } // namespace
 
-TEST(pathTest, constr_assign)
-{
+TEST(pathTest, constr_assign) {
     fs::path p;
     p = "foo";
     EXPECT_EQ(p, fs::path{"foo"});
@@ -50,16 +46,14 @@ TEST(pathTest, constr_assign)
     EXPECT_EQ(p, fs::path{"bar"});
 }
 
-TEST(pathTest, empty)
-{
+TEST(pathTest, empty) {
     const fs::path empty;
     EXPECT_TRUE(empty.empty());
     const fs::path dot{"."};
     EXPECT_TRUE(!dot.empty());
 }
 
-TEST(pathTest, extension)
-{
+TEST(pathTest, extension) {
     const fs::path empty;
     EXPECT_EQ(empty.extension(), empty);
 
@@ -82,8 +76,7 @@ TEST(pathTest, extension)
     EXPECT_EQ(usual_justfile.extension(), fs::path{".extension"});
 }
 
-TEST(pathTest, stem)
-{
+TEST(pathTest, stem) {
     const fs::path empty;
     EXPECT_EQ(empty.stem(), empty);
 
@@ -106,8 +99,7 @@ TEST(pathTest, stem)
     EXPECT_EQ(usual_justfile.stem(), fs::path{"file"});
 }
 
-TEST(pathTest, stem_ext_example)
-{
+TEST(pathTest, stem_ext_example) {
     fs::path p{"foo.bar.baz.tar"};
     EXPECT_EQ(p.extension(), fs::path{".tar"});
     p = p.stem();
@@ -118,8 +110,7 @@ TEST(pathTest, stem_ext_example)
     EXPECT_TRUE(p.extension().empty());
 }
 
-TEST(pathTest, filename)
-{
+TEST(pathTest, filename) {
     const fs::path empty;
     EXPECT_EQ(empty.filename(), empty);
 
@@ -142,8 +133,7 @@ TEST(pathTest, filename)
     EXPECT_EQ(usual_justfile.filename(), fs::path{"file.extension"});
 }
 
-TEST(pathTest, parent_path)
-{
+TEST(pathTest, parent_path) {
     const fs::path empty;
     EXPECT_EQ(empty.parent_path(), empty);
 
@@ -181,8 +171,7 @@ TEST(pathTest, parent_path)
     EXPECT_EQ(root_file.parent_path(), root);
 }
 
-TEST(pathTest, replace_extension)
-{
+TEST(pathTest, replace_extension) {
     const fs::path empty;
     fs::path empty_cp{empty};
     empty_cp.replace_extension(".txt");
@@ -217,8 +206,7 @@ TEST(pathTest, replace_extension)
     EXPECT_EQ(dot_in_parent, fs::path{"sub.dir/file"});
 }
 
-TEST(pathTest, eq)
-{
+TEST(pathTest, eq) {
     const fs::path lhs{"/tmp/foo/"};
     const fs::path rhs{"/tmp/foo"};
     EXPECT_TRUE(lhs != rhs);
@@ -228,8 +216,7 @@ TEST(pathTest, eq)
     EXPECT_TRUE(empty != dot);
 }
 
-TEST(pathTest, concat)
-{
+TEST(pathTest, concat) {
     fs::path some{"/tmp/foo"};
     some /= "bar";
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar"});
@@ -241,8 +228,7 @@ TEST(pathTest, concat)
     EXPECT_EQ(some, fs::path{"/tmp/foo/bar/readme.md"});
 }
 
-TEST(pathTest, append)
-{
+TEST(pathTest, append) {
     const fs::path some1{"/tmp/foo"};
     const fs::path some2{"bar"};
     fs::path some{some1 / some2};
@@ -265,24 +251,20 @@ TEST(pathTest, append)
     EXPECT_EQ(current_dot_some, fs::path{"./sub/file"});
 }
 
-class PhysicalFilesystemTest : public ::testing::Test
-{
-    void SetUp() override
-    {
+class PhysicalFilesystemTest : public ::testing::Test {
+    void SetUp() override {
         std::error_code ec;
         fs::create_directories(physical_test_dir, ec);
         ASSERT_FALSE(ec);
     }
 
-    void TearDown() override
-    {
+    void TearDown() override {
         // don't risk deleting anything important accidentally, just keep the playground's base dir and content
         UL_NOOP;
     }
 };
 
-TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype)
-{
+TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype) {
     const fs::path dir1 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
     const fs::path dir2 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
     std::error_code ec;
@@ -302,8 +284,7 @@ TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype)
     EXPECT_TRUE(!fs::is_regular_file(dir2));
 }
 
-TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype)
-{
+TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype) {
     const std::string subdirs_base = getSteadyUniqueNr() + "subdirs";
 
     const fs::path subdirs{physical_test_dir / fs::path{subdirs_base} / fs::path{"d1/d2/d3"}};
@@ -318,8 +299,7 @@ TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype
     EXPECT_TRUE(!fs::is_regular_file(subdirs));
 }
 
-TEST_F(PhysicalFilesystemTest, exists__file_correcttype)
-{
+TEST_F(PhysicalFilesystemTest, exists__file_correcttype) {
     const auto file = physical_test_dir / fs::path{"dummy" + getSteadyUniqueNr()};
     EXPECT_TRUE(!fs::exists(file));
     ul::file::touch(file);
@@ -327,8 +307,7 @@ TEST_F(PhysicalFilesystemTest, exists__file_correcttype)
     EXPECT_TRUE(fs::is_regular_file(file));
 }
 
-TEST_F(PhysicalFilesystemTest, copy_file__file_existence)
-{
+TEST_F(PhysicalFilesystemTest, copy_file__file_existence) {
     const auto file = physical_test_dir / fs::path{"dummy-to-copy" + getSteadyUniqueNr()};
     EXPECT_TRUE(!fs::exists(file));
     ul::file::touch(file);
@@ -341,8 +320,7 @@ TEST_F(PhysicalFilesystemTest, copy_file__file_existence)
     EXPECT_TRUE(fs::exists(dest));
 }
 
-TEST_F(PhysicalFilesystemTest, remove__file_existence)
-{
+TEST_F(PhysicalFilesystemTest, remove__file_existence) {
     const auto file = physical_test_dir / fs::path{"deadbeef" + getSteadyUniqueNr()};
     ASSERT_TRUE(!fs::exists(file));
     ul::file::touch(file);
@@ -351,8 +329,7 @@ TEST_F(PhysicalFilesystemTest, remove__file_existence)
     EXPECT_TRUE(!fs::exists(file));
 }
 
-TEST_F(PhysicalFilesystemTest, remove__dir_existence)
-{
+TEST_F(PhysicalFilesystemTest, remove__dir_existence) {
     const auto dir = physical_test_dir / fs::path{"deadbeef" + getSteadyUniqueNr()};
     ASSERT_TRUE(!fs::exists(dir));
     std::error_code ec;
@@ -363,21 +340,18 @@ TEST_F(PhysicalFilesystemTest, remove__dir_existence)
     EXPECT_TRUE(!fs::exists(dir));
 }
 
-TEST_F(PhysicalFilesystemTest, current_path__get_set)
-{
+TEST_F(PhysicalFilesystemTest, current_path__get_set) {
     std::error_code ec;
     const auto orig = fs::current_path(ec);
     ASSERT_FALSE(ec);
     std::cout << orig.string() << "\n";
     fs::current_path(physical_test_dir, ec);
     ASSERT_FALSE(ec);
-    const auto chdir_back_to_orig = ul::finally(
-        [&orig]()
-        {
-            std::error_code ec_;
-            fs::current_path(orig, ec_);
-            EXPECT_FALSE(ec_);
-        });
+    const auto chdir_back_to_orig = ul::finally([&orig]() {
+        std::error_code ec_;
+        fs::current_path(orig, ec_);
+        EXPECT_FALSE(ec_);
+    });
     const auto changed_dir = fs::current_path(ec);
     std::cout << changed_dir.string() << "\n";
     std::cout << physical_test_dir.string() << "\n";
@@ -393,8 +367,7 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set)
     EXPECT_FALSE(ec);
 }
 
-TEST_F(PhysicalFilesystemTest, directory_iterator)
-{
+TEST_F(PhysicalFilesystemTest, directory_iterator) {
     const fs::path dir = physical_test_dir / fs::path{"some" + getSteadyUniqueNr()};
     std::error_code ec;
     fs::create_directories(dir, ec);

@@ -1,8 +1,7 @@
 #include "ul/macros.h"
 #include "gtest/gtest.h"
 
-TEST(UL_DEBUGTest, test)
-{
+TEST(UL_DEBUGTest, test) {
 #ifdef NDEBUG
     EXPECT_EQ(0, UL_DEBUG);
 #else
@@ -10,8 +9,7 @@ TEST(UL_DEBUGTest, test)
 #endif
 }
 
-TEST(UL_DUMMYTest, test)
-{
+TEST(UL_DUMMYTest, test) {
     // clang-format off
     const int UL_DUMMY = 1; const int x = UL_DUMMY; // in the same line, UL_DUMMY is still defined...
     const int UL_DUMMY = 2; const int y = UL_DUMMY; // a different line, other unique UL_DUMMY
@@ -24,16 +22,14 @@ TEST(UL_DUMMYTest, test)
 #endif
 }
 
-TEST(UL_STRINGIFYTest, plain)
-{
+TEST(UL_STRINGIFYTest, plain) {
     const std::string s = UL_STRINGIFY(this is a test string);
     EXPECT_EQ("this is a test string", s);
     const std::string s2 = UL_STRINGIFY("this is a test string"); // not the proper usage
     EXPECT_EQ("\"this is a test string\"", s2);
 }
 
-TEST(UL_STRINGIFYTest, macro)
-{
+TEST(UL_STRINGIFYTest, macro) {
 #define SOMETHING 42
     const std::string s = UL_STRINGIFY(SOMETHING);
     EXPECT_EQ("SOMETHING", s);
@@ -42,15 +38,12 @@ TEST(UL_STRINGIFYTest, macro)
 #undef SOMETHING
 }
 
-namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
-{
-UL_DEPRECATED void deprecated_function()
-{
+namespace ppdefs::test::impl::treat_this_as_anonymous_namespace {
+UL_DEPRECATED void deprecated_function() {
 }
 } // namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
 
-TEST(UL_DEPRECATEDTest, test)
-{
+TEST(UL_DEPRECATEDTest, test) {
     // uncomment for experimentation
     //using ppdefs::test::impl::treat_this_as_anonymous_namespace::deprecated_function;
     //deprecated_function();

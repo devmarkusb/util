@@ -8,16 +8,14 @@
 #include <string>
 #include <vector>
 
-namespace mb::ul::str
-{
+namespace mb::ul::str {
 //! Language id type per ISO 639-1 plus an auto/systems choice.
 using LangID_iso639_1 = std::string;
 
 const LangID_iso639_1 auto_systems_language{"auto"};
 
 //! Note: if you add to this, don't forget about the other functions in this file.
-inline const std::vector<LangID_iso639_1>& getAllTheoreticallyPossibleLangIDs()
-{
+inline const std::vector<LangID_iso639_1>& getAllTheoreticallyPossibleLangIDs() {
     static const std::vector<LangID_iso639_1> cachedval{
         "ar", // Arabic
         "bn", // Bengali, Bangla
@@ -36,15 +34,12 @@ inline const std::vector<LangID_iso639_1>& getAllTheoreticallyPossibleLangIDs()
     return cachedval;
 }
 
-inline std::string getNativeLanguageName(const LangID_iso639_1& id)
-{
-    if (id == auto_systems_language)
-    {
+inline std::string getNativeLanguageName(const LangID_iso639_1& id) {
+    if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)
         UL_ASSERT_THROW(false);
-    }
-    else if (id == "ar")
+    } else if (id == "ar")
         return "\xD8\xA7\xD9\x84\xD8\xB9\xD8\xB1\xD8\xA8\xD9\x8A\xD8\xA9";
     else if (id == "bn")
         return "\xE0\xA6\xAC\xE0\xA6\xBE\xE0\xA6\x82\xE0\xA6\xB2\xE0\xA6\xBE";
@@ -77,15 +72,12 @@ inline std::string getNativeLanguageName(const LangID_iso639_1& id)
         throw ul::not_implemented{"unsupported or unknonwn ISO 639-1 language code"};
 }
 
-inline std::string getEnglishLanguageName(const LangID_iso639_1& id)
-{
-    if (id == auto_systems_language)
-    {
+inline std::string getEnglishLanguageName(const LangID_iso639_1& id) {
+    if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)
         UL_ASSERT_THROW(false);
-    }
-    else if (id == "ar")
+    } else if (id == "ar")
         return "Arabic";
     else if (id == "bn")
         return "Bengali";
