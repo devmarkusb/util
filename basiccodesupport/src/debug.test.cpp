@@ -21,26 +21,21 @@ void f_with_some_sourcefile_location_info()
 UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_MSVC(4127)
 
-namespace
-{
-void f_with_debug_break()
-{
+namespace {
+void f_with_debug_break() {
     UL_DEBUG_BREAK; // NOLINT
 }
 
-void f_with_debug_break_if()
-{
+void f_with_debug_break_if() {
     UL_DEBUG_BREAK_IF(1 == 1); // NOLINT
 }
 
-void f_with_debug_break_if_wont()
-{
+void f_with_debug_break_if_wont() {
     UL_DEBUG_BREAK_IF(1 == 0); // NOLINT
 }
 } // namespace
 
-TEST(debug_hTest, test)
-{
+TEST(debug_hTest, test) {
 #if GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(f_with_debug_break(), "");
     EXPECT_DEBUG_DEATH(f_with_debug_break_if(), "");
@@ -50,19 +45,16 @@ TEST(debug_hTest, test)
 
 UL_PRAGMA_WARNINGS_POP
 
-namespace
-{
+namespace {
 std::string g_sig_of_f_with_some_sig; // NOLINT // just testing, so please don't cry about global data
 } // namespace
 
-static const int* __cdecl f_with_some_sig(int /*unused*/, bool /*unused*/, int64_t* /*unused*/, bool& /*unused*/)
-{
+static const int* __cdecl f_with_some_sig(int /*unused*/, bool /*unused*/, int64_t* /*unused*/, bool& /*unused*/) {
     g_sig_of_f_with_some_sig = UL_FUNCTIONSIGN; // NOLINT
     return nullptr;
 }
 
-TEST(UL_FUNCTIONSIGNTest, test)
-{
+TEST(UL_FUNCTIONSIGNTest, test) {
     bool b = false;
     f_with_some_sig(1, false, nullptr, b);
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
@@ -83,8 +75,7 @@ TEST(UL_FUNCTIONSIGNTest, test)
 #endif
 }
 
-TEST(UL_LOCATIONTest, test)
-{
+TEST(UL_LOCATIONTest, test) {
     f_with_some_sourcefile_location_info();
     const size_t pos = g_location_info_of_f_with_some_sourcefile_location_info.find("debug.test.cpp (12)");
     EXPECT_NE(std::string::npos, pos);

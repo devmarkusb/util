@@ -3,19 +3,13 @@
 
 namespace ul = mb::ul;
 
-namespace
-{
-class A : private ul::NonCopyable
-{
-};
+namespace {
+class A : private ul::NonCopyable {};
 
-class B : public A
-{
-};
+class B : public A {};
 } // namespace
 
-TEST(non_copyableTest, test)
-{
+TEST(non_copyableTest, test) {
     // also B is non-copyable!
     //    A a;
     //    A acopy(a);

@@ -3,8 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(ct_mapTest, test)
-{
+TEST(ct_mapTest, test) {
     // as the name says... this should be testable at compile time
     using ul::kv;
     // NOLINTBEGIN

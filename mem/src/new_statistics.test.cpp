@@ -9,8 +9,7 @@
 
 namespace ul = mb::ul;
 
-int main()
-{
+int main() {
     std::cout << "Running main() from " << __FILE__ << "\n";
 
     const auto& memstats = ul::mem::Statistics::instance();

@@ -6,14 +6,12 @@
 
 namespace ul = mb::ul;
 
-namespace
-{
+namespace {
 constexpr auto someNumberChoice{42};
 constexpr auto threadCount{100};
 } // namespace
 
-TEST(thread_WaitCircularBuffer, basics)
-{
+TEST(thread_WaitCircularBuffer, basics) {
     ul::thread::WaitCircularBuffer<int> q{2};
 
     ASSERT_TRUE(q.push(someNumberChoice));
@@ -30,40 +28,33 @@ TEST(thread_WaitCircularBuffer, basics)
     EXPECT_EQ(elem, someNumberChoice + 2);
 }
 
-TEST(thread_WaitCircularBuffer, massive_parallel)
-{
+TEST(thread_WaitCircularBuffer, massive_parallel) {
     ul::thread::WaitCircularBuffer<int> q{threadCount};
     std::atomic<int> current{};
     std::vector<std::thread> producer(threadCount);
-    for (auto& p : producer)
-    {
-        p = std::thread{[&q, &current]()
-                        {
-                            q.push(++current);
-                        }};
+    for (auto& p : producer) {
+        p = std::thread{[&q, &current]() {
+            q.push(++current);
+        }};
     }
 
     std::set<int> poppedValues;
     std::mutex mutex;
     std::vector<std::thread> consumer(threadCount - 1);
-    for (auto& c : consumer)
-    {
-        c = std::thread{[&q, &mutex, &poppedValues]()
-                        {
-                            int elem{};
-                            q.waitAndPop(elem);
-                            const std::lock_guard<std::mutex> lk{mutex};
-                            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
-                            poppedValues.insert(elem);
-                        }};
+    for (auto& c : consumer) {
+        c = std::thread{[&q, &mutex, &poppedValues]() {
+            int elem{};
+            q.waitAndPop(elem);
+            const std::lock_guard<std::mutex> lk{mutex};
+            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
+            poppedValues.insert(elem);
+        }};
     }
 
-    for (auto& p : producer)
-    {
+    for (auto& p : producer) {
         p.join();
     }
-    for (auto& c : consumer)
-    {
+    for (auto& c : consumer) {
         c.join();
     }
 
@@ -73,8 +64,7 @@ TEST(thread_WaitCircularBuffer, massive_parallel)
     EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
 }
 
-TEST(thread_WaitCircularBuffer, stop)
-{
+TEST(thread_WaitCircularBuffer, stop) {
     ul::thread::WaitCircularBuffer<int> q{2};
 
     q.stop();

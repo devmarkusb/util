@@ -8,8 +8,7 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-TEST(alloc_Linear, constr)
-{
+TEST(alloc_Linear, constr) {
     ul::mem::alloc::Linear<> a{{}};
     EXPECT_EQ(a.size(), Bytes{0});
 
@@ -18,8 +17,7 @@ TEST(alloc_Linear, constr)
     EXPECT_DEBUG_DEATH(a.resize(Bytes{1}), ul::death_assert_regex);
 }
 
-TEST(alloc_Linear, prealloc)
-{
+TEST(alloc_Linear, prealloc) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
@@ -30,8 +28,7 @@ TEST(alloc_Linear, prealloc)
     EXPECT_DEBUG_DEATH(a.resize(Bytes{11 * sizeof(Type)}), ul::death_assert_regex);
 }
 
-TEST(alloc_Linear, alloc)
-{
+TEST(alloc_Linear, alloc) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
@@ -49,8 +46,7 @@ TEST(alloc_Linear, alloc)
     EXPECT_THROW(a.allocate(Bytes{1 * sizeof(Type)}), std::bad_alloc);
 }
 
-TEST(alloc_Linear, dealloc)
-{
+TEST(alloc_Linear, dealloc) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
@@ -62,8 +58,7 @@ TEST(alloc_Linear, dealloc)
     EXPECT_EQ(a.size(), Bytes{0});
 }
 
-TEST(alloc_Linear, dealloc_noop)
-{
+TEST(alloc_Linear, dealloc_noop) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
@@ -78,8 +73,7 @@ TEST(alloc_Linear, dealloc_noop)
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 }
 
-TEST(alloc_Linear, resize)
-{
+TEST(alloc_Linear, resize) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
@@ -94,8 +88,7 @@ TEST(alloc_Linear, resize)
     EXPECT_EQ(a.size(), Bytes{10 * sizeof(Type)});
 }
 
-TEST(alloc_Linear, with_stats)
-{
+TEST(alloc_Linear, with_stats) {
     using Type = int;
     ul::mem::alloc::Linear<ul::mem::alloc::Statistics> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 

@@ -86,11 +86,9 @@
 //! Put UL_EXTERN_C_DECLS in front of your YOURLIBSHARED_EXPORT-define
 //! (being switch-wise UL_DECL_EXPORT/UL_DECL_IMPORT) if appropriate.
 #if UL_LANG_STANDARD_CPP
-#define UL_EXTERN_C_DECLS extern "C"
-#define UL_EXTERN_C_DECLS_BEGIN \
-    extern "C" \
-    {
-#define UL_EXTERN_C_DECLS_END }
+#define UL_EXTERN_C_DECLS       extern "C"
+#define UL_EXTERN_C_DECLS_BEGIN extern "C" {
+#define UL_EXTERN_C_DECLS_END   }
 #else
 #define UL_EXTERN_C_DECLS
 #define UL_EXTERN_C_DECLS_BEGIN

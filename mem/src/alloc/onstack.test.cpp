@@ -6,8 +6,7 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-TEST(alloc_OnStack, constr)
-{
+TEST(alloc_OnStack, constr) {
     ul::mem::alloc::OnStack<1024, 1> a;
     EXPECT_EQ(a.size(), Bytes{0});
     EXPECT_EQ(a.capacity(), Bytes{1024});
@@ -15,8 +14,7 @@ TEST(alloc_OnStack, constr)
     EXPECT_THROW(a.allocate(Bytes{1025}), std::bad_alloc);
 }
 
-TEST(alloc_OnStack, alloc)
-{
+TEST(alloc_OnStack, alloc) {
     ul::mem::alloc::OnStack<1024, 1> a;
 
     auto p = reinterpret_cast<char*>(a.allocate(Bytes{1000}));
@@ -34,8 +32,7 @@ TEST(alloc_OnStack, alloc)
     EXPECT_THROW(a.allocate(Bytes{1}), std::bad_alloc);
 }
 
-TEST(alloc_OnStack, dealloc)
-{
+TEST(alloc_OnStack, dealloc) {
     using Type = int;
     static_assert(alignof(Type) == sizeof(Type));
     ul::mem::alloc::OnStack<1024, alignof(Type)> a;
@@ -57,8 +54,7 @@ TEST(alloc_OnStack, dealloc)
     EXPECT_EQ(a.size(), Bytes{0});
 }
 
-TEST(alloc_OnStack, padding)
-{
+TEST(alloc_OnStack, padding) {
     ul::mem::alloc::OnStack<16, 4> a;
 
     auto p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
@@ -80,8 +76,7 @@ TEST(alloc_OnStack, padding)
     EXPECT_EQ(a2.size(), Bytes{4});
 }
 
-TEST(alloc_OnStack, with_stats)
-{
+TEST(alloc_OnStack, with_stats) {
     using Type = int;
     static_assert(alignof(Type) == sizeof(Type));
     ul::mem::alloc::OnStack<1024, alignof(Type), ul::mem::alloc::Statistics> a;

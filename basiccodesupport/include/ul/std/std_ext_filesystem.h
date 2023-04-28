@@ -14,8 +14,7 @@
 // Note, no fallback to the experimental versions anymore.
 #include <filesystem>
 
-namespace mb::ul
-{
+namespace mb::ul {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1914
 namespace std_fs = std::experimental::filesystem;
 #else
@@ -51,71 +50,58 @@ namespace std_fs = std::filesystem;
 #include <string>
 #include <system_error>
 
-namespace mb::ul
-{
-namespace std_fs
-{
+namespace mb::ul {
+namespace std_fs {
 /** Current deviations from standard:
     - The class can only handle paths with single distinct separators ("/", no repeating "//" ones).
         Except, operators /= and / also work with a single already trailing '/'.
     Notes:
     - The empty path is equivalent to a single dot '.', which represents the current dir, a relative path.
     - For a file starting with  dot the starting dot belongs to the filename.*/
-struct path
-{
+struct path {
     static const auto preferred_separator = '/';
 
     //! Constructs an empty path (which is semantically equivalent to current dir '.').
-    path() noexcept
-    {
+    path() noexcept {
     }
 
     //! Expects s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
     path(std::string s)
-        : s_{std::move(s)}
-    {
+        : s_{std::move(s)} {
     }
 
     path(const char* s)
-        : s_{s}
-    {
+        : s_{s} {
     }
 
-    path& make_preferred()
-    {
+    path& make_preferred() {
         return *this;
     }
 
-    const char* c_str() const noexcept
-    {
+    const char* c_str() const noexcept {
         return s_.c_str();
     }
 
-    std::string string() const
-    {
+    std::string string() const {
         return s_;
     }
 
-    std::string generic_string() const
-    {
+    std::string generic_string() const {
         return string();
     }
 
-    bool empty() const noexcept
-    {
+    bool empty() const noexcept {
         return s_.empty();
     }
 
-    path extension() const
-    {
+    path extension() const {
         const size_t start = s_.rfind('.');
         if (start == 0 || start == std::string::npos || s_[start - 1] == '/')
             return {};
         return path{s_.substr(start, s_.size() - start)};
     }
 
-    path stem() const
-    {
+    path stem() const {
         const size_t end = s_.rfind('.');
         size_t start = s_.rfind('/');
 
@@ -132,8 +118,7 @@ struct path
         return path{s_.substr(start, length)};
     }
 
-    path filename() const
-    {
+    path filename() const {
         size_t start = s_.rfind('/');
 
         if (start == std::string::npos)
@@ -144,8 +129,7 @@ struct path
         return path{s_.substr(start, s_.size())};
     }
 
-    path parent_path() const
-    {
+    path parent_path() const {
         size_t length = s_.rfind('/');
 
         if (length == std::string::npos)
@@ -156,66 +140,60 @@ struct path
         return path{s_.substr(0, length)};
     }
 
-    path& remove_trailing_separator() noexcept
-    {
+    path& remove_trailing_separator() noexcept {
         if (!s_.empty() && s_.back() == '/')
             s_.pop_back();
         return *this;
     }
 
     //! \param replacement replaces the current extension *including* the dot.
-    path& replace_extension(const path& replacement = {})
-    {
+    path& replace_extension(const path& replacement = {}) {
         const size_t start = s_.rfind('.');
         const size_t last_slash = s_.rfind('/');
         if (start == 0 || start == std::string::npos || s_[start - 1] == '/'
             || (last_slash != std::string::npos && start < last_slash))
             s_ += replacement.string();
         else
-            s_.replace(std::begin(s_) + static_cast<std::iterator_traits<decltype(std::begin(s_))>::difference_type>(start), std::end(s_), replacement.string());
+            s_.replace(
+                std::begin(s_) + static_cast<std::iterator_traits<decltype(std::begin(s_))>::difference_type>(start),
+                std::end(s_), replacement.string());
 
         return *this;
     }
 
     //! 'concat'
-    path& operator+=(const path& other)
-    {
+    path& operator+=(const path& other) {
         s_ += other.s_;
         return *this;
     }
 
-    path& operator+=(char c)
-    {
+    path& operator+=(char c) {
         s_ += c;
         return *this;
     }
 
     //! 'append'
-    path& operator/=(const path& other)
-    {
+    path& operator/=(const path& other) {
         if (!empty() && s_.back() != '/')
             s_ += '/';
         s_ += other.string();
         return *this;
     }
 
-    void clear() noexcept
-    {
+    void clear() noexcept {
         s_.clear();
     }
 
 private:
     std::string s_;
 
-    path normalize() const
-    {
+    path normalize() const {
         path ret{*this};
         ret.normalize();
         return ret;
     }
 
-    void normalize()
-    {
+    void normalize() {
         if (s_ == ".")
             clear();
     }
@@ -223,44 +201,36 @@ private:
     friend inline bool operator==(const path& lhs, const path& rhs);
 };
 
-inline bool operator==(const path& lhs, const path& rhs)
-{
+inline bool operator==(const path& lhs, const path& rhs) {
     return lhs.string() == rhs.string();
 }
 
-inline bool operator!=(const path& lhs, const path& rhs)
-{
+inline bool operator!=(const path& lhs, const path& rhs) {
     return !(lhs == rhs);
 }
 
-inline path operator/(const path& lhs, const path& rhs)
-{
+inline path operator/(const path& lhs, const path& rhs) {
     path ret{lhs};
     ret /= rhs;
     return ret;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const path& p)
-{
+inline std::ostream& operator<<(std::ostream& os, const path& p) {
     os << p.string();
     return os;
 }
 
-struct directory_entry
-{
+struct directory_entry {
     explicit directory_entry(path p)
-        : p_{std::move(p)}
-    {
+        : p_{std::move(p)} {
     }
 
-    void assign(const path& p)
-    {
+    void assign(const path& p) {
         p_ = p;
     }
 
     //! Implicit conversion.
-    operator const path&() const noexcept
-    {
+    operator const path&() const noexcept {
         return p_;
     }
 
@@ -270,57 +240,47 @@ private:
     friend inline bool operator==(const directory_entry& lhs, const directory_entry& rhs);
 };
 
-inline bool operator==(const directory_entry& lhs, const directory_entry& rhs)
-{
+inline bool operator==(const directory_entry& lhs, const directory_entry& rhs) {
     return lhs.p_ == rhs.p_;
 }
 
-inline bool operator!=(const directory_entry& lhs, const directory_entry& rhs)
-{
+inline bool operator!=(const directory_entry& lhs, const directory_entry& rhs) {
     return !(lhs == rhs);
 }
 
 #if UL_OS_UNIX
-struct directory_iterator : public std::iterator<std::input_iterator_tag, directory_entry>
-{
+struct directory_iterator : public std::iterator<std::input_iterator_tag, directory_entry> {
     //! Constructs an iterator pointing behind the last element.
     directory_iterator() = default;
 
     explicit directory_iterator(path p)
-        : p_{std::move(p)}
-    {
+        : p_{std::move(p)} {
         init_dir();
         next_entry();
     }
 
     ~directory_iterator() = default;
 
-    const directory_entry& operator*() const
-    {
+    const directory_entry& operator*() const {
         return entry_;
     }
 
-    const directory_entry* operator->() const
-    {
+    const directory_entry* operator->() const {
         return &entry_;
     }
 
-    directory_iterator& operator++()
-    {
+    directory_iterator& operator++() {
         next_entry();
 
         return *this;
     }
 
 private:
-    struct DIR_scoped
-    {
+    struct DIR_scoped {
         explicit DIR_scoped(path p)
-            : p_{std::move(p)}
-        {
+            : p_{std::move(p)} {
             d_ = opendir(p_.c_str());
-            if (!d_)
-            {
+            if (!d_) {
                 std::stringstream ss;
                 ss << "could not open dir, error code: " << errno << ", dir: " << p_.string();
                 throw std::runtime_error{ss.str()};
@@ -328,10 +288,8 @@ private:
             UL_ENSURE(d_);
         }
 
-        ~DIR_scoped()
-        {
-            if (d_ && closedir(d_))
-            {
+        ~DIR_scoped() {
+            if (d_ && closedir(d_)) {
                 // Ignoring the error in release. 1) Don't want to make the destructor noexcept(false) as the class
                 // is designed to be used with the std heavily (which is designed for non-throwing destructors, meaning
                 // terminating programs, which is way too much here). 2) A lib shouldn't write to cerr.
@@ -345,13 +303,11 @@ private:
             }
         }
 
-        DIR* get() const noexcept
-        {
+        DIR* get() const noexcept {
             return d_;
         }
 
-        void clear() noexcept
-        {
+        void clear() noexcept {
             p_.clear();
             d_ = {};
         };
@@ -366,18 +322,15 @@ private:
     mutable struct dirent* entry_impl_{};
     mutable directory_entry entry_{{}};
 
-    void init_dir() const
-    {
+    void init_dir() const {
         UL_EXPECT(!d_);
         d_ = std::make_shared<DIR_scoped>(p_);
         UL_ENSURE(d_);
     }
 
-    void next_entry() const
-    {
+    void next_entry() const {
         const auto errno_prev = errno;
-        do
-        {
+        do {
             entry_impl_ = readdir(d_->get());
         } while (
             entry_impl_
@@ -386,10 +339,8 @@ private:
 
         if (entry_impl_)
             entry_.assign(p_ / path{entry_impl_->d_name});
-        else
-        {
-            if (errno != errno_prev)
-            {
+        else {
+            if (errno != errno_prev) {
                 std::stringstream ss;
                 ss << "could not read dir, error code: " << errno << ", parent dir: " << p_.string();
                 throw std::runtime_error{ss.str()};
@@ -404,13 +355,11 @@ private:
     friend bool operator==(const directory_iterator& lhs, const directory_iterator& rhs);
 };
 
-inline bool operator==(const directory_iterator& lhs, const directory_iterator& rhs)
-{
+inline bool operator==(const directory_iterator& lhs, const directory_iterator& rhs) {
     return lhs.entry_ == rhs.entry_;
 }
 
-inline bool operator!=(const directory_iterator& lhs, const directory_iterator& rhs)
-{
+inline bool operator!=(const directory_iterator& lhs, const directory_iterator& rhs) {
     return !(lhs == rhs);
 }
 
@@ -418,8 +367,7 @@ inline bool operator!=(const directory_iterator& lhs, const directory_iterator& 
 #error "not implemented"
 #endif
 
-inline bool exists(const path& p)
-{
+inline bool exists(const path& p) {
 #if UL_OS_UNIX
     struct stat dummy;
     memset(&dummy, 0, sizeof(struct stat));
@@ -432,8 +380,7 @@ inline bool exists(const path& p)
 //! \return false if already existing or error occurred.
 /** Interesting: the implementation of the standard library, at least gcc under Linux seems to expect a path
     that was initialized *without* trailing separator. Otherwise no dir is created!*/
-inline bool create_directories(const path& p, std::error_code& ec)
-{
+inline bool create_directories(const path& p, std::error_code& ec) {
 #if UL_OS_UNIX
     const auto dir = p.c_str();
     char tmp[256]{};
@@ -444,14 +391,11 @@ inline bool create_directories(const path& p, std::error_code& ec)
     if (tmp[len - 1] == '/')
         tmp[len - 1] = 0;
     const auto perms = S_IRWXU | S_IRWXG | S_IRWXO;
-    for (char* p_ = tmp + 1; *p_; p_++)
-    {
-        if (*p_ == '/')
-        {
+    for (char* p_ = tmp + 1; *p_; p_++) {
+        if (*p_ == '/') {
             *p_ = 0;
             const auto err = mkdir(tmp, perms);
-            if (err && errno != EEXIST)
-            {
+            if (err && errno != EEXIST) {
                 ec.assign(errno, std::system_category());
                 return false;
             }
@@ -459,8 +403,7 @@ inline bool create_directories(const path& p, std::error_code& ec)
         }
     }
     const auto err = mkdir(tmp, perms);
-    if (err)
-    {
+    if (err) {
         if (errno != EEXIST)
             ec.assign(errno, std::system_category());
         return false;
@@ -471,8 +414,7 @@ inline bool create_directories(const path& p, std::error_code& ec)
 #endif
 }
 
-inline bool is_regular_file(const path& p)
-{
+inline bool is_regular_file(const path& p) {
 #if UL_OS_UNIX
     struct stat path_stat;
     memset(&path_stat, 0, sizeof(struct stat));
@@ -483,17 +425,14 @@ inline bool is_regular_file(const path& p)
 #endif
 }
 
-inline bool copy_file(const path& from, const path& to, std::error_code& ec)
-{
+inline bool copy_file(const path& from, const path& to, std::error_code& ec) {
     std::ifstream src(from.c_str(), std::ios::binary);
-    if (!src)
-    {
+    if (!src) {
         ec.assign(errno, std::system_category());
         return false;
     }
     std::ofstream dst(to.c_str(), std::ios::binary);
-    if (!dst)
-    {
+    if (!dst) {
         ec.assign(errno, std::system_category());
         return false;
     }
@@ -501,8 +440,7 @@ inline bool copy_file(const path& from, const path& to, std::error_code& ec)
     return true;
 }
 
-inline bool remove(const path& p)
-{
+inline bool remove(const path& p) {
 #if UL_OS_UNIX
     return ::remove(p.c_str()) == 0;
 #else
@@ -510,16 +448,12 @@ inline bool remove(const path& p)
 #endif
 }
 
-inline path current_path(std::error_code& ec)
-{
+inline path current_path(std::error_code& ec) {
 #if UL_OS_UNIX
     char cwd[PATH_MAX]{};
-    if (getcwd(cwd, sizeof(cwd)))
-    {
+    if (getcwd(cwd, sizeof(cwd))) {
         return path{std::string{cwd}};
-    }
-    else
-    {
+    } else {
         ec.assign(errno, std::system_category());
         return {};
     }
@@ -528,8 +462,7 @@ inline path current_path(std::error_code& ec)
 #endif
 }
 
-inline void current_path(const path& p, std::error_code& ec) noexcept
-{
+inline void current_path(const path& p, std::error_code& ec) noexcept {
 #if UL_OS_UNIX
     if (chdir(p.c_str()))
         ec.assign(errno, std::system_category());
@@ -542,10 +475,8 @@ inline void current_path(const path& p, std::error_code& ec) noexcept
 
 #endif
 
-namespace mb::ul::file
-{
-inline void touch(const ul::std_fs::path& p)
-{
+namespace mb::ul::file {
+inline void touch(const ul::std_fs::path& p) {
     const std::ofstream f{p.string()};
 }
 } // namespace mb::ul::file

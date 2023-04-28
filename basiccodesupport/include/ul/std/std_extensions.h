@@ -26,19 +26,16 @@
 #define noexcept throw()
 #endif
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! A must have.
 #if UL_HAS_NO_CPP14_MAKE_UNIQUE
 template <typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args)
-{
+std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 #else
 template <typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args)
-{
+std::unique_ptr<T> make_unique(Args&&... args) {
     return std::make_unique<T>(std::forward<Args>(args)...);
 }
 #endif
@@ -136,18 +133,15 @@ using underlying_type_t = std::underlying_type_t<T>;
 //! A missing algorithm, accumulating a range by an arbitrary operation (e.g. summing up by +).
 template <class InputIt, class T, class BinaryOperation>
 //	requires // cf. cpp doc
-T accumulate(InputIt first, InputIt last, T init, BinaryOperation op)
-{
-    for (; first != last; ++first)
-    {
+T accumulate(InputIt first, InputIt last, T init, BinaryOperation op) {
+    for (; first != last; ++first) {
         init = op(init, *first);
     }
     return init;
 }
 #else
 template <class InputIt, class T, class BinaryOperation>
-T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op)
-{
+T accumulate(InputIt&& first, InputIt&& last, T&& init, BinaryOperation&& op) {
     return std::accumulate(
         std::forward<InputIt>(first), std::forward<InputIt>(last), std::forward<T>(init),
         std::forward<BinaryOperation>(op));

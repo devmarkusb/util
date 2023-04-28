@@ -5,8 +5,7 @@
 
 namespace ul = mb::ul;
 
-TEST(HeapTrackedTest, test)
-{
+TEST(HeapTrackedTest, test) {
     // commented out because that leaks a lot according to VLD (perhaps false positives?); to investigate why
     //    class C : public ul::mem::HeapTracked
     //    {

@@ -6,18 +6,14 @@
 
 namespace ul = mb::ul;
 
-TEST(type_nameTest, basic)
-{
-    struct SomeTypeName
-    {
-    };
+TEST(type_nameTest, basic) {
+    struct SomeTypeName {};
 #if UL_COMP_CLANG
     EXPECT_STREQ(ul::typeName<SomeTypeName>().data(), ") [T = SomeTypeName]");
 #endif
 }
 
-TEST(type_nameTest, special)
-{
+TEST(type_nameTest, special) {
     auto whatType = std::make_tuple("bla", 42, 1.33); // NOLINT
 #if UL_COMP_CLANG
     EXPECT_STREQ(ul::typeName<decltype(whatType)>().data(), ") [T = std::tuple<const char *, int, double>]");
@@ -26,8 +22,7 @@ TEST(type_nameTest, special)
 #endif
 }
 
-TEST(UL_COMPILETIME_TYPE_NAMETest, special)
-{
+TEST(UL_COMPILETIME_TYPE_NAMETest, special) {
     auto whatType = std::make_tuple("bla", 42, 1.33); // NOLINT
     ul::ignore_unused(whatType);
     // uncomment for experimentation

@@ -7,21 +7,17 @@
 #include <sstream>
 #include <string>
 
-namespace mb::ul::str
-{
+namespace mb::ul::str {
 //! Usage: f( (makestr() << "Some string" << sSome_string << iSomeInt << dSomeDouble << "...").c_str() );
-class makestr
-{
+class makestr {
 public:
     template <typename T>
-    makestr& operator<<(const T& data)
-    {
+    makestr& operator<<(const T& data) {
         buffer_ << data;
         return *this;
     }
 
-    /*implicit*/ operator std::string() const
-    {
+    /*implicit*/ operator std::string() const {
         return buffer_.str();
     }
 

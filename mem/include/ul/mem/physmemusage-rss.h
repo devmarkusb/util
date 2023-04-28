@@ -16,20 +16,17 @@
 #endif
 
 
-namespace mb::ul::mem
-{
+namespace mb::ul::mem {
 /** Returns virtual memory usage and physical memory usage (more precisely RSS, resident set size )
     via virtual_mem_usage and physical_mem_usage.*/
-inline void usage(double& virtual_mem_usage, double& physical_mem_usage)
-{
+inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
 #if UL_OS_LINUX
     virtual_mem_usage = {};
     physical_mem_usage = {};
 
     std::ifstream stat_stream("/proc/self/stat", std::ios_base::in);
 
-    struct UL_DUMMY
-    {
+    struct UL_DUMMY {
         std::string pid, comm, state, ppid, pgrp, session, tty_nr;
         std::string tpgid, flags, minflt, cminflt, majflt, cmajflt;
         std::string utime, stime, cutime, cstime, priority, nice;

@@ -3,8 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(ptr2refTest, test)
-{
+TEST(ptr2refTest, test) {
     constexpr auto someNr{5};
     int i = someNr;
     int* pi = &i;

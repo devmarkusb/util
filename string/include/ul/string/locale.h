@@ -7,10 +7,8 @@
 #include "ul/std/std_extensions.h"
 #include <locale>
 
-namespace mb::ul
-{
-enum class Global_locale
-{
+namespace mb::ul {
+enum class Global_locale {
     default_classic,
     user_preferred,
 };
@@ -20,17 +18,14 @@ enum class Global_locale
     on program start. Other options are e.g. "de", "de_DE", "de_DE.utf8". The preferred locale
     could e.g. be "German_Germany.1252"
     \return the old locale. On first call this is std::locale::classic.*/
-inline std::locale set_global_locale(const std::string& locname)
-{
+inline std::locale set_global_locale(const std::string& locname) {
     return std::locale::global(std::locale(locname.c_str()));
 }
 
 //! For convenience, cf. set_global_locale().
-inline std::locale set_global_locale(Global_locale gl)
-{
+inline std::locale set_global_locale(Global_locale gl) {
     std::string opt;
-    switch (gl)
-    {
+    switch (gl) {
         case Global_locale::user_preferred:
             opt = "";
             break;
@@ -43,32 +38,24 @@ inline std::locale set_global_locale(Global_locale gl)
 }
 
 //! For convenience, cf. set_global_locale().
-inline std::locale set_global_locale(const std::locale& loc)
-{
+inline std::locale set_global_locale(const std::locale& loc) {
     return std::locale::global(loc);
 }
 
 //! This does an auto reset when leaving scope. For convenience, cf. set_global_locale().
-struct set_global_locale_scoped
-{
-    explicit set_global_locale_scoped(const std::string& locname)
-    {
+struct set_global_locale_scoped {
+    explicit set_global_locale_scoped(const std::string& locname) {
         this->backup_ = set_global_locale(locname);
     }
 
-    explicit set_global_locale_scoped(Global_locale gl)
-    {
+    explicit set_global_locale_scoped(Global_locale gl) {
         this->backup_ = set_global_locale(gl);
     }
 
-    ~set_global_locale_scoped() noexcept
-    {
-        try
-        {
+    ~set_global_locale_scoped() noexcept {
+        try {
             set_global_locale(this->backup_);
-        }
-        catch (...)
-        {
+        } catch (...) {
         }
     }
 
@@ -79,8 +66,7 @@ struct set_global_locale_scoped
     set_global_locale_scoped& operator=(set_global_locale_scoped&&) = delete;
 #endif
 
-    [[nodiscard]] std::locale get_original_locale() const
-    {
+    [[nodiscard]] std::locale get_original_locale() const {
         return this->backup_;
     }
 

@@ -24,14 +24,11 @@
 #error "To really activate, also define this to 1 before the include."
 #endif
 
-namespace mb::ul::mem
-{
-class StatsHeader
-{
+namespace mb::ul::mem {
+class StatsHeader {
 public:
     using BitsType = uintmax_t;
-    enum class Field
-    {
+    enum class Field {
         size,
         f2,
         f3,
@@ -39,22 +36,19 @@ public:
     };
     static constexpr auto fieldCount{ul::as_number(Field::end)};
 
-    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup()
-    {
+    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup() {
         return makeFieldLookup_impl(ul::idx::gen_seq<bitCounts_.size()>());
     }
 
     template <typename SourceDataType>
     constexpr void set(
-        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field, SourceDataType value) noexcept
-    {
+        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field, SourceDataType value) noexcept {
         bits_.set(fieldsLookup, field, value);
     }
 
     template <typename TargetDataType = BitsType>
     [[nodiscard]] constexpr TargetDataType get(
-        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field) const noexcept
-    {
+        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field) const noexcept {
         return bits_.template get<TargetDataType>(fieldsLookup, field);
     }
 
@@ -68,8 +62,7 @@ private:
     ul::bits::FieldsRaw<BitsType, Field, ul::as_number(Field::end)> bits_;
 
     template <int... Is>
-    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup_impl(ul::idx::seq<Is...>)
-    {
+    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup_impl(ul::idx::seq<Is...>) {
         return ul::bits::FieldsLookup<fieldCount>{
             ul::bits::count<StatsHeader::BitsType>(), StatsHeader::bitCounts_[Is]...};
     }
@@ -77,17 +70,14 @@ private:
 
 static_assert(alignof(StatsHeader) == alignof(uintmax_t) || alignof(StatsHeader) == alignof(uint64_t));
 
-class Statistics
-{
+class Statistics {
 public:
-    static Statistics& instance() noexcept
-    {
+    static Statistics& instance() noexcept {
         static Statistics stats;
         return stats;
     }
 
-    void newCall(Bytes size, void* p) noexcept
-    {
+    void newCall(Bytes size, void* p) noexcept {
         newCalls_.fetch_add(1, std::memory_order_relaxed);
         currentSize_.fetch_add(size.value, std::memory_order_seq_cst);
         ul::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
@@ -96,8 +86,7 @@ public:
         sh->set(fieldsLookup_, StatsHeader::Field::size, size.value);
     }
 
-    void deleteCall(void* p) noexcept
-    {
+    void deleteCall(void* p) noexcept {
         deleteCalls_.fetch_add(1, std::memory_order_relaxed);
         auto sh = reinterpret_cast<StatsHeader*>(p);
         const auto size = sh->get<size_t>(fieldsLookup_, StatsHeader::Field::size);
@@ -106,34 +95,28 @@ public:
         sh->~StatsHeader();
     }
 
-    [[nodiscard]] std::size_t newCalls() const noexcept
-    {
+    [[nodiscard]] std::size_t newCalls() const noexcept {
         return newCalls_.load();
     }
 
-    [[nodiscard]] std::size_t deleteCalls() const noexcept
-    {
+    [[nodiscard]] std::size_t deleteCalls() const noexcept {
         return deleteCalls_.load();
     }
 
-    [[nodiscard]] Bytes allocatedSize() const noexcept
-    {
+    [[nodiscard]] Bytes allocatedSize() const noexcept {
         return Bytes{allocatedSize_.load()};
     }
 
-    [[nodiscard]] Bytes deallocatedSize() const noexcept
-    {
+    [[nodiscard]] Bytes deallocatedSize() const noexcept {
         return Bytes{deallocatedSize_.load()};
     }
 
     /** \return the maximum/peak size allocated.*/
-    [[nodiscard]] Bytes peakSize() const noexcept
-    {
+    [[nodiscard]] Bytes peakSize() const noexcept {
         return Bytes{peakSize_.load()};
     }
 
-    void reset() noexcept
-    {
+    void reset() noexcept {
         newCalls_ = {};
         deleteCalls_ = {};
         currentSize_ = {};

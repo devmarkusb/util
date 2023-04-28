@@ -7,8 +7,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Base class for every abstract listener interface.
 /** Usage:
     \code
@@ -42,8 +41,7 @@ namespace mb::ul
     };
     \endcode
     */
-struct Listener
-{
+struct Listener {
     virtual ~Listener() = default;
 };
 
@@ -85,16 +83,14 @@ struct Listener
     Implementation note: member functions are virtual for a reason, there are
     ues-cases. E.g. if you like to forward registrations to members.
 */
-class ListenerRegister
-{
+class ListenerRegister {
 public:
     virtual ~ListenerRegister() = default;
 
     /** l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    virtual void registerListener(Listener* l)
-    {
+    virtual void registerListener(Listener* l) {
         UL_EXPECT(l);
         UL_EXPECT(
             std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
@@ -105,8 +101,7 @@ public:
 
     /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    virtual void unregisterListener(Listener* l)
-    {
+    virtual void unregisterListener(Listener* l) {
         UL_EXPECT(l);
         const auto it = std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l);
         UL_EXPECT(it != std::end(this->registeredListeners_));
@@ -115,8 +110,7 @@ public:
     }
 
     //! \param l has to be non-nullptr.
-    virtual bool isRegistered(Listener* l) const
-    {
+    virtual bool isRegistered(Listener* l) const {
         UL_EXPECT(l);
 
         return std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
@@ -131,14 +125,12 @@ protected:
 /** Static version of ListenerRegister. That is, you can let your
     class be a notfier statically and not per object.*/
 template <class StaticNotifier>
-class ListenerStaticRegister
-{
+class ListenerStaticRegister {
 public:
     /** \param l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    static void registerListener(Listener* l)
-    {
+    static void registerListener(Listener* l) {
         UL_EXPECT(l);
         UL_EXPECT(
             std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
@@ -149,8 +141,7 @@ public:
 
     /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    static void unregisterListener(Listener* l)
-    {
+    static void unregisterListener(Listener* l) {
         UL_EXPECT(l);
         const auto it = std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l);
         UL_EXPECT(it != std::end(registeredListeners()));
@@ -159,8 +150,7 @@ public:
     }
 
     //! \param l has to be non-nullptr.
-    static bool isRegistered(Listener* l)
-    {
+    static bool isRegistered(Listener* l) {
         UL_EXPECT(l);
 
         return std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
@@ -170,8 +160,7 @@ public:
 protected:
     using ListenerContainer = std::vector<Listener*>;
 
-    static ListenerContainer& registeredListeners()
-    {
+    static ListenerContainer& registeredListeners() {
         static ListenerContainer inst;
         return inst;
     }

@@ -5,11 +5,9 @@
 
 #include <string>
 
-namespace mb::ul
-{
+namespace mb::ul {
 template <typename JSON_strtype, typename JSON_value>
-class IJSON
-{
+class IJSON {
 public:
     virtual ~IJSON() = default;
 

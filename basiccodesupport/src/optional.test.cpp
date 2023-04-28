@@ -6,8 +6,7 @@
 
 namespace ul = mb::ul;
 
-TEST(optTest, empty_constr)
-{
+TEST(optTest, empty_constr) {
     const ul::opt<bool> b;
     if (b)
         EXPECT_TRUE(false);
@@ -25,8 +24,7 @@ TEST(optTest, empty_constr)
         EXPECT_TRUE(true);
 }
 
-TEST(optTest, none_constr)
-{
+TEST(optTest, none_constr) {
     const ul::opt<bool> b{ul::none};
     if (b)
         EXPECT_TRUE(false);
@@ -45,8 +43,7 @@ TEST(optTest, none_constr)
 }
 
 // VLD detects 3 memory leaks, ASAN also (unclear)
-TEST(optTest, DISABLED_not_)
-{
+TEST(optTest, DISABLED_not_) {
     ul::opt<bool> b;
     if (!b)
         EXPECT_TRUE(true);
@@ -61,8 +58,7 @@ TEST(optTest, DISABLED_not_)
     UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
     // clang-format on
     EXPECT_DEATH(
-        [&]()
-        {
+        [&]() {
             *b = false;
         }(),
         "");
@@ -70,8 +66,7 @@ TEST(optTest, DISABLED_not_)
 #endif
 }
 
-TEST(optTest, constr_assign_moves)
-{
+TEST(optTest, constr_assign_moves) {
     ul::opt<bool> b(true);
     if (b)
         EXPECT_TRUE(true);
@@ -120,15 +115,12 @@ TEST(optTest, constr_assign_moves)
     EXPECT_TRUE(*c);
 }
 
-namespace
-{
-void f_with_opt_string_arg(const ul::opt<std::string>& /*unused*/)
-{
+namespace {
+void f_with_opt_string_arg(const ul::opt<std::string>& /*unused*/) {
 }
 } // namespace
 
-TEST(optTest, types)
-{
+TEST(optTest, types) {
     const ul::opt<double> d = 5.2;
     if (d)
         EXPECT_TRUE(true);
@@ -160,8 +152,7 @@ TEST(optTest, types)
     EXPECT_EQ(nullptr, *pd);
 }
 
-TEST(optTest, comparisons)
-{
+TEST(optTest, comparisons) {
     // untested
     //    ul::opt<int> a = 1;
     //    ul::opt<int> b = 1;

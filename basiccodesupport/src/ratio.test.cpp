@@ -2,16 +2,14 @@
 #include "gtest/gtest.h"
 
 // NOLINTBEGIN
-TEST(gcdTest, test)
-{
+TEST(gcdTest, test) {
     EXPECT_EQ(5, ul::math::gcd(10, 5));
     EXPECT_EQ(1, ul::math::gcd(11, 5));
     EXPECT_EQ(2, ul::math::gcd(24, 22));
     EXPECT_EQ(8, ul::math::gcd(24, 32));
 }
 
-TEST(gcdTest, pathol)
-{
+TEST(gcdTest, pathol) {
     EXPECT_EQ(42, ul::math::gcd(42, 0));
     EXPECT_EQ(42, ul::math::gcd(0, 42));
     EXPECT_EQ(1, ul::math::gcd(1, 1));
@@ -20,8 +18,7 @@ TEST(gcdTest, pathol)
     EXPECT_EQ(1, ul::math::gcd(23432, 1));
 }
 
-TEST(gcdTest, neg)
-{
+TEST(gcdTest, neg) {
     EXPECT_EQ(5, ul::math::gcd(-10, 5));
     EXPECT_EQ(1, ul::math::gcd(11, -5));
     EXPECT_EQ(2, ul::math::gcd(24, -22));
@@ -32,16 +29,14 @@ TEST(gcdTest, neg)
     // EXPECT_EQ(42, ul::math::gcd(0, -42));
 }
 
-TEST(lcmTest, test)
-{
+TEST(lcmTest, test) {
     EXPECT_EQ(10, ul::math::lcm(10, 5));
     EXPECT_EQ(55, ul::math::lcm(11, 5));
     EXPECT_EQ(264, ul::math::lcm(24, 22));
     EXPECT_EQ(96, ul::math::lcm(24, 32));
 }
 
-TEST(RationalTest, constr)
-{
+TEST(RationalTest, constr) {
     const ul::math::Rational r1{1, 2};
     EXPECT_EQ(1, r1.num);
     EXPECT_EQ(2, r1.denom);
@@ -71,8 +66,7 @@ TEST(RationalTest, constr)
 
 // NOLINTEND
 
-TEST(RationalTest, constr_zero)
-{
+TEST(RationalTest, constr_zero) {
     const ul::math::Rational r1{};
     EXPECT_EQ(0, r1.num);
     EXPECT_EQ(1, r1.denom);
@@ -86,8 +80,7 @@ TEST(RationalTest, constr_zero)
     EXPECT_EQ(1, r3.denom);
 }
 
-TEST(RationalTest, assign)
-{
+TEST(RationalTest, assign) {
     ul::math::Rational r1{};
     const ul::math::Rational r1_{24, 32};
 
@@ -96,8 +89,7 @@ TEST(RationalTest, assign)
     EXPECT_EQ(32, r1.denom);
 }
 
-TEST(RationalTest, inv)
-{
+TEST(RationalTest, inv) {
     ul::math::Rational r1{1, 2};
     r1.inverse();
     EXPECT_EQ(2, r1.num);
@@ -109,16 +101,14 @@ TEST(RationalTest, inv)
     EXPECT_EQ(1, r2.denom);
 }
 
-TEST(RationalTest, asfloat)
-{
+TEST(RationalTest, asfloat) {
     const ul::math::Rational r1{1, 2};
     const double d{r1.asFloatingPoint<double>()};
     EXPECT_DOUBLE_EQ(0.5, d);
 }
 
 // NOLINTBEGIN
-TEST(RationalTest, reduce)
-{
+TEST(RationalTest, reduce) {
     ul::math::Rational r1{24, 32};
     r1.reduce();
     EXPECT_EQ(3, r1.num);
@@ -130,8 +120,7 @@ TEST(RationalTest, reduce)
     EXPECT_EQ(4, r2.denom);
 }
 
-TEST(RationalTest, eq)
-{
+TEST(RationalTest, eq) {
     const ul::math::Rational r1{24, 32};
     const ul::math::Rational r1_{3, 4};
     EXPECT_TRUE(r1 == r1_);
@@ -159,8 +148,7 @@ TEST(RationalTest, eq)
     EXPECT_FALSE(r6 == r3_);
 }
 
-TEST(RationalTest, make_common_denom)
-{
+TEST(RationalTest, make_common_denom) {
     ul::math::Rational r1{1, 32};
     ul::math::Rational r2{1, 24};
     ul::math::make_common_denom(r1, r2);
@@ -171,8 +159,7 @@ TEST(RationalTest, make_common_denom)
     EXPECT_TRUE(r2 == r2_);
 }
 
-TEST(RationalTest, make_common_denom_neg)
-{
+TEST(RationalTest, make_common_denom_neg) {
     {
         ul::math::Rational r1{1, 32};
         ul::math::Rational r2{-1, 24};
@@ -205,8 +192,7 @@ TEST(RationalTest, make_common_denom_neg)
     }
 }
 
-TEST(RationalTest, lessthan)
-{
+TEST(RationalTest, lessthan) {
     {
         const ul::math::Rational r1{2, 4};
         const ul::math::Rational r2{3, 4};
@@ -233,8 +219,7 @@ TEST(RationalTest, lessthan)
     }
 }
 
-TEST(RationalTest, lessthan_consts)
-{
+TEST(RationalTest, lessthan_consts) {
     using namespace mb::ul::math; // NOLINT
 
     EXPECT_TRUE(atto < femto);
@@ -263,8 +248,7 @@ TEST(RationalTest, lessthan_consts)
     EXPECT_FALSE(exa < peta);
 }
 
-TEST(RationalTest, booltest)
-{
+TEST(RationalTest, booltest) {
     const ul::math::Rational r1{0, 32};
     if (!r1.is_null())
         EXPECT_TRUE(false);
@@ -290,8 +274,7 @@ TEST(RationalTest, booltest)
         EXPECT_TRUE(false);
 }
 
-TEST(RationalTest, unaryminus)
-{
+TEST(RationalTest, unaryminus) {
     const ul::math::Rational exp_mr1{-1, 24};
     const ul::math::Rational r1{1, 24};
     const ul::math::Rational mr1{-r1};

@@ -7,18 +7,14 @@
 #include <cstdint>
 #include <new>
 
-namespace mb::ul::mem::alloc
-{
-class Example
-{
+namespace mb::ul::mem::alloc {
+class Example {
 public:
-    static uint8_t* allocate(Bytes size)
-    {
+    static uint8_t* allocate(Bytes size) {
         return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
-    static void deallocate(uint8_t* p, Bytes /*unused*/ = {}) noexcept
-    {
+    static void deallocate(uint8_t* p, Bytes /*unused*/ = {}) noexcept {
         ::operator delete(p);
     }
 };

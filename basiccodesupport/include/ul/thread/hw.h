@@ -11,11 +11,9 @@
 #endif
 
 
-namespace mb::ul::thread
-{
+namespace mb::ul::thread {
 //! \return number of available logical cores and 0 on error.
-inline unsigned int numAvailLogicalCores() noexcept
-{
+inline unsigned int numAvailLogicalCores() noexcept {
     return std::thread::hardware_concurrency();
 }
 } // namespace mb::ul::thread

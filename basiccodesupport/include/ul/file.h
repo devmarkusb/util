@@ -10,13 +10,11 @@
 #include <sstream>
 #include <string>
 
-namespace mb::ul::file
-{
+namespace mb::ul::file {
 /** \param retErrDetail returns error detail string or is empty on success.
     \return false on success.*/
 template <class FStream>
-bool fstream_failed(std::string& retErrDetail, const FStream& fs)
-{
+bool fstream_failed(std::string& retErrDetail, const FStream& fs) {
     retErrDetail.clear();
     if (fs)
         return false;
@@ -29,20 +27,17 @@ bool fstream_failed(std::string& retErrDetail, const FStream& fs)
     return true;
 }
 
-enum class operation
-{
+enum class operation {
     save,
     load,
 };
 
-[[noreturn]] inline void throwError(const std::string& filePathNameExt, operation op, const std::string& retErrDetail)
-{
+[[noreturn]] inline void throwError(const std::string& filePathNameExt, operation op, const std::string& retErrDetail) {
     const auto errno_ = errno;
     std::stringstream ss;
     ss << filePathNameExt;
     ss << " could not be ";
-    switch (op)
-    {
+    switch (op) {
         case operation::save:
             ss << "saved";
             break;

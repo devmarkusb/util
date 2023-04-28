@@ -19,19 +19,15 @@
 #include <type_traits>
 #include <vector>
 
-namespace mb::ul
-{
-namespace detail::circbuf_impl_container
-{
+namespace mb::ul {
+namespace detail::circbuf_impl_container {
 template <typename T, size_t staticCapacity>
-class Array
-{
+class Array {
 protected:
     std::array<T, staticCapacity> buf_{};
 
     template <typename T_, typename Buffer>
-    void emplace(T_&& item, Buffer&& buf, size_t head) noexcept
-    {
+    void emplace(T_&& item, Buffer&& buf, size_t head) noexcept {
         static_assert(std::is_convertible_v<T_, T>);
 
         buf[head] = std::forward<T_>(item);
@@ -39,23 +35,20 @@ protected:
 };
 
 template <typename T>
-class Vector
-{
+class Vector {
 protected:
     std::vector<T> buf_;
     size_t capacity_{};
 
     explicit Vector(size_t capacity)
-        : capacity_{capacity}
-    {
+        : capacity_{capacity} {
         UL_EXPECT(capacity > 0);
 
         buf_.resize(capacity);
     }
 
     template <typename T_, typename Buffer>
-    void emplace(T_&& item, Buffer&& buf, size_t head)
-    {
+    void emplace(T_&& item, Buffer&& buf, size_t head) {
         static_assert(std::is_convertible_v<T_, T>);
 
         auto it = std::begin(buf);
@@ -73,23 +66,20 @@ using Base = std::conditional_t<staticCapacity == 0, Vector<T>, Array<T, staticC
     Otherwise for a capacity only known as soon as runtime, you keep staticCapacity at 0 and pass the desired
     capacity as constructor parameter.*/
 template <typename T, size_t staticCapacity = 0>
-class CircularBuffer : private detail::circbuf_impl_container::Base<T, staticCapacity>
-{
+class CircularBuffer : private detail::circbuf_impl_container::Base<T, staticCapacity> {
 public:
     using Base = detail::circbuf_impl_container::Base<T, staticCapacity>;
 
     //! Expects capacity > 0.
     template <typename = std::enable_if<staticCapacity == 0>>
     explicit CircularBuffer(size_t capacity)
-        : Base{capacity}
-    {
+        : Base{capacity} {
     }
 
     CircularBuffer() noexcept = default;
 
     template <typename T_>
-    void push(T_&& item) noexcept
-    {
+    void push(T_&& item) noexcept {
         static_assert(std::is_convertible_v<T_, T>);
 
         if (full_)
@@ -106,8 +96,7 @@ public:
     /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
     template <typename T_>
-    void emplace(T_&& item)
-    {
+    void emplace(T_&& item) {
         static_assert(std::is_convertible_v<T_, T>);
 
         if (full_)
@@ -120,8 +109,7 @@ public:
         full_ = head_ == tail_;
     }
 
-    bool tryFront(T& frontItem) noexcept
-    {
+    bool tryFront(T& frontItem) noexcept {
         if (empty())
             return false;
 
@@ -129,8 +117,7 @@ public:
         return true;
     }
 
-    bool tryPop(T& poppedItem) noexcept
-    {
+    bool tryPop(T& poppedItem) noexcept {
         if (empty())
             return false;
 
@@ -141,36 +128,30 @@ public:
         return true;
     }
 
-    void reset() noexcept
-    {
+    void reset() noexcept {
         head_ = tail_;
         full_ = false;
     }
 
-    [[nodiscard]] bool empty() const noexcept
-    {
+    [[nodiscard]] bool empty() const noexcept {
         return (!full_ && (head_ == tail_));
     }
 
-    [[nodiscard]] bool full() const noexcept
-    {
+    [[nodiscard]] bool full() const noexcept {
         return full_;
     }
 
-    [[nodiscard]] constexpr size_t capacity() const noexcept
-    {
+    [[nodiscard]] constexpr size_t capacity() const noexcept {
         if constexpr (staticCapacity > 0)
             return staticCapacity;
         else
             return Base::capacity_;
     }
 
-    [[nodiscard]] size_t size() const noexcept
-    {
+    [[nodiscard]] size_t size() const noexcept {
         size_t size = capacity();
 
-        if (!full_)
-        {
+        if (!full_) {
             if (head_ >= tail_)
                 size = head_ - tail_;
             else

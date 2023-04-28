@@ -7,28 +7,24 @@ namespace ul = mb::ul;
 
 // NOLINTBEGIN
 
-TEST(NarrowTest, Cast)
-{
+TEST(NarrowTest, Cast) {
     EXPECT_TRUE(static_cast<long>(ul::narrow_cast<unsigned char>(42l)) == 42l);
 }
 
-TEST(NarrowTest, CheckedCast)
-{
+TEST(NarrowTest, CheckedCast) {
     EXPECT_TRUE(static_cast<long>(ul::narrow<unsigned char>(42l)) == 42l);
     EXPECT_NO_THROW(ul::narrow<unsigned char>(42l));
     EXPECT_THROW(ul::narrow<unsigned char>(300l), ul::narrowing_error);
 }
 
-TEST(NarrowTest, Misc)
-{
+TEST(NarrowTest, Misc) {
     EXPECT_THROW(ul::narrow<unsigned char>(-1), ul::narrowing_error);
     EXPECT_NO_THROW(ul::narrow<unsigned char>(0));
     EXPECT_NO_THROW(ul::narrow<unsigned char>(255));
     EXPECT_THROW(ul::narrow<unsigned char>(256), ul::narrowing_error);
 }
 
-TEST(NarrowTest, floating_point)
-{
+TEST(NarrowTest, floating_point) {
     EXPECT_THROW(ul::narrow<int>(1.8), ul::narrowing_error);
     EXPECT_NO_THROW(ul::narrow<int>(2.0));
     EXPECT_EQ(1, ul::narrow_cast<int>(1.8));

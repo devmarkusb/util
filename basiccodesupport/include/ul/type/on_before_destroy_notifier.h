@@ -6,13 +6,10 @@
 #include "on_before_destroy.h"
 #include "listener.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Cf. OnBeforeDestroyListener.
-struct OnBeforeDestroyNotifier : public ListenerRegister
-{
-    void onBeforeDestroy()
-    {
+struct OnBeforeDestroyNotifier : public ListenerRegister {
+    void onBeforeDestroy() {
         for (auto& l : this->registeredListeners_)
             dynamic_cast<OnBeforeDestroyListener*>(l)->onBeforeDestroy();
     }

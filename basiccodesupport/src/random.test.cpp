@@ -3,8 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(random_fracTest, basics)
-{
+TEST(random_fracTest, basics) {
     EXPECT_GE(ul::math::randomFrac(), 0.0);
     EXPECT_LT(ul::math::randomFrac(), 1.0);
 }

@@ -8,8 +8,7 @@
 #include "ul/macros.h"
 #include <string_view>
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Prints type of variable objectOfType in the form of a compile error.
 #define UL_COMPILETIME_TYPE_NAME(objectOfType) decltype(objectOfType)::type_of_##objectOfType##_is = {};
 
@@ -19,8 +18,7 @@ namespace mb::ul
     \return name of the type T.
     \see https://stackoverflow.com/a/20170989/636486*/
 template <typename T>
-constexpr std::string_view typeName()
-{
+constexpr std::string_view typeName() {
     using std::string_view;
     const string_view p{UL_FUNCTIONSIGN}; // NOLINT
 #if UL_COMP_CLANG

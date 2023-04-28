@@ -23,15 +23,12 @@
 #include <windows.h>
 #endif
 
-namespace mb::ul::str
-{
-inline std::string utf16to8_ws2s(const std::wstring& wstr)
-{
+namespace mb::ul::str {
+inline std::string utf16to8_ws2s(const std::wstring& wstr) {
 #if UL_OS_WINDOWS
     std::string convertedString;
     int requiredSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, 0, 0, 0, 0);
-    if (requiredSize > 0)
-    {
+    if (requiredSize > 0) {
         std::vector<char> buffer(requiredSize);
         WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &buffer[0], requiredSize, 0, 0);
         convertedString.assign(buffer.begin(), buffer.end() - 1);
@@ -42,8 +39,7 @@ inline std::string utf16to8_ws2s(const std::wstring& wstr)
 #endif
 }
 
-inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
-{
+inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr) {
 #if UL_SIZEOF_WCHAR_T == 2
     std::string ret;
     utf8::utf16to8(wstr.begin(), wstr.end(), std::back_inserter(ret));
@@ -60,13 +56,11 @@ inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr)
 #endif
 }
 
-inline std::wstring utf8to16_s2ws(const std::string& str)
-{
+inline std::wstring utf8to16_s2ws(const std::string& str) {
 #if UL_OS_WINDOWS
     std::wstring convertedString;
     int requiredSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, 0, 0);
-    if (requiredSize > 0)
-    {
+    if (requiredSize > 0) {
         std::vector<wchar_t> buffer(requiredSize);
         MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &buffer[0], requiredSize);
         convertedString.assign(buffer.begin(), buffer.end() - 1);
@@ -77,8 +71,7 @@ inline std::wstring utf8to16_s2ws(const std::string& str)
 #endif
 }
 
-inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
-{
+inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
 #if UL_SIZEOF_WCHAR_T == 2
     std::wstring ret;
     utf8::utf8to16(str.begin(), str.end(), std::back_inserter(ret));
@@ -96,16 +89,14 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str)
 }
 
 #if !UL_HAS_NO_CODECVT
-inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr)
-{
+inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr) {
     using cc = std::codecvt_utf8_utf16<wchar_t>;
     std::wstring_convert<cc, wchar_t> converter;
 
     return converter.to_bytes(wstr);
 }
 
-inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
-{
+inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
     // Note that this isn't understood very well.
     // The test under Windows and mingw succeeds for the little_endian choice.
     // It could very well be that this doesn't hold on every platform.
@@ -137,44 +128,36 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str)
     return ret;
 }*/
 
-namespace detail
-{
+namespace detail {
 #if UL_OS_WINDOWS
 #undef max
 
-inline std::wstring acp_s2ws(const std::string& s)
-{
+inline std::wstring acp_s2ws(const std::string& s) {
     int slength = static_cast<int>(s.length()) + 1;
-    if (slength < 0)
-    {
+    if (slength < 0) {
         slength = std::numeric_limits<int>::max();
     }
     int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
     wchar_t* buf = new wchar_t[len];
-    try
-    {
+    try {
         MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
         std::wstring r(buf);
         delete[] buf;
         return r;
-    }
-    catch (...)
-    {
+    } catch (...) {
         delete[] buf;
         return L"";
     }
 }
 #endif
-inline std::wstring s2ws(const std::string& s)
-{
+inline std::wstring s2ws(const std::string& s) {
     std::wstring ws(s.length(), L' ');
     std::copy(s.begin(), s.end(), ws.begin());
     return ws;
 }
 } // namespace detail
 
-inline std::wstring locenc_s2ws(const std::string& s)
-{
+inline std::wstring locenc_s2ws(const std::string& s) {
 #if UL_OS_WINDOWS
     return detail::acp_s2ws(s);
 #else
@@ -182,8 +165,7 @@ inline std::wstring locenc_s2ws(const std::string& s)
 #endif
 }
 
-namespace detail_impl
-{
+namespace detail_impl {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1900
 #define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE 1
 #endif
@@ -192,14 +174,12 @@ namespace detail_impl
 #pragma warning(disable : 4702)
 #endif
 template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigned int from, unsigned int to>
-std::string utf8_to_latin1_range(const std::string& s)
-{
+std::string utf8_to_latin1_range(const std::string& s) {
     std::string ret;
 
     const char* cptr = s.c_str();
     unsigned int ui_codepoint{};
-    while (*cptr != 0)
-    {
+    while (*cptr != 0) {
         const auto uc = static_cast<unsigned char>(*cptr);
         if (uc <= 0x7f)
             ui_codepoint = uc;
@@ -212,8 +192,7 @@ std::string utf8_to_latin1_range(const std::string& s)
         else
             ui_codepoint = uc & 0x07u;
         ++cptr;
-        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu))
-        {
+        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) {
             bool in_range{ui_codepoint <= to};
             if constexpr (from)
                 in_range = in_range && from <= ui_codepoint;
@@ -234,23 +213,19 @@ std::string utf8_to_latin1_range(const std::string& s)
 } // namespace detail_impl
 
 template <class OnConversionErrorPolicy>
-std::string utf8_to_latin1(const std::string& s)
-{
+std::string utf8_to_latin1(const std::string& s) {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 0, 255>(s);
 }
 
-inline std::string latin1_to_utf8(const std::string& s)
-{
+inline std::string latin1_to_utf8(const std::string& s) {
     std::string ret;
 
-    for (const auto& c : s)
-    {
+    for (const auto& c : s) {
         const auto c_ = static_cast<uint8_t>(c);
 
         if (c_ < 0x80)
             ret.append(1, c);
-        else
-        {
+        else {
             const auto c_pt1 = 0xc0u | (c_ & 0xc0u) >> 6u;
             ret.append(1, static_cast<char>(c_pt1));
             const auto c_pt2 = 0x80u | (c_ & 0x3fu);
@@ -261,31 +236,25 @@ inline std::string latin1_to_utf8(const std::string& s)
 }
 
 template <class OnConversionErrorPolicy>
-std::string utf8_to_printableASCII(const std::string& s)
-{
+std::string utf8_to_printableASCII(const std::string& s) {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }
 
-inline std::string printableASCII_to_utf8(const std::string& s)
-{
+inline std::string printableASCII_to_utf8(const std::string& s) {
     return latin1_to_utf8(s);
 }
 
-inline std::string to_hex_string(const std::string& s, const std::string& prefix)
-{
+inline std::string to_hex_string(const std::string& s, const std::string& prefix) {
     static const char* const lut{"0123456789abcdef"};
     size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
-    std::for_each(
-        std::begin(s), std::end(s),
-        [&ret, &prefix](char c)
-        {
-            const auto uc = static_cast<unsigned char>(c);
-            ret.append(prefix);
-            ret.push_back(lut[uc >> 4]);
-            ret.push_back(lut[uc & 15]);
-        });
+    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {
+        const auto uc = static_cast<unsigned char>(c);
+        ret.append(prefix);
+        ret.push_back(lut[uc >> 4]);
+        ret.push_back(lut[uc & 15]);
+    });
     return ret;
 }
 } // namespace mb::ul::str

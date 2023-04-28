@@ -9,8 +9,7 @@
 #include "ul/macros.h"
 #include <type_traits>
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Mark a raw pointer as owner of the memory. Should be rarely needed, in low level code at the most.
 /** Usage:
 \code
@@ -41,19 +40,16 @@ using owner = T;
     \endcode
     */
 template <class T>
-class not_null
-{
+class not_null {
     static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
 
 public:
     /*implicit*/ not_null(T t)
-        : ptr_(t)
-    {
+        : ptr_(t) {
         ensure_invariant();
     }
 
-    not_null& operator=(const T& t)
-    {
+    not_null& operator=(const T& t) {
         this->ptr_ = t;
         ensure_invariant();
         return *this;
@@ -68,14 +64,12 @@ public:
 #endif
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    explicit not_null(const not_null<U>& other)
-    {
+    explicit not_null(const not_null<U>& other) {
         *this = other;
     }
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    not_null& operator=(const not_null<U>& other)
-    {
+    not_null& operator=(const not_null<U>& other) {
         this->ptr_ = other.get();
         return *this;
     }
@@ -86,31 +80,26 @@ public:
     not_null<T>& operator=(std::nullptr_t) = delete;
     not_null<T>& operator=(int) = delete;
 
-    [[nodiscard]] T get() const
-    {
+    [[nodiscard]] T get() const {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
         __assume(ptr_ != nullptr); // the assume() should help the optimizer
 #endif
         return ptr_;
     }
 
-    /*implicit*/ operator T() const
-    {
+    /*implicit*/ operator T() const {
         return get();
     }
 
-    T operator->() const
-    {
+    T operator->() const {
         return get();
     }
 
-    bool operator==(const T& rhs) const
-    {
+    bool operator==(const T& rhs) const {
         return this->ptr_ == rhs;
     }
 
-    bool operator!=(const T& rhs) const
-    {
+    bool operator!=(const T& rhs) const {
         return !(*this == rhs);
     }
 
@@ -130,8 +119,7 @@ private:
 
     // we assume that the compiler can hoist/prove away most of the checks inlined from this function
     // if not, we could make them optional via conditional compilation
-    void ensure_invariant() const
-    {
+    void ensure_invariant() const {
         UL_EXPECT_THROW(this->ptr_ != nullptr);
     }
 };
