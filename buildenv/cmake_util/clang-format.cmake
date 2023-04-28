@@ -26,4 +26,6 @@ endif ()
 string(CONCAT cxx_dirs "${cxx_dirs_general}" "${cxx_dirs_util}")
 string(CONCAT cxx_dirs "${cxx_dirs}" "${UL_ADDITIONAL_CLANG_FORMAT_DIRS}")
 
+cmake_print_variables(UL_ADDITIONAL_CLANG_FORMAT_DIRS cxx_dirs)
+
 add_clang_format_project_target("${cxx_dirs}")
