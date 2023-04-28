@@ -3,25 +3,20 @@
 
 namespace ul = mb::ul;
 
-namespace
-{
-namespace a
-{
+namespace {
+namespace a {
 // doc real type in comments
-enum class Attr
-{
+enum class Attr {
     a1, // int
     a2, // long
 };
 // doc real type in comments
-enum class LargeData
-{
+enum class LargeData {
     d1, // std::vector<int>
     d2, // std::vector<long>
 };
 
-struct IA
-{
+struct IA {
     virtual ~IA() = default;
     //...
 
@@ -31,22 +26,17 @@ struct IA
     virtual bool copy_from(LargeData, ul::any&) const = 0;
 };
 
-struct AFactory
-{
+struct AFactory {
     static std::unique_ptr<IA> createA();
 };
 
-struct A : public IA
-{
-    explicit operator bool() const
-    {
+struct A : public IA {
+    explicit operator bool() const {
         return true; // untested
     }
 
-    void set(Attr a, const ul::any& val) override
-    {
-        switch (a)
-        {
+    void set(Attr a, const ul::any& val) override {
+        switch (a) {
             case Attr::a1:
                 this->a1_ = ul::any_cast<int>(val);
                 break;
@@ -55,10 +45,8 @@ struct A : public IA
         }
     }
 
-    [[nodiscard]] ul::any get(Attr a) const override
-    {
-        switch (a)
-        {
+    [[nodiscard]] ul::any get(Attr a) const override {
+        switch (a) {
             case Attr::a1:
                 return this->a1_;
             default:
@@ -66,10 +54,8 @@ struct A : public IA
         }
     }
 
-    bool copy_to(LargeData d, const ul::any& data) override
-    {
-        switch (d)
-        {
+    bool copy_to(LargeData d, const ul::any& data) override {
+        switch (d) {
             case LargeData::d1:
                 this->d1_ = ul::any_cast<std::vector<int>>(data);
                 return true;
@@ -78,10 +64,8 @@ struct A : public IA
         }
     }
 
-    bool copy_from(LargeData d, ul::any& data) const override
-    {
-        switch (d)
-        {
+    bool copy_from(LargeData d, ul::any& data) const override {
+        switch (d) {
             case LargeData::d1:
                 data = this->d1_;
                 return true;
@@ -95,15 +79,13 @@ private:
     std::vector<int> d1_;
 };
 
-std::unique_ptr<IA> AFactory::createA()
-{
+std::unique_ptr<IA> AFactory::createA() {
     return ul::make_unique<A>();
 }
 } // namespace a
 } // namespace
 
-TEST(ul_anyTest, test)
-{
+TEST(ul_anyTest, test) {
     const a::AFactory afactory;
     std::unique_ptr<a::IA> ia = afactory.createA();
     const ul::any a1 = 5;

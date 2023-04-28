@@ -3,8 +3,7 @@
 #include "gtest/gtest.h"
 #include <thread>
 
-TEST(profilerTest, basics)
-{
+TEST(profilerTest, basics) {
     const auto before{ul::profiler_now()};
     constexpr auto exampleDuration{std::chrono::milliseconds(42)};
     std::this_thread::sleep_for(exampleDuration);
@@ -15,8 +14,7 @@ TEST(profilerTest, basics)
     EXPECT_LT(22, diff.count());
 }
 
-TEST(ToFormattedStringTest, Rounding)
-{
+TEST(ToFormattedStringTest, Rounding) {
     EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099985));
     EXPECT_EQ("99.98 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099984));
     EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::toFormattedString(0.000000099986));
@@ -31,8 +29,7 @@ TEST(ToFormattedStringTest, Rounding)
     EXPECT_EQ("59:59.98", ul::PerformanceProfiler::toFormattedString(3599.984));
 }
 
-TEST(ToFormattedStringTest, UnitStepping)
-{
+TEST(ToFormattedStringTest, UnitStepping) {
     EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099990));
     EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::toFormattedString(0.000000099990));
     EXPECT_EQ("99.99 \xC2\xB5s", ul::PerformanceProfiler::toFormattedString(0.000099990));
@@ -43,35 +40,29 @@ TEST(ToFormattedStringTest, UnitStepping)
     EXPECT_EQ("01:00:00", ul::PerformanceProfiler::toFormattedString(3600.0));
 }
 
-TEST(ToFormattedStringTest, RoundingCausingUnitStepping)
-{
+TEST(ToFormattedStringTest, RoundingCausingUnitStepping) {
     EXPECT_EQ("0.10 s", ul::PerformanceProfiler::toFormattedString(0.099999));
 }
 
-TEST(ToFormattedStringTest, NoRounding)
-{
+TEST(ToFormattedStringTest, NoRounding) {
     EXPECT_EQ("99:59:58", ul::PerformanceProfiler::toFormattedString(359998.5));
     EXPECT_EQ("99:59:58", ul::PerformanceProfiler::toFormattedString(359998.4));
 }
 
-TEST(ToFormattedStringTest, Zero)
-{
+TEST(ToFormattedStringTest, Zero) {
     EXPECT_EQ("0.00 ps", ul::PerformanceProfiler::toFormattedString(0.0));
 }
 
-TEST(ToFormattedStringTest, Neg)
-{
+TEST(ToFormattedStringTest, Neg) {
     EXPECT_EQ("-1.00 s", ul::PerformanceProfiler::toFormattedString(-1.0));
 }
 
-TEST(ToFormattedStringTest, Inf)
-{
+TEST(ToFormattedStringTest, Inf) {
     EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::toFormattedString(360000));
 }
 
 // NOLINTBEGIN
-TEST(DISABLED_DumpAllItemsTest, PracticalScenario)
-{
+TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
     ul::PerformanceProfiler perfscope0("1. 500ms");
     EXPECT_NEAR(0.0, perfscope0.elapsed_currentItem(), 0.02);
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -83,8 +74,7 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario)
         perfscope1.startNewItem("4. nest1");
         {
             ul::PerformanceProfiler perfscope2("5. for", 2);
-            for (size_t i = 1; i <= 5; ++i)
-            {
+            for (size_t i = 1; i <= 5; ++i) {
                 ul::PerformanceProfiler const perfscope3("6. 500ms", 3);
                 ul::ignore_unused(perfscope3);
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));

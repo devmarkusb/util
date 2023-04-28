@@ -5,8 +5,7 @@
 
 #include "listener.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 /** This could be a very useful listener/notifier pair in any situation where you
     want to manage lifetimes in dependency injection situations and don't want to
     use a shared pointer.
@@ -21,8 +20,7 @@ namespace mb::ul
             2.1 set the pointer to the injected object to nullptr as soon as you get
                 called via onBeforeDestroy (implement onBeforeDestroy that way).
 */
-struct OnBeforeDestroyListener : public Listener
-{
+struct OnBeforeDestroyListener : public Listener {
     ~OnBeforeDestroyListener() override = default;
 
     virtual void onBeforeDestroy() = 0;

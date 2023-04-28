@@ -3,8 +3,7 @@
 #ifndef MAP_H_54982dn78txhwgf1236784g
 #define MAP_H_54982dn78txhwgf1236784g
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Compile time map int->int.
 /** But you shouldn't forget about the simpler runtime solution like
     \code std::map<int, char> m = {{1, 'a'}, {3, 'b'}, {5, 'c'}, {7, 'd'}}; \endcode
@@ -20,8 +19,7 @@ namespace mb::ul
 //!@{
 
 template <typename TypeForKey, typename TypeForValue, TypeForKey KEY, TypeForValue VALUE>
-struct key_value
-{
+struct key_value {
     static const TypeForKey key = KEY;
     static const TypeForValue value = VALUE;
 };
@@ -37,11 +35,9 @@ template <int NOT_FOUND_VALUE, typename... Args>
 using ct_map = ct_mapTT<int, NOT_FOUND_VALUE, Args...>;
 
 template <typename TypeForValue, TypeForValue NOT_FOUND_VALUE>
-struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE>
-{
+struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE> {
     template <TypeForValue>
-    struct at
-    {
+    struct at {
         static const TypeForValue value = NOT_FOUND_VALUE;
     };
 };
@@ -49,11 +45,9 @@ struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE>
 template <
     typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE,
     typename... FURTHER_KEY_VALUEs>
-struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValue, KEY, VALUE>, FURTHER_KEY_VALUEs...>
-{
+struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValue, KEY, VALUE>, FURTHER_KEY_VALUEs...> {
     template <TypeForKey THIS_KEY>
-    struct at
-    {
+    struct at {
         static const TypeForValue value =
             (THIS_KEY == KEY)
                 ? VALUE

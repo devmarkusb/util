@@ -22,29 +22,24 @@
 #include <string>
 #include <vector>
 
-namespace mb::ul
-{
+namespace mb::ul {
 using ProfilerTimePoint = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
-inline ProfilerTimePoint profiler_now()
-{
+inline ProfilerTimePoint profiler_now() {
     return std::chrono::high_resolution_clock::now();
 }
 
-inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end)
-{
+inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end) {
     return end - start;
 }
 
-namespace impl_dump_all_items
-{
+namespace impl_dump_all_items {
 struct KeyData;
 } // namespace impl_dump_all_items
 
 //! Can only be used within one thread at the same time.
 /** Usage: Cf. unit tests.*/
-class PerformanceProfiler : private ul::NonCopyable
-{
+class PerformanceProfiler : private ul::NonCopyable {
 public:
     using TimeValStorageRep = double;
     using SecondsDbl = TimeValStorageRep;
@@ -59,8 +54,7 @@ public:
     inline void startNewItem(const std::string& NewItemName);
     inline void stopItem();
 
-    enum class DumpFormat
-    {
+    enum class DumpFormat {
         stringOnly,
         stringAndStructure,
     };
@@ -71,8 +65,7 @@ public:
     static std::string toFormattedString(const SecondsDbl& d);
 
     //! Only for testing.
-    struct DumpDataset
-    {
+    struct DumpDataset {
         std::string itemName_;
         size_t count_;
         SecondsDbl total_;
@@ -82,8 +75,7 @@ public:
     };
 
     //! Filled with structured data (e.g. for testing) if dumpAllItems() was called with DumpFormat::stringAndStructure.
-    static std::vector<DumpDataset>& dumpedData()
-    {
+    static std::vector<DumpDataset>& dumpedData() {
         static std::vector<DumpDataset> data;
         return data;
     }
@@ -92,8 +84,7 @@ private:
     friend struct impl_dump_all_items::KeyData;
     using UniqueItemStartNr = uint64_t;
 
-    struct ItemData
-    {
+    struct ItemData {
         TimeValStorageRep timeVal_{};
         NestingLevel nestingLevel_{};
         UniqueItemStartNr startNr_{};
@@ -101,8 +92,7 @@ private:
         ItemData(const TimeValStorageRep& t, NestingLevel nl, UniqueItemStartNr n)
             : timeVal_(t)
             , nestingLevel_(nl)
-            , startNr_(n)
-        {
+            , startNr_(n) {
         }
     };
 
@@ -122,23 +112,19 @@ private:
     inline void startCurrentItem();
     inline void stopCurrentItem();
 
-    static UniqueItemStartNr& uniqueItemStartNr()
-    {
+    static UniqueItemStartNr& uniqueItemStartNr() {
         static UniqueItemStartNr n = UniqueItemStartNr();
         return n;
     }
 
     static Items& items();
 
-    struct match_key
-    {
+    struct match_key {
         explicit match_key(ItemNameAsKey key)
-            : key_(std::move(key))
-        {
+            : key_(std::move(key)) {
         }
 
-        bool operator()(const Items::value_type& rhs) const
-        {
+        bool operator()(const Items::value_type& rhs) const {
             return key_ == rhs.first;
         }
 
@@ -146,15 +132,12 @@ private:
         ItemNameAsKey key_;
     };
 
-    struct accum_key
-    {
+    struct accum_key {
         explicit accum_key(ItemNameAsKey key)
-            : key_(std::move(key))
-        {
+            : key_(std::move(key)) {
         }
 
-        TimeValStorageRep operator()(const TimeValStorageRep& v, const Items::value_type& rhs) const
-        {
+        TimeValStorageRep operator()(const TimeValStorageRep& v, const Items::value_type& rhs) const {
             if (key_ == rhs.first)
                 return rhs.second.timeVal_ + v;
             return v;
@@ -165,19 +148,16 @@ private:
     };
 };
 
-inline void PerformanceProfiler::startCurrentItem()
-{
+inline void PerformanceProfiler::startCurrentItem() {
     itemStartNr_ = uniqueItemStartNr()++;
     startTime_ = chrono_clock::now();
 }
 
-inline void PerformanceProfiler::stopCurrentItem()
-{
+inline void PerformanceProfiler::stopCurrentItem() {
     ItemData d(elapsed_currentItem(), nestingLevel_, itemStartNr_);
     const auto& it = items().find(itemName_);
     // is the same item started and stopped a second time at least?
-    if (it != items().end())
-    {
+    if (it != items().end()) {
         // if on the same nesting level, we want to keep the order of a single run through this level;
         // we don't know which representative will be picked later to generate a data record
         if (nestingLevel_ == it->second.nestingLevel_)
@@ -188,39 +168,32 @@ inline void PerformanceProfiler::stopCurrentItem()
 
 inline PerformanceProfiler::PerformanceProfiler(std::string NewItemName, NestingLevel NestingLevel)
     : itemName_(std::move(NewItemName))
-    , nestingLevel_(NestingLevel)
-{
+    , nestingLevel_(NestingLevel) {
     startCurrentItem();
 }
 
-inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_currentItem() const
-{
+inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_currentItem() const {
     const chrono_timepoint now = chrono_clock::now();
     const chrono_duration elapsed = now - startTime_;
     return elapsed.count();
 }
 
-inline PerformanceProfiler::~PerformanceProfiler()
-{
+inline PerformanceProfiler::~PerformanceProfiler() {
     stopCurrentItem();
 }
 
-inline void PerformanceProfiler::startNewItem(const std::string& NewItemName)
-{
+inline void PerformanceProfiler::startNewItem(const std::string& NewItemName) {
     stopCurrentItem();
     itemName_ = NewItemName;
     startCurrentItem();
 }
 
-inline void PerformanceProfiler::stopItem()
-{
+inline void PerformanceProfiler::stopItem() {
     stopCurrentItem();
 }
 
-namespace impl_dump_all_items
-{
-struct KeyData
-{
+namespace impl_dump_all_items {
+struct KeyData {
     using NestingLevel = PerformanceProfiler::NestingLevel;
     using UniqueItemStartNr = PerformanceProfiler::UniqueItemStartNr;
     using ItemData = PerformanceProfiler::ItemData;
@@ -230,21 +203,18 @@ struct KeyData
 
     explicit KeyData(const ItemData& d)
         : nestingLevel_(d.nestingLevel_)
-        , startNr_(d.startNr_)
-    {
+        , startNr_(d.startNr_) {
     }
 };
 } // namespace impl_dump_all_items
 
 // NOLINTBEGIN
 template <PerformanceProfiler::DumpFormat fmt>
-std::string PerformanceProfiler::dumpAllItems()
-{
+std::string PerformanceProfiler::dumpAllItems() {
     if constexpr (fmt != DumpFormat::stringOnly)
         dumpedData().clear();
     std::stringstream ret;
-    if (items().empty())
-    {
+    if (items().empty()) {
         ret << "No performance measurement data." << std::endl;
         return ret.str();
     }
@@ -253,19 +223,15 @@ std::string PerformanceProfiler::dumpAllItems()
     TKeySet_unsorted keys_unsorted;
     std::transform(
         items().begin(), items().end(), std::inserter(keys_unsorted, keys_unsorted.begin()),
-        [](decltype(*items().begin())& i)
-        {
+        [](decltype(*items().begin())& i) {
             return std::make_pair(i.first, impl_dump_all_items::KeyData(i.second));
         });
     using TKeyNameAndData = std::pair<ItemNameAsKey, impl_dump_all_items::KeyData>;
     using TKeySet = std::vector<TKeyNameAndData>;
     TKeySet keys(keys_unsorted.begin(), keys_unsorted.end());
-    std::sort(
-        keys.begin(), keys.end(),
-        [](const TKeySet::value_type& k1, const TKeySet::value_type& k2) -> bool
-        {
-            return k1.second.startNr_ < k2.second.startNr_;
-        });
+    std::sort(keys.begin(), keys.end(), [](const TKeySet::value_type& k1, const TKeySet::value_type& k2) -> bool {
+        return k1.second.startNr_ < k2.second.startNr_;
+    });
 
     static const size_t COLUMN_WIDTH = 10;
     static const size_t COLUMN_WIDTH_HUGE = 29;
@@ -281,8 +247,7 @@ std::string PerformanceProfiler::dumpAllItems()
     ret << std::setfill('-') << std::setw(COLUMN_WIDTH_HUGE + COLUMN_WIDTH * 5) << '-' << std::endl;
     ret << std::setfill(' ');
 
-    for (const auto& key : keys)
-    {
+    for (const auto& key : keys) {
         const TimeValStorageRep totalT =
             ul::accumulate(items().begin(), items().end(), TimeValStorageRep(), accum_key(key.first));
         const auto count = std::count_if(items().begin(), items().end(), match_key(key.first));
@@ -294,8 +259,7 @@ std::string PerformanceProfiler::dumpAllItems()
             avgT = std::numeric_limits<double>::infinity();
 
         std::vector<TimeValStorageRep> sortedItems;
-        for (const auto& item : items())
-        {
+        for (const auto& item : items()) {
             if (key.first == item.first)
                 sortedItems.push_back(item.second.timeVal_);
         }
@@ -305,8 +269,7 @@ std::string PerformanceProfiler::dumpAllItems()
             (count > 1 && count % 2) ? (sortedItems[mid] + sortedItems[mid + 1]) / 2.0 : sortedItems[mid];
 
         double variance = 0.0;
-        if (count > 1)
-        {
+        if (count > 1) {
             for (const auto& time : sortedItems)
                 variance += pow(time - meanT, 2.0);
         }
@@ -339,12 +302,10 @@ std::string PerformanceProfiler::dumpAllItems()
 
 // NOLINTEND
 
-inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d)
-{
+inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d) {
     std::stringstream ret;
     SecondsDbl d_(d);
-    if (d_ < 0.0)
-    {
+    if (d_ < 0.0) {
         d_ = -d_;
         ret << '-';
     }
@@ -374,14 +335,12 @@ inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d)
     return ret.str();
 }
 
-inline void PerformanceProfiler::reset()
-{
+inline void PerformanceProfiler::reset() {
     items().clear();
     uniqueItemStartNr() = UniqueItemStartNr{};
 }
 
-inline PerformanceProfiler::Items& PerformanceProfiler::items()
-{
+inline PerformanceProfiler::Items& PerformanceProfiler::items() {
     static Items instance;
     return instance;
 }

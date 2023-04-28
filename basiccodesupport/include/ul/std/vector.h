@@ -6,13 +6,11 @@
 #include <cstddef>
 #include <vector>
 
-namespace mb::ul::vector
-{
+namespace mb::ul::vector {
 //! Only makes sense for dst not within [start, start + length).
 /** Whereas dst == start + length (also, for this function) means doing nothing.*/
 template <typename T>
-void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v)
-{
+void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v) {
     const size_t end = start + length;
     if (dst >= start && dst <= end)
         return;

@@ -11,8 +11,7 @@
 #include <memory>
 #include <utility>
 
-namespace mb::ul
-{
+namespace mb::ul {
 using none_t = std::nullptr_t;
 //! Used to set some \code ul::opt<T> x \endcode variable to empty.
 /** Note that this unfortunately does not always work well when being passed as return value.
@@ -46,18 +45,15 @@ const none_t none = nullptr;
     \endcode
 */
 template <typename T>
-struct opt
-{
+struct opt {
     opt() = default;
     ~opt() = default;
 
     opt(const opt<T>& other)
-        : holder_(other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr)
-    {
+        : holder_(other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr) {
     }
 
-    opt<T>& operator=(const opt<T>& other)
-    {
+    opt<T>& operator=(const opt<T>& other) {
         if (std::addressof(other) == this)
             return *this;
         holder_ = other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr;
@@ -65,13 +61,11 @@ struct opt
     }
 
     explicit opt(const none_t& /*unused*/)
-        : holder_(nullptr)
-    {
+        : holder_(nullptr) {
     }
 
     explicit opt(none_t&& /*unused*/)
-        : holder_(nullptr)
-    {
+        : holder_(nullptr) {
     }
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
@@ -80,17 +74,14 @@ struct opt
 #endif
 
     /*implicit*/ opt(const T& x)
-        : holder_(ul::make_unique<T>(x))
-    {
+        : holder_(ul::make_unique<T>(x)) {
     }
 
     /*implicit*/ opt(T&& x)
-        : holder_(ul::make_unique<T>(std::move(x)))
-    {
+        : holder_(ul::make_unique<T>(std::move(x))) {
     }
 
-    /*implicit*/ operator T*() const
-    {
+    /*implicit*/ operator T*() const {
         return this->holder_.get();
     }
 
@@ -100,32 +91,27 @@ struct opt
 ///*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
 #endif
 
-    opt<T>& operator=(const T& x)
-    {
+    opt<T>& operator=(const T& x) {
         this->holder_ = ul::make_unique<T>(x);
         return *this;
     }
 
-    opt<T>& operator=(T&& x)
-    {
+    opt<T>& operator=(T&& x) {
         this->holder_ = ul::make_unique<T>(std::move(x));
         return *this;
     }
 
-    opt<T>& operator=(const none_t& /*unused*/)
-    {
+    opt<T>& operator=(const none_t& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
 
-    opt<T>& operator=(none_t&& /*unused*/)
-    {
+    opt<T>& operator=(none_t&& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
 
-    void reset()
-    {
+    void reset() {
         this->holder_.reset();
     }
 
@@ -134,8 +120,7 @@ private:
 };
 
 template <typename T>
-bool operator==(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator==(const opt<T>& lhs, const opt<T>& rhs) {
     if (lhs && rhs)
         return *lhs == *rhs;
     if (!lhs && !rhs)
@@ -144,15 +129,13 @@ bool operator==(const opt<T>& lhs, const opt<T>& rhs)
 }
 
 template <typename T>
-bool operator!=(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator!=(const opt<T>& lhs, const opt<T>& rhs) {
     return !operator==(lhs, rhs);
 }
 
 //! Note: ul::none is interpreted to be the smallest.
 template <typename T>
-bool operator<(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator<(const opt<T>& lhs, const opt<T>& rhs) {
     if (lhs && rhs)
         return *lhs < *rhs;
     if (!lhs && !rhs)
@@ -161,20 +144,17 @@ bool operator<(const opt<T>& lhs, const opt<T>& rhs)
 }
 
 template <typename T>
-bool operator>(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator>(const opt<T>& lhs, const opt<T>& rhs) {
     return operator<(rhs, lhs);
 }
 
 template <typename T>
-bool operator<=(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator<=(const opt<T>& lhs, const opt<T>& rhs) {
     return !operator>(lhs, rhs);
 }
 
 template <typename T>
-bool operator>=(const opt<T>& lhs, const opt<T>& rhs)
-{
+bool operator>=(const opt<T>& lhs, const opt<T>& rhs) {
     return !operator<(lhs, rhs);
 }
 } // namespace mb::ul

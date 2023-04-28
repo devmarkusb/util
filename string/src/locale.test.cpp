@@ -3,8 +3,7 @@
 
 namespace ul = mb::ul;
 
-TEST(consoleTest, set_global_localeTest_localenc)
-{
+TEST(consoleTest, set_global_localeTest_localenc) {
     const std::string s = "\xe4"
                           "hnlich"; // latin1 encoding
     std::stringstream ss;

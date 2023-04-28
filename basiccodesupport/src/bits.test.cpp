@@ -9,8 +9,7 @@ namespace ul = mb::ul;
 
 // NOLINTBEGIN
 
-TEST(bits_count, various)
-{
+TEST(bits_count, various) {
     static_assert(ul::bits::count<uint8_t>() == 8);
     static_assert(ul::bits::count<uint32_t>() == 32);
     static_assert(ul::bits::count<uint64_t>() == 64);
@@ -20,8 +19,7 @@ TEST(bits_count, various)
     static_assert(ul::bits::count<int64_t>() == 64);
 }
 
-TEST(bits_countSetBits, various)
-{
+TEST(bits_countSetBits, various) {
     EXPECT_EQ(ul::bits::countSet(0), 0);
     EXPECT_EQ(ul::bits::countSet(1), 1);
     EXPECT_EQ(ul::bits::countSet(0b11), 2);
@@ -32,24 +30,21 @@ TEST(bits_countSetBits, various)
     EXPECT_EQ(ul::bits::countSet(0b10000000000), 1);
 }
 
-TEST(bits_set, various)
-{
+TEST(bits_set, various) {
     EXPECT_EQ(ul::bits::set(0b000u, 0u), 0b001);
     EXPECT_EQ(ul::bits::set(0b000u, 1u), 0b010);
     EXPECT_EQ(ul::bits::set<uint8_t>(0b1, 7), 0b10000001);
     EXPECT_DEBUG_DEATH(ul::bits::set<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
 
-TEST(bits_unset, various)
-{
+TEST(bits_unset, various) {
     EXPECT_EQ(ul::bits::unset(0b111, 0), 0b110);
     EXPECT_EQ(ul::bits::unset(0b111, 1), 0b101);
     EXPECT_EQ(ul::bits::unset<uint8_t>(1 << 7, 7), 0);
     EXPECT_DEBUG_DEATH(ul::bits::unset<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
 
-TEST(bits_toggle, various)
-{
+TEST(bits_toggle, various) {
     EXPECT_EQ(ul::bits::toggle(0b111, 0), 0b110);
     EXPECT_EQ(ul::bits::toggle(0b110, 0), 0b111);
     EXPECT_EQ(ul::bits::toggle(0b101, 1), 0b111);
@@ -57,8 +52,7 @@ TEST(bits_toggle, various)
     EXPECT_DEBUG_DEATH(ul::bits::unset<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
 
-TEST(bits_check, various)
-{
+TEST(bits_check, various) {
     EXPECT_EQ(ul::bits::check(0b111, 0), 1);
     EXPECT_EQ(ul::bits::check(0b110, 0), 0);
     EXPECT_EQ(ul::bits::check(0b101, 1), 0);
@@ -66,8 +60,7 @@ TEST(bits_check, various)
     EXPECT_DEBUG_DEATH(ul::bits::check<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
 
-TEST(bits_change, various)
-{
+TEST(bits_change, various) {
     EXPECT_EQ(ul::bits::change(0b111, 0, 1), 0b111);
     EXPECT_EQ(ul::bits::change(0b110, 0, 1), 0b111);
     EXPECT_EQ(ul::bits::change(0b111, 0, 0), 0b110);
@@ -77,32 +70,28 @@ TEST(bits_change, various)
     EXPECT_DEBUG_DEATH(ul::bits::change<uint8_t>(0b1, 8, 1), ul::death_assert_regex);
 }
 
-TEST(bits_setMask, various)
-{
+TEST(bits_setMask, various) {
     EXPECT_EQ(ul::bits::setMask(0b000u, 0b001u), 0b001u);
     EXPECT_EQ(ul::bits::setMask(0b000u, 0b010u), 0b010u);
     EXPECT_EQ(ul::bits::setMask(0b000u, 0b101u), 0b101u);
     EXPECT_EQ(ul::bits::setMask<uint8_t>(0b1, 1 << 7), (1 << 7) | 0b1);
 }
 
-TEST(bits_unsetMask, various)
-{
+TEST(bits_unsetMask, various) {
     EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b001u), 0b110u);
     EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b010u), 0b101u);
     EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b101u), 0b010u);
     EXPECT_EQ(ul::bits::unsetMask<uint8_t>((1u << 7u) | 0b1u, 1u << 7u), 0b1u);
 }
 
-TEST(bits_toggleMask, various)
-{
+TEST(bits_toggleMask, various) {
     EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b001u), 0b110u);
     EXPECT_EQ(ul::bits::toggleMask(0b110u, 0b001u), 0b111u);
     EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b101u), 0b010u);
     EXPECT_EQ(ul::bits::toggleMask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
 }
 
-TEST(bits_checkAllOfMask, various)
-{
+TEST(bits_checkAllOfMask, various) {
     EXPECT_TRUE(ul::bits::checkAllOfMask(0b111u, 0b101u));
     EXPECT_TRUE(ul::bits::checkAllOfMask(0b101u, 0b101u));
     EXPECT_FALSE(ul::bits::checkAllOfMask(0b110u, 0b101u));
@@ -111,8 +100,7 @@ TEST(bits_checkAllOfMask, various)
     EXPECT_FALSE(ul::bits::checkAllOfMask(0b101u, 0b010u));
 }
 
-TEST(bits_checkAnyOfMask, various)
-{
+TEST(bits_checkAnyOfMask, various) {
     EXPECT_TRUE(ul::bits::checkAnyOfMask(0b111u, 0b101u));
     EXPECT_TRUE(ul::bits::checkAnyOfMask(0b101u, 0b101u));
     EXPECT_TRUE(ul::bits::checkAnyOfMask(0b100u, 0b101u));
@@ -123,99 +111,82 @@ TEST(bits_checkAnyOfMask, various)
     EXPECT_FALSE(ul::bits::checkAnyOfMask(0b101u, 0b010u));
 }
 
-TEST(bits_setRange, empty)
-{
+TEST(bits_setRange, empty) {
     EXPECT_DEBUG_DEATH(ul::bits::setRange(5, 0), ul::death_assert_regex);
 }
 
-TEST(bits_setRange, bitNr0)
-{
+TEST(bits_setRange, bitNr0) {
     EXPECT_EQ(ul::bits::setRange(0, 1), 0b1u);
 }
 
-TEST(bits_setRange, bitNr1)
-{
+TEST(bits_setRange, bitNr1) {
     EXPECT_EQ(ul::bits::setRange(1, 1), 0b10u);
 }
 
-TEST(bits_setRange, bitNr63)
-{
+TEST(bits_setRange, bitNr63) {
     EXPECT_EQ(ul::bits::setRange<uint64_t>(63, 1), uint64_t(1) << uint64_t(63));
 }
 
-TEST(bits_setRange, highestTwoBits)
-{
+TEST(bits_setRange, highestTwoBits) {
     EXPECT_EQ(ul::bits::setRange<uint64_t>(62, 2), (uint64_t(1) << uint64_t(63)) | (uint64_t(1) << uint64_t(62)));
 }
 
-TEST(bits_setRange, lowestTwoBits)
-{
+TEST(bits_setRange, lowestTwoBits) {
     EXPECT_EQ(ul::bits::setRange(0, 2), 0b11u);
 }
 
-TEST(bits_setRange, someMiddleRangeOfBits)
-{
+TEST(bits_setRange, someMiddleRangeOfBits) {
     EXPECT_EQ(ul::bits::setRange(3, 6), 0b111111000u);
 }
 
-TEST(bits_setRange, someMiddleRangeOfBits_castedToSufficientSmallerType)
-{
+TEST(bits_setRange, someMiddleRangeOfBits_castedToSufficientSmallerType) {
     EXPECT_EQ(ul::bits::setRange<uint8_t>(2, 6), 0b11111100u);
     EXPECT_DEBUG_DEATH(ul::bits::setRange<uint8_t>(2, 7), ul::death_assert_regex);
     EXPECT_EQ(ul::bits::setRange<uint16_t>(2, 7), 0b111111100u);
 }
 
-TEST(bits_read, typical)
-{
+TEST(bits_read, typical) {
     EXPECT_EQ(ul::bits::read(0b11000101100u, 2, 5), 0b01011u);
     const auto x = ul::bits::readAndCast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
     EXPECT_EQ(x, uint8_t{0b01011});
     EXPECT_DEBUG_DEATH(ul::bits::setRange<uint8_t>(2, 7), ul::death_assert_regex);
 }
 
-namespace
-{
+namespace {
 // workaround, because gtest understands comma between template parameters as comma for the gtest macro;
 // so we need a template with one instead of two parameters
 template <typename TargetType>
-constexpr TargetType read_from16_testhelper(uint16_t data, ul::bits::Idx idx, ul::bits::Count count) noexcept
-{
+constexpr TargetType read_from16_testhelper(uint16_t data, ul::bits::Idx idx, ul::bits::Count count) noexcept {
     return ul::bits::readAndCast<TargetType>(data, idx, count);
 }
 } // namespace
 
-TEST(bits_read, range_overflows)
-{
+TEST(bits_read, range_overflows) {
     EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 2, 7), ul::death_assert_regex);
     EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 9, 0), ul::death_assert_regex);
     EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 0, 9), ul::death_assert_regex);
     EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100u, 2, 9), ul::death_assert_regex);
 }
 
-TEST(bits_read, none)
-{
+TEST(bits_read, none) {
     EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 2, 0), ul::death_assert_regex);
 }
 
-TEST(bits_read, one)
-{
+TEST(bits_read, one) {
     EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 2, 1), 1);
     EXPECT_EQ(ul::bits::read<uint8_t>(0b10101000u, 2, 1), 0);
 }
 
-TEST(bits_read, last)
-{
+TEST(bits_read, last) {
     EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 7, 1), 1);
     EXPECT_EQ(ul::bits::read<uint8_t>(0b00101100u, 7, 1), 0);
 }
 
-TEST(bits_read, all)
-{
+TEST(bits_read, all) {
     EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 0, 8), 0b10101100u);
 }
 
-TEST(bits_read, types)
-{
+TEST(bits_read, types) {
     auto x = ul::bits::read<uint8_t>(0b10101100u, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
     auto x2 = ul::bits::read<uint16_t>(0b10101100u, 2, 1);
@@ -227,54 +198,46 @@ TEST(bits_read, types)
     static_assert(std::is_same_v<decltype(x3), uint8_t>);
 }
 
-TEST(bits_read, types_cast)
-{
+TEST(bits_read, types_cast) {
     auto x = ul::bits::readAndCast<uint8_t, uint16_t>(0b10101100u, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
     auto x2 = ul::bits::readAndCast<uint16_t>(uint32_t{0b10101100u}, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 }
 
-TEST(bits_write, typical)
-{
+TEST(bits_write, typical) {
     EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b01011u), 0b11000101100u);
     EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b11111u), 0b11001111100u);
     EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b00000u), 0b11000000000u);
     EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b10101u), 0b11001010100u);
 }
 
-TEST(bits_write, different_sizes)
-{
+TEST(bits_write, different_sizes) {
     uint16_t x16{0b11000101100};
     uint8_t x8{0b101001};
     EXPECT_EQ(ul::bits::write(x16, 0, 3, x8), 0b11000101001u);
     EXPECT_EQ(ul::bits::write(x8, 0, 3, x16), 0b101100u);
 }
 
-TEST(bits_write, none)
-{
+TEST(bits_write, none) {
     EXPECT_DEBUG_DEATH(ul::bits::write(0b10101100u, 2, 0, 1), ul::death_assert_regex);
 }
 
-TEST(bits_write, one)
-{
+TEST(bits_write, one) {
     EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 1), 0b10101100u);
     EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 0), 0b10101000u);
 }
 
-namespace
-{
+namespace {
 // workaround, because gtest understands comma between template parameters as comma for the gtest macro;
 // so we need a template with one instead of two parameters
 template <typename SourceType = uint8_t>
-constexpr uint8_t write_to8_testhelper(uint8_t to, ul::bits::Idx idx, ul::bits::Count count, SourceType from) noexcept
-{
+constexpr uint8_t write_to8_testhelper(uint8_t to, ul::bits::Idx idx, ul::bits::Count count, SourceType from) noexcept {
     return ul::bits::write<uint8_t, SourceType>(to, idx, count, from);
 }
 } // namespace
 
-TEST(bits_write, range_overflows)
-{
+TEST(bits_write, range_overflows) {
     EXPECT_DEBUG_DEATH(ul::bits::write<uint16_t>(0, 0, 17, 0), ul::death_assert_regex);
     auto _ = ul::bits::write<uint16_t>(0, 0, 16, 0);
     EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t>(0, 0, 9, 0), ul::death_assert_regex);
@@ -282,8 +245,7 @@ TEST(bits_write, range_overflows)
     ul::ignore_unused(_);
 }
 
-TEST(bits_write, last)
-{
+TEST(bits_write, last) {
     EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100u, 7, 1, 0), 0b00101100u);
     EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100u, 7, 1, 1), 0b10101100u);
     EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 0), 0b10101000u);
@@ -291,16 +253,14 @@ TEST(bits_write, last)
     EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 7, 1, 0b0u), 0b00101100u);
 }
 
-TEST(bits_write, all)
-{
+TEST(bits_write, all) {
     EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 0, 8, 0b11111111u), 0b11111111u);
     EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 0, 8, 0), 0);
     EXPECT_EQ(write_to8_testhelper<uint8_t>(0b11111111u, 0, 8, 0b10101100u), 0b10101100u);
     EXPECT_EQ(write_to8_testhelper<uint8_t>(0b00000000u, 0, 8, 0b10101100u), 0b10101100u);
 }
 
-TEST(bits_BitArray, construct)
-{
+TEST(bits_BitArray, construct) {
     ul::bits::Array<128, uint64_t> a1;
     for (ul::bits::Idx i = 0; i < 128; ++i)
         EXPECT_FALSE(a1.isSet(i));
@@ -314,8 +274,7 @@ TEST(bits_BitArray, construct)
         EXPECT_FALSE(a3.isSet(i));
 }
 
-TEST(bits_BitArray, set)
-{
+TEST(bits_BitArray, set) {
     ul::bits::Array<42> a1;
     a1.set(41);
     EXPECT_TRUE(a1.isSet(41));
@@ -332,8 +291,7 @@ TEST(bits_BitArray, set)
     EXPECT_TRUE(a1.isSet(33));
 }
 
-TEST(bits_BitArray, reset)
-{
+TEST(bits_BitArray, reset) {
     ul::bits::Array<42> a1;
     a1.set(41);
     a1.set(0);
@@ -362,12 +320,9 @@ TEST(bits_BitArray, reset)
 //{
 //}
 
-TEST(bits_Field, basics)
-{
-    struct S
-    {
-        enum Field
-        {
+TEST(bits_Field, basics) {
+    struct S {
+        enum Field {
             octdigit,
             toggle,
             flags,
@@ -406,12 +361,9 @@ TEST(bits_Field, basics)
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0b1000);
 }
 
-TEST(bits_Field, experiment_char)
-{
-    struct S
-    {
-        enum Field
-        {
+TEST(bits_Field, experiment_char) {
+    struct S {
+        enum Field {
             character,
             flags,
             end, // one behind last
@@ -427,12 +379,9 @@ TEST(bits_Field, experiment_char)
     EXPECT_EQ(s.bits_.get(S::Field::character), 255);
 }
 
-TEST(bits_Field, one)
-{
-    struct S
-    {
-        enum Field
-        {
+TEST(bits_Field, one) {
+    struct S {
+        enum Field {
             number,
             end, // one behind last
         };
@@ -445,12 +394,9 @@ TEST(bits_Field, one)
     EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
 }
 
-TEST(bits_Field, some_capacity_left)
-{
-    struct S
-    {
-        enum Field
-        {
+TEST(bits_Field, some_capacity_left) {
+    struct S {
+        enum Field {
             number,
             end, // one behind last
         };
@@ -463,14 +409,10 @@ TEST(bits_Field, some_capacity_left)
     EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
 }
 
-TEST(bits_Field, overflow)
-{
-    auto lambda = []()
-    {
-        struct S
-        {
-            enum Field
-            {
+TEST(bits_Field, overflow) {
+    auto lambda = []() {
+        struct S {
+            enum Field {
                 number,
                 numberLarger,
                 end, // one behind last
@@ -498,8 +440,7 @@ TEST(bits_Field, overflow)
 #endif
 }
 
-TEST(bits_isBigEndian, basics)
-{
+TEST(bits_isBigEndian, basics) {
     std::cout << "is_bigendian: " << ul::bits::is_bigendian() << "\n";
 }
 

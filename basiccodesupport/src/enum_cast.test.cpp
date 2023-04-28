@@ -3,18 +3,15 @@
 
 namespace ul = mb::ul;
 
-TEST(EnumCast_as_numberTest, test)
-{
-    enum class EC
-    {
+TEST(EnumCast_as_numberTest, test) {
+    enum class EC {
         zeroth,
         first,
         second,
     };
     auto number = ul::as_number(EC::first);
     EXPECT_EQ(1, number);
-    enum class E
-    {
+    enum class E {
         zeroth,
         first,
         second,
@@ -23,10 +20,8 @@ TEST(EnumCast_as_numberTest, test)
     EXPECT_EQ(1, number_);
 }
 
-TEST(EnumCast_as_numberTest, TypeSpecific)
-{
-    enum class EC : uint64_t
-    {
+TEST(EnumCast_as_numberTest, TypeSpecific) {
+    enum class EC : uint64_t {
         zeroth,
         first,
         second,

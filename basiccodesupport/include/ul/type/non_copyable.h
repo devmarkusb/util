@@ -7,13 +7,11 @@
 
 #include "ul/macros.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Provides a shortcut ultility to declare classes that are supposed to forbid copying.
 /** Usage: \code class SomeClassThatShallForbidCopy : private non_copyable {};\endcode
         Note that the inheritance has to be qualified private.*/
-class NonCopyable
-{
+class NonCopyable {
 public:
     NonCopyable(const NonCopyable&) = delete;
     NonCopyable& operator=(const NonCopyable&) = delete;

@@ -8,20 +8,16 @@
 #include <cstdint>
 #include <new>
 
-namespace mb::ul::mem::alloc
-{
+namespace mb::ul::mem::alloc {
 template <typename StatisticsPolicy = NoStatistics>
-class DefaultNewDelete : public StatisticsPolicy
-{
+class DefaultNewDelete : public StatisticsPolicy {
 public:
-    uint8_t* allocate(Bytes size)
-    {
+    uint8_t* allocate(Bytes size) {
         this->statsCollect_alloc(size);
         return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
-    void deallocate(uint8_t* p, Bytes size) noexcept
-    {
+    void deallocate(uint8_t* p, Bytes size) noexcept {
         this->statsCollect_dealloc(size);
         ::operator delete(p);
     }

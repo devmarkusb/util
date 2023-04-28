@@ -5,20 +5,17 @@
 
 #include "assert.h"
 
-namespace mb::ul
-{
+namespace mb::ul {
 //! Converts pointer to reference.
 template <typename T>
-inline T& ptr2Ref(T* pT)
-{
+inline T& ptr2Ref(T* pT) {
     UL_EXPECT(pT);
     return *pT;
 }
 
 //! Const version of ptr2Ref().
 template <typename T>
-inline const T& ptr2RefC(const T* pT)
-{
+inline const T& ptr2RefC(const T* pT) {
     UL_EXPECT(pT);
     return *pT;
 }
@@ -27,26 +24,22 @@ inline const T& ptr2RefC(const T* pT)
 //!@{
 
 template <typename T>
-T* ref2Ptr(T& t)
-{
+T* ref2Ptr(T& t) {
     return &t;
 }
 
 template <typename T>
-T* ref2Ptr(T* t)
-{
+T* ref2Ptr(T* t) {
     return t;
 }
 
 template <typename T>
-const T* ref2PtrC(const T& t)
-{
+const T* ref2PtrC(const T& t) {
     return &t;
 }
 
 template <typename T>
-const T* ref2PtrC(const T* t)
-{
+const T* ref2PtrC(const T* t) {
     return t;
 }
 

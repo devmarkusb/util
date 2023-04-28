@@ -9,33 +9,28 @@
 
 #include "ul/config.h"
 
-namespace mb::ul::stand_alone_ops
-{
+namespace mb::ul::stand_alone_ops {
 //!
 template <typename T>
-T operator+(const T& t1, const T& t2)
-{
+T operator+(const T& t1, const T& t2) {
     return T(t1) += t2;
 }
 
 //!
 template <typename T>
-T operator-(const T& t1, const T& t2)
-{
+T operator-(const T& t1, const T& t2) {
     return T(t1) -= t2;
 }
 
 //!
 template <typename T>
-T operator*(const T& t1, const T& t2)
-{
+T operator*(const T& t1, const T& t2) {
     return T(t1) *= t2;
 }
 
 //!
 template <typename T>
-T operator/(const T& t1, const T& t2)
-{
+T operator/(const T& t1, const T& t2) {
     return T(t1) /= t2;
 }
 } // namespace mb::ul::stand_alone_ops

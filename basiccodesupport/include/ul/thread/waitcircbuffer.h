@@ -11,26 +11,21 @@
 #include <queue>
 #include <type_traits>
 
-namespace mb::ul::thread
-{
-namespace detail::waitcircbuf_impl_container
-{
+namespace mb::ul::thread {
+namespace detail::waitcircbuf_impl_container {
 template <typename T, size_t staticCapacity>
-class CapacityCompiletime
-{
+class CapacityCompiletime {
 protected:
     ul::CircularBuffer<T, staticCapacity> buf_;
 };
 
 template <typename T>
-class CapacityRuntime
-{
+class CapacityRuntime {
 protected:
     ul::CircularBuffer<T> buf_;
 
     explicit CapacityRuntime(size_t capacity)
-        : buf_{capacity}
-    {
+        : buf_{capacity} {
         UL_EXPECT(capacity > 0);
     }
 };
@@ -42,23 +37,20 @@ using Base = std::conditional_t<staticCapacity == 0, CapacityRuntime<T>, Capacit
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 /** Note, unlike the behavior of CircularBuffer this WaitCircularBuffer protects against overwrites.*/
 template <typename T, size_t staticCapacity = 0>
-class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, staticCapacity>
-{
+class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, staticCapacity> {
 public:
     using Base = detail::waitcircbuf_impl_container::Base<T, staticCapacity>;
 
     //! Expects capacity > 0.
     template <typename = std::enable_if<staticCapacity == 0>>
     explicit WaitCircularBuffer(size_t capacity)
-        : Base{capacity}
-    {
+        : Base{capacity} {
     }
 
     WaitCircularBuffer() noexcept = default;
 
     template <typename T_>
-    bool push(T_&& elem)
-    {
+    bool push(T_&& elem) {
         static_assert(std::is_convertible_v<T_, T>);
 
         {
@@ -77,8 +69,7 @@ public:
     /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
     template <typename T_>
-    bool emplace(T_&& elem)
-    {
+    bool emplace(T_&& elem) {
         static_assert(std::is_convertible_v<T_, T>);
 
         ul::ignore_unused(elem);
@@ -98,8 +89,7 @@ public:
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool waitAndPop(T& poppedElem)
-    {
+    bool waitAndPop(T& poppedElem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (Base::buf_.empty() && !stopped_)
             conditionVariable_.wait(lk);
@@ -112,21 +102,18 @@ public:
         return true;
     }
 
-    void stop()
-    {
+    void stop() {
         const std::unique_lock<std::mutex> lock(mutex_);
         stopped_ = true;
         conditionVariable_.notify_all();
     }
 
-    size_t size() const
-    {
+    size_t size() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return Base::buf_.size();
     }
 
-    constexpr size_t capacity() const noexcept
-    {
+    constexpr size_t capacity() const noexcept {
         return Base::buf_.capacity();
     }
 

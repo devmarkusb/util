@@ -17,8 +17,7 @@
     \see UL_CT_SIZEOF.
 */
 #define UL_CT_SIZEOF_OPT2(Type) \
-    switch (0) \
-    { \
+    switch (0) { \
         case sizeof(Type): \
         case sizeof(Type): \
     }

@@ -19,54 +19,45 @@
 #include <cstddef>
 #include <new>
 
-namespace mb::ul::mem::alloc
-{
+namespace mb::ul::mem::alloc {
 template <typename StatisticsPolicy = NoStatistics>
 class Linear
     : private ul::NonCopyable
-    , public StatisticsPolicy
-{
+    , public StatisticsPolicy {
 public:
     explicit Linear(Bytes capacity, Bytes alignment = Bytes{__STDCPP_DEFAULT_NEW_ALIGNMENT__})
         : alignment_{static_cast<std::align_val_t>(alignment.value)}
         , buf_{static_cast<uint8_t*>(capacity ? ::operator new(capacity.value, alignment_) : nullptr)}
         , curr_offset_{}
-        , capacity_{capacity}
-    {
+        , capacity_{capacity} {
     }
 
-    ~Linear()
-    {
+    ~Linear() {
         ::operator delete(buf_, alignment_);
     }
 
-    [[nodiscard]] Bytes size() const noexcept
-    {
+    [[nodiscard]] Bytes size() const noexcept {
         return curr_offset_;
     }
 
     /** If you know for sure you will never need to access a certain known amount size of the latest
         previously allocated memory again, you can shrink (only the shrinking direction makes sense) the used up
         memory to the original size again. This amounts to more capacity being left over to allocate.*/
-    void resize(Bytes size) noexcept
-    {
+    void resize(Bytes size) noexcept {
         UL_EXPECT(size <= curr_offset_);
 
         curr_offset_ = size;
     }
 
-    void reset() noexcept
-    {
+    void reset() noexcept {
         resize({});
     }
 
-    uint8_t* allocate(Bytes size)
-    {
+    uint8_t* allocate(Bytes size) {
         const auto old_offset = curr_offset_;
         const auto new_offset = curr_offset_ + size;
 
-        if (new_offset > capacity_)
-        {
+        if (new_offset > capacity_) {
             throw std::bad_alloc{};
         }
 
@@ -77,8 +68,7 @@ public:
         return buf_ + old_offset.value; // NOLINT
     }
 
-    void deallocate(const uint8_t* p, Bytes size) noexcept
-    {
+    void deallocate(const uint8_t* p, Bytes size) noexcept {
         if (p + size.value == buf_ + curr_offset_.value) // NOLINT
             curr_offset_ -= size;
     }

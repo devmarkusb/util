@@ -71,11 +71,9 @@ UL_PRAGMA_WARNINGS_POP
 
 //####################################################################################################################
 
-namespace mb::ul::str
-{
+namespace mb::ul::str {
 //! Expects s to be utf8.
-inline size_t getLength(const std::string& s)
-{
+inline size_t getLength(const std::string& s) {
     return static_cast<size_t>(utf8::distance(std::begin(s), std::end(s)));
 }
 } // namespace mb::ul::str

@@ -11,13 +11,10 @@
 #include <stdexcept>
 #include <string>
 
-namespace mb::ul::str
-{
-struct conversion_error : public std::runtime_error
-{
+namespace mb::ul::str {
+struct conversion_error : public std::runtime_error {
     explicit conversion_error(const char* const message)
-        : std::runtime_error(message)
-    {
+        : std::runtime_error(message) {
     }
 };
 
@@ -65,8 +62,7 @@ inline std::wstring locenc_s2ws(const std::string& s);
 
 //! Helper function, e.g. for dealing with utf8::iterator in combination with std::string (nothing like a
 //! 'const_iterator' supported there).
-inline char* s2psz(const std::string& s)
-{
+inline char* s2psz(const std::string& s) {
     const char* tmp(s.c_str());
     char* s_ = const_cast<char*>(tmp);
     return s_;
@@ -75,14 +71,12 @@ inline char* s2psz(const std::string& s)
 //! Converts s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but
 //! replacements
 //! like "&#228;" for non-ASCII. Throws if s is not valid UTF8.
-inline std::string utf8_to_HTML(const std::string& s)
-{
+inline std::string utf8_to_HTML(const std::string& s) {
     std::string ret;
     ret.reserve(s.size());
     char* s_ = s2psz(s);
     utf8::iterator<char*> itend(s_ + s.size(), s_, s_ + s.size());
-    for (utf8::iterator<char*> it(s_, s_, s_ + s.size()); it != itend; ++it)
-    {
+    for (utf8::iterator<char*> it(s_, s_, s_ + s.size()); it != itend; ++it) {
         if (*it == 0x9 || *it == 0xa || *it == 0xd || (*it >= 0x20 && *it <= 0x7e))
             ret += it.base()[0];
         else
@@ -91,20 +85,16 @@ inline std::string utf8_to_HTML(const std::string& s)
     return ret;
 }
 
-struct ThrowOnConversionError
-{
-    static char onConversionError(unsigned int codepoint)
-    {
+struct ThrowOnConversionError {
+    static char onConversionError(unsigned int codepoint) {
         std::string s{"conversion error on codepoint "};
         s += ul::to_string(codepoint);
         throw conversion_error(s.c_str());
     }
 };
 
-struct ConversionErrorToQuestionMark
-{
-    static char onConversionError(unsigned int)
-    {
+struct ConversionErrorToQuestionMark {
+    static char onConversionError(unsigned int) {
         return '?';
     }
 };
