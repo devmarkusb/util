@@ -72,7 +72,7 @@ static_assert(alignof(StatsHeader) == alignof(uintmax_t) || alignof(StatsHeader)
 
 class Statistics {
 public:
-    static Statistics& instance() noexcept {
+    static Statistics& instance() {
         static Statistics stats;
         return stats;
     }

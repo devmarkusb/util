@@ -9,15 +9,16 @@ using ul::mem::Bytes;
 
 TEST(alloc_DefaultNewDelete, basics) {
     ul::mem::alloc::DefaultNewDelete<> a;
-    auto mem = reinterpret_cast<int*>(a.allocate(Bytes{42 * sizeof(int)}));
+    constexpr auto ex_nr{42};
+    auto* mem = reinterpret_cast<int*>(a.allocate(Bytes{ex_nr * sizeof(int)}));
     const auto autoDeallocate = ul::finally([mem, &a]() {
-        a.deallocate(reinterpret_cast<uint8_t*>(mem), Bytes{42 * sizeof(int)});
+        a.deallocate(reinterpret_cast<uint8_t*>(mem), Bytes{ex_nr * sizeof(int)});
     });
 
     mem[0] = 1;
-    mem[41] = 1;
+    mem[ex_nr - 1] = 1;
     EXPECT_EQ(mem[0], 1);
-    EXPECT_EQ(mem[41], 1);
+    EXPECT_EQ(mem[ex_nr - 1], 1);
 }
 
 TEST(alloc_DefaultNewDelete, with_stats) {
@@ -25,17 +26,20 @@ TEST(alloc_DefaultNewDelete, with_stats) {
     static_assert(alignof(Type) == sizeof(Type));
     ul::mem::alloc::DefaultNewDelete<ul::mem::alloc::Statistics> a;
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{20 * sizeof(Type)}));
+    constexpr auto ex_nr20{20};
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr20 * sizeof(Type)}));
     const auto autoDeallocate20 = ul::finally([p, &a]() {
-        a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{20 * sizeof(Type)});
+        a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr20 * sizeof(Type)});
     });
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
-    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{90 * sizeof(Type)}));
+    constexpr auto ex_nr100{100};
+    constexpr auto ex_nr90{90};
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr100 * sizeof(Type)}));
+    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr100 * sizeof(Type)});
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr90 * sizeof(Type)}));
     const auto autoDeallocate90 = ul::finally([p, &a]() {
-        a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{90 * sizeof(Type)});
+        a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr90 * sizeof(Type)});
     });
 
     ASSERT_TRUE(a.peak());
-    EXPECT_EQ(*a.peak(), Bytes{120 * sizeof(Type)});
+    EXPECT_EQ(*a.peak(), Bytes{(ex_nr20 + ex_nr100) * sizeof(Type)});
 }
