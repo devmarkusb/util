@@ -32,7 +32,7 @@ TEST(alloc_Linear, alloc) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     EXPECT_EQ(a.size(), Bytes{5 * sizeof(Type)});
     p[0] = 1;
     p[4] = 1;

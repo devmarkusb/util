@@ -41,7 +41,7 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
         >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >> dummy.itrealvalue
         >> dummy.starttime >> vsize >> rss;
 
-    double page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / ul::mem::KiB;
+    const auto page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / ul::mem::KiB;
     virtual_mem_usage = vsize / ul::mem::KiB;
     physical_mem_usage = rss * page_size_kb;
 #else
