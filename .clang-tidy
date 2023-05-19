@@ -1,0 +1,52 @@
+Checks: >
+  *,
+  -altera-id-dependent-backward-branch,
+  -altera-struct-pack-align,
+  -altera-unroll-loops,
+  -bugprone-easily-swappable-parameters,
+  -cert-dcl16-c,
+  -cert-dcl21-cpp,
+  -clang-analyzer-deadcode,
+  -clang-diagnostic-error,
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-special-member-functions,
+  -fuchsia-default-arguments-calls,
+  -fuchsia-default-arguments-declarations,
+  -fuchsia-overloaded-operator,
+  -fuchsia-trailing-return,
+  -google-explicit-constructor,
+  -google-readability-avoid-underscore-in-googletest-name,
+  -google-readability-braces-around-statements,
+  -hicpp-braces-around-statements,readability-braces-around-statements,
+  # unfortunately, should be restrictable to <>-includes
+  -hicpp-deprecated-headers
+  -hicpp-explicit-conversions,
+  -hicpp-named-parameter,
+  -hicpp-special-member-functions,
+  -hicpp-uppercase-literal-suffix,
+  -llvmlibc-callee-namespace,
+  -llvmlibc-implementation-in-namespace,
+  -llvm-include-order,
+  -llvmlibc-restrict-system-libc-headers,
+  -llvm-header-guard,
+  -misc-non-private-member-variables-in-classes,
+  -modernize-deprecated-headers
+  -modernize-use-trailing-return-type,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-function-cognitive-complexity,
+  -readability-uppercase-literal-suffix
+
+WarningsAsErrors: "*"
+
+CheckOptions:
+  - { key: readability-identifier-naming.NamespaceCase,           value: lower_case }
+  - { key: readability-identifier-naming.PrivateMemberSuffix,     value: _          }
+  - { key: readability-identifier-naming.FunctionCase,            value: lower_case }
+  - { key: readability-identifier-naming.MethodCase,              value: lower_case }
+
+HeaderFilterRegex: "^.*(?:_deps).*"gm
