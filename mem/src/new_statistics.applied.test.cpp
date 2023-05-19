@@ -45,20 +45,20 @@ struct AGlobalDestructor {
         // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
         std::cout << ul::fmt::groupThousands(alloc_dealloc_diff);
 #else
-        std::cout << allocDeallocDiff;
+        std::cout << alloc_dealloc_diff;
 #endif
 #if !UL_OS_MAC
         UL_ASSERT_TERMINATE(alloc_dealloc_diff == ul::mem::Bytes{});
 #else
         // untested
-        UL_ASSERT_TERMINATE(allocDeallocDiff == ul::mem::Bytes{});
+        UL_ASSERT_TERMINATE(alloc_dealloc_diff == ul::mem::Bytes{});
 #endif
         std::cout << "\n";
         std::cout << "peak mem usage: " <<
 #if !UL_OS_MAC && !UL_OS_WINDOWS
             ul::fmt::groupThousands(peak_size)
 #else
-            peakSize
+            peak_size
 #endif
                   << "\n";
     }
