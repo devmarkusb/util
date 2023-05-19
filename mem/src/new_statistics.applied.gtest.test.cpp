@@ -18,16 +18,16 @@ struct AGlobalDestructor {
     ~AGlobalDestructor() {
         const auto& memstats = ul::mem::Statistics::instance();
 
-        const auto newCalls{memstats.newCalls()};
-        const auto deleteCalls{memstats.deleteCalls()};
-        const auto allocatedSize{memstats.allocatedSize()};
-        const auto deallocatedSize{memstats.deallocatedSize()};
-        const auto peakSize = memstats.peakSize();
+        const auto new_calls{memstats.new_calls()};
+        const auto delete_calls{memstats.delete_calls()};
+        const auto allocated_size{memstats.allocated_size()};
+        const auto deallocated_size{memstats.deallocated_size()};
+        const auto peak_size = memstats.peak_size();
 
         // mem/allocator.test.cpp is the evil one, that still has leaks according to the statistics
         // But nevertheless the test is ok for now as it can still detect (and prevent) any new leaks.
-        std::cout << "new calls: " << newCalls << "\n";
-        std::cout << "delete calls: " << deleteCalls << "\n";
+        std::cout << "new calls: " << new_calls << "\n";
+        std::cout << "delete calls: " << delete_calls << "\n";
 #if UL_OS_LINUX
         // compensates for gtest leaks, + 1 accounts for using EXPECT_DEBUG_DEATH
 #if !UL_DEBUG
@@ -37,13 +37,13 @@ struct AGlobalDestructor {
 #else
         // untested
 #endif
-        std::cout << "allocated size: " << allocatedSize << "\n";
-        std::cout << "deallocated size: " << deallocatedSize << "\n";
-        const auto allocDeallocDiff = allocatedSize - deallocatedSize;
+        std::cout << "allocated size: " << allocated_size << "\n";
+        std::cout << "deallocated size: " << deallocated_size << "\n";
+        const auto alloc_dealloc_diff = allocated_size - deallocated_size;
         std::cout << "allocated size minus deallocated size: ";
 #if !UL_OS_MAC && !UL_OS_WINDOWS
         // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
-        std::cout << ul::fmt::groupThousands(allocDeallocDiff);
+        std::cout << ul::fmt::groupThousands(alloc_dealloc_diff);
 #else
         std::cout << allocDeallocDiff;
 #endif
@@ -55,7 +55,7 @@ struct AGlobalDestructor {
         [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
 #endif
 #else
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{63};
+        [[maybe_unused]] const auto compensation_expect_debug_death{63};
 #endif
 #elif UL_COMP_GNU_CPP
 #if UL_COMP_GNU_CPP_VER == 100100
@@ -80,7 +80,7 @@ struct AGlobalDestructor {
         std::cout << "\n";
         std::cout << "peak mem usage: " <<
 #if !UL_OS_MAC && !UL_OS_WINDOWS
-            ul::fmt::groupThousands(peakSize)
+            ul::fmt::groupThousands(peak_size)
 #else
             peakSize
 #endif

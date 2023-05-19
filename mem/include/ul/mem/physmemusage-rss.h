@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef PHYSMEMUSAGE_RSS_H_fuigh76x3nfg3
-#define PHYSMEMUSAGE_RSS_H_fuigh76x3nfg3
+#ifndef PHYSMEMUSAGE_RSS_H_FUIGH76X3NFG3
+#define PHYSMEMUSAGE_RSS_H_FUIGH76X3NFG3
 
 #include "types.h"
 #include "ul/debug.h"
@@ -41,8 +41,8 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
         >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >> dummy.itrealvalue
         >> dummy.starttime >> vsize >> rss;
 
-    const auto page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / ul::mem::KiB;
-    virtual_mem_usage = vsize / ul::mem::KiB;
+    const auto page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / ul::mem::kib;
+    virtual_mem_usage = vsize / ul::mem::kib;
     physical_mem_usage = rss * page_size_kb;
 #else
     ul::ignore_unused(virtual_mem_usage);

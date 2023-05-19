@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef STATISTICS_H_eorxmgh9385g257xgishuv
-#define STATISTICS_H_eorxmgh9385g257xgishuv
+#ifndef STATISTICS_H_EORXMGH9385G257XGISHUV
+#define STATISTICS_H_EORXMGH9385G257XGISHUV
 
 #include "ul/macros.h"
 #include "ul/mem/types.h"
@@ -20,17 +20,17 @@ protected:
     /** If you have data of the currently allocated size in total and just need to obtain the peak allocation size,
         it is sufficient to call this function (and this one even in allocation, size increasing, context only).
         Using the other two statsCollect_alloc/statsCollect_dealloc would make calling this one obsolete.*/
-    void statsCollect_currentSize(Bytes currentSize) {
+    void stats_collect_current_size(Bytes currentSize) {
         if (currentSize > peak_)
             peak_ = currentSize;
     }
 
-    void statsCollect_alloc(Bytes size) {
+    void stats_collect_alloc(Bytes size) {
         currSize_ += size;
-        statsCollect_currentSize(currSize_);
+        stats_collect_current_size(currSize_);
     }
 
-    void statsCollect_dealloc(Bytes size) {
+    void stats_collect_dealloc(Bytes size) {
         currSize_ -= size;
     }
 
@@ -46,15 +46,15 @@ public:
     }
 
 protected:
-    static void statsCollect_currentSize(Bytes /*unused*/) {
+    static void stats_collect_current_size(Bytes /*unused*/) {
         UL_NOOP;
     }
 
-    static void statsCollect_alloc(Bytes /*unused*/) {
+    static void stats_collect_alloc(Bytes /*unused*/) {
         UL_NOOP;
     }
 
-    static void statsCollect_dealloc(Bytes /*unused*/) {
+    static void stats_collect_dealloc(Bytes /*unused*/) {
         UL_NOOP;
     }
 };

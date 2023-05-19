@@ -1,7 +1,7 @@
 //! \file Specialities that were observed to be compiler implementation specific.
 
-#ifndef COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
-#define COMPILER_QUIRKS_H_45ntx7358732t3hx783tm4
+#ifndef COMPILER_QUIRKS_H_45NTX7358732T3HX783TM4
+#define COMPILER_QUIRKS_H_45NTX7358732T3HX783TM4
 
 #include "types.h"
 #include "ul/macros.h"

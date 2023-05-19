@@ -3,8 +3,8 @@
 All-in-one include file for this part of the lib.
 */
 
-#ifndef MEM_H_oriehxtn37834hn789g4h8934hg
-#define MEM_H_oriehxtn37834hn789g4h8934hg
+#ifndef MEM_H_ORIEHXTN37834HN789G4H8934HG
+#define MEM_H_ORIEHXTN37834HN789G4H8934HG
 
 #include "allocator.h"
 #include "checked_delete.h"
