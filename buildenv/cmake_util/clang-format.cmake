@@ -6,10 +6,10 @@ set(UL_ADDITIONAL_CLANG_FORMAT_DIRS "" CACHE STRING "provide ;-separated list in
 include(FetchContent)
 
 FetchContent_Declare(mb-clangformat
-        GIT_REPOSITORY "https://github.com/devmarkusb/clangformat"
-        GIT_TAG origin/HEAD
-        GIT_SHALLOW ON
-        )
+    GIT_REPOSITORY "https://github.com/devmarkusb/clangformat"
+    GIT_TAG origin/HEAD
+    GIT_SHALLOW ON
+    )
 
 FetchContent_MakeAvailable(mb-clangformat)
 
