@@ -32,7 +32,7 @@ struct AGlobalDestructor {
         // compensates for gtest leaks, + 1 accounts for using EXPECT_DEBUG_DEATH
 #if !UL_DEBUG
         // commented-out because it unfortunately doesn't work yet
-        //EXPECT_EQ(newCalls - deleteCalls, 78 - 75);
+        //EXPECT_EQ(new_calls - delete_calls, 78 - 75);
 #endif
 #else
         // untested

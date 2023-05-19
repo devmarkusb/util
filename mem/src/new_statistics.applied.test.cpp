@@ -31,11 +31,11 @@ struct AGlobalDestructor {
         std::cout << "delete calls: " << delete_calls << "\n";
 #if UL_OS_LINUX
 #if !UL_DEBUG
-        UL_ASSERT_TERMINATE(newCalls - deleteCalls == 0);
+        UL_ASSERT_TERMINATE(new_calls - delete_calls == 0);
 #endif
 #else
         // untested
-        UL_ASSERT_TERMINATE(newCalls - deleteCalls == 0);
+        UL_ASSERT_TERMINATE(new_calls - delete_calls == 0);
 #endif
         std::cout << "allocated size: " << allocated_size << "\n";
         std::cout << "deallocated size: " << deallocated_size << "\n";
