@@ -78,61 +78,61 @@ public:
     }
 
     void new_call(Bytes size, void* p) noexcept {
-        newCalls_.fetch_add(1, std::memory_order_relaxed);
-        currentSize_.fetch_add(size.value, std::memory_order_seq_cst);
-        ul::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
-        allocatedSize_.fetch_add(size.value, std::memory_order_relaxed);
+        new_calls_.fetch_add(1, std::memory_order_relaxed);
+        current_size_.fetch_add(size.value, std::memory_order_seq_cst);
+        ul::thread::atomic::updateMaximum(peak_size_, current_size_.load(std::memory_order_seq_cst));
+        allocated_size_.fetch_add(size.value, std::memory_order_relaxed);
         auto sh = new (p) StatsHeader;
-        sh->set(fieldsLookup_, StatsHeader::Field::size, size.value);
+        sh->set(fields_lookup_, StatsHeader::Field::size, size.value);
     }
 
     void delete_call(void* p) noexcept {
-        deleteCalls_.fetch_add(1, std::memory_order_relaxed);
+        delete_calls_.fetch_add(1, std::memory_order_relaxed);
         auto sh = reinterpret_cast<StatsHeader*>(p);
-        const auto size = sh->get<size_t>(fieldsLookup_, StatsHeader::Field::size);
-        currentSize_.fetch_sub(size, std::memory_order_seq_cst);
-        deallocatedSize_.fetch_add(size, std::memory_order_relaxed);
+        const auto size = sh->get<size_t>(fields_lookup_, StatsHeader::Field::size);
+        current_size_.fetch_sub(size, std::memory_order_seq_cst);
+        deallocated_size_.fetch_add(size, std::memory_order_relaxed);
         sh->~StatsHeader();
     }
 
     [[nodiscard]] std::size_t new_calls() const noexcept {
-        return newCalls_.load();
+        return new_calls_.load();
     }
 
     [[nodiscard]] std::size_t delete_calls() const noexcept {
-        return deleteCalls_.load();
+        return delete_calls_.load();
     }
 
     [[nodiscard]] Bytes allocated_size() const noexcept {
-        return Bytes{allocatedSize_.load()};
+        return Bytes{allocated_size_.load()};
     }
 
     [[nodiscard]] Bytes deallocated_size() const noexcept {
-        return Bytes{deallocatedSize_.load()};
+        return Bytes{deallocated_size_.load()};
     }
 
     /** \return the maximum/peak size allocated.*/
     [[nodiscard]] Bytes peak_size() const noexcept {
-        return Bytes{peakSize_.load()};
+        return Bytes{peak_size_.load()};
     }
 
     void reset() noexcept {
-        newCalls_ = {};
-        deleteCalls_ = {};
-        currentSize_ = {};
-        peakSize_ = {};
-        allocatedSize_ = {};
-        deallocatedSize_ = {};
+        new_calls_ = {};
+        delete_calls_ = {};
+        current_size_ = {};
+        peak_size_ = {};
+        allocated_size_ = {};
+        deallocated_size_ = {};
     }
 
 private:
-    std::atomic<std::size_t> newCalls_{};
-    std::atomic<std::size_t> deleteCalls_{};
-    std::atomic<std::size_t> currentSize_{};
-    std::atomic<std::size_t> peakSize_{};
-    std::atomic<std::size_t> allocatedSize_{};
-    std::atomic<std::size_t> deallocatedSize_{};
-    ul::bits::FieldsLookup<StatsHeader::field_count> fieldsLookup_{StatsHeader::make_field_lookup()};
+    std::atomic<std::size_t> new_calls_{};
+    std::atomic<std::size_t> delete_calls_{};
+    std::atomic<std::size_t> current_size_{};
+    std::atomic<std::size_t> peak_size_{};
+    std::atomic<std::size_t> allocated_size_{};
+    std::atomic<std::size_t> deallocated_size_{};
+    ul::bits::FieldsLookup<StatsHeader::field_count> fields_lookup_{StatsHeader::make_field_lookup()};
 
     Statistics() = default;
 };
