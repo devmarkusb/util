@@ -45,7 +45,7 @@ struct AGlobalDestructor {
         // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
         std::cout << ul::fmt::groupThousands(alloc_dealloc_diff);
 #else
-        std::cout << allocDeallocDiff;
+        std::cout << alloc_dealloc_diff;
 #endif
 #if UL_COMP_CLANG
 #if UL_COMP_CLANG_VER == 100001
@@ -73,7 +73,7 @@ struct AGlobalDestructor {
 #if !UL_OS_MAC
         // compensates for gtest leaks, + compensation_EXPECT_DEBUG_DEATH accounts for EXPECT_DEBUG_DEATH usages
         // commented-out because it unfortunately doesn't work yet
-        //EXPECT_EQ(allocDeallocDiff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
+        //EXPECT_EQ(alloc_dealloc_diff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
 #else
         // untested
 #endif
@@ -82,7 +82,7 @@ struct AGlobalDestructor {
 #if !UL_OS_MAC && !UL_OS_WINDOWS
             ul::fmt::groupThousands(peak_size)
 #else
-            peakSize
+            peak_size
 #endif
                   << "\n";
     }
