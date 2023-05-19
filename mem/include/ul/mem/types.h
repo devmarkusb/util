@@ -1,20 +1,20 @@
 //! \file
 
-#ifndef TYPES_H_eroui342zt347g8hx3xg713h4
-#define TYPES_H_eroui342zt347g8hx3xg713h4
+#ifndef TYPES_H_EROUI342ZT347G8HX3XG713H4
+#define TYPES_H_EROUI342ZT347G8HX3XG713H4
 
 #include "ul/macros.h"
 #include <cstddef>
 #include <ostream>
 
 namespace mb::ul::mem {
-const size_t KB = 1000;
-constexpr size_t MB = 1000 * KB;
-constexpr size_t GB = 1000 * MB;
+const size_t kb = 1000;
+constexpr size_t mb = 1000 * kb;
+constexpr size_t gb = 1000 * mb;
 
-const size_t KiB = 1024;
-constexpr size_t MiB = 1024 * KB;
-constexpr size_t GiB = 1024 * MB;
+const size_t kib = 1024;
+constexpr size_t mib = 1024 * kb;
+constexpr size_t gib = 1024 * mb;
 
 struct Bytes {
     size_t value{};

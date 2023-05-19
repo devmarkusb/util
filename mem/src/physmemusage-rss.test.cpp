@@ -11,7 +11,7 @@ namespace ul = mb::ul;
 
 TEST(physmemusage, usage) {
 #if UL_OS_LINUX
-    const size_t memsize{1 * ul::mem::MB};
+    const size_t memsize{1 * ul::mem::mb};
 
     double vm_initial{};
     double pm_initial{};

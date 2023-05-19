@@ -11,7 +11,7 @@ TEST(alloc_DefaultNewDelete, basics) {
     ul::mem::alloc::DefaultNewDelete<> a;
     constexpr auto ex_nr{42};
     auto* mem = reinterpret_cast<int*>(a.allocate(Bytes{ex_nr * sizeof(int)}));
-    const auto autoDeallocate = ul::finally([mem, &a]() {
+    const auto auto_deallocate = ul::finally([mem, &a]() {
         a.deallocate(reinterpret_cast<uint8_t*>(mem), Bytes{ex_nr * sizeof(int)});
     });
 
@@ -28,7 +28,7 @@ TEST(alloc_DefaultNewDelete, with_stats) {
 
     constexpr auto ex_nr20{20};
     auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr20 * sizeof(Type)}));
-    const auto autoDeallocate20 = ul::finally([p, &a]() {
+    const auto auto_deallocate20 = ul::finally([p, &a]() {
         a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr20 * sizeof(Type)});
     });
     constexpr auto ex_nr100{100};
@@ -36,7 +36,7 @@ TEST(alloc_DefaultNewDelete, with_stats) {
     p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr100 * sizeof(Type)}));
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr100 * sizeof(Type)});
     p = reinterpret_cast<Type*>(a.allocate(Bytes{ex_nr90 * sizeof(Type)}));
-    const auto autoDeallocate90 = ul::finally([p, &a]() {
+    const auto auto_deallocate90 = ul::finally([p, &a]() {
         a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{ex_nr90 * sizeof(Type)});
     });
 

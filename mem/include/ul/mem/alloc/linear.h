@@ -9,8 +9,8 @@
     a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
     erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
 
-#ifndef LINEAR_H_jsdkdbhfzu34gt2837tnyg13
-#define LINEAR_H_jsdkdbhfzu34gt2837tnyg13
+#ifndef LINEAR_H_JSDKDBHFZU34GT2837TNYG13
+#define LINEAR_H_JSDKDBHFZU34GT2837TNYG13
 
 #include "ul/assert.h"
 #include "ul/mem/alloc/statistics.h"
@@ -63,7 +63,7 @@ public:
 
         curr_offset_ = new_offset;
 
-        this->statsCollect_currentSize(curr_offset_);
+        this->stats_collect_current_size(curr_offset_);
 
         return buf_ + old_offset.value; // NOLINT
     }

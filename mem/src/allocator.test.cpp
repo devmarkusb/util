@@ -14,18 +14,18 @@ namespace ul = mb::ul;
 using Bytes = ul::mem::Bytes;
 
 namespace {
-constexpr auto mem100K{100'000};
+constexpr auto mem100k{100'000};
 } // namespace
 
 template <typename Vector>
 void common_vector_test(Vector&& v) {
     // NOLINTBEGIN
-    v.reserve(mem100K);
+    v.reserve(mem100k);
     EXPECT_TRUE(v.empty());
     v.resize(50'000);
     EXPECT_EQ(v.size(), 50'000);
-    v.resize(mem100K);
-    EXPECT_EQ(v.size(), mem100K);
+    v.resize(mem100k);
+    EXPECT_EQ(v.size(), mem100k);
     v[50'001] = 42;
     EXPECT_EQ(v[50'001], 42);
     v.pop_back();
@@ -105,7 +105,7 @@ TEST(allocator_linear, vector) {
     using Allocator = ul::mem::Allocator<int, Arena>;
     try {
         Arena a{
-            Bytes{mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
+            Bytes{mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
         const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
@@ -120,7 +120,7 @@ TEST(allocator_linear, map) {
     using MapPair = std::pair<const int, std::string>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     std::cout << "sizeof(MapPair): " << sizeof(MapPair) << ", alignof(MapPair): " << alignof(MapPair) << "\n";
-    Arena a{Bytes{mem100K}, Bytes{alignof(MapPair)}};
+    Arena a{Bytes{mem100k}, Bytes{alignof(MapPair)}};
     const Allocator al{a};
     std::map<int, std::string, std::less<>, Allocator> m{al};
 
@@ -129,7 +129,7 @@ TEST(allocator_linear, map) {
 
 TEST(allocator_onstack, vector) {
     using Arena = ul::mem::alloc::OnStack<
-        mem100K * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
+        mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = ul::mem::Allocator<int, Arena>;
     try {
         Arena a;
@@ -144,7 +144,7 @@ TEST(allocator_onstack, vector) {
 
 TEST(allocator_onstack, map) {
     using MapPair = std::pair<const int, std::string>;
-    using Arena = ul::mem::alloc::OnStack<mem100K, alignof(MapPair)>;
+    using Arena = ul::mem::alloc::OnStack<mem100k, alignof(MapPair)>;
     using Allocator = ul::mem::Allocator<MapPair, Arena>;
     Arena a;
     const Allocator al{a};

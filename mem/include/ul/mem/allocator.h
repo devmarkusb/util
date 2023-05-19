@@ -2,8 +2,8 @@
     An STL compatible allocator class. This has to be used in conjunction with one of the memory allocation strategies
     or arenas implemented in subdir alloc.*/
 
-#ifndef ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
-#define ALLOCATOR_H_hfnx837478ygr78234f7wgmf23uhq4
+#ifndef ALLOCATOR_H_HFNX837478YGR78234F7WGMF23UHQ4
+#define ALLOCATOR_H_HFNX837478YGR78234F7WGMF23UHQ4
 
 #include "types.h"
 #include "ul/macros.h"

@@ -3,8 +3,8 @@
     use of new/delete will be replaced with the custom version here (even standard library calls, everything).
     So please take care that you're absolutely conscious whether you want to do this.*/
 
-#ifndef NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
-#define NEW_STATISTICS_H_iug34gh347xh38gx348gx34yg2g
+#ifndef NEW_STATISTICS_H_IUG34GH347XH38GX348GX34YG2G
+#define NEW_STATISTICS_H_IUG34GH347XH38GX348GX34YG2G
 
 #include "types.h"
 #include "ul/array.h"
@@ -34,37 +34,37 @@ public:
         f3,
         end,
     };
-    static constexpr auto fieldCount{ul::as_number(Field::end)};
+    static constexpr auto field_count{ul::as_number(Field::end)};
 
-    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup() {
-        return makeFieldLookup_impl(ul::idx::gen_seq<bitCounts_.size()>());
+    static ul::bits::FieldsLookup<field_count> make_field_lookup() {
+        return make_field_lookup_impl(ul::idx::gen_seq<bit_counts.size()>());
     }
 
     template <typename SourceDataType>
     constexpr void set(
-        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field, SourceDataType value) noexcept {
+        const ul::bits::FieldsLookup<field_count>& fieldsLookup, Field field, SourceDataType value) noexcept {
         bits_.set(fieldsLookup, field, value);
     }
 
     template <typename TargetDataType = BitsType>
     [[nodiscard]] constexpr TargetDataType get(
-        const ul::bits::FieldsLookup<fieldCount>& fieldsLookup, Field field) const noexcept {
+        const ul::bits::FieldsLookup<field_count>& fieldsLookup, Field field) const noexcept {
         return bits_.template get<TargetDataType>(fieldsLookup, field);
     }
 
 private:
-    static constexpr auto bitCounts_{ul::array::make(
+    static constexpr auto bit_counts{ul::array::make(
         40, 5, 10 // 40 bits can store sizes of about 1TB of memory, should be sufficient
         )};
-    static_assert(fieldCount == bitCounts_.size());
-    static_assert(ul::bits::count<BitsType>() >= ul::ct_accumulate(bitCounts_, 0));
+    static_assert(field_count == bit_counts.size());
+    static_assert(ul::bits::count<BitsType>() >= ul::ct_accumulate(bit_counts, 0));
 
     ul::bits::FieldsRaw<BitsType, Field, ul::as_number(Field::end)> bits_;
 
-    template <int... Is>
-    static ul::bits::FieldsLookup<fieldCount> makeFieldLookup_impl(ul::idx::seq<Is...>) {
-        return ul::bits::FieldsLookup<fieldCount>{
-            ul::bits::count<StatsHeader::BitsType>(), StatsHeader::bitCounts_[Is]...};
+    template <int... is>
+    static ul::bits::FieldsLookup<field_count> make_field_lookup_impl(ul::idx::seq<is...>) {
+        return ul::bits::FieldsLookup<field_count>{
+            ul::bits::count<StatsHeader::BitsType>(), StatsHeader::bit_counts[is]...};
     }
 };
 
@@ -77,7 +77,7 @@ public:
         return stats;
     }
 
-    void newCall(Bytes size, void* p) noexcept {
+    void new_call(Bytes size, void* p) noexcept {
         newCalls_.fetch_add(1, std::memory_order_relaxed);
         currentSize_.fetch_add(size.value, std::memory_order_seq_cst);
         ul::thread::atomic::updateMaximum(peakSize_, currentSize_.load(std::memory_order_seq_cst));
@@ -86,7 +86,7 @@ public:
         sh->set(fieldsLookup_, StatsHeader::Field::size, size.value);
     }
 
-    void deleteCall(void* p) noexcept {
+    void delete_call(void* p) noexcept {
         deleteCalls_.fetch_add(1, std::memory_order_relaxed);
         auto sh = reinterpret_cast<StatsHeader*>(p);
         const auto size = sh->get<size_t>(fieldsLookup_, StatsHeader::Field::size);
@@ -95,24 +95,24 @@ public:
         sh->~StatsHeader();
     }
 
-    [[nodiscard]] std::size_t newCalls() const noexcept {
+    [[nodiscard]] std::size_t new_calls() const noexcept {
         return newCalls_.load();
     }
 
-    [[nodiscard]] std::size_t deleteCalls() const noexcept {
+    [[nodiscard]] std::size_t delete_calls() const noexcept {
         return deleteCalls_.load();
     }
 
-    [[nodiscard]] Bytes allocatedSize() const noexcept {
+    [[nodiscard]] Bytes allocated_size() const noexcept {
         return Bytes{allocatedSize_.load()};
     }
 
-    [[nodiscard]] Bytes deallocatedSize() const noexcept {
+    [[nodiscard]] Bytes deallocated_size() const noexcept {
         return Bytes{deallocatedSize_.load()};
     }
 
     /** \return the maximum/peak size allocated.*/
-    [[nodiscard]] Bytes peakSize() const noexcept {
+    [[nodiscard]] Bytes peak_size() const noexcept {
         return Bytes{peakSize_.load()};
     }
 
@@ -132,7 +132,7 @@ private:
     std::atomic<std::size_t> peakSize_{};
     std::atomic<std::size_t> allocatedSize_{};
     std::atomic<std::size_t> deallocatedSize_{};
-    ul::bits::FieldsLookup<StatsHeader::fieldCount> fieldsLookup_{StatsHeader::makeFieldLookup()};
+    ul::bits::FieldsLookup<StatsHeader::field_count> fieldsLookup_{StatsHeader::make_field_lookup()};
 
     Statistics() = default;
 };

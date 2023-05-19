@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef NEW_HANDLER_H_n2io38zre2387xnz27r
-#define NEW_HANDLER_H_n2io38zre2387xnz27r
+#ifndef NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
+#define NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
 
 #include <cstddef>
 #include <new>
@@ -22,9 +22,9 @@ public:
 
 private:
     //! Class specific new handler.
-    static std::new_handler& currentHandler() {
-        static std::new_handler theHandler = nullptr;
-        return theHandler;
+    static std::new_handler& current_handler() {
+        static std::new_handler the_handler = nullptr;
+        return the_handler;
     }
 };
 
@@ -32,22 +32,22 @@ private:
 
 template <typename T>
 std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p) {
-    std::new_handler old = currentHandler();
-    currentHandler() = p;
+    std::new_handler old = current_handler();
+    current_handler() = p;
     return old;
 }
 
 template <typename T>
 void* NewHandlerSupport<T>::operator new(size_t size) {
-    std::new_handler globalHandler = std::set_new_handler(currentHandler());
+    std::new_handler global_handler = std::set_new_handler(current_handler());
     void* memory;
     try {
         memory = ::operator new(size);
     } catch (std::bad_alloc&) {
-        std::set_new_handler(globalHandler);
+        std::set_new_handler(global_handler);
         throw;
     }
-    std::set_new_handler(globalHandler);
+    std::set_new_handler(global_handler);
     return memory;
 }
 } // namespace mb::ul::mem
