@@ -5,8 +5,8 @@
     a memory range allocated immediately before). So you will use up a lot more memory than you think, if you are
     erasing a lot. Since erasing doesn't decrease the counter of memory used.*/
 
-#ifndef ONSTACK_H_eourtz3478xth378tgh
-#define ONSTACK_H_eourtz3478xth378tgh
+#ifndef ONSTACK_H_EOURTZ3478XTH378TGH
+#define ONSTACK_H_EOURTZ3478XTH378TGH
 
 #include "ul/assert.h"
 #include "ul/mem/alloc/statistics.h"
@@ -26,20 +26,20 @@ class OnStack
     , public StatisticsPolicy {
 public:
     uint8_t* allocate(Bytes size) {
-        const auto padded_size = padUp(size.value, max_alignment_in_bytes);
+        const auto padded_size = pad_up(size.value, max_alignment_in_bytes);
         if (static_cast<decltype(padded_size)>(buf_ + capacity_in_bytes - curr_memptr_) < padded_size) // NOLINT
             throw std::bad_alloc{};
 
         auto* old_memptr = curr_memptr_;
         curr_memptr_ += padded_size; // NOLINT
 
-        this->statsCollect_currentSize(this->size());
+        this->stats_collect_current_size(this->size());
 
         return old_memptr;
     }
 
     void deallocate(uint8_t* p, Bytes size) noexcept {
-        size.value = padUp(size.value, max_alignment_in_bytes);
+        size.value = pad_up(size.value, max_alignment_in_bytes);
         if (p + size.value == curr_memptr_) // NOLINT
             curr_memptr_ = p;
     }

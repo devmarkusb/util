@@ -1,7 +1,7 @@
 //! \file Implements default new+delete as example allocation strategy.
 
-#ifndef EXAMPLE_H_sdufhi3gn78325tx7635tn27
-#define EXAMPLE_H_sdufhi3gn78325tx7635tn27
+#ifndef EXAMPLE_H_SDUFHI3GN78325TX7635TN27
+#define EXAMPLE_H_SDUFHI3GN78325TX7635TN27
 
 #include "ul/mem/types.h"
 #include <cstdint>

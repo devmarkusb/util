@@ -16,21 +16,21 @@ void my_new_handler() {
 TEST(NewHandlerSupportTest, test) {
     class C : public ul::mem::NewHandlerSupport<C> {};
 
-    class C_heavy_to_alloc : public ul::mem::NewHandlerSupport<C> {
+    class CHeavyToAlloc : public ul::mem::NewHandlerSupport<C> {
     public:
-        C_heavy_to_alloc() {
-            ul::ignore_unused(i1);
-            ul::ignore_unused(i2);
-            ul::ignore_unused(i3);
-            ul::ignore_unused(i4);
+        CHeavyToAlloc() {
+            ul::ignore_unused(i1_);
+            ul::ignore_unused(i2_);
+            ul::ignore_unused(i3_);
+            ul::ignore_unused(i4_);
         }
 
     private:
         // about 2GB
-        int i1[0x7ffffff];
-        int i2[0x7ffffff];
-        int i3[0x7ffffff];
-        int i4[0x7ffffff];
+        int i1_[0x7ffffff];
+        int i2_[0x7ffffff];
+        int i3_[0x7ffffff];
+        int i4_[0x7ffffff];
     };
 
     ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
@@ -47,9 +47,9 @@ TEST(NewHandlerSupportTest, test) {
     }
     EXPECT_FALSE(g_my_new_handler_got_called);
     delete pc;
-    C_heavy_to_alloc* pc_heavy = nullptr;
+    CHeavyToAlloc* pc_heavy = nullptr;
     try {
-        pc_heavy = new C_heavy_to_alloc;
+        pc_heavy = new CHeavyToAlloc;
     } catch (std::bad_alloc&) {
         // more an illustration of usage; we don't test out-of-memory
         EXPECT_TRUE(g_my_new_handler_got_called);

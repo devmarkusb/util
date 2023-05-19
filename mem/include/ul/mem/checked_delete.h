@@ -4,8 +4,8 @@
     Implementation inspired by boost.
 */
 
-#ifndef CHECKED_DELETE_H_f3287rn32r7nz237
-#define CHECKED_DELETE_H_f3287rn32r7nz237
+#ifndef CHECKED_DELETE_H_F3287RN32R7NZ237
+#define CHECKED_DELETE_H_F3287RN32R7NZ237
 
 namespace mb::ul::mem {
 template <class T>

@@ -1,7 +1,7 @@
 /** \file Taken from Meyers' book.*/
 
-#ifndef HEAP_TRACKED_H_x4tm7839g934
-#define HEAP_TRACKED_H_x4tm7839g934
+#ifndef HEAP_TRACKED_H_X4TM7839G934
+#define HEAP_TRACKED_H_X4TM7839G934
 
 #include "ul/debug.h"
 #include "ul/std/std_extensions.h"
@@ -19,9 +19,9 @@ public:
     virtual ~HeapTracked() = default;
 
     static void* operator new(size_t size) {
-        void* memPtr = ::operator new(size);
-        addresses().push_front(memPtr);
-        return memPtr;
+        void* mem_ptr = ::operator new(size);
+        addresses().push_front(mem_ptr);
+        return mem_ptr;
     }
 
     static void operator delete(void* ptr) noexcept {
@@ -36,9 +36,9 @@ public:
         }
     }
 
-    [[nodiscard]] bool isOnHeap() const {
-        const void* rawAddress = dynamic_cast<const void*>(this);
-        auto it = std::find(addresses().begin(), addresses().end(), rawAddress);
+    [[nodiscard]] bool is_on_heap() const {
+        const void* raw_address = dynamic_cast<const void*>(this);
+        auto it = std::find(addresses().begin(), addresses().end(), raw_address);
         return it != addresses().end();
     }
 
@@ -46,8 +46,8 @@ private:
     using RawAddress = const void*;
 
     static std::list<RawAddress>& addresses() {
-        static std::list<RawAddress> addresses_;
-        return addresses_;
+        static std::list<RawAddress> addresses;
+        return addresses;
     }
 };
 } // namespace mb::ul::mem
