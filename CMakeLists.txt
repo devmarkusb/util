@@ -25,6 +25,7 @@ ul_include(clang-format.cmake)
 ul_include(githooks.cmake)
 
 set(UL_USE_DEFAULT_CLANG_TIDY_CONFIG OFF)
+set(UL_CLANG_TIDY_DIRS "basiccodesupport;buildenv;linklib;mem;string;util")
 ul_include(clang-tidy.cmake)
 
 set(dirs_to_doc README.md basiccodesupport buildenv linklib mem string util)
