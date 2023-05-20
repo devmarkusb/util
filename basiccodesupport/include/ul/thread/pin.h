@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef PIN_H_viehrxgzuh34782tg5
-#define PIN_H_viehrxgzuh34782tg5
+#ifndef PIN_H_VIEHRXGZUH34782TG5
+#define PIN_H_VIEHRXGZUH34782TG5
 
 #include "../assert.h"
 #include "../debug.h"
@@ -90,7 +90,7 @@ using native_handle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pinToLogicalCore([[maybe_unused]] native_handle h, [[maybe_unused]] int logicalCoreIdx)
+inline int pin_to_logical_core([[maybe_unused]] native_handle h, [[maybe_unused]] int logicalCoreIdx)
 #if UL_OS_MAC
     noexcept
 #endif
@@ -99,7 +99,7 @@ inline int pinToLogicalCore([[maybe_unused]] native_handle h, [[maybe_unused]] i
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX
-    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
+    throw ul::not_implemented;{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux";};
 #elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);
     mac::cpu_set_t cpuset;
@@ -114,7 +114,7 @@ inline int pinToLogicalCore([[maybe_unused]] native_handle h, [[maybe_unused]] i
 }
 
 //! Like pinToLogicalCore but current thread only.
-inline int pinToLogicalCore(int logicalCoreIdx) {
+inline int pin_to_logical_core(int logicalCoreIdx) {
 #if UL_OS_LINUX
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -131,13 +131,13 @@ inline int pinToLogicalCore(int logicalCoreIdx) {
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half
     of them might be sufficient sometimes then.
     \throws std::runtime_error on error. Note: an empty constructed std::thread won't do.*/
-inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx) {
+inline void pin_to_logical_core(std::thread& t, int logicalCoreIdx) {
     UL_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX || UL_OS_MAC
     const auto nh = static_cast<native_handle>(t.native_handle());
-    const auto err = pinToLogicalCore(nh, logicalCoreIdx);
+    const auto err = pin_to_logical_core(nh, logicalCoreIdx);
     if (err) {
         std::stringstream ss;
         ss << "thread_pinToCPU failed with code " << err;
@@ -151,7 +151,7 @@ inline void pinToLogicalCore(std::thread& t, int logicalCoreIdx) {
 }
 
 //! \return number of current, this_thread's, CPU (0-based) and -1 on error (with errno set).
-inline int numLogicalCores()
+inline int num_logical_cores()
 #if UL_OS_LINUX || UL_OS_MAC
     noexcept
 #endif

@@ -14,18 +14,18 @@ TEST(NarrowTest, Cast) {
 TEST(NarrowTest, CheckedCast) {
     EXPECT_TRUE(static_cast<long>(ul::narrow<unsigned char>(42l)) == 42l);
     EXPECT_NO_THROW(ul::narrow<unsigned char>(42l));
-    EXPECT_THROW(ul::narrow<unsigned char>(300l), ul::narrowing_error);
+    EXPECT_THROW(ul::narrow<unsigned char>(300l), ul::NarrowingError);
 }
 
 TEST(NarrowTest, Misc) {
-    EXPECT_THROW(ul::narrow<unsigned char>(-1), ul::narrowing_error);
+    EXPECT_THROW(ul::narrow<unsigned char>(-1), ul::NarrowingError);
     EXPECT_NO_THROW(ul::narrow<unsigned char>(0));
     EXPECT_NO_THROW(ul::narrow<unsigned char>(255));
-    EXPECT_THROW(ul::narrow<unsigned char>(256), ul::narrowing_error);
+    EXPECT_THROW(ul::narrow<unsigned char>(256), ul::NarrowingError);
 }
 
 TEST(NarrowTest, floating_point) {
-    EXPECT_THROW(ul::narrow<int>(1.8), ul::narrowing_error);
+    EXPECT_THROW(ul::narrow<int>(1.8), ul::NarrowingError);
     EXPECT_NO_THROW(ul::narrow<int>(2.0));
     EXPECT_EQ(1, ul::narrow_cast<int>(1.8));
     EXPECT_EQ(2, ul::narrow<int>(2.0));
@@ -38,7 +38,7 @@ TEST(NarrowTest, floating_point) {
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
 #else
-    EXPECT_THROW(ul::narrow<float>(more_precise_than_float), ul::narrowing_error);
+    EXPECT_THROW(ul::narrow<float>(more_precise_than_float), ul::NarrowingError);
 #endif
     EXPECT_NO_THROW(ul::narrow<float>(2));
     EXPECT_EQ(static_cast<float>(more_precise_than_float), ul::narrow_cast<float>(more_precise_than_float));

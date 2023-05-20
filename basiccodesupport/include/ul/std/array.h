@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef ARRAY_H_gh4578xdtn4813478tx34
-#define ARRAY_H_gh4578xdtn4813478tx34
+#ifndef ARRAY_H_GH4578XDTN4813478TX34
+#define ARRAY_H_GH4578XDTN4813478TX34
 
 #include <array>
 

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef LANGUAGES_H_sjdkghfnxz34gf7328f7gfr
-#define LANGUAGES_H_sjdkghfnxz34gf7328f7gfr
+#ifndef LANGUAGES_H_SJDKGHFNXZ34GF7328F7GFR
+#define LANGUAGES_H_SJDKGHFNXZ34GF7328F7GFR
 
 #include "ul/assert.h"
 #include "ul/error.h"
@@ -15,7 +15,7 @@ using LangID_iso639_1 = std::string;
 const LangID_iso639_1 auto_systems_language{"auto"};
 
 //! Note: if you add to this, don't forget about the other functions in this file.
-inline const std::vector<LangID_iso639_1>& getAllTheoreticallyPossibleLangIDs() {
+inline const std::vector<LangID_iso639_1>& get_all_theoretically_possible_lang_i_ds() {
     static const std::vector<LangID_iso639_1> cachedval{
         "ar", // Arabic
         "bn", // Bengali, Bangla
@@ -34,7 +34,7 @@ inline const std::vector<LangID_iso639_1>& getAllTheoreticallyPossibleLangIDs() 
     return cachedval;
 }
 
-inline std::string getNativeLanguageName(const LangID_iso639_1& id) {
+inline std::string get_native_language_name(const LangID_iso639_1& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)
@@ -69,10 +69,10 @@ inline std::string getNativeLanguageName(const LangID_iso639_1& id) {
     else if (id == "zh")
         return "\xE4\xB8\xAD\xE6\x96\x87";
     else
-        throw ul::not_implemented{"unsupported or unknonwn ISO 639-1 language code"};
+        throw ul::NotImplemented{"unsupported or unknonwn ISO 639-1 language code"};
 }
 
-inline std::string getEnglishLanguageName(const LangID_iso639_1& id) {
+inline std::string get_english_language_name(const LangID_iso639_1& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)
@@ -104,7 +104,7 @@ inline std::string getEnglishLanguageName(const LangID_iso639_1& id) {
     else if (id == "zh")
         return "Chinese";
     else
-        throw ul::not_implemented{"unsupported or unknonwn ISO 639-1 language code"};
+        throw ul::NotImplemented{"unsupported or unknonwn ISO 639-1 language code"};
 }
 } // namespace mb::ul::str
 

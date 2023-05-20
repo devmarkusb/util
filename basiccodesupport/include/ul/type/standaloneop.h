@@ -4,8 +4,8 @@
     a copy constructor.
     Be careful not to spoil the global namespace with a using directive of namespace stand_alone_ops.*/
 
-#ifndef STANDALONEOP_H_98243rz823xr
-#define STANDALONEOP_H_98243rz823xr
+#ifndef STANDALONEOP_H_98243RZ823XR
+#define STANDALONEOP_H_98243RZ823XR
 
 #include "ul/config.h"
 

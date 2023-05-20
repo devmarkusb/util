@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef FORMAT_NUMBER_H_sdkihfx378gh87234xgh33h3
-#define FORMAT_NUMBER_H_sdkihfx378gh87234xgh33h3
+#ifndef FORMAT_NUMBER_H_SDKIHFX378GH87234XGH33H3
+#define FORMAT_NUMBER_H_SDKIHFX378GH87234XGH33H3
 
 #include <locale>
 #include <sstream>
@@ -9,9 +9,9 @@
 
 namespace mb::ul::fmt {
 namespace detail {
-class GroupThousands_numpunct : public std::numpunct<char> {
+class GroupThousandsNumpunct : public std::numpunct<char> {
 public:
-    explicit GroupThousands_numpunct(char sep) noexcept
+    explicit GroupThousandsNumpunct(char sep) noexcept
         : sep_{sep} {
     }
 
@@ -31,9 +31,9 @@ private:
 
 //! Strange, crashes for non-Linux?!
 template <typename T>
-inline std::string groupThousands(T t, char sep = '\'') {
+inline std::string group_thousands(T t, char sep = '\'') {
     std::stringstream ss;
-    ss.imbue(std::locale(std::locale::classic(), new detail::GroupThousands_numpunct{sep}));
+    ss.imbue(std::locale(std::locale::classic(), new detail::GroupThousandsNumpunct{sep}));
     ss << t;
     return ss.str();
 }

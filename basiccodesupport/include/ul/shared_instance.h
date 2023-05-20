@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef SHARED_INSTANCE_H_cjklht78g428ghxn3g34g
-#define SHARED_INSTANCE_H_cjklht78g428ghxn3g34g
+#ifndef SHARED_INSTANCE_H_CJKLHT78G428GHXN3G34G
+#define SHARED_INSTANCE_H_CJKLHT78G428GHXN3G34G
 
 #include <memory>
 #include <mutex>
@@ -14,7 +14,7 @@ namespace mb::ul {
     but C++20 might support a make_shared_default_init, which does default initialization which means *no*
     initialization for POD types - the more performant version in principle.)*/
 template <class T>
-std::shared_ptr<T> getSharedInstance() {
+std::shared_ptr<T> get_shared_instance() {
     static std::mutex m;
     static std::weak_ptr<T> maybe_object;
 

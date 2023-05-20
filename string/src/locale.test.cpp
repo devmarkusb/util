@@ -19,11 +19,11 @@ TEST(consoleTest, set_global_localeTest_localenc) {
 // starting the test exe separately - so no debugging possible :/
 // Also the build server doesn't fail!
 #if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
-    ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
+    ul::SetGlobalLocaleScoped loc{ul::GlobalLocale::user_preferred};
     std::locale first = loc.get_original_locale();
     EXPECT_EQ(std::locale::classic(), first);
-    /*std::locale userpref = */ ul::set_global_locale(ul::Global_locale::default_classic);
-    std::locale classictest = ul::set_global_locale(ul::Global_locale::user_preferred);
+    /*std::locale userpref = */ ul::set_global_locale(ul::GlobalLocale::default_classic);
+    std::locale classictest = ul::set_global_locale(ul::GlobalLocale::user_preferred);
     EXPECT_EQ(std::locale::classic(), classictest);
 #endif
 

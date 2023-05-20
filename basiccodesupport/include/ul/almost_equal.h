@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr
-#define ALMOST_EQUAL_H_sdruntxg83g83umhxeruasfr
+#ifndef ALMOST_EQUAL_H_SDRUNTXG83G83UMHXERUASFR
+#define ALMOST_EQUAL_H_SDRUNTXG83G83UMHXERUASFR
 
 #include "assert.h"
 #include "ignore_unused.h"

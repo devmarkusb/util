@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef BITS_H_sljkhvnx2hng7835ghm3g7h3
-#define BITS_H_sljkhvnx2hng7835ghm3g7h3
+#ifndef BITS_H_SLJKHVNX2HNG7835GHM3G7H3
+#define BITS_H_SLJKHVNX2HNG7835GHM3G7H3
 
 #include "assert.h"
 #include "enum_cast.h"
@@ -18,15 +18,15 @@ using Idx = int;
 using Count = Idx;
 using Diff = int;
 
-constexpr auto bitsPerByte{CHAR_BIT};
+constexpr auto bits_per_byte{CHAR_BIT};
 
 //! \return number of bits of the arbitrary Type.
 template <typename Type>
 constexpr Count count() noexcept {
-    return bitsPerByte * sizeof(Type);
+    return bits_per_byte * sizeof(Type);
 }
 
-constexpr uint32_t countSet(uint32_t data) noexcept {
+constexpr uint32_t count_set(uint32_t data) noexcept {
     // NOLINTBEGIN
     // Hamming Weight algorithm
     data = data - ((data >> 1) & 0x55555555);
@@ -67,27 +67,27 @@ constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noe
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType setMask(SourceType from, SourceType mask) noexcept {
+constexpr TargetType set_mask(SourceType from, SourceType mask) noexcept {
     return from | mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType unsetMask(SourceType from, SourceType mask) noexcept {
+constexpr TargetType unset_mask(SourceType from, SourceType mask) noexcept {
     return ul::narrow_cast<TargetType>(from & ~mask); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType toggleMask(SourceType from, SourceType mask) noexcept {
+constexpr TargetType toggle_mask(SourceType from, SourceType mask) noexcept {
     return from ^ mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType checkAllOfMask(SourceType from, SourceType mask) noexcept {
+constexpr TargetType check_all_of_mask(SourceType from, SourceType mask) noexcept {
     return (from & mask) == mask;
 }
 
 template <typename SourceType, typename TargetType = SourceType>
-constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept {
+constexpr TargetType check_any_of_mask(SourceType from, SourceType mask) noexcept {
     return from & mask;
 }
 
@@ -96,7 +96,7 @@ constexpr TargetType checkAnyOfMask(SourceType from, SourceType mask) noexcept {
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
     of big endian, but endianness doesn't matter considering the realm of this function alone).*/
 template <typename TargetType = uint64_t>
-constexpr TargetType setRange(Idx idx, Count count) noexcept {
+constexpr TargetType set_range(Idx idx, Count count) noexcept {
     static_assert(std::is_unsigned_v<TargetType>);
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
@@ -113,19 +113,19 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
 
-    return (from & ul::bits::setRange<SourceType>(idx, count)) >> idx; // NOLINT
+    return (from & ul::bits::set_range<SourceType>(idx, count)) >> idx; // NOLINT
 }
 
 //! Like read. But here you can also opt for a different target type.
 /** As typically reading out a subset of bits results in a smaller type.*/
 template <typename TargetType, typename SourceType /*>= TargetType*/>
-constexpr TargetType readAndCast(SourceType from, Idx idx, Count count) noexcept {
+constexpr TargetType read_and_cast(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
     UL_EXPECT(count <= ul::bits::count<TargetType>());
 
-    return static_cast<TargetType>((from & ul::bits::setRange<SourceType>(idx, count)) >> idx); // NOLINT
+    return static_cast<TargetType>((from & ul::bits::set_range<SourceType>(idx, count)) >> idx); // NOLINT
 }
 
 //! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
@@ -136,7 +136,7 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
     UL_EXPECT(count <= ul::bits::count<SourceType>());
 
-    return static_cast<TargetType>((to & (~ul::bits::setRange(idx, count))) | (from << idx)); // NOLINT
+    return static_cast<TargetType>((to & (~ul::bits::set_range(idx, count))) | (from << idx)); // NOLINT
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
@@ -148,48 +148,48 @@ public:
     void set(Idx idx) noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array_[N(idx)] |= partBit(I(idx)); // NOLINT
+        array_[n(idx)] |= part_bit(i(idx)); // NOLINT
     }
 
     void reset(Idx idx) noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        array_[N(idx)] &= ~partBit(I(idx)); // NOLINT
+        array_[n(idx)] &= ~part_bit(i(idx)); // NOLINT
     }
 
     void reset() noexcept {
         array_.fill({});
     }
 
-    [[nodiscard]] bool isSet(Idx idx) const noexcept {
+    [[nodiscard]] bool is_set(Idx idx) const noexcept {
         UL_EXPECT(idx >= 0);
         UL_EXPECT(idx < bits);
-        return array_[N(idx)] & partBit(I(idx)); // NOLINT
+        return array_[n(idx)] & part_bit(i(idx)); // NOLINT
     }
 
 private:
-    static constexpr Count partsCount{
+    static constexpr Count parts_count{
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
-    std::array<BaseType, partsCount> array_{};
+    std::array<BaseType, parts_count> array_{};
 
-    [[nodiscard]] Idx N(Idx idx) const noexcept {
+    [[nodiscard]] Idx n(Idx idx) const noexcept {
         return idx / ul::bits::count<BaseType>();
     }
 
-    [[nodiscard]] Idx I(Idx idx) const noexcept {
+    [[nodiscard]] Idx i(Idx idx) const noexcept {
         return idx % ul::bits::count<BaseType>();
     }
 
-    [[nodiscard]] BaseType partBit(Idx n) const noexcept {
+    [[nodiscard]] BaseType part_bit(Idx n) const noexcept {
         return static_cast<BaseType>(BaseType{1} << n); // NOLINT
     }
 
-    template <Count bits_, typename BaseType_>
-    friend Array<bits_, BaseType_> operator&(
-        const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
-    template <Count bits_, typename BaseType_>
-    friend Array<bits_, BaseType_> operator|(
-        const Array<bits_, BaseType_>& lhs, const Array<bits_, BaseType_>& rhs) noexcept;
+    template <Count bits_other, typename BaseTypeOther>
+    friend Array<bits_other, BaseTypeOther> operator&(
+        const Array<bits_other, BaseTypeOther>& lhs, const Array<bits_other, BaseTypeOther>& rhs) noexcept;
+    template <Count bits_other, typename BaseTypeOther>
+    friend Array<bits_other, BaseTypeOther> operator|(
+        const Array<bits_other, BaseTypeOther>& lhs, const Array<bits_other, BaseTypeOther>& rhs) noexcept;
 };
 
 template <Count bits, typename BaseType = uint32_t>
@@ -238,9 +238,9 @@ public:
     constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
-        const auto fieldnr_{static_cast<size_t>(fieldnr)};
+        const auto fieldnr_c{static_cast<size_t>(fieldnr)};
         data_ = write<BitDataType, SourceDataType>(
-            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_], value); // NOLINT
+            data_, fieldsLookup.indices_[fieldnr_c], fieldsLookup.counts_[fieldnr_c], value); // NOLINT
     }
 
     template <typename TargetDataType = BitDataType>
@@ -248,9 +248,9 @@ public:
         const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
-        const auto fieldnr_{static_cast<size_t>(fieldnr)};
-        return readAndCast<TargetDataType, BitDataType>(
-            data_, fieldsLookup.indices_[fieldnr_], fieldsLookup.counts_[fieldnr_]); // NOLINT
+        const auto fieldnr_c{static_cast<size_t>(fieldnr)};
+        return read_and_cast<TargetDataType, BitDataType>(
+            data_, fieldsLookup.indices_[fieldnr_c], fieldsLookup.counts_[fieldnr_c]); // NOLINT
     }
 
 private:

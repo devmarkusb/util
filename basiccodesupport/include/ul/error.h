@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef ERROR_H_cosndzcriwu4ezr3
-#define ERROR_H_cosndzcriwu4ezr3
+#ifndef ERROR_H_COSNDZCRIWU4EZR3
+#define ERROR_H_COSNDZCRIWU4EZR3
 
 #include "assert.h"
 #include "std/std_extensions.h"
@@ -51,7 +51,7 @@ const int prog_exit_failure = 1;
     }
     \endcode
 */
-enum class retcode {
+enum class Retcode {
     //! Return values indicating success
     //!@{
     none = 0,
@@ -87,29 +87,29 @@ enum class retcode {
     //!@}
 };
 
-inline std::string retcode_str(retcode rc) {
+inline std::string retcode_str(Retcode rc) {
     // clang-format off
-    static const std::map<retcode, std::string> inst = {
-        {retcode::success, "success"},
-        {retcode::failed, "failed"},
-        {retcode::not_implemented, "not_implemented"},
-        {retcode::did_no_op, "did_no_op"},
-        {retcode::logic_error, "logic_error"},
-        {retcode::domain_error, "domain_error"},
-        {retcode::invalid_arg, "invalid_arg"},
-        {retcode::length_error, "length_error"},
-        {retcode::out_of_range, "out_of_range"},
-        {retcode::runtime_error, "runtime_error"},
-        {retcode::overflow, "overflow"},
-        {retcode::underflow, "underflow"},
-        {retcode::range_error, "range_error"},
-        {retcode::precond_failed, "precond_failed"},
-        {retcode::assertion_failed, "assertion_failed"},
-        {retcode::postcond_failed, "postcond_failed"},
-        {retcode::would_crash, "would_crash"},
-        {retcode::out_of_memory, "out_of_memory"},
-        {retcode::division_by_zero, "division_by_zero"},
-        {retcode::unknown_error, "unknown error"},
+    static const std::map<Retcode, std::string> inst = {
+        {Retcode::success, "success"},
+        {Retcode::failed, "failed"},
+        {Retcode::not_implemented, "not_implemented"},
+        {Retcode::did_no_op, "did_no_op"},
+        {Retcode::logic_error, "logic_error"},
+        {Retcode::domain_error, "domain_error"},
+        {Retcode::invalid_arg, "invalid_arg"},
+        {Retcode::length_error, "length_error"},
+        {Retcode::out_of_range, "out_of_range"},
+        {Retcode::runtime_error, "runtime_error"},
+        {Retcode::overflow, "overflow"},
+        {Retcode::underflow, "underflow"},
+        {Retcode::range_error, "range_error"},
+        {Retcode::precond_failed, "precond_failed"},
+        {Retcode::assertion_failed, "assertion_failed"},
+        {Retcode::postcond_failed, "postcond_failed"},
+        {Retcode::would_crash, "would_crash"},
+        {Retcode::out_of_memory, "out_of_memory"},
+        {Retcode::division_by_zero, "division_by_zero"},
+        {Retcode::unknown_error, "unknown error"},
     };
     // clang-format on
     return inst.at(rc);
@@ -121,18 +121,18 @@ inline std::string retcode_str(retcode rc) {
 //    return rc == retcode::none ? true : false;
 //}
 //! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
-inline auto operator!(retcode rc) -> bool {
-    return rc != retcode::none;
+inline auto operator!(Retcode rc) -> bool {
+    return rc != Retcode::none;
 }
 
 namespace publish_is_ok {
 //! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
-inline bool is_ok(retcode rc) {
+inline bool is_ok(Retcode rc) {
     return !operator!(rc);
 }
 
 //! Equivalent for convenience.
-inline bool is_ok(const std::pair<retcode, std::string>& rc_str) {
+inline bool is_ok(const std::pair<Retcode, std::string>& rc_str) {
     return is_ok(rc_str.first);
 }
 } // namespace publish_is_ok
@@ -144,32 +144,32 @@ inline bool is_ok(const std::pair<retcode, std::string>& rc_str) {
     are handled by the \code UL_EXPECT, UL_ASSERT, UL_ENSURE \endcode macros, resulting
     in throwing \code ul::fail_fast \endcode, cf. assert.h.*/
 //!@{
-struct would_crash : public std::runtime_error {
-    explicit would_crash(const char* const message)
+struct WouldCrash : public std::runtime_error {
+    explicit WouldCrash(const char* const message)
         : std::runtime_error(message) {
     }
 };
 
-struct division_by_zero : public std::runtime_error {
-    explicit division_by_zero(const char* const message)
+struct DivisionByZero : public std::runtime_error {
+    explicit DivisionByZero(const char* const message)
         : std::runtime_error(message) {
     }
 };
 
-struct not_implemented : public std::runtime_error {
-    explicit not_implemented(const char* const message)
+struct NotImplemented : public std::runtime_error {
+    explicit NotImplemented(const char* const message)
         : std::runtime_error(message) {
     }
 };
 
-struct did_no_op : public std::runtime_error {
-    explicit did_no_op(const char* const message)
+struct DidNoOp : public std::runtime_error {
+    explicit DidNoOp(const char* const message)
         : std::runtime_error(message) {
     }
 };
 
-struct time_out : public std::runtime_error {
-    explicit time_out(const char* const message)
+struct TimeOut : public std::runtime_error {
+    explicit TimeOut(const char* const message)
         : std::runtime_error(message) {
     }
 };
@@ -190,52 +190,52 @@ struct time_out : public std::runtime_error {
     \endcode
 */
 template <typename Callable, typename Callable2>
-std::pair<retcode, std::string> call_noexcept(
+std::pair<Retcode, std::string> call_noexcept(
     Callable&& f, Callable2&& bad_alloc_handler = []() {
     }) noexcept {
     try {
         f();
-        return std::make_pair(retcode::success, std::string());
-    } catch (const ul::fail_fast& e) {
-        return std::make_pair(retcode::assertion_failed, std::string(e.what()));
-    } catch (const ul::would_crash& e) {
-        return std::make_pair(retcode::would_crash, std::string(e.what()));
-    } catch (const ul::division_by_zero& e) {
-        return std::make_pair(retcode::division_by_zero, std::string(e.what()));
-    } catch (const ul::not_implemented& e) {
-        return std::make_pair(retcode::not_implemented, std::string(e.what()));
-    } catch (const ul::did_no_op& e) {
-        return std::make_pair(retcode::did_no_op, std::string(e.what()));
+        return std::make_pair(Retcode::success, std::string());
+    } catch (const ul::FailFast& e) {
+        return std::make_pair(Retcode::assertion_failed, std::string(e.what()));
+    } catch (const ul::WouldCrash& e) {
+        return std::make_pair(Retcode::would_crash, std::string(e.what()));
+    } catch (const ul::DivisionByZero& e) {
+        return std::make_pair(Retcode::division_by_zero, std::string(e.what()));
+    } catch (const ul::NotImplemented& e) {
+        return std::make_pair(Retcode::not_implemented, std::string(e.what()));
+    } catch (const ul::DidNoOp& e) {
+        return std::make_pair(Retcode::did_no_op, std::string(e.what()));
     } catch (const std::domain_error& e) {
-        return std::make_pair(retcode::domain_error, std::string(e.what()));
+        return std::make_pair(Retcode::domain_error, std::string(e.what()));
     } catch (const std::invalid_argument& e) {
-        return std::make_pair(retcode::invalid_arg, std::string(e.what()));
+        return std::make_pair(Retcode::invalid_arg, std::string(e.what()));
     } catch (const std::length_error& e) {
-        return std::make_pair(retcode::length_error, std::string(e.what()));
+        return std::make_pair(Retcode::length_error, std::string(e.what()));
     } catch (const std::out_of_range& e) {
-        return std::make_pair(retcode::out_of_range, std::string(e.what()));
+        return std::make_pair(Retcode::out_of_range, std::string(e.what()));
     } catch (const std::overflow_error& e) {
-        return std::make_pair(retcode::overflow, std::string(e.what()));
+        return std::make_pair(Retcode::overflow, std::string(e.what()));
     } catch (const std::underflow_error& e) {
-        return std::make_pair(retcode::underflow, std::string(e.what()));
+        return std::make_pair(Retcode::underflow, std::string(e.what()));
     } catch (const std::range_error& e) {
-        return std::make_pair(retcode::range_error, std::string(e.what()));
+        return std::make_pair(Retcode::range_error, std::string(e.what()));
     } catch (const std::logic_error& e) {
-        return std::make_pair(retcode::logic_error, std::string(e.what()));
+        return std::make_pair(Retcode::logic_error, std::string(e.what()));
     } catch (const std::runtime_error& e) {
-        return std::make_pair(retcode::runtime_error, std::string(e.what()));
+        return std::make_pair(Retcode::runtime_error, std::string(e.what()));
     } catch (const std::bad_alloc& e) {
         bad_alloc_handler();
-        return std::make_pair(retcode::out_of_memory, std::string(e.what()));
+        return std::make_pair(Retcode::out_of_memory, std::string(e.what()));
     } catch (const std::exception& e) {
-        return std::make_pair(retcode::failed, std::string(e.what()));
+        return std::make_pair(Retcode::failed, std::string(e.what()));
     } catch (...) {
-        return std::make_pair(retcode::unknown_error, std::string{});
+        return std::make_pair(Retcode::unknown_error, std::string{});
     }
 }
 } // namespace mb::ul
 
-using retcode = mb::ul::retcode;
+using retcode = mb::ul::Retcode;
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
 UL_WARNING_DISABLE_CLANG(header-hygiene)

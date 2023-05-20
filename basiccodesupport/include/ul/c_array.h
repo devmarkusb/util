@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
-#define C_ARRAY_H_lnm45hxn73rmnfy2738yrn873rg
+#ifndef C_ARRAY_H_LNM45HXN73RMNFY2738YRN873RG
+#define C_ARRAY_H_LNM45HXN73RMNFY2738YRN873RG
 
 #include "assert.h"
 

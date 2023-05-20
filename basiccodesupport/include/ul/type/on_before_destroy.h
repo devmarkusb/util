@@ -1,7 +1,7 @@
 //! \file More than just a first example of using the ul::Listener/ul::ListenerRegister pair.
 
-#ifndef ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1
-#define ONBEFOREDESTROY_H_voeruinh235gt3ngfy13f1
+#ifndef ONBEFOREDESTROY_H_VOERUINH235GT3NGFY13F1
+#define ONBEFOREDESTROY_H_VOERUINH235GT3NGFY13F1
 
 #include "listener.h"
 
@@ -23,7 +23,7 @@ namespace mb::ul {
 struct OnBeforeDestroyListener : public Listener {
     ~OnBeforeDestroyListener() override = default;
 
-    virtual void onBeforeDestroy() = 0;
+    virtual void on_before_destroy() = 0;
 };
 } // namespace mb::ul
 

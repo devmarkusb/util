@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
-#define OPTIONAL_H_lfjuoijv5ijmzhc453457tnx387
+#ifndef OPTIONAL_H_LFJUOIJV5IJMZHC453457TNX387
+#define OPTIONAL_H_LFJUOIJV5IJMZHC453457TNX387
 
 #include "assert.h"
 #include "std/std_extensions.h"
@@ -45,39 +45,39 @@ const none_t none = nullptr;
     \endcode
 */
 template <typename T>
-struct opt {
-    opt() = default;
-    ~opt() = default;
+struct Opt {
+    Opt() = default;
+    ~Opt() = default;
 
-    opt(const opt<T>& other)
+    Opt(const opt<T>& other)
         : holder_(other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr) {
     }
 
-    opt<T>& operator=(const opt<T>& other) {
+    Opt<T>& operator=(const opt<T>& other) {
         if (std::addressof(other) == this)
             return *this;
         holder_ = other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr;
         return *this;
     }
 
-    explicit opt(const none_t& /*unused*/)
+    explicit Opt(const none_t& /*unused*/)
         : holder_(nullptr) {
     }
 
-    explicit opt(none_t&& /*unused*/)
+    explicit Opt(none_t&& /*unused*/)
         : holder_(nullptr) {
     }
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    opt(opt<T>&&) noexcept = default;
-    opt& operator=(opt<T>&&) noexcept = default;
+    Opt(Opt<T>&&) noexcept = default;
+    Opt& operator=(Opt<T>&&) noexcept = default;
 #endif
 
-    /*implicit*/ opt(const T& x)
+    /*implicit*/ Opt(const T& x)
         : holder_(ul::make_unique<T>(x)) {
     }
 
-    /*implicit*/ opt(T&& x)
+    /*implicit*/ Opt(T&& x)
         : holder_(ul::make_unique<T>(std::move(x))) {
     }
 
@@ -91,22 +91,22 @@ struct opt {
 ///*explicit */ operator bool() const { return reinterpret_cast<bool>(this->holder.get()); }
 #endif
 
-    opt<T>& operator=(const T& x) {
+    Opt<T>& operator=(const T& x) {
         this->holder_ = ul::make_unique<T>(x);
         return *this;
     }
 
-    opt<T>& operator=(T&& x) {
+    Opt<T>& operator=(T&& x) {
         this->holder_ = ul::make_unique<T>(std::move(x));
         return *this;
     }
 
-    opt<T>& operator=(const none_t& /*unused*/) {
+    Opt<T>& operator=(const none_t& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
 
-    opt<T>& operator=(none_t&& /*unused*/) {
+    Opt<T>& operator=(none_t&& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
@@ -120,7 +120,7 @@ private:
 };
 
 template <typename T>
-bool operator==(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator==(const Opt<T>& lhs, const Opt<T>& rhs) {
     if (lhs && rhs)
         return *lhs == *rhs;
     if (!lhs && !rhs)
@@ -129,13 +129,13 @@ bool operator==(const opt<T>& lhs, const opt<T>& rhs) {
 }
 
 template <typename T>
-bool operator!=(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator!=(const Opt<T>& lhs, const Opt<T>& rhs) {
     return !operator==(lhs, rhs);
 }
 
 //! Note: ul::none is interpreted to be the smallest.
 template <typename T>
-bool operator<(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator<(const Opt<T>& lhs, const Opt<T>& rhs) {
     if (lhs && rhs)
         return *lhs < *rhs;
     if (!lhs && !rhs)
@@ -144,17 +144,17 @@ bool operator<(const opt<T>& lhs, const opt<T>& rhs) {
 }
 
 template <typename T>
-bool operator>(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator>(const Opt<T>& lhs, const Opt<T>& rhs) {
     return operator<(rhs, lhs);
 }
 
 template <typename T>
-bool operator<=(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator<=(const Opt<T>& lhs, const Opt<T>& rhs) {
     return !operator>(lhs, rhs);
 }
 
 template <typename T>
-bool operator>=(const opt<T>& lhs, const opt<T>& rhs) {
+bool operator>=(const Opt<T>& lhs, const Opt<T>& rhs) {
     return !operator<(lhs, rhs);
 }
 } // namespace mb::ul

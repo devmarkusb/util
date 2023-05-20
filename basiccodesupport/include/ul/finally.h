@@ -1,29 +1,29 @@
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
-#ifndef FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx
-#define FINALLY_H_slkhnuigcherx8g3h54xx7th24xt3nx
+#ifndef FINALLY_H_SLKHNUIGCHERX8G3H54XX7TH24XT3NX
+#define FINALLY_H_SLKHNUIGCHERX8G3H54XX7TH24XT3NX
 
 #include "std/std_extensions.h"
 
 namespace mb::ul {
 //! It's not so convenient to use this directly; call the associated helper function instead.
 template <class F>
-class final_act {
+class FinalAct {
 public:
-    explicit final_act(F f) noexcept
+    explicit FinalAct(F f) noexcept
         : f_{std::move(f)} {
     }
 
-    final_act(final_act&& other) noexcept
+    FinalAct(FinalAct&& other) noexcept
         : f_{std::move(other.f_)}
         , invoke_{other.invoke_} {
         other.invoke_ = false;
     }
 
-    final_act(const final_act&) = delete;
-    final_act& operator=(const final_act&) = delete;
+    FinalAct(const FinalAct&) = delete;
+    FinalAct& operator=(const FinalAct&) = delete;
 
-    ~final_act() noexcept {
+    ~FinalAct() noexcept {
         if (this->invoke_)
             this->f_();
     }
@@ -46,14 +46,14 @@ a temporary is created, which gets destructed immediately. The mechanism is
 obviously connected to the lifetime of the variable assigned to.
 */
 template <class F>
-inline final_act<F> finally(const F& f) noexcept {
-    return final_act<F>(f);
+inline FinalAct<F> finally(const F& f) noexcept {
+    return FinalAct<F>(f);
 }
 
 //! Cf. finally() above.
 template <class F>
-inline final_act<F> finally(F&& f) noexcept {
-    return final_act<F>(std::forward<F>(f));
+inline FinalAct<F> finally(F&& f) noexcept {
+    return FinalAct<F>(std::forward<F>(f));
 }
 } // namespace mb::ul
 

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef VECTOR_H_sixe38grf38gxfn34x8gfn4
-#define VECTOR_H_sixe38grf38gxfn34x8gfn4
+#ifndef VECTOR_H_SIXE38GRF38GXFN34X8GFN4
+#define VECTOR_H_SIXE38GRF38GXFN34X8GFN4
 
 #include <cstddef>
 #include <vector>

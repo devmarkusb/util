@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef FILE_H_sduifhg3gfy324n178fsffe4f
-#define FILE_H_sduifhg3gfy324n178fsffe4f
+#ifndef FILE_H_SDUIFHG3GFY324N178FSFFE4F
+#define FILE_H_SDUIFHG3GFY324N178FSFFE4F
 
 #include "assert.h"
 #include <cerrno>
@@ -27,27 +27,27 @@ bool fstream_failed(std::string& retErrDetail, const FStream& fs) {
     return true;
 }
 
-enum class operation {
+enum class Operation {
     save,
     load,
 };
 
-[[noreturn]] inline void throwError(const std::string& filePathNameExt, operation op, const std::string& retErrDetail) {
-    const auto errno_ = errno;
+[[noreturn]] inline void throw_error(const std::string& filePathNameExt, Operation op, const std::string& retErrDetail) {
+    const auto errno_copy = errno;
     std::stringstream ss;
     ss << filePathNameExt;
     ss << " could not be ";
     switch (op) {
-        case operation::save:
+        case Operation::save:
             ss << "saved";
             break;
-        case operation::load:
+        case Operation::load:
             ss << "loaded";
             break;
     }
     ss << ", details: " << retErrDetail;
     //todo use strerror_s and what platforms demand, remove nolint
-    ss << ", ec: " << errno_ << ", " << std::strerror(errno_); // NOLINT
+    ss << ", ec: " << errno_copy << ", " << std::strerror(errno_copy); // NOLINT
     throw std::runtime_error{ss.str()};
 }
 } // namespace mb::ul::file

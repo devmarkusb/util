@@ -12,9 +12,9 @@ TEST(ul_make_uniqueTest, test) {
 
 TEST(ul_accumulateTest, test) {
     std::vector<int> v{1, 2, 3, 4, 5}; // NOLINT
-    int sumSelfmade = 0;
+    int sum_selfmade = 0;
     for (const auto& elem : v)
-        sumSelfmade += elem;
+        sum_selfmade += elem;
     const int sum = ul::accumulate(v.begin(), v.end(), 0, std::plus<>());
-    EXPECT_TRUE(sum == sumSelfmade);
+    EXPECT_TRUE(sum == sum_selfmade);
 }

@@ -1,7 +1,7 @@
 //! \file Bucket for unexpectedly needed compiler backwards compatibility.
 
-#ifndef COMP_BWDS_H_uiregb74n398734gf478gy8734h
-#define COMP_BWDS_H_uiregb74n398734gf478gy8734h
+#ifndef COMP_BWDS_H_UIREGB74N398734GF478GY8734H
+#define COMP_BWDS_H_UIREGB74N398734GF478GY8734H
 
 #include "config.h"
 #include "macros.h"

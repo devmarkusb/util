@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef STR_CONVERT_H_827rt82rtrxjr38t
-#define STR_CONVERT_H_827rt82rtrxjr38t
+#ifndef STR_CONVERT_H_827RT82RTRXJR38T
+#define STR_CONVERT_H_827RT82RTRXJR38T
 
 //! ulstring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
@@ -12,8 +12,8 @@
 #include <string>
 
 namespace mb::ul::str {
-struct conversion_error : public std::runtime_error {
-    explicit conversion_error(const char* const message)
+struct ConversionError : public std::runtime_error {
+    explicit ConversionError(const char* const message)
         : std::runtime_error(message) {
     }
 };
@@ -64,19 +64,19 @@ inline std::wstring locenc_s2ws(const std::string& s);
 //! 'const_iterator' supported there).
 inline char* s2psz(const std::string& s) {
     const char* tmp(s.c_str());
-    char* s_ = const_cast<char*>(tmp);
-    return s_;
+    char* s = const_cast<char*>(tmp);
+    return s;
 }
 
 //! Converts s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but
 //! replacements
 //! like "&#228;" for non-ASCII. Throws if s is not valid UTF8.
-inline std::string utf8_to_HTML(const std::string& s) {
+inline std::string utf8_to_html(const std::string& s) {
     std::string ret;
     ret.reserve(s.size());
-    char* s_ = s2psz(s);
-    utf8::iterator<char*> itend(s_ + s.size(), s_, s_ + s.size());
-    for (utf8::iterator<char*> it(s_, s_, s_ + s.size()); it != itend; ++it) {
+    char* psz = s2psz(s);
+    utf8::iterator<char*> itend(psz + s.size(), psz, psz + s.size());
+    for (utf8::iterator<char*> it(psz, psz, psz + s.size()); it != itend; ++it) {
         if (*it == 0x9 || *it == 0xa || *it == 0xd || (*it >= 0x20 && *it <= 0x7e))
             ret += it.base()[0];
         else
@@ -86,15 +86,15 @@ inline std::string utf8_to_HTML(const std::string& s) {
 }
 
 struct ThrowOnConversionError {
-    static char onConversionError(unsigned int codepoint) {
+    static char on_conversion_error(unsigned int codepoint) {
         std::string s{"conversion error on codepoint "};
         s += ul::to_string(codepoint);
-        throw conversion_error(s.c_str());
+        throw ConversionError(s.c_str());
     }
 };
 
 struct ConversionErrorToQuestionMark {
-    static char onConversionError(unsigned int) {
+    static char on_conversion_error(unsigned int) {
         return '?';
     }
 };
@@ -105,8 +105,8 @@ inline std::string utf8_to_latin1(const std::string& s);
 inline std::string latin1_to_utf8(const std::string& s);
 
 template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark>
-inline std::string utf8_to_printableASCII(const std::string& s);
-inline std::string printableASCII_to_utf8(const std::string& s);
+inline std::string utf8_to_printable_ascii(const std::string& s);
+inline std::string printable_ascii_to_utf8(const std::string& s);
 
 
 inline std::string to_hex_string(const std::string& s, const std::string& prefix = {});

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef LISTENER_H_sjkdzth78tn2378xgh73fr
-#define LISTENER_H_sjkdzth78tn2378xgh73fr
+#ifndef LISTENER_H_SJKDZTH78TN2378XGH73FR
+#define LISTENER_H_SJKDZTH78TN2378XGH73FR
 
 #include "../assert.h"
 #include <algorithm>
@@ -90,7 +90,7 @@ public:
     /** l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    virtual void registerListener(Listener* l) {
+    virtual void register_listener(Listener* l) {
         UL_EXPECT(l);
         UL_EXPECT(
             std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
@@ -101,7 +101,7 @@ public:
 
     /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    virtual void unregisterListener(Listener* l) {
+    virtual void unregister_listener(Listener* l) {
         UL_EXPECT(l);
         const auto it = std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l);
         UL_EXPECT(it != std::end(this->registeredListeners_));
@@ -110,7 +110,7 @@ public:
     }
 
     //! \param l has to be non-nullptr.
-    virtual bool isRegistered(Listener* l) const {
+    virtual bool is_registered(Listener* l) const {
         UL_EXPECT(l);
 
         return std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
@@ -130,37 +130,37 @@ public:
     /** \param l has to be non-nullptr and valid/alive until calling unregisterListener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
-    static void registerListener(Listener* l) {
+    static void register_listener(Listener* l) {
         UL_EXPECT(l);
         UL_EXPECT(
-            std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
-            == std::end(registeredListeners()));
+            std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
+            == std::end(registered_listeners()));
 
-        registeredListeners().push_back(l);
+        registered_listeners().push_back(l);
     }
 
     /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
         The same l also mustn't be unregistered more than once.*/
-    static void unregisterListener(Listener* l) {
+    static void unregister_listener(Listener* l) {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l);
-        UL_EXPECT(it != std::end(registeredListeners()));
+        const auto it = std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l);
+        UL_EXPECT(it != std::end(registered_listeners()));
 
-        registeredListeners().erase(it);
+        registered_listeners().erase(it);
     }
 
     //! \param l has to be non-nullptr.
-    static bool isRegistered(Listener* l) {
+    static bool is_registered(Listener* l) {
         UL_EXPECT(l);
 
-        return std::find(std::begin(registeredListeners()), std::end(registeredListeners()), l)
-               != std::end(registeredListeners());
+        return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
+               != std::end(registered_listeners());
     }
 
 protected:
     using ListenerContainer = std::vector<Listener*>;
 
-    static ListenerContainer& registeredListeners() {
+    static ListenerContainer& registered_listeners() {
         static ListenerContainer inst;
         return inst;
     }

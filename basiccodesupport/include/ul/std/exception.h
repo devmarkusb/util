@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef EXCEPTION_H_afsfjdig3478tg4
-#define EXCEPTION_H_afsfjdig3478tg4
+#ifndef EXCEPTION_H_AFSFJDIG3478TG4
+#define EXCEPTION_H_AFSFJDIG3478TG4
 
 #include <exception>
 
@@ -15,7 +15,7 @@ public:
         try {
             f(args...);
         } catch (...) {
-            captureException();
+            capture_exception();
         }
     }
 
@@ -27,7 +27,7 @@ public:
     }
 
 private:
-    void captureException() noexcept {
+    void capture_exception() noexcept {
         exceptionPtr_ = std::current_exception();
     }
 

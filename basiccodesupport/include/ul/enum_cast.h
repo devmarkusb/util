@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef ENUM_CAST_H_ydjgfrenxzuigfnewgyf8e3q2ygn4
-#define ENUM_CAST_H_ydjgfrenxzuigfnewgyf8e3q2ygn4
+#ifndef ENUM_CAST_H_YDJGFRENXZUIGFNEWGYF8E3Q2YGN4
+#define ENUM_CAST_H_YDJGFRENXZUIGFNEWGYF8E3Q2YGN4
 
 #include "std/std_extensions.h"
 

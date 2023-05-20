@@ -1,7 +1,7 @@
 //! \file Contains useful tools for debugging, like run-time breakpoints.
 
-#ifndef DEBUG_MISC_H_n9283zr823rz832
-#define DEBUG_MISC_H_n9283zr823rz832
+#ifndef DEBUG_MISC_H_N9283ZR823RZ832
+#define DEBUG_MISC_H_N9283ZR823RZ832
 
 #include "assert.h"
 #include "ul/macros.h"

@@ -4,11 +4,11 @@
 namespace ul = mb::ul;
 
 TEST(ptr2refTest, test) {
-    constexpr auto someNr{5};
-    int i = someNr;
+    constexpr auto some_nr{5};
+    int i = some_nr;
     int* pi = &i;
-    int& refi = ul::ptr2Ref(pi);
+    int& refi = ul::ptr2_ref(pi);
     EXPECT_TRUE(&refi == pi);
-    const int& crefi = ul::ptr2RefC(pi);
+    const int& crefi = ul::ptr2_ref(pi);
     EXPECT_TRUE(&crefi == pi);
 }

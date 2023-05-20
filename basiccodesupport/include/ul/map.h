@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef MAP_H_54982dn78txhwgf1236784g
-#define MAP_H_54982dn78txhwgf1236784g
+#ifndef MAP_H_54982DN78TXHWGF1236784G
+#define MAP_H_54982DN78TXHWGF1236784G
 
 namespace mb::ul {
 //! Compile time map int->int.
@@ -18,40 +18,40 @@ namespace mb::ul {
 
 //!@{
 
-template <typename TypeForKey, typename TypeForValue, TypeForKey KEY, TypeForValue VALUE>
-struct key_value {
-    static const TypeForKey key = KEY;
-    static const TypeForValue value = VALUE;
+template <typename TypeForKey, typename TypeForValue, TypeForKey key, TypeForValue value>
+struct KeyValue {
+    static const TypeForKey key = key;
+    static const TypeForValue value = value;
 };
 
 // for convenience
-template <int KEY, int VALUE>
-using kv = key_value<int, int, KEY, VALUE>;
+template <int key, int value>
+using kv = KeyValue<int, int, key, value>;
 
-template <typename TypeForValue, TypeForValue NOT_FOUND_VALUE, typename...>
+template <typename TypeForValue, TypeForValue not_found_value, typename...>
 struct ct_mapTT;
 
-template <int NOT_FOUND_VALUE, typename... Args>
-using ct_map = ct_mapTT<int, NOT_FOUND_VALUE, Args...>;
+template <int not_found_value, typename... Args>
+using ct_map = ct_mapTT<int, not_found_value, Args...>;
 
-template <typename TypeForValue, TypeForValue NOT_FOUND_VALUE>
-struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE> {
+template <typename TypeForValue, TypeForValue not_found_value>
+struct ct_mapTT<TypeForValue, not_found_value> {
     template <TypeForValue>
-    struct at {
-        static const TypeForValue value = NOT_FOUND_VALUE;
+    struct At {
+        static const TypeForValue value = not_found_value;
     };
 };
 
 template <
-    typename TypeForKey, typename TypeForValue, TypeForValue NOT_FOUND_VALUE, TypeForKey KEY, TypeForValue VALUE,
-    typename... FURTHER_KEY_VALUEs>
-struct ct_mapTT<TypeForValue, NOT_FOUND_VALUE, key_value<TypeForKey, TypeForValue, KEY, VALUE>, FURTHER_KEY_VALUEs...> {
-    template <TypeForKey THIS_KEY>
-    struct at {
+    typename TypeForKey, typename TypeForValue, TypeForValue not_found_value, TypeForKey key, TypeForValue value,
+    typename... FurtherKeyValuEs>
+struct ct_mapTT<TypeForValue, not_found_value, KeyValue<TypeForKey, TypeForValue, key, value>, FurtherKeyValuEs...> {
+    template <TypeForKey this_key>
+    struct At {
         static const TypeForValue value =
-            (THIS_KEY == KEY)
-                ? VALUE
-                : ct_mapTT<TypeForValue, NOT_FOUND_VALUE, FURTHER_KEY_VALUEs...>::template at<THIS_KEY>::value;
+            (this_key == key)
+                ? value
+                : ct_mapTT<TypeForValue, not_found_value, FurtherKeyValuEs...>::template at<this_key>::value;
     };
 };
 
