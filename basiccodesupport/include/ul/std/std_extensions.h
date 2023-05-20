@@ -4,8 +4,8 @@
     to make it into some standard C++xx.
     */
 
-#ifndef STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
-#define STD_EXTENSIONS_H_kjhsdnxuwezkngfywzui6r
+#ifndef STD_EXTENSIONS_H_KJHSDNXUWEZKNGFYWZUI6R
+#define STD_EXTENSIONS_H_KJHSDNXUWEZKNGFYWZUI6R
 
 #include "ul/macros.h"
 #include <algorithm> // included for the most probable find of std::accumulate (if ever)
@@ -62,11 +62,11 @@ using remove_const_t = typename std::remove_const<T>::type;
 template <class T>
 using remove_volatile_t = typename std::remove_volatile<T>::type;
 
-template <bool B, class T = void>
-using enable_if_t = typename std::enable_if<B, T>::type;
+template <bool b, class T = void>
+using enable_if_t = typename std::enable_if<b, T>::type;
 
-template <bool B, class T, class F>
-using conditional_t = typename std::conditional<B, T, F>::type;
+template <bool b, class T, class F>
+using conditional_t = typename std::conditional<b, T, F>::type;
 
 template <class T>
 using add_pointer_t = typename std::add_pointer<T>::type;

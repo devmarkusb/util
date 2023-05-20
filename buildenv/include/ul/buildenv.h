@@ -3,8 +3,8 @@
 All-in-one include file for this part of the lib.
 */
 
-#ifndef BUILDENV_H_dhg349hg29g53hg9gh
-#define BUILDENV_H_dhg349hg29g53hg9gh
+#ifndef BUILDENV_H_DHG349HG29G53HG9GH
+#define BUILDENV_H_DHG349HG29G53HG9GH
 
 #include "config.h"
 #include "macros.h"

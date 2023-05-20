@@ -5,12 +5,12 @@
 namespace ul = mb::ul;
 
 TEST(FinallyTest, Test) {
-    bool isChanged = false;
+    bool is_changed = false;
     {
-        const auto UL_ANONYMOUS_VARIABLE = ul::finally([&]() {
-            isChanged = true;
+        const auto ul_anonymous_variable = ul::finally([is_changed]() {
+            is_changed = true;
         });
-        isChanged = false;
+        is_changed = false;
     }
-    EXPECT_TRUE(isChanged);
+    EXPECT_TRUE(is_changed);
 }

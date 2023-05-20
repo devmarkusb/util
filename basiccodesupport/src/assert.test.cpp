@@ -35,11 +35,11 @@ TEST(AssertExpectEnsureTest, Throw) {
     EXPECT_DEBUG_DEATH(UL_ENSURE_THROW(false), "");
 #endif
 #else
-    EXPECT_THROW(UL_ASSERT_THROW(false), ul::fail_fast);
+    EXPECT_THROW(UL_ASSERT_THROW(false), ul::FailFast);
     EXPECT_NO_THROW(UL_ASSERT_THROW(true));
-    EXPECT_THROW(UL_EXPECT_THROW(false), ul::fail_fast);
+    EXPECT_THROW(UL_EXPECT_THROW(false), ul::FailFast);
     EXPECT_NO_THROW(UL_EXPECT_THROW(true));
-    EXPECT_THROW(UL_ENSURE_THROW(false), ul::fail_fast);
+    EXPECT_THROW(UL_ENSURE_THROW(false), ul::FailFast);
     EXPECT_NO_THROW(UL_ENSURE_THROW(true));
 #endif
 }

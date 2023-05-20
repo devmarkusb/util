@@ -5,5 +5,5 @@
 namespace ul = mb::ul;
 
 TEST(thread_numAvailLogicalCores, consistency) {
-    EXPECT_EQ(std::thread::hardware_concurrency(), ul::thread::numAvailLogicalCores());
+    EXPECT_EQ(std::thread::hardware_concurrency(), ul::thread::num_avail_logical_cores());
 }

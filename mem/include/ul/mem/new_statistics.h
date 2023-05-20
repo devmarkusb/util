@@ -80,7 +80,7 @@ public:
     void new_call(Bytes size, void* p) noexcept {
         new_calls_.fetch_add(1, std::memory_order_relaxed);
         current_size_.fetch_add(size.value, std::memory_order_seq_cst);
-        ul::thread::atomic::updateMaximum(peak_size_, current_size_.load(std::memory_order_seq_cst));
+        ul::thread::atomic::update_maximum(peak_size_, current_size_.load(std::memory_order_seq_cst));
         allocated_size_.fetch_add(size.value, std::memory_order_relaxed);
         auto sh = new (p) StatsHeader;
         sh->set(fields_lookup_, StatsHeader::Field::size, size.value);

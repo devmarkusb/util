@@ -1,5 +1,5 @@
-#ifndef CONFIG_H_rhf7x3489gt3478gxt34gh
-#define CONFIG_H_rhf7x3489gt3478gxt34gh
+#ifndef CONFIG_H_RHF7X3489GT3478GXT34GH
+#define CONFIG_H_RHF7X3489GT3478GXT34GH
 
 #include "config_gen.h"
 

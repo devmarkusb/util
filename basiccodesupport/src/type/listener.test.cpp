@@ -4,20 +4,20 @@
 namespace ul = mb::ul;
 
 namespace {
-struct Model_listener : public ul::Listener {
-    ~Model_listener() override = default;
+struct ModelListener : public ul::Listener {
+    ~ModelListener() override = default;
 
     virtual void on_prop_changed() = 0;
 };
 
-struct Model_notifier : public ul::ListenerRegister {
+struct ModelNotifier : public ul::ListenerRegister {
     void on_prop_changed() {
         for (auto& l : this->registeredListeners_)
-            dynamic_cast<Model_listener*>(l)->on_prop_changed();
+            dynamic_cast<ModelListener*>(l)->on_prop_changed();
     }
 };
 
-struct Model : public Model_notifier {
+struct Model : public ModelNotifier {
     [[nodiscard]] int get_prop() const {
         return this->prop_;
     }
@@ -35,7 +35,7 @@ private:
     int prop_{};
 };
 
-struct View : private Model_listener {
+struct View : private ModelListener {
     View() {
         this->in_v_.registerListener(this);
     }

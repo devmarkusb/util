@@ -20,14 +20,14 @@ TEST(bits_count, various) {
 }
 
 TEST(bits_countSetBits, various) {
-    EXPECT_EQ(ul::bits::countSet(0), 0);
-    EXPECT_EQ(ul::bits::countSet(1), 1);
-    EXPECT_EQ(ul::bits::countSet(0b11), 2);
-    EXPECT_EQ(ul::bits::countSet(0b101), 2);
-    EXPECT_EQ(ul::bits::countSet(0b111), 3);
-    EXPECT_EQ(ul::bits::countSet(0b1111110), 6);
-    EXPECT_EQ(ul::bits::countSet(0b1111110111), 9);
-    EXPECT_EQ(ul::bits::countSet(0b10000000000), 1);
+    EXPECT_EQ(ul::bits::count_set(0), 0);
+    EXPECT_EQ(ul::bits::count_set(1), 1);
+    EXPECT_EQ(ul::bits::count_set(0b11), 2);
+    EXPECT_EQ(ul::bits::count_set(0b101), 2);
+    EXPECT_EQ(ul::bits::count_set(0b111), 3);
+    EXPECT_EQ(ul::bits::count_set(0b1111110), 6);
+    EXPECT_EQ(ul::bits::count_set(0b1111110111), 9);
+    EXPECT_EQ(ul::bits::count_set(0b10000000000), 1);
 }
 
 TEST(bits_set, various) {
@@ -71,24 +71,24 @@ TEST(bits_change, various) {
 }
 
 TEST(bits_setMask, various) {
-    EXPECT_EQ(ul::bits::setMask(0b000u, 0b001u), 0b001u);
-    EXPECT_EQ(ul::bits::setMask(0b000u, 0b010u), 0b010u);
-    EXPECT_EQ(ul::bits::setMask(0b000u, 0b101u), 0b101u);
-    EXPECT_EQ(ul::bits::setMask<uint8_t>(0b1, 1 << 7), (1 << 7) | 0b1);
+    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b001u), 0b001u);
+    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b010u), 0b010u);
+    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b101u), 0b101u);
+    EXPECT_EQ(ul::bits::set_mask<uint8_t>(0b1, 1 << 7), (1 << 7) | 0b1);
 }
 
 TEST(bits_unsetMask, various) {
-    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b001u), 0b110u);
-    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b010u), 0b101u);
-    EXPECT_EQ(ul::bits::unsetMask(0b111u, 0b101u), 0b010u);
-    EXPECT_EQ(ul::bits::unsetMask<uint8_t>((1u << 7u) | 0b1u, 1u << 7u), 0b1u);
+    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b001u), 0b110u);
+    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b010u), 0b101u);
+    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b101u), 0b010u);
+    EXPECT_EQ(ul::bits::unset_mask<uint8_t>((1u << 7u) | 0b1u, 1u << 7u), 0b1u);
 }
 
 TEST(bits_toggleMask, various) {
-    EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b001u), 0b110u);
-    EXPECT_EQ(ul::bits::toggleMask(0b110u, 0b001u), 0b111u);
-    EXPECT_EQ(ul::bits::toggleMask(0b111u, 0b101u), 0b010u);
-    EXPECT_EQ(ul::bits::toggleMask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
+    EXPECT_EQ(ul::bits::toggle_mask(0b111u, 0b001u), 0b110u);
+    EXPECT_EQ(ul::bits::toggle_mask(0b110u, 0b001u), 0b111u);
+    EXPECT_EQ(ul::bits::toggle_mask(0b111u, 0b101u), 0b010u);
+    EXPECT_EQ(ul::bits::toggle_mask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
 }
 
 TEST(bits_checkAllOfMask, various) {
@@ -111,45 +111,45 @@ TEST(bits_checkAnyOfMask, various) {
     EXPECT_FALSE(ul::bits::checkAnyOfMask(0b101u, 0b010u));
 }
 
-TEST(bits_setRange, empty) {
-    EXPECT_DEBUG_DEATH(ul::bits::setRange(5, 0), ul::death_assert_regex);
+TEST(bits_set_range, empty) {
+    EXPECT_DEBUG_DEATH(ul::bits::set_range(5, 0), ul::death_assert_regex);
 }
 
-TEST(bits_setRange, bitNr0) {
-    EXPECT_EQ(ul::bits::setRange(0, 1), 0b1u);
+TEST(bits_set_range, bitNr0) {
+    EXPECT_EQ(ul::bits::set_range(0, 1), 0b1u);
 }
 
-TEST(bits_setRange, bitNr1) {
-    EXPECT_EQ(ul::bits::setRange(1, 1), 0b10u);
+TEST(bits_set_range, bitNr1) {
+    EXPECT_EQ(ul::bits::set_range(1, 1), 0b10u);
 }
 
-TEST(bits_setRange, bitNr63) {
-    EXPECT_EQ(ul::bits::setRange<uint64_t>(63, 1), uint64_t(1) << uint64_t(63));
+TEST(bits_set_range, bitNr63) {
+    EXPECT_EQ(ul::bits::set_range<uint64_t>(63, 1), uint64_t(1) << uint64_t(63));
 }
 
-TEST(bits_setRange, highestTwoBits) {
-    EXPECT_EQ(ul::bits::setRange<uint64_t>(62, 2), (uint64_t(1) << uint64_t(63)) | (uint64_t(1) << uint64_t(62)));
+TEST(bits_set_range, highestTwoBits) {
+    EXPECT_EQ(ul::bits::set_range<uint64_t>(62, 2), (uint64_t(1) << uint64_t(63)) | (uint64_t(1) << uint64_t(62)));
 }
 
-TEST(bits_setRange, lowestTwoBits) {
-    EXPECT_EQ(ul::bits::setRange(0, 2), 0b11u);
+TEST(bits_set_range, lowestTwoBits) {
+    EXPECT_EQ(ul::bits::set_range(0, 2), 0b11u);
 }
 
-TEST(bits_setRange, someMiddleRangeOfBits) {
-    EXPECT_EQ(ul::bits::setRange(3, 6), 0b111111000u);
+TEST(bits_set_range, someMiddleRangeOfBits) {
+    EXPECT_EQ(ul::bits::set_range(3, 6), 0b111111000u);
 }
 
-TEST(bits_setRange, someMiddleRangeOfBits_castedToSufficientSmallerType) {
-    EXPECT_EQ(ul::bits::setRange<uint8_t>(2, 6), 0b11111100u);
-    EXPECT_DEBUG_DEATH(ul::bits::setRange<uint8_t>(2, 7), ul::death_assert_regex);
-    EXPECT_EQ(ul::bits::setRange<uint16_t>(2, 7), 0b111111100u);
+TEST(bits_set_range, someMiddleRangeOfBits_castedToSufficientSmallerType) {
+    EXPECT_EQ(ul::bits::set_range<uint8_t>(2, 6), 0b11111100u);
+    EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
+    EXPECT_EQ(ul::bits::set_range<uint16_t>(2, 7), 0b111111100u);
 }
 
 TEST(bits_read, typical) {
     EXPECT_EQ(ul::bits::read(0b11000101100u, 2, 5), 0b01011u);
-    const auto x = ul::bits::readAndCast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
+    const auto x = ul::bits::read_and_cast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
     EXPECT_EQ(x, uint8_t{0b01011});
-    EXPECT_DEBUG_DEATH(ul::bits::setRange<uint8_t>(2, 7), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
 }
 
 namespace {
@@ -157,7 +157,7 @@ namespace {
 // so we need a template with one instead of two parameters
 template <typename TargetType>
 constexpr TargetType read_from16_testhelper(uint16_t data, ul::bits::Idx idx, ul::bits::Count count) noexcept {
-    return ul::bits::readAndCast<TargetType>(data, idx, count);
+    return ul::bits::read_and_cast<TargetType>(data, idx, count);
 }
 } // namespace
 
@@ -199,9 +199,9 @@ TEST(bits_read, types) {
 }
 
 TEST(bits_read, types_cast) {
-    auto x = ul::bits::readAndCast<uint8_t, uint16_t>(0b10101100u, 2, 1);
+    auto x = ul::bits::read_and_cast<uint8_t, uint16_t>(0b10101100u, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
-    auto x2 = ul::bits::readAndCast<uint16_t>(uint32_t{0b10101100u}, 2, 1);
+    auto x2 = ul::bits::read_and_cast<uint16_t>(uint32_t{0b10101100u}, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 }
 

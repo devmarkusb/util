@@ -6,16 +6,16 @@ namespace ul = mb::ul;
 
 namespace test_int {
 template <typename... T>
-void toBeCalled(T... t) {
+void to_be_called(T... t) {
     std::array<int, 3> ta = {t...};
     EXPECT_EQ(ta[0], 1);
     EXPECT_EQ(ta[1], 2);
     EXPECT_EQ(ta[2], 3);
 }
 
-template <int... Is>
-void caller_impl(const std::array<int, 3>& theArray, ul::idx::seq<Is...> /*unused*/) {
-    toBeCalled(theArray[Is]...);
+template <int... is>
+void caller_impl(const std::array<int, 3>& theArray, ul::idx::Seq<is...> /*unused*/) {
+    to_be_called(theArray[is]...);
 }
 } // namespace test_int
 
@@ -27,16 +27,16 @@ TEST(idx_seq, array) {
 
 namespace test_size_t {
 template <typename... T>
-void toBeCalled(T... t) {
+void to_be_called(T... t) {
     std::array<size_t, 3> ta = {t...};
     EXPECT_EQ(ta[0], 1);
     EXPECT_EQ(ta[1], 2);
     EXPECT_EQ(ta[2], 3);
 }
 
-template <int... Is>
-void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::seq<Is...> /*unused*/) {
-    toBeCalled(theArray[Is]...);
+template <int... is>
+void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::Seq<is...> /*unused*/) {
+    to_be_called(theArray[is]...);
 }
 } // namespace test_size_t
 

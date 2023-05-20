@@ -82,9 +82,9 @@ TEST(RationalTest, constr_zero) {
 
 TEST(RationalTest, assign) {
     ul::math::Rational r1{};
-    const ul::math::Rational r1_{24, 32};
+    const ul::math::Rational r1{24, 32};
 
-    r1 = r1_;
+    r1 = r1;
     EXPECT_EQ(24, r1.num);
     EXPECT_EQ(32, r1.denom);
 }

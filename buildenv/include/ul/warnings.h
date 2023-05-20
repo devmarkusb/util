@@ -8,8 +8,8 @@
     but this problem might also be solvable in another way).
 */
 
-#ifndef WARNINGS_H_erufh35782xz3785th183
-#define WARNINGS_H_erufh35782xz3785th183
+#ifndef WARNINGS_H_ERUFH35782XZ3785TH183
+#define WARNINGS_H_ERUFH35782XZ3785TH183
 
 #include "macros.h"
 

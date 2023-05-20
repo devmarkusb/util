@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef INTEGER_SEQUENCE_H_eruix4gh8452gh3g8xh3
-#define INTEGER_SEQUENCE_H_eruix4gh8452gh3g8xh3
+#ifndef INTEGER_SEQUENCE_H_ERUIX4GH8452GH3G8XH3
+#define INTEGER_SEQUENCE_H_ERUIX4GH8452GH3G8XH3
 
 #include <utility>
 
@@ -38,14 +38,14 @@ namespace mb::ul::idx {
     The use of ul::idx::gen_seq generates a sequence of a certain array length, which is then used to fill in a
     template parameter that allows fold-expanding the array by index - the function parameter ul::idx::seq itself
     isn't used directly.*/
-template <int... Is>
-struct seq {};
+template <int... is>
+struct Seq {};
 
-template <int N, int... Is>
-struct gen_seq : gen_seq<N - 1, N - 1, Is...> {};
+template <int n, int... is>
+struct GenSeq : GenSeq<n - 1, n - 1, is...> {};
 
-template <int... Is>
-struct gen_seq<0, Is...> : seq<Is...> {};
+template <int... is>
+struct GenSeq<0, is...> : Seq<is...> {};
 } // namespace mb::ul::idx
 
 #endif

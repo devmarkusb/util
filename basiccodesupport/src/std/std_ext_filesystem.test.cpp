@@ -28,7 +28,7 @@ const fs::path physical_test_dir{physical_test_dir_s}; // NOLINT
 //! \return finally reversed digits of increasing numbers. Source is a steady clock of the system in milliseconds.
 /** There is also a helping sleep for 1ms included. Features preferred changing of leading digits.
     Note, this implies a decrease every tenth step and possible leading zeros.*/
-std::string getSteadyUniqueNr() {
+std::string get_steady_unique_nr() {
     std::string ret = std::to_string(
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch())
             .count());
@@ -265,8 +265,8 @@ class PhysicalFilesystemTest : public ::testing::Test {
 };
 
 TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype) {
-    const fs::path dir1 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
-    const fs::path dir2 = physical_test_dir / fs::path{getSteadyUniqueNr() + "dir"};
+    const fs::path dir1 = physical_test_dir / fs::path{get_steady_unique_nr() + "dir"};
+    const fs::path dir2 = physical_test_dir / fs::path{get_steady_unique_nr() + "dir"};
     std::error_code ec;
     EXPECT_TRUE(fs::create_directories(dir1, ec));
     ASSERT_FALSE(ec);
@@ -285,7 +285,7 @@ TEST_F(PhysicalFilesystemTest, create_directories__single__exists_correcttype) {
 }
 
 TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype) {
-    const std::string subdirs_base = getSteadyUniqueNr() + "subdirs";
+    const std::string subdirs_base = get_steady_unique_nr() + "subdirs";
 
     const fs::path subdirs{physical_test_dir / fs::path{subdirs_base} / fs::path{"d1/d2/d3"}};
     std::error_code ec;
@@ -300,7 +300,7 @@ TEST_F(PhysicalFilesystemTest, create_directories__recursive__exists_correcttype
 }
 
 TEST_F(PhysicalFilesystemTest, exists__file_correcttype) {
-    const auto file = physical_test_dir / fs::path{"dummy" + getSteadyUniqueNr()};
+    const auto file = physical_test_dir / fs::path{"dummy" + get_steady_unique_nr()};
     EXPECT_TRUE(!fs::exists(file));
     ul::file::touch(file);
     EXPECT_TRUE(fs::exists(file));
@@ -308,7 +308,7 @@ TEST_F(PhysicalFilesystemTest, exists__file_correcttype) {
 }
 
 TEST_F(PhysicalFilesystemTest, copy_file__file_existence) {
-    const auto file = physical_test_dir / fs::path{"dummy-to-copy" + getSteadyUniqueNr()};
+    const auto file = physical_test_dir / fs::path{"dummy-to-copy" + get_steady_unique_nr()};
     EXPECT_TRUE(!fs::exists(file));
     ul::file::touch(file);
     fs::path dest{file};
@@ -321,7 +321,7 @@ TEST_F(PhysicalFilesystemTest, copy_file__file_existence) {
 }
 
 TEST_F(PhysicalFilesystemTest, remove__file_existence) {
-    const auto file = physical_test_dir / fs::path{"deadbeef" + getSteadyUniqueNr()};
+    const auto file = physical_test_dir / fs::path{"deadbeef" + get_steady_unique_nr()};
     ASSERT_TRUE(!fs::exists(file));
     ul::file::touch(file);
     ASSERT_TRUE(fs::exists(file));
@@ -330,7 +330,7 @@ TEST_F(PhysicalFilesystemTest, remove__file_existence) {
 }
 
 TEST_F(PhysicalFilesystemTest, remove__dir_existence) {
-    const auto dir = physical_test_dir / fs::path{"deadbeef" + getSteadyUniqueNr()};
+    const auto dir = physical_test_dir / fs::path{"deadbeef" + get_steady_unique_nr()};
     ASSERT_TRUE(!fs::exists(dir));
     std::error_code ec;
     fs::create_directories(dir, ec);
@@ -348,9 +348,9 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set) {
     fs::current_path(physical_test_dir, ec);
     ASSERT_FALSE(ec);
     const auto chdir_back_to_orig = ul::finally([&orig]() {
-        std::error_code ec_;
-        fs::current_path(orig, ec_);
-        EXPECT_FALSE(ec_);
+        std::error_code ec;
+        fs::current_path(orig, ec);
+        EXPECT_FALSE(ec);
     });
     const auto changed_dir = fs::current_path(ec);
     std::cout << changed_dir.string() << "\n";
@@ -368,7 +368,7 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set) {
 }
 
 TEST_F(PhysicalFilesystemTest, directory_iterator) {
-    const fs::path dir = physical_test_dir / fs::path{"some" + getSteadyUniqueNr()};
+    const fs::path dir = physical_test_dir / fs::path{"some" + get_steady_unique_nr()};
     std::error_code ec;
     fs::create_directories(dir, ec);
 

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef HASH_H_erugxh7842g873hgx782gh3
-#define HASH_H_erugxh7842g873hgx782gh3
+#ifndef HASH_H_ERUGXH7842G873HGX782GH3
+#define HASH_H_ERUGXH7842G873HGX782GH3
 
 #include <cstddef>
 
@@ -27,12 +27,12 @@ namespace mb::ul {
     };
     } // std*/
 //!@{
-inline size_t hashCombine(std::size_t hash) noexcept {
+inline size_t hash_combine(std::size_t hash) noexcept {
     return hash;
 }
 
-template <typename... Size_ts>
-inline size_t hashCombine(std::size_t hash1, Size_ts... hashes) noexcept {
+template <typename... SizeTs>
+inline size_t hash_combine(std::size_t hash1, SizeTs... hashes) noexcept {
     // implemented like boost's hash_combine
     return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6u) + (hash1 >> 2u)); // NOLINT
 }

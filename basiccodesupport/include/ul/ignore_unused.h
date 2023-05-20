@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef IGNORE_UNUSED_H_fklh3874gy78342
-#define IGNORE_UNUSED_H_fklh3874gy78342
+#ifndef IGNORE_UNUSED_H_FKLH3874GY78342
+#define IGNORE_UNUSED_H_FKLH3874GY78342
 
 #include "ul/macros.h"
 

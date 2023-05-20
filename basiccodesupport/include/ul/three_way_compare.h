@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef THREE_WAY_COMPARE_H_eruotzxgh23g3
-#define THREE_WAY_COMPARE_H_eruotzxgh23g3
+#ifndef THREE_WAY_COMPARE_H_ERUOTZXGH23G3
+#define THREE_WAY_COMPARE_H_ERUOTZXGH23G3
 
 #include <type_traits>
 
@@ -17,7 +17,7 @@ namespace mb::ul {
  * Impl. note: didn't consider implementing this for floating types as well, might be easy, might be not.
  */
 template <typename LessComparableType>
-int threeWayCompare(LessComparableType lhs, LessComparableType rhs) {
+int three_way_compare(LessComparableType lhs, LessComparableType rhs) {
     static_assert(!std::is_floating_point_v<LessComparableType>);
     return (rhs < lhs) - (lhs < rhs);
 }

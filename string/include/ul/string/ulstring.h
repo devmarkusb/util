@@ -40,8 +40,8 @@
         std::u32string for UTF32 and U"...",
         and std::string for local encodings only as little and as explicitly as possible.*/
 
-#ifndef ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
-#define ULSTRING_H_edkrhcxt87e3nzt837t4jxgfw8t428
+#ifndef ULSTRING_H_EDKRHCXT87E3NZT837T4JXGFW8T428
+#define ULSTRING_H_EDKRHCXT87E3NZT837T4JXGFW8T428
 
 #include "ul/macros.h"
 #include "ul/warnings.h"
@@ -73,7 +73,7 @@ UL_PRAGMA_WARNINGS_POP
 
 namespace mb::ul::str {
 //! Expects s to be utf8.
-inline size_t getLength(const std::string& s) {
+inline size_t get_length(const std::string& s) {
     return static_cast<size_t>(utf8::distance(std::begin(s), std::end(s)));
 }
 } // namespace mb::ul::str

@@ -1,7 +1,7 @@
 //! \file Cf. std_extensions.h
 
-#ifndef STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
-#define STD_EXT_FILESYSTEM_H_wueihfiwufy3u48732t
+#ifndef STD_EXT_FILESYSTEM_H_WUEIHFIWUFY3U48732T
+#define STD_EXT_FILESYSTEM_H_WUEIHFIWUFY3U48732T
 
 #include "ul/macros.h"
 #include <fstream>

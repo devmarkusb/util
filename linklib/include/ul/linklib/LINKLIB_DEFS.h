@@ -36,8 +36,8 @@
     - Note: Never use late binding, if not absolutely necessary. There are just more pitfalls.
 */
 
-#ifndef LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
-#define LINKLIB_DEFS_H_kjdsnfxiwzgfny38tgn38g
+#ifndef LINKLIB_DEFS_H_KJDSNFXIWZGFNY38TGN38G
+#define LINKLIB_DEFS_H_KJDSNFXIWZGFNY38TGN38G
 
 #include "ul/macros.h"
 

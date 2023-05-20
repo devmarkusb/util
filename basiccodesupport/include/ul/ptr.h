@@ -1,7 +1,7 @@
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
-#ifndef PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
-#define PTR_H_dfzg87c3tdcn872z3tcx3349xn3gx2f7y
+#ifndef PTR_H_DFZG87C3TDCN872Z3TCX3349XN3GX2F7Y
+#define PTR_H_DFZG87C3TDCN872Z3TCX3349XN3GX2F7Y
 
 #include "assert.h"
 #include "std/std_extensions.h"
@@ -40,45 +40,45 @@ using owner = T;
     \endcode
     */
 template <class T>
-class not_null {
+class NotNull {
     static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
 
 public:
-    /*implicit*/ not_null(T t)
+    /*implicit*/ NotNull(T t)
         : ptr_(t) {
         ensure_invariant();
     }
 
-    not_null& operator=(const T& t) {
+    NotNull& operator=(const T& t) {
         this->ptr_ = t;
         ensure_invariant();
         return *this;
     }
 
-    not_null(const not_null&) = default;
-    not_null& operator=(const not_null&) = default;
+    NotNull(const NotNull&) = default;
+    NotNull& operator=(const NotNull&) = default;
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    not_null(not_null&&) noexcept = default;
-    not_null& operator=(not_null&&) noexcept = default;
+    NotNull(NotNull&&) noexcept = default;
+    NotNull& operator=(NotNull&&) noexcept = default;
 #endif
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    explicit not_null(const not_null<U>& other) {
+    explicit NotNull(const not_null<U>& other) {
         *this = other;
     }
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    not_null& operator=(const not_null<U>& other) {
+    NotNull& operator=(const not_null<U>& other) {
         this->ptr_ = other.get();
         return *this;
     }
 
     // prevents compilation when someone attempts to assign a nullptr
-    not_null(std::nullptr_t) = delete;
-    not_null(int) = delete;
-    not_null<T>& operator=(std::nullptr_t) = delete;
-    not_null<T>& operator=(int) = delete;
+    NotNull(std::nullptr_t) = delete;
+    NotNull(int) = delete;
+    NotNull<T>& operator=(std::nullptr_t) = delete;
+    NotNull<T>& operator=(int) = delete;
 
     [[nodiscard]] T get() const {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
@@ -105,14 +105,14 @@ public:
 
     // unwanted operators...pointers only point to single objects!
     // untested, ensure all arithmetic ops on this type are unavailable, also list still incomplete
-    not_null<T>& operator++() = delete;
-    not_null<T>& operator--() = delete;
-    not_null<T> operator++(int) = delete;
-    not_null<T> operator--(int) = delete;
-    not_null<T>& operator+(size_t) = delete;
-    not_null<T>& operator+=(size_t) = delete;
-    not_null<T>& operator-(size_t) = delete;
-    not_null<T>& operator-=(size_t) = delete;
+    NotNull<T>& operator++() = delete;
+    NotNull<T>& operator--() = delete;
+    NotNull<T> operator++(int) = delete;
+    NotNull<T> operator--(int) = delete;
+    NotNull<T>& operator+(size_t) = delete;
+    NotNull<T>& operator+=(size_t) = delete;
+    NotNull<T>& operator-(size_t) = delete;
+    NotNull<T>& operator-=(size_t) = delete;
 
 private:
     T ptr_;

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef STRING_TRIM_H_cidusbfi243i7324
-#define STRING_TRIM_H_cidusbfi243i7324
+#ifndef STRING_TRIM_H_CIDUSBFI243I7324
+#define STRING_TRIM_H_CIDUSBFI243I7324
 
 #include <string>
 
