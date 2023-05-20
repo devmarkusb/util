@@ -14,7 +14,7 @@ UL_WARNING_DISABLE_CLANG(unused-macros)
 #undef _USE_MATH_DEFINES
 UL_PRAGMA_WARNINGS_POP
 
-#ifndef M_PI // mingw53 doesn't have it
+#ifndef M_PI //3.141592653589793
 #define M_PI 3.141592653589793
 #endif
 

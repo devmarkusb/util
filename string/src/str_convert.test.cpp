@@ -93,7 +93,7 @@ TEST(locenc_s2wsTest, test) {
 TEST(utf8toHTML, test) {
     std::string s("\xc3\xa4"
                   "hnlich\x21 Und nochmal:\xc3\xa4");
-    std::string ret = ul::str::utf8_to_HTML(s);
+    std::string ret = ul::str::utf8_to_html(s);
     EXPECT_EQ("&#228;hnlich! Und nochmal:&#228;", ret);
 }
 
@@ -118,24 +118,24 @@ TEST(utf8_to_latin1, failtest) {
 
 TEST(utf8_to_printableASCII, test) {
     std::string utf8{" abc123xyz~"};
-    std::string ascii{ul::str::utf8_to_printableASCII(utf8)};
+    std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
     EXPECT_STREQ(" abc123xyz~", ascii.c_str());
 }
 
 TEST(utf8_to_printableASCII, roundtrip) {
     std::string utf8{" abc123xyz~"};
-    std::string ascii{ul::str::utf8_to_printableASCII(utf8)};
-    std::string utf8_roundtrip{ul::str::printableASCII_to_utf8(ascii)};
+    std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
+    std::string utf8_roundtrip{ul::str::printable_ascii_to_utf8(ascii)};
     EXPECT_STREQ(utf8.c_str(), utf8_roundtrip.c_str());
 }
 
 TEST(utf8_to_printableASCII, failtest) {
     std::string utf8{"\x1f"}; // 31
-    std::string ascii{ul::str::utf8_to_printableASCII(utf8)};
+    std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
     EXPECT_EQ('?', ascii[0]);
 
     utf8 = "\x7f"; // 127
-    ascii = ul::str::utf8_to_printableASCII(utf8);
+    ascii = ul::str::utf8_to_printable_ascii(utf8);
     EXPECT_EQ('?', ascii[0]);
 }
 

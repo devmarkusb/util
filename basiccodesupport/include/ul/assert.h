@@ -16,8 +16,8 @@ You get a compile hint for that, which can be turned off defining
 UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 */
 
-#ifndef ASSERT_H_onvdr589tz3758ct438tzcn
-#define ASSERT_H_onvdr589tz3758ct438tzcn
+#ifndef ASSERT_H_ONVDR589TZ3758CT438TZCN
+#define ASSERT_H_ONVDR589TZ3758CT438TZCN
 
 #include "ul/config.h"
 #include "ul/macros.h"
@@ -32,8 +32,8 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 
 namespace mb::ul {
 //! This is thrown by any throwing assertion.
-struct fail_fast : public std::runtime_error {
-    explicit fail_fast(const char* const message)
+struct FailFast : public std::runtime_error {
+    explicit FailFast(const char* const message)
         : std::runtime_error(message) {
     }
 };
@@ -70,7 +70,7 @@ UL_WARNING_DISABLE_MSVC(4127)
 #define UL_ASSERT_THROW_IMPL(cond, textstart) \
     do { \
         if (!(cond)) \
-            throw ul::fail_fast(textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)); \
+            throw ul::FailFast(textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)); \
     } while (false)
 
 #ifdef UL_ASSERT_ALWAYS_THROWING

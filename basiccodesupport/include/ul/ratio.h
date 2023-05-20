@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef RATIO_H_louiuzlik79hi965gi6
-#define RATIO_H_louiuzlik79hi965gi6
+#ifndef RATIO_H_LOUIUZLIK79HI965GI6
+#define RATIO_H_LOUIUZLIK79HI965GI6
 
 #include "almost_equal.h"
 #include "assert.h"
@@ -78,11 +78,11 @@ struct Rational {
         }
     }
 
-    template <intmax_t N, intmax_t D>
-    explicit constexpr Rational(std::ratio<N, D> /*unused*/)
-        : num{N}
-        , denom{D} {
-        static_assert(D > 0, "denominator for Rational expected to be > 0");
+    template <intmax_t n, intmax_t d>
+    explicit constexpr Rational(std::ratio<n, d> /*unused*/)
+        : num{n}
+        , denom{d} {
+        static_assert(d > 0, "denominator for Rational expected to be > 0");
     }
 
     ~Rational() = default; // gcc needs this to be trivial for the use of Rational in constexpr's
@@ -103,7 +103,7 @@ struct Rational {
     }
 
     template <typename T>
-    [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type asFloatingPoint() const {
+    [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type as_floating_point() const {
         return static_cast<T>(this->num) / static_cast<T>(this->denom);
     }
 
@@ -194,7 +194,7 @@ inline Rational operator/(Rational lhs, const Rational& rhs) {
 inline bool operator==(const Rational& lhs, const Rational& rhs) {
     if (lhs.denom == rhs.denom)
         return lhs.num == rhs.num;
-    return ul::almost_equal(lhs.asFloatingPoint<long double>(), rhs.asFloatingPoint<long double>());
+    return ul::almost_equal(lhs.as_floating_point<long double>(), rhs.as_floating_point<long double>());
 }
 
 inline bool operator!=(const Rational& lhs, const Rational& rhs) {
@@ -206,7 +206,7 @@ inline bool operator<(const Rational& lhs, const Rational& rhs) {
         return lhs.num < rhs.num;
     if (lhs.num == rhs.num)
         return lhs.denom > rhs.denom;
-    return lhs.asFloatingPoint<long double>() < rhs.asFloatingPoint<long double>();
+    return lhs.as_floating_point<long double>() < rhs.as_floating_point<long double>();
 }
 
 inline bool operator>(const Rational& lhs, const Rational& rhs) {

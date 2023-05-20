@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
-#define TRACE_H_dfsgjn854gcnz782x5g7813sdyfwh
+#ifndef TRACE_H_DFSGJN854GCNZ782X5G7813SDYFWH
+#define TRACE_H_DFSGJN854GCNZ782X5G7813SDYFWH
 
 #include "error.h"
 #include "std/std_extensions.h"
@@ -50,7 +50,7 @@ struct OutputToConsole {
         return true;
     }
 
-    static bool isActivated() {
+    static bool is_activated() {
         return true;
     }
 };
@@ -60,7 +60,7 @@ struct NoOutputToConsole {
         return false;
     }
 
-    static bool isActivated() {
+    static bool is_activated() {
         return false;
     }
 };
@@ -111,7 +111,7 @@ struct AlsoBindStdout {
 
 struct CheckConsoleOpen {
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
-    static void openConsoleIfNecessary(bool& ret_stderrBound, bool& ret_stdoutBound) {
+    static void open_console_if_necessary(bool& ret_stderrBound, bool& ret_stdoutBound) {
 #if UL_OS_WINDOWS
         ret_stderrBound = false;
         ret_stdoutBound = false;
@@ -139,7 +139,7 @@ struct CheckConsoleOpen {
 
 struct DontCheckConsoleOpen {
     template <class>
-    static void openConsoleIfNecessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/) {
+    static void open_console_if_necessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/) {
         UL_NOOP;
     }
 };
@@ -151,7 +151,7 @@ struct Enabled {
         OutputToConsolePolicy::trace(ss);
     }
 
-    static const bool isEnabled{true};
+    static const bool is_enabled{true};
 };
 
 struct Disabled {
@@ -160,7 +160,7 @@ struct Disabled {
         UL_NOOP;
     }
 
-    static const bool isEnabled{false};
+    static const bool is_enabled{false};
 };
 
 namespace detail_impl {
@@ -190,13 +190,13 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*u
 template <
     class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
     class OutputToConsolePolicy = NoOutputToConsole>
-struct StreamTracer_impl : public StreamTracer {
-    StreamTracer_impl(bool close_stderr, bool close_stdout)
+struct StreamTracerImpl : public StreamTracer {
+    StreamTracerImpl(bool close_stderr, bool close_stdout)
         : close_stderr_{close_stderr}
         , close_stdout_{close_stdout} {
     }
 
-    ~StreamTracer_impl() override {
+    ~StreamTracerImpl() override {
         if (close_stderr_) [[maybe_unused]]
             const auto _ = fclose(stderr);
         if (close_stdout_) [[maybe_unused]]
@@ -213,7 +213,7 @@ private:
 };
 
 struct StreamTracerWrapperSingleton {
-    static StreamTracerWrapperSingleton& getInstance() {
+    static StreamTracerWrapperSingleton& get_instance() {
         static StreamTracerWrapperSingleton inst;
         return inst;
     }
@@ -229,7 +229,7 @@ private:
 };
 
 inline StreamTracer& stream() {
-    auto& ret = StreamTracerWrapperSingleton::getInstance().tracer();
+    auto& ret = StreamTracerWrapperSingleton::get_instance().tracer();
     // if you crash shortly after, you probably forgot to call ul::tracer::init before your first trace
     UL_EXPECT(ret);
     return *ret;
@@ -266,28 +266,28 @@ template <
 // CheckConsoleOpenPolicy expected to be CheckConsoleOpen or DontCheckConsoleOpen
 // AlsoBindStdoutToNewConsolePolicy expected to be AlsoBindStdout or DontAlsoBindStdout
 void init() {
-    if (detail_impl::StreamTracerWrapperSingleton::getInstance().tracer())
+    if (detail_impl::StreamTracerWrapperSingleton::get_instance().tracer())
         throw std::runtime_error{"trace init called more often than once"};
 
-    bool ret_stderrBound{};
-    bool ret_stdoutBound{};
+    bool ret_stderr_bound{};
+    bool ret_stdout_bound{};
     if (EnabledIfPolicy::isEnabled)
         CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(
-            ret_stderrBound, ret_stdoutBound);
+            ret_stderr_bound, ret_stdout_bound);
 
-    detail_impl::StreamTracerWrapperSingleton::getInstance().tracer() = ul::make_unique<
-        detail_impl::StreamTracer_impl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
-        ret_stderrBound, ret_stdoutBound);
+    detail_impl::StreamTracerWrapperSingleton::get_instance().tracer() = ul::make_unique<
+        detail_impl::StreamTracerImpl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
+        ret_stderr_bound, ret_stdout_bound);
 }
 } // namespace tracer
 
 struct trace : private ul::NonCopyable {
-    static constexpr auto levelError{std::string_view{"ERROR"}};
+    static constexpr auto level_error{std::string_view{"ERROR"}};
 
-    explicit trace(std::string_view level = levelError)
+    explicit trace(std::string_view level = level_error)
         : stream_{&ul::tracer::detail_impl::stream()} {
         std::ostringstream tmp;
-        tmp << std::left << std::setw(level.empty() ? 0 : levelError.size() + 1) << level;
+        tmp << std::left << std::setw(level.empty() ? 0 : level_error.size() + 1) << level;
         *this->stream_ << tmp.str();
     }
 

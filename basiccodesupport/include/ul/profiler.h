@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef PROFILER_H_958x2g58sdjkfh23789hgxt34
-#define PROFILER_H_958x2g58sdjkfh23789hgxt34
+#ifndef PROFILER_H_958X2G58SDJKFH23789HGXT34
+#define PROFILER_H_958X2G58SDJKFH23789HGXT34
 
 #include "assert.h"
 #include "round.h"
@@ -48,21 +48,21 @@ public:
     //! \param NestingLevel is just for dump visualization
     inline explicit PerformanceProfiler(std::string NewItemName, NestingLevel NestingLevel = 0);
     inline ~PerformanceProfiler();
-    [[nodiscard]] SecondsDbl elapsed_currentItem() const;
+    [[nodiscard]] SecondsDbl elapsed_current_item() const;
 
     //! New item on same hierarchy/nesting level.
-    inline void startNewItem(const std::string& NewItemName);
-    inline void stopItem();
+    inline void start_new_item(const std::string& NewItemName);
+    inline void stop_item();
 
     enum class DumpFormat {
-        stringOnly,
-        stringAndStructure,
+        string_only,
+        string_and_structure,
     };
     //! Also fills dumpedData() if fmt is DumpFormat::stringAndStructure.
-    template <DumpFormat fmt = DumpFormat::stringOnly>
-    static std::string dumpAllItems();
+    template <DumpFormat fmt = DumpFormat::string_only>
+    static std::string dump_all_items();
     static void reset();
-    static std::string toFormattedString(const SecondsDbl& d);
+    static std::string to_formatted_string(const SecondsDbl& d);
 
     //! Only for testing.
     struct DumpDataset {
@@ -75,7 +75,7 @@ public:
     };
 
     //! Filled with structured data (e.g. for testing) if dumpAllItems() was called with DumpFormat::stringAndStructure.
-    static std::vector<DumpDataset>& dumpedData() {
+    static std::vector<DumpDataset>& dumped_data() {
         static std::vector<DumpDataset> data;
         return data;
     }
@@ -109,18 +109,18 @@ private:
     NestingLevel nestingLevel_ = NestingLevel{};
     UniqueItemStartNr itemStartNr_ = UniqueItemStartNr{};
 
-    inline void startCurrentItem();
-    inline void stopCurrentItem();
+    inline void start_current_item();
+    inline void stop_current_item();
 
-    static UniqueItemStartNr& uniqueItemStartNr() {
+    static UniqueItemStartNr& unique_item_start_nr() {
         static UniqueItemStartNr n = UniqueItemStartNr();
         return n;
     }
 
     static Items& items();
 
-    struct match_key {
-        explicit match_key(ItemNameAsKey key)
+    struct MatchKey {
+        explicit MatchKey(ItemNameAsKey key)
             : key_(std::move(key)) {
         }
 
@@ -132,8 +132,8 @@ private:
         ItemNameAsKey key_;
     };
 
-    struct accum_key {
-        explicit accum_key(ItemNameAsKey key)
+    struct AccumKey {
+        explicit AccumKey(ItemNameAsKey key)
             : key_(std::move(key)) {
         }
 
@@ -148,13 +148,13 @@ private:
     };
 };
 
-inline void PerformanceProfiler::startCurrentItem() {
-    itemStartNr_ = uniqueItemStartNr()++;
+inline void PerformanceProfiler::start_current_item() {
+    itemStartNr_ = unique_item_start_nr()++;
     startTime_ = chrono_clock::now();
 }
 
-inline void PerformanceProfiler::stopCurrentItem() {
-    ItemData d(elapsed_currentItem(), nestingLevel_, itemStartNr_);
+inline void PerformanceProfiler::stop_current_item() {
+    ItemData d(elapsed_current_item(), nestingLevel_, itemStartNr_);
     const auto& it = items().find(itemName_);
     // is the same item started and stopped a second time at least?
     if (it != items().end()) {
@@ -169,27 +169,27 @@ inline void PerformanceProfiler::stopCurrentItem() {
 inline PerformanceProfiler::PerformanceProfiler(std::string NewItemName, NestingLevel NestingLevel)
     : itemName_(std::move(NewItemName))
     , nestingLevel_(NestingLevel) {
-    startCurrentItem();
+    start_current_item();
 }
 
-inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_currentItem() const {
+inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_current_item() const {
     const chrono_timepoint now = chrono_clock::now();
     const chrono_duration elapsed = now - startTime_;
     return elapsed.count();
 }
 
 inline PerformanceProfiler::~PerformanceProfiler() {
-    stopCurrentItem();
+    stop_current_item();
 }
 
-inline void PerformanceProfiler::startNewItem(const std::string& NewItemName) {
-    stopCurrentItem();
+inline void PerformanceProfiler::start_new_item(const std::string& NewItemName) {
+    stop_current_item();
     itemName_ = NewItemName;
-    startCurrentItem();
+    start_current_item();
 }
 
-inline void PerformanceProfiler::stopItem() {
-    stopCurrentItem();
+inline void PerformanceProfiler::stop_item() {
+    stop_current_item();
 }
 
 namespace impl_dump_all_items {
@@ -210,9 +210,9 @@ struct KeyData {
 
 // NOLINTBEGIN
 template <PerformanceProfiler::DumpFormat fmt>
-std::string PerformanceProfiler::dumpAllItems() {
-    if constexpr (fmt != DumpFormat::stringOnly)
-        dumpedData().clear();
+std::string PerformanceProfiler::dump_all_items() {
+    if constexpr (fmt != DumpFormat::string_only)
+        dumped_data().clear();
     std::stringstream ret;
     if (items().empty()) {
         ret << "No performance measurement data." << std::endl;
@@ -249,8 +249,8 @@ std::string PerformanceProfiler::dumpAllItems() {
 
     for (const auto& key : keys) {
         const TimeValStorageRep totalT =
-            ul::accumulate(items().begin(), items().end(), TimeValStorageRep(), accum_key(key.first));
-        const auto count = std::count_if(items().begin(), items().end(), match_key(key.first));
+            ul::accumulate(items().begin(), items().end(), TimeValStorageRep(), AccumKey(key.first));
+        const auto count = std::count_if(items().begin(), items().end(), MatchKey(key.first));
         UL_ASSERT(count >= 0);
         TimeValStorageRep avgT = 0.0;
         if (count)
@@ -287,12 +287,12 @@ std::string PerformanceProfiler::dumpAllItems() {
             ItemNameWithSymbolizedNestingLevel.resize(COLUMN_WIDTH_HUGE - 1);
         ret << std::setw(COLUMN_WIDTH_HUGE) << std::setprecision(COLUMN_WIDTH_HUGE)
             << ItemNameWithSymbolizedNestingLevel << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << count
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << toFormattedString(totalT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << toFormattedString(avgT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << toFormattedString(meanT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << toFormattedString(stddev) << std::endl;
-        if constexpr (fmt != DumpFormat::stringOnly)
-            dumpedData().push_back(
+            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(totalT)
+            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(avgT)
+            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(meanT)
+            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(stddev) << std::endl;
+        if constexpr (fmt != DumpFormat::string_only)
+            dumped_data().push_back(
                 {ItemNameWithSymbolizedNestingLevel, static_cast<size_t>(count), totalT, avgT, meanT, stddev});
     }
     ret << std::setfill('-') << std::setw(COLUMN_WIDTH_HUGE + COLUMN_WIDTH * 5) << '-' << std::endl;
@@ -302,33 +302,33 @@ std::string PerformanceProfiler::dumpAllItems() {
 
 // NOLINTEND
 
-inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d) {
+inline std::string PerformanceProfiler::to_formatted_string(const SecondsDbl& d) {
     std::stringstream ret;
-    SecondsDbl d_(d);
-    if (d_ < 0.0) {
-        d_ = -d_;
+    SecondsDbl d_cpy(d);
+    if (d < 0.0) {
+        d = -d;
         ret << '-';
     }
     // NOLINTBEGIN
-    if (d_ == 0.0 || d_ < 0.000000000099995) // 0.0000000001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d_ * 1000000000000.0, 2) << " ps";
-    else if (d_ < 0.000000099995) // 0.0000001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d_ * 1000000000.0, 2) << " ns";
-    else if (d_ < 0.000099995) // 0.0001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d_ * 1000000.0, 2) << " "
+    if (d == 0.0 || d < 0.000000000099995) // 0.0000000001
+        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000000000.0, 2) << " ps";
+    else if (d < 0.000000099995) // 0.0000001
+        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000000.0, 2) << " ns";
+    else if (d < 0.000099995) // 0.0001
+        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000.0, 2) << " "
             << "\xC2\xB5"
             << "s";
-    else if (d_ < 0.099995) // 0.1
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d_ * 1000.0, 2) << " ms";
-    else if (d_ < 59.995) // 60.0
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d_, 2) << " s";
-    else if (d_ < 3600.0) // 3600.0
-        ret << std::setw(2) << std::setfill('0') << floor(d_ / 60.0) << ':' << std::setw(5) << std::fixed
-            << std::setprecision(2) << std::setfill('0') << fmod(d_, 60.0);
-    else if (d_ < 359999.0)
-        ret << std::setw(2) << std::setfill('0') << floor(d_ / 3600.0) << ':' << std::setw(2) << std::setfill('0')
-            << floor(fmod(d_, 3600.0) / 60.0) << ':' << std::setw(2) << std::setfill('0') << std::setprecision(0)
-            << std::fixed << floor(fmod(d_, 60.0));
+    else if (d < 0.099995) // 0.1
+        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000.0, 2) << " ms";
+    else if (d < 59.995) // 60.0
+        ret << std::setprecision(2) << std::fixed << ul::math::round(d, 2) << " s";
+    else if (d < 3600.0) // 3600.0
+        ret << std::setw(2) << std::setfill('0') << floor(d / 60.0) << ':' << std::setw(5) << std::fixed
+            << std::setprecision(2) << std::setfill('0') << fmod(d, 60.0);
+    else if (d < 359999.0)
+        ret << std::setw(2) << std::setfill('0') << floor(d / 3600.0) << ':' << std::setw(2) << std::setfill('0')
+            << floor(fmod(d, 3600.0) / 60.0) << ':' << std::setw(2) << std::setfill('0') << std::setprecision(0)
+            << std::fixed << floor(fmod(d, 60.0));
     else
         ret << ">= 100 h";
     // NOLINTEND
@@ -337,7 +337,7 @@ inline std::string PerformanceProfiler::toFormattedString(const SecondsDbl& d) {
 
 inline void PerformanceProfiler::reset() {
     items().clear();
-    uniqueItemStartNr() = UniqueItemStartNr{};
+    unique_item_start_nr() = UniqueItemStartNr{};
 }
 
 inline PerformanceProfiler::Items& PerformanceProfiler::items() {

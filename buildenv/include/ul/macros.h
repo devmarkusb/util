@@ -1,8 +1,8 @@
 /** \file
     Most common and basic preprocessor defines.*/
 
-#ifndef MACROS_H_ehv389gh3489yg3489gny4389g48gj4
-#define MACROS_H_ehv389gh3489yg3489gny4389g48gj4
+#ifndef MACROS_H_EHV389GH3489YG3489GNY4389G48GJ4
+#define MACROS_H_EHV389GH3489YG3489GNY4389G48GJ4
 
 //####################################################################################################################
 //! Operating Systems

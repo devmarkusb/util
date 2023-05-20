@@ -1,8 +1,8 @@
 //! \file
 
 
-#ifndef STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
-#define STR_CONVERT_DETAIL_H_sdhixergh3q78q473gnyt3yg
+#ifndef STR_CONVERT_DETAIL_H_SDHIXERGH3Q78Q473GNYT3YG
+#define STR_CONVERT_DETAIL_H_SDHIXERGH3Q78Q473GNYT3YG
 
 #include "../ulstring.h"
 #include "ul/error.h"
@@ -67,7 +67,7 @@ inline std::wstring utf8to16_s2ws(const std::string& str) {
     }
     return convertedString;
 #else
-    return utf8to16or32_s2ws_portable(str);
+    return utf16or32to8_ws2s_portable(str);
 #endif
 }
 
@@ -221,14 +221,14 @@ inline std::string latin1_to_utf8(const std::string& s) {
     std::string ret;
 
     for (const auto& c : s) {
-        const auto c_ = static_cast<uint8_t>(c);
+        const auto c = static_cast<uint8_t>(c);
 
-        if (c_ < 0x80)
+        if (c < 0x80)
             ret.append(1, c);
         else {
-            const auto c_pt1 = 0xc0u | (c_ & 0xc0u) >> 6u;
+            const auto c_pt1 = 0xc0u | (c & 0xc0u) >> 6u;
             ret.append(1, static_cast<char>(c_pt1));
-            const auto c_pt2 = 0x80u | (c_ & 0x3fu);
+            const auto c_pt2 = 0x80u | (c & 0x3fu);
             ret.append(1, static_cast<char>(c_pt2));
         }
     }
@@ -236,11 +236,11 @@ inline std::string latin1_to_utf8(const std::string& s) {
 }
 
 template <class OnConversionErrorPolicy>
-std::string utf8_to_printableASCII(const std::string& s) {
+std::string utf8_to_printable_asciii(const std::string& s) {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }
 
-inline std::string printableASCII_to_utf8(const std::string& s) {
+inline std::string printable_ascii_to_utf88(const std::string& s) {
     return latin1_to_utf8(s);
 }
 

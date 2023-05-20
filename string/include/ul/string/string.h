@@ -3,8 +3,8 @@
 All-in-one include file for this part of the lib.
 */
 
-#ifndef STRING_H_erjixgth3478og3487g
-#define STRING_H_erjixgth3478og3487g
+#ifndef STRING_H_ERJIXGTH3478OG3487G
+#define STRING_H_ERJIXGTH3478OG3487G
 
 #include "json.h"
 #include "languages.h"

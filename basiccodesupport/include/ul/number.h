@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef NUMBER_H_f29jh8hnf238hrxz23
-#define NUMBER_H_f29jh8hnf238hrxz23
+#ifndef NUMBER_H_F29JH8HNF238HRXZ23
+#define NUMBER_H_F29JH8HNF238HRXZ23
 
 #include "almost_equal.h"
 #include "assert.h"
@@ -25,15 +25,15 @@ using BaseDigitType = unsigned char;
 
 //! Base or radix, here just positive integers.
 enum class NumBase : BaseDigitType {
-    BIN = 2,
-    OCT = 8,
-    DEC = 10,
-    HEX = 16,
-    SGS = 60, ///< sexagesimal
+    bin = 2,
+    oct = 8,
+    dec = 10,
+    hex = 16,
+    sgs = 60, ///< sexagesimal
 };
 
 template <typename T>
-T getDigitCount(T number, NumBase base = NumBase::DEC) {
+T get_digit_count(T number, NumBase base = NumBase::dec) {
     static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
     T count = 0;
     do {
@@ -45,7 +45,7 @@ T getDigitCount(T number, NumBase base = NumBase::DEC) {
 
 //! \param digitIdx counted from the right (least significant digit) 0-based
 template <typename T>
-BaseDigitType getDigit(T number, T digitIdx, NumBase base = NumBase::DEC) {
+BaseDigitType get_digit(T number, T digitIdx, NumBase base = NumBase::dec) {
     static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
     return narrow_cast<BaseDigitType>(
         number / static_cast<T>(std::pow(ul::enum_cast(base), digitIdx)) % ul::enum_cast(base));
@@ -57,7 +57,7 @@ int sgn(T val) {
 }
 
 template <typename T>
-std::string toLeadingZeros(T x, int digits) {
+std::string to_leading_zeros(T x, int digits) {
     static_assert(std::is_integral<T>::value);
     UL_EXPECT_THROW(x >= T());
     UL_EXPECT_THROW(digits >= 0);
@@ -72,7 +72,7 @@ std::string toLeadingZeros(T x, int digits) {
     Note that the return value can be < 0, e.g. 0.5 is the -1 power of base 2.*/
 template <typename ArithType>
 //  ArithType expected to be is_arithmetic
-ul::opt<ArithType> isPowerOf(ArithType x, ArithType base) {
+ul::Opt<ArithType> is_power_of(ArithType x, ArithType base) {
     static_assert(std::is_arithmetic<ArithType>::value, "only arithmetic numbers are allowed as input");
     UL_EXPECT(x > ArithType{});
     UL_EXPECT(base > ArithType{});
@@ -89,8 +89,8 @@ ul::opt<ArithType> isPowerOf(ArithType x, ArithType base) {
     const int64_t intpart = ul::llround(exp);
     const auto intpart_dbl = ul::narrow_cast<long double>(intpart);
 
-    constexpr auto sufficientlySmallDeviation{1e-12L};
-    if (!ul::math::approx_equal(intpart_dbl, exp, sufficientlySmallDeviation))
+    constexpr auto sufficiently_small_deviation{1e-12L};
+    if (!ul::math::approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
         return {};
     return ul::narrow_cast<ArithType>(intpart);
 }

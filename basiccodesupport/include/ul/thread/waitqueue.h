@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef WAITQUEUE_H_ejvhnxg853nh8g2h
-#define WAITQUEUE_H_ejvhnxg853nh8g2h
+#ifndef WAITQUEUE_H_EJVHNXG853NH8G2H
+#define WAITQUEUE_H_EJVHNXG853NH8G2H
 
 #include <condition_variable>
 #include <limits>
@@ -18,9 +18,9 @@ public:
         : maxElems_(maxElems) {
     }
 
-    template <typename T_>
-    bool push(T_&& elem) {
-        static_assert(std::is_convertible_v<T_, T>);
+    template <typename T>
+    bool push(T&& elem) {
+        static_assert(std::is_convertible_v<T, T>);
 
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -28,15 +28,15 @@ public:
             if (queue_.size() > maxElems_)
                 return false;
 
-            queue_.push(std::forward<T_>(elem));
+            queue_.push(std::forward<T>(elem));
         }
         conditionVariable_.notify_one();
         return true;
     }
 
-    template <typename T_>
-    bool emplace(T_&& elem) {
-        static_assert(std::is_convertible_v<T_, T>);
+    template <typename T>
+    bool emplace(T&& elem) {
+        static_assert(std::is_convertible_v<T, T>);
 
         {
             const std::unique_lock<std::mutex> lock(mutex_);
@@ -44,14 +44,14 @@ public:
             if (queue_.size() >= maxElems_)
                 return false;
 
-            queue_.emplace(std::forward<T_>(elem));
+            queue_.emplace(std::forward<T>(elem));
         }
         conditionVariable_.notify_one();
         return true;
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool waitAndPop(T& poppedElem) {
+    bool wait_and_pop(T& poppedElem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (queue_.empty() && !stopped_)
             conditionVariable_.wait(lk);

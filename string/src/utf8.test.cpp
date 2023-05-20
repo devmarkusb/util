@@ -11,14 +11,14 @@
 namespace ul = mb::ul;
 
 namespace {
-void saveToTextFile(const std::string& filePathNameExt, const std::string& Content) {
+void save_to_text_file(const std::string& filePathNameExt, const std::string& Content) {
     std::ofstream file(filePathNameExt);
     if (!file)
         throw std::runtime_error("file open");
     file << Content;
 }
 
-void loadFromTextFile(const std::string& filePathNameExt, std::string& Content) {
+void load_from_text_file(const std::string& filePathNameExt, std::string& Content) {
     std::ifstream file(filePathNameExt);
     if (!file)
         throw std::runtime_error("file open");
@@ -36,22 +36,22 @@ void loadFromTextFile(const std::string& filePathNameExt, std::string& Content) 
 }
 } // namespace
 
-struct char_encoding_fileTest : public ::testing::Test {
-    char_encoding_fileTest() = default;
+struct CharEncodingFileTest : public ::testing::Test {
+    CharEncodingFileTest() = default;
 
     void SetUp() override {
         filePathNameExt_ = "i_can_be_deleted__temp_txt_file_";
-        filePathNameExt_ += char_encoding_fileTest::counter_++;
+        filePathNameExt_ += CharEncodingFileTest::counter++;
         filePathNameExt_ += ".txt";
     }
 
     void write_file(const std::string& text) {
-        saveToTextFile(filePathNameExt_, text);
+        save_to_text_file(filePathNameExt_, text);
     }
 
     std::string read_file() {
         std::string ret;
-        loadFromTextFile(filePathNameExt_, ret);
+        load_from_text_file(filePathNameExt_, ret);
         return ret;
     }
 
@@ -64,16 +64,16 @@ struct char_encoding_fileTest : public ::testing::Test {
         ASSERT_EQ(0, ret);
     }
 
-    ~char_encoding_fileTest() override = default;
+    ~CharEncodingFileTest() override = default;
 
 private:
     std::string filePathNameExt_;
-    static char counter_;
+    static char counter;
 };
 
-char char_encoding_fileTest::counter_{'a'};
+char CharEncodingFileTest::counter{'a'};
 
-TEST_F(char_encoding_fileTest, ASCII) {
+TEST_F(CharEncodingFileTest, ASCII) {
     const std::string s = "!!AA~~";
     write_file(s);
     EXPECT_TRUE(is_valid_utf8(s));
@@ -81,7 +81,7 @@ TEST_F(char_encoding_fileTest, ASCII) {
     EXPECT_EQ(read, s);
 }
 
-TEST_F(char_encoding_fileTest, ASCIIhex) {
+TEST_F(CharEncodingFileTest, ASCIIhex) {
     const std::string s = "\x21\x21"
                           "AA~\x7e";
     EXPECT_TRUE(s == "!!AA~~");
@@ -91,7 +91,7 @@ TEST_F(char_encoding_fileTest, ASCIIhex) {
     EXPECT_EQ(read, s);
 }
 
-TEST_F(char_encoding_fileTest, UTF8) {
+TEST_F(CharEncodingFileTest, UTF8) {
     const std::string s = "\xc3\xa4"
                           "hnlich";
     EXPECT_TRUE(is_valid_utf8(s));
@@ -100,7 +100,7 @@ TEST_F(char_encoding_fileTest, UTF8) {
     EXPECT_EQ(read, s);
 }
 
-TEST_F(char_encoding_fileTest, UTF8_cyrillic) {
+TEST_F(CharEncodingFileTest, UTF8_cyrillic) {
     const std::string s = "schtscha:\xd0\xa9";
     EXPECT_TRUE(is_valid_utf8(s));
     write_file(s);
@@ -108,7 +108,7 @@ TEST_F(char_encoding_fileTest, UTF8_cyrillic) {
     EXPECT_EQ(read, s);
 }
 
-TEST_F(char_encoding_fileTest, latin1) {
+TEST_F(CharEncodingFileTest, latin1) {
     const std::string s = "\xe4\xf6\xfc"; // latin1 (aeoeue)
     EXPECT_FALSE(is_valid_utf8(s));
     write_file(s);
@@ -128,7 +128,7 @@ TEST(consoleTest, utf8_to_utf16) {
 
     // Cf. locale.test.cpp #locale_facet-exception for explanation.
 #if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
-    const ul::set_global_locale_scoped loc{ul::Global_locale::user_preferred};
+    const ul::SetGlobalLocaleScoped loc{ul::GlobalLocale::user_preferred};
 #endif
     std::wcout << ws << L"\n";
     std::cout << s << "\n";

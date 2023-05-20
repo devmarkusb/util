@@ -3,8 +3,8 @@
 All-in-one include file for this part of the lib.
 */
 
-#ifndef BASICCODESUPPORT_H_trhog4589hg3589hg
-#define BASICCODESUPPORT_H_trhog4589hg3589hg
+#ifndef BASICCODESUPPORT_H_TRHOG4589HG3589HG
+#define BASICCODESUPPORT_H_TRHOG4589HG3589HG
 
 #include "almost_equal.h"
 #include "any.h"

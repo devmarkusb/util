@@ -2,15 +2,15 @@
 #include "gtest/gtest.h"
 
 TEST(MathNumberGetDecDigitCountTest, Dec) {
-    EXPECT_EQ(1, ul::math::getDigitCount(0));
-    EXPECT_EQ(1, ul::math::getDigitCount(1));
-    EXPECT_EQ(2, ul::math::getDigitCount(12));
-    EXPECT_EQ(3, ul::math::getDigitCount(123));
+    EXPECT_EQ(1, ul::math::get_digit_count(0));
+    EXPECT_EQ(1, ul::math::get_digit_count(1));
+    EXPECT_EQ(2, ul::math::get_digit_count(12));
+    EXPECT_EQ(3, ul::math::get_digit_count(123));
 }
 
 TEST(MathNumberGetDecDigitCountTest, DecNeg) {
-    EXPECT_EQ(1, ul::math::getDigitCount(-1));
-    EXPECT_EQ(2, ul::math::getDigitCount(-12));
+    EXPECT_EQ(1, ul::math::get_digit_count(-1));
+    EXPECT_EQ(2, ul::math::get_digit_count(-12));
 }
 
 TEST(MathNumberGetDecDigitCountTest, Bin) {

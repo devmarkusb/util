@@ -1,14 +1,14 @@
 //! \file
 
-#ifndef LOCALE_H_condwhxnu23mhy8mr
-#define LOCALE_H_condwhxnu23mhy8mr
+#ifndef LOCALE_H_CONDWHXNU23MHY8MR
+#define LOCALE_H_CONDWHXNU23MHY8MR
 
 #include "ul/macros.h"
 #include "ul/std/std_extensions.h"
 #include <locale>
 
 namespace mb::ul {
-enum class Global_locale {
+enum class GlobalLocale {
     default_classic,
     user_preferred,
 };
@@ -23,13 +23,13 @@ inline std::locale set_global_locale(const std::string& locname) {
 }
 
 //! For convenience, cf. set_global_locale().
-inline std::locale set_global_locale(Global_locale gl) {
+inline std::locale set_global_locale(GlobalLocale gl) {
     std::string opt;
     switch (gl) {
-        case Global_locale::user_preferred:
+        case GlobalLocale::user_preferred:
             opt = "";
             break;
-        case Global_locale::default_classic: // fall through
+        case GlobalLocale::default_classic: // fall through
         default:
             opt = "C";
             break;
@@ -43,27 +43,27 @@ inline std::locale set_global_locale(const std::locale& loc) {
 }
 
 //! This does an auto reset when leaving scope. For convenience, cf. set_global_locale().
-struct set_global_locale_scoped {
-    explicit set_global_locale_scoped(const std::string& locname) {
+struct SetGlobalLocaleScoped {
+    explicit SetGlobalLocaleScoped(const std::string& locname) {
         this->backup_ = set_global_locale(locname);
     }
 
-    explicit set_global_locale_scoped(Global_locale gl) {
+    explicit SetGlobalLocaleScoped(GlobalLocale gl) {
         this->backup_ = set_global_locale(gl);
     }
 
-    ~set_global_locale_scoped() noexcept {
+    ~SetGlobalLocaleScoped() noexcept {
         try {
             set_global_locale(this->backup_);
         } catch (...) {
         }
     }
 
-    set_global_locale_scoped(const set_global_locale_scoped&) = delete;
-    set_global_locale_scoped& operator=(const set_global_locale_scoped&) = delete;
+    SetGlobalLocaleScoped(const SetGlobalLocaleScoped&) = delete;
+    SetGlobalLocaleScoped& operator=(const SetGlobalLocaleScoped&) = delete;
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    set_global_locale_scoped(set_global_locale_scoped&&) = delete;
-    set_global_locale_scoped& operator=(set_global_locale_scoped&&) = delete;
+    SetGlobalLocaleScoped(SetGlobalLocaleScoped&&) = delete;
+    SetGlobalLocaleScoped& operator=(SetGlobalLocaleScoped&&) = delete;
 #endif
 
     [[nodiscard]] std::locale get_original_locale() const {

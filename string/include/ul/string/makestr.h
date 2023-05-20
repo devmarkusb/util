@@ -1,18 +1,18 @@
 //! \file From David Rodr?guez - dribeas, stackoverflow.
 
 
-#ifndef MAKESTR_H_92nzr29h3f8
-#define MAKESTR_H_92nzr29h3f8
+#ifndef MAKESTR_H_92NZR29H3F8
+#define MAKESTR_H_92NZR29H3F8
 
 #include <sstream>
 #include <string>
 
 namespace mb::ul::str {
 //! Usage: f( (makestr() << "Some string" << sSome_string << iSomeInt << dSomeDouble << "...").c_str() );
-class makestr {
+class Makestr {
 public:
     template <typename T>
-    makestr& operator<<(const T& data) {
+    Makestr& operator<<(const T& data) {
         buffer_ << data;
         return *this;
     }

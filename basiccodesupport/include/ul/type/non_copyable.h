@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef NON_COPYABLE_H_imcutoiu34o5
-#define NON_COPYABLE_H_imcutoiu34o5
+#ifndef NON_COPYABLE_H_IMCUTOIU34O5
+#define NON_COPYABLE_H_IMCUTOIU34O5
 
 #include "../std/std_extensions.h"
 

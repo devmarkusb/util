@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef ROUND_H_9mj238fz23nf8z
-#define ROUND_H_9mj238fz23nf8z
+#ifndef ROUND_H_9MJ238FZ23NF8Z
+#define ROUND_H_9MJ238FZ23NF8Z
 
 #include "ul/config.h"
 #include "ul/macros/UNDEF_MIN_MAX.h"
@@ -22,8 +22,8 @@ T round(T r, uint16_t decimal_places) {
 
 template <typename TR, typename TP>
 TR round_to(TP r, uint16_t decimal_places = 0) {
-    const volatile bool is_TR_integral = std::is_integral<TR>::value;
-    if (is_TR_integral)
+    const volatile bool is_tr_integral = std::is_integral<TR>::value;
+    if (is_tr_integral)
         decimal_places = 0; // for integral target values decimal_places make no sense
     using std::numeric_limits;
     const TP d = round(r, decimal_places);

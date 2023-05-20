@@ -13,7 +13,7 @@ TEST(ownerTest, Test) {
 }
 
 namespace {
-int* id_with_not_null_param(ul::not_null<int*> param) {
+int* id_with_not_null_param(ul::not_null<int*> param); {
     return param;
 }
 } // namespace
@@ -23,5 +23,5 @@ TEST(not_nullTest, Test) {
     int* px = &x;
     EXPECT_EQ(px, id_with_not_null_param(px));
     int* nullp = nullptr;
-    EXPECT_THROW(id_with_not_null_param(nullp), ul::fail_fast);
+    EXPECT_THROW(id_with_not_null_param(nullp), ul::FailFast);
 }

@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
-#define SIZEOF_H_gtzh24789xh7893xt78934789t4x37894t
+#ifndef SIZEOF_H_GTZH24789XH7893XT78934789T4X37894T
+#define SIZEOF_H_GTZH24789XH7893XT78934789T4X37894T
 
 /** Generates a compile error telling you sizeof Type.
     Cannot be used e.g. within functions.

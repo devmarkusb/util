@@ -7,17 +7,17 @@
 namespace ul = mb::ul;
 
 TEST(optTest, empty_constr) {
-    const ul::opt<bool> b;
+    const ul::Opt<bool> b;
     if (b)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    const ul::opt<bool> cb;
+    const ul::Opt<bool> cb;
     if (cb)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    const ul::opt<const bool> bc;
+    const ul::Opt<const bool> bc;
     if (bc)
         EXPECT_TRUE(false);
     else
@@ -25,17 +25,17 @@ TEST(optTest, empty_constr) {
 }
 
 TEST(optTest, none_constr) {
-    const ul::opt<bool> b{ul::none};
+    const ul::Opt<bool> b{ul::none};
     if (b)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    const ul::opt<bool> cb{ul::none};
+    const ul::Opt<bool> cb{ul::none};
     if (cb)
         EXPECT_TRUE(false);
     else
         EXPECT_TRUE(true);
-    const ul::opt<const bool> bc{ul::none};
+    const ul::Opt<const bool> bc{ul::none};
     if (bc)
         EXPECT_TRUE(false);
     else
@@ -44,7 +44,7 @@ TEST(optTest, none_constr) {
 
 // VLD detects 3 memory leaks, ASAN also (unclear)
 TEST(optTest, DISABLED_not_) {
-    ul::opt<bool> b;
+    ul::Opt<bool> b;
     if (!b)
         EXPECT_TRUE(true);
     else
@@ -67,7 +67,7 @@ TEST(optTest, DISABLED_not_) {
 }
 
 TEST(optTest, constr_assign_moves) {
-    ul::opt<bool> b(true);
+    ul::Opt<bool> b(true);
     if (b)
         EXPECT_TRUE(true);
     else
@@ -84,7 +84,7 @@ TEST(optTest, constr_assign_moves) {
         EXPECT_TRUE(false);
     EXPECT_FALSE(*b);
 
-    ul::opt<bool> copy(b);
+    ul::Opt<bool> copy(b);
     if (copy)
         EXPECT_TRUE(true);
     else
@@ -99,7 +99,7 @@ TEST(optTest, constr_assign_moves) {
         EXPECT_TRUE(false);
     EXPECT_TRUE(*copy);
 
-    b = ul::opt<bool>(false);
+    b = ul::Opt<bool>(false);
     if (b)
         EXPECT_TRUE(true);
     else
@@ -107,7 +107,7 @@ TEST(optTest, constr_assign_moves) {
     EXPECT_TRUE(!*b);
 
     const bool boo = true;
-    const ul::opt<bool> c(boo);
+    const ul::Opt<bool> c(boo);
     if (c)
         EXPECT_TRUE(true);
     else
@@ -116,19 +116,19 @@ TEST(optTest, constr_assign_moves) {
 }
 
 namespace {
-void f_with_opt_string_arg(const ul::opt<std::string>& /*unused*/) {
+void f_with_opt_string_arg(const ul::Opt<std::string>& /*unused*/) {
 }
 } // namespace
 
 TEST(optTest, types) {
-    const ul::opt<double> d = 5.2;
+    const ul::Opt<double> d = 5.2;
     if (d)
         EXPECT_TRUE(true);
     else
         EXPECT_TRUE(false);
     EXPECT_DOUBLE_EQ(5.2, *d);
 
-    const ul::opt<std::string> s("Hi!");
+    const ul::Opt<std::string> s("Hi!");
     if (s)
         EXPECT_TRUE(true);
     else
@@ -136,7 +136,7 @@ TEST(optTest, types) {
     EXPECT_EQ("Hi!", *s);
     f_with_opt_string_arg(std::string("Hi!"));
 
-    const ul::opt<std::vector<int>> v({1, 2, 3});
+    const ul::Opt<std::vector<int>> v({1, 2, 3});
     if (v)
         EXPECT_TRUE(true);
     else
@@ -144,7 +144,7 @@ TEST(optTest, types) {
     const std::vector<int> vtest{1, 2, 3};
     EXPECT_EQ(vtest, *v);
 
-    const ul::opt<double*> pd = nullptr;
+    const ul::Opt<double*> pd = nullptr;
     if (pd)
         EXPECT_TRUE(true);
     else

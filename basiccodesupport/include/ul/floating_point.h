@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef FLOATING_POINT_H_09458t87t5twd2874t57rbn6
-#define FLOATING_POINT_H_09458t87t5twd2874t57rbn6
+#ifndef FLOATING_POINT_H_09458T87T5TWD2874T57RBN6
+#define FLOATING_POINT_H_09458T87T5TWD2874T57RBN6
 
 #include "assert.h"
 
@@ -34,7 +34,7 @@ enum class FloatFormat {
 };
 
 namespace impl {
-template <typename FloatType, FloatFormat FF>
+template <typename FloatType, FloatFormat ff>
 struct ToStringConverter;
 } // namespace impl
 
@@ -44,25 +44,25 @@ struct ToStringConverter;
         b) the decimal places for FF `fixed` or `scientific`.
     FF scientific leads to exponential formatting.
     If don't want to pass precision and use a default one (e.g. 6) and use FF default_, just use std::to_string.*/
-template <FloatFormat FF = FloatFormat::default_, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_, typename FloatType = double>
 //  FloatType expected as floating point
 typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(
     FloatType x, int precision) {
     UL_EXPECT(precision >= 0);
-    return impl::ToStringConverter<FloatType, FF>::convert(x, precision);
+    return impl::ToStringConverter<FloatType, ff>::convert(x, precision);
 }
 
 //! \return a string of the floating point number x.
-/** \tparam FF selects the formatting: `default_` being equivalent to a call of std::to_string,
+/** \tparam ff selects the formatting: `default_` being equivalent to a call of std::to_string,
     `fixed` meaning fixed count of decimal places and `scientific` an exponential formatting.*/
-template <FloatFormat FF = FloatFormat::default_, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_, typename FloatType = double>
 //  FloatType expected as floating point
 typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(FloatType x) {
-    return impl::ToStringConverter<FloatType, FF>::convert(x);
+    return impl::ToStringConverter<FloatType, ff>::convert(x);
 }
 
 namespace impl {
-template <typename FloatType, FloatFormat FF>
+template <typename FloatType, FloatFormat ff>
 struct ToStringConverter {};
 
 template <typename FloatType>

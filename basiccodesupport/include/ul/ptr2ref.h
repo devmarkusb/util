@@ -1,21 +1,20 @@
 //! \file
 
-#ifndef PTR2REF_H_sjhdxfggberz38f2g36ygfn123f9v
-#define PTR2REF_H_sjhdxfggberz38f2g36ygfn123f9v
+#ifndef PT_R2_REF_H_SJHDXFGGBERZ38F2G36YGFN123F9V
 
 #include "assert.h"
 
 namespace mb::ul {
 //! Converts pointer to reference.
 template <typename T>
-inline T& ptr2Ref(T* pT) {
+inline T& ptr2_ref(T* pT) {
     UL_EXPECT(pT);
     return *pT;
 }
 
 //! Const version of ptr2Ref().
 template <typename T>
-inline const T& ptr2RefC(const T* pT) {
+inline const T& ptr2_ref_c(const T* pT) {
     UL_EXPECT(pT);
     return *pT;
 }
@@ -24,22 +23,22 @@ inline const T& ptr2RefC(const T* pT) {
 //!@{
 
 template <typename T>
-T* ref2Ptr(T& t) {
+T* ref2_ptr(T& t) {
     return &t;
 }
 
 template <typename T>
-T* ref2Ptr(T* t) {
+T* ref2_ptr(T* t) {
     return t;
 }
 
 template <typename T>
-const T* ref2PtrC(const T& t) {
+const T* ref2_ptr_c(const T& t) {
     return &t;
 }
 
 template <typename T>
-const T* ref2PtrC(const T* t) {
+const T* ref2_ptr_c(const T* t) {
     return t;
 }
 

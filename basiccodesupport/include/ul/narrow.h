@@ -1,7 +1,7 @@
 //! \file Taken from / inspired by the Cpp Guidelines Support Library GSL.
 
-#ifndef NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
-#define NARROW_H_sk837xxgnf83xgfn3g8t34sdjn47
+#ifndef NARROW_H_SK837XXGNF83XGFN3G8T34SDJN47
+#define NARROW_H_SK837XXGNF83XGFN3G8T34SDJN47
 
 #include "almost_equal.h"
 #include "std/std_extensions.h"
@@ -16,7 +16,7 @@ constexpr T narrow_cast(U u) noexcept {
 }
 
 //! Exception thrown by narrow() when failing.
-struct narrowing_error : public std::exception {};
+struct NarrowingError : public std::exception {};
 
 /** Checked version of narrow_cast(), throwing narrowing_error if the cast changed the value.
     Expects at least one of the casting types to be non floating point.*/
@@ -27,7 +27,7 @@ T narrow(U u) {
         "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");
     T t = narrow_cast<T>(u);
     if (!ul::almost_equal_alltypes(static_cast<U>(t), u))
-        throw narrowing_error();
+        throw NarrowingError();
     return t;
 }
 } // namespace mb::ul

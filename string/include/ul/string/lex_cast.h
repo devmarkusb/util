@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef LEX_CAST_H_sopaiem3p2oium32omo
-#define LEX_CAST_H_sopaiem3p2oium32omo
+#ifndef LEX_CAST_H_SOPAIEM3P2OIUM32OMO
+#define LEX_CAST_H_SOPAIEM3P2OIUM32OMO
 
 #include "ul/config.h"
 #include "ul/macros.h"

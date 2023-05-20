@@ -1,5 +1,5 @@
 Checks: >
-  *,
+  -*,
   -altera-id-dependent-backward-branch,
   -altera-struct-pack-align,
   -altera-unroll-loops,
@@ -21,7 +21,6 @@ Checks: >
   -google-readability-avoid-underscore-in-googletest-name,
   -google-readability-braces-around-statements,
   -hicpp-braces-around-statements,readability-braces-around-statements,
-  # unfortunately, should be restrictable to <>-includes
   -hicpp-deprecated-headers
   -hicpp-explicit-conversions,
   -hicpp-named-parameter,
@@ -37,8 +36,7 @@ Checks: >
   -modernize-use-trailing-return-type,
   -readability-braces-around-statements,
   -readability-identifier-length,
-  # switch on (auto fixes available)
-  -readability-identifier-naming,
+  readability-identifier-naming,
   -readability-implicit-bool-conversion,
   -readability-function-cognitive-complexity,
   -readability-uppercase-literal-suffix
@@ -54,8 +52,9 @@ CheckOptions:
   - { key: readability-identifier-naming.MacroDefinitionCase,         value: UPPER_CASE }
   - { key: readability-identifier-naming.MethodCase,                  value: lower_case }
   - { key: readability-identifier-naming.NamespaceCase,               value: lower_case }
-  - { key: readability-identifier-naming.PrivateMemberSuffix,         value: _          }
+  - { key: readability-identifier-naming.PrivateMemberSuffix,         value: _ }
   - { key: readability-identifier-naming.StructCase,                  value: CamelCase }
+  - { key: readability-identifier-naming.TemplateParameterCase,       value: CamelCase }
   - { key: readability-identifier-naming.TypeTemplateParameterCase,   value: CamelCase }
   - { key: readability-identifier-naming.UnionCase,                   value: CamelCase }
   - { key: readability-identifier-naming.ValueTemplateParameterCase,  value: lower_case }

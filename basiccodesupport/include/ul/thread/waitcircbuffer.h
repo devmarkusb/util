@@ -1,7 +1,7 @@
 //! \file
 
-#ifndef WAITCIRCBUFFER_H_4z894527892xh5
-#define WAITCIRCBUFFER_H_4z894527892xh5
+#ifndef WAITCIRCBUFFER_H_4Z894527892XH5
+#define WAITCIRCBUFFER_H_4Z894527892XH5
 
 #include "../error.h"
 #include "../ignore_unused.h"
@@ -13,10 +13,10 @@
 
 namespace mb::ul::thread {
 namespace detail::waitcircbuf_impl_container {
-template <typename T, size_t staticCapacity>
+template <typename T, size_t static_capacity>
 class CapacityCompiletime {
 protected:
-    ul::CircularBuffer<T, staticCapacity> buf_;
+    ul::CircularBuffer<T, static_capacity> buf_;
 };
 
 template <typename T>
@@ -30,28 +30,28 @@ protected:
     }
 };
 
-template <typename T, size_t staticCapacity>
-using Base = std::conditional_t<staticCapacity == 0, CapacityRuntime<T>, CapacityCompiletime<T, staticCapacity>>;
+template <typename T, size_t static_capacity>
+using Base = std::conditional_t<static_capacity == 0, CapacityRuntime<T>, CapacityCompiletime<T, static_capacity>>;
 } // namespace detail::waitcircbuf_impl_container
 
 //! A queue that exclusively provides methods that are safe to use in a multi-producer / multi-consumer context.
 /** Note, unlike the behavior of CircularBuffer this WaitCircularBuffer protects against overwrites.*/
-template <typename T, size_t staticCapacity = 0>
-class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, staticCapacity> {
+template <typename T, size_t static_capacity = 0>
+class WaitCircularBuffer : private detail::waitcircbuf_impl_container::Base<T, static_capacity> {
 public:
-    using Base = detail::waitcircbuf_impl_container::Base<T, staticCapacity>;
+    using Base = detail::waitcircbuf_impl_container::Base<T, static_capacity>;
 
     //! Expects capacity > 0.
-    template <typename = std::enable_if<staticCapacity == 0>>
+    template <typename = std::enable_if<static_capacity == 0>>
     explicit WaitCircularBuffer(size_t capacity)
         : Base{capacity} {
     }
 
     WaitCircularBuffer() noexcept = default;
 
-    template <typename T_>
-    bool push(T_&& elem) {
-        static_assert(std::is_convertible_v<T_, T>);
+    template <typename T>
+    bool push(T&& elem) {
+        static_assert(std::is_convertible_v<T, T>);
 
         {
             const std::unique_lock<std::mutex> lock(mutex_);
@@ -59,7 +59,7 @@ public:
             if (Base::buf_.full())
                 return false;
 
-            Base::buf_.push(std::forward<T_>(elem));
+            Base::buf_.push(std::forward<T>(elem));
         }
         conditionVariable_.notify_one();
         return true;
@@ -68,12 +68,12 @@ public:
     //! Don't use! Doesn't work yet. Implementation of CircularBuffer is the guilty one.
     /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
-    template <typename T_>
-    bool emplace(T_&& elem) {
-        static_assert(std::is_convertible_v<T_, T>);
+    template <typename T>
+    bool emplace(T&& elem) {
+        static_assert(std::is_convertible_v<T, T>);
 
         ul::ignore_unused(elem);
-        throw ul::not_implemented{"WaitCircularBuffer::emplace"};
+        throw ul::not_implemented;{"WaitCircularBuffer::emplace";};
 #if 0
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -89,7 +89,7 @@ public:
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool waitAndPop(T& poppedElem) {
+    bool wait_and_pop(T& poppedElem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (Base::buf_.empty() && !stopped_)
             conditionVariable_.wait(lk);

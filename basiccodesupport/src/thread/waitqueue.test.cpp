@@ -7,7 +7,7 @@
 namespace ul = mb::ul;
 
 namespace {
-constexpr auto threadCount{100};
+constexpr auto thread_count{100};
 } // namespace
 
 TEST(thread_WaitQueue, basics) {
@@ -28,25 +28,25 @@ TEST(thread_WaitQueue, basics) {
 }
 
 TEST(thread_WaitQueue, massive_parallel) {
-    ul::thread::WaitQueue<int> q{threadCount};
+    ul::thread::WaitQueue<int> q{thread_count};
     std::atomic<int> current{};
-    std::vector<std::thread> producer(threadCount);
+    std::vector<std::thread> producer(thread_count);
     for (auto& p : producer) {
         p = std::thread{[&q, &current]() {
             q.emplace(++current);
         }};
     }
 
-    std::set<int> poppedValues;
+    std::set<int> popped_values;
     std::mutex mutex;
-    std::vector<std::thread> consumer(threadCount - 1);
+    std::vector<std::thread> consumer(thread_count - 1);
     for (auto& c : consumer) {
-        c = std::thread{[&q, &mutex, &poppedValues]() {
+        c = std::thread{[&q, &mutex, &popped_values]() {
             int elem{};
             q.waitAndPop(elem);
             const std::lock_guard<std::mutex> lk{mutex};
-            EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
-            poppedValues.insert(elem);
+            EXPECT_FALSE(popped_values.count /*contains*/ (elem));
+            popped_values.insert(elem);
         }};
     }
 
@@ -57,10 +57,10 @@ TEST(thread_WaitQueue, massive_parallel) {
         c.join();
     }
 
-    EXPECT_EQ(poppedValues.size(), threadCount - 1);
+    EXPECT_EQ(popped_values.size(), thread_count - 1);
     int elem{};
     q.waitAndPop(elem);
-    EXPECT_FALSE(poppedValues.count /*contains*/ (elem));
+    EXPECT_FALSE(popped_values.count /*contains*/ (elem));
 }
 
 TEST(thread_WaitQueue, stop) {

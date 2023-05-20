@@ -5,8 +5,8 @@
 
 TEST(profilerTest, basics) {
     const auto before{ul::profiler_now()};
-    constexpr auto exampleDuration{std::chrono::milliseconds(42)};
-    std::this_thread::sleep_for(exampleDuration);
+    constexpr auto example_duration{std::chrono::milliseconds(42)};
+    std::this_thread::sleep_for(example_duration);
     const auto after{ul::profiler_now()};
     EXPECT_GT(after, before);
     const auto diff{std::chrono::duration_cast<std::chrono::milliseconds>(ul::profiler_diff(before, after))};
@@ -15,50 +15,50 @@ TEST(profilerTest, basics) {
 }
 
 TEST(ToFormattedStringTest, Rounding) {
-    EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099985));
-    EXPECT_EQ("99.98 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099984));
-    EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::toFormattedString(0.000000099986));
-    EXPECT_EQ("99.98 ns", ul::PerformanceProfiler::toFormattedString(0.000000099983));
-    EXPECT_EQ("99.99 \xC2\xB5s", ul::PerformanceProfiler::toFormattedString(0.000099987));
-    EXPECT_EQ("99.98 \xC2\xB5s", ul::PerformanceProfiler::toFormattedString(0.000099982));
-    EXPECT_EQ("99.99 ms", ul::PerformanceProfiler::toFormattedString(0.099988));
-    EXPECT_EQ("99.98 ms", ul::PerformanceProfiler::toFormattedString(0.099981));
-    EXPECT_EQ("59.99 s", ul::PerformanceProfiler::toFormattedString(59.989));
-    EXPECT_EQ("59.98 s", ul::PerformanceProfiler::toFormattedString(59.980));
-    EXPECT_EQ("59:59.99", ul::PerformanceProfiler::toFormattedString(3599.985));
-    EXPECT_EQ("59:59.98", ul::PerformanceProfiler::toFormattedString(3599.984));
+    EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::to_formatted_string(0.000000000099985));
+    EXPECT_EQ("99.98 ps", ul::PerformanceProfiler::to_formatted_string(0.000000000099984));
+    EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::to_formatted_string(0.000000099986));
+    EXPECT_EQ("99.98 ns", ul::PerformanceProfiler::to_formatted_string(0.000000099983));
+    EXPECT_EQ("99.99 \xC2\xB5s", ul::PerformanceProfiler::to_formatted_string(0.000099987));
+    EXPECT_EQ("99.98 \xC2\xB5s", ul::PerformanceProfiler::to_formatted_string(0.000099982));
+    EXPECT_EQ("99.99 ms", ul::PerformanceProfiler::to_formatted_string(0.099988));
+    EXPECT_EQ("99.98 ms", ul::PerformanceProfiler::to_formatted_string(0.099981));
+    EXPECT_EQ("59.99 s", ul::PerformanceProfiler::to_formatted_string(59.989));
+    EXPECT_EQ("59.98 s", ul::PerformanceProfiler::to_formatted_string(59.980));
+    EXPECT_EQ("59:59.99", ul::PerformanceProfiler::to_formatted_string(3599.985));
+    EXPECT_EQ("59:59.98", ul::PerformanceProfiler::to_formatted_string(3599.984));
 }
 
 TEST(ToFormattedStringTest, UnitStepping) {
-    EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::toFormattedString(0.000000000099990));
-    EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::toFormattedString(0.000000099990));
-    EXPECT_EQ("99.99 \xC2\xB5s", ul::PerformanceProfiler::toFormattedString(0.000099990));
-    EXPECT_EQ("99.99 ms", ul::PerformanceProfiler::toFormattedString(0.099990));
-    EXPECT_EQ("0.10 s", ul::PerformanceProfiler::toFormattedString(0.1));
-    EXPECT_EQ("1.00 s", ul::PerformanceProfiler::toFormattedString(1.0));
-    EXPECT_EQ("01:00.00", ul::PerformanceProfiler::toFormattedString(60.0));
-    EXPECT_EQ("01:00:00", ul::PerformanceProfiler::toFormattedString(3600.0));
+    EXPECT_EQ("99.99 ps", ul::PerformanceProfiler::to_formatted_string(0.000000000099990));
+    EXPECT_EQ("99.99 ns", ul::PerformanceProfiler::to_formatted_string(0.000000099990));
+    EXPECT_EQ("99.99 \xC2\xB5s", ul::PerformanceProfiler::to_formatted_string(0.000099990));
+    EXPECT_EQ("99.99 ms", ul::PerformanceProfiler::to_formatted_string(0.099990));
+    EXPECT_EQ("0.10 s", ul::PerformanceProfiler::to_formatted_string(0.1));
+    EXPECT_EQ("1.00 s", ul::PerformanceProfiler::to_formatted_string(1.0));
+    EXPECT_EQ("01:00.00", ul::PerformanceProfiler::to_formatted_string(60.0));
+    EXPECT_EQ("01:00:00", ul::PerformanceProfiler::to_formatted_string(3600.0));
 }
 
 TEST(ToFormattedStringTest, RoundingCausingUnitStepping) {
-    EXPECT_EQ("0.10 s", ul::PerformanceProfiler::toFormattedString(0.099999));
+    EXPECT_EQ("0.10 s", ul::PerformanceProfiler::to_formatted_string(0.099999));
 }
 
 TEST(ToFormattedStringTest, NoRounding) {
-    EXPECT_EQ("99:59:58", ul::PerformanceProfiler::toFormattedString(359998.5));
-    EXPECT_EQ("99:59:58", ul::PerformanceProfiler::toFormattedString(359998.4));
+    EXPECT_EQ("99:59:58", ul::PerformanceProfiler::to_formatted_string(359998.5));
+    EXPECT_EQ("99:59:58", ul::PerformanceProfiler::to_formatted_string(359998.4));
 }
 
 TEST(ToFormattedStringTest, Zero) {
-    EXPECT_EQ("0.00 ps", ul::PerformanceProfiler::toFormattedString(0.0));
+    EXPECT_EQ("0.00 ps", ul::PerformanceProfiler::to_formatted_string(0.0));
 }
 
 TEST(ToFormattedStringTest, Neg) {
-    EXPECT_EQ("-1.00 s", ul::PerformanceProfiler::toFormattedString(-1.0));
+    EXPECT_EQ("-1.00 s", ul::PerformanceProfiler::to_formatted_string(-1.0));
 }
 
 TEST(ToFormattedStringTest, Inf) {
-    EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::toFormattedString(360000));
+    EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::to_formatted_string(360000));
 }
 
 // NOLINTBEGIN
@@ -88,8 +88,8 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
     perfscope0.startNewItem("9. 100ms");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     perfscope0.stopItem();
-    std::cout << ul::PerformanceProfiler::dumpAllItems<ul::PerformanceProfiler::DumpFormat::stringAndStructure>();
-    const std::vector<ul::PerformanceProfiler::DumpDataset>& data = ul::PerformanceProfiler::dumpedData();
+    std::cout << ul::PerformanceProfiler::dump_all_items<ul::PerformanceProfiler::DumpFormat::string_and_structure>();
+    const std::vector<ul::PerformanceProfiler::DumpDataset>& data = ul::PerformanceProfiler::dumped_data();
     ASSERT_EQ(9u, data.size());
     EXPECT_EQ("1. 500ms", data[0].itemName_);
     EXPECT_EQ(1u, data[0].count_);
@@ -156,7 +156,7 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
 
     ul::PerformanceProfiler::reset();
     EXPECT_STREQ(
-        ul::PerformanceProfiler::dumpAllItems<ul::PerformanceProfiler::DumpFormat::stringAndStructure>().c_str(),
+        ul::PerformanceProfiler::dump_all_items<ul::PerformanceProfiler::DumpFormat::string_and_structure>().c_str(),
         "No performance measurement data.\n");
     EXPECT_EQ(0u, data.size());
 }
