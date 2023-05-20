@@ -16,7 +16,7 @@ TEST(EnumCast_as_numberTest, test) {
         first,
         second,
     };
-    auto number = ul::as_number(E::first);
+    number = ul::as_number(E::first);
     EXPECT_EQ(1, number);
 }
 

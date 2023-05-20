@@ -91,24 +91,24 @@ TEST(bits_toggleMask, various) {
     EXPECT_EQ(ul::bits::toggle_mask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
 }
 
-TEST(bits_checkAllOfMask, various) {
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b111u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b101u, 0b101u));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b110u, 0b101u));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b010u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAllOfMask(0b010u, 0b010u));
-    EXPECT_FALSE(ul::bits::checkAllOfMask(0b101u, 0b010u));
+TEST(bits_check_all_of_mask, various) {
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b111u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b101u, 0b101u));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b110u, 0b101u));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b010u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b010u, 0b010u));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b101u, 0b010u));
 }
 
-TEST(bits_checkAnyOfMask, various) {
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b111u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b101u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b100u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b001u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b110u, 0b101u));
-    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b010u, 0b101u));
-    EXPECT_TRUE(ul::bits::checkAnyOfMask(0b010u, 0b010u));
-    EXPECT_FALSE(ul::bits::checkAnyOfMask(0b101u, 0b010u));
+TEST(bits_check_any_of_mask, various) {
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b111u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b101u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b100u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b001u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b110u, 0b101u));
+    EXPECT_FALSE(ul::bits::check_any_of_mask(0b010u, 0b101u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b010u, 0b010u));
+    EXPECT_FALSE(ul::bits::check_any_of_mask(0b101u, 0b010u));
 }
 
 TEST(bits_set_range, empty) {
@@ -263,32 +263,32 @@ TEST(bits_write, all) {
 TEST(bits_BitArray, construct) {
     ul::bits::Array<128, uint64_t> a1;
     for (ul::bits::Idx i = 0; i < 128; ++i)
-        EXPECT_FALSE(a1.isSet(i));
+        EXPECT_FALSE(a1.is_set(i));
 
     ul::bits::Array<2> a2;
     for (ul::bits::Idx i = 0; i < 2; ++i)
-        EXPECT_FALSE(a2.isSet(i));
+        EXPECT_FALSE(a2.is_set(i));
 
     ul::bits::Array<9, uint8_t> a3;
     for (ul::bits::Idx i = 0; i < 9; ++i)
-        EXPECT_FALSE(a3.isSet(i));
+        EXPECT_FALSE(a3.is_set(i));
 }
 
 TEST(bits_BitArray, set) {
     ul::bits::Array<42> a1;
     a1.set(41);
-    EXPECT_TRUE(a1.isSet(41));
+    EXPECT_TRUE(a1.is_set(41));
     EXPECT_DEBUG_DEATH(a1.set(42), ul::death_assert_regex);
 
     a1.set(0);
-    EXPECT_TRUE(a1.isSet(0));
+    EXPECT_TRUE(a1.is_set(0));
 
     a1.set(31);
-    EXPECT_TRUE(a1.isSet(31));
+    EXPECT_TRUE(a1.is_set(31));
     a1.set(32);
-    EXPECT_TRUE(a1.isSet(32));
+    EXPECT_TRUE(a1.is_set(32));
     a1.set(33);
-    EXPECT_TRUE(a1.isSet(33));
+    EXPECT_TRUE(a1.is_set(33));
 }
 
 TEST(bits_BitArray, reset) {
@@ -300,20 +300,20 @@ TEST(bits_BitArray, reset) {
     a1.set(33);
 
     a1.reset(41);
-    EXPECT_FALSE(a1.isSet(41));
-    EXPECT_TRUE(a1.isSet(0));
-    EXPECT_TRUE(a1.isSet(31));
-    EXPECT_TRUE(a1.isSet(32));
-    EXPECT_TRUE(a1.isSet(33));
+    EXPECT_FALSE(a1.is_set(41));
+    EXPECT_TRUE(a1.is_set(0));
+    EXPECT_TRUE(a1.is_set(31));
+    EXPECT_TRUE(a1.is_set(32));
+    EXPECT_TRUE(a1.is_set(33));
     a1.reset(0);
-    EXPECT_FALSE(a1.isSet(41));
-    EXPECT_FALSE(a1.isSet(0));
-    EXPECT_TRUE(a1.isSet(31));
-    EXPECT_TRUE(a1.isSet(32));
-    EXPECT_TRUE(a1.isSet(33));
+    EXPECT_FALSE(a1.is_set(41));
+    EXPECT_FALSE(a1.is_set(0));
+    EXPECT_TRUE(a1.is_set(31));
+    EXPECT_TRUE(a1.is_set(32));
+    EXPECT_TRUE(a1.is_set(33));
     a1.reset();
     for (ul::bits::Idx i = 0; i < 42; ++i)
-        EXPECT_FALSE(a1.isSet(i));
+        EXPECT_FALSE(a1.is_set(i));
 }
 
 //TEST(bits_BitArray, TODO_and_or)
@@ -436,7 +436,7 @@ TEST(bits_Field, overflow) {
     //    EXPECT_TRUE(ok);
     //}
 #else
-    EXPECT_THROW(lambda(), ul::fail_fast);
+    EXPECT_THROW(lambda(), ul::FailFast);
 #endif
 }
 

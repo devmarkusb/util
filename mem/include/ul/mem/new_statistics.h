@@ -37,7 +37,7 @@ public:
     static constexpr auto field_count{ul::as_number(Field::end)};
 
     static ul::bits::FieldsLookup<field_count> make_field_lookup() {
-        return make_field_lookup_impl(ul::idx::gen_seq<bit_counts.size()>());
+        return make_field_lookup_impl(ul::idx::GenSeq<bit_counts.size()>());
     }
 
     template <typename SourceDataType>
@@ -62,7 +62,7 @@ private:
     ul::bits::FieldsRaw<BitsType, Field, ul::as_number(Field::end)> bits_;
 
     template <int... is>
-    static ul::bits::FieldsLookup<field_count> make_field_lookup_impl(ul::idx::seq<is...>) {
+    static ul::bits::FieldsLookup<field_count> make_field_lookup_impl(ul::idx::Seq<is...>) {
         return ul::bits::FieldsLookup<field_count>{
             ul::bits::count<StatsHeader::BitsType>(), StatsHeader::bit_counts[is]...};
     }

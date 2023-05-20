@@ -10,8 +10,8 @@ TEST(math_to_string_Test, test) {
     EXPECT_STREQ("4.556000", ul::math::to_string(4.556).c_str());
     EXPECT_STREQ("4.6", ul::math::to_string(4.556, 2).c_str());
 
-    EXPECT_STREQ("4.556000", ul::math::to_string<ul::math::FloatFormat::default_>(4.556).c_str());
-    EXPECT_STREQ("4.6", ul::math::to_string<ul::math::FloatFormat::default_>(4.556, 2).c_str());
+    EXPECT_STREQ("4.556000", ul::math::to_string<ul::math::FloatFormat::default_choice>(4.556).c_str());
+    EXPECT_STREQ("4.6", ul::math::to_string<ul::math::FloatFormat::default_choice>(4.556, 2).c_str());
 
     EXPECT_STREQ("4.556000", ul::math::to_string<ul::math::FloatFormat::fixed>(4.556).c_str());
     EXPECT_STREQ("4.56", ul::math::to_string<ul::math::FloatFormat::fixed>(4.556, 2).c_str());

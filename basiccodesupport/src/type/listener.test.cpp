@@ -37,11 +37,11 @@ private:
 
 struct View : private ModelListener {
     View() {
-        this->in_v_.registerListener(this);
+        this->in_v_.register_listener(this);
     }
 
     ~View() override {
-        this->in_v_.unregisterListener(this);
+        this->in_v_.unregister_listener(this);
     }
 
     [[nodiscard]] int get_prop() const {

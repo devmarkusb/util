@@ -81,12 +81,12 @@ TEST(RationalTest, constr_zero) {
 }
 
 TEST(RationalTest, assign) {
-    ul::math::Rational r1{};
+    ul::math::Rational r{};
     const ul::math::Rational r1{24, 32};
 
-    r1 = r1;
-    EXPECT_EQ(24, r1.num);
-    EXPECT_EQ(32, r1.denom);
+    r = r1;
+    EXPECT_EQ(24, r.num);
+    EXPECT_EQ(32, r.denom);
 }
 
 TEST(RationalTest, inv) {
@@ -103,7 +103,7 @@ TEST(RationalTest, inv) {
 
 TEST(RationalTest, asfloat) {
     const ul::math::Rational r1{1, 2};
-    const double d{r1.asFloatingPoint<double>()};
+    const double d{r1.as_floating_point<double>()};
     EXPECT_DOUBLE_EQ(0.5, d);
 }
 

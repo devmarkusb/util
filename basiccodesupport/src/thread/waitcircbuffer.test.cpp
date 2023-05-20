@@ -16,15 +16,15 @@ TEST(thread_WaitCircularBuffer, basics) {
 
     ASSERT_TRUE(q.push(some_number_choice));
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, some_number_choice);
 
     ASSERT_TRUE(q.push(some_number_choice + 1));
     ASSERT_TRUE(q.push(some_number_choice + 2));
     ASSERT_FALSE(q.push(some_number_choice + 3));
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, some_number_choice + 1);
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, some_number_choice + 2);
 }
 
@@ -44,7 +44,7 @@ TEST(thread_WaitCircularBuffer, massive_parallel) {
     for (auto& c : consumer) {
         c = std::thread{[&q, &mutex, &popped_values]() {
             int elem{};
-            q.waitAndPop(elem);
+            q.wait_and_pop(elem);
             const std::lock_guard<std::mutex> lk{mutex};
             EXPECT_FALSE(popped_values.count /*contains*/ (elem));
             popped_values.insert(elem);
@@ -60,7 +60,7 @@ TEST(thread_WaitCircularBuffer, massive_parallel) {
 
     EXPECT_EQ(popped_values.size(), thread_count - 1);
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_FALSE(popped_values.count /*contains*/ (elem));
 }
 
@@ -70,7 +70,7 @@ TEST(thread_WaitCircularBuffer, stop) {
     q.stop();
 
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     // just testing that we aren't caught in an endless loop with the previous line
     // (which we were without the stop)
 }

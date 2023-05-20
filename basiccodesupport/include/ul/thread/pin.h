@@ -81,7 +81,7 @@ int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set
 #endif
 
 #if UL_OS_UNIX
-using native_handle = pthread_t;
+using NativeHandle = pthread_t;
 #else
 // not implemented
 using native_handle = int;
@@ -90,7 +90,7 @@ using native_handle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pin_to_logical_core([[maybe_unused]] native_handle h, [[maybe_unused]] int logicalCoreIdx)
+inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]] int logicalCoreIdx)
 #if UL_OS_MAC
     noexcept
 #endif
@@ -99,7 +99,7 @@ inline int pin_to_logical_core([[maybe_unused]] native_handle h, [[maybe_unused]
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX
-    throw ul::not_implemented;{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux";};
+    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);
     mac::cpu_set_t cpuset;
@@ -109,7 +109,7 @@ inline int pin_to_logical_core([[maybe_unused]] native_handle h, [[maybe_unused]
 #else
     ul::ignore_unused(h);
     ul::ignore_unused(logicalCoreIdx);
-    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
+    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -122,7 +122,7 @@ inline int pin_to_logical_core(int logicalCoreIdx) {
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
     ul::ignore_unused(logicalCoreIdx);
-    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore"};
+    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore"};
 #endif
 }
 
@@ -136,7 +136,7 @@ inline void pin_to_logical_core(std::thread& t, int logicalCoreIdx) {
     UL_EXPECT(logicalCoreIdx >= 0);
 
 #if UL_OS_LINUX || UL_OS_MAC
-    const auto nh = static_cast<native_handle>(t.native_handle());
+    auto nh = static_cast<NativeHandle>(t.native_handle());
     const auto err = pin_to_logical_core(nh, logicalCoreIdx);
     if (err) {
         std::stringstream ss;
@@ -146,7 +146,7 @@ inline void pin_to_logical_core(std::thread& t, int logicalCoreIdx) {
 #else
     ul::ignore_unused(t);
     ul::ignore_unused(logicalCoreIdx);
-    throw ul::not_implemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
+    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
 
@@ -163,7 +163,7 @@ inline int num_logical_cores()
     const auto ok = sched_getaffinity({}, {}, &cpuset);
     return ok <= 0 ? -1 : cpuset.count;
 #else
-    throw ul::not_implemented{UL_LOCATION " numLogicalCores not yet for non-Unix"};
+    throw ul::NotImplemented{UL_LOCATION " numLogicalCores not yet for non-Unix"};
 #endif
 }
 } // namespace mb::ul::thread

@@ -64,8 +64,8 @@ inline std::wstring locenc_s2ws(const std::string& s);
 //! 'const_iterator' supported there).
 inline char* s2psz(const std::string& s) {
     const char* tmp(s.c_str());
-    char* s = const_cast<char*>(tmp);
-    return s;
+    char* psz = const_cast<char*>(tmp);
+    return psz;
 }
 
 //! Converts s containing utf8 stuff like "\xc3\xa4" to the same string regarding ASCII characters but

@@ -9,20 +9,20 @@ TEST(prog_exit_successTest, test) {
 }
 
 namespace {
-retcode f_with_retcode(char x) noexcept {
+Retcode f_with_retcode(char x) noexcept {
     switch (x) {
         case 's':
-            return retcode::success;
+            return Retcode::success;
         case 'f':
-            return retcode::failed;
+            return Retcode::failed;
         case 'n':
-            return retcode::not_implemented;
+            return Retcode::not_implemented;
         case 'r':
-            return retcode::runtime_error;
+            return Retcode::runtime_error;
         case 'c':
-            return retcode::would_crash;
+            return Retcode::would_crash;
         default:
-            return retcode::none;
+            return Retcode::none;
     }
 }
 } // namespace
@@ -41,10 +41,10 @@ TEST(ul_retcodeTest, test) {
         ok = true;
     EXPECT_FALSE(ok);
 
-    EXPECT_TRUE(f_with_retcode('s') == retcode::none);
-    EXPECT_TRUE(f_with_retcode('s') == retcode::success);
-    EXPECT_TRUE(f_with_retcode('f') == retcode::failed);
-    EXPECT_TRUE(f_with_retcode('n') == retcode::not_implemented);
-    EXPECT_TRUE(f_with_retcode('r') == retcode::runtime_error);
-    EXPECT_TRUE(f_with_retcode('c') == retcode::would_crash);
+    EXPECT_TRUE(f_with_retcode('s') == Retcode::none);
+    EXPECT_TRUE(f_with_retcode('s') == Retcode::success);
+    EXPECT_TRUE(f_with_retcode('f') == Retcode::failed);
+    EXPECT_TRUE(f_with_retcode('n') == Retcode::not_implemented);
+    EXPECT_TRUE(f_with_retcode('r') == Retcode::runtime_error);
+    EXPECT_TRUE(f_with_retcode('c') == Retcode::would_crash);
 }

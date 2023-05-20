@@ -13,13 +13,13 @@ namespace mb::ul {
 //! Mark a raw pointer as owner of the memory. Should be rarely needed, in low level code at the most.
 /** Usage:
 \code
-ul::owner<int*> owning_the_mem = new int;
+ul::Owner<int*> owning_the_mem = new int;
 int* just_an_alias_non_owning = owning_the_mem;
 delete owning_the_mem;
 \endcode
 */
 template <typename T>
-using owner = T;
+using Owner = T;
 
 //! Restricts a pointer or smart pointer to only hold non-null values.
 /** (Cf. Cpp Guidelines Support Library GSL) Has zero size overhead over T.
@@ -32,7 +32,7 @@ using owner = T;
 
     Usage:
     \code
-    void f(ul::not_null<int*> param)
+    void f(ul::NotNull<int*> param)
     {
     // no nullptr-check necessary
     param;
@@ -64,12 +64,12 @@ public:
 #endif
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    explicit NotNull(const not_null<U>& other) {
+    explicit NotNull(const NotNull<U>& other) {
         *this = other;
     }
 
     template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
-    NotNull& operator=(const not_null<U>& other) {
+    NotNull& operator=(const NotNull<U>& other) {
         this->ptr_ = other.get();
         return *this;
     }

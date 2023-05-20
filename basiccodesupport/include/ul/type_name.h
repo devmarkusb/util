@@ -27,7 +27,7 @@ constexpr std::string_view type_name() {
 #if UL_LANG_STANDARD_CPP < UL_LANG_STANDARD_CPP14
     return string_view(p.data() + 36, p.size() - 36 - 1);
 #else
-    throw ul::not_implemented{"type_name"};
+    throw ul::NotImplemented{"type_name"};
     //return string_view(p.data() + 49, p.find(';', 49) - 49);
 #endif
 #elif defined(_MSC_VER)

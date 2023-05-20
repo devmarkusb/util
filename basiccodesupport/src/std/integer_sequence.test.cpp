@@ -22,7 +22,7 @@ void caller_impl(const std::array<int, 3>& theArray, ul::idx::Seq<is...> /*unuse
 TEST(idx_seq, array) {
     const std::array<int, 3> arr{1, 2, 3};
 
-    test_int::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
+    test_int::caller_impl(arr, ul::idx::GenSeq<arr.size()>{});
 }
 
 namespace test_size_t {
@@ -35,13 +35,13 @@ void to_be_called(T... t) {
 }
 
 template <int... is>
-void caller_impl(const std::array<size_t, 3>& theArray, ul::idx::Seq<is...> /*unused*/) {
-    to_be_called(theArray[is]...);
+void caller_impl(const std::array<size_t, 3>& a, ul::idx::Seq<is...> /*unused*/) {
+    to_be_called(a[is]...);
 }
 } // namespace test_size_t
 
 TEST(idx_seq, array_size_t) {
     const std::array<size_t, 3> arr{1, 2, 3};
 
-    test_size_t::caller_impl(arr, ul::idx::gen_seq<arr.size()>{});
+    test_size_t::caller_impl(arr, ul::idx::GenSeq<arr.size()>{});
 }
