@@ -10,16 +10,16 @@
 namespace mb::ul::mem {
 template <class T>
 inline void checked_delete(T* x) {
-    typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
-    (void)sizeof(type_must_be_complete);
-    delete x;
+    using TypeMustBeComplete = char[sizeof(T) ? 1 : -1]; // NOLINT
+    (void)sizeof(TypeMustBeComplete);
+    delete x; // NOLINT
 }
 
 template <class T>
 inline void checked_array_delete(T* x) {
-    typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
-    (void)sizeof(type_must_be_complete);
-    delete[] x;
+    using TypeMustBeComplete = char[sizeof(T) ? 1 : -1]; // NOLINT
+    (void)sizeof(TypeMustBeComplete);
+    delete[] x; // NOLINT
 }
 } // namespace mb::ul::mem
 

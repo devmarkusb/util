@@ -25,11 +25,11 @@ namespace mb::ul {
     {
         View()
         {
-            this->m_in_v.registerListener(this);
+            this->m_in_v.register_listener(this);
         }
         ~View()
         {
-            this->m_in_v.unregisterListener(this);
+            this->m_in_v.unregister_listener(this);
         }
     private:
         Model in_v_;
@@ -87,7 +87,7 @@ class ListenerRegister {
 public:
     virtual ~ListenerRegister() = default;
 
-    /** l has to be non-nullptr and valid/alive until calling unregisterListener on it,
+    /** l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
     virtual void register_listener(Listener* l) {
@@ -99,7 +99,7 @@ public:
         this->registeredListeners_.push_back(l);
     }
 
-    /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
+    /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
         The same l also mustn't be unregistered more than once.*/
     virtual void unregister_listener(Listener* l) {
         UL_EXPECT(l);
@@ -127,7 +127,7 @@ protected:
 template <class StaticNotifier>
 class ListenerStaticRegister {
 public:
-    /** \param l has to be non-nullptr and valid/alive until calling unregisterListener on it,
+    /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
         which also has to be called before l's livetime ends.
         The same l also mustn't be registered more than once.*/
     static void register_listener(Listener* l) {
@@ -139,7 +139,7 @@ public:
         registered_listeners().push_back(l);
     }
 
-    /** \param l has to be a non-nullptr, still valid, already via registerListener registered Listener.
+    /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
         The same l also mustn't be unregistered more than once.*/
     static void unregister_listener(Listener* l) {
         UL_EXPECT(l);

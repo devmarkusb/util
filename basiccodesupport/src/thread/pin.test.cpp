@@ -46,7 +46,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
             }
         });
-        ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
+        ul::thread::pin_to_logical_core(threads[i], static_cast<int>(i));
         {
             const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
@@ -81,7 +81,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
             }
         });
-        ul::thread::pinToLogicalCore(threads[i], 1);
+        ul::thread::pin_to_logical_core(threads[i], 1);
         {
             const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
@@ -109,7 +109,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
     std::mutex switched_m;
     auto switchCores = [&threads, &num_threads]() {
         for (auto i = decltype(num_threads){0}; i < num_threads; ++i) {
-            ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i + 1 % num_threads));
+            ul::thread::pin_to_logical_core(threads[i], static_cast<int>(i + 1 % num_threads));
         }
     };
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i) {
@@ -135,7 +135,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
                 std::this_thread::sleep_for(std::chrono::milliseconds(num_waits));
             }
         });
-        ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
+        ul::thread::pin_to_logical_core(threads[i], static_cast<int>(i));
         {
             const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
@@ -172,7 +172,7 @@ TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
             }
         });
-        ul::thread::pinToLogicalCore(threads[i], static_cast<int>(i));
+        ul::thread::pin_to_logical_core(threads[i], static_cast<int>(i));
         {
             const std::lock_guard<std::mutex> lk(ready2go[i].m);
             ready2go[i].ok = true;
@@ -193,7 +193,7 @@ TEST_F(PinToCpuTest, invalidCPUNr_throws) {
     std::thread thread([] {
     });
     EXPECT_THROW(
-        ul::thread::pinToLogicalCore(thread, 1 + static_cast<int>(std::thread::hardware_concurrency())),
+        ul::thread::pin_to_logical_core(thread, 1 + static_cast<int>(std::thread::hardware_concurrency())),
         std::runtime_error);
     thread.join();
 }

@@ -26,11 +26,11 @@ class Array {
 protected:
     std::array<T, static_capacity> buf_{};
 
-    template <typename T, typename Buffer>
-    void emplace(T&& item, Buffer&& buf, size_t head) noexcept {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U, typename Buffer>
+    void emplace(U&& item, Buffer&& buf, size_t head) noexcept {
+        static_assert(std::is_convertible_v<U, T>);
 
-        buf[head] = std::forward<T>(item);
+        buf[head] = std::forward<U>(item);
     }
 };
 
@@ -47,13 +47,13 @@ protected:
         buf_.resize(capacity);
     }
 
-    template <typename T, typename Buffer>
-    void emplace(T&& item, Buffer&& buf, size_t head) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U, typename Buffer>
+    void emplace(U&& item, Buffer&& buf, size_t head) {
+        static_assert(std::is_convertible_v<U, T>);
 
         auto it = std::begin(buf);
         std::advance(it, head);
-        buf.emplace(it, std::forward<T>(item));
+        buf.emplace(it, std::forward<U>(item));
     }
 };
 
@@ -78,14 +78,14 @@ public:
 
     CircularBuffer() noexcept = default;
 
-    template <typename T>
-    void push(T&& item) noexcept {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    void push(U&& item) noexcept {
+        static_assert(std::is_convertible_v<U, T>);
 
         if (full_)
             tail_ = (tail_ + 1) % capacity();
 
-        Base::buf_[head_] = std::forward<T>(item); // NOLINT
+        Base::buf_[head_] = std::forward<U>(item); // NOLINT
 
         head_ = (head_ + 1) % capacity();
 
@@ -95,14 +95,14 @@ public:
     //! Don't use! Doesn't work yet.
     /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
-    template <typename T>
-    void emplace(T&& item) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    void emplace(U&& item) {
+        static_assert(std::is_convertible_v<U, T>);
 
         if (full_)
             tail_ = (tail_ + 1) % capacity();
 
-        Base::emplace(std::forward<T>(item), Base::buf_, head_);
+        Base::emplace(std::forward<U>(item), Base::buf_, head_);
 
         head_ = (head_ + 1) % capacity();
 

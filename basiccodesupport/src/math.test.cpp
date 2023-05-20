@@ -35,18 +35,18 @@ TEST(math_constsTest, test) {
 
 // NOLINTBEGIN
 
-TEST(math_isPowerOfTwo, some) {
-    static_assert(!ul::math::isPowerOfTwo(0));
-    static_assert(ul::math::isPowerOfTwo(1));
-    static_assert(ul::math::isPowerOfTwo(2));
-    static_assert(!ul::math::isPowerOfTwo(3));
-    static_assert(ul::math::isPowerOfTwo(4));
-    static_assert(ul::math::isPowerOfTwo(256));
-    static_assert(!ul::math::isPowerOfTwo(257));
+TEST(math_is_power_of_two, some) {
+    static_assert(!ul::math::is_power_of_two(0));
+    static_assert(ul::math::is_power_of_two(1));
+    static_assert(ul::math::is_power_of_two(2));
+    static_assert(!ul::math::is_power_of_two(3));
+    static_assert(ul::math::is_power_of_two(4));
+    static_assert(ul::math::is_power_of_two(256));
+    static_assert(!ul::math::is_power_of_two(257));
 
-    static_assert(!ul::math::isPowerOfTwo(-1));
-    static_assert(!ul::math::isPowerOfTwo(-2));
-    static_assert(!ul::math::isPowerOfTwo(-256));
+    static_assert(!ul::math::is_power_of_two(-1));
+    static_assert(!ul::math::is_power_of_two(-2));
+    static_assert(!ul::math::is_power_of_two(-256));
 }
 
 #if !UL_COMP_MS_VISUAL_STUDIO_CPP
@@ -134,28 +134,28 @@ TEST(math_NextGreaterPow2, int_neg) {
 }
 #endif
 
-TEST(math_nextGreaterOrEqPow2, some) {
-    static_assert(ul::math::nextGreaterOrEqPow2(1) == 1);
-    static_assert(ul::math::nextGreaterOrEqPow2(2) == 2);
-    static_assert(ul::math::nextGreaterOrEqPow2(3) == 4);
-    static_assert(ul::math::nextGreaterOrEqPow2(4) == 4);
-    static_assert(ul::math::nextGreaterOrEqPow2(5) == 8);
-    static_assert(ul::math::nextGreaterOrEqPow2(6) == 8);
-    static_assert(ul::math::nextGreaterOrEqPow2(7) == 8);
-    static_assert(ul::math::nextGreaterOrEqPow2(8) == 8);
-    static_assert(ul::math::nextGreaterOrEqPow2(9) == 16);
-    static_assert(ul::math::nextGreaterOrEqPow2(10) == 16);
+TEST(math_next_greater_or_eq_pow2, some) {
+    static_assert(ul::math::next_greater_or_eq_pow2(1) == 1);
+    static_assert(ul::math::next_greater_or_eq_pow2(2) == 2);
+    static_assert(ul::math::next_greater_or_eq_pow2(3) == 4);
+    static_assert(ul::math::next_greater_or_eq_pow2(4) == 4);
+    static_assert(ul::math::next_greater_or_eq_pow2(5) == 8);
+    static_assert(ul::math::next_greater_or_eq_pow2(6) == 8);
+    static_assert(ul::math::next_greater_or_eq_pow2(7) == 8);
+    static_assert(ul::math::next_greater_or_eq_pow2(8) == 8);
+    static_assert(ul::math::next_greater_or_eq_pow2(9) == 16);
+    static_assert(ul::math::next_greater_or_eq_pow2(10) == 16);
 
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(1) == 1);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(2) == 2);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(3) == 4);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(4) == 4);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(5) == 8);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(6) == 8);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(7) == 8);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(8) == 8);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(9) == 16);
-    EXPECT_TRUE(ul::math::nextGreaterOrEqPow2(10) == 16);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(1) == 1);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(2) == 2);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(3) == 4);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(4) == 4);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(5) == 8);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(6) == 8);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(7) == 8);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(8) == 8);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(9) == 16);
+    EXPECT_TRUE(ul::math::next_greater_or_eq_pow2(10) == 16);
 }
 
 // NOLINTEND

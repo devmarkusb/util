@@ -96,7 +96,7 @@ TEST(ul_anyTest, test) {
     EXPECT_EQ(5, ul::any_cast<int>(a1get));
     ul::any a1get_err = ia->get(a::Attr::a2);
     EXPECT_TRUE(a1get_err.empty());
-    EXPECT_THROW(ul::any_cast<long>(a1get_err), std::bad_any_cast);
+    EXPECT_THROW(ul::any_cast<long>(a1get_err), mb::ul::BadAnyCast);
 
     ul::any d1 = std::vector<int>{1, 2, 3, 4, 5}; // NOLINT
     ia->copy_to(a::LargeData::d1, d1);
@@ -104,7 +104,7 @@ TEST(ul_anyTest, test) {
     ia->copy_from(a::LargeData::d1, d1get);
     const std::vector<int> test_v{1, 2, 3, 4, 5};
     EXPECT_EQ(test_v, ul::any_cast<std::vector<int>>(d1get));
-    EXPECT_THROW(ul::any_cast<std::vector<bool>>(d1get), std::bad_any_cast);
+    EXPECT_THROW(ul::any_cast<std::vector<bool>>(d1get), mb::ul::BadAnyCast);
 
     ul::any* pd1 = &d1;
     ia->copy_to(a::LargeData::d1, *pd1);

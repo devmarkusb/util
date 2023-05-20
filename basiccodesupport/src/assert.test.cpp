@@ -15,9 +15,9 @@ UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
 
 TEST(AssertExpectEnsureTest, Assert) {
 #ifdef UL_ASSERT_ALWAYS_THROWING
-    EXPECT_THROW(UL_ASSERT(false), ul::fail_fast);
-    EXPECT_THROW(UL_EXPECT(false), ul::fail_fast);
-    EXPECT_THROW(UL_ENSURE(false), ul::fail_fast);
+    EXPECT_THROW(UL_ASSERT(false), ul::FailFast);
+    EXPECT_THROW(UL_EXPECT(false), ul::FailFast);
+    EXPECT_THROW(UL_ENSURE(false), ul::FailFast);
 #else
 #if UL_DEBUG && GTEST_HAS_DEATH_TEST
     EXPECT_DEBUG_DEATH(UL_ASSERT(false), "");

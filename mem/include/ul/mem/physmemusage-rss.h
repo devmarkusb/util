@@ -47,7 +47,7 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
 #else
     ul::ignore_unused(virtual_mem_usage);
     ul::ignore_unused(physical_mem_usage);
-    throw ul::not_implemented{UL_LOCATION " ul::mem::usage not yet for non-Linux"};
+    throw ul::NotImplemented{UL_LOCATION " ul::mem::usage not yet for non-Linux"};
 #endif
 }
 } // namespace mb::ul::mem

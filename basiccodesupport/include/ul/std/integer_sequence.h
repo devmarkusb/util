@@ -33,9 +33,9 @@ namespace mb::ul::idx {
     which you call like
         void caller(const std::array<int, 3>& theArray)
         {
-            caller_impl(theArray, ul::idx::gen_seq<theArray.size()>());
+            caller_impl(theArray, ul::idx::GenSeq<theArray.size()>());
         }
-    The use of ul::idx::gen_seq generates a sequence of a certain array length, which is then used to fill in a
+    The use of ul::idx::GenSeq generates a sequence of a certain array length, which is then used to fill in a
     template parameter that allows fold-expanding the array by index - the function parameter ul::idx::seq itself
     isn't used directly.*/
 template <int... is>

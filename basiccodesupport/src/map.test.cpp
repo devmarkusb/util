@@ -3,16 +3,16 @@
 
 namespace ul = mb::ul;
 
-TEST(ct_mapTest, test) {
+TEST(CtMapTest, test) {
     // as the name says... this should be testable at compile time
-    using ul::kv;
+    using ul::KV;
     // NOLINTBEGIN
-    using test_map = ul::ct_map<-1, kv<10, 11>, kv<20, 2002>, kv<30, 123>, kv<40, 546>>;
+    using TestMap = ul::CtMap<-1, KV<10, 11>, KV<20, 2002>, KV<30, 123>, KV<40, 546>>;
 
-    static_assert(2002 == test_map::at<20>::value, "mmmhh... no!");
-    static_assert(11 == test_map::at<10>::value, "mmmhh... no!");
-    static_assert(123 == test_map::at<30>::value, "mmmhh... no!");
-    static_assert(546 == test_map::at<40>::value, "mmmhh... no!");
-    static_assert(-1 == test_map::at<347856>::value, "mmmhh... no!");
+    static_assert(2002 == TestMap::At<20>::v, "mmmhh... no!");
+    static_assert(11 == TestMap::At<10>::v, "mmmhh... no!");
+    static_assert(123 == TestMap::At<30>::v, "mmmhh... no!");
+    static_assert(546 == TestMap::At<40>::v, "mmmhh... no!");
+    static_assert(-1 == TestMap::At<347856>::v, "mmmhh... no!");
     // NOLINTEND
 }

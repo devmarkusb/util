@@ -121,7 +121,7 @@ UL_WARNING_DISABLE_MSVC(4127)
         Then you could choose b) if there was no harm in letting the error go unnoticed except the program 'just'
         missing some functionality.
         But in most cases you should opt for a), letting programmers and testers know that there is a logically wrong
-        behavior happening. The exception ul::fail_fast can then be caught at any call stack level that thinks it
+        behavior happening. The exception ul::FailFast can then be caught at any call stack level that thinks it
         knows how to handle that.
 */
 //!@{

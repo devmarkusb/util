@@ -3,8 +3,8 @@
 All-in-one include file for almost the whole lib (except for some macro-only headers).
 */
 
-#ifndef UL_H_eroih3x789g439g43ngg352g4
-#define UL_H_eroih3x789g439g43ngg352g4
+#ifndef UL_H_EROIH3X789G439G43NGG352G4
+#define UL_H_EROIH3X789G439G43NGG352G4
 
 #include "ul/basiccodesupport.h"
 #include "ul/buildenv.h"

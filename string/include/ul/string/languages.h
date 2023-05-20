@@ -10,13 +10,13 @@
 
 namespace mb::ul::str {
 //! Language id type per ISO 639-1 plus an auto/systems choice.
-using LangID_iso639_1 = std::string;
+using LangIdIso6391 = std::string;
 
-const LangID_iso639_1 auto_systems_language{"auto"};
+const LangIdIso6391 auto_systems_language{"auto"};
 
 //! Note: if you add to this, don't forget about the other functions in this file.
-inline const std::vector<LangID_iso639_1>& get_all_theoretically_possible_lang_i_ds() {
-    static const std::vector<LangID_iso639_1> cachedval{
+inline const std::vector<LangIdIso6391>& get_all_theoretically_possible_lang_i_ds() {
+    static const std::vector<LangIdIso6391> cachedval{
         "ar", // Arabic
         "bn", // Bengali, Bangla
         "de", // German
@@ -34,7 +34,7 @@ inline const std::vector<LangID_iso639_1>& get_all_theoretically_possible_lang_i
     return cachedval;
 }
 
-inline std::string get_native_language_name(const LangID_iso639_1& id) {
+inline std::string get_native_language_name(const LangIdIso6391& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)
@@ -72,7 +72,7 @@ inline std::string get_native_language_name(const LangID_iso639_1& id) {
         throw ul::NotImplemented{"unsupported or unknonwn ISO 639-1 language code"};
 }
 
-inline std::string get_english_language_name(const LangID_iso639_1& id) {
+inline std::string get_english_language_name(const LangIdIso6391& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
         // (on library level I can't decide, whether you want 'auto' or 'systems default' or whatever)

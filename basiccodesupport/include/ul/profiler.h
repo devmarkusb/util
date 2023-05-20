@@ -98,13 +98,13 @@ private:
 
     using ItemNameAsKey = std::string;
     using Items = std::multimap<ItemNameAsKey, ItemData>;
-    using chrono_clock = std::chrono::high_resolution_clock;
-    using chrono_duration =
+    using ChronoClock = std::chrono::high_resolution_clock;
+    using ChronoDuration =
         std::chrono::duration<TimeValStorageRep, std::ratio<1, 1>>; // means seconds stored with type TimeValStorage
-    using chrono_timepoint = std::chrono::time_point<chrono_clock, chrono_duration>;
+    using ChronoTimepoint = std::chrono::time_point<ChronoClock, ChronoDuration>;
 
-    chrono_timepoint startTime_;
-    chrono_timepoint stopTime_;
+    ChronoTimepoint startTime_;
+    ChronoTimepoint stopTime_;
     std::string itemName_;
     NestingLevel nestingLevel_ = NestingLevel{};
     UniqueItemStartNr itemStartNr_ = UniqueItemStartNr{};
@@ -150,7 +150,7 @@ private:
 
 inline void PerformanceProfiler::start_current_item() {
     itemStartNr_ = unique_item_start_nr()++;
-    startTime_ = chrono_clock::now();
+    startTime_ = ChronoClock::now();
 }
 
 inline void PerformanceProfiler::stop_current_item() {
@@ -173,8 +173,8 @@ inline PerformanceProfiler::PerformanceProfiler(std::string NewItemName, Nesting
 }
 
 inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_current_item() const {
-    const chrono_timepoint now = chrono_clock::now();
-    const chrono_duration elapsed = now - startTime_;
+    const ChronoTimepoint now = ChronoClock::now();
+    const ChronoDuration elapsed = now - startTime_;
     return elapsed.count();
 }
 
@@ -302,9 +302,9 @@ std::string PerformanceProfiler::dump_all_items() {
 
 // NOLINTEND
 
-inline std::string PerformanceProfiler::to_formatted_string(const SecondsDbl& d) {
+inline std::string PerformanceProfiler::to_formatted_string(const SecondsDbl& sd) {
     std::stringstream ret;
-    SecondsDbl d_cpy(d);
+    SecondsDbl d(sd);
     if (d < 0.0) {
         d = -d;
         ret << '-';
