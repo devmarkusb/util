@@ -1,6 +1,6 @@
 # Include in your project root(s) once. Generates 'clang-tidy' targets.
 # Before that, optionally define
-# - UL_ADDITIONAL_CLANG_TIDY_DIRS with a quoted ;-separated list
+# - UL_CLANG_TIDY_DIRS with a quoted ;-separated list (most reasonable ones are already implicitly set)
 # - UL_USE_DEFAULT_CLANG_TIDY_CONFIG ON if you want to overwrite the .clang-tidy file in your project dir by this
 #   repos' default.
 cmake_minimum_required(VERSION 3.14)
@@ -20,14 +20,7 @@ if (UL_USE_DEFAULT_CLANG_TIDY_CONFIG)
     file(COPY ${mb-clangtidy_SOURCE_DIR}/.clang-tidy DESTINATION ${PROJECT_SOURCE_DIR}/)
 endif()
 
-set(cxx_dirs_general "apps;include;libs;sdks;source;src;test")
-if (${PROJECT_NAME} STREQUAL "util")
-    set(cxx_dirs_util ";basiccodesupport;buildenv;linklib;mem;string")
-endif ()
+set(cxx_dirs_general "apps;include;source;src;test")
 
-string(CONCAT cxx_dirs "${cxx_dirs_general}" "${cxx_dirs_util}")
-if (UL_ADDITIONAL_CLANG_TIDY_DIRS)
-    string(CONCAT cxx_dirs "${cxx_dirs}" ";${UL_ADDITIONAL_CLANG_TIDY_DIRS}")
-endif()
-
+string(CONCAT cxx_dirs "${cxx_dirs_general}" ";${UL_CLANG_TIDY_DIRS}")
 add_clang_tidy_project_target("${cxx_dirs}")
