@@ -31,17 +31,17 @@ namespace detail {
 // https://stackoverflow.com/a/22486607
 // The cast (NumberType)0 instead of NumberType{} is a workaround for GCC.
 template <typename NumberType, typename Number>
-struct NextGreaterOrEqPow2_;
+struct NextGreaterOrEqPow2;
 
 template <typename NumberType, NumberType number>
-struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>> {
+struct NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>> {
     static constexpr NumberType value =
-        NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number / NumberType{2}>>::value_
+        NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number / NumberType{2}>>::value
         * NumberType{2};
 };
 
 template <typename NumberType>
-struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, NumberType{0}>> {
+struct NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, NumberType{0}>> {
     static constexpr NumberType value = NumberType{1};
 };
 } // namespace detail
@@ -54,18 +54,18 @@ struct NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, Numbe
         static_assert(ul::math::NextGreaterOrEqualPowerOfTwo<int, 5>::value() == 8);*/
 template <typename NumberType, NumberType number>
 struct NextGreaterOrEqPow2
-    : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>> {
+    : public detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>> {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
 
     static constexpr NumberType value() noexcept {
-        if constexpr (isPowerOfTwo(number)) {
+        if constexpr (is_power_of_two(number)) {
             return number;
         } else {
             // yes, this still keeps the function compile-time, cf. unit tests
             if (number < NumberType{}) {
                 return NumberType{1};
             }
-            return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
+            return detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>>::value;
         }
     }
 };
@@ -77,14 +77,14 @@ struct NextGreaterOrEqPow2
         static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 3>::value() == 4);
         static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 8);*/
 template <typename NumberType, NumberType number>
-struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>> {
+struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>> {
     static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
 
     static constexpr NumberType value() noexcept {
         if (number < NumberType{}) {
             return NumberType{1};
         }
-        return detail::NextGreaterOrEqPow2_<NumberType, std::integral_constant<NumberType, number>>::value_;
+        return detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>>::value;
     }
 };
 #endif

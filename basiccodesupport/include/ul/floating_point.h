@@ -28,7 +28,7 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type ap
 
 //! Cf. to_string functions.
 enum class FloatFormat {
-    default_,
+    default_choice,
     fixed,
     scientific,
 };
@@ -44,7 +44,7 @@ struct ToStringConverter;
         b) the decimal places for FF `fixed` or `scientific`.
     FF scientific leads to exponential formatting.
     If don't want to pass precision and use a default one (e.g. 6) and use FF default_, just use std::to_string.*/
-template <FloatFormat ff = FloatFormat::default_, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
 typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(
     FloatType x, int precision) {
@@ -55,7 +55,7 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::
 //! \return a string of the floating point number x.
 /** \tparam ff selects the formatting: `default_` being equivalent to a call of std::to_string,
     `fixed` meaning fixed count of decimal places and `scientific` an exponential formatting.*/
-template <FloatFormat ff = FloatFormat::default_, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
 typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(FloatType x) {
     return impl::ToStringConverter<FloatType, ff>::convert(x);
@@ -66,7 +66,7 @@ template <typename FloatType, FloatFormat ff>
 struct ToStringConverter {};
 
 template <typename FloatType>
-struct ToStringConverter<FloatType, FloatFormat::default_> {
+struct ToStringConverter<FloatType, FloatFormat::default_choice> {
     static std::string convert(FloatType x) {
         return ul::to_string(x);
     }

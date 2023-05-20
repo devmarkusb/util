@@ -11,8 +11,8 @@
         Note that you will need to re-run CMake.
 */
 
-#ifndef CONFIG_GEN_H_orgh389gh9y34hgy894yg4839y4hg
-#define CONFIG_GEN_H_orgh389gh9y34hgy894yg4839y4hg
+#ifndef CONFIG_GEN_H_ORGH389GH9Y34HGY894YG4839Y4HG
+#define CONFIG_GEN_H_ORGH389GH9Y34HGY894YG4839Y4HG
 
 #cmakedefine01 UL_DISABLE_NAMESPACE_ALIAS
 

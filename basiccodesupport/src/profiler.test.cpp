@@ -64,14 +64,14 @@ TEST(ToFormattedStringTest, Inf) {
 // NOLINTBEGIN
 TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
     ul::PerformanceProfiler perfscope0("1. 500ms");
-    EXPECT_NEAR(0.0, perfscope0.elapsed_currentItem(), 0.02);
+    EXPECT_NEAR(0.0, perfscope0.elapsed_current_item(), 0.02);
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    EXPECT_NEAR(0.5, perfscope0.elapsed_currentItem(), 0.02);
-    perfscope0.startNewItem("2. nest0");
+    EXPECT_NEAR(0.5, perfscope0.elapsed_current_item(), 0.02);
+    perfscope0.start_new_item("2. nest0");
     {
         ul::PerformanceProfiler perfscope1("3. 100ms", 1);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        perfscope1.startNewItem("4. nest1");
+        perfscope1.start_new_item("4. nest1");
         {
             ul::PerformanceProfiler perfscope2("5. for", 2);
             for (size_t i = 1; i <= 5; ++i) {
@@ -79,15 +79,15 @@ TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
                 ul::ignore_unused(perfscope3);
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
-            perfscope2.startNewItem("7. 200ms");
+            perfscope2.start_new_item("7. 200ms");
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
     }
-    perfscope0.startNewItem("8. 300ms");
+    perfscope0.start_new_item("8. 300ms");
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    perfscope0.startNewItem("9. 100ms");
+    perfscope0.start_new_item("9. 100ms");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    perfscope0.stopItem();
+    perfscope0.stop_item();
     std::cout << ul::PerformanceProfiler::dump_all_items<ul::PerformanceProfiler::DumpFormat::string_and_structure>();
     const std::vector<ul::PerformanceProfiler::DumpDataset>& data = ul::PerformanceProfiler::dumped_data();
     ASSERT_EQ(9u, data.size());

@@ -9,7 +9,7 @@
 namespace mb::ul {
 namespace detail {
 template <typename T, std::size_t n, typename Container>
-constexpr T ct_accumulate(Container&& arr, T init_val) {
+constexpr T ct_accumulate(const Container& arr, T init_val) {
     T sum{init_val};
 
     for (size_t i = 0; i < n; ++i)

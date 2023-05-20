@@ -10,7 +10,7 @@ namespace mb::ul {
     Not to mention that the compile time map is restricted to integral types.
     Nevertheless its usage is e.g.
     \code
-    using some_map = ul::ct_map<-1, kv<10, 11>, kv<20, 2002>, kv<30, 123>, kv<40, 546>>;
+    using some_map = ul::CtMap<-1, kv<10, 11>, kv<20, 2002>, kv<30, 123>, kv<40, 546>>;
     static_assert(546 == test_map::at<40>::value, "mmmhh... no!");
     static_assert(-1 == test_map::at<347856>::value, "mmmhh... no!");
     \endcode
@@ -20,38 +20,37 @@ namespace mb::ul {
 
 template <typename TypeForKey, typename TypeForValue, TypeForKey key, TypeForValue value>
 struct KeyValue {
-    static const TypeForKey key = key;
-    static const TypeForValue value = value;
+    static const TypeForKey k = key;
+    static const TypeForValue v = value;
 };
 
 // for convenience
 template <int key, int value>
-using kv = KeyValue<int, int, key, value>;
+using KV = KeyValue<int, int, key, value>;
 
 template <typename TypeForValue, TypeForValue not_found_value, typename...>
-struct ct_mapTT;
+struct CtMapTT;
 
 template <int not_found_value, typename... Args>
-using ct_map = ct_mapTT<int, not_found_value, Args...>;
+using CtMap = CtMapTT<int, not_found_value, Args...>;
 
 template <typename TypeForValue, TypeForValue not_found_value>
-struct ct_mapTT<TypeForValue, not_found_value> {
+struct CtMapTT<TypeForValue, not_found_value> {
     template <TypeForValue>
     struct At {
-        static const TypeForValue value = not_found_value;
+        static const TypeForValue v = not_found_value;
     };
 };
 
 template <
     typename TypeForKey, typename TypeForValue, TypeForValue not_found_value, TypeForKey key, TypeForValue value,
     typename... FurtherKeyValuEs>
-struct ct_mapTT<TypeForValue, not_found_value, KeyValue<TypeForKey, TypeForValue, key, value>, FurtherKeyValuEs...> {
+struct CtMapTT<TypeForValue, not_found_value, KeyValue<TypeForKey, TypeForValue, key, value>, FurtherKeyValuEs...> {
     template <TypeForKey this_key>
     struct At {
-        static const TypeForValue value =
-            (this_key == key)
-                ? value
-                : ct_mapTT<TypeForValue, not_found_value, FurtherKeyValuEs...>::template at<this_key>::value;
+        static const TypeForValue v =
+            (this_key == key) ? value
+                              : CtMapTT<TypeForValue, not_found_value, FurtherKeyValuEs...>::template At<this_key>::v;
     };
 };
 

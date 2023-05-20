@@ -6,14 +6,14 @@ namespace ul = mb::ul;
 
 TEST(ownerTest, Test) {
     // just a compile check
-    ul::owner<int*> po = new int; // NOLINT
+    ul::Owner<int*> po = new int; // NOLINT
     int* non_owning = po;
     ul::ignore_unused(non_owning);
     delete po;
 }
 
 namespace {
-int* id_with_not_null_param(ul::not_null<int*> param); {
+int* id_with_not_null_param(ul::NotNull<int*> param) {
     return param;
 }
 } // namespace

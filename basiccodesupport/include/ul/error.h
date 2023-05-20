@@ -20,11 +20,11 @@ const int prog_exit_success = 0;
 const int prog_exit_failure = 1;
 
 //! An error code return type for functions/methods for interfaces that shall be non-throwing.
-/** Typical usage with the convenience alias \code retcode \endcode:
+/** Typical usage with the convenience alias \code Retcode \endcode:
     \code
-    retcode f() noexcept;
+    Retcode f() noexcept;
     // use:
-    retcode rc = f();
+    Retcode rc = f();
     if (!rc)
         throw module_xy_exception("error code " << rc << " returned");
     //...
@@ -37,9 +37,9 @@ const int prog_exit_failure = 1;
     In contrast to HRESULT&Co this doesn't mix up true, false with success or failure. If you
     need a further return value indicating true/false, you should write
     \code
-    std::pair<ul::retcode, bool> f() noexcept;
+    std::pair<ul::Retcode, bool> f() noexcept;
     // use:
-    ul::retcode ok();
+    ul::Retcode ok();
     bool isSth = false;
     std::tie(ok, isSth) = f();
     if (ok)
@@ -115,18 +115,18 @@ inline std::string retcode_str(Retcode rc) {
     return inst.at(rc);
 }
 
-//(!) With that you can write \code retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
-// inline explicit operator bool(retcode rc)
+//(!) With that you can write \code Retcode rc = f(); if(rc) y(); if(!rc) n(); \endcode
+// inline explicit operator bool(Retcode rc)
 //{
-//    return rc == retcode::none ? true : false;
+//    return rc == Retcode::none ? true : false;
 //}
-//! With that you can write \code retcode rc = f(); if(!rc) n(); \endcode
+//! With that you can write \code Retcode rc = f(); if(!rc) n(); \endcode
 inline auto operator!(Retcode rc) -> bool {
     return rc != Retcode::none;
 }
 
 namespace publish_is_ok {
-//! With that you can write \code retcode rc = f(); if(is_ok(rc)) y(); \endcode
+//! With that you can write \code Retcode rc = f(); if(is_ok(rc)) y(); \endcode
 inline bool is_ok(Retcode rc) {
     return !operator!(rc);
 }
@@ -138,11 +138,11 @@ inline bool is_ok(const std::pair<Retcode, std::string>& rc_str) {
 } // namespace publish_is_ok
 
 /** Definition of some exceptions for the pendant of throwing functions, not returning
-    \code retcode \endcode. Note that the standard library already defines most of the
-    exceptions analogous to the \code retcode \endcode values.
+    \code Retcode \endcode. Note that the standard library already defines most of the
+    exceptions analogous to the \code Retcode \endcode values.
     Also note that \code precond_failed, assertion_failed, postcond_failed\endcode
     are handled by the \code UL_EXPECT, UL_ASSERT, UL_ENSURE \endcode macros, resulting
-    in throwing \code ul::fail_fast \endcode, cf. assert.h.*/
+    in throwing \code ul::FailFast \endcode, cf. assert.h.*/
 //!@{
 struct WouldCrash : public std::runtime_error {
     explicit WouldCrash(const char* const message)
@@ -181,7 +181,7 @@ struct TimeOut : public std::runtime_error {
     return an error code. This function conveniently wraps this as general concept.
     Usage: best with a lambda
     \code
-    std::pair<ul::retcode, std::string> myfunction() noexcept
+    std::pair<ul::Retcode, std::string> myfunction() noexcept
     {
         return ul::call_noexcept([&](){
             // arbitrary code that is allowed to throw anything
@@ -235,7 +235,7 @@ std::pair<Retcode, std::string> call_noexcept(
 }
 } // namespace mb::ul
 
-using retcode = mb::ul::Retcode;
+using Retcode = mb::ul::Retcode;
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
 UL_WARNING_DISABLE_CLANG(header-hygiene)

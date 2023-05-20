@@ -7,7 +7,7 @@ namespace ul = mb::ul;
 TEST(FinallyTest, Test) {
     bool is_changed = false;
     {
-        const auto ul_anonymous_variable = ul::finally([is_changed]() {
+        const auto UL_ANONYMOUS_IDENTIFIER = ul::finally([&is_changed]() {
             is_changed = true;
         });
         is_changed = false;

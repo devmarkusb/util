@@ -20,7 +20,7 @@ namespace mb::ul {
     {
         size_t operator()(const UserType& ut) const
         {
-            return ul::hashCombine(
+            return ul::hash_combine(
                 std::hash<int>()(ut.a),
                 std::hash<std::string>()(ut.b));
         }
@@ -34,7 +34,7 @@ inline size_t hash_combine(std::size_t hash) noexcept {
 template <typename... SizeTs>
 inline size_t hash_combine(std::size_t hash1, SizeTs... hashes) noexcept {
     // implemented like boost's hash_combine
-    return hash1 ^ (hashCombine(hashes...) + 0x9e3779b9 + (hash1 << 6u) + (hash1 >> 2u)); // NOLINT
+    return hash1 ^ (hash_combine(hashes...) + 0x9e3779b9 + (hash1 << 6u) + (hash1 >> 2u)); // NOLINT
 }
 
 //!@}

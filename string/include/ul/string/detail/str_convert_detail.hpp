@@ -52,7 +52,7 @@ inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr) {
     return ret;
 #else
     ul::ignore_unused(wstr);
-    throw ul::not_implemented{"utf16or32to8_ws2s_portable"};
+    throw ul::NotImplemented{"utf16or32to8_ws2s_portable"};
 #endif
 }
 
@@ -67,7 +67,7 @@ inline std::wstring utf8to16_s2ws(const std::string& str) {
     }
     return convertedString;
 #else
-    return utf16or32to8_ws2s_portable(str);
+    return utf8to16or32_s2ws_portable(str);
 #endif
 }
 
@@ -84,14 +84,14 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
     return ret;
 #else
     ul::ignore_unused(str);
-    throw ul::not_implemented{"utf8to16or32_s2ws_portable"};
+    throw ul::NotImplemented{"utf8to16or32_s2ws_portable"};
 #endif
 }
 
 #if !UL_HAS_NO_CODECVT
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr) {
-    using cc = std::codecvt_utf8_utf16<wchar_t>;
-    std::wstring_convert<cc, wchar_t> converter;
+    using CC = std::codecvt_utf8_utf16<wchar_t>;
+    std::wstring_convert<CC, wchar_t> converter;
 
     return converter.to_bytes(wstr);
 }
@@ -100,8 +100,8 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
     // Note that this isn't understood very well.
     // The test under Windows and mingw succeeds for the little_endian choice.
     // It could very well be that this doesn't hold on every platform.
-    using cc = std::codecvt_utf8_utf16<wchar_t, 0x10ffff, std::little_endian>;
-    std::wstring_convert<cc, wchar_t> converter;
+    using Cc = std::codecvt_utf8_utf16<wchar_t, 0x10ffff, std::little_endian>;
+    std::wstring_convert<Cc, wchar_t> converter;
 
     return converter.from_bytes(str);
 }
@@ -201,7 +201,7 @@ std::string utf8_to_latin1_range(const std::string& s) {
             else
                 // for that the wrong warning in msvc2015 occurs, but tests prove that the code is
                 // actually reached for all template instantiations used
-                ret.append(1, OnConversionErrorPolicy::onConversionError(ui_codepoint));
+                ret.append(1, OnConversionErrorPolicy::on_conversion_error(ui_codepoint));
         }
     }
     return ret;
@@ -221,14 +221,14 @@ inline std::string latin1_to_utf8(const std::string& s) {
     std::string ret;
 
     for (const auto& c : s) {
-        const auto c = static_cast<uint8_t>(c);
+        const auto ui8 = static_cast<uint8_t>(c);
 
-        if (c < 0x80)
+        if (ui8 < 0x80)
             ret.append(1, c);
         else {
-            const auto c_pt1 = 0xc0u | (c & 0xc0u) >> 6u;
+            const auto c_pt1 = 0xc0u | (ui8 & 0xc0u) >> 6u;
             ret.append(1, static_cast<char>(c_pt1));
-            const auto c_pt2 = 0x80u | (c & 0x3fu);
+            const auto c_pt2 = 0x80u | (ui8 & 0x3fu);
             ret.append(1, static_cast<char>(c_pt2));
         }
     }
@@ -236,11 +236,11 @@ inline std::string latin1_to_utf8(const std::string& s) {
 }
 
 template <class OnConversionErrorPolicy>
-std::string utf8_to_printable_asciii(const std::string& s) {
+std::string utf8_to_printable_ascii(const std::string& s) {
     return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
 }
 
-inline std::string printable_ascii_to_utf88(const std::string& s) {
+inline std::string printable_ascii_to_utf8(const std::string& s) {
     return latin1_to_utf8(s);
 }
 

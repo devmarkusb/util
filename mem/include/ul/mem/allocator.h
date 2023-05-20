@@ -16,7 +16,8 @@ namespace mb::ul::mem {
 template <typename T, typename AllocArenaStrategy>
 class Allocator {
 public:
-    using value_type = T;
+    // named like in STL
+    using value_type = T; // NOLINT
 
     //Allocator() noexcept = default;
     explicit Allocator(AllocArenaStrategy& a) noexcept

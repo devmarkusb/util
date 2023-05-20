@@ -49,9 +49,9 @@ public:
 
     WaitCircularBuffer() noexcept = default;
 
-    template <typename T>
-    bool push(T&& elem) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    bool push(U&& elem) {
+        static_assert(std::is_convertible_v<U, T>);
 
         {
             const std::unique_lock<std::mutex> lock(mutex_);
@@ -59,7 +59,7 @@ public:
             if (Base::buf_.full())
                 return false;
 
-            Base::buf_.push(std::forward<T>(elem));
+            Base::buf_.push(std::forward<U>(elem));
         }
         conditionVariable_.notify_one();
         return true;
@@ -68,12 +68,12 @@ public:
     //! Don't use! Doesn't work yet. Implementation of CircularBuffer is the guilty one.
     /** (At least not working in the 'dynamic' staticCapacity == 0 case, whereas in the 'static' capacity != 0 case
         there is no difference to push.)*/
-    template <typename T>
-    bool emplace(T&& elem) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    bool emplace(U&& elem) {
+        static_assert(std::is_convertible_v<U, T>);
 
         ul::ignore_unused(elem);
-        throw ul::not_implemented;{"WaitCircularBuffer::emplace";};
+        throw ul::NotImplemented{"WaitCircularBuffer::emplace"};
 #if 0
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -81,7 +81,7 @@ public:
             if (Base::buf_.full())
                 return false;
 
-            Base::buf_.emplace(std::forward<T_>(elem);
+            Base::buf_.emplace(std::forward<U>(elem);
         }
         conditionVariable_.notify_one();
         return true;
@@ -97,7 +97,7 @@ public:
         if (stopped_)
             return false;
 
-        UL_VERIFY(Base::buf_.tryPop(poppedElem));
+        UL_VERIFY(Base::buf_.try_pop(poppedElem));
 
         return true;
     }

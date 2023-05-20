@@ -348,9 +348,9 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set) {
     fs::current_path(physical_test_dir, ec);
     ASSERT_FALSE(ec);
     const auto chdir_back_to_orig = ul::finally([&orig]() {
-        std::error_code ec;
-        fs::current_path(orig, ec);
-        EXPECT_FALSE(ec);
+        std::error_code ec2;
+        fs::current_path(orig, ec2);
+        EXPECT_FALSE(ec2);
     });
     const auto changed_dir = fs::current_path(ec);
     std::cout << changed_dir.string() << "\n";

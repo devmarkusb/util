@@ -18,9 +18,9 @@ public:
         : maxElems_(maxElems) {
     }
 
-    template <typename T>
-    bool push(T&& elem) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    bool push(U&& elem) {
+        static_assert(std::is_convertible_v<U, T>);
 
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -28,15 +28,15 @@ public:
             if (queue_.size() > maxElems_)
                 return false;
 
-            queue_.push(std::forward<T>(elem));
+            queue_.push(std::forward<U>(elem));
         }
         conditionVariable_.notify_one();
         return true;
     }
 
-    template <typename T>
-    bool emplace(T&& elem) {
-        static_assert(std::is_convertible_v<T, T>);
+    template <typename U>
+    bool emplace(U&& elem) {
+        static_assert(std::is_convertible_v<U, T>);
 
         {
             const std::unique_lock<std::mutex> lock(mutex_);
@@ -44,7 +44,7 @@ public:
             if (queue_.size() >= maxElems_)
                 return false;
 
-            queue_.emplace(std::forward<T>(elem));
+            queue_.emplace(std::forward<U>(elem));
         }
         conditionVariable_.notify_one();
         return true;

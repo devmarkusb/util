@@ -15,15 +15,15 @@ TEST(thread_WaitQueue, basics) {
 
     ASSERT_TRUE(q.emplace(42));
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, 42);
 
     ASSERT_TRUE(q.emplace(43));
     ASSERT_TRUE(q.emplace(44));
     ASSERT_FALSE(q.emplace(45));
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, 43);
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_EQ(elem, 44);
 }
 
@@ -43,7 +43,7 @@ TEST(thread_WaitQueue, massive_parallel) {
     for (auto& c : consumer) {
         c = std::thread{[&q, &mutex, &popped_values]() {
             int elem{};
-            q.waitAndPop(elem);
+            q.wait_and_pop(elem);
             const std::lock_guard<std::mutex> lk{mutex};
             EXPECT_FALSE(popped_values.count /*contains*/ (elem));
             popped_values.insert(elem);
@@ -59,7 +59,7 @@ TEST(thread_WaitQueue, massive_parallel) {
 
     EXPECT_EQ(popped_values.size(), thread_count - 1);
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     EXPECT_FALSE(popped_values.count /*contains*/ (elem));
 }
 
@@ -69,7 +69,7 @@ TEST(thread_WaitQueue, stop) {
     q.stop();
 
     int elem{};
-    q.waitAndPop(elem);
+    q.wait_and_pop(elem);
     // just testing that we aren't caught in an endless loop with the previous line
     // (which we were without the stop)
 }

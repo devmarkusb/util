@@ -12,11 +12,11 @@
 #include <utility>
 
 namespace mb::ul {
-using none_t = std::nullptr_t;
-//! Used to set some \code ul::opt<T> x \endcode variable to empty.
+using NoneT = std::nullptr_t;
+//! Used to set some \code ul::Opt<T> x \endcode variable to empty.
 /** Note that this unfortunately does not always work well when being passed as return value.
     It is recommended to use the much clearer `return {};` then.*/
-const none_t none = nullptr;
+const NoneT none = nullptr;
 
 //! Optional type.
 /** Known shortcomings:
@@ -26,11 +26,11 @@ const none_t none = nullptr;
 
     And probably many more unknown ones. The implementation is kept extremely
     simple. It is just done in a way as if you would use bool* instead of
-    ul::opt<bool> and did everything manually. But for everyday live it should
+    ul::Opt<bool> and did everything manually. But for everyday live it should
     just be absolutely sufficient.
     Usage:
     \code
-    void f(const ul::opt<bool>& prop) // const& just to demonstrate where to put it
+    void f(const ul::Opt<bool>& prop) // const& just to demonstrate where to put it
     {
         if (prop)
         {
@@ -49,22 +49,22 @@ struct Opt {
     Opt() = default;
     ~Opt() = default;
 
-    Opt(const opt<T>& other)
+    Opt(const Opt<T>& other)
         : holder_(other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr) {
     }
 
-    Opt<T>& operator=(const opt<T>& other) {
+    Opt<T>& operator=(const Opt<T>& other) {
         if (std::addressof(other) == this)
             return *this;
         holder_ = other.holder_ ? ul::make_unique<T>(*other.holder_) : nullptr;
         return *this;
     }
 
-    explicit Opt(const none_t& /*unused*/)
+    explicit Opt(const NoneT& /*unused*/)
         : holder_(nullptr) {
     }
 
-    explicit Opt(none_t&& /*unused*/)
+    explicit Opt(NoneT&& /*unused*/)
         : holder_(nullptr) {
     }
 
@@ -101,12 +101,12 @@ struct Opt {
         return *this;
     }
 
-    Opt<T>& operator=(const none_t& /*unused*/) {
+    Opt<T>& operator=(const NoneT& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
 
-    Opt<T>& operator=(none_t&& /*unused*/) {
+    Opt<T>& operator=(NoneT&& /*unused*/) {
         this->holder_.reset();
         return *this;
     }
