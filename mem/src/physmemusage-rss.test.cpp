@@ -18,7 +18,7 @@ TEST(physmemusage, usage) {
     ul::mem::usage(vm_initial, pm_initial);
     std::cout << "initial: virtmem: " << vm_initial << ", physmem: " << pm_initial << "\n";
 
-    auto* waste = reinterpret_cast<char*>(std::malloc(memsize));
+    auto* waste = reinterpret_cast<char*>(std::malloc(memsize)); // NOLINT
     std::memset(waste, 1, memsize);
     double vm{};
     double pm{};
@@ -26,7 +26,7 @@ TEST(physmemusage, usage) {
     std::cout << "after malloc: virtmem: " << vm << ", physmem: " << pm << "\n";
     EXPECT_TRUE(vm > vm_initial || pm > pm_initial);
 
-    std::free(waste);
+    std::free(waste); // NOLINT
     double vm_final{};
     double pm_final{};
     ul::mem::usage(vm_final, pm_final);

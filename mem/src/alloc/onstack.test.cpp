@@ -6,48 +6,59 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
-TEST(alloc_OnStack, constr) {
-    ul::mem::alloc::OnStack<1024, 1> a;
-    EXPECT_EQ(a.size(), Bytes{0});
-    EXPECT_EQ(a.capacity(), Bytes{1024});
+namespace {
+constexpr auto kb{1024};
+constexpr auto b1000{1000};
+constexpr auto b100{100};
+constexpr auto b24{24};
+constexpr auto b20{20};
+constexpr auto b16{16};
+constexpr auto b10{10};
+constexpr auto b4{4};
+} // namespace
 
-    EXPECT_THROW(a.allocate(Bytes{1025}), std::bad_alloc);
+TEST(alloc_OnStack, constr) {
+    ul::mem::alloc::OnStack<kb, 1> a;
+    EXPECT_EQ(a.size(), Bytes{0});
+    EXPECT_EQ(a.capacity(), Bytes{kb});
+
+    EXPECT_THROW(a.allocate(Bytes{kb + 1}), std::bad_alloc);
 }
 
 TEST(alloc_OnStack, alloc) {
-    ul::mem::alloc::OnStack<1024, 1> a;
+    ul::mem::alloc::OnStack<kb, 1> a;
 
-    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{1000}));
+    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{b1000}));
 
-    EXPECT_EQ(a.size(), Bytes{1000});
-    p[0] = 'a';
-    p[999] = 'a';
-    EXPECT_EQ(p[0], 'a');
-    EXPECT_EQ(p[999], 'a');
+    EXPECT_EQ(a.size(), Bytes{b1000});
+    p[0] = 'a'; // NOLINT
+    p[b1000 - 1] = 'a'; // NOLINT
+    EXPECT_EQ(p[0], 'a'); // NOLINT
+    EXPECT_EQ(p[b1000 - 1], 'a'); // NOLINT
 
-    p = reinterpret_cast<char*>(a.allocate(Bytes{24}));
+    p = reinterpret_cast<char*>(a.allocate(Bytes{b24})); // NOLINT
     ul::ignore_unused(p);
-    EXPECT_EQ(a.size(), Bytes{1024});
+    EXPECT_EQ(a.size(), Bytes{kb});
 
     EXPECT_THROW(a.allocate(Bytes{1}), std::bad_alloc);
 }
 
 TEST(alloc_OnStack, dealloc) {
     using Type = int;
-    static_assert(alignof(Type) == sizeof(Type));
-    ul::mem::alloc::OnStack<1024, alignof(Type)> a;
+    static_assert(alignof(Type) == sizeof(Type)); // NOLINT
+    ul::mem::alloc::OnStack<kb, alignof(Type)> a;
 
-    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{b100 * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
 
-    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
+    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{b100 * sizeof(Type)}); // NOLINT
     EXPECT_EQ(a.size(), Bytes{0});
 
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{b100 * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{b100 * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
-    EXPECT_EQ(a.size(), Bytes{200 * sizeof(Type)});
+    EXPECT_EQ(a.size(), Bytes{2 * b100 * sizeof(Type)});
 
     a.reset();
 
@@ -55,39 +66,39 @@ TEST(alloc_OnStack, dealloc) {
 }
 
 TEST(alloc_OnStack, padding) {
-    ul::mem::alloc::OnStack<16, 4> a;
+    ul::mem::alloc::OnStack<b16, b4> a;
 
-    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{1})); // NOLINT
     ul::ignore_unused(p);
-    EXPECT_EQ(a.size(), Bytes{4});
-    p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    EXPECT_EQ(a.size(), Bytes{b4});
+    p = reinterpret_cast<char*>(a.allocate(Bytes{1})); // NOLINT
     ul::ignore_unused(p);
-    p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    p = reinterpret_cast<char*>(a.allocate(Bytes{1})); // NOLINT
     ul::ignore_unused(p);
-    p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    p = reinterpret_cast<char*>(a.allocate(Bytes{1})); // NOLINT
     ul::ignore_unused(p);
 
-    EXPECT_EQ(a.size(), Bytes{16});
+    EXPECT_EQ(a.size(), Bytes{b16});
 
-    ul::mem::alloc::OnStack<16, 4> a2;
+    ul::mem::alloc::OnStack<b16, b4> a2;
 
-    p = reinterpret_cast<char*>(a2.allocate(Bytes{3}));
+    p = reinterpret_cast<char*>(a2.allocate(Bytes{b4 - 1})); // NOLINT
     ul::ignore_unused(p);
-    EXPECT_EQ(a2.size(), Bytes{4});
+    EXPECT_EQ(a2.size(), Bytes{b4});
 }
 
 TEST(alloc_OnStack, with_stats) {
     using Type = int;
-    static_assert(alignof(Type) == sizeof(Type));
-    ul::mem::alloc::OnStack<1024, alignof(Type), ul::mem::alloc::Statistics> a;
+    static_assert(alignof(Type) == sizeof(Type)); // NOLINT
+    ul::mem::alloc::OnStack<kb, alignof(Type), ul::mem::alloc::Statistics> a;
 
-    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{20 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{b20 * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
-    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
-    p = reinterpret_cast<Type*>(a.allocate(Bytes{90 * sizeof(Type)}));
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{b100 * sizeof(Type)})); // NOLINT
+    a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{b100 * sizeof(Type)}); // NOLINT
+    p = reinterpret_cast<Type*>(a.allocate(Bytes{(b100 - b10) * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
 
     ASSERT_TRUE(a.peak());
-    EXPECT_EQ(*a.peak(), Bytes{120 * sizeof(Type)});
+    EXPECT_EQ(*a.peak(), Bytes{(b100 + b20) * sizeof(Type)});
 }

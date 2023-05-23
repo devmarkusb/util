@@ -45,11 +45,11 @@ struct CharEncodingFileTest : public ::testing::Test {
         file_path_name_ext_ += ".txt";
     }
 
-    void write_file(const std::string& text) {
+    void write_file(const std::string& text) const {
         save_to_text_file(file_path_name_ext_, text);
     }
 
-    std::string read_file() {
+    [[nodiscard]] std::string read_file() const {
         std::string ret;
         load_from_text_file(file_path_name_ext_, ret);
         return ret;
@@ -68,10 +68,8 @@ struct CharEncodingFileTest : public ::testing::Test {
 
 private:
     std::string file_path_name_ext_;
-    static char counter;
+    static inline char counter{'a'};
 };
-
-char CharEncodingFileTest::counter{'a'};
 
 TEST_F(CharEncodingFileTest, ASCII) {
     const std::string s = "!!AA~~";
