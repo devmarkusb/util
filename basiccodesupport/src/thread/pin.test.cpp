@@ -22,7 +22,7 @@ protected:
 };
 
 #if !UL_OS_LINUX // mac also not working yet
-TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
 }
 #else
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
@@ -57,7 +57,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
 #endif
 
 #if !UL_OS_LINUX // mac also not working yet
-TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
 }
 #else
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
@@ -92,7 +92,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
 #endif
 
 #if !UL_OS_LINUX // mac also not working yet
-TEST_F(pinToCPUTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
+TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
 }
 #else
 // NOLINTBEGIN
@@ -148,7 +148,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 #endif
 
 #if !UL_OS_LINUX // mac also not working yet
-TEST_F(pinToCPUTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
 }
 #else
 TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
@@ -183,7 +183,7 @@ TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
 #endif
 
 #if !UL_OS_LINUX // mac also not working yet
-TEST_F(pinToCPUTest, DISABLED_invalidCPUNr_throws) {
+TEST_F(PinToCpuTest, DISABLED_invalidCPUNr_throws) {
 }
 #else
 TEST_F(PinToCpuTest, invalidCPUNr_throws) {
