@@ -87,10 +87,10 @@ using NativeHandle = pthread_t;
 using native_handle = int;
 #endif
 
-/** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
+/** Pins (sets affinity of) executing thread with native handle h to CPU number logical_core_idx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]] int logical_core_idx)
+inline int pin_to_logical_core(NativeHandle h, int logical_core_idx)
 #if UL_OS_MAC
     noexcept
 #endif
@@ -99,16 +99,18 @@ inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]]
     UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX
+    ul::ignore_unused(h);
+    ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
     const auto nh = static_cast<pthread_t>(h);
     mac::cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
-    CPU_SET(logicalCoreIdx, &cpuset);
+    CPU_SET(logical_core_idx, &cpuset);
     return mac::pthread_setaffinity_np(nh, sizeof(mac::cpu_set_t), &cpuset);
 #else
     ul::ignore_unused(h);
-    ul::ignore_unused(logicalCoreIdx);
+    ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
@@ -121,12 +123,12 @@ inline int pin_to_logical_core(int logical_core_idx) {
     CPU_SET(logical_core_idx, &cpuset);
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
-    ul::ignore_unused(logicalCoreIdx);
+    ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore"};
 #endif
 }
 
-/** Pins (sets affinity of) executing thread t to CPU number logicalCoreIdx (0-based).
+/** Pins (sets affinity of) executing thread t to CPU number logical_core_idx (0-based).
     Further note that in an example setup of 4 cores where 2 of them (which ones?) are only hyperthreading
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half
     of them might be sufficient sometimes then.
@@ -145,7 +147,7 @@ inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
     }
 #else
     ul::ignore_unused(t);
-    ul::ignore_unused(logicalCoreIdx);
+    ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
 #endif
 }
