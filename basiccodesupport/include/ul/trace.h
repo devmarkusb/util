@@ -113,8 +113,8 @@ struct CheckConsoleOpen {
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
     static void open_console_if_necessary(bool& ret_stderr_bound, bool& ret_stdout_bound) {
 #if UL_OS_WINDOWS
-        ret_stderrBound = false;
-        ret_stdoutBound = false;
+        ret_stderr_bound = false;
+        ret_stdout_bound = false;
 
         const auto alloc_ok = AllocConsole();
         if (!alloc_ok) {
@@ -125,11 +125,11 @@ struct CheckConsoleOpen {
         FILE* nsp{};
         const auto open_failed = freopen_s(&nsp, "CONOUT$", "w", stderr);
         if (!open_failed && nsp)
-            ret_stderrBound = true;
+            ret_stderr_bound = true;
         else
             UL_ASSERT(false);
 
-        AlsoBindStdoutToNewConsolePolicy::bind(ret_stdoutBound);
+        AlsoBindStdoutToNewConsolePolicy::bind(ret_stdout_bound);
 #else
         ret_stderr_bound = true;
         ret_stdout_bound = true;
@@ -139,7 +139,7 @@ struct CheckConsoleOpen {
 
 struct DontCheckConsoleOpen {
     template <class>
-    static void open_console_if_necessary(bool& /*ret_stderrBound*/, bool& /*ret_stdoutBound*/) {
+    static void open_console_if_necessary(bool& /*ret_stderr_bound*/, bool& /*ret_stdout_bound*/) {
         UL_NOOP;
     }
 };
