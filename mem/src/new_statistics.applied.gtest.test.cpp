@@ -16,75 +16,79 @@ struct AGlobalDestructor {
     }
 
     ~AGlobalDestructor() {
-        const auto& memstats = ul::mem::Statistics::instance();
+        try {
+            const auto& memstats = ul::mem::Statistics::instance();
 
-        const auto new_calls{memstats.new_calls()};
-        const auto delete_calls{memstats.delete_calls()};
-        const auto allocated_size{memstats.allocated_size()};
-        const auto deallocated_size{memstats.deallocated_size()};
-        const auto peak_size = memstats.peak_size();
+            const auto new_calls{memstats.new_calls()};
+            const auto delete_calls{memstats.delete_calls()};
+            const auto allocated_size{memstats.allocated_size()};
+            const auto deallocated_size{memstats.deallocated_size()};
+            const auto peak_size = memstats.peak_size();
 
-        // mem/allocator.test.cpp is the evil one, that still has leaks according to the statistics
-        // But nevertheless the test is ok for now as it can still detect (and prevent) any new leaks.
-        std::cout << "new calls: " << new_calls << "\n";
-        std::cout << "delete calls: " << delete_calls << "\n";
+            // mem/allocator.test.cpp is the evil one, that still has leaks according to the statistics
+            // But nevertheless the test is ok for now as it can still detect (and prevent) any new leaks.
+            std::cout << "new calls: " << new_calls << "\n";
+            std::cout << "delete calls: " << delete_calls << "\n";
 #if UL_OS_LINUX
-        // compensates for gtest leaks, + 1 accounts for using EXPECT_DEBUG_DEATH
+            // compensates for gtest leaks, + 1 accounts for using EXPECT_DEBUG_DEATH
 #if !UL_DEBUG
-        // commented-out because it unfortunately doesn't work yet
-        //EXPECT_EQ(new_calls - delete_calls, 78 - 75);
+            // commented-out because it unfortunately doesn't work yet
+            //EXPECT_EQ(new_calls - delete_calls, 78 - 75);
 #endif
 #else
-        // untested
+            // untested
 #endif
-        std::cout << "allocated size: " << allocated_size << "\n";
-        std::cout << "deallocated size: " << deallocated_size << "\n";
-        const auto alloc_dealloc_diff = allocated_size - deallocated_size;
-        std::cout << "allocated size minus deallocated size: ";
+            std::cout << "allocated size: " << allocated_size << "\n";
+            std::cout << "deallocated size: " << deallocated_size << "\n";
+            const auto alloc_dealloc_diff = allocated_size - deallocated_size;
+            std::cout << "allocated size minus deallocated size: ";
 #if !UL_OS_MAC && !UL_OS_WINDOWS
-        // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
-        std::cout << ul::fmt::group_thousands(alloc_dealloc_diff);
+            // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
+            std::cout << ul::fmt::group_thousands(alloc_dealloc_diff);
 #else
-        std::cout << alloc_dealloc_diff;
+            std::cout << alloc_dealloc_diff;
 #endif
 #if UL_COMP_CLANG
 #if UL_COMP_CLANG_VER == 100001
 #if UL_DEBUG
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91};
 #else
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{91 - 65};
 #endif
 #else
-        [[maybe_unused]] const auto compensation_expect_debug_death{63};
+            [[maybe_unused]] const auto compensation_expect_debug_death{63};
 #endif
 #elif UL_COMP_GNU_CPP
 #if UL_COMP_GNU_CPP_VER == 100100
 #if UL_DEBUG
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59 - 37 + 65};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59 - 37 + 65};
 #else
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59 - 37};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59 - 37};
 #endif
 #else
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59};
 #endif
 #else
-        [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59};
+            [[maybe_unused]] const auto compensation_EXPECT_DEBUG_DEATH{59};
 #endif
 #if !UL_OS_MAC
-        // compensates for gtest leaks, + compensation_EXPECT_DEBUG_DEATH accounts for EXPECT_DEBUG_DEATH usages
-        // commented-out because it unfortunately doesn't work yet
-        //EXPECT_EQ(alloc_dealloc_diff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
+            // compensates for gtest leaks, + compensation_EXPECT_DEBUG_DEATH accounts for EXPECT_DEBUG_DEATH usages
+            // commented-out because it unfortunately doesn't work yet
+            //EXPECT_EQ(alloc_dealloc_diff, ul::mem::Bytes{107 + compensation_EXPECT_DEBUG_DEATH});
 #else
-        // untested
+            // untested
 #endif
-        std::cout << "\n";
-        std::cout << "peak mem usage: " <<
+            std::cout << "\n";
+            std::cout << "peak mem usage: " <<
 #if !UL_OS_MAC && !UL_OS_WINDOWS
-            ul::fmt::group_thousands(peak_size)
+                ul::fmt::group_thousands(peak_size)
 #else
-            peak_size
+                peak_size
 #endif
-                  << "\n";
+                      << "\n";
+        } catch (...) {
+            UL_NOOP;
+        }
     }
 };
 } // namespace

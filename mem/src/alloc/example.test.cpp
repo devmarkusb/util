@@ -7,6 +7,7 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
+// NOLINTBEGIN
 TEST(alloc_Example, basics) {
     auto* mem = reinterpret_cast<int*>(ul::mem::alloc::Example::allocate(Bytes{42 * sizeof(int)}));
     const auto auto_deallocate = ul::finally([mem]() {
@@ -19,3 +20,5 @@ TEST(alloc_Example, basics) {
     EXPECT_EQ(mem[0], 1);
     EXPECT_EQ(mem[41], 1);
 }
+
+// NOLINTEND

@@ -3,7 +3,7 @@
 
 namespace misc_test_helper {
 class C;
-extern C* c;
+// extern C* c;
 } // namespace misc_test_helper
 
 TEST(checked_deleteTest, test) {
