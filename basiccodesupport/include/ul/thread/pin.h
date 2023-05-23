@@ -84,7 +84,7 @@ int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set
 using NativeHandle = pthread_t;
 #else
 // not implemented
-using native_handle = int;
+using NativeHandle = int;
 #endif
 
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logical_core_idx (0-based).
