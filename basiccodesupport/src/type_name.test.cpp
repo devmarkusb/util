@@ -18,7 +18,7 @@ TEST(type_nameTest, DISABLED_special) {
 #if UL_COMP_CLANG
     EXPECT_STREQ(ul::type_name<decltype(what_type)>().data(), ") [T = std::tuple<const char *, int, double>]");
 #else
-    ul::ignore_unused(whatType);
+    ul::ignore_unused(what_type);
 #endif
 }
 
