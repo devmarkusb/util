@@ -1,6 +1,7 @@
 # Note, you can't have comments below in a '>' section, that's why here are the comments upfront.
 # -hicpp-deprecated-headers: unfortunately, should be restrictable to <>-includes
 # -readability-identifier-naming: switch on if you're ready (auto fixes available)
+# -readability-function-cognitive-complexity: goes bogus in gtests unfortunately
 
 Checks: >
   *,

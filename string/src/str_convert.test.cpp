@@ -116,20 +116,20 @@ TEST(utf8_to_latin1, failtest) {
     EXPECT_EQ('?', latin1[0]);
 }
 
-TEST(utf8_to_printableASCII, test) {
+TEST(utf8_to_printable_ascii, test) {
     const std::string utf8{" abc123xyz~"};
     const std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
     EXPECT_STREQ(" abc123xyz~", ascii.c_str());
 }
 
-TEST(utf8_to_printableASCII, roundtrip) {
+TEST(utf8_to_printable_ascii, roundtrip) {
     const std::string utf8{" abc123xyz~"};
     const std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
     const std::string utf8_roundtrip{ul::str::printable_ascii_to_utf8(ascii)};
     EXPECT_STREQ(utf8.c_str(), utf8_roundtrip.c_str());
 }
 
-TEST(utf8_to_printableASCII, failtest) {
+TEST(utf8_to_printable_ascii, failtest) {
     std::string utf8{"\x1f"}; // 31
     std::string ascii{ul::str::utf8_to_printable_ascii(utf8)};
     EXPECT_EQ('?', ascii[0]);
