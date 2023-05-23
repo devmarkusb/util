@@ -154,7 +154,7 @@ TEST(optTest, types) {
 
 TEST(optTest, comparisons) {
     // untested
-    //    ul::opt<int> a = 1;
-    //    ul::opt<int> b = 1;
+    //    ul::Opt<int> a = 1;
+    //    ul::Opt<int> b = 1;
     //    EXPECT_EQ(a, b);
 }
