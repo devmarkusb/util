@@ -19,9 +19,6 @@ protected:
         std::condition_variable cv;
         bool ok{false};
     };
-
-    void SetUp() override {
-    }
 };
 
 #if !UL_OS_LINUX // mac also not working yet
