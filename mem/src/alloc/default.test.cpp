@@ -7,6 +7,7 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
+// NOLINTBEGIN
 TEST(alloc_DefaultNewDelete, basics) {
     ul::mem::alloc::DefaultNewDelete<> a;
     constexpr auto ex_nr{42};
@@ -43,3 +44,5 @@ TEST(alloc_DefaultNewDelete, with_stats) {
     ASSERT_TRUE(a.peak());
     EXPECT_EQ(*a.peak(), Bytes{(ex_nr20 + ex_nr100) * sizeof(Type)});
 }
+
+// NOLINTEND

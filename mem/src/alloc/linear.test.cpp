@@ -8,6 +8,7 @@
 namespace ul = mb::ul;
 using ul::mem::Bytes;
 
+// NOLINTBEGIN
 TEST(alloc_Linear, constr) {
     ul::mem::alloc::Linear<> a{{}};
     EXPECT_EQ(a.size(), Bytes{0});
@@ -103,3 +104,5 @@ TEST(alloc_Linear, with_stats) {
     ASSERT_TRUE(a.peak());
     EXPECT_EQ(*a.peak(), Bytes{5 * sizeof(Type)});
 }
+
+// NOLINTEND
