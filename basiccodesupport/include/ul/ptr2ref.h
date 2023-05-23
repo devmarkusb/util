@@ -7,14 +7,14 @@
 namespace mb::ul {
 //! Converts pointer to reference.
 template <typename T>
-inline T& ptr2_ref(T* p_t) {
+inline T& ptr2ref(T* p_t) {
     UL_EXPECT(p_t);
     return *p_t;
 }
 
-//! Const version of ptr2Ref().
+//! Const version of ptr2ref().
 template <typename T>
-inline const T& ptr2_ref_c(const T* p_t) {
+inline const T& ptr2refc(const T* p_t) {
     UL_EXPECT(p_t);
     return *p_t;
 }
@@ -23,22 +23,22 @@ inline const T& ptr2_ref_c(const T* p_t) {
 //!@{
 
 template <typename T>
-T* ref2_ptr(T& t) {
+T* ref2ptr(T& t) {
     return &t;
 }
 
 template <typename T>
-T* ref2_ptr(T* t) {
+T* ref2ptr(T* t) {
     return t;
 }
 
 template <typename T>
-const T* ref2_ptr_c(const T& t) {
+const T* ref2ptrc(const T& t) {
     return &t;
 }
 
 template <typename T>
-const T* ref2_ptr_c(const T* t) {
+const T* ref2ptrc(const T* t) {
     return t;
 }
 

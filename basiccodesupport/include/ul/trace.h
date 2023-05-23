@@ -69,7 +69,7 @@ struct OutputToIDEWindow {
     template <class OutputToConsolePolicy>
     static void trace(const std::ostringstream& ss) {
 #if !(UL_OS_WINDOWS && UL_COMP_MS_VISUAL_STUDIO_CPP)
-        if (!OutputToConsolePolicy::isActivated())
+        if (!OutputToConsolePolicy::is_activated())
 #endif
 #if UL_OS_WINDOWS
             OutputDebugStringA(ss.str().c_str());
@@ -271,8 +271,8 @@ void init() {
 
     bool ret_stderr_bound{};
     bool ret_stdout_bound{};
-    if (EnabledIfPolicy::isEnabled)
-        CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(
+    if (EnabledIfPolicy::is_enabled)
+        CheckConsoleOpenPolicy::template open_console_if_necessary<AlsoBindStdoutToNewConsolePolicy>(
             ret_stderr_bound, ret_stdout_bound);
 
     detail_impl::StreamTracerWrapperSingleton::get_instance().tracer() =

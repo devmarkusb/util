@@ -92,12 +92,12 @@ struct BoolStrBoolalpha {
 
 template <class BoolStrFormat = BoolStr10>
 inline std::string bool2str(bool b) {
-    return BoolStrFormat::toStr(b);
+    return BoolStrFormat::to_str(b);
 }
 
 template <class BoolStrFormat = BoolStr10>
 inline bool str2bool(const std::string& s) {
-    return BoolStrFormat::toBool(s);
+    return BoolStrFormat::to_bool(s);
 }
 
 //! For text lengths greater than textellipse_threshold the text is abbreviated by an
