@@ -193,7 +193,7 @@ std::string utf8_to_latin1_range(const std::string& s) {
             ui_codepoint = uc & 0x07u;
         ++cptr;
         if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) {
-            const bool in_range{ui_codepoint <= to};
+            bool in_range{ui_codepoint <= to};
             if constexpr (from)
                 in_range = in_range && from <= ui_codepoint;
             if (in_range)
