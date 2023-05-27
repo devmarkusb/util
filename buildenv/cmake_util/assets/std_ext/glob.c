@@ -158,7 +158,7 @@ static void	 qprintf __P((const char *, Char *));
 #endif
 
 int
-glob(pattern, flags, errfunc, glob);
+glob(pattern, flags, errfunc, pglob)
 	const char *pattern;
 	int flags, (*errfunc) __P((const char *, int));
 	glob_t *pglob;
@@ -209,7 +209,7 @@ glob(pattern, flags, errfunc, glob);
  * invoke the standard globbing routine to glob the rest of the magic
  * characters
  */
-static int globexp1(pattern, pglob);
+static int globexp1(pattern, pglob)
 	const Char *pattern;
 	glob_t *pglob;
 {
@@ -233,7 +233,7 @@ static int globexp1(pattern, pglob);
  * If it succeeds then it invokes globexp1 with the new pattern.
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
-static int globexp2(ptr, pattern, pglob, rv);
+static int globexp2(ptr, pattern, pglob, rv)
 	const Char *ptr, *pattern;
 	glob_t *pglob;
 	int *rv;
