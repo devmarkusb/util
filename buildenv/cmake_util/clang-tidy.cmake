@@ -20,6 +20,10 @@ if (UL_USE_DEFAULT_CLANG_TIDY_CONFIG)
     file(COPY ${mb-clangtidy_SOURCE_DIR}/.clang-tidy DESTINATION ${PROJECT_SOURCE_DIR}/)
 endif()
 
+# workaround as long as sophisticated regex'es excluding headers don't work in .clang-tidy
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/_deps)
+file(COPY ${mb-clangtidy_SOURCE_DIR}/disabled/.clang-tidy DESTINATION ${CMAKE_BINARY_DIR}/_deps/)
+
 set(cxx_dirs_general "apps;include;source;src;test")
 
 string(CONCAT cxx_dirs "${cxx_dirs_general}" ";${UL_CLANG_TIDY_DIRS}")
