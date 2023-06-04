@@ -2,15 +2,17 @@
 #   After including this file, call add_qt_android_apk like documented in qt-android-cmake README (see FetchContent
 #   below).
 #   Besides necessary CMake parameters for desktop builds, you need (e.g.):
-#     ndk_path=$dev_sdk_path/Android/Sdk/ndk/21.3.6528147
-#     -DCMAKE_TOOLCHAIN_FILE=$ndk_path/build/cmake/android.toolchain.cmake
-#     -DUL_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-#     -DUL_ANDROID_NDK=$ndk_path
-#     -DANDROID_STL="c++_shared"
-#     -DANDROID_ABI="arm64-v8a"
-#     -DANDROID_PLATFORM=28
-#     -DUL_ANDROID_SIGN_KEY_PATH=$sign_key_path
-#     -DUL_ANDROID_SIGN_KEY_PASS=$sign_key_pass
+#    -G "Unix Makefiles" \
+#    -DCMAKE_TOOLCHAIN_FILE=$ndk_path/build/cmake/android.toolchain.cmake \
+#    -DUL_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
+#    -DUL_ANDROID_NDK=$ndk_path \
+#    -DANDROID_STL="c++_shared" \
+#    -DANDROID_ABI="arm64-v8a" \
+#    -DANDROID_PLATFORM_LEVEL=31 \
+#    -DUL_ANDROID_SIGN_KEY_PATH=$sign_key_path \
+#    -DUL_ANDROID_SIGN_KEY_NAME=$sign_key_name \
+#    -DUL_ANDROID_SIGN_KEY_PASS=$sign_key_pass \
+#    -DUL_FORCE_TESTAPP=OFF \
 #
 # FAQs
 #   1. 'STL library does not exist at ...'?
@@ -87,8 +89,8 @@ if (NOT DEFINED ENV{JAVA_HOME})
 e.g. java-8-openjdk-amd64.")
 endif()
 
-if (DEFINED ANDROID_PLATFORM)
-    set(ANDROID_PLATFORM_LEVEL ${ANDROID_PLATFORM})
+if (DEFINED ANDROID_PLATFORM_LEVEL)
+    set(ANDROID_PLATFORM "android-${ANDROID_PLATFORM_LEVEL}")
 endif()
 
 if (NOT DEFINED QT_ANDROID_SCREEN_ORIENTATION)
