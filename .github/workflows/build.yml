@@ -11,7 +11,7 @@ jobs:
           - {os: ubuntu-latest,  compiler: GNU,  CC: gcc,   CXX: g++,     warnall: ON}
           - {os: ubuntu-latest,  compiler: LLVM, CC: clang, CXX: clang++, warnall: ON}
           - {os: windows-latest, compiler: MSVC, CC: cl,    CXX: cl,      warnall: OFF}
-          - {os: macos-latest,   compiler: LLVM, CC: clang, CXX: clang,   warnall: ON}
+          - {os: macos-latest,   compiler: LLVM, CC: clang, CXX: clang++, warnall: ON}
 
     env:
       CC: ${{matrix.config.CC}}
