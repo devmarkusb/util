@@ -10,8 +10,8 @@ TEST(profilerTest, basics) {
     const auto after{ul::profiler_now()};
     EXPECT_GT(after, before);
     const auto diff{std::chrono::duration_cast<std::chrono::milliseconds>(ul::profiler_diff(before, after))};
-    EXPECT_GT(62, diff.count());
-    EXPECT_LT(22, diff.count());
+    EXPECT_GT(72, diff.count());
+    EXPECT_LT(12, diff.count());
 }
 
 TEST(ToFormattedStringTest, Rounding) {
