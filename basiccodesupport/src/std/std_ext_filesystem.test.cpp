@@ -359,7 +359,7 @@ TEST_F(PhysicalFilesystemTest, current_path__get_set) {
     const auto comparable_changed_dir = changed_dir.root_directory() / changed_dir.relative_path();
     EXPECT_TRUE(comparable_changed_dir == physical_test_dir);
 #elif UL_OS_MAC
-    auto comparable_physical_dir = "/private" + physical_test_dir_s;
+    auto comparable_physical_dir = std::string{"/private"} + physical_test_dir_s;
     EXPECT_TRUE(changed_dir == comparable_physical_dir);
 #else
     EXPECT_TRUE(changed_dir == physical_test_dir);
