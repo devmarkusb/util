@@ -89,12 +89,11 @@ ul::Opt<ArithType> is_power_of(ArithType x, ArithType base) {
     const int64_t intpart = ul::llround(exp);
     const auto intpart_dbl = ul::narrow_cast<long double>(intpart);
 
-    constexpr auto sufficiently_small_deviation{1e-12L};
-    if (!ul::math::approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
+    if (constexpr auto sufficiently_small_deviation{1e-12L};
+        !ul::math::approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
         return {};
     return ul::narrow_cast<ArithType>(intpart);
 }
-
 } // namespace mb::ul::math
 
 UL_HEADER_END
