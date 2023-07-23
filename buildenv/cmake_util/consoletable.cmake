@@ -9,6 +9,8 @@ FetchContent_Declare(
         ConsoleTable
         GIT_REPOSITORY https://github.com/766F6964/ConsoleTable
         GIT_TAG        99c4499
+        GIT_SHALLOW    ON
+        GIT_PROGRESS   ON
 )
 
 FetchContent_MakeAvailable(ConsoleTable)

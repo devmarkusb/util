@@ -101,6 +101,8 @@ FetchContent_Declare(
      QtAndroidCMake
      GIT_REPOSITORY https://github.com/devmarkusb/qt-android-cmake
      GIT_TAG        c9a97464
+     GIT_SHALLOW    ON
+     GIT_PROGRESS   ON
 )
 
 FetchContent_MakeAvailable(QtAndroidCMake)

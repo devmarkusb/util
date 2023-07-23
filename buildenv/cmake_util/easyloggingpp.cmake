@@ -2,6 +2,8 @@ FetchContent_Declare(
      easyloggingpp
      GIT_REPOSITORY https://github.com/devmarkusb/easyloggingpp
      GIT_TAG        v9.96.7
+     GIT_SHALLOW    ON
+     GIT_PROGRESS   ON
 )
 
 FetchContent_MakeAvailable(easyloggingpp)
