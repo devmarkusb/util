@@ -10,7 +10,8 @@ include(FetchContent)
 FetchContent_Declare(mb-clangtidy
     GIT_REPOSITORY "https://github.com/devmarkusb/clangtidy"
     GIT_TAG origin/HEAD
-    GIT_SHALLOW ON
+    GIT_SHALLOW  ON
+    GIT_PROGRESS ON
     )
 
 FetchContent_MakeAvailable(mb-clangtidy)

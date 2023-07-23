@@ -5,7 +5,8 @@ include(FetchContent)
 FetchContent_Declare(utfcpp
         GIT_REPOSITORY "https://github.com/nemtrif/utfcpp"
         GIT_TAG v3.2.3
-        GIT_SHALLOW ON
+        GIT_SHALLOW  ON
+        GIT_PROGRESS ON
         )
 
 FetchContent_MakeAvailable(utfcpp)
