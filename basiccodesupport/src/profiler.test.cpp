@@ -5,13 +5,13 @@
 
 TEST(profilerTest, basics) {
     const auto before{ul::profiler_now()};
-    constexpr auto example_duration{std::chrono::milliseconds(42)};
+    constexpr auto example_duration{std::chrono::milliseconds(420)};
     std::this_thread::sleep_for(example_duration);
     const auto after{ul::profiler_now()};
     EXPECT_GT(after, before);
     const auto diff{std::chrono::duration_cast<std::chrono::milliseconds>(ul::profiler_diff(before, after))};
-    EXPECT_GT(72, diff.count());
-    EXPECT_LT(12, diff.count());
+    EXPECT_GT(720, diff.count());
+    EXPECT_LT(120, diff.count());
 }
 
 TEST(ToFormattedStringTest, Rounding) {
