@@ -5,6 +5,8 @@ FetchContent_Declare(
      matplotlib-cpp
      GIT_REPOSITORY https://github.com/devmarkusb/matplotlib-cpp
      GIT_TAG        d6d64c9f
+     GIT_SHALLOW    ON
+     GIT_PROGRESS   ON
 )
 
 FetchContent_MakeAvailable(matplotlib-cpp)
