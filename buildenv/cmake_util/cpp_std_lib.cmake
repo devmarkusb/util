@@ -4,7 +4,14 @@
 
 include(CheckCXXSourceCompiles)
 
-option(UL_USE_CLANG_STDLIB "use libc++ instead of libstdc++" OFF)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    set(default_use_clang_stdlib ON)
+else()
+    set(default_use_clang_stdlib OFF)
+endif()
+
+option(UL_USE_CLANG_STDLIB "use libc++ instead of libstdc++" ${default_use_clang_stdlib})
+
 
 # default, to be overwritten in case
 set(UL_CPP_STD_LIB_IMPL "libstdc++")
