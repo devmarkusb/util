@@ -80,9 +80,9 @@ else ()
     set(UL_CPP_STD_LIB_IMPL2 "?")
 endif ()
 
-if (NOT "${UL_CPP_STD_LIB_IMPL2}" STREQUAL "${UL_CPP_STD_LIB}")
+if (NOT "${UL_CPP_STD_LIB_IMPL2}" STREQUAL "${UL_CPP_STD_LIB_IMPL}")
     cmake_print_variables(UL_CPP_STD_LIB_IMPL2)
-    cmake_print_variables(UL_CPP_STD_LIB)
+    cmake_print_variables(UL_CPP_STD_LIB_IMPL)
     message(FATAL_ERROR "Above vars don't match, consistency check needs update.")
 endif()
 
