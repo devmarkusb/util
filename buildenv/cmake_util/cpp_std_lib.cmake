@@ -12,7 +12,6 @@ endif()
 
 option(UL_USE_CLANG_STDLIB "use libc++ instead of libstdc++" ${default_use_clang_stdlib})
 
-
 # default, to be overwritten in case
 set(UL_CPP_STD_LIB_IMPL "libstdc++")
 
