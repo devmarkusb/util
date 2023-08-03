@@ -1,6 +1,5 @@
 //! \file
 
-
 #ifndef STR_CONVERT_DETAIL_H_SDHIXERGH3Q78Q473GNYT3YG
 #define STR_CONVERT_DETAIL_H_SDHIXERGH3Q78Q473GNYT3YG
 
@@ -89,6 +88,11 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
 }
 
 #if !UL_HAS_NO_CODECVT
+UL_PRAGMA_WARNINGS_PUSH
+// clang-format off
+UL_WARNING_DISABLE_CLANG(deprecated-declarations)
+
+// clang-format on
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr) {
     using CC = std::codecvt_utf8_utf16<wchar_t>;
     std::wstring_convert<CC, wchar_t> converter;
@@ -105,6 +109,8 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
 
     return converter.from_bytes(str);
 }
+
+UL_PRAGMA_WARNINGS_POP
 #endif
 
 /*inline std::string utf8_ws2s(const std::wstring& wstr)
