@@ -1,11 +1,13 @@
 # Declares variables UL_USE_CLANG_STDLIB and UL_CPP_STD_LIB to set and detect the C++ standard library type to be used
 # for linking currently. Possible values are "libstdc++" for the GNU lib, "libc++" for the Clang lib and "msvc" for
-# Microsofts implementation.
-# (!) UL_CPP_STD_LIB not working at the moment
+# Microsoft's implementation.
 
 include(CheckCXXSourceCompiles)
 
 option(UL_USE_CLANG_STDLIB "use libc++ instead of libstdc++" OFF)
+
+# default, to be overwritten in case
+set(UL_CPP_STD_LIB_IMPL "libstdc++")
 
 # C++ standard library setup
 # Use libc++ with clang and libstdc++ with gcc
@@ -26,6 +28,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" S
         find_library(clang_stdlib NAMES c++)
     endif()
     if (clang_stdlib)
+        set(UL_CPP_STD_LIB_IMPL "libc++")
         message(STATUS "Found libc++: ${clang_stdlib}")
         get_filename_component(clang_stdlib_directory ${clang_stdlib} DIRECTORY)
         get_filename_component(clang_stdlib_fname ${clang_stdlib} NAME)
@@ -37,6 +40,8 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" S
         # these perhaps need to be installed together with app binaries
         cmake_print_variables(clang_stdlib_files clang_stdlib_abi_files)
     endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(UL_CPP_STD_LIB_IMPL "msvc")
 endif()
 
 check_cxx_source_compiles(
@@ -66,14 +71,22 @@ check_cxx_source_compiles(
     UL_CHECK_USING_GNU_CPP_STD_LIB)
 
 if (UL_CHECK_USING_CLANG_CPP_STD_LIB)
-    set(UL_CPP_STD_LIB_IMPL "libc++")
+    set(UL_CPP_STD_LIB_IMPL2 "libc++")
 elseif (UL_CHECK_USING_GNU_CPP_STD_LIB)
-    set(UL_CPP_STD_LIB_IMPL "libstdc++")
+    set(UL_CPP_STD_LIB_IMPL2 "libstdc++")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(UL_CPP_STD_LIB_IMPL "msvc")
+    set(UL_CPP_STD_LIB_IMPL2 "msvc")
 else ()
-    set(UL_CPP_STD_LIB_IMPL "?")
+    set(UL_CPP_STD_LIB_IMPL2 "?")
 endif ()
 
+if (NOT "${UL_CPP_STD_LIB_IMPL2}" STREQUAL "${UL_CPP_STD_LIB}")
+    cmake_print_variables(UL_CPP_STD_LIB_IMPL2)
+    cmake_print_variables(UL_CPP_STD_LIB)
+    message(FATAL_ERROR "Above vars don't match, consistency check needs update.")
+endif()
+
 set(UL_CPP_STD_LIB ${UL_CPP_STD_LIB_IMPL} CACHE INTERNAL "indicates C++ standard library currently in use" FORCE)
+
 cmake_print_variables(UL_CPP_STD_LIB)
+
