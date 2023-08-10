@@ -4,6 +4,10 @@
 
 include(CheckCXXSourceCompiles)
 
+if (UL_ANDROID)
+    return()
+endif()
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
     set(default_use_clang_stdlib ON)
 else()
