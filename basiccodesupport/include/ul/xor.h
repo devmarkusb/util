@@ -42,7 +42,6 @@ template <>
 inline bool xor_bool(const bool& lhs, const bool& rhs) {
     return !xnor(lhs, rhs);
 }
-
 } // namespace mb::ul
 
 #endif

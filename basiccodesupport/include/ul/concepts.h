@@ -5,6 +5,7 @@ Most general ones. Otherwise they are spread to where to belong thematically, e.
 #ifndef CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A
 #define CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A
 
+#include "ul/config.h"
 #include <concepts>
 
 namespace mb::ul {
@@ -25,5 +26,7 @@ concept AnyOf = (std::same_as<T, U> || ...);
 template <class>
 inline constexpr bool always_false_v = false;
 } // namespace mb::ul
+
+UL_HEADER_END
 
 #endif
