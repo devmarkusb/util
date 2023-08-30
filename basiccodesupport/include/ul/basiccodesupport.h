@@ -12,6 +12,7 @@ All-in-one include file for this part of the lib.
 #include "assert.h"
 #include "bits.h"
 #include "c_array.h"
+#include "concepts.h"
 #include "debug.h"
 #include "enum_cast.h"
 #include "error.h"
