@@ -14,6 +14,8 @@ else()
     set(default_use_clang_stdlib OFF)
 endif()
 
+# Doesn't work reliably, also manually specify -DCMAKE_CXX_FLAGS="-stdlib=libc++"
+# as some compiler tests seem to start before anything else.
 option(UL_USE_CLANG_STDLIB "use libc++ instead of libstdc++" ${default_use_clang_stdlib})
 
 # default, to be overwritten in case
