@@ -37,6 +37,11 @@ set(${target}_INCLUDE_DIRS
 
 ################################################################################################
 
+#todo
+# from here on we have crashes using libc++
+#if (${UL_CPP_STD_LIB} STREQUAL "libc++")
+#    return ()
+#endif ()
 if (NOT UL_BUILD_UNITTESTS)
     return ()
 endif ()
