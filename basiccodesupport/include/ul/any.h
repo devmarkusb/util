@@ -123,22 +123,22 @@ private:
     template <typename T>
     struct Concrete : public Ibase {
         explicit Concrete(T&& x)
-            : value_(std::forward<T>(x)) {
+            : value(std::forward<T>(x)) {
         }
 
         explicit Concrete(const T& x)
-            : value_(x) {
+            : value(x) {
         }
 
         [[nodiscard]] std::unique_ptr<Ibase> clone() const override {
-            return ul::make_unique<Concrete<T>>(value_);
+            return ul::make_unique<Concrete<T>>(value);
         }
 
         [[nodiscard]] const std::type_info& type() const override {
             return typeid(T);
         }
 
-        T value_;
+        T value;
     };
 
     std::unique_ptr<Ibase> holder_;
@@ -160,28 +160,28 @@ template <typename Type>
 Type any_cast(any& val) {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return static_cast<any::Concrete<Type>*>(val.holder_.get())->value_;
+    return static_cast<any::Concrete<Type>*>(val.holder_.get())->value;
 }
 
 template <typename Type>
 Type any_cast(const any& val) {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return static_cast<any::Concrete<Type>*>(any(val).holder_.get())->value_;
+    return static_cast<any::Concrete<Type>*>(any(val).holder_.get())->value;
 }
 
 template <typename Type>
 Type* any_cast(any* pval) {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value_);
+    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value);
 }
 
 template <typename Type>
 const Type* any_cast(const any* pval) {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value_);
+    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value);
 }
 } // namespace mb::ul
 

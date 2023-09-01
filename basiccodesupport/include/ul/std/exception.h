@@ -22,16 +22,16 @@ public:
     //! Call this method later when it's safe to throw. If an exception was caught, it will be rethrown.
     /** Note that you can rethrow it again and again, no reset is done.*/
     void rethrow() const {
-        if (exceptionPtr_)
-            std::rethrow_exception(exceptionPtr_);
+        if (exception_ptr_)
+            std::rethrow_exception(exception_ptr_);
     }
 
 private:
     void capture_exception() noexcept {
-        exceptionPtr_ = std::current_exception();
+        exception_ptr_ = std::current_exception();
     }
 
-    std::exception_ptr exceptionPtr_;
+    std::exception_ptr exception_ptr_;
 };
 } // namespace mb::ul::exception
 

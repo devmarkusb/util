@@ -61,7 +61,7 @@ public:
 
             Base::buf_.push(std::forward<U>(elem));
         }
-        conditionVariable_.notify_one();
+        condition_variable_.notify_one();
         return true;
     }
 
@@ -89,15 +89,15 @@ public:
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool wait_and_pop(T& poppedElem) {
+    bool wait_and_pop(T& popped_elem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (Base::buf_.empty() && !stopped_)
-            conditionVariable_.wait(lk);
+            condition_variable_.wait(lk);
 
         if (stopped_)
             return false;
 
-        UL_VERIFY(Base::buf_.try_pop(poppedElem));
+        UL_VERIFY(Base::buf_.try_pop(popped_elem));
 
         return true;
     }
@@ -105,7 +105,7 @@ public:
     void stop() {
         const std::unique_lock<std::mutex> lock(mutex_);
         stopped_ = true;
-        conditionVariable_.notify_all();
+        condition_variable_.notify_all();
     }
 
     size_t size() const {
@@ -119,7 +119,7 @@ public:
 
 private:
     mutable std::mutex mutex_;
-    std::condition_variable conditionVariable_;
+    std::condition_variable condition_variable_;
     bool stopped_{false};
 };
 } // namespace mb::ul::thread

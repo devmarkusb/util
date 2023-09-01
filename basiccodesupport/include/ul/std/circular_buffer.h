@@ -109,19 +109,19 @@ public:
         full_ = head_ == tail_;
     }
 
-    bool try_front(T& frontItem) noexcept {
+    bool try_front(T& front_item) noexcept {
         if (empty())
             return false;
 
-        frontItem = Base::buf_[tail_];
+        front_item = Base::buf_[tail_];
         return true;
     }
 
-    bool try_pop(T& poppedItem) noexcept {
+    bool try_pop(T& popped_item) noexcept {
         if (empty())
             return false;
 
-        poppedItem = Base::buf_[tail_]; // NOLINT
+        popped_item = Base::buf_[tail_]; // NOLINT
         full_ = false;
         tail_ = (tail_ + 1) % capacity();
 

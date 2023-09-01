@@ -12,7 +12,7 @@ struct ModelListener : public ul::Listener {
 
 struct ModelNotifier : public ul::ListenerRegister {
     void on_prop_changed() {
-        for (auto& l : this->registeredListeners_)
+        for (auto& l : this->registered_listeners_)
             dynamic_cast<ModelListener*>(l)->on_prop_changed();
     }
 };

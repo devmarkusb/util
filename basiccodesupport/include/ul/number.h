@@ -43,12 +43,12 @@ T get_digit_count(T number, NumBase base = NumBase::dec) {
     return count;
 }
 
-//! \param digitIdx counted from the right (least significant digit) 0-based
+//! \param digit_idx counted from the right (least significant digit) 0-based
 template <typename T>
-BaseDigitType get_digit(T number, T digitIdx, NumBase base = NumBase::dec) {
+BaseDigitType get_digit(T number, T digit_idx, NumBase base = NumBase::dec) {
     static_assert(std::is_integral_v<T>, "only integral numbers are allowed as input");
     return narrow_cast<BaseDigitType>(
-        number / static_cast<T>(std::pow(ul::enum_cast(base), digitIdx)) % ul::enum_cast(base));
+        number / static_cast<T>(std::pow(ul::enum_cast(base), digit_idx)) % ul::enum_cast(base));
 }
 
 template <typename T>

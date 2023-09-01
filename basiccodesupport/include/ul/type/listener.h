@@ -93,33 +93,33 @@ public:
     virtual void register_listener(Listener* l) {
         UL_EXPECT(l);
         UL_EXPECT(
-            std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
-            == std::end(this->registeredListeners_));
+            std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l)
+            == std::end(this->registered_listeners_));
 
-        this->registeredListeners_.push_back(l);
+        this->registered_listeners_.push_back(l);
     }
 
     /** \param l has to be a non-nullptr, still valid, already via register_listener registered Listener.
         The same l also mustn't be unregistered more than once.*/
     virtual void unregister_listener(Listener* l) {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l);
-        UL_EXPECT(it != std::end(this->registeredListeners_));
+        const auto it = std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l);
+        UL_EXPECT(it != std::end(this->registered_listeners_));
 
-        this->registeredListeners_.erase(it);
+        this->registered_listeners_.erase(it);
     }
 
     //! \param l has to be non-nullptr.
     virtual bool is_registered(Listener* l) const {
         UL_EXPECT(l);
 
-        return std::find(std::begin(this->registeredListeners_), std::end(this->registeredListeners_), l)
-               != std::end(this->registeredListeners_);
+        return std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l)
+               != std::end(this->registered_listeners_);
     }
 
 protected:
     using ListenerContainer = std::vector<Listener*>;
-    ListenerContainer registeredListeners_;
+    ListenerContainer registered_listeners_;
 };
 
 /** Static version of ListenerRegister. That is, you can let your
