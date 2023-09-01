@@ -41,7 +41,7 @@ endif ()
 # Note: An idea was to introduce the choice of building one dir level up (to keep source dir clean)
 #       But the major problem is, that we would like to git-check-in some binaries here and there...
 set(impl_OutputDir_bin ${CMAKE_SOURCE_DIR}/bin_${impl_CompilerSubdir})
-set(impl_OutputDir_lib ${CMAKE_CURRENT_SOURCE_DIR}/lib_${impl_CompilerSubdir})
+set(impl_OutputDir_lib ${CMAKE_SOURCE_DIR}/lib_${impl_CompilerSubdir})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${impl_OutputDir_bin})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${impl_OutputDir_lib})
