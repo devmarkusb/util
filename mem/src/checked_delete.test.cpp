@@ -1,8 +1,6 @@
 #include "ul/mem/checked_delete.h"
 #include "gtest/gtest.h"
 
-namespace ul = mb::ul;
-
 namespace misc_test_helper {
 class C;
 extern C* c;

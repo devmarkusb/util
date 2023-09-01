@@ -32,7 +32,7 @@ void load_from_text_file(const std::string& file_path_name_ext, std::string& con
     file.seekg(0);
     if (!file)
         throw std::runtime_error("file seek");
-    file.read(&content[0], size);
+    file.read(content.data(), size);
 }
 } // namespace
 

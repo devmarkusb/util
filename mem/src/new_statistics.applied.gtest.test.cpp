@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
     // our control, so that would never yield proper new/delete statistics. The next best 3rd party lib will mess
     // that up, as gtest does at least.
     // Gtest even leaks 3 deletes and 107 B by the following innocent code.
-    AGlobalDestructor global;
+    const AGlobalDestructor global;
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

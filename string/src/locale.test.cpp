@@ -9,7 +9,7 @@ TEST(consoleTest, set_global_localeTest_localenc) {
     std::stringstream ss;
     std::cout << s << "\n";
     ss << s;
-    std::string res1(ss.str());
+    const std::string res1(ss.str());
     std::cout << res1 << "\n";
 
 // #locale_facet-exception
@@ -19,18 +19,18 @@ TEST(consoleTest, set_global_localeTest_localenc) {
 // starting the test exe separately - so no debugging possible :/
 // Also the build server doesn't fail!
 #if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
-    ul::SetGlobalLocaleScoped loc{ul::GlobalLocale::user_preferred};
-    std::locale first = loc.get_original_locale();
+    ul::SetGlobalLocaleScoped const loc{ul::GlobalLocale::user_preferred};
+    const std::locale first = loc.get_original_locale();
     EXPECT_EQ(std::locale::classic(), first);
     /*std::locale userpref = */ ul::set_global_locale(ul::GlobalLocale::default_classic);
-    std::locale classictest = ul::set_global_locale(ul::GlobalLocale::user_preferred);
+    const std::locale classictest = ul::set_global_locale(ul::GlobalLocale::user_preferred);
     EXPECT_EQ(std::locale::classic(), classictest);
 #endif
 
     std::stringstream ss2;
     std::cout << s << "\n";
     ss2 << s;
-    std::string res2(ss2.str());
+    const std::string res2(ss2.str());
     std::cout << res2 << "\n";
 
     // even ul::set_global_locale_scoped loc{"German_Germany.UTF-8"}; // doesn't work for

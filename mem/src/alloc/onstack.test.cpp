@@ -17,7 +17,7 @@ TEST(alloc_OnStack, constr) {
 TEST(alloc_OnStack, alloc) {
     ul::mem::alloc::OnStack<1024, 1> a;
 
-    auto p = reinterpret_cast<char*>(a.allocate(Bytes{1000}));
+    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{1000}));
 
     EXPECT_EQ(a.size(), Bytes{1000});
     p[0] = 'a';
@@ -37,7 +37,7 @@ TEST(alloc_OnStack, dealloc) {
     static_assert(alignof(Type) == sizeof(Type));
     ul::mem::alloc::OnStack<1024, alignof(Type)> a;
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
     ul::ignore_unused(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
@@ -57,7 +57,7 @@ TEST(alloc_OnStack, dealloc) {
 TEST(alloc_OnStack, padding) {
     ul::mem::alloc::OnStack<16, 4> a;
 
-    auto p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
+    auto* p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
     ul::ignore_unused(p);
     EXPECT_EQ(a.size(), Bytes{4});
     p = reinterpret_cast<char*>(a.allocate(Bytes{1}));
@@ -81,7 +81,7 @@ TEST(alloc_OnStack, with_stats) {
     static_assert(alignof(Type) == sizeof(Type));
     ul::mem::alloc::OnStack<1024, alignof(Type), ul::mem::alloc::Statistics> a;
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{20 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{20 * sizeof(Type)}));
     ul::ignore_unused(p);
     p = reinterpret_cast<Type*>(a.allocate(Bytes{100 * sizeof(Type)}));
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{100 * sizeof(Type)});
