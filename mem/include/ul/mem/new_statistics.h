@@ -82,13 +82,13 @@ public:
         current_size_.fetch_add(size.value, std::memory_order_seq_cst);
         ul::thread::atomic::update_maximum(peak_size_, current_size_.load(std::memory_order_seq_cst));
         allocated_size_.fetch_add(size.value, std::memory_order_relaxed);
-        auto sh = new (p) StatsHeader;
+        auto* sh = new (p) StatsHeader;
         sh->set(fields_lookup_, StatsHeader::Field::size, size.value);
     }
 
     void delete_call(void* p) noexcept {
         delete_calls_.fetch_add(1, std::memory_order_relaxed);
-        auto sh = reinterpret_cast<StatsHeader*>(p);
+        auto* sh = reinterpret_cast<StatsHeader*>(p);
         const auto size = sh->get<size_t>(fields_lookup_, StatsHeader::Field::size);
         current_size_.fetch_sub(size, std::memory_order_seq_cst);
         deallocated_size_.fetch_add(size, std::memory_order_relaxed);
