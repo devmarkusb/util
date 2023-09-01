@@ -40,28 +40,28 @@ inline char make_lower(char& c) {
 }
 
 //! Expects fromSub non-empty.
-inline void replace_all(std::string& s, const std::string& fromSub, const std::string& toSub) {
-    UL_EXPECT(!fromSub.empty());
+inline void replace_all(std::string& s, const std::string& from_sub, const std::string& to_sub) {
+    UL_EXPECT(!from_sub.empty());
     size_t start_pos{};
-    while ((start_pos = s.find(fromSub, start_pos)) != std::string::npos) {
-        s.replace(start_pos, fromSub.length(), toSub);
-        start_pos += toSub.length();
+    while ((start_pos = s.find(from_sub, start_pos)) != std::string::npos) {
+        s.replace(start_pos, from_sub.length(), to_sub);
+        start_pos += to_sub.length();
     }
 }
 
 /** Expects fromSub non-empty. Expects toSubs to be of at least the
     count of occurrences of fromSub within s.*/
-inline void replace_all(std::string& s, const std::string& fromSub, const std::vector<std::string>& toSubs) {
-    UL_EXPECT(!fromSub.empty());
+inline void replace_all(std::string& s, const std::string& from_sub, const std::vector<std::string>& to_subs) {
+    UL_EXPECT(!from_sub.empty());
     if (s.empty()) {
         return;
     }
     size_t counter{};
     size_t start_pos{};
-    while ((start_pos = s.find(fromSub, start_pos)) != std::string::npos) {
-        UL_ASSERT(toSubs.size() > counter);
-        s.replace(start_pos, fromSub.length(), toSubs[counter]);
-        start_pos += toSubs[counter].length();
+    while ((start_pos = s.find(from_sub, start_pos)) != std::string::npos) {
+        UL_ASSERT(to_subs.size() > counter);
+        s.replace(start_pos, from_sub.length(), to_subs[counter]);
+        start_pos += to_subs[counter].length();
         ++counter;
     }
 }

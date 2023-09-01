@@ -14,8 +14,8 @@ void to_be_called(T... t) {
 }
 
 template <int... is>
-void caller_impl(const std::array<int, 3>& theArray, ul::idx::Seq<is...> /*unused*/) {
-    to_be_called(theArray[is]...);
+void caller_impl(const std::array<int, 3>& the_array, ul::idx::Seq<is...> /*unused*/) {
+    to_be_called(the_array[is]...);
 }
 } // namespace test_int
 

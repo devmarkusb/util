@@ -11,19 +11,19 @@
 #include <string>
 
 namespace mb::ul::file {
-/** \param retErrDetail returns error detail string or is empty on success.
+/** \param ret_err_detail returns error detail string or is empty on success.
     \return false on success.*/
 template <class FStream>
-bool fstream_failed(std::string& retErrDetail, const FStream& fs) {
-    retErrDetail.clear();
+bool fstream_failed(std::string& ret_err_detail, const FStream& fs) {
+    ret_err_detail.clear();
     if (fs)
         return false;
     if (fs.eof())
-        retErrDetail = "eof";
+        ret_err_detail = "eof";
     else if (fs.bad())
-        retErrDetail = "bad";
+        ret_err_detail = "bad";
     else if (fs.fail())
-        retErrDetail = "fail";
+        ret_err_detail = "fail";
     return true;
 }
 
@@ -32,10 +32,11 @@ enum class Operation {
     load,
 };
 
-[[noreturn]] inline void throw_error(const std::string& filePathNameExt, Operation op, const std::string& retErrDetail) {
+[[noreturn]] inline void throw_error(
+    const std::string& file_path_name_ext, Operation op, const std::string& ret_err_detail) {
     const auto errno_copy = errno;
     std::stringstream ss;
-    ss << filePathNameExt;
+    ss << file_path_name_ext;
     ss << " could not be ";
     switch (op) {
         case Operation::save:
@@ -45,7 +46,7 @@ enum class Operation {
             ss << "loaded";
             break;
     }
-    ss << ", details: " << retErrDetail;
+    ss << ", details: " << ret_err_detail;
     //todo use strerror_s and what platforms demand, remove nolint
     ss << ", ec: " << errno_copy << ", " << std::strerror(errno_copy); // NOLINT
     throw std::runtime_error{ss.str()};

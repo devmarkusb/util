@@ -20,23 +20,23 @@ protected:
     /** If you have data of the currently allocated size in total and just need to obtain the peak allocation size,
         it is sufficient to call this function (and this one even in allocation, size increasing, context only).
         Using the other two statsCollect_alloc/statsCollect_dealloc would make calling this one obsolete.*/
-    void stats_collect_current_size(Bytes currentSize) {
-        if (currentSize > peak_)
-            peak_ = currentSize;
+    void stats_collect_current_size(Bytes current_size) {
+        if (current_size > peak_)
+            peak_ = current_size;
     }
 
     void stats_collect_alloc(Bytes size) {
-        currSize_ += size;
-        stats_collect_current_size(currSize_);
+        curr_size_ += size;
+        stats_collect_current_size(curr_size_);
     }
 
     void stats_collect_dealloc(Bytes size) {
-        currSize_ -= size;
+        curr_size_ -= size;
     }
 
 private:
     Bytes peak_;
-    Bytes currSize_;
+    Bytes curr_size_;
 };
 
 class NoStatistics {

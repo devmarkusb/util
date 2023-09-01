@@ -11,15 +11,15 @@
 namespace ul = mb::ul;
 
 namespace {
-void save_to_text_file(const std::string& filePathNameExt, const std::string& Content) {
-    std::ofstream file(filePathNameExt);
+void save_to_text_file(const std::string& file_path_name_ext, const std::string& content) {
+    std::ofstream file(file_path_name_ext);
     if (!file)
         throw std::runtime_error("file open");
-    file << Content;
+    file << content;
 }
 
-void load_from_text_file(const std::string& filePathNameExt, std::string& Content) {
-    std::ifstream file(filePathNameExt);
+void load_from_text_file(const std::string& file_path_name_ext, std::string& content) {
+    std::ifstream file(file_path_name_ext);
     if (!file)
         throw std::runtime_error("file open");
     file.seekg(0, std::ios::end);
@@ -28,11 +28,11 @@ void load_from_text_file(const std::string& filePathNameExt, std::string& Conten
     const auto size = file.tellg();
     if (!file || size == static_cast<decltype(size)>(-1))
         throw std::runtime_error("get file size");
-    Content.resize(static_cast<size_t>(size)); // need the precise size for the string, I guess
+    content.resize(static_cast<size_t>(size)); // need the precise size for the string, I guess
     file.seekg(0);
     if (!file)
         throw std::runtime_error("file seek");
-    file.read(&Content[0], size);
+    file.read(&content[0], size);
 }
 } // namespace
 
@@ -40,18 +40,18 @@ struct CharEncodingFileTest : public ::testing::Test {
     CharEncodingFileTest() = default;
 
     void SetUp() override {
-        filePathNameExt_ = "i_can_be_deleted__temp_txt_file_";
-        filePathNameExt_ += CharEncodingFileTest::counter++;
-        filePathNameExt_ += ".txt";
+        file_path_name_ext_ = "i_can_be_deleted__temp_txt_file_";
+        file_path_name_ext_ += CharEncodingFileTest::counter++;
+        file_path_name_ext_ += ".txt";
     }
 
     void write_file(const std::string& text) {
-        save_to_text_file(filePathNameExt_, text);
+        save_to_text_file(file_path_name_ext_, text);
     }
 
     std::string read_file() {
         std::string ret;
-        load_from_text_file(filePathNameExt_, ret);
+        load_from_text_file(file_path_name_ext_, ret);
         return ret;
     }
 
@@ -60,14 +60,14 @@ struct CharEncodingFileTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        const int ret = std::remove(filePathNameExt_.c_str());
+        const int ret = std::remove(file_path_name_ext_.c_str());
         ASSERT_EQ(0, ret);
     }
 
     ~CharEncodingFileTest() override = default;
 
 private:
-    std::string filePathNameExt_;
+    std::string file_path_name_ext_;
     static char counter;
 };
 

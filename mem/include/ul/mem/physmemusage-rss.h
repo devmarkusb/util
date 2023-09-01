@@ -30,7 +30,7 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
         std::string pid, comm, state, ppid, pgrp, session, tty_nr;
         std::string tpgid, flags, minflt, cminflt, majflt, cmajflt;
         std::string utime, stime, cutime, cstime, priority, nice;
-        std::string O, itrealvalue, starttime;
+        std::string o, itrealvalue, starttime;
     } dummy;
 
     double vsize{};
@@ -38,7 +38,7 @@ inline void usage(double& virtual_mem_usage, double& physical_mem_usage) {
 
     stat_stream >> dummy.pid >> dummy.comm >> dummy.state >> dummy.ppid >> dummy.pgrp >> dummy.session >> dummy.tty_nr
         >> dummy.tpgid >> dummy.flags >> dummy.minflt >> dummy.cminflt >> dummy.majflt >> dummy.cmajflt >> dummy.utime
-        >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.O >> dummy.itrealvalue
+        >> dummy.stime >> dummy.cutime >> dummy.cstime >> dummy.priority >> dummy.nice >> dummy.o >> dummy.itrealvalue
         >> dummy.starttime >> vsize >> rss;
 
     const auto page_size_kb = static_cast<double>(sysconf(_SC_PAGE_SIZE)) / ul::mem::kib;

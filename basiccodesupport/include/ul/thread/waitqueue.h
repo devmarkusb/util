@@ -14,8 +14,8 @@ namespace mb::ul::thread {
 template <typename T>
 class WaitQueue {
 public:
-    explicit WaitQueue(size_t maxElems = std::numeric_limits<size_t>::max())
-        : maxElems_(maxElems) {
+    explicit WaitQueue(size_t max_elems = std::numeric_limits<size_t>::max())
+        : max_elems_(max_elems) {
     }
 
     template <typename U>
@@ -25,12 +25,12 @@ public:
         {
             std::unique_lock<std::mutex> lock(mutex_);
 
-            if (queue_.size() > maxElems_)
+            if (queue_.size() > max_elems_)
                 return false;
 
             queue_.push(std::forward<U>(elem));
         }
-        conditionVariable_.notify_one();
+        condition_variable_.notify_one();
         return true;
     }
 
@@ -41,25 +41,25 @@ public:
         {
             const std::unique_lock<std::mutex> lock(mutex_);
 
-            if (queue_.size() >= maxElems_)
+            if (queue_.size() >= max_elems_)
                 return false;
 
             queue_.emplace(std::forward<U>(elem));
         }
-        conditionVariable_.notify_one();
+        condition_variable_.notify_one();
         return true;
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).
-    bool wait_and_pop(T& poppedElem) {
+    bool wait_and_pop(T& popped_elem) {
         std::unique_lock<std::mutex> lk(mutex_);
         while (queue_.empty() && !stopped_)
-            conditionVariable_.wait(lk);
+            condition_variable_.wait(lk);
 
         if (stopped_)
             return false;
 
-        poppedElem = std::move(queue_.front());
+        popped_elem = std::move(queue_.front());
         queue_.pop();
 
         return true;
@@ -68,7 +68,7 @@ public:
     void stop() {
         const std::unique_lock<std::mutex> lock(mutex_);
         stopped_ = true;
-        conditionVariable_.notify_all();
+        condition_variable_.notify_all();
     }
 
     size_t size() const {
@@ -78,8 +78,8 @@ public:
 
 private:
     mutable std::mutex mutex_;
-    std::condition_variable conditionVariable_;
-    size_t maxElems_{};
+    std::condition_variable condition_variable_;
+    size_t max_elems_{};
     std::queue<T> queue_;
     bool stopped_{false};
 };

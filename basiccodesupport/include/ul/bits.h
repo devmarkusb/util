@@ -211,18 +211,18 @@ Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bi
 //! Needed for FieldsRaw.
 template <size_t fields>
 struct FieldsLookup {
-    std::array<Count, fields> counts_; // count of bits of each field
-    std::array<Count, fields> indices_; // indices where field sits
+    std::array<Count, fields> counts; // count of bits of each field
+    std::array<Count, fields> indices; // indices where field sits
 
     template <typename... Counts>
-    explicit FieldsLookup(Count maxCount, Counts... counts)
-        : counts_({static_cast<Count>(counts)...}) {
-        static_assert(fields == sizeof...(counts));
+    explicit FieldsLookup(Count max_count, Counts... cs)
+        : counts({static_cast<Count>(cs)...}) {
+        static_assert(fields == sizeof...(cs));
 
-        indices_[0] = {};
-        std::partial_sum(std::begin(counts_), std::end(counts_) - 1, std::begin(indices_) + 1);
+        indices[0] = {};
+        std::partial_sum(std::begin(counts), std::end(counts) - 1, std::begin(indices) + 1);
         // runtime check as long as we don't have a compiletime partial_sum
-        UL_ENSURE_THROW(indices_.back() + counts_.back() <= maxCount);
+        UL_ENSURE_THROW(indices.back() + counts.back() <= max_count);
     }
 };
 
@@ -235,22 +235,22 @@ public:
     static_assert(fields > 0);
 
     template <typename SourceDataType>
-    constexpr void set(const FieldsLookup<fields>& fieldsLookup, EnumType field, SourceDataType value) noexcept {
+    constexpr void set(const FieldsLookup<fields>& fields_lookup, EnumType field, SourceDataType value) noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_c{static_cast<size_t>(fieldnr)};
         data_ = write<BitDataType, SourceDataType>(
-            data_, fieldsLookup.indices_[fieldnr_c], fieldsLookup.counts_[fieldnr_c], value); // NOLINT
+            data_, fields_lookup.indices[fieldnr_c], fields_lookup.counts[fieldnr_c], value); // NOLINT
     }
 
     template <typename TargetDataType = BitDataType>
     [[nodiscard]] constexpr TargetDataType get(
-        const FieldsLookup<fields>& fieldsLookup, EnumType field) const noexcept {
+        const FieldsLookup<fields>& fields_lookup, EnumType field) const noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_c{static_cast<size_t>(fieldnr)};
         return read_and_cast<TargetDataType, BitDataType>(
-            data_, fieldsLookup.indices_[fieldnr_c], fieldsLookup.counts_[fieldnr_c]); // NOLINT
+            data_, fields_lookup.indices[fieldnr_c], fields_lookup.counts[fieldnr_c]); // NOLINT
     }
 
 private:
@@ -287,22 +287,22 @@ public:
     /** But you don't need to use up the full space of bits.*/
     template <typename... Counts>
     explicit constexpr Fields(Counts... counts)
-        : fieldsLookup_{count<BitDataType>(), counts...} {
+        : fields_lookup_{count<BitDataType>(), counts...} {
         static_assert(fields == sizeof...(counts));
     }
 
     template <typename SourceDataType>
     constexpr void set(EnumType field, SourceDataType value) noexcept {
-        raw_.set(fieldsLookup_, field, value);
+        raw_.set(fields_lookup_, field, value);
     }
 
     template <typename TargetDataType = BitDataType>
     [[nodiscard]] constexpr TargetDataType get(EnumType field) const noexcept {
-        return raw_.template get<TargetDataType>(fieldsLookup_, field);
+        return raw_.template get<TargetDataType>(fields_lookup_, field);
     }
 
 private:
-    FieldsLookup<fields> fieldsLookup_;
+    FieldsLookup<fields> fields_lookup_;
     FieldsRaw<BitDataType, EnumType, fields> raw_;
 };
 

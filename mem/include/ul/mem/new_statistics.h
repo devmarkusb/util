@@ -42,14 +42,14 @@ public:
 
     template <typename SourceDataType>
     constexpr void set(
-        const ul::bits::FieldsLookup<field_count>& fieldsLookup, Field field, SourceDataType value) noexcept {
-        bits_.set(fieldsLookup, field, value);
+        const ul::bits::FieldsLookup<field_count>& fields_lookup, Field field, SourceDataType value) noexcept {
+        bits_.set(fields_lookup, field, value);
     }
 
     template <typename TargetDataType = BitsType>
     [[nodiscard]] constexpr TargetDataType get(
-        const ul::bits::FieldsLookup<field_count>& fieldsLookup, Field field) const noexcept {
-        return bits_.template get<TargetDataType>(fieldsLookup, field);
+        const ul::bits::FieldsLookup<field_count>& fields_lookup, Field field) const noexcept {
+        return bits_.template get<TargetDataType>(fields_lookup, field);
     }
 
 private:
