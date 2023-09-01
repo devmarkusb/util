@@ -111,7 +111,7 @@ struct AlsoBindStdout {
 
 struct CheckConsoleOpen {
     template <class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
-    static void open_console_if_necessary(bool& ret_stderrBound, bool& ret_stdoutBound) {
+    static void open_console_if_necessary(bool& ret_stderr_bound, bool& ret_stdout_bound) {
 #if UL_OS_WINDOWS
         ret_stderrBound = false;
         ret_stdoutBound = false;
@@ -131,8 +131,8 @@ struct CheckConsoleOpen {
 
         AlsoBindStdoutToNewConsolePolicy::bind(ret_stdoutBound);
 #else
-        ret_stderrBound = true;
-        ret_stdoutBound = true;
+        ret_stderr_bound = true;
+        ret_stdout_bound = true;
 #endif
     }
 };
@@ -275,9 +275,9 @@ void init() {
         CheckConsoleOpenPolicy::template openConsoleIfNecessary<AlsoBindStdoutToNewConsolePolicy>(
             ret_stderr_bound, ret_stdout_bound);
 
-    detail_impl::StreamTracerWrapperSingleton::get_instance().tracer() = ul::make_unique<
-        detail_impl::StreamTracerImpl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
-        ret_stderr_bound, ret_stdout_bound);
+    detail_impl::StreamTracerWrapperSingleton::get_instance().tracer() =
+        ul::make_unique<detail_impl::StreamTracerImpl<EnabledIfPolicy, OutputToIDEWindowPolicy, OutputToConsolePolicy>>(
+            ret_stderr_bound, ret_stdout_bound);
 }
 } // namespace tracer
 

@@ -90,13 +90,13 @@ using native_handle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logicalCoreIdx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]] int logicalCoreIdx)
+inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]] int logical_core_idx)
 #if UL_OS_MAC
     noexcept
 #endif
 {
     UL_EXPECT(h);
-    UL_EXPECT(logicalCoreIdx >= 0);
+    UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
@@ -114,11 +114,11 @@ inline int pin_to_logical_core([[maybe_unused]] NativeHandle h, [[maybe_unused]]
 }
 
 //! Like pinToLogicalCore but current thread only.
-inline int pin_to_logical_core(int logicalCoreIdx) {
+inline int pin_to_logical_core(int logical_core_idx) {
 #if UL_OS_LINUX
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
-    CPU_SET(logicalCoreIdx, &cpuset);
+    CPU_SET(logical_core_idx, &cpuset);
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
     ul::ignore_unused(logicalCoreIdx);
@@ -131,13 +131,13 @@ inline int pin_to_logical_core(int logicalCoreIdx) {
     partners, you might not always get the performance gain you expect, by pinning to all cores. Half
     of them might be sufficient sometimes then.
     \throws std::runtime_error on error. Note: an empty constructed std::thread won't do.*/
-inline void pin_to_logical_core(std::thread& t, int logicalCoreIdx) {
+inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
     UL_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
-    UL_EXPECT(logicalCoreIdx >= 0);
+    UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX || UL_OS_MAC
     auto nh = static_cast<NativeHandle>(t.native_handle());
-    const auto err = pin_to_logical_core(nh, logicalCoreIdx);
+    const auto err = pin_to_logical_core(nh, logical_core_idx);
     if (err) {
         std::stringstream ss;
         ss << "thread_pinToCPU failed with code " << err;

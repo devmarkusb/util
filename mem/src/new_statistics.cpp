@@ -4,11 +4,11 @@
 
 namespace ul = mb::ul;
 
-void* operator new(std::size_t sizeInBytes) {
-    const auto p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(ul::mem::StatsHeader) + sizeInBytes));
+void* operator new(std::size_t size_in_bytes) {
+    const auto p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(ul::mem::StatsHeader) + size_in_bytes));
     if (!p)
         throw std::bad_alloc{};
-    ul::mem::Statistics::instance().new_call(ul::mem::Bytes{sizeInBytes}, p);
+    ul::mem::Statistics::instance().new_call(ul::mem::Bytes{size_in_bytes}, p);
     return p + sizeof(ul::mem::StatsHeader);
 }
 
