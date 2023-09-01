@@ -30,6 +30,7 @@ Checks: >
   -hicpp-braces-around-statements,readability-braces-around-statements,
   -hicpp-deprecated-headers,
   -hicpp-explicit-conversions,
+  -hicpp-member-init,
   -hicpp-named-parameter,
   -hicpp-special-member-functions,
   -hicpp-uppercase-literal-suffix,
