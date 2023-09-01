@@ -27,14 +27,16 @@ TEST(NewHandlerSupportTest, test) {
 
     private:
         // about 2GB
+        // NOLINTBEGIN
         int i1_[0x7ffffff];
         int i2_[0x7ffffff];
         int i3_[0x7ffffff];
         int i4_[0x7ffffff];
+        // NOLINTEND
     };
 
     ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
-    C c;
+    const C c;
     ul::ignore_unused(c);
     EXPECT_FALSE(g_my_new_handler_got_called);
     C* pc = nullptr;

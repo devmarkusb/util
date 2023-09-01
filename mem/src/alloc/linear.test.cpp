@@ -50,7 +50,7 @@ TEST(alloc_Linear, dealloc) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     ul::ignore_unused(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
@@ -62,10 +62,10 @@ TEST(alloc_Linear, dealloc_noop) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     ul::ignore_unused(p);
 
-    auto q = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* q = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     ul::ignore_unused(q);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});
@@ -77,7 +77,7 @@ TEST(alloc_Linear, resize) {
     using Type = int;
     ul::mem::alloc::Linear<> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     ul::ignore_unused(p);
 
     a.resize(Bytes{0});
@@ -92,7 +92,7 @@ TEST(alloc_Linear, with_stats) {
     using Type = int;
     ul::mem::alloc::Linear<ul::mem::alloc::Statistics> a{Bytes{10 * sizeof(Type)}, Bytes{alignof(Type)}};
 
-    auto p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
+    auto* p = reinterpret_cast<Type*>(a.allocate(Bytes{5 * sizeof(Type)}));
     ul::ignore_unused(p);
 
     a.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{5 * sizeof(Type)});

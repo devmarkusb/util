@@ -8,7 +8,7 @@ namespace ul = mb::ul;
 using ul::mem::Bytes;
 
 TEST(alloc_Example, basics) {
-    auto mem = reinterpret_cast<int*>(ul::mem::alloc::Example::allocate(Bytes{42 * sizeof(int)}));
+    auto* mem = reinterpret_cast<int*>(ul::mem::alloc::Example::allocate(Bytes{42 * sizeof(int)}));
     const auto auto_deallocate = ul::finally([mem]() {
         ul::mem::alloc::Example::deallocate(reinterpret_cast<uint8_t*>(mem));
     });

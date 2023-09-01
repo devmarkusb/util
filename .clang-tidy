@@ -1,6 +1,6 @@
 # Note, you can't have comments below in a '>' section, that's why here are the comments upfront.
 # -hicpp-deprecated-headers: unfortunately, should be restrictable to <>-includes
-# -readability-identifier-naming: switch on (auto fixes available)
+# -readability-identifier-naming: switch on if you're ready (auto fixes available)
 
 Checks: >
   *,
@@ -41,9 +41,9 @@ Checks: >
   -modernize-use-trailing-return-type,
   -readability-braces-around-statements,
   -readability-identifier-length,
-  -readability-identifier-naming,
+  readability-identifier-naming,
   -readability-implicit-bool-conversion,
-  readability-function-cognitive-complexity,
+  -readability-function-cognitive-complexity,
   -readability-uppercase-literal-suffix
 
 WarningsAsErrors: "*"
@@ -72,4 +72,6 @@ CheckOptions:
   - { key: readability-identifier-naming.ValueTemplateParameterCase,      value: lower_case }
   - { key: readability-identifier-naming.VariableCase,                    value: lower_case }
 
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '^.*(?:_deps).*'
+# dangerous as this looks into 3rd party headers as well, but you might get better results (just use it occasionally)
+#HeaderFilterRegex: '.*'

@@ -18,7 +18,7 @@ TEST(physmemusage, usage) {
     ul::mem::usage(vm_initial, pm_initial);
     std::cout << "initial: virtmem: " << vm_initial << ", physmem: " << pm_initial << "\n";
 
-    auto waste = reinterpret_cast<char*>(std::malloc(memsize));
+    auto* waste = reinterpret_cast<char*>(std::malloc(memsize));
     std::memset(waste, 1, memsize);
     double vm{};
     double pm{};
