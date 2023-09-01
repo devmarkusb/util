@@ -193,7 +193,7 @@ std::string utf8_to_latin1_range(const std::string& s) {
             ui_codepoint = uc & 0x07u;
         ++cptr;
         if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) {
-            bool in_range{ui_codepoint <= to};
+            const bool in_range{ui_codepoint <= to};
             if constexpr (from)
                 in_range = in_range && from <= ui_codepoint;
             if (in_range)
@@ -246,7 +246,7 @@ inline std::string printable_ascii_to_utf8(const std::string& s) {
 
 inline std::string to_hex_string(const std::string& s, const std::string& prefix) {
     static const char* const lut{"0123456789abcdef"};
-    size_t length = s.size();
+    const size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
     std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {

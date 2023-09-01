@@ -40,7 +40,7 @@ std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p) {
 template <typename T>
 void* NewHandlerSupport<T>::operator new(size_t size) {
     std::new_handler global_handler = std::set_new_handler(current_handler());
-    void* memory;
+    void* memory{};
     try {
         memory = ::operator new(size);
     } catch (std::bad_alloc&) {
