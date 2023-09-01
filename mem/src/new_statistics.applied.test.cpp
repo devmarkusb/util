@@ -65,9 +65,9 @@ struct AGlobalDestructor {
 };
 } // namespace
 
-int main(int, char**) {
+int main(int /*unused*/, char** /*unused*/) {
     // Our definition of 'global'. By the way, a real global data's construction and destruction time is beyond
     // our control, so that would never yield proper new/delete statistics.
-    AGlobalDestructor global;
+    const AGlobalDestructor global;
     return ul::prog_exit_success;
 }
