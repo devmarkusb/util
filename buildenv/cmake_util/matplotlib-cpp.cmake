@@ -1,6 +1,8 @@
 # link matplotlib_cpp
 set(MATPLOTLIB_CPP_GENERATE_EXAMPLES OFF CACHE BOOL "example targets" FORCE)
 
+include(FetchContent)
+
 FetchContent_Declare(
      matplotlib-cpp
      GIT_REPOSITORY https://github.com/devmarkusb/matplotlib-cpp
