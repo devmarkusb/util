@@ -45,7 +45,7 @@ function(ul_obtain_UWP_resources
         if ("${LANGUAGES}" STREQUAL "")
             set(LANGUAGES "<Resource Language=\"x-generate\" />")
         endif ()
-        set(APP_MANIFEST_NAME package.appxmanifest)
+        set(APP_MANIFEST_NAME appxmanifest.xml)
         configure_file(
             "${UL_IMPL_UWP_TOOLS_CURRENT_LIST_DIR}/assets/${APP_MANIFEST_NAME}.in"
             "${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}"
