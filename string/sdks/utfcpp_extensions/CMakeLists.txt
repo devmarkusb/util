@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.5)
 
 if (NOT UL_BUILD_UNITTESTS)
     return ()
