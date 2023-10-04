@@ -4,7 +4,7 @@ set(UL_IMPL_UWP_TOOLS_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 
 # can be used as default parameter for ul_obtain_UWP_resources
-set(UL_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/cmake_util/assets
+set(UL_CMAKE_INC_UWP_TOOLS_DEF_ICO ${CMAKE_CURRENT_LIST_DIR}/assets
         CACHE INTERNAL "can be used as default parameter for ul_obtain_UWP_resources of UL_CMAKE_INC_UWP_TOOLS" FORCE)
 
 # Usage (e.g.):
