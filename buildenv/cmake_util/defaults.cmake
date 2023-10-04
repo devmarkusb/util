@@ -126,7 +126,7 @@ macro(ul_set_target_defaults target)
     endif ()
 
     if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
-        target_compile_definitions(${target} PUBLIC _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
+        target_compile_definitions(${target} INTERFACE _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
     endif ()
 endmacro()
 
