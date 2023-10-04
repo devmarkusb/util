@@ -70,9 +70,6 @@ if (MINGW)
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
 endif ()
 
-# cotire needs this
-#add_definitions(-D__STRICT_ANSI__)
-
 
 ######################################################################################################################
 # compile options
