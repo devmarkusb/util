@@ -17,6 +17,8 @@ set(easyloggingpp_SOURCE_FILES
         CACHE INTERNAL "easyloggingpp: source files" FORCE)
 
 if (MSVC)
+    set_source_files_properties(${easyloggingpp_SOURCE_FILES} DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTIES
+            COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;ELPP_WINSOCK2")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     string(CONCAT compileOptions
             "-Wno-sign-conversion;-Wno-implicit-int-conversion;"
