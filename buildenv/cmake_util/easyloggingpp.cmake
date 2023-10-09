@@ -30,4 +30,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set_source_files_properties(${easyloggingpp_SOURCE_FILES} DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTIES
             COMPILE_OPTIONS "${compileOptions}")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set_source_files_properties(${easyloggingpp_SOURCE_FILES} DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTIES
+            COMPILE_OPTIONS
+            "-Wno-deprecated-declarations;-Wno-conversion;-Wno-unused-parameter;-Wno-range-loop-construct")
 endif ()
