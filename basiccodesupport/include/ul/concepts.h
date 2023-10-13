@@ -11,22 +11,15 @@ Most general ones. Otherwise they are spread to where to belong thematically, e.
 #endif
 
 #if __cpp_concepts && __cpp_lib_concepts
-namespace mb::ul
-{
+namespace mb::ul {
 template <typename T>
 concept Dereferenceable = requires(T x) { *x; };
 
 template <typename T>
 concept Container = requires(T x) {
-                        {
-                            x.begin()
-                            } -> Dereferenceable;
-                        {
-                            x.end()
-                            } -> Dereferenceable;
-                        {
-                            x.size()
-                            } -> std::integral;
+                        { x.begin() } -> Dereferenceable;
+                        { x.end() } -> Dereferenceable;
+                        { x.size() } -> std::integral;
                     };
 
 template <class T, class... U>
