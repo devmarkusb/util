@@ -188,6 +188,6 @@ endmacro()
 
 macro(ul_target_coverage target)
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        setup_target_for_coverage_lcov(NAME ${target}_coverage EXECUTABLE ${target}Test)
+        setup_target_for_coverage_lcov(NAME ${target}_coverage EXECUTABLE ${target}-test)
     endif ()
 endmacro()
