@@ -46,7 +46,7 @@ if (NOT UL_BUILD_UNITTESTS)
     return ()
 endif ()
 
-set(targetTest ${PROJECT_NAME}Test)
+set(targetTest ${PROJECT_NAME}-test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
 list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.test.cpp")
