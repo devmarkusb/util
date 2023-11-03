@@ -58,7 +58,7 @@ endif()
 
 check_cxx_source_compiles(
     "
-    #include <ciso646>
+    #include <cstddef>
     int a =
     #ifdef _LIBCPP_VERSION
         1;

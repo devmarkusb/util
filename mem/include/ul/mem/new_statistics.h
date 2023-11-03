@@ -1,5 +1,5 @@
 //! \file Replaces (overrides) global new and delete to collect memory usage statistics.
-/** Usage: You just need to include this header in a single arbitrary source file of your target. Then every
+/** Usage: You need to link the implementation file of this header to your target. Then every
     use of new/delete will be replaced with the custom version here (even standard library calls, everything).
     So please take care that you're absolutely conscious whether you want to do this.*/
 
@@ -137,10 +137,5 @@ private:
     Statistics() = default;
 };
 } // namespace mb::ul::mem
-
-// redundant declarations by standard; you get the implementations overrides by linking the lib
-//void* operator new(std::size_t sizeInBytes);
-//void operator delete(void* p) noexcept;
-void operator delete(void* p, size_t) noexcept;
 
 #endif
