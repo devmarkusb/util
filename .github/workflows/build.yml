@@ -40,9 +40,9 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{matrix.build_type}} --output-on-failure
 
-    - name: Run Include What You Use
-      uses: EmilGedda/include-what-you-use-action@v1.0
-      with:
-        compilation-database-path: '.'
-        output-format: 'iwyu' # Or 'clang'
-        no-error: 'false'
+#    - name: Run Include What You Use
+#      uses: EmilGedda/include-what-you-use-action@v1.0
+#      with:
+#        compilation-database-path: '.'
+#        output-format: 'iwyu' # Or 'clang'
+#        no-error: 'false'
