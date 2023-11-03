@@ -4,6 +4,7 @@
 namespace ul = mb::ul;
 
 TEST(fmt_groupThousands, basics) {
+#if UL_HAS_NOCRASH_IMBUE_LOCALE
     EXPECT_STREQ(ul::fmt::group_thousands(1000000, '.').c_str(), "1.000.000");
     EXPECT_STREQ(ul::fmt::group_thousands(1'000'000, '.').c_str(), "1.000.000");
     EXPECT_STREQ(ul::fmt::group_thousands(100'000, '.').c_str(), "100.000");
@@ -14,4 +15,5 @@ TEST(fmt_groupThousands, basics) {
 
     EXPECT_STREQ(ul::fmt::group_thousands(1'000'000, '\'').c_str(), "1\'000\'000");
     EXPECT_STREQ(ul::fmt::group_thousands(1'000'000, ',').c_str(), "1,000,000");
+#endif
 }

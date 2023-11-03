@@ -280,6 +280,14 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_CAN_BUILD_WINRT_WRL_UWP 0
 #endif
 
+#if UL_OS_LINUX && !UL_STDLIB_CLANG_LIBCPP
+#define UL_HAS_NOCRASH_IMBUE_LOCALE 1
+#else
+// Strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap',
+// clang stdlib just segfaults
+#define UL_HAS_NOCRASH_IMBUE_LOCALE 0
+#endif
+
 //!@}
 
 

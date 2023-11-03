@@ -42,12 +42,7 @@ struct AGlobalDestructor {
             std::cout << "deallocated size: " << deallocated_size << "\n";
             const auto alloc_dealloc_diff = allocated_size - deallocated_size;
             std::cout << "allocated size minus deallocated size: ";
-#if !UL_OS_MAC && !UL_OS_WINDOWS
-            // strange, under Windows this yields an exception 'Invalid address specified to RtlValidateHeap'
             std::cout << ul::fmt::group_thousands(alloc_dealloc_diff);
-#else
-            std::cout << alloc_dealloc_diff;
-#endif
 #if UL_COMP_CLANG
 #if UL_COMP_CLANG_VER == 100001
 #if UL_DEBUG
