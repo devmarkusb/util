@@ -32,11 +32,17 @@ void operator delete[](void* p) noexcept {
     std::free(p); // NOLINT
 }
 
+// some compiler complains about no prev. prototype otherwise
+void operator delete(void* p, size_t /*unused*/) noexcept;
+
 void operator delete(void* p, size_t /*unused*/) noexcept {
     p = reinterpret_cast<uint8_t*>(p) - sizeof(ul::mem::StatsHeader); // NOLINT
     ul::mem::Statistics::instance().delete_call(p);
     std::free(p); // NOLINT
 }
+
+// some compiler complains about no prev. prototype otherwise
+void operator delete[](void* p, size_t /*unused*/) noexcept;
 
 void operator delete[](void* p, size_t /*unused*/) noexcept {
     p = reinterpret_cast<uint8_t*>(p) - sizeof(ul::mem::StatsHeader); // NOLINT
