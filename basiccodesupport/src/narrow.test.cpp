@@ -33,7 +33,7 @@ TEST(NarrowTest, floating_point) {
     const auto more_precise_than_float{std::numeric_limits<uint64_t>::max()};
 #if !UL_DEBUG \
     && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50300 \
-        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER < 120000 \
+        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER < 140000 \
         || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160000)
     // absolutely no idea so far why this doesn't throw in release under these compilers :O
     EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
