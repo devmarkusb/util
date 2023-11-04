@@ -10,7 +10,6 @@ include_guard(DIRECTORY)
 
 # to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
 include(CMakePrintHelpers)
-include(GoogleTest)
 
 ######################################################################################################################
 # general defaults and helper declarations
@@ -22,8 +21,6 @@ if (NOT MSVC AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DNDEBUG)
 endif ()
 
-enable_testing()
-
 include(${CMAKE_CURRENT_LIST_DIR}/defs.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/builddir_cfg.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
@@ -32,6 +29,9 @@ include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 include(${CMAKE_CURRENT_LIST_DIR}/cppcheck.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
+
+include(GoogleTest)
+enable_testing()
 
 set(UL_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
