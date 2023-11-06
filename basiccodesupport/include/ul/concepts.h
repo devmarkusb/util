@@ -26,6 +26,9 @@ concept Container = requires(T x) {
 template <typename T, typename... U>
 concept AnyOf = (std::same_as<T, U> || ...);
 
+template <typename T, typename... U>
+concept AllOf = (std::same_as<T, U> && ...);
+
 template <typename T>
 concept Arithmetic = std::is_arithmetic_v<T>;
 
