@@ -91,7 +91,7 @@ struct Method<Ret (Type::*)(Args...) const> {
 };
 
 template <typename F>
-concept HasCallOperator = most_generic::FunctionalProcedure<F> && requires(F) { F::operator(); };
+concept HasCallOperator = most_generic::FunctionalProcedure<F> && requires(F) { decltype(&F::operator()){}; };
 
 template <most_generic::FunctionalProcedure F>
 using CallOperator = Method<decltype(&F::operator())>;
@@ -108,8 +108,8 @@ struct Function<Ret (*)(Args...)> {
     using FirstArgType = typename FirstArg<ArgsTuple>::Type;
 };
 
-template <typename F>
-using FunctionCall = Function<decltype(&F())>;
+template <most_generic::FunctionalProcedure F>
+using FunctionCall = Function<F>;
 
 template <typename TypeForCheck>
 struct AssertRegularityWeakSyntax {
@@ -132,7 +132,7 @@ using Domain = InputType<0, F>;
 
 template <most_generic::FunctionalProcedure F>
 struct CodomainDecl {
-    using TypeOrig = typename impl::FunctionCall<F>::ReturnType;
+    using TypeOrig = typename impl::Function<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
 private:
@@ -144,9 +144,15 @@ using Codomain = typename CodomainDecl<F>::Type;
 
 template <most_generic::FunctionalProcedure F>
 struct InputTypeDecl<0, F> {
-    using TypeOrig = std::conditional_t<
-        requires { impl::HasCallOperator<F>; }, typename impl::CallOperator<F>::FirstArgType,
-        typename impl::FunctionCall<F>::FirstArgType>;
+    static auto choose_type() {
+        if constexpr (impl::HasCallOperator<F>) {
+            return std::type_identity<typename impl::CallOperator<F>::FirstArgType>{};
+        } else {
+            return std::type_identity<typename impl::FunctionCall<F>::FirstArgType>{};
+        }
+    }
+
+    using TypeOrig = typename decltype(choose_type())::type;
     using Type = std::remove_cvref_t<TypeOrig>;
 
 private:
