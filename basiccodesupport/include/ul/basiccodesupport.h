@@ -39,6 +39,7 @@ All-in-one include file for this part of the lib.
 #include "sizeof.h"
 #include "three_way_compare.h"
 #include "trace.h"
+#include "transformation.h"
 #include "type_name.h"
 #include "xor.h"
 #include "std/array.h"
