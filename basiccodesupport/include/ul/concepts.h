@@ -1,5 +1,7 @@
 /** \file
-Most general ones. Otherwise they are spread to where to belong thematically, e.g. math.
+Most general ones and framework, sometimes also rough adhoc inventions.
+Otherwise concepts are spread to where to belong thematically, e.g. math.
+The proper starting point for general programming concepts and beyond is foundations.h.
 */
 
 #ifndef CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A
@@ -28,9 +30,6 @@ concept AnyOf = (std::same_as<T, U> || ...);
 
 template <typename T, typename... U>
 concept AllOf = (std::same_as<T, U> && ...);
-
-template <typename T>
-concept Arithmetic = std::is_arithmetic_v<T>;
 
 // not a concept, but no better place
 template <typename>

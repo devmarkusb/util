@@ -8,7 +8,13 @@
 #include <cstdint>
 #include <type_traits>
 
-namespace mb::ul::math {
+namespace mb::ul {
+#if __cpp_concepts && __cpp_lib_concepts
+template <typename T>
+concept Arithmetic = std::is_arithmetic_v<T>;
+#endif
+
+namespace math {
 namespace consts {
 template <typename T>
 constexpr T pi() {
@@ -103,6 +109,7 @@ constexpr uint64_t next_greater_or_eq_pow2(uint64_t v) noexcept {
     // NOLINTEND
     return v + 1;
 }
-} // namespace mb::ul::math
+} // namespace math
+} // namespace mb::ul
 
 #endif
