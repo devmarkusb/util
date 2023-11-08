@@ -67,21 +67,6 @@ std::is_same_v<void, std::invoke_result_t<F, Args...>> && (Regular<Args> && ...)
 // Unfortunately, we need to use the most generic version of FunctionalProcedure here, otherwise we get (additional)
 // constraint checks that seem syntactically impossible to fulfill. Specifically: the variadic arguments for the
 // parameters of the underlying invocable concept.
-template <int, most_generic::FunctionalProcedure>
-struct InputTypeDecl;
-
-template <int i, most_generic::FunctionalProcedure F>
-using InputType = typename InputTypeDecl<i, F>::Type;
-
-template <most_generic::FunctionalProcedure F>
-using Domain = InputType<0, F>;
-
-template <most_generic::FunctionalProcedure>
-struct CodomainDecl;
-
-template <most_generic::FunctionalProcedure F>
-using Codomain = typename CodomainDecl<F>::Type;
-
 namespace impl {
 template <typename ArgTypes>
 struct FirstArg {
@@ -106,7 +91,25 @@ struct Method<Ret (Type::*)(Args...) const> {
 };
 
 template <typename F>
+concept HasCallOperator = most_generic::FunctionalProcedure<F> && requires(F) { F::operator(); };
+
+template <most_generic::FunctionalProcedure F>
 using CallOperator = Method<decltype(&F::operator())>;
+
+template <typename>
+struct Function {
+    using Type = void;
+};
+
+template <typename Ret, typename... Args>
+struct Function<Ret (*)(Args...)> {
+    using ReturnType = Ret;
+    using ArgsTuple = std::tuple<Args...>;
+    using FirstArgType = typename FirstArg<ArgsTuple>::Type;
+};
+
+template <typename F>
+using FunctionCall = Function<decltype(&F())>;
 
 template <typename TypeForCheck>
 struct AssertRegularityWeakSyntax {
@@ -118,9 +121,18 @@ struct AssertRegularityWeakSyntax {
 };
 } // namespace impl
 
-template <typename F>
-struct InputTypeDecl<0, F> {
-    using TypeOrig = typename impl::CallOperator<F>::FirstArgType;
+template <int, most_generic::FunctionalProcedure>
+struct InputTypeDecl;
+
+template <int i, most_generic::FunctionalProcedure F>
+using InputType = typename InputTypeDecl<i, F>::Type;
+
+template <most_generic::FunctionalProcedure F>
+using Domain = InputType<0, F>;
+
+template <most_generic::FunctionalProcedure F>
+struct CodomainDecl {
+    using TypeOrig = typename impl::FunctionCall<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
 private:
@@ -128,7 +140,21 @@ private:
 };
 
 template <most_generic::FunctionalProcedure F>
-struct CodomainDecl {
+using Codomain = typename CodomainDecl<F>::Type;
+
+template <most_generic::FunctionalProcedure F>
+struct InputTypeDecl<0, F> {
+    using TypeOrig = std::conditional_t<
+        requires { impl::HasCallOperator<F>; }, typename impl::CallOperator<F>::FirstArgType,
+        typename impl::FunctionCall<F>::FirstArgType>;
+    using Type = std::remove_cvref_t<TypeOrig>;
+
+private:
+    using _ = impl::AssertRegularityWeakSyntax<TypeOrig>;
+};
+
+template <impl::HasCallOperator F>
+struct CodomainDecl<F> {
     using TypeOrig = typename impl::CallOperator<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
