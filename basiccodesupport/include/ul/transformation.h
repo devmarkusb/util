@@ -65,6 +65,8 @@ Domain<F> connection_point_nonterminating_orbit(const Domain<F>& x, F f) {
     return convergent_point(x, f(collision_point_nonterminating_orbit(x, f)), f);
 }
 
+/** \return (h-1, 0, terminal element) for terminating orbits, (0, c-1, x) for circular orbits and
+    (h, c-1, connection point) for `\rho`-shaped orbits, where h is the handle size and c the cycle size.*/
 template <Transformation F>
 std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_nonterminating_orbit(const Domain<F>& x, F f) {
     const auto y = connection_point_nonterminating_orbit(x, f);
