@@ -168,6 +168,15 @@ private:
     using _ = impl::AssertRegularityWeakSyntax<TypeOrig>;
 };
 
+template <typename F>
+concept UnaryFunction = FunctionalProcedure<F, Domain<F>>;
+
+template <typename P, typename... Args>
+concept Predicate = FunctionalProcedure<P, Args...> && std::is_convertible_v<Codomain<P>, bool>;
+
+template <typename P>
+concept UnaryPredicate = UnaryFunction<P> && Predicate<P>;
+
 template <typename F, typename... Args>
 concept HomogeneousFunction =
     FunctionalProcedure<F, Args...> && AllOf<std::tuple_element_t<0, std::tuple<Args...>>, Args...>;
@@ -176,10 +185,10 @@ template <typename Op, typename... Args>
 concept Operation = HomogeneousFunction<Op, Args...> && std::is_convertible_v<Domain<Op>, Codomain<Op>>;
 
 template <typename Op>
-concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
+concept UnaryOperation = Operation<Op, Domain<Op>>;
 
 template <typename Op>
-concept UnaryOperation = Operation<Op, Domain<Op>>;
+concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
 } // namespace mb::ul
 #endif
 
