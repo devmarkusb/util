@@ -14,6 +14,10 @@ namespace mb::ul {
 template <typename F>
 concept Transformation = UnaryOperation<F>;
 
+/// Fulfills/models Transformation concept.
+template <Regular T>
+using TransformationFctByValue = T (*)(T);
+
 namespace most_generic {
 template <typename>
 concept Transformation = true;
@@ -24,6 +28,11 @@ struct DistanceTypeDecl;
 
 template <most_generic::Transformation F>
 using DistanceType = typename DistanceTypeDecl<F>::Type;
+
+template <std::integral T>
+struct DistanceTypeDecl<TransformationFctByValue<T>> {
+    using Type = std::make_unsigned_t<T>;
+};
 
 template <Transformation F>
 DistanceType<F> distance(Domain<F> x, Domain<F> y, F f) {
