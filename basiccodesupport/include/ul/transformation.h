@@ -11,13 +11,6 @@
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {
-template <typename F>
-concept Transformation = UnaryOperation<F>;
-
-/// Fulfills/models Transformation concept.
-template <Regular T>
-using TransformationFctByValue = T (*)(T);
-
 namespace most_generic {
 template <typename>
 concept Transformation = true;
@@ -28,6 +21,13 @@ struct DistanceTypeDecl;
 
 template <most_generic::Transformation F>
 using DistanceType = typename DistanceTypeDecl<F>::Type;
+
+template <typename F>
+concept Transformation = UnaryOperation<F> && requires(F f) { DistanceType<F>{}; };
+
+/// Fulfills/models Transformation concept.
+template <Regular T>
+using TransformationFctByValue = T (*)(T);
 
 template <std::integral T>
 struct DistanceTypeDecl<TransformationFctByValue<T>> {
