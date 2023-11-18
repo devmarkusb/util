@@ -1,8 +1,7 @@
 /** \file
-Most general ones and framework, sometimes also rough adhoc inventions.
-Otherwise concepts are spread to where to belong thematically, e.g. math.
-The proper starting point for general programming concepts and beyond is foundations.h.
-*/
+    Most general ones and framework, sometimes also rough adhoc inventions.
+    Otherwise concepts are spread to where to belong thematically, e.g. math.
+    The proper starting point for general programming concepts and beyond is foundations.h.*/
 
 #ifndef CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A
 #define CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A

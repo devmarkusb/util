@@ -1,45 +1,64 @@
 /** \file
-Inspired by 'Elements of Programming'*/
+    Inspired by 'Elements of Programming'*/
 
 #ifndef FOUNDATIONS_H_85CAEB73747C4B9799298BD3EE310F1F
 #define FOUNDATIONS_H_85CAEB73747C4B9799298BD3EE310F1F
 
 #include "concepts.h"
 #include "ul/config.h"
+#include "ul/macros.h"
 #if __has_include(<concepts>)
 #include <concepts>
 #endif
+#include <functional>
+#include <type_traits>
+#include <utility>
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {
 inline namespace more_generic {
-/**
-    Opposed to std::regular this doesn't contain std::default_initializable.
+/** Opposed to std::regular this doesn't contain std::default_initializable.
     The intention of the latter might be to be able to write something like 'R x;' with possibly uninitialized x,
-    perhaps modelling a mathematical 'let x be an arbitrary element of R'. But to be honest that's not needed in
+    perhaps modelling a mathematical 'let x be an arbitrary element of R'. But to be honest, that's not needed in
     programming. You are more likely to have a function implementation of 'f(R x)' (or 'f(Regular auto x)') getting in
     an arbitrary x. Also it is the preferable principle of generalization to impose less constraints. You can still
-    have it for your specific type R if you want to.
+    have it for your specific type R if you want to. Above all it is just not helping to be forced to have a default
+    constructor, quite on the contrary, so std::regular is not a good choice.
 
-Semantics:
-    * T a{b} => (b=c => a=c)
-                  * a:=b => (b=c => a=c)
-                                  * f RegularFunction and a=b => f(a)=f(b)
-                                                                               Time/space complexity:
+    Semantics:
+    * T a{b} => (b==c => a==c)
+    * a=b => (b==c => a==c)
+    * f FunctionalProcedure and a==b => f(a)==f(b)
+    Time/space complexity:
     * each operation on Regular is no worse than linear in the memory of the object
-    */
+
+    Note: Right now it is highly improbable, that we also add total ordering and underlying type here, as proposed by
+    the master (Stepanov) at some time. That's again too much restriction (which he himself at another place discourages
+    us from rightfully. We will provide separate concepts.*/
 template <typename R>
-concept Regular = std::copyable<R> && std::equality_comparable<R>;
+concept Regular = std::copyable<R> && std::equality_comparable<R> && requires(R a, R b, R c) {
+                                                                         // would be too verbose / duplicated to have the following here (already part of the concepts built upon)
+                                                                         // R{};
+                                                                         // R{a};
+                                                                         // a == a;
+                                                                         // c = a;
+                                                                         UL_SEMANTICS {
+                                                                             c = a, c == a;
+                                                                             !(a == b) || (!(b == c) || a == c);
+                                                                         };
+                                                                     };
+
+template <typename R>
+concept RegularTotallyOrdered = Regular<R> && std::totally_ordered<R>;
 
 template <typename R>
 concept SemiRegular = std::copyable<R>;
 } // namespace more_generic
 
 namespace generic {
-/**
-    Opposed to Regular from most_generic_regular implies default initializable also. This allows for the equivalence
-    of 'T a; a = b;' and ' T a{b};'.
- */
+/** Opposed to Regular from more_generic this here implies default initializable also. This allows for the equivalence
+    of `T a; a = b;` and `T a{b};`. (`T a;` possibly uninitialized despite default constructed.) Sounds better at first,
+    but read the comment at the actually chosen version of Regular.*/
 template <typename R>
 concept Regular = std::regular<R>;
 
@@ -60,7 +79,7 @@ concept FunctionalProcedure = std::regular_invocable<F, Args...> && !
 std::is_same_v<void, std::invoke_result_t<F, Args...>> && (Regular<Args> && ...);
 
 // Remarks on the purpose and implementation of the following traits.
-// We want to be able to define algorithms like `template <Function F> Domain(F) do_sth(F f, Domain(F) x)` without
+// We want to be able to define algorithms like `template <Function F> Domain<F> do_sth(F f, Domain<F> x)` without
 // the necessity of additionally passing the domain of `F` as another template parameter all the time. Ideally it
 // should get deduced from `F` alone automatically - either by the maximum generic trait implementations below, or
 // by handcrafted specializations on the application side whenever needed.
@@ -127,7 +146,16 @@ struct InputTypeDecl;
 template <int i, most_generic::FunctionalProcedure F>
 using InputType = typename InputTypeDecl<i, F>::Type;
 
-template <most_generic::FunctionalProcedure F>
+namespace most_generic {
+template <typename>
+concept HomogeneousFunction = true;
+} // namespace most_generic
+
+template <typename F, typename... Args>
+concept HomogeneousFunction =
+    FunctionalProcedure<F, Args...> && AllOf<std::tuple_element_t<0, std::tuple<Args...>>, Args...>;
+
+template <most_generic::HomogeneousFunction F>
 using Domain = InputType<0, F>;
 
 template <most_generic::FunctionalProcedure F>
@@ -176,10 +204,6 @@ concept Predicate = FunctionalProcedure<P, Args...> && std::is_convertible_v<Cod
 
 template <typename P>
 concept UnaryPredicate = UnaryFunction<P> && Predicate<P>;
-
-template <typename F, typename... Args>
-concept HomogeneousFunction =
-    FunctionalProcedure<F, Args...> && AllOf<std::tuple_element_t<0, std::tuple<Args...>>, Args...>;
 
 template <typename Op, typename... Args>
 concept Operation = HomogeneousFunction<Op, Args...> && std::is_convertible_v<Domain<Op>, Codomain<Op>>;
