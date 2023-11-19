@@ -76,9 +76,10 @@ concept FunctionalProcedure = true;
 
 template <typename F, typename... Args>
 concept FunctionalProcedure = std::regular_invocable<F, Args...> && !
-std::is_same_v<void, std::invoke_result_t<F, Args...>> && (Regular<Args> && ...);
+std::is_same_v<void, std::invoke_result_t<F, Args...>> && (Regular<Args> && ...) && sizeof...(Args) >= 1;
 
-// Remarks on the purpose and implementation of the following traits.
+// Remarks on the purpose and implementation of the following traits - where user code needs to define (specialize) the
+// versions with postfix 'Decl', if not provided automatically.
 // We want to be able to define algorithms like `template <Function F> Domain<F> do_sth(F f, Domain<F> x)` without
 // the necessity of additionally passing the domain of `F` as another template parameter all the time. Ideally it
 // should get deduced from `F` alone automatically - either by the maximum generic trait implementations below, or
@@ -203,10 +204,10 @@ template <typename P, typename... Args>
 concept Predicate = FunctionalProcedure<P, Args...> && std::is_convertible_v<Codomain<P>, bool>;
 
 template <typename P>
-concept UnaryPredicate = UnaryFunction<P> && Predicate<P>;
+concept UnaryPredicate = UnaryFunction<P> && Predicate<P, Domain<P>>;
 
 template <typename Op, typename... Args>
-concept Operation = HomogeneousFunction<Op, Args...> && std::is_convertible_v<Domain<Op>, Codomain<Op>>;
+concept Operation = HomogeneousFunction<Op, Args...> && std::convertible_to<Domain<Op>, Codomain<Op>>;
 
 template <typename Op>
 concept UnaryOperation = Operation<Op, Domain<Op>>;
