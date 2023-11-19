@@ -30,6 +30,9 @@ concept AnyOf = (std::same_as<T, U> || ...);
 template <typename T, typename... U>
 concept AllOf = (std::same_as<T, U> && ...);
 
+template <typename From, typename To>
+concept NonNarrowingConvertible = std::convertible_to<From, To> && requires(From f) { To{f}; };
+
 // not a concept, but no better place
 template <typename>
 inline constexpr bool always_false_v = false;
