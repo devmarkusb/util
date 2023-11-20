@@ -103,8 +103,8 @@ struct Method {
     using Type = void;
 };
 
-template <typename Ret, typename Type, typename... Args>
-struct Method<Ret (Type::*)(Args...) const> {
+template <typename Ret, typename FctObjType, typename... Args>
+struct Method<Ret (FctObjType::*)(Args...) const> {
     using ReturnType = Ret;
     using ArgsTuple = std::tuple<Args...>;
     using FirstArgType = typename FirstArg<ArgsTuple>::Type;
@@ -132,13 +132,15 @@ template <most_generic::FunctionalProcedure F>
 using FunctionCall = Function<F>;
 
 template <typename TypeForCheck>
-struct AssertRegularityWeakSyntax {
-    static_assert(
-        (std::is_reference_v<TypeForCheck> && std::is_const_v<std::remove_reference_t<TypeForCheck>>)
-            || (std::is_pointer_v<TypeForCheck> && std::is_const_v<std::remove_pointer_t<TypeForCheck>>)
-            || (!std::is_pointer_v<TypeForCheck> && !std::is_reference_v<TypeForCheck>),
-        "arguments/return have to by regular types, but we want to allow `const a*` and `const a&` as well");
-};
+consteval bool is_regularity_weak_syntax() {
+    return (std::is_reference_v<TypeForCheck> && std::is_const_v<std::remove_reference_t<TypeForCheck>>)
+           || (std::is_pointer_v<TypeForCheck> && std::is_const_v<std::remove_pointer_t<TypeForCheck>>)
+           || (!std::is_pointer_v<TypeForCheck> && !std::is_reference_v<TypeForCheck>);
+}
+
+// todo C++26 promises possibility of non-macro for that
+#define UL_REGULARITY_WEAK_SYNTAX_ERR_STR \
+    "arguments/return have to be regular types, but we want to allow `const a*` and `const a&` as well"
 } // namespace impl
 
 template <int, most_generic::FunctionalProcedure>
@@ -164,8 +166,7 @@ struct CodomainDecl {
     using TypeOrig = typename impl::Function<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
-private:
-    using _ = impl::AssertRegularityWeakSyntax<TypeOrig>;
+    static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
 template <most_generic::FunctionalProcedure F>
@@ -184,8 +185,7 @@ struct InputTypeDecl<0, F> {
     using TypeOrig = typename decltype(choose_type())::type;
     using Type = std::remove_cvref_t<TypeOrig>;
 
-private:
-    using _ = impl::AssertRegularityWeakSyntax<TypeOrig>;
+    static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
 template <impl::HasCallOperator F>
@@ -193,8 +193,7 @@ struct CodomainDecl<F> {
     using TypeOrig = typename impl::CallOperator<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
-private:
-    using _ = impl::AssertRegularityWeakSyntax<TypeOrig>;
+    static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
 template <typename F>
@@ -216,6 +215,8 @@ template <typename Op>
 concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
 } // namespace mb::ul
 #endif
+
+#undef UL_REGULARITY_WEAK_SYNTAX_ERR_STR
 
 UL_HEADER_END
 
