@@ -20,13 +20,21 @@ concept Action = true;
 
 template <typename F>
 concept TransformationOrAction = Transformation<F> || Action<F>;
+
+template <typename T>
+concept TransformationOrActionOrIntegral = Transformation<T> || Action<T> || std::integral<T>;
 } // namespace most_generic
 
-template <most_generic::TransformationOrAction F>
-struct DistanceTypeDecl;
+template <most_generic::TransformationOrActionOrIntegral T>
+struct DistanceTypeDecl {
+    using Type = std::make_unsigned_t<std::type_identity_t<T>>;
+};
 
-template <most_generic::TransformationOrAction F>
-using DistanceType = typename DistanceTypeDecl<F>::Type;
+template <most_generic::TransformationOrActionOrIntegral T>
+using DistanceType = typename DistanceTypeDecl<T>::Type;
+
+template <most_generic::TransformationOrActionOrIntegral T>
+using DistanceType = typename DistanceTypeDecl<T>::Type;
 
 template <typename F>
 concept Transformation = UnaryOperation<F> && requires(F f) { DistanceType<F>{}; };
