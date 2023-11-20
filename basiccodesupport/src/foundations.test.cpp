@@ -80,6 +80,22 @@ int func_proc_ex6(double, double) {
 [[maybe_unused]] int func_proc_ex12(std::string_view) {
     return {};
 }
+
+[[maybe_unused]] int func_proc_ex13(const int&) {
+    return {};
+}
+
+[[maybe_unused]] int func_proc_ex14(int&) {
+    return {};
+}
+
+[[maybe_unused]] int func_proc_ex15(const int*) {
+    return {};
+}
+
+[[maybe_unused]] int func_proc_ex16(int*) {
+    return {};
+}
 } // namespace
 
 struct RegularEx1 {};
@@ -186,6 +202,13 @@ TEST(FunctionalProcedure, misc) {
                       return int_ex;
                   })>,
                   int>);
+
+    static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex13)>, int>); // const int& param
+    // expectedly non-compiling, int& param clearly not a functional parameter
+    // static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex14)>, int&>);
+    static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex15)>, const int*>);
+    // expectedly non-compiling, int* param clearly not a functional parameter
+    // static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex16)>, int*>);
 }
 
 TEST(UnaryFunction, misc) {
