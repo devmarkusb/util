@@ -88,13 +88,15 @@ TEST_P(OrbitAlgTest, misc) {
         EXPECT_TRUE(ul::circular_nonterminating_orbit(x, f));
     } else if (h) {
         EXPECT_TRUE(!ul::circular(x, f, f.p));
-        if (c)
+        if (c) {
             EXPECT_TRUE(!ul::circular_nonterminating_orbit(x, f));
+        }
     }
     const auto y{ul::connection_point(x, f, f.p)};
     EXPECT_TRUE(ul::power_unary<F>(x, h, f) == y);
-    if (c)
+    if (c) {
         EXPECT_TRUE(y == ul::connection_point_nonterminating_orbit(x, f));
+    }
     auto [m0, m1, m2]{ul::orbit_structure(x, f, f.p)};
     if (!c) {
         // terminating
