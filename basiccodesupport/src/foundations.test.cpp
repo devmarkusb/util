@@ -53,6 +53,13 @@ struct FuncProcEx5 {
     }
 };
 
+template <typename T>
+struct FuncProcEx5a {
+    T operator()(T) const {
+        return {};
+    }
+};
+
 int func_proc_ex6(double, double) {
     return {};
 }
@@ -209,6 +216,14 @@ TEST(FunctionalProcedure, misc) {
     static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex15)>, const int*>);
     // expectedly non-compiling, int* param clearly not a functional parameter
     // static_assert(std::is_same_v<ul::InputType<0, decltype(&func_proc_ex16)>, int*>);
+
+    static_assert(std::is_same_v<ul::InputType<0, FuncProcEx5>, double>);
+    static_assert(std::is_same_v<ul::Domain<FuncProcEx5>, double>);
+    static_assert(std::is_same_v<ul::Codomain<FuncProcEx5>, int>);
+
+    static_assert(std::is_same_v<ul::InputType<0, FuncProcEx5a<double>>, double>);
+    static_assert(std::is_same_v<ul::Domain<FuncProcEx5a<double>>, double>);
+    static_assert(std::is_same_v<ul::Codomain<FuncProcEx5a<double>>, double>);
 }
 
 TEST(UnaryFunction, misc) {
