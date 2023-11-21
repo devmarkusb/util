@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 namespace {
-// definition space predicate for transf_ex
+// definition space predicate for TransfEx
 template <std::integral I>
 struct TransfExPredicate {
     using N = ul::DistanceType<I>;
@@ -38,7 +38,7 @@ struct TransfEx {
             h < static_cast<N>(std::numeric_limits<I>::max()) && c < static_cast<N>(std::numeric_limits<I>::max()));
     }
 
-    I operator()(I x) {
+    I operator()(I x) const {
         UL_EXPECT(p(x));
         ++x;
         if (x == p.x_0 + static_cast<I>(p.h) + static_cast<I>(p.c))
@@ -48,56 +48,82 @@ struct TransfEx {
 };
 } // namespace
 
+namespace mb::ul {
+template <std::integral I>
+struct DistanceTypeDecl<TransfEx<I>> {
+    using Type = DistanceType<I>;
+};
+} // namespace mb::ul
+
 class OrbitAlgTest
     : public testing::TestWithParam<std::tuple<int, std::make_unsigned_t<int>, std::make_unsigned_t<int>>> {};
 
-INSTANTIATE_TEST_SUITE_P(OrbitAlgMisc, OrbitAlgTest, testing::Values(std::make_tuple(0, 0u, 5u)));
+// NOLINTBEGIN
+INSTANTIATE_TEST_SUITE_P(
+    OrbitAlgMisc, OrbitAlgTest,
+    testing::Values(
+        // cyclic
+        std::make_tuple(0, 0u, 5u),
+        // \rho-shaped
+        std::make_tuple(0, 2u, 11u), std::make_tuple(7, 97u, 17u), std::make_tuple(0, 4u, 2u),
+        // terminating
+        std::make_tuple(0, 101u, 0u)));
+
+// NOLINTEND
 
 TEST_P(OrbitAlgTest, misc) {
-    //    using F = TransfEx<int>;
-    //    const auto x{std::get<0>(GetParam())};
-    //    const auto h{std::get<1>(GetParam())};
-    //    const auto c{std::get<2>(GetParam())};
-    //    using T = ul::Domain<F>;
-    //    typedef DistanceType(F) N;
-    //    F f(x, h, c);
-    //    Assert(zero(c) == terminating(x, f, f.p));
-    //    if (zero(h) && !zero(c)) {
-    //        Assert(circular(x, f, f.p));
-    //        Assert(circular_nonterminating_orbit(x, f));
-    //    } else if (!zero(h)) {
-    //        Assert(!circular(x, f, f.p));
-    //        if (!zero(c))
-    //            Assert(!circular_nonterminating_orbit(x, f));
-    //    }
-    //    T y = connection_point(x, f, f.p);
-    //    Assert(power_unary<F>(x, h, f) == y);
-    //    if (!zero(c))
-    //        Assert(y == connection_point_nonterminating_orbit(x, f));
-    //    triple<unsigned, unsigned, int> t = orbit_structure(x, f, f.p);
-    //    if (zero(c)) { // terminating
-    //        Assert(t.m0 == h);
-    //        Assert(zero(t.m1));
-    //        Assert(t.m2 == collision_point(x, f, f.p));
-    //    } else if (zero(h)) { // circular
-    //        Assert(zero(t.m0));
-    //        Assert(t.m1 == predecessor(c));
-    //        Assert(t.m2 == x);
-    //    } else { // rho-shaped
-    //        Assert(t.m0 == h);
-    //        Assert(t.m1 == predecessor(c));
-    //        Assert(t.m2 == y);
-    //    }
-    //    if (!zero(c)) {
-    //        triple<N, N, T> t = orbit_structure_nonterminating_orbit(x, f);
-    //        if (zero(h)) { // circular
-    //            Assert(zero(t.m0));
-    //            Assert(t.m1 == predecessor(c));
-    //            Assert(t.m2 == x);
-    //        } else { // rho-shaped
-    //            Assert(t.m0 == h);
-    //            Assert(t.m1 == predecessor(c));
-    //            Assert(t.m2 == y);
-    //        }
-    //    }
+    using F = TransfEx<int>;
+    // just two compilation checks
+    using T = ul::Domain<F>;
+    static_assert(std::same_as<T, int>);
+    using N = ul::DistanceType<F>;
+    static_assert(std::integral<N>);
+    const auto x{std::get<0>(GetParam())};
+    const auto h{std::get<1>(GetParam())};
+    const auto c{std::get<2>(GetParam())};
+    const F f{x, h, c};
+    EXPECT_TRUE(!c == ul::terminating(x, f, f.p));
+    if (!h && c) {
+        EXPECT_TRUE(ul::circular(x, f, f.p));
+        EXPECT_TRUE(ul::circular_nonterminating_orbit(x, f));
+    } else if (h) {
+        EXPECT_TRUE(!ul::circular(x, f, f.p));
+        if (c)
+            EXPECT_TRUE(!ul::circular_nonterminating_orbit(x, f));
+    }
+    const auto y{ul::connection_point(x, f, f.p)};
+    EXPECT_TRUE(ul::power_unary<F>(x, h, f) == y);
+    if (c)
+        EXPECT_TRUE(y == ul::connection_point_nonterminating_orbit(x, f));
+    auto [m0, m1, m2]{ul::orbit_structure(x, f, f.p)};
+    if (!c) {
+        // terminating
+        EXPECT_TRUE(m0 == h);
+        EXPECT_TRUE(!m1);
+        EXPECT_TRUE(m2 == ul::collision_point(x, f, f.p));
+    } else if (!h) {
+        // circular
+        EXPECT_TRUE(!m0);
+        EXPECT_TRUE(m1 == c - 1);
+        EXPECT_TRUE(m2 == x);
+    } else {
+        // rho-shaped
+        EXPECT_TRUE(m0 == h);
+        EXPECT_TRUE(m1 == c - 1);
+        EXPECT_TRUE(m2 == y);
+    }
+    if (c) {
+        std::tie(m0, m1, m2) = ul::orbit_structure_nonterminating_orbit(x, f);
+        if (!h) {
+            // circular
+            EXPECT_TRUE(!m0);
+            EXPECT_TRUE(m1 == c - 1);
+            EXPECT_TRUE(m2 == x);
+        } else {
+            // rho-shaped
+            EXPECT_TRUE(m0 == h);
+            EXPECT_TRUE(m1 == c - 1);
+            EXPECT_TRUE(m2 == y);
+        }
+    }
 }
