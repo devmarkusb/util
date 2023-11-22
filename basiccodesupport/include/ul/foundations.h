@@ -158,12 +158,17 @@ template <typename F, typename... Args>
 concept HomogeneousFunction =
     FunctionalProcedure<F, Args...> && AllOf<std::tuple_element_t<0, std::tuple<Args...>>, Args...>;
 
-template <most_generic::HomogeneousFunction F>
-using Domain = InputType<0, F>;
-
 template <most_generic::FunctionalProcedure F>
 struct CodomainDecl {
-    using TypeOrig = typename impl::Function<F>::ReturnType;
+    using TypeOrig = typename impl::FunctionCall<F>::ReturnType;
+    using Type = std::remove_cvref_t<TypeOrig>;
+
+    static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
+};
+
+template <impl::HasCallOperator F>
+struct CodomainDecl<F> {
+    using TypeOrig = typename impl::CallOperator<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
@@ -188,13 +193,8 @@ struct InputTypeDecl<0, F> {
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
-template <impl::HasCallOperator F>
-struct CodomainDecl<F> {
-    using TypeOrig = typename impl::CallOperator<F>::ReturnType;
-    using Type = std::remove_cvref_t<TypeOrig>;
-
-    static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
-};
+template <most_generic::HomogeneousFunction F>
+using Domain = InputType<0, F>;
 
 template <typename F>
 concept UnaryFunction = FunctionalProcedure<F, Domain<F>>;
@@ -215,8 +215,6 @@ template <typename Op>
 concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
 } // namespace mb::ul
 #endif
-
-#undef UL_REGULARITY_WEAK_SYNTAX_ERR_STR
 
 UL_HEADER_END
 
