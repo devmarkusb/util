@@ -78,7 +78,7 @@ DistanceType<F> distance(Domain<F> x, const Domain<F>& y, F f) {
     return n;
 }
 
-template <Regular Arg, Action<Arg> A, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <Regular Arg, Action<Arg> A, Transformation F = typename TransformationFromAction<Arg, A>::Type>
 DistanceType<F> distance_action(Domain<F> x, const Domain<F>& y, A f) {
     // expect y reachable from x under f
     using N = DistanceType<F>;
@@ -112,7 +112,8 @@ Domain<F> collision_point(const Domain<F>& x, F f, P p) {
     return fast;
 }
 
-template <Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <
+    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 Domain<F> collision_point_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -141,7 +142,8 @@ terminating(const Domain<F>& x, F f, P p) {
     return !p(collision_point(x, f, p));
 }
 
-template <Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <
+    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>> bool
 terminating_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -161,7 +163,7 @@ Domain<F> collision_point_nonterminating_orbit(const Domain<F>& x, F f) {
     return fast;
 }
 
-template <Regular Arg, Action<Arg> A, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <Regular Arg, Action<Arg> A, Transformation F = typename TransformationFromAction<Arg, A>::Type>
 Domain<F> collision_point_nonterminating_orbit_action(const Domain<F>& x, A f) {
     auto slow{x};
     auto fast{x};
@@ -198,7 +200,7 @@ Domain<F> convergent_point(Domain<F> x0, Domain<F> x1, F f) {
     return x0;
 }
 
-template <Regular Arg, Action<Arg> A, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <Regular Arg, Action<Arg> A, Transformation F = typename TransformationFromAction<Arg, A>::Type>
 Domain<F> convergent_point_action(Domain<F> x0, Domain<F> x1, A f) {
     // expect n existing in DistanceType<F>, such that n >= 0 and f^n(x0) = f^n(x1)
     auto x0c{std::move(x0)};
@@ -215,7 +217,7 @@ Domain<F> connection_point_nonterminating_orbit(const Domain<F>& x, F f) {
     return convergent_point(x, f(collision_point_nonterminating_orbit(x, f)), f);
 }
 
-template <Regular Arg, Action<Arg> A, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <Regular Arg, Action<Arg> A, Transformation F = typename TransformationFromAction<Arg, A>::Type>
 Domain<F> connection_point_nonterminating_orbit(const Domain<F>& x, A f) {
     auto f_collision_point{collision_point_nonterminating_orbit(x, f)};
     f(f_collision_point);
@@ -232,7 +234,8 @@ Domain<F> connection_point(const Domain<F>& x, F f, P p) {
     return convergent_point(x, f(y), f);
 }
 
-template <Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <
+    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 Domain<F> connection_point_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -251,7 +254,7 @@ std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_nontermi
     return std::make_tuple(distance(x, y, f), distance(f(y), y, f), y);
 }
 
-template <Regular Arg, Action<Arg> A, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <Regular Arg, Action<Arg> A, Transformation F = typename TransformationFromAction<Arg, A>::Type>
 std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_nonterminating_orbit_action(
     const Domain<F>& x, A f) {
     const auto y{connection_point_nonterminating_orbit(x, f)};
@@ -277,7 +280,8 @@ std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure(const Do
     return std::make_tuple(m, n, y);
 }
 
-template <Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = TransformationFromAction<Arg, A>::Type>
+template <
+    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_action(const Domain<F>& x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
