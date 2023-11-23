@@ -8,6 +8,8 @@
 #if __has_include(<concepts>)
 #include <concepts>
 #endif
+#include <optional>
+#include <ostream>
 #include <tuple>
 
 #if __cpp_concepts && __cpp_lib_concepts
@@ -295,6 +297,91 @@ std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_action(c
         n = distance_action<Arg>(f_y, y, f);
     }
     return std::make_tuple(m, n, y);
+}
+
+/** Returns an (not necessarily the earliest - use convergent_point_guarded instead) intersection point if there is
+    one.*/
+template <Transformation F, UnaryPredicate P>
+    requires std::same_as<Domain<F>, Domain<P>>
+std::optional<Domain<F>> intersect(const Domain<F>& x0, const Domain<F>& x1, F f, P p) {
+    // expect for any x in Domain<F>: p(x) <=> f(x) defined
+    const auto x_coll{collision_point(x0, f, p)};
+    const auto y_coll{collision_point(x1, f, p)};
+
+    // Since intersection implies having in common all cyclic elements, the contraposition that there
+    // is a cyclic element (and therefore a cycle) for x (or y), but none for y (or x), i.e. y (or x)
+    // is terminating, we can return false immediately.
+    if (p(x_coll) != p(y_coll))
+        return {};
+
+    if (!p(x_coll)) {
+        // Case of two terminating orbits.
+        // They intersect, if they have the last element in common. Intersection means having at least
+        // one element in common. But that implies having all the following ones - applying the
+        // transformation, in common also.
+        return x_coll == y_coll ? std::optional{x_coll} : std::nullopt;
+    }
+
+    // Case of two non-terminating orbits (\rho-shaped or cyclic).
+    // If they intersect, they have in common all cyclic elements. But the converse is also true for
+    // orbits with non-empty common cycles.
+    // Intersection happens, when the connection point of one orbit is reachable by the other.
+    const auto x_conn{convergent_point(x0, f(x_coll), f)};
+    const auto y_conn{convergent_point(x1, f(y_coll), f)};
+    if (x_conn == y_conn || f(x_conn) == y_conn)
+        return y_conn;
+    for (auto x_runner{f(x_conn)}; x_runner != x_conn; x_runner = f(x_runner)) {
+        if (x_runner == y_conn)
+            return y_conn;
+    }
+    return {};
+}
+
+// Additionally you have to know that the convergent doesn't necessarily have to appear after an equal amount of
+// transformation steps applied to x0 and x1. But it is defined as the earliest/first intersection point.
+template <Transformation F, UnaryPredicate P>
+    requires std::same_as<Domain<F>, Domain<P>>
+Domain<F> convergent_point_guarded(Domain<F> x0, Domain<F> x1, F f, P p) {
+    auto xs{intersect(x0, x1, f, p)};
+    UL_EXPECT(xs);
+    auto d0{distance(x0, *xs, f)};
+    auto d1{distance(x1, *xs, f)};
+    if (d0 < d1)
+        x1 = power_unary(x1, d1 - d0, f);
+    else if (d1 < d0)
+        x0 = power_unary(x0, d0 - d1, f);
+    return convergent_point(x0, x1, f);
+}
+
+template <Transformation F, UnaryPredicate P>
+    requires std::same_as<Domain<F>, Domain<P>>
+std::optional<Domain<F>> power_unary_guarded(Domain<F> x, DistanceType<F> n, F f, P p) {
+    UL_EXPECT(n >= 0);
+    using N = DistanceType<F>;
+    while (n != N{0}) {
+        n = n - N{1};
+        if (!p(x)) {
+            return {};
+        }
+        x = f(x);
+    }
+    return x;
+}
+
+template <Transformation F, UnaryPredicate P>
+    requires std::same_as<Domain<F>, Domain<P>>
+std::ostream& orbit_dump(std::ostream& os, F f, P p, Domain<F> starting_point, DistanceType<F> example_count) {
+    for (decltype(example_count) i{}; i <= example_count; ++i) {
+        const auto x{power_unary_guarded(starting_point, i, f, p)};
+        if (x)
+            os << *x << ',';
+        else {
+            os << "terminated";
+            break;
+        }
+    }
+    os << '\n';
+    return os;
 }
 } // namespace mb::ul
 #endif
