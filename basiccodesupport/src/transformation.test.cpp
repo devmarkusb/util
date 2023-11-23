@@ -342,6 +342,6 @@ TEST(orbit_dumpTest, dumps) {
         },
         "transf_ex_non_terminating_orbit");
     orbit_dump(std::cout, transf_ex_orbit, transf_ex_orbit_pred, "transf_ex_orbit");
-    const auto o{TransfEx{-20, 20, 5}};
+    const auto o{TransfEx<int>{-20, 20, 5}};
     orbit_dump(std::cout, o, o.p, "TransfEx");
 }
