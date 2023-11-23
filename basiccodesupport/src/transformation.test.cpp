@@ -3,6 +3,9 @@
 #include "gtest/gtest.h"
 
 namespace {
+const auto pos_example_nr{42};
+const auto neg_example_nr{-15};
+
 // definition space predicate for TransfEx
 template <std::integral I>
 struct TransfExPredicate {
@@ -67,6 +70,68 @@ struct ActionEx {
             x = p.x_0 + static_cast<I>(p.h);
     }
 };
+
+//! Constants for the following transf_ex_orbit examples.
+//!@{
+const auto cycle_size_ex{5};
+const auto orbit_terminator_ex{100};
+const auto orbit_separator_ex{50};
+
+//!@}
+
+//! Expects x < orbit_terminator.
+int transf_ex_terminating_orbit(int x) {
+    UL_EXPECT(x < orbit_terminator_ex);
+    if (x >= orbit_terminator_ex)
+        throw std::overflow_error{"transf_ex_terminating_orbit"};
+    return ++x;
+}
+
+bool transf_ex_terminating_orbit_pred(int x) {
+    return x < orbit_terminator_ex;
+}
+
+/** Cycle size cycle_size. Handle size 0 for 0 <= x <= cycle_size-1, 1 for -1 and >= cycle_size, up to cycle_size
+    for <= -2.*/
+int transf_ex_non_terminating_orbit(int x) {
+    return (x + 1) % cycle_size_ex;
+}
+
+int transf_ex_orbit(int x) {
+    if (x >= orbit_separator_ex)
+        return transf_ex_terminating_orbit(x);
+    return transf_ex_non_terminating_orbit(x);
+}
+
+bool transf_ex_orbit_pred(int x) {
+    return x < orbit_terminator_ex;
+}
+
+template <std::integral N>
+N hf(const N& x) {
+    return x / N{2};
+}
+
+bool hf_pred(int) {
+    return true;
+}
+
+template <ul::Transformation F, ul::UnaryPredicate P>
+    requires std::same_as<ul::Domain<F>, ul::Domain<P>>
+std::ostream& orbit_dump(std::ostream& os, F f, P p, std::string_view loglabel) {
+    const auto example_count{50};
+    os << loglabel << " orbit_dump\n";
+    ul::orbit_dump(os, f, p, -4, example_count);
+    ul::orbit_dump(os, f, p, neg_example_nr - 1, example_count);
+    ul::orbit_dump(os, f, p, neg_example_nr, example_count);
+    ul::orbit_dump(os, f, p, neg_example_nr + 1, example_count);
+    ul::orbit_dump(os, f, p, -1, example_count);
+    ul::orbit_dump(os, f, p, 0, example_count);
+    ul::orbit_dump(os, f, p, 1, example_count);
+    ul::orbit_dump(os, f, p, pos_example_nr, example_count);
+    ul::orbit_dump(os, f, p, pos_example_nr * 2, example_count);
+    return os;
+}
 } // namespace
 
 namespace mb::ul {
@@ -215,4 +280,68 @@ TEST(distanceTest, misc) {
                 ++x;
             }),
         4u);
+}
+
+TEST(intersectTest, both_terminating) {
+    EXPECT_TRUE(
+        ul::intersect(orbit_terminator_ex / 2, 1, transf_ex_terminating_orbit, transf_ex_terminating_orbit_pred));
+}
+
+TEST(intersectTest, non_terminating_and_terminating) {
+    EXPECT_FALSE(ul::intersect(orbit_separator_ex - 2, orbit_separator_ex + 2, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_FALSE(ul::intersect(orbit_separator_ex + 2, orbit_separator_ex - 2, transf_ex_orbit, transf_ex_orbit_pred));
+}
+
+TEST(intersectTest, both_non_terminating) {
+    // both circular
+    EXPECT_TRUE(ul::intersect(0, pos_example_nr, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(pos_example_nr, 0, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(0, 2, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(2, 0, transf_ex_orbit, transf_ex_orbit_pred));
+    // circular and \rho-shaped
+    EXPECT_TRUE(ul::intersect(pos_example_nr, 2, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(2, pos_example_nr, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(-1, 2, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(2, -1, transf_ex_orbit, transf_ex_orbit_pred));
+    // both \rho-shaped
+    EXPECT_TRUE(ul::intersect(pos_example_nr, -2, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(-2, pos_example_nr, transf_ex_orbit, transf_ex_orbit_pred));
+    EXPECT_TRUE(ul::intersect(-2, -1, transf_ex_orbit, transf_ex_orbit_pred));
+}
+
+TEST(convergent_point_guardedTest, misc) {
+    EXPECT_TRUE(ul::convergent_point_guarded(1024, 64, hf<int>, hf_pred) == 64);
+    EXPECT_TRUE(ul::convergent_point_guarded(1025, 65, hf<int>, hf_pred) == 32);
+    EXPECT_TRUE(ul::convergent_point_guarded(64, 1024, hf<int>, hf_pred) == 64);
+    EXPECT_TRUE(ul::convergent_point_guarded(65, 1025, hf<int>, hf_pred) == 32);
+    EXPECT_TRUE(ul::convergent_point_guarded(1024, 2047, hf<int>, hf_pred) == 1);
+}
+
+TEST(orbit_dumpTest, test) {
+    std::stringstream ss;
+    orbit_dump(ss, transf_ex_terminating_orbit, transf_ex_terminating_orbit_pred, "transf_ex_terminating_orbit");
+    EXPECT_EQ(ss.str(), R"(transf_ex_terminating_orbit orbit_dump
+-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,
+-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,
+-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,
+-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,
+-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,
+0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,
+42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,
+84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,terminated
+)");
+}
+
+TEST(orbit_dumpTest, dumps) {
+    orbit_dump(std::cout, transf_ex_terminating_orbit, transf_ex_terminating_orbit_pred, "transf_ex_terminating_orbit");
+    orbit_dump(
+        std::cout, transf_ex_non_terminating_orbit,
+        [](int) {
+            return true;
+        },
+        "transf_ex_non_terminating_orbit");
+    orbit_dump(std::cout, transf_ex_orbit, transf_ex_orbit_pred, "transf_ex_orbit");
+    const auto o{TransfEx{-20, 20, 5}};
+    orbit_dump(std::cout, o, o.p, "TransfEx");
 }
