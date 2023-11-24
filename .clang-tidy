@@ -12,6 +12,7 @@ Checks: >
   -cert-dcl16-c,
   -cert-dcl21-cpp,
   -clang-analyzer-deadcode,
+  -clang-diagnostic-c++17-attribute-extensions,
   -clang-diagnostic-c++17-extensions,
   -clang-diagnostic-error,
   -clang-diagnostic-unused-macros,
