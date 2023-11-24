@@ -93,7 +93,7 @@ TEST(utf8cpp_distanceTest, test) {
 TEST(utf8cpp_is_bomTest, test) {
 #if !UL_COMP_MS_VISUAL_STUDIO_CPP
     char byte_order_mark[] = "\xef\xbb\xbf";
-    bool bbom = utf8::starts_with_bom(byte_order_mark);
+    bool bbom = utf8::starts_with_bom(std::string_view{byte_order_mark});
     EXPECT_TRUE(bbom);
 #endif
 }
