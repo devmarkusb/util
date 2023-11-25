@@ -27,7 +27,7 @@ constexpr T pi() {
     Negative numbers are handled as well.*/
 template <typename NumberType>
 constexpr bool is_power_of_two(NumberType number) noexcept {
-    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+    static_assert(std::is_integral_v<NumberType>, "NumberType must be of integral type");
     return number && ((number & (number - 1)) == 0); // NOLINT
 }
 
@@ -61,7 +61,7 @@ struct NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, Number
 template <typename NumberType, NumberType number>
 struct NextGreaterOrEqPow2
     : public detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>> {
-    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+    static_assert(std::is_integral_v<NumberType>, "NumberType must be of integral type");
 
     static constexpr NumberType value() noexcept {
         if constexpr (is_power_of_two(number)) {
@@ -84,7 +84,7 @@ struct NextGreaterOrEqPow2
         static_assert(util::math::NextGreaterOrEqualPowerOfTwo<int, 4>::value() == 8);*/
 template <typename NumberType, NumberType number>
 struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2<NumberType, std::integral_constant<NumberType, number>> {
-    static_assert(std::is_integral<NumberType>::value, "NumberType must be of integral type");
+    static_assert(std::is_integral_v<NumberType>, "NumberType must be of integral type");
 
     static constexpr NumberType value() noexcept {
         if (number < NumberType{}) {
