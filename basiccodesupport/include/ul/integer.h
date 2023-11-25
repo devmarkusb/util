@@ -1,0 +1,116 @@
+/** \file*/
+
+#ifndef INTEGER_H_HGX23HX8730GZHRHGX1387G
+#define INTEGER_H_HGX23HX8730GZHRHGX1387G
+
+#include "assert.h"
+#include "foundations.h"
+#include "ul/config.h"
+#if __has_include(<concepts>)
+#include <concepts>
+#endif
+
+#if __cpp_concepts && __cpp_lib_concepts
+namespace mb::ul::math {
+template <typename T>
+concept Integral = std::integral<T>;
+
+//! Fast mul/div by 2 and even/odd testing.
+template <typename T>
+concept BinaryInteger = Integral<T>;
+
+//! Broader than Integral, which is restricted to built-in integer types.
+/** Would be interesting to construct. Won't like to built it upon algebraic structure like ring, but perhaps more
+    likely upon Peano axioms.*/
+template <typename T>
+concept Integer = Regular<T>;
+
+template <typename T>
+concept UnsignedInteger = Regular<T>;
+
+template <typename T>
+concept NaturalNumber = UnsignedInteger<T>;
+
+template <Integer I>
+bool divides(I i, I n) {
+    UL_EXPECT(i != I{0});
+    return n % i == I{0};
+}
+
+//! Other than the trivial 1.
+template <Integer I>
+I smallest_divisor(I n) {
+    UL_EXPECT(n > I{0});
+    if (even(n))
+        return I{2};
+    for (I i{3}; i * i <= n; i += I{2}) {
+        if (divides(i, n))
+            return i;
+    }
+    return n;
+}
+
+//! Beware: slow, just to be used sparingly.
+template <Integer I>
+I is_prime(I n) {
+    return n > I{1} && smallest_divisor(n) == n;
+}
+
+template <Integer I>
+struct ModuloMultiply {
+    I modulus{};
+
+    explicit ModuloMultiply(I i)
+        : modulus(i) {
+    }
+
+    I operator()(I n, I m) const {
+        return (n * m) % modulus;
+    }
+};
+
+template <Integer I>
+I identity_element(ModuloMultiply<I>) {
+    return I{1};
+}
+
+template <Integer I>
+I multiplicative_inverse_fermat(I a, I p) {
+    UL_EXPECT(is_prime(p) && a > I{0});
+    return power_monoid(a, p - 2, ModuloMultiply<I>(p));
+}
+
+//! Reads: n no prime if false, probably prime if true, more probable for more witnesses.
+template <Integer I>
+bool fermat_test(I n, I witness) {
+    UL_EXPECT(I{0} < witness);
+    UL_EXPECT(witness < n);
+    I remainder{power_semigroup(witness, n - I{1}, ModuloMultiply<I>(n))};
+    return remainder == I{1};
+}
+
+template <Integer I>
+bool miller_rabin_test(I n, I q, I k, I w) {
+    UL_EXPECT(n > 1);
+    UL_EXPECT(n - 1 == 2 * k * q);
+    UL_EXPECT(odd(q));
+    ModuloMultiply<I> mmult{n};
+    I x = power_semigroup(w, q, mmult);
+    if (x == I{1} || x == n - I{1})
+        return true;
+    for (I i{1}; i < k; ++i) {
+        // invariant x = w^(2^(i−1)q)
+        x = mmult(x, x);
+        if (x == n - I{1})
+            return true;
+        if (x == I{1})
+            return false;
+    }
+    return false;
+}
+} // namespace mb::ul::math
+#endif
+
+UL_HEADER_END
+
+#endif
