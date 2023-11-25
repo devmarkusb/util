@@ -6,6 +6,7 @@
 #include "algebra.h"
 #include "foundations.h"
 #include "ul/config.h"
+#include <array>
 #if __has_include(<concepts>)
 #include <concepts>
 #endif
