@@ -8,11 +8,11 @@ namespace math = ul::math;
 namespace {
 using UInt = unsigned int;
 // constexpr Int some_int{42};
-constexpr std::string str42{"42"}; // NOLINT
-constexpr std::string str43{"43"}; // NOLINT
+const std::string str42{"42"}; // NOLINT
+const std::string str43{"43"}; // NOLINT
 constexpr UInt uint42{42};
 constexpr UInt uint43{43};
-constexpr std::string str_comma{","}; // NOLINT
+const std::string str_comma{","}; // NOLINT
 } // namespace
 
 TEST(semigroup, tests) {
