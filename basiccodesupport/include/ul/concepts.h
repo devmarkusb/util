@@ -38,6 +38,12 @@ template <typename>
 inline constexpr bool always_false_v = false;
 } // namespace mb::ul
 
+/** It is not really functionally possible to specify semantic requirements within an requires expression of a concept.
+    But this macro provides the slight improvement over just using a comment within the expression, that the compiler
+    is at least able to check the syntax.
+    Usage: \code requires { ...; UL_SEMANTICS { ... }; }; \endcode*/
+#define UL_SEMANTICS requires requires
+
 /** Using concepts while unfortunately being forced to keep compatibility with older compilers:
     Always prefer this instead of the requires clause - and prefer the requires clause in itself only, as it is not
     possible to define a macro for typename replacements, at least not for namespace scoped concepts.*/
