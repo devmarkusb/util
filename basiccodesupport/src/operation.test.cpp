@@ -16,7 +16,13 @@ TEST(power_opt2Test, misc) {
         16);
     // confused, why this wrapping is necessary, endless loop in release mode?!
 #ifndef NDEBUG
-    EXPECT_DEBUG_DEATH(ul::power_opt2(3, 0, std::multiplies<int>{}), "> 0");
+    std::string msg;
+#if UL_OS_WINDOWS && UL_COMP_MS_VISUAL_STUDIO_CPP
+    msg = "";
+#else
+    msg = "> 0";
+#endif
+    EXPECT_DEBUG_DEATH(ul::power_opt2(3, 0, std::multiplies<int>{}), msg);
 #endif
     EXPECT_EQ(ul::power_opt2(3, 1, std::multiplies<int>{}), 3);
     EXPECT_EQ(ul::power_opt2(3, 2, std::multiplies<int>{}), 9);
