@@ -3,6 +3,7 @@
     in static_asserts.*/
 
 #include "ul/foundations.h"
+
 #include "gtest/gtest.h"
 #include <string>
 

@@ -11,7 +11,7 @@
 #endif
 
 #if __cpp_concepts && __cpp_lib_concepts
-namespace mb::ul::math {
+namespace mb::ul {
 template <typename T>
 concept Integral = std::integral<T>;
 
@@ -108,7 +108,7 @@ bool miller_rabin_test(I n, I q, I k, I w) {
     }
     return false;
 }
-} // namespace mb::ul::math
+} // namespace mb::ul
 #endif
 
 UL_HEADER_END
