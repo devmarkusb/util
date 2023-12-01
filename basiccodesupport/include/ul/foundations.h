@@ -213,6 +213,13 @@ concept UnaryOperation = Operation<Op, Domain<Op>>;
 
 template <typename Op>
 concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
+
+template <typename Op>
+concept Associative = BinaryOperation<Op> && requires(Op op, ul::Domain<Op> a, ul::Domain<Op> b, ul::Domain<Op> c) {
+                                                 UL_SEMANTICS {
+                                                     op(op(a, b), c) == op(a, op(b, c));
+                                                 };
+                                             };
 } // namespace mb::ul
 #endif
 
