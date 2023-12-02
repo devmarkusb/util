@@ -6,6 +6,7 @@ All-in-one include file for this part of the lib.
 #ifndef BASICCODESUPPORT_H_TRHOG4589HG3589HG
 #define BASICCODESUPPORT_H_TRHOG4589HG3589HG
 
+#include "algebra.h"
 #include "almost_equal.h"
 #include "any.h"
 #include "array.h"
@@ -13,6 +14,7 @@ All-in-one include file for this part of the lib.
 #include "bits.h"
 #include "c_array.h"
 #include "concepts.h"
+#include "crash.h"
 #include "debug.h"
 #include "enum_cast.h"
 #include "error.h"
@@ -26,6 +28,7 @@ All-in-one include file for this part of the lib.
 #include "integer.h"
 #include "map.h"
 #include "math.h"
+#include "matrix.h"
 #include "narrow.h"
 #include "number.h"
 #include "operation.h"
