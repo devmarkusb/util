@@ -14,7 +14,7 @@
 #include <ostream>
 
 #if __cpp_concepts && __cpp_lib_concepts
-namespace mb::ul::math {
+namespace mb::ul {
 template <Regular ElemT, size_t m, size_t n>
 using Matrix = std::array<std::array<ElemT, n>, m>;
 
@@ -92,7 +92,7 @@ struct MatMulGenTropical {
         return multiply(a1, a2, Min<ElemT>{}, std::plus<ElemT>{});
     }
 };
-} // namespace mb::ul::math
+} // namespace mb::ul
 #endif
 
 UL_HEADER_END
