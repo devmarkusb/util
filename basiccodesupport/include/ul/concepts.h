@@ -18,11 +18,15 @@ template <typename T>
 concept Dereferenceable = requires(T x) { *x; };
 
 template <typename T>
-concept Container = requires(T x) {
-                        { x.begin() } -> Dereferenceable;
-                        { x.end() } -> Dereferenceable;
-                        { x.size() } -> std::integral;
-                    };
+concept Range = requires(T x) {
+                    { x.begin() } -> Dereferenceable;
+                    { x.end() } -> Dereferenceable;
+                };
+
+template <typename T>
+concept Container = Range<T> && requires(T x) {
+                                    { x.size() } -> std::integral;
+                                };
 
 template <typename T, typename... U>
 concept AnyOf = (std::same_as<T, U> || ...);
