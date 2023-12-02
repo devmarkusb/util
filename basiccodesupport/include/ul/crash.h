@@ -25,6 +25,9 @@ inline void crash(int signal, bool try_indirect = true) {
         UL_PRAGMA_WARNINGS_PUSH
         UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC
         UL_WARNING_DISABLE_CLANG_ALL
+        // clang-format off
+        UL_WARNING_DISABLE_GCC(stringop-overflow)
+        // clang-format on
         if (signal == SIGABRT) {
             // try heap corruption, crashing may depend on heap implementation
             for (size_t i = 1; i < 512; ++i) {
