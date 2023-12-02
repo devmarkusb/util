@@ -13,6 +13,11 @@ namespace mb::ul {
 /** Pass e.g. SIGABRT, SIGSEGV as signal, 0 for no crash, try_indirect false definitely raises the passed signal,
     otherwise it tries to simulate real errors.*/
 inline void crash(int signal, bool try_indirect = true) {
+#if UL_OS_MAC
+    // the below procedure just didn't do it there yet
+    if (signal == SIGABRT)
+        try_indirect = false;
+#endif
     if (!try_indirect) {
         const auto success{std::raise(signal)};
         if (!success) {
