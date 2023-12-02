@@ -4,7 +4,7 @@
     warning settings to the state before calling UL_PRAGMA_WARNINGS_PUSH.
     UL_WARNING_DISABLE_<compiler>(w) disables warning w for a specific compiler.
     UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC is a specialty. First it's the same as UL_PRAGMA_WARNINGS_PUSH for
-    every compiler. But for MSVC this additionally disables *all* all warnings (useful when including 3rd party headers,
+    every compiler. But for MSVC this additionally disables *all* warnings (useful when including 3rd party headers,
     but this problem might also be solvable in another way).
 */
 

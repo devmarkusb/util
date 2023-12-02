@@ -2,6 +2,7 @@
 #define CRASH_H_SIUHFNGYOG6842KJBFTF87643
 
 #include "ul/config.h"
+#include "ul/warnings.h"
 #include <csignal>
 #include <cstdio>
 #include <cstring>
@@ -20,17 +21,23 @@ inline void crash(int signal, bool try_indirect = true) {
             throw std::runtime_error{msg};
         }
     } else {
+        // NOLINTBEGIN
+        UL_PRAGMA_WARNINGS_PUSH
+        UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC
+        UL_WARNING_DISABLE_CLANG_ALL
         if (signal == SIGABRT) {
             // try heap corruption, crashing may depend on heap implementation
             for (size_t i = 1; i < 512; ++i) {
-                auto* mem = reinterpret_cast<size_t*>(malloc(64));
+                auto* mem = reinterpret_cast<size_t*>(std::malloc(64));
                 std::memset(mem - i, 0, i);
-                free(mem);
+                std::free(mem);
             }
         } else if (signal == SIGSEGV) {
             const auto* foo = reinterpret_cast<int*>(-1);
             std::printf("%d\n", *foo);
         }
+        // NOLINTEND
+        UL_PRAGMA_WARNINGS_POP
     }
 }
 } // namespace mb::ul
