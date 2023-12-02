@@ -16,7 +16,7 @@
 #include <limits>
 
 #if __cpp_concepts && __cpp_lib_concepts
-namespace mb::ul::math {
+namespace mb::ul {
 /**
     Synonym of Regular suiting a mathematically oriented naming scheme.
     Roughly, you can think of the concept as the category of sets, e.g. int being a type fulfilling/implementing that,
@@ -43,12 +43,7 @@ concept SemigroupOperation =
 
 inline namespace v2 {
 template <typename Op>
-concept SemigroupOperation =
-    Set<Domain<Op>> && BinaryOperation<Op> && requires(Op op, Domain<Op> a, Domain<Op> b, Domain<Op> c) {
-                                                  UL_SEMANTICS {
-                                                      op(op(a, b), c) == op(a, op(b, c));
-                                                  };
-                                              };
+concept SemigroupOperation = Set<Domain<Op>> && BinaryOperation<Op> && Associative<Op>;
 } // namespace v2
 
 template <typename Op>
@@ -365,7 +360,7 @@ Domain<Op> power_group(Domain<Op> a, N n, Op op, InvOp invop, const Domain<Op>& 
     }
     return power_monoid(a, n, op, identity);
 }
-} // namespace mb::ul::math
+} // namespace mb::ul
 #endif
 
 UL_HEADER_END
