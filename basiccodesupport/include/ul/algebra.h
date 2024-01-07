@@ -230,21 +230,6 @@ template <
 concept Field = IntegralDomain<OpCommutativeGroup, OpInvCommutativeGroup, OpCommutativeGroupMul>
                 && Group<OpCommutativeGroupMul, OpInvCommutativeGroupMul>;
 
-template <Integral N>
-bool odd(N n) {
-    return static_cast<bool>(n & 0x1);
-}
-
-template <Integral N>
-bool even(N n) {
-    return !odd(n);
-}
-
-template <Integral N>
-N half(N n) {
-    return n >> 1;
-}
-
 template <AdditiveGroup T>
 std::negate<T> inverse_operation(std::plus<T>) {
     return std::negate<T>{};
@@ -290,7 +275,7 @@ A power_accumulate_semigroup(A r, A a, N n) {
             if (n == 1)
                 return r;
         }
-        n = half(n);
+        n = half_nonnegative(n);
         a *= a;
     }
 }
@@ -300,11 +285,11 @@ A power_semigroup(A a, N n) {
     UL_EXPECT(n > 0);
     while (!odd(n)) {
         a *= a;
-        n = half(n);
+        n = half_nonnegative(n);
     }
     if (n == 1)
         return a;
-    return power_accumulate_semigroup(a, a * a, half(n - 1));
+    return power_accumulate_semigroup(a, a * a, half_nonnegative(n - 1));
 }
 
 template <MultiplicativeMonoid A, Integral N>
@@ -326,7 +311,7 @@ Domain<Op> power_accumulate_semigroup(Domain<Op> r, Domain<Op> a, N n, Op op) {
             if (n == 1)
                 return r;
         }
-        n = half(n);
+        n = half_nonnegative(n);
         a = op(a, a);
     }
 }
@@ -337,11 +322,11 @@ Domain<Op> power_semigroup(Domain<Op> a, N n, Op op) {
     UL_EXPECT(n > 0);
     while (!odd(n)) {
         a = op(a, a);
-        n = half(n);
+        n = half_nonnegative(n);
     }
     if (n == 1)
         return a;
-    return power_accumulate_semigroup(a, op(a, a), half(n - 1), op);
+    return power_accumulate_semigroup(a, op(a, a), half_nonnegative(n - 1), op);
 }
 
 template <Integral N, MonoidOperation Op>
