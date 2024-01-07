@@ -28,9 +28,11 @@ Domain<Op> power_accumulate_pos(Domain<Op> r, Domain<Op> x, N n, Op op) {
 }
 
 //! Should be fast when the op itself is slow. But measure.
+/** Note, we arrive here independently from the power function for semigroups in algebra.h, which is identical. See
+    there for all the subtle variations.*/
 template <BinaryOperation Op, Integer N>
     requires Associative<Op>
-Domain<Op> power_opt2(Domain<Op> x, N n, Op op) {
+Domain<Op> power_pos(Domain<Op> x, N n, Op op) {
     UL_EXPECT(n > 0);
     while (!(n % 2)) {
         x = op(x, x);
