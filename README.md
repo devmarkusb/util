@@ -71,4 +71,7 @@ which yields base namespace `mb::ul` instead.
 ### todos
 
 * any `//todo` comment in code
-* use concepts, but don't merge as long as Android build needs old compiler
+* use concepts, but don't merge or omit compile guards as long as Android build
+needs old compiler
+* provide callback option for assert macros
+* provide stacktrace for throwing assert
