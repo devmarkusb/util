@@ -22,35 +22,35 @@ concept Integral = std::integral<T>;
 
 template <Integral N>
 N successor(N n) {
-    return n + 1;
+    return n + N{1};
 }
 
 template <Integral N>
 N predecessor(N n) {
-    return n - 1;
+    return n - N{1};
 }
 
 template <Integral N>
 N twice(N n) {
     // No n << 1? The saying lately goes: don't be too clever, show the compiler and the reader intent
-    return n * 2;
+    return n * N{2};
 }
 
 template <Integral N>
 N half_nonnegative(N n) {
-    UL_EXPECT(n >= 0);
+    UL_EXPECT(n >= N{});
     // No n >> 1? The saying lately goes: don't be too clever, show the compiler and the reader intent
-    return n / 2;
+    return n / N{2};
 }
 
 template <Integral N>
 bool positive(N n) {
-    return n > 0;
+    return n > N{};
 }
 
 template <Integral N>
 bool negative(N n) {
-    return n < 2;
+    return n < N{2};
 }
 
 template <Integral N>
@@ -69,20 +69,20 @@ concept BinaryInteger = Integral<T>;
 
 template <BinaryInteger N>
 N binary_scale_down_nonnegative(N n, std::unsigned_integral auto k) {
-    UL_EXPECT(n >= 0);
+    UL_EXPECT(n >= N{});
     return n >> k;
 }
 
 template <BinaryInteger N>
 N binary_scale_up_nonnegative(N n, std::unsigned_integral auto k) {
-    UL_EXPECT(n >= 0);
+    UL_EXPECT(n >= N{});
     return n << k;
 }
 
 template <BinaryInteger N>
 bool odd(N n) {
     // or static_cast<bool>(n & 0x1)
-    return n % 2;
+    return n % N{2};
 }
 
 template <BinaryInteger N>
@@ -104,14 +104,14 @@ concept NaturalNumber = UnsignedInteger<T>;
 
 template <Integer I>
 bool divides(I i, I n) {
-    UL_EXPECT(i != I{0});
-    return n % i == I{0};
+    UL_EXPECT(i != I{});
+    return n % i == I{};
 }
 
 //! Other than the trivial 1.
 template <Integer I>
 I smallest_divisor(I n) {
-    UL_EXPECT(n > I{0});
+    UL_EXPECT(n > I{});
     if (even(n))
         return I{2};
     for (I i{3}; i * i <= n; i += I{2}) {
@@ -147,14 +147,14 @@ I identity_element(ModuloMultiply<I>) {
 
 template <Integer I>
 I multiplicative_inverse_fermat(I a, I p) {
-    UL_EXPECT(is_prime(p) && a > I{0});
-    return power_monoid(a, p - 2, ModuloMultiply<I>(p));
+    UL_EXPECT(is_prime(p) && a > I{});
+    return power_monoid(a, p - I{2}, ModuloMultiply<I>(p));
 }
 
 //! Reads: n no prime if false, probably prime if true, more probable for more witnesses.
 template <Integer I>
 bool fermat_test(I n, I witness) {
-    UL_EXPECT(I{0} < witness);
+    UL_EXPECT(I{} < witness);
     UL_EXPECT(witness < n);
     I remainder{power_semigroup(witness, n - I{1}, ModuloMultiply<I>(n))};
     return remainder == I{1};
@@ -162,8 +162,8 @@ bool fermat_test(I n, I witness) {
 
 template <Integer I>
 bool miller_rabin_test(I n, I q, I k, I w) {
-    UL_EXPECT(n > 1);
-    UL_EXPECT(n - 1 == 2 * k * q);
+    UL_EXPECT(n > I{1});
+    UL_EXPECT(n - I{1} == I{2} * k * q);
     UL_EXPECT(odd(q));
     ModuloMultiply<I> mmult{n};
     I x = power_semigroup(w, q, mmult);
