@@ -266,52 +266,52 @@ private:
 
 template <MultiplicativeSemigroup A, Integral N>
 A power_accumulate_semigroup(A r, A a, N n) {
-    UL_EXPECT(n >= 0);
-    if (n == 0)
+    UL_EXPECT(n >= N{});
+    if (!n)
         return r;
     while (true) {
-        if (odd(n)) {
+        if (n % N{2}) {
             r *= a;
-            if (n == 1)
+            if (n == N{1})
                 return r;
         }
-        n = half_nonnegative(n);
+        n /= N{2};
         a *= a;
     }
 }
 
 template <MultiplicativeSemigroup A, Integral N>
 A power_semigroup(A a, N n) {
-    UL_EXPECT(n > 0);
-    while (!odd(n)) {
+    UL_EXPECT(n > N{});
+    while (!(n % N{2})) {
         a *= a;
-        n = half_nonnegative(n);
+        n /= N{2};
     }
-    if (n == 1)
+    if (n == N{1})
         return a;
     return power_accumulate_semigroup(a, a * a, half_nonnegative(n - 1));
 }
 
 template <MultiplicativeMonoid A, Integral N>
 A power_monoid(const A& a, N n) {
-    UL_EXPECT(n >= 0);
-    if (n == 0)
+    UL_EXPECT(n >= N{});
+    if (!n)
         return A{1};
     return power_semigroup(a, n);
 }
 
 template <Integral N, SemigroupOperation Op>
 Domain<Op> power_accumulate_semigroup(Domain<Op> r, Domain<Op> a, N n, Op op) {
-    UL_EXPECT(n >= 0);
-    if (n == 0)
+    UL_EXPECT(n >= N{});
+    if (!n)
         return r;
     while (true) {
-        if (odd(n)) {
+        if (n % N{2}) {
             r = op(r, a);
-            if (n == 1)
+            if (n == N{1})
                 return r;
         }
-        n = half_nonnegative(n);
+        n /= N{2};
         a = op(a, a);
     }
 }
@@ -319,27 +319,27 @@ Domain<Op> power_accumulate_semigroup(Domain<Op> r, Domain<Op> a, N n, Op op) {
 //! For a multiply operation as op you achieve the canonical 'power'.
 template <Integral N, SemigroupOperation Op>
 Domain<Op> power_semigroup(Domain<Op> a, N n, Op op) {
-    UL_EXPECT(n > 0);
-    while (!odd(n)) {
+    UL_EXPECT(n > N{});
+    while (!(n % N{2})) {
         a = op(a, a);
-        n = half_nonnegative(n);
+        n /= N{2};
     }
-    if (n == 1)
+    if (n == N{1})
         return a;
     return power_accumulate_semigroup(a, op(a, a), half_nonnegative(n - 1), op);
 }
 
 template <Integral N, MonoidOperation Op>
 Domain<Op> power_monoid(Domain<Op> a, N n, Op op, const Domain<Op>& identity) {
-    UL_EXPECT(n >= 0);
-    if (n == 0)
+    UL_EXPECT(n >= N{});
+    if (!n)
         return identity;
     return power_semigroup(a, n, op);
 }
 
 template <Integral N, GroupOperation Op, GroupInverseOperation InvOp>
 Domain<Op> power_group(Domain<Op> a, N n, Op op, InvOp invop, const Domain<Op>& identity) {
-    if (n < 0) {
+    if (n < N{}) {
         n = -n;
         a = invop(a);
     }
