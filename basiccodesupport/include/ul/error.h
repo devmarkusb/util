@@ -4,9 +4,9 @@
 #define ERROR_H_COSNDZCRIWU4EZR3
 
 #include "assert.h"
-#include "std/std_extensions.h"
 
 #include "ul/warnings.h"
+#include <cstdlib>
 #include <exception>
 #include <map>
 #include <stdexcept>
@@ -16,8 +16,8 @@
 namespace mb::ul {
 //! Use these constants to exit your program by \code return \endcode out of \code main \endcode.
 /** (Do not use \code std::exit \endcode, because of possible circumvention of stack unwinding.)*/
-const int prog_exit_success = 0;
-const int prog_exit_failure = 1;
+const int prog_exit_success = EXIT_SUCCESS;
+const int prog_exit_failure = EXIT_FAILURE;
 
 //! An error code return type for functions/methods for interfaces that shall be non-throwing.
 /** Typical usage with the convenience alias \code Retcode \endcode:
@@ -51,7 +51,7 @@ const int prog_exit_failure = 1;
     }
     \endcode
 */
-enum class Retcode {
+enum class Retcode : uint8_t {
     //! Return values indicating success
     //!@{
     none = 0,
@@ -191,7 +191,7 @@ struct TimeOut : public std::runtime_error {
 */
 template <typename Callable, typename Callable2>
 std::pair<Retcode, std::string> call_noexcept(
-    Callable&& f, Callable2&& bad_alloc_handler = []() {
+    Callable f, Callable2 bad_alloc_handler = []() {
     }) noexcept {
     try {
         f();
