@@ -30,11 +30,24 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <stdexcept>
 #include <thread>
 
+#ifdef __has_include
+#if __has_include(<stacktrace>)
+#include <stacktrace>
+#endif
+#endif
+
+
 namespace mb::ul {
 //! This is thrown by any throwing assertion.
 struct FailFast : std::runtime_error {
     explicit FailFast(const char* const message)
-        : std::runtime_error(message) {
+        : std::runtime_error{
+#if __cpp_lib_stacktrace
+            std::string{message}.append("\n").append(std::stacktrace::current())
+#else
+            message
+#endif
+        } {
     }
 };
 } // namespace mb::ul

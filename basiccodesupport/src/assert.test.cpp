@@ -90,4 +90,41 @@ TEST(VERIFY_ASSERT_Test, Test) {
 #endif
 }
 
+namespace {
+void h() {
+    UL_ASSERT_THROW(false);
+}
+
+void g() {
+    h();
+}
+
+void f1() {
+    g();
+}
+
+void f2() {
+    g();
+}
+}
+
+TEST(AssertThrowTest, stacktrace) {
+    std::cout << ::testing::UnitTest::GetInstance()->current_test_info()->name() << ":\n";
+    try {
+        f1();
+    } catch (const ul::FailFast& e) {
+        std::cout << e.what();
+    }
+    try {
+        f2();
+    } catch (const ul::FailFast& e) {
+        std::cout << e.what();
+    }
+    try {
+        g();
+    } catch (const ul::FailFast& e) {
+        std::cout << e.what();
+    }
+}
+
 UL_PRAGMA_WARNINGS_POP
