@@ -43,7 +43,7 @@ struct FailFast : std::runtime_error {
     explicit FailFast(const char* const message)
         : std::runtime_error{
 #if __cpp_lib_stacktrace
-            std::string{message}.append("\n").append(std::stacktrace::current())
+            std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
 #else
             message
 #endif
