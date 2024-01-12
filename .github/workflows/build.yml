@@ -46,7 +46,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{matrix.build_type}} #--output-on-failure
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
 
 # not working properly (analyses 3rd party dirs, also seems to use old compiler version?)
 #    - name: Run Include What You Use
