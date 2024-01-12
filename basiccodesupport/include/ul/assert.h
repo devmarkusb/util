@@ -31,6 +31,9 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #include <thread>
 
 #ifdef __has_include
+#if __has_include(<source_location>)
+#include <source_location>
+#endif
 #if __has_include(<stacktrace>)
 #include <stacktrace>
 #endif
@@ -80,11 +83,22 @@ UL_WARNING_DISABLE_MSVC(4127)
 #ifdef UL_ASSERT_THROW_DISABLE
 #define UL_ASSERT_THROW_IMPL(cond, textstart) UL_ASSERT_IMPL(cond)
 #else
+#if __cpp_lib_source_location
+inline void UL_ASSERT_THROW_IMPL(
+    bool cond, std::string_view textstart, std::source_location location = std::source_location::current()) {
+    if (!cond)
+        throw mb::ul::FailFast{std::string{textstart}.append(" ").append(location.file_name()).append("(").
+                                                      append(std::to_string(location.line())).append(":").append(
+                                                          std::to_string(location.column())).append(") `").
+                                                      append(location.function_name()).append("`\n").c_str()};
+}
+#else
 #define UL_ASSERT_THROW_IMPL(cond, textstart) \
     do { \
         if (!(cond)) \
-            throw ul::FailFast(textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)); \
+            throw ul::FailFast{textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)}; \
     } while (false)
+ #endif
 
 #ifdef UL_ASSERT_ALWAYS_THROWING
 #undef UL_ASSERT_IMPL
