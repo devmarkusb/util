@@ -44,14 +44,15 @@ namespace mb::ul {
 //! This is thrown by any throwing assertion.
 struct FailFast : std::runtime_error {
     explicit FailFast(const char* const message)
-        : std::runtime_error{
+        : std::runtime_error {
 #if __cpp_lib_stacktrace
-            std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
+        std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
 #else
-            message
+        message
 #endif
-        } {
     }
+
+    {}
 };
 } // namespace mb::ul
 
@@ -87,10 +88,18 @@ UL_WARNING_DISABLE_MSVC(4127)
 inline void UL_ASSERT_THROW_IMPL(
     bool cond, std::string_view textstart, std::source_location location = std::source_location::current()) {
     if (!cond)
-        throw mb::ul::FailFast{std::string{textstart}.append(" ").append(location.file_name()).append("(").
-                                                      append(std::to_string(location.line())).append(":").append(
-                                                          std::to_string(location.column())).append(") `").
-                                                      append(location.function_name()).append("`\n").c_str()};
+        throw mb::ul::FailFast{
+            std::string{textstart}
+                .append(" ")
+                .append(location.file_name())
+                .append("(")
+                .append(std::to_string(location.line()))
+                .append(":")
+                .append(std::to_string(location.column()))
+                .append(") `")
+                .append(location.function_name())
+                .append("`\n")
+                .c_str()};
 }
 #else
 #define UL_ASSERT_THROW_IMPL(cond, textstart) \
@@ -98,7 +107,7 @@ inline void UL_ASSERT_THROW_IMPL(
         if (!(cond)) \
             throw ul::FailFast{textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)}; \
     } while (false)
- #endif
+#endif
 
 #ifdef UL_ASSERT_ALWAYS_THROWING
 #undef UL_ASSERT_IMPL
