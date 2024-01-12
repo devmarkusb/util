@@ -106,10 +106,10 @@ void f1() {
 void f2() {
     g();
 }
-}
+} // namespace
 
 TEST(AssertThrowTest, stacktrace) {
-    std::cout << ::testing::UnitTest::GetInstance()->current_test_info()->name() << ":\n";
+    std::cout << ::testing::UnitTest::GetInstance()->current_test_info()->name() << " test:\n";
     try {
         f1();
     } catch (const ul::FailFast& e) {
