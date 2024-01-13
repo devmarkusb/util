@@ -84,7 +84,7 @@ UL_WARNING_DISABLE_MSVC(4127)
 #ifdef UL_ASSERT_THROW_DISABLE
 #define UL_ASSERT_THROW_IMPL(cond, textstart) UL_ASSERT_IMPL(cond)
 #else
-#if __cpp_lib_source_location
+#if __cpp_lib_source_location && UL_TRYOUT_SOURCE_LOCATION_BUT_DONT_USE_BECAUSE_OF_COND_EVAL
 inline void UL_ASSERT_THROW_IMPL(
     bool cond, std::string_view textstart, std::source_location location = std::source_location::current()) {
     if (!cond)
