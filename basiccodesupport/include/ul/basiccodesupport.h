@@ -16,6 +16,7 @@ All-in-one include file for this part of the lib.
 #include "concepts.h"
 #include "crash.h"
 #include "debug.h"
+#include "enum_bitset.h"
 #include "enum_cast.h"
 #include "error.h"
 #include "file.h"
