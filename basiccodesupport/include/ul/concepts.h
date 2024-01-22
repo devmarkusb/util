@@ -14,8 +14,20 @@
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {
+template <typename T, typename... U>
+concept AnyOf = (std::same_as<T, U> || ...);
+
+template <typename T, typename... U>
+concept AllOf = (std::same_as<T, U> && ...);
+
 template <typename T>
 concept Dereferenceable = requires(T x) { *x; };
+
+template <typename T>
+concept EnumConcept = std::is_enum_v<T>;
+
+template <typename From, typename To>
+concept NonNarrowingConvertible = std::convertible_to<From, To> && requires(From f) { To{f}; };
 
 template <typename T>
 concept Range = requires(T x) {
@@ -27,15 +39,6 @@ template <typename T>
 concept Container = Range<T> && requires(T x) {
                                     { x.size() } -> std::integral;
                                 };
-
-template <typename T, typename... U>
-concept AnyOf = (std::same_as<T, U> || ...);
-
-template <typename T, typename... U>
-concept AllOf = (std::same_as<T, U> && ...);
-
-template <typename From, typename To>
-concept NonNarrowingConvertible = std::convertible_to<From, To> && requires(From f) { To{f}; };
 
 // not a concept, but no better place
 template <typename>

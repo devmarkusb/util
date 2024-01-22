@@ -9,9 +9,11 @@
 #include <array>
 #include <climits>
 #include <cstdint>
-#include <limits>
 #include <numeric>
 #include <type_traits>
+#if __has_include(<bit>)
+#include <bit>
+#endif
 
 namespace mb::ul::bits {
 using Idx = int;
@@ -27,12 +29,16 @@ constexpr Count count() noexcept {
 }
 
 constexpr uint32_t count_set(uint32_t data) noexcept {
+#if __cpp_lib_bitop
+    return static_cast<uint32_t>(std::popcount(data));
+#else
     // NOLINTBEGIN
     // Hamming Weight algorithm
     data = data - ((data >> 1) & 0x55555555);
     data = (data & 0x33333333) + ((data >> 2) & 0x33333333);
     return (((data + (data >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
     // NOLINTEND
+#endif
 }
 
 template <typename SourceType, typename TargetType = SourceType>
