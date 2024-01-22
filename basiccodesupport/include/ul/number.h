@@ -29,7 +29,7 @@ enum class NumBase : BaseDigitType {
     oct = 8,
     dec = 10,
     hex = 16,
-    sgs = 60, ///< sexagesimal
+    sgs = 60, //!< sexagesimal
 };
 
 template <typename T>
