@@ -7,10 +7,13 @@
 #define CONCEPTS_H_CFDDF4FE5F6D48D0BD50FCFBBAAE968A
 
 #include "ul/config.h"
+#include <type_traits>
 #if __has_include(<concepts>)
 #include <concepts>
 #endif
-#include <type_traits>
+#if __has_include(<ranges>)
+#include <ranges>
+#endif
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {
@@ -29,11 +32,16 @@ concept EnumConcept = std::is_enum_v<T>;
 template <typename From, typename To>
 concept NonNarrowingConvertible = std::convertible_to<From, To> && requires(From f) { To{f}; };
 
+#if __cpp_lib_ranges
+template <typename T>
+concept Range = std::ranges::range<T>;
+#else
 template <typename T>
 concept Range = requires(T x) {
                     { x.begin() } -> Dereferenceable;
                     { x.end() } -> Dereferenceable;
                 };
+#endif
 
 template <typename T>
 concept Container = Range<T> && requires(T x) {
