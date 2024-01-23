@@ -46,7 +46,7 @@ public:
         return res;
     }
 
-    static constexpr EnumBitset from_range(const std::ranges::range auto& c) noexcept {
+    static constexpr EnumBitset from_range(const Range auto& c) noexcept {
         return EnumBitset::from_bits(std::apply(enum_values_to_bitset, c));
     }
 
