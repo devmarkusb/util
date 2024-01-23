@@ -45,10 +45,9 @@ public:
         : bits_{enum_values_to_bitset(enum_values...)} {
     }
 
-    EnumBitset& operator=(EnumType enum_value) noexcept {
-        bits_ = enum_value_to_bitset(enum_value);
-        return *this;
-    }
+    // can't support this, as it would break {} assignment, which should be deduced as of EnumBitset instead of
+    // EnumType, at least too complicated, might need to provide all the constructors
+    // EnumBitset& operator=(EnumType enum_value) noexcept;
 
     static constexpr EnumBitset from_bits(SizeType bits) noexcept {
         EnumBitset res;

@@ -60,7 +60,7 @@ TEST(EnumBitSet, assignment) {
     bitset2 = bitset;
     EXPECT_EQ(bitset, bitset2);
 
-    bitset2 = Ex1::first;
+    bitset2 = Ex1Bitset{Ex1::first};
     EXPECT_TRUE((bitset2 & Ex1::first) == bitset2);
 }
 
