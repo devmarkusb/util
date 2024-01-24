@@ -1,5 +1,6 @@
 #include "ul/transformation.h"
 #include "ul/assert.h"
+#include "ul/gtest_utils.h"
 
 #include "gtest/gtest.h"
 
@@ -335,6 +336,7 @@ TEST(orbit_dumpTest, test) {
 }
 
 TEST(orbit_dumpTest, dumps) {
+    ul::dump_test_name();
     orbit_dump(std::cout, transf_ex_terminating_orbit, transf_ex_terminating_orbit_pred, "transf_ex_terminating_orbit");
     orbit_dump(
         std::cout, transf_ex_non_terminating_orbit,

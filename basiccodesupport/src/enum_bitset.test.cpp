@@ -1,4 +1,5 @@
 #include "ul/enum_bitset.h"
+#include "ul/gtest_utils.h"
 #include "ul/std/array.h"
 
 #include "gtest/gtest.h"
@@ -119,6 +120,15 @@ TEST(EnumBitSet, fromBits) {
     const Ex1Bitset bitset{Ex1::third, Ex1::second};
     const auto bitset2{Ex1Bitset::from_bits(Ex1Bitset{Ex1::third}.bits() | Ex1Bitset{Ex1::second}.bits())};
     EXPECT_EQ(bitset, bitset2);
+}
+
+TEST(EnumBitSet, out) {
+    const Ex1Bitset bitset{Ex1::third, Ex1::second};
+    std::stringstream ss;
+    EXPECT_NO_FATAL_FAILURE(ss << bitset);
+    EXPECT_NE(std::stoull(ss.str()), 0);
+    ul::dump_test_name();
+    std::cout << bitset;
 }
 
 enum class SignedEnum : int8_t {

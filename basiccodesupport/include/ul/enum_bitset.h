@@ -3,12 +3,11 @@
 #ifndef ENUM_BITSET_H_KJVIUEBVIUBVOIU6542IGOI
 #define ENUM_BITSET_H_KJVIUEBVIUBVOIU6542IGOI
 
-#include "assert.h"
 #include "bits.h"
 #include "concepts.h"
 #include "enum_cast.h"
-#include "foundations.h"
 #include "ul/config.h"
+#include <ostream>
 #if __has_include(<concepts> )
 #include <concepts>
 #endif
@@ -148,6 +147,12 @@ public:
         return rhs ^ lhs;
     }
 
+    friend constexpr std::ostream& operator<<(std::ostream& os, const EnumBitset& a) noexcept {
+        // +? trick, ensuring number format, no ascii chars for int8_t e.g.
+        os << +a.bits_;
+        return os;
+    }
+
 private:
     SizeType bits_{};
 
@@ -156,7 +161,7 @@ private:
     }
 
     // lambda because of use with apply
-    static constexpr auto enum_values_to_bitset{[](auto... enum_values) noexcept -> SizeType {
+    static constexpr auto enum_values_to_bitset{[](EnumConcept auto... enum_values) noexcept -> SizeType {
         using FirstType = std::tuple_element_t<0, std::tuple<decltype(enum_values)...>>;
         static_assert(EnumConcept<FirstType>);
         static_assert(AllOf<FirstType, decltype(enum_values)...>);

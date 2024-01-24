@@ -1,6 +1,7 @@
 #include "ul/bits.h"
 #include "ul/assert.h"
 #include "ul/enum_cast.h"
+#include "ul/gtest_utils.h"
 #include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 #include <type_traits>
@@ -441,6 +442,7 @@ TEST(bits_Field, overflow) {
 }
 
 TEST(bits_isBigEndian, basics) {
+    ul::dump_test_name();
     std::cout << "is_bigendian: " << ul::bits::is_bigendian() << "\n";
 }
 
