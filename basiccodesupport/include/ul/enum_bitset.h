@@ -47,6 +47,7 @@ public:
     template <EnumConcept... EnumTypeArgs>
     constexpr explicit(!experimental_implicit) EnumBitset(EnumTypeArgs... enum_values) noexcept
         : bits_{enum_values_to_bitset(enum_values...)} {
+        static_assert(AllOf<EnumType, EnumTypeArgs...>);
     }
 
     // can't support this, as it would break {} assignment, which should be deduced as of type EnumBitset instead of
@@ -177,9 +178,7 @@ private:
 
     // lambda because of use with apply
     static constexpr auto enum_values_to_bitset{[](EnumConcept auto... enum_values) noexcept -> SizeType {
-        using FirstType = std::tuple_element_t<0, std::tuple<decltype(enum_values)...>>;
-        static_assert(EnumConcept<FirstType>);
-        static_assert(AllOf<FirstType, decltype(enum_values)...>);
+        static_assert(AllOf<EnumType, decltype(enum_values)...>);
         return ((enum_value_to_bitset(enum_values)) | ...);
     }};
 };
