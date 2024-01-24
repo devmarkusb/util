@@ -144,11 +144,14 @@ TEST(EnumBitSet, out) {
     ul::dump_test_name();
     const Ex1Bitset bitset{Ex1::third, Ex1::second};
     std::stringstream ss;
-    EXPECT_NO_FATAL_FAILURE(ss << bitset);
+    ASSERT_NO_FATAL_FAILURE(ss << bitset);
     EXPECT_NE(std::stoull(ss.str()), 0);
+    EXPECT_FALSE(bitset.is_single());
     std::cout << bitset << "\n";
+    std::cout << "\n";
     const Ex1Bitset bitset2{Ex1::second};
     std::cout << bitset2 << "\n";
+    ASSERT_TRUE(bitset2.is_single());
     const auto e{static_cast<Ex1Bitset::EnumT>(bitset2)};
     std::cout << e;
 }
