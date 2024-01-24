@@ -8,6 +8,7 @@
 #include "ul/std/std_ext_filesystem.h"
 #undef UL_STD_EXT_FILESYSTEM_FORCE_OWN_IMPL
 #include "ul/finally.h"
+#include "ul/gtest_utils.h"
 #include "ul/macros.h"
 #include "gtest/gtest.h"
 #include <algorithm>
@@ -341,6 +342,7 @@ TEST_F(PhysicalFilesystemTest, remove__dir_existence) {
 }
 
 TEST_F(PhysicalFilesystemTest, current_path__get_set) {
+    ul::dump_test_name();
     std::error_code ec;
     const auto orig = fs::current_path(ec);
     ASSERT_FALSE(ec);

@@ -1,4 +1,5 @@
 #include "ul/profiler.h"
+#include "ul/gtest_utils.h"
 #include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 #include <thread>
@@ -63,6 +64,7 @@ TEST(ToFormattedStringTest, Inf) {
 
 // NOLINTBEGIN
 TEST(DISABLED_DumpAllItemsTest, PracticalScenario) {
+    ul::dump_test_name();
     ul::PerformanceProfiler perfscope0("1. 500ms");
     EXPECT_NEAR(0.0, perfscope0.elapsed_current_item(), 0.02);
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
