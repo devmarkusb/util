@@ -329,6 +329,7 @@ using Bits64 = bits::Array<64, uint64_t>;
 // NOLINTEND
 
 // NOLINTBEGIN
+//! Gets you the unsigned type with at least the required amount least_nr_of_bits of bits.
 template <bits::Count least_nr_of_bits>
     requires(least_nr_of_bits <= 64)
 using TypeLeast = std::conditional_t<
