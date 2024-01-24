@@ -14,6 +14,24 @@ enum class Ex1 : uint8_t {
     end
 };
 
+std::ostream& operator<<(std::ostream& os, Ex1 e) {
+    switch (e) {
+        case Ex1::first:
+            os << "first";
+            break;
+        case Ex1::second:
+            os << "second";
+            break;
+        case Ex1::third:
+            os << "third";
+            break;
+        default:
+            os << "?";
+            break;
+    }
+    return os;
+}
+
 using Ex1Bitset = EnumBitset<Ex1>;
 
 TEST(EnumBitSet, construction) {
@@ -91,7 +109,7 @@ TEST(EnumBitSet, operators) {
 
     EXPECT_NE(bitset2, bitset3);
 
-    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(~static_cast<Ex1Bitset::UnderlyingType>(0)));
+    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(~static_cast<Ex1Bitset::UnderlyingT>(0)));
 }
 
 TEST(EnumBitSet, comparisons) {
@@ -123,12 +141,16 @@ TEST(EnumBitSet, fromBits) {
 }
 
 TEST(EnumBitSet, out) {
+    ul::dump_test_name();
     const Ex1Bitset bitset{Ex1::third, Ex1::second};
     std::stringstream ss;
     EXPECT_NO_FATAL_FAILURE(ss << bitset);
     EXPECT_NE(std::stoull(ss.str()), 0);
-    ul::dump_test_name();
-    std::cout << bitset;
+    std::cout << bitset << "\n";
+    const Ex1Bitset bitset2{Ex1::second};
+    std::cout << bitset2 << "\n";
+    const auto e{static_cast<Ex1Bitset::EnumT>(bitset2)};
+    std::cout << e;
 }
 
 enum class SignedEnum : int8_t {
