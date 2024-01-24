@@ -30,8 +30,8 @@ namespace mb::ul {
     Note, you should not strive for supporting bitwise combinations for any enum type to use them flag-like. It makes
     sense to keep the ordinary enum a separate type, representing only one single value exclusively.*/
 template <
-    EnumConcept EnumType, std::integral SizeType = TypeLeast<enum_cast(EnumType::end)>,
-    bool experimental_implicit = false>
+    EnumConcept EnumType, bool experimental_implicit = false,
+    std::integral SizeType = TypeLeast<enum_cast(EnumType::end)>>
     requires requires { EnumType::end; }
 class EnumBitset {
 public:

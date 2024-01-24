@@ -186,7 +186,7 @@ TEST(EnumBitSet, size) {
     const EnumBitset<Ex2> bitset{Ex2::third};
     EXPECT_TRUE((bitset & Ex2::third) == bitset);
 
-    const EnumBitset<Ex2, uint16_t> bitset2{Ex2::third};
+    const EnumBitset<Ex2, false, uint16_t> bitset2{Ex2::third};
     EXPECT_TRUE((bitset2 & Ex2::third) == bitset2);
 
     // not representable in uint8_t anymore - try, won't compile
@@ -195,7 +195,7 @@ TEST(EnumBitSet, size) {
 #else
     using S = uint8_t;
 #endif
-    const EnumBitset<Ex3, S> bitset3{Ex3::third};
+    const EnumBitset<Ex3, false, S> bitset3{Ex3::third};
     EXPECT_TRUE((bitset3 & Ex3::third) == bitset3);
 }
 
