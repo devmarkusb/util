@@ -102,12 +102,14 @@ inline void UL_ASSERT_THROW_IMPL(
                 .c_str()};
 }
 #else
+// NOLINTBEGIN
 #define UL_ASSERT_THROW_IMPL(cond, textstart) \
     do { \
         if (!(cond)) \
             throw ul::FailFast{textstart " " __FILE__ ": " UL_STRINGIFY_VALUE(__LINE__)}; \
     } while (false)
 #endif
+// NOLINTEND
 
 #ifdef UL_ASSERT_ALWAYS_THROWING
 #undef UL_ASSERT_IMPL
@@ -122,6 +124,7 @@ inline void UL_ASSERT_THROW_IMPL(
 #ifdef UL_ASSERT_SLEEP_DISABLE
 #define UL_ASSERT_SLEEP_IMPL(cond) UL_ASSERT_IMPL(cond)
 #else
+// NOLINTBEGIN
 #define UL_ASSERT_SLEEP_IMPL(cond) \
     do { \
         for (;;) { \
@@ -129,16 +132,19 @@ inline void UL_ASSERT_THROW_IMPL(
         } \
     } while (false)
 #endif
+// NOLINTEND
 
 #ifdef UL_ASSERT_TERMINATE_DISABLE
 #define UL_ASSERT_TERMINATE_IMPL(cond) UL_ASSERT_IMPL(cond)
 #else
+// NOLINTBEGIN
 #define UL_ASSERT_TERMINATE_IMPL(cond) \
     do { \
         if (!(cond)) \
             std::terminate(); \
     } while (false)
 #endif
+// NOLINTEND
 
 
 //####################################################################################################################

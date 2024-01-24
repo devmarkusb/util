@@ -7,6 +7,7 @@
 #include "concepts.h"
 #include "enum_cast.h"
 #include "ul/config.h"
+#include "ul/math.h"
 #include <ostream>
 #if __has_include(<concepts> )
 #include <concepts>
@@ -33,7 +34,8 @@ class EnumBitset {
 public:
     static_assert(enum_cast(EnumType::end) <= sizeof(SizeType) * bits::bits_per_byte);
 
-    using UnderlyingType = SizeType;
+    using EnumT = EnumType;
+    using UnderlyingT = SizeType;
 
     // needed for a pack expansion to terminate (presumably because of constexpr, if not yet default for constr.)
     constexpr EnumBitset() noexcept = default;
@@ -56,6 +58,16 @@ public:
 
     static constexpr EnumBitset from_range(const Range auto& c) noexcept {
         return EnumBitset::from_bits(std::apply(enum_values_to_bitset, c));
+    }
+
+    //! Cast back to enum type if ensured that only a single value is contained, cf. is_single.
+    explicit(!experimental_implicit) operator EnumType() const {
+        UL_EXPECT_THROW(math::is_power_of_two(bits_));
+        return ul::enum_cast<EnumType>(bits_);
+    }
+
+    [[nodiscard]] constexpr bool is_single() const noexcept {
+        return math::is_power_of_two(bits_);
     }
 
     constexpr void clear() noexcept {
@@ -104,8 +116,8 @@ public:
         return EnumBitset::from_bits(lhs.bits_ ^ rhs.bits_);
     }
 
-    friend constexpr EnumBitset operator~(const EnumBitset& a) noexcept {
-        return EnumBitset::from_bits(~a.bits_);
+    friend constexpr EnumBitset operator~(const EnumBitset& b) noexcept {
+        return EnumBitset::from_bits(~b.bits_);
     }
 
     constexpr EnumBitset operator&=(const EnumType& rhs) noexcept {
@@ -147,9 +159,9 @@ public:
         return rhs ^ lhs;
     }
 
-    friend constexpr std::ostream& operator<<(std::ostream& os, const EnumBitset& a) noexcept {
+    friend constexpr std::ostream& operator<<(std::ostream& os, const EnumBitset& b) noexcept {
         // +? trick, ensuring number format, no ascii chars for int8_t e.g.
-        os << +a.bits_;
+        os << +b.bits_;
         return os;
     }
 
