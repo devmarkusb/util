@@ -446,4 +446,17 @@ TEST(bits_isBigEndian, basics) {
     std::cout << "is_bigendian: " << ul::bits::is_bigendian() << "\n";
 }
 
+TEST(TypeLeast, basics) {
+    // not compiling
+#if 0
+    static_assert(std::same_as<ul::TypeLeast<65>, uint_least64_t>);
+#endif
+    static_assert(std::same_as<ul::TypeLeast<64>, uint_least64_t>);
+    static_assert(std::same_as<ul::TypeLeast<63>, uint_least64_t>);
+    static_assert(std::same_as<ul::TypeLeast<33>, uint_least64_t>);
+    static_assert(std::same_as<ul::TypeLeast<17>, uint_least32_t>);
+    static_assert(std::same_as<ul::TypeLeast<9>, uint_least16_t>);
+    static_assert(std::same_as<ul::TypeLeast<8>, uint_least8_t>);
+}
+
 // NOLINTEND
