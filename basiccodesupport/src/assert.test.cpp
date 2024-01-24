@@ -1,5 +1,6 @@
 // VLD detects lots of memory leaks for this file (unclear)
 #include "ul/assert.h"
+#include "ul/gtest_utils.h"
 #include "ul/warnings.h"
 #include "gtest/gtest.h"
 #include <exception>
@@ -109,7 +110,7 @@ void f2() {
 } // namespace
 
 TEST(AssertThrowTest, stacktrace) {
-    std::cout << ::testing::UnitTest::GetInstance()->current_test_info()->name() << " test:\n";
+    ul::dump_test_name();
     try {
         f1();
     } catch (const ul::FailFast& e) {

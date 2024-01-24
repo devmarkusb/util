@@ -48,7 +48,7 @@ struct FailFast : std::runtime_error {
 #if __cpp_lib_stacktrace
         std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
 #else
-        message
+        std::string{message}.append("\n")
 #endif
     }
 

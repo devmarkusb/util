@@ -1,4 +1,5 @@
 #include "ul/matrix.h"
+#include "ul/gtest_utils.h"
 
 #include "gtest/gtest.h"
 
@@ -15,6 +16,7 @@ constexpr auto row_vec2{ul::Matrix<Int, 1, 2>{{{5, 10}}}};
 } // namespace
 
 TEST(multiply, tests) {
+    ul::dump_test_name();
     using ul::operator<<;
     using ul::operator*;
     std::cout << col_vec1 << "\n";
@@ -35,6 +37,7 @@ TEST(multiply, tests) {
 
 // aka social_net_paths
 TEST(power_semigroup, transitive_closure) {
+    ul::dump_test_name();
     constexpr auto dim{7};
     using ElemT = bool;
     using Matrix = ul::Matrix<ElemT, dim, dim>;
@@ -76,6 +79,7 @@ TEST(power_semigroup, transitive_closure) {
 
 // aka shortest_length
 TEST(power_semigroup, transitive_closure2) {
+    ul::dump_test_name();
     constexpr auto dim{7};
     constexpr auto inf{ul::Tropical::inf};
     using Matrix = ul::Matrix<ul::Tropical, dim, dim>;
