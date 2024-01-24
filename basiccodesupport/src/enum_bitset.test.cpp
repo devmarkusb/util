@@ -35,7 +35,7 @@ std::ostream& operator<<(std::ostream& os, Ex1 e) {
 using Ex1Bitset = EnumBitset<Ex1>;
 
 TEST(EnumBitSet, construction) {
-    Ex1Bitset bitset;
+    const Ex1Bitset bitset;
     EXPECT_FALSE(bitset & Ex1::first);
     EXPECT_FALSE(bitset);
     EXPECT_FALSE(bitset.count());
@@ -56,7 +56,7 @@ TEST(EnumBitSet, construction) {
     EXPECT_EQ(bitset3.count(), 2);
     EXPECT_TRUE(bitset3.bits());
 
-    Ex1Bitset bitset4{bitset3};
+    const Ex1Bitset bitset4{bitset3};
     EXPECT_EQ(bitset3, bitset4);
 
     bitset3.clear();
@@ -73,7 +73,7 @@ TEST(EnumBitSet, construction) {
 }
 
 TEST(EnumBitSet, assignment) {
-    Ex1Bitset bitset{Ex1::third, Ex1::second};
+    const Ex1Bitset bitset{Ex1::third, Ex1::second};
     Ex1Bitset bitset2;
 
     bitset2 = bitset;
@@ -84,12 +84,12 @@ TEST(EnumBitSet, assignment) {
 }
 
 TEST(EnumBitSet, operators) {
-    Ex1Bitset bitset;
+    const Ex1Bitset bitset;
     EXPECT_FALSE(bitset);
 
-    Ex1Bitset bitset2{Ex1::third};
+    const Ex1Bitset bitset2{Ex1::third};
 
-    Ex1Bitset bitset3{Ex1::third, Ex1::second};
+    const Ex1Bitset bitset3{Ex1::third, Ex1::second};
 
     EXPECT_EQ(bitset2 & Ex1::second, bitset);
     EXPECT_EQ(Ex1::second & bitset2, bitset);
@@ -113,14 +113,14 @@ TEST(EnumBitSet, operators) {
 }
 
 TEST(EnumBitSet, comparisons) {
-    Ex1Bitset bitset{Ex1::first};
-    Ex1Bitset bitset2{Ex1::second, Ex1::third};
+    const Ex1Bitset bitset{Ex1::first};
+    const Ex1Bitset bitset2{Ex1::second, Ex1::third};
     EXPECT_NE(bitset, bitset2);
     EXPECT_TRUE(bitset < bitset2 || bitset > bitset2);
     EXPECT_TRUE(bitset <= bitset2 || bitset >= bitset2);
     EXPECT_FALSE((bitset <=> bitset2) == std::strong_ordering::equal);
 
-    auto bitset3{bitset2};
+    const auto bitset3{bitset2};
     EXPECT_EQ(bitset3, bitset2);
     EXPECT_FALSE(bitset3 < bitset2 || bitset3 > bitset2);
     EXPECT_TRUE(bitset3 <= bitset2 && bitset3 >= bitset2);
@@ -160,7 +160,7 @@ enum class SignedEnum : int8_t {
 };
 
 TEST(EnumBitSet, signedEnum) {
-    EnumBitset<SignedEnum> bitset{SignedEnum::pos};
+    const EnumBitset<SignedEnum> bitset{SignedEnum::pos};
     EXPECT_TRUE(bitset);
     EXPECT_TRUE((bitset & SignedEnum::pos) == bitset);
 }
@@ -180,10 +180,10 @@ enum class Ex3 : uint8_t {
 };
 
 TEST(EnumBitSet, size) {
-    EnumBitset<Ex2> bitset{Ex2::third};
+    const EnumBitset<Ex2> bitset{Ex2::third};
     EXPECT_TRUE((bitset & Ex2::third) == bitset);
 
-    EnumBitset<Ex2, uint16_t> bitset2{Ex2::third};
+    const EnumBitset<Ex2, uint16_t> bitset2{Ex2::third};
     EXPECT_TRUE((bitset2 & Ex2::third) == bitset2);
 
     // not representable in uint8_t anymore - try, won't compile
@@ -192,6 +192,22 @@ TEST(EnumBitSet, size) {
 #else
     using S = uint8_t;
 #endif
-    EnumBitset<Ex3, S> bitset3{Ex3::third};
+    const EnumBitset<Ex3, S> bitset3{Ex3::third};
     EXPECT_TRUE((bitset3 & Ex3::third) == bitset3);
+}
+
+// to estimate what can happen if someone confuses the empty bitset with equally interpretable enum values
+enum class Ex4 : uint8_t {
+    unknown,
+    not_set,
+    first,
+    second,
+    third,
+    end
+};
+
+TEST(EnumBitSet, emptyness) {
+    const EnumBitset<Ex4> bitset;
+    const EnumBitset<Ex4> bitset2{Ex4::unknown};
+    EXPECT_NE(bitset, bitset2);
 }
