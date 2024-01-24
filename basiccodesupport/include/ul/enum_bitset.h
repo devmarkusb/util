@@ -48,7 +48,7 @@ public:
         : bits_{enum_values_to_bitset(enum_values...)} {
     }
 
-    // can't support this, as it would break {} assignment, which should be deduced as of EnumBitset instead of
+    // can't support this, as it would break {} assignment, which should be deduced as of type EnumBitset instead of
     // EnumType, at least too complicated, might need to provide all the constructors
     // EnumBitset& operator=(EnumType enum_value) noexcept;
 
