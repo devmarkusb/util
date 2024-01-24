@@ -15,18 +15,20 @@
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {
-/** Wrap your enum EnumType into a type allowing logical combinations of the enum's elements by mapping the enum
-    enum_values to bit positions (starting with LSB). Requirements: The enum must contain an element called `end` being
-    the last one (having a enum_value greater than everyone else). The enum_value of `end` needs to be less than or
-    equal the number of bits within type SizeType plus 1. The enum should not contain enum_values smaller than 0 (at
-    least you have to take care yourself, that you don't do manipulations with it with this class). It is allowed to
-    contain gaps though.
-    Special case: the end enum_value could in principle be identified with 'empty' or 'no enum_value' or 0, but for
-    performance reasons it isn't. But you can view it as such, and it is the default initialization also. In follow-up
-    processing you can arrive there by calling clear also. Assigning end won't work.
+/** Wrap your enum EnumType into a type allowing logical combinations of the enum's elements by mapping (all) the enum
+    values to different bit positions (starting with LSB). Note, that the EnumBitset automatically provides an
+    optional-like empty value - the default contruction.
+    Requirements: The enum must contain an element called `end` being the last one (having an enum value greater
+    than everyone else). The enum value of `end` needs to be less than or equal the number of bits within type SizeType.
+    The enum should not contain values smaller than 0 (at least you have to take care yourself, that you don't do
+    manipulations with it with this class). It is allowed to contain gaps though.
+    Special case: the end enum value could in principle be identified with 'empty' or 'no enum_value' or 0, but for
+    performance reasons it isn't. But you can imagine it as such, and it is the default initialization also. In
+    follow-up processing you can arrive there by calling clear or assigning {} again. Assigning end won't work.
+    It is important to know that your very first enum value, despite being 0, does not represent an empty bitset here,
+    but is a proper OR-combinable value.
     Note, you should not strive for supporting bitwise combinations for any enum type to use them flag-like. It makes
-    sense to keep that a separate type, representing only a single value exclusively.
-    */
+    sense to keep the ordinary enum a separate type, representing only one single value exclusively.*/
 template <
     EnumConcept EnumType, std::integral SizeType = std::underlying_type_t<EnumType>, bool experimental_implicit = false>
     requires requires { EnumType::end; }
