@@ -327,6 +327,17 @@ using Bits16 = bits::Array<16, uint16_t>;
 using Bits32 = bits::Array<32, uint32_t>;
 using Bits64 = bits::Array<64, uint64_t>;
 // NOLINTEND
+
+// NOLINTBEGIN
+template <bits::Count least_nr_of_bits>
+    requires(least_nr_of_bits <= 64)
+using TypeLeast = std::conditional_t<
+    (least_nr_of_bits > 8),
+    std::conditional_t<
+        (least_nr_of_bits > 16), std::conditional_t<(least_nr_of_bits > 32), uint_least64_t, uint_least32_t>,
+        uint_least16_t>,
+    uint_least8_t>;
+// NOLINTEND
 } // namespace mb::ul
 
 #endif
