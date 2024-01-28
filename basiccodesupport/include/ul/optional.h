@@ -64,12 +64,12 @@ struct [[deprecated("use std::optional")]] Opt {
         : holder_(nullptr) {
     }
 
-    explicit Opt(NoneT && /*unused*/)
+    explicit Opt(NoneT&& /*unused*/)
         : holder_(nullptr) {
     }
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    Opt(Opt<T> &&) noexcept = default;
+    Opt(Opt<T>&&) noexcept = default;
     Opt& operator=(Opt<T>&&) noexcept = default;
 #endif
 
@@ -77,7 +77,7 @@ struct [[deprecated("use std::optional")]] Opt {
         : holder_(ul::make_unique<T>(x)) {
     }
 
-    /*implicit*/ Opt(T && x)
+    /*implicit*/ Opt(T&& x)
         : holder_(ul::make_unique<T>(std::move(x))) {
     }
 

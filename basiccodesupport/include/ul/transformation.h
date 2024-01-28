@@ -138,16 +138,16 @@ Domain<F> collision_point_action(Domain<F> x, A f, P p) {
 }
 
 template <Transformation F, UnaryPredicate P>
-    requires std::same_as<Domain<F>, Domain<P>> bool
-terminating(const Domain<F>& x, F f, P p) {
+    requires std::same_as<Domain<F>, Domain<P>>
+bool terminating(const Domain<F>& x, F f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
     return !p(collision_point(x, f, p));
 }
 
 template <
     Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
-    requires std::same_as<Domain<F>, Domain<P>> bool
-terminating_action(Domain<F> x, A f, P p) {
+    requires std::same_as<Domain<F>, Domain<P>>
+bool terminating_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
     return !p(collision_point_action<Arg>(x, f, p));
 }
@@ -185,8 +185,8 @@ bool circular_nonterminating_orbit(const Domain<F>& x, F f) {
 }
 
 template <Transformation F, UnaryPredicate P>
-    requires std::same_as<Domain<F>, Domain<P>> bool
-circular(const Domain<F>& x, F f, P p) {
+    requires std::same_as<Domain<F>, Domain<P>>
+bool circular(const Domain<F>& x, F f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
     const auto y{collision_point(x, f, p)};
     return p(y) && x == f(y);

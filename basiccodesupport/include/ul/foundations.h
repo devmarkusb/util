@@ -37,16 +37,16 @@ inline namespace more_generic {
     us from rightfully. We will provide separate concepts.*/
 template <typename R>
 concept Regular = std::copyable<R> && std::equality_comparable<R> && requires(R a, R b, R c) {
-                                                                         // would be too verbose / duplicated to have the following here (already part of the concepts built upon)
-                                                                         // R{};
-                                                                         // R{a};
-                                                                         // a == a;
-                                                                         // c = a;
-                                                                         UL_SEMANTICS {
-                                                                             c = a, c == a;
-                                                                             !(a == b) || (!(b == c) || a == c);
-                                                                         };
-                                                                     };
+    // would be too verbose / duplicated to have the following here (already part of the concepts built upon)
+    // R{};
+    // R{a};
+    // a == a;
+    // c = a;
+    UL_SEMANTICS {
+        c = a, c == a;
+        !(a == b) || (!(b == c) || a == c);
+    };
+};
 
 template <typename R>
 concept RegularTotallyOrdered = Regular<R> && std::totally_ordered<R>;
@@ -75,8 +75,9 @@ concept FunctionalProcedure = true;
 } // namespace most_generic
 
 template <typename F, typename... Args>
-concept FunctionalProcedure = std::regular_invocable<F, Args...> && !
-std::is_same_v<void, std::invoke_result_t<F, Args...>> && (Regular<Args> && ...) && sizeof...(Args) >= 1;
+concept FunctionalProcedure =
+    std::regular_invocable<F, Args...> && !std::is_same_v<void, std::invoke_result_t<F, Args...>>
+    && (Regular<Args> && ...) && sizeof...(Args) >= 1;
 
 // Remarks on the purpose and implementation of the following traits - where user code needs to define (specialize) the
 // versions with postfix 'Decl', if not provided automatically.
@@ -111,7 +112,11 @@ struct Method<Ret (FctObjType::*)(Args...) const> {
 };
 
 template <typename F>
-concept HasCallOperator = most_generic::FunctionalProcedure<F> && requires(F) { decltype(&F::operator()){}; };
+concept HasCallOperator = most_generic::FunctionalProcedure<F>&&
+    requires(F)
+{
+    decltype(&F::operator()){};
+};
 
 template <most_generic::FunctionalProcedure F>
 using CallOperator = Method<decltype(&F::operator())>;
@@ -216,10 +221,10 @@ concept BinaryOperation = Operation<Op, Domain<Op>, Domain<Op>>;
 
 template <typename Op>
 concept Associative = BinaryOperation<Op> && requires(Op op, ul::Domain<Op> a, ul::Domain<Op> b, ul::Domain<Op> c) {
-                                                 UL_SEMANTICS {
-                                                     op(op(a, b), c) == op(a, op(b, c));
-                                                 };
-                                             };
+    UL_SEMANTICS {
+        op(op(a, b), c) == op(a, op(b, c));
+    };
+};
 } // namespace mb::ul
 #endif
 

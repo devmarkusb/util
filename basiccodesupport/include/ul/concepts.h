@@ -38,15 +38,15 @@ concept Range = std::ranges::range<T>;
 #else
 template <typename T>
 concept Range = requires(T x) {
-                    { x.begin() } -> Dereferenceable;
-                    { x.end() } -> Dereferenceable;
-                };
+    { x.begin() } -> Dereferenceable;
+    { x.end() } -> Dereferenceable;
+};
 #endif
 
 template <typename T>
 concept Container = Range<T> && requires(T x) {
-                                    { x.size() } -> std::integral;
-                                };
+    { x.size() } -> std::integral;
+};
 
 // not a concept, but no better place
 template <typename>
