@@ -10,8 +10,8 @@ namespace mb::ul::idx {
 // in order to use C++1x board tools to simplify things. But wtf do they expect one should do with the
 // non-compiling snippet of make_integer_sequence?!
 //
-//template <std::size_t... Ints>
-//using index_sequence = std::integer_sequence<std::size_t, Ints...>;
+//template <size_t... Ints>
+//using index_sequence = std::integer_sequence<size_t, Ints...>;
 //
 //template<class T, T N>
 //using make_integer_sequence = std::integer_sequence<T, /* a sequence 0, 1, 2, ..., N-1 */ >;

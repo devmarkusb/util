@@ -223,31 +223,6 @@
 #define UL_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS 0
 #endif
 
-#if 0 // UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800
-#define UL_HAS_NO_ACCUMULATE_ALG 1
-#else
-#define UL_HAS_NO_ACCUMULATE_ALG 0
-#endif
-
-#if (UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300) || (UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER <= 60201)
-#define UL_HAS_NO_CPP14_MAKE_UNIQUE 1 // shame on you
-#else
-#define UL_HAS_NO_CPP14_MAKE_UNIQUE 0
-#endif
-
-#if (UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300) || (UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER <= 40900) \
-    || (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1914)
-#define UL_HAS_NO_CODECVT 1
-#else
-#define UL_HAS_NO_CODECVT 0
-#endif
-
-#if (UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300) || (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1900)
-#define UL_HAS_NO_CONSTEXPR_STD_RATIO 1
-#else
-#define UL_HAS_NO_CONSTEXPR_STD_RATIO 0
-#endif
-
 #if __SIZEOF_WCHAR_T__ == 4 || __WCHAR_MAX__ > 0x10000
 #define UL_SIZEOF_WCHAR_T 4
 static_assert(sizeof(wchar_t) == 4, "You might adapt the above conditionals to your platform");

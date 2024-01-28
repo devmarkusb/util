@@ -23,7 +23,7 @@ struct NarrowingError : public std::exception {};
 template <class T, class U>
 T narrow(U u) {
     static_assert(
-        !(std::is_floating_point<T>::value && std::is_floating_point<U>::value),
+        !(std::is_floating_point_v<T> && std::is_floating_point_v<U>),
         "narrow expects at least one of the casting types to be non floating point. Use narrow_cast instead.");
     T t = narrow_cast<T>(u);
     if (!ul::almost_equal_alltypes(static_cast<U>(t), u))

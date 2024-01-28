@@ -1,5 +1,6 @@
 #include "ul/string/str_convert.h"
 #include "gtest/gtest.h"
+#include <iterator>
 #include <string>
 
 namespace ul = mb::ul;

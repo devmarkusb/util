@@ -4,6 +4,7 @@
 #include "ul/assert.h"
 #include "ul/error.h"
 #include "ul/mem/compiler_quirks.h"
+#include "ul/mem/types.h"
 #include <iostream>
 #include <vector>
 
@@ -19,8 +20,8 @@ int main() {
         UL_ASSERT_THROW(memstats.delete_calls() == 0);
         UL_ASSERT_THROW(memstats.peak_size() == ul::mem::Bytes{});
 
-        std::size_t exp_new_calls{};
-        std::size_t exp_delete_calls{};
+        size_t exp_new_calls{};
+        size_t exp_delete_calls{};
         ul::mem::Bytes exp_peak_size{};
         constexpr auto n10{10};
         constexpr auto b44{44};

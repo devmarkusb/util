@@ -4,7 +4,7 @@
 
 namespace ul = mb::ul;
 
-void* operator new(std::size_t size_in_bytes) {
+void* operator new(size_t size_in_bytes) {
     auto* const p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(ul::mem::StatsHeader) + size_in_bytes)); // NOLINT
     if (!p)
         throw std::bad_alloc{};
@@ -12,7 +12,7 @@ void* operator new(std::size_t size_in_bytes) {
     return p + sizeof(ul::mem::StatsHeader); // NOLINT
 }
 
-void* operator new[](std::size_t size_in_bytes) {
+void* operator new[](size_t size_in_bytes) {
     auto* const p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(ul::mem::StatsHeader) + size_in_bytes)); // NOLINT
     if (!p)
         throw std::bad_alloc{};
