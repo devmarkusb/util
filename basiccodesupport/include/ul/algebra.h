@@ -57,19 +57,18 @@ concept MultiplicativeSemigroup = Semigroup<std::multiplies<SetT>>;
 
 template <typename Op>
 concept MonoidOperation = SemigroupOperation<Op> && requires(Op op, Domain<Op> a, Domain<Op> identity) {
-                                                        UL_SEMANTICS {
-                                                            op(identity, a) == identity;
-                                                            op(a, identity) == identity;
-                                                        };
-                                                    };
+    UL_SEMANTICS {
+        op(identity, a) == identity;
+        op(a, identity) == identity;
+    };
+};
 
 template <typename Op>
-concept CommutativeMonoidOperation =
-    MonoidOperation<Op> && requires(Op op, Domain<Op> a, Domain<Op> b) {
-                               UL_SEMANTICS {
-                                   op(a, b) == op(b, a);
-                               };
-                           };
+concept CommutativeMonoidOperation = MonoidOperation<Op> && requires(Op op, Domain<Op> a, Domain<Op> b) {
+    UL_SEMANTICS {
+        op(a, b) == op(b, a);
+    };
+};
 
 template <typename Op>
 concept Monoid = MonoidOperation<Op>;
@@ -87,13 +86,12 @@ template <typename Op>
 concept GroupOperation = MonoidOperation<Op>;
 
 template <typename Op>
-concept GroupInverseOperation =
-    Set<Domain<Op>> && UnaryOperation<Op> && requires(Op op, Domain<Op> a) {
-                                                 { op(a) } -> std::convertible_to<Domain<Op>>;
-                                                 UL_SEMANTICS {
-                                                     op(op(a)) == a;
-                                                 };
-                                             };
+concept GroupInverseOperation = Set<Domain<Op>> && UnaryOperation<Op> && requires(Op op, Domain<Op> a) {
+    { op(a) } -> std::convertible_to<Domain<Op>>;
+    UL_SEMANTICS {
+        op(op(a)) == a;
+    };
+};
 
 template <typename Op, typename InverseOp>
 concept Group = GroupOperation<Op> && GroupInverseOperation<InverseOp>
@@ -109,10 +107,10 @@ concept NoncommutativeAdditiveGroup = Group<std::plus<SetT>, std::negate<SetT>>;
 
 template <typename SetT>
 concept AdditiveGroup = NoncommutativeAdditiveGroup<SetT> && requires(SetT a, SetT b) {
-                                                                 UL_SEMANTICS {
-                                                                     a + b == b + a;
-                                                                 };
-                                                             };
+    UL_SEMANTICS {
+        a + b == b + a;
+    };
+};
 
 /** Borderline, works for arithmetic types but enforces general Regular to provide a constructor accepting integer 1
     to produce the multiplicative identity element.*/

@@ -20,10 +20,10 @@ using Matrix = std::array<std::array<ElemT, n>, m>;
 
 template <typename MatrixT, typename ElemT>
 concept MatrixLike = requires(MatrixT m, size_t r, size_t c) {
-                         m[r];
-                         m[r][c];
-                         requires std::is_same_v<std::remove_cvref_t<decltype(m[r][c])>, ElemT>;
-                     };
+    m[r];
+    m[r][c];
+    requires std::is_same_v<std::remove_cvref_t<decltype(m[r][c])>, ElemT>;
+};
 
 // Not yet useful. Even problematic in the difficulty of inferring template parameters.
 //template <typename MatrixT, typename ElemT, size_t m, size_t n>
