@@ -47,7 +47,7 @@ void common_vector_test(Vector&& v) {
 }
 
 template <typename Map>
-void common_map_test(Map&& m) {
+void common_map_test(Map& m) {
     EXPECT_TRUE(m.empty());
     m[0] = "0";
     EXPECT_EQ(m.size(), 1);

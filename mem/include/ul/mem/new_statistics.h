@@ -72,7 +72,7 @@ static_assert(alignof(StatsHeader) == alignof(uintmax_t) || alignof(StatsHeader)
 
 class Statistics {
 public:
-    static Statistics& instance() noexcept {
+    static Statistics& instance() {
         static Statistics stats;
         return stats;
     }
@@ -134,7 +134,7 @@ private:
     std::atomic<size_t> deallocated_size_{};
     ul::bits::FieldsLookup<StatsHeader::field_count> fields_lookup_{StatsHeader::make_field_lookup()};
 
-    Statistics() noexcept = default;
+    Statistics() = default;
 };
 } // namespace mb::ul::mem
 
