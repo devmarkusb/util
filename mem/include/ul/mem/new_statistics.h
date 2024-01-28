@@ -95,11 +95,11 @@ public:
         sh->~StatsHeader();
     }
 
-    [[nodiscard]] std::size_t new_calls() const noexcept {
+    [[nodiscard]] size_t new_calls() const noexcept {
         return new_calls_.load();
     }
 
-    [[nodiscard]] std::size_t delete_calls() const noexcept {
+    [[nodiscard]] size_t delete_calls() const noexcept {
         return delete_calls_.load();
     }
 
@@ -126,15 +126,15 @@ public:
     }
 
 private:
-    std::atomic<std::size_t> new_calls_{};
-    std::atomic<std::size_t> delete_calls_{};
-    std::atomic<std::size_t> current_size_{};
-    std::atomic<std::size_t> peak_size_{};
-    std::atomic<std::size_t> allocated_size_{};
-    std::atomic<std::size_t> deallocated_size_{};
+    std::atomic<size_t> new_calls_{};
+    std::atomic<size_t> delete_calls_{};
+    std::atomic<size_t> current_size_{};
+    std::atomic<size_t> peak_size_{};
+    std::atomic<size_t> allocated_size_{};
+    std::atomic<size_t> deallocated_size_{};
     ul::bits::FieldsLookup<StatsHeader::field_count> fields_lookup_{StatsHeader::make_field_lookup()};
 
-    Statistics() = default;
+    Statistics() noexcept = default;
 };
 } // namespace mb::ul::mem
 
