@@ -27,12 +27,12 @@ namespace mb::ul {
     };
     } // std*/
 //!@{
-inline size_t hash_combine(std::size_t hash) noexcept {
+inline size_t hash_combine(size_t hash) noexcept {
     return hash;
 }
 
 template <typename... SizeTs>
-inline size_t hash_combine(std::size_t hash1, SizeTs... hashes) noexcept {
+size_t hash_combine(size_t hash1, SizeTs... hashes) noexcept {
     // implemented like boost's hash_combine
     return hash1 ^ (hash_combine(hashes...) + 0x9e3779b9 + (hash1 << 6u) + (hash1 >> 2u)); // NOLINT
 }

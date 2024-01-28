@@ -8,7 +8,7 @@
 
 namespace mb::ul {
 namespace detail {
-template <typename T, std::size_t n, typename Container>
+template <typename T, size_t n, typename Container>
 constexpr T ct_accumulate(const Container& arr, T init_val) {
     T sum{init_val};
 
@@ -20,13 +20,13 @@ constexpr T ct_accumulate(const Container& arr, T init_val) {
 } // namespace detail
 
 //! Compile-time equivalent of std::accumulate at least for array.
-template <typename T, std::size_t n>
+template <typename T, size_t n>
 constexpr T ct_accumulate(const std::array<T, n>& arr, T init_val) {
     return detail::ct_accumulate<T, n>(arr, init_val);
 }
 
 //! C-array version. Cf. other ct_accumulate.
-template <typename T, std::size_t n>
+template <typename T, size_t n>
 constexpr T ct_accumulate(const T (&arr)[n], T init_val) // NOLINT
 {
     return detail::ct_accumulate<T, n>(arr, init_val);

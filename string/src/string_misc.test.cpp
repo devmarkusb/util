@@ -1,5 +1,6 @@
 #include "ul/string/string_misc.h"
 #include "gtest/gtest.h"
+#include <string>
 
 namespace ul = mb::ul;
 
