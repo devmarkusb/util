@@ -2,6 +2,8 @@
 #include "ex-for-test.h"
 
 #include "gtest/gtest.h"
+#include <functional>
+#include <string>
 
 namespace {
 using UInt = unsigned int;
@@ -70,8 +72,8 @@ TEST(semiring, tests) {
         return (a + b) * c;
     }};
 
-    SemiRingOpCommMonoidEx semi_ring_op_comm_monoid_ex{};
-    SemiRingOpMonoidEx semi_ring_op_monoid_ex{};
+    const SemiRingOpCommMonoidEx semi_ring_op_comm_monoid_ex{};
+    const SemiRingOpMonoidEx semi_ring_op_monoid_ex{};
 
     EXPECT_EQ(semi_ring_op_comm_monoid_ex(uint42, uint43), 85);
     EXPECT_EQ(semi_ring_op_comm_monoid_ex(uint43, uint42), 85);

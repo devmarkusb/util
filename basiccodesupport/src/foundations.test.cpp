@@ -6,6 +6,10 @@
 
 #include "gtest/gtest.h"
 #include <string>
+#include <string_view>
+#include <tuple>
+#include <type_traits>
+#include <utility>
 
 namespace {
 const auto int_ex{42};

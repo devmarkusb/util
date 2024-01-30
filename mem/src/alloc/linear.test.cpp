@@ -1,9 +1,8 @@
 #include "ul/mem/alloc/linear.h"
 #include "ul/assert.h"
 #include "ul/ignore_unused.h"
-#include "ul/macros.h"
+#include "ul/mem/types.h"
 #include "gtest/gtest.h"
-#include <cstddef>
 
 namespace ul = mb::ul;
 using ul::mem::Bytes;

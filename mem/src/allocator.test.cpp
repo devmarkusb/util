@@ -6,8 +6,12 @@
 #include "ul/mem/compiler_quirks.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
+#include <functional>
+#include <iostream>
 #include <map>
+#include <new>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace ul = mb::ul;

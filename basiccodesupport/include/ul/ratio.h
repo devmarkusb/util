@@ -16,7 +16,7 @@
 namespace mb::ul::math {
 //! Greatest common divisor. Expects at least on of a, b to be > 0.
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, T>::type gcd(T a, T b) {
+std::enable_if_t<std::is_integral_v<T>, T> gcd(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     T c = 0;
     while (a != 0) {
@@ -29,7 +29,7 @@ typename std::enable_if<std::is_integral<T>::value, T>::type gcd(T a, T b) {
 
 //! Lowest common multiple.
 template <typename T>
-typename std::enable_if<std::is_integral<T>::value, T>::type lcm(T a, T b) {
+std::enable_if_t<std::is_integral_v<T>, T> lcm(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     return a * (b / gcd(a, b));
 }
@@ -103,7 +103,7 @@ struct Rational {
     }
 
     template <typename T>
-    [[nodiscard]] typename std::enable_if<std::is_floating_point<T>::value, T>::type as_floating_point() const {
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T> as_floating_point() const {
         return static_cast<T>(this->num) / static_cast<T>(this->denom);
     }
 

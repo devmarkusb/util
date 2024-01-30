@@ -1,4 +1,5 @@
 #include "ul/ptr.h"
+#include "ul/assert.h"
 #include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
 

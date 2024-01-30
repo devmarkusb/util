@@ -1,1 +1,1 @@
-#include "ul/string/ulstring.h"
+#include "ul/string/ulstring.h" // NOLINT

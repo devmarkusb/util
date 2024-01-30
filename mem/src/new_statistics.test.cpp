@@ -5,6 +5,7 @@
 #include "ul/error.h"
 #include "ul/mem/compiler_quirks.h"
 #include "ul/mem/types.h"
+#include <cstddef>
 #include <iostream>
 #include <vector>
 

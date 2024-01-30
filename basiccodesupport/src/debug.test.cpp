@@ -1,6 +1,8 @@
 // clang-format off
 //#####!!!!! DO NOT change anything from HERE { (actually from the start of the clang format directive above) ######
 #include "ul/debug.h"
+#include <cstddef>
+#include <cstdint>
 #include <string>
 #include "gtest/gtest.h"
 namespace
@@ -77,6 +79,6 @@ TEST(UL_FUNCTIONSIGNTest, test) {
 
 TEST(UL_LOCATIONTest, test) {
     f_with_some_sourcefile_location_info();
-    const size_t pos = g_location_info_of_f_with_some_sourcefile_location_info.find("debug.test.cpp (12)");
+    const size_t pos = g_location_info_of_f_with_some_sourcefile_location_info.find("debug.test.cpp (14)");
     EXPECT_NE(std::string::npos, pos);
 }

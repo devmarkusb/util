@@ -3,7 +3,12 @@
 #include "ul/std/array.h"
 
 #include "gtest/gtest.h"
-#include <array>
+#include <compare>
+#include <cstdint>
+#include <iostream>
+#include <ostream>
+#include <sstream>
+#include <string>
 
 using ul::EnumBitset;
 

@@ -1,5 +1,7 @@
 #include "ul/three_way_compare.h"
 #include "gtest/gtest.h"
+#include <cstdint>
+#include <limits>
 #include <string>
 
 namespace ul = mb::ul;

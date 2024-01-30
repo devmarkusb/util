@@ -2,6 +2,7 @@
 #include "ul/gtest_utils.h"
 #include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
+#include <chrono>
 #include <thread>
 
 TEST(profilerTest, basics) {

@@ -1,8 +1,10 @@
 #include "ul/thread/waitcircbuffer.h"
 #include "gtest/gtest.h"
 #include <atomic>
+#include <mutex>
 #include <set>
 #include <thread>
+#include <vector>
 
 namespace ul = mb::ul;
 

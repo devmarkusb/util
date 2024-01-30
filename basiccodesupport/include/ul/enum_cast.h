@@ -31,19 +31,18 @@ constexpr E enum_cast(std::underlying_type_t<E> value) noexcept {
 
 namespace mb::ul {
 template <typename Enumeration>
-constexpr enable_if_t<std::is_enum<Enumeration>::value, underlying_type_t<Enumeration>> enum_cast(
+constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> enum_cast(
     const Enumeration value) noexcept {
     return static_cast<underlying_type_t<Enumeration>>(value);
 }
 
 template <typename Enumeration>
-constexpr enable_if_t<std::is_enum<Enumeration>::value, Enumeration> enum_cast(
-    const std::integral auto value) noexcept {
+constexpr enable_if_t<std::is_enum_v<Enumeration>, Enumeration> enum_cast(const std::integral auto value) noexcept {
     return static_cast<Enumeration>(value);
 }
 
 template <typename Enumeration>
-constexpr enable_if_t<std::is_enum<Enumeration>::value, underlying_type_t<Enumeration>> as_number(
+constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> as_number(
     const Enumeration value) noexcept {
     return enum_cast<Enumeration>(value);
 }

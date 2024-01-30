@@ -1,5 +1,6 @@
 #include "ul/macros.h"
 #include "gtest/gtest.h"
+#include <string>
 
 TEST(UL_DEBUGTest, test) {
 #ifdef NDEBUG

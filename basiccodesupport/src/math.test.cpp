@@ -10,7 +10,8 @@ UL_WARNING_DISABLE_CLANG(reserved-id-macro)
 UL_WARNING_DISABLE_CLANG(unused-macros)
 // clang-format on
 #define _USE_MATH_DEFINES // NOLINT
-#include <cmath> // needs to be the first include for the upper macro to work
+// needs to be the first include for the upper macro to work
+#include <cmath> // NOLINT
 #undef _USE_MATH_DEFINES
 UL_PRAGMA_WARNINGS_POP
 

@@ -21,8 +21,7 @@ namespace mb::ul::math {
     HINT: a common mistake leading to compiler error is not providing eps with explicit type FloatType, as the
     other params.*/
 template <typename FloatType>
-typename std::enable_if<std::is_floating_point<FloatType>::value, bool>::type approx_equal(
-    FloatType x, FloatType y, FloatType eps) {
+std::enable_if_t<std::is_floating_point_v<FloatType>, bool> approx_equal(FloatType x, FloatType y, FloatType eps) {
     return std::abs(x - y) < eps;
 }
 
@@ -46,8 +45,7 @@ struct ToStringConverter;
     If don't want to pass precision and use a default one (e.g. 6) and use FF default_, just use std::to_string.*/
 template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
-typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(
-    FloatType x, int precision) {
+std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x, int precision) {
     UL_EXPECT(precision >= 0);
     return impl::ToStringConverter<FloatType, ff>::convert(x, precision);
 }
@@ -57,7 +55,7 @@ typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::
     `fixed` meaning fixed count of decimal places and `scientific` an exponential formatting.*/
 template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
-typename std::enable_if<std::is_floating_point<FloatType>::value, std::string>::type to_string(FloatType x) {
+std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x) {
     return impl::ToStringConverter<FloatType, ff>::convert(x);
 }
 
