@@ -13,8 +13,13 @@
 #include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
+#include <iostream>
 #include <string>
+#include <string_view>
+#include <system_error>
 #include <thread>
+#include <vector>
 
 namespace ul = mb::ul;
 namespace fs = ul::std_fs;
