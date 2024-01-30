@@ -12,7 +12,8 @@ namespace mb::ul::str {
 //! Language id type per ISO 639-1 plus an auto/systems choice.
 using LangIdIso6391 = std::string;
 
-const LangIdIso6391 auto_systems_language{"auto"};
+// improvable: constexpr string_view
+const LangIdIso6391 auto_systems_language{"auto"}; // NOLINT
 
 //! Note: if you add to this, don't forget about the other functions in this file.
 inline const std::vector<LangIdIso6391>& get_all_theoretically_possible_lang_i_ds() {

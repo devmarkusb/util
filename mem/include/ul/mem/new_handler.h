@@ -15,10 +15,10 @@ class NewHandlerSupport {
 public:
     //! With this method you can assign a "void OutOfMem()" function to your class.
     /** This is much more convenient than wrapping every new-call in a try block.*/
-    static inline std::new_handler set_new_handler(std::new_handler p);
+    static std::new_handler set_new_handler(std::new_handler p);
 //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
 #undef new
-    static inline void* operator new(size_t size);
+    static void* operator new(size_t size);
 
 private:
     //! Class specific new handler.

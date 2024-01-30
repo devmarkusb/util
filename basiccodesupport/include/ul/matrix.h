@@ -41,7 +41,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix<ElemT, m, n>& matrix) {
     for (decltype(m) i{}; i < m; ++i) {
         os << "[";
         for (decltype(n) j{}; j < n; ++j)
-            os << " " << matrix[i][j];
+            os << " " << matrix[i][j]; // NOLINT
         os << " ]\n";
     }
     return os;
@@ -58,7 +58,7 @@ auto multiply(
     for (decltype(m) i{}; i < m; ++i)
         for (decltype(k) h{}; h < k; ++h)
             for (decltype(n) j{}; j < n; ++j)
-                res[i][j] = inner_add(res[i][j], inner_mul(l[i][h], r[h][j]));
+                res[i][j] = inner_add(res[i][j], inner_mul(l[i][h], r[h][j])); // NOLINT
     return res;
 }
 

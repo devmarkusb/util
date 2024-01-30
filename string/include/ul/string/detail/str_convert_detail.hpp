@@ -104,7 +104,8 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
     // Note that this isn't understood very well.
     // The test under Windows and mingw succeeds for the little_endian choice.
     // It could very well be that this doesn't hold on every platform.
-    using Cc = std::codecvt_utf8_utf16<wchar_t, 0x10ffff, std::little_endian>;
+    constexpr auto max_code{0x10ffff}; // the default
+    using Cc = std::codecvt_utf8_utf16<wchar_t, max_code, std::little_endian>;
     std::wstring_convert<Cc, wchar_t> converter;
 
     return converter.from_bytes(str);
@@ -183,22 +184,23 @@ template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigne
 std::string utf8_to_latin1_range(const std::string& s) {
     std::string ret;
 
+    // magic numbers below, rtfm
     const char* cptr = s.c_str();
     unsigned int ui_codepoint{};
     while (*cptr != 0) {
         const auto uc = static_cast<unsigned char>(*cptr);
-        if (uc <= 0x7f)
+        if (uc <= 0x7f) // NOLINT
             ui_codepoint = uc;
-        else if (uc <= 0xbf)
-            ui_codepoint = (ui_codepoint << 6u) | (uc & 0x3fu);
-        else if (uc <= 0xdf)
-            ui_codepoint = uc & 0x1fu;
-        else if (uc <= 0xef)
-            ui_codepoint = uc & 0x0fu;
+        else if (uc <= 0xbf) // NOLINT
+            ui_codepoint = (ui_codepoint << 6u) | (uc & 0x3fu); // NOLINT
+        else if (uc <= 0xdf) // NOLINT
+            ui_codepoint = uc & 0x1fu; // NOLINT
+        else if (uc <= 0xef) // NOLINT
+            ui_codepoint = uc & 0x0fu; // NOLINT
         else
-            ui_codepoint = uc & 0x07u;
+            ui_codepoint = uc & 0x07u; // NOLINT
         ++cptr;
-        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) {
+        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) { // NOLINT
             bool in_range{ui_codepoint <= to};
             if constexpr (from)
                 in_range = in_range && from <= ui_codepoint;
@@ -220,7 +222,7 @@ std::string utf8_to_latin1_range(const std::string& s) {
 
 template <class OnConversionErrorPolicy>
 std::string utf8_to_latin1(const std::string& s) {
-    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 0, 255>(s);
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 0, std::numeric_limits<unsigned char>::max()>(s);
 }
 
 inline std::string latin1_to_utf8(const std::string& s) {
@@ -229,12 +231,12 @@ inline std::string latin1_to_utf8(const std::string& s) {
     for (const auto& c : s) {
         const auto ui8 = static_cast<uint8_t>(c);
 
-        if (ui8 < 0x80)
+        if (ui8 < 0x80) // NOLINT
             ret.append(1, c);
         else {
-            const auto c_pt1 = 0xc0u | (ui8 & 0xc0u) >> 6u;
+            const auto c_pt1 = 0xc0u | (ui8 & 0xc0u) >> 6u; // NOLINT
             ret.append(1, static_cast<char>(c_pt1));
-            const auto c_pt2 = 0x80u | (ui8 & 0x3fu);
+            const auto c_pt2 = 0x80u | (ui8 & 0x3fu); // NOLINT
             ret.append(1, static_cast<char>(c_pt2));
         }
     }
@@ -243,7 +245,7 @@ inline std::string latin1_to_utf8(const std::string& s) {
 
 template <class OnConversionErrorPolicy>
 std::string utf8_to_printable_ascii(const std::string& s) {
-    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s);
+    return detail_impl::utf8_to_latin1_range<OnConversionErrorPolicy, 32, 126>(s); // NOLINT
 }
 
 inline std::string printable_ascii_to_utf8(const std::string& s) {
@@ -259,7 +261,7 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
         const auto uc = static_cast<unsigned char>(c);
         ret.append(prefix);
         ret.push_back(lut[uc >> 4]);
-        ret.push_back(lut[uc & 15]);
+        ret.push_back(lut[uc & 15]); // NOLINT
     });
     return ret;
 }

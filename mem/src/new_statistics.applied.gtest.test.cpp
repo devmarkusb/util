@@ -1,6 +1,7 @@
 #define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "ul/mem/new_statistics.h"
 #undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
+#include "ul/error.h"
 #include "ul/format_number.h"
 #include "ul/macros.h"
 #include "gtest/gtest.h"
@@ -90,11 +91,15 @@ struct AGlobalDestructor {
 } // namespace
 
 int main(int argc, char** argv) {
-    // Our definition of 'global'. By the way, a real global data's construction and destruction time is beyond
-    // our control, so that would never yield proper new/delete statistics. The next best 3rd party lib will mess
-    // that up, as gtest does at least.
-    // Gtest even leaks 3 deletes and 107 B by the following innocent code.
-    const AGlobalDestructor global;
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    try {
+        // Our definition of 'global'. By the way, a real global data's construction and destruction time is beyond
+        // our control, so that would never yield proper new/delete statistics. The next best 3rd party lib will mess
+        // that up, as gtest does at least.
+        // Gtest even leaks 3 deletes and 107 B by the following innocent code.
+        const AGlobalDestructor global;
+        testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+    } catch (...) {
+        return ul::prog_exit_failure;
+    }
 }
