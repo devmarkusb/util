@@ -3,6 +3,10 @@
 #include "gtest/gtest.h"
 #include <tuple>
 
+#if !UL_COMP_CLANG
+#include "ul/ignore_unused.h"
+#endif
+
 namespace ul = mb::ul;
 
 TEST(type_nameTest, DISABLED_basic) {
