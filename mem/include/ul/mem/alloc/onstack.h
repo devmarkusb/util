@@ -53,7 +53,7 @@ public:
     }
 
     void reset() noexcept {
-        curr_memptr_ = buf_;
+        curr_memptr_ = buf_; // NOLINT
     }
 
 private:

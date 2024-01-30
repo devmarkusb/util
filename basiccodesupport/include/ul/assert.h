@@ -200,7 +200,7 @@ inline void UL_ASSERT_THROW_IMPL(
 
 //! A verify macro for convenience. The passed condition expression will also be evaluated in release builds.
 #if UL_DEBUG
-#define UL_VERIFY(cond) UL_ASSERT(cond)
+#define UL_VERIFY(cond) UL_ASSERT(cond) // NOLINT
 #else
 // It was quite some try and error getting the tests run successfully, which means (cond) not getting optimized away
 // in release build. The assignment to bool lately seemed to be the crucial point; volatile not even necessary.

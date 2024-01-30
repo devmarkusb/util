@@ -64,7 +64,7 @@ inline std::wstring locenc_s2ws(const std::string& s);
 //! 'const_iterator' supported there).
 inline char* s2psz(const std::string& s) {
     const char* tmp(s.c_str());
-    char* psz = const_cast<char*>(tmp);
+    char* psz = const_cast<char*>(tmp); // NOLINT
     return psz;
 }
 
@@ -75,6 +75,7 @@ inline std::string utf8_to_html(const std::string& s) {
     std::string ret;
     ret.reserve(s.size());
     char* psz = s2psz(s);
+    // NOLINTBEGIN
     const utf8::iterator<char*> itend(psz + s.size(), psz, psz + s.size());
     for (utf8::iterator<char*> it(psz, psz, psz + s.size()); it != itend; ++it) {
         if (*it == 0x9 || *it == 0xa || *it == 0xd || (*it >= 0x20 && *it <= 0x7e))
@@ -82,6 +83,7 @@ inline std::string utf8_to_html(const std::string& s) {
         else
             ret += "&#" + ul::to_string(*it) + ";";
     }
+    // NOLINTEND
     return ret;
 }
 
