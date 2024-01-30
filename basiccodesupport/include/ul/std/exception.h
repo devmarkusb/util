@@ -11,7 +11,7 @@ class Capture final {
 public:
     //! Construct the object with the code that may throw an exception but shouldn't yet.
     template <typename Callable, typename... Args>
-    explicit Capture(Callable&& f, Args... args) noexcept {
+    explicit Capture(const Callable& f, Args... args) noexcept {
         try {
             f(args...);
         } catch (...) {

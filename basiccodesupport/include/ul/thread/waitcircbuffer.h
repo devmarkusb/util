@@ -72,20 +72,18 @@ public:
     bool emplace(U&& elem) {
         static_assert(std::is_convertible_v<U, T>);
 
-        ul::ignore_unused(elem);
-        throw ul::NotImplemented{"WaitCircularBuffer::emplace"};
-#if 0
-        {
-            std::unique_lock<std::mutex> lock(mutex_);
-
-            if (Base::buf_.full())
-                return false;
-
-            Base::buf_.emplace(std::forward<U>(elem);
-        }
-        conditionVariable_.notify_one();
-        return true;
-#endif
+        ul::ignore_unused(std::forward<U>(elem));
+        throw NotImplemented{"WaitCircularBuffer::emplace"};
+        // {
+        //     std::unique_lock<std::mutex> lock(mutex_);
+        //
+        //     if (Base::buf_.full())
+        //         return false;
+        //
+        //     Base::buf_.emplace(std::forward<U>(elem);
+        // }
+        // conditionVariable_.notify_one();
+        // return true;
     }
 
     //! \return false if the queue has been stopped (this interrupts waiting even if the queue is empty).

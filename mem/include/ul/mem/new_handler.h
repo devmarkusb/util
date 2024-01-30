@@ -18,7 +18,7 @@ public:
     static std::new_handler set_new_handler(std::new_handler p);
 //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
 #undef new
-    static void* operator new(size_t size);
+    void* operator new(size_t size);
 
 private:
     //! Class specific new handler.

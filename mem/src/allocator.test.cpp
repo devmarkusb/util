@@ -22,7 +22,7 @@ constexpr auto mem100k{100'000};
 } // namespace
 
 template <typename Vector>
-void common_vector_test(Vector&& v) {
+void common_vector_test(Vector& v) {
     // NOLINTBEGIN
     v.reserve(mem100k);
     EXPECT_TRUE(v.empty());

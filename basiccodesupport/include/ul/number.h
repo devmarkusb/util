@@ -38,7 +38,7 @@ T get_digit_count(T number, NumBase base = NumBase::dec) {
     T count = 0;
     do {
         ++count;
-        number /= ul::as_number(base);
+        number /= enum_cast(base);
     } while (number != 0);
     return count;
 }

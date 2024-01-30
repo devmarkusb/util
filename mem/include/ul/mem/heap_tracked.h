@@ -18,20 +18,20 @@ class HeapTracked {
 public:
     virtual ~HeapTracked() = default;
 
-    static void* operator new(size_t size) {
+    void* operator new(size_t size) {
         void* mem_ptr = ::operator new(size);
         addresses().push_front(mem_ptr);
         return mem_ptr;
     }
 
-    static void operator delete(void* ptr) noexcept {
+    void operator delete(void* ptr) noexcept {
         auto it = std::find(addresses().begin(), addresses().end(), ptr);
 
         if (it != addresses().end()) {
             addresses().erase(it);
             ::operator delete(ptr);
         } else {
-            UL_DEBUG_BREAK_IF(false); // missing address!
+            UL_DEBUG_BREAK_IF(true); // missing address!
             std::terminate(); // delete is nothrow since C++11
         }
     }

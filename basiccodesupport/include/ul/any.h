@@ -121,7 +121,7 @@ private:
     };
 
     template <typename T>
-    struct Concrete : public Ibase {
+    struct Concrete : Ibase {
         explicit Concrete(T&& x)
             : value(std::forward<T>(x)) {
         }

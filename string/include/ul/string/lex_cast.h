@@ -19,7 +19,7 @@ class ErrBadLexCast : public std::bad_cast {};
 template <typename T, typename S>
 T lex_cast_throw(const S& s) {
     std::stringstream strs;
-    strs << s;
+    strs << s; // NOLINT
     T t;
     strs >> t;
     if (strs)
