@@ -3,6 +3,7 @@
 #include "ul/floating_point.h"
 #include "ul/warnings.h"
 #include "gtest/gtest.h"
+#include <cmath>
 
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
