@@ -199,7 +199,7 @@ std::string utf8_to_latin1_range(const std::string& s) {
             ui_codepoint = uc & 0x0fu; // NOLINT
         else
             ui_codepoint = uc & 0x07u; // NOLINT
-        ++cptr;
+        ++cptr; // NOLINT
         if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) { // NOLINT
             bool in_range{ui_codepoint <= to};
             if constexpr (from)
@@ -260,7 +260,7 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
     std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {
         const auto uc = static_cast<unsigned char>(c);
         ret.append(prefix);
-        ret.push_back(lut[uc >> 4]);
+        ret.push_back(lut[uc >> 4]); // NOLINT
         ret.push_back(lut[uc & 15]); // NOLINT
     });
     return ret;

@@ -3,6 +3,7 @@
 #include "utf8/core.h"
 #include "gtest/gtest.h"
 #include <cstddef>
+#include <cstdio>
 #include <fstream>
 #include <ios>
 #include <iostream>
@@ -43,7 +44,7 @@ struct CharEncodingFileTest : public ::testing::Test {
 
     void SetUp() override {
         file_path_name_ext_ = "i_can_be_deleted__temp_txt_file_";
-        file_path_name_ext_ += CharEncodingFileTest::counter++;
+        file_path_name_ext_ += counter++;
         file_path_name_ext_ += ".txt";
     }
 
@@ -70,7 +71,7 @@ struct CharEncodingFileTest : public ::testing::Test {
 
 private:
     std::string file_path_name_ext_;
-    static inline char counter{'a'};
+    static inline char counter{'a'}; // NOLINT
 };
 
 TEST_F(CharEncodingFileTest, ASCII) {
