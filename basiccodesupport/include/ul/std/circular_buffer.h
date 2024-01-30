@@ -27,7 +27,7 @@ protected:
     std::array<T, static_capacity> buf_{};
 
     template <typename U, typename Buffer>
-    void emplace(U&& item, Buffer&& buf, size_t head) noexcept {
+    void emplace(U&& item, Buffer& buf, size_t head) noexcept {
         static_assert(std::is_convertible_v<U, T>);
 
         buf[head] = std::forward<U>(item);
@@ -48,7 +48,7 @@ protected:
     }
 
     template <typename U, typename Buffer>
-    void emplace(U&& item, Buffer&& buf, size_t head) {
+    void emplace(U&& item, Buffer& buf, size_t head) {
         static_assert(std::is_convertible_v<U, T>);
 
         auto it = std::begin(buf);

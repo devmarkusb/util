@@ -60,7 +60,7 @@ TEST(alloc_OnStack, dealloc) {
     ul::ignore_unused(p);
     p = reinterpret_cast<Type*>(a.allocate(Bytes{b100 * sizeof(Type)})); // NOLINT
     ul::ignore_unused(p);
-    EXPECT_EQ(a.size(), Bytes{2 * b100 * sizeof(Type)});
+    EXPECT_EQ(a.size(), Bytes{static_cast<size_t>(2 * b100) * sizeof(Type)});
 
     a.reset();
 
