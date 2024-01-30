@@ -13,7 +13,7 @@ class Makestr {
 public:
     template <typename T>
     Makestr& operator<<(const T& data) {
-        buffer_ << data;
+        buffer_ << data; // NOLINT
         return *this;
     }
 

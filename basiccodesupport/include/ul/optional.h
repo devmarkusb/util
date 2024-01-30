@@ -64,7 +64,7 @@ struct [[deprecated("use std::optional")]] Opt {
         : holder_(nullptr) {
     }
 
-    explicit Opt(NoneT&& /*unused*/)
+    explicit Opt(NoneT&& /*unused*/) // NOLINT
         : holder_(nullptr) {
     }
 

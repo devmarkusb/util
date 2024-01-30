@@ -51,10 +51,13 @@ namespace {
 std::string g_sig_of_f_with_some_sig; // NOLINT // just testing, so please don't cry about global data
 } // namespace
 
+// NOLINTBEGIN
 static const int* __cdecl f_with_some_sig(int /*unused*/, bool /*unused*/, int64_t* /*unused*/, bool& /*unused*/) {
-    g_sig_of_f_with_some_sig = UL_FUNCTIONSIGN; // NOLINT
+    g_sig_of_f_with_some_sig = UL_FUNCTIONSIGN;
     return nullptr;
 }
+
+// NOLINTEND
 
 TEST(UL_FUNCTIONSIGNTest, test) {
     bool b = false;

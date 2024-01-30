@@ -3,6 +3,7 @@
 #include "ul/mem/alloc/statistics.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
+#include <cstddef>
 #include <new>
 
 namespace ul = mb::ul;
@@ -102,5 +103,5 @@ TEST(alloc_OnStack, with_stats) {
     ul::ignore_unused(p);
 
     ASSERT_TRUE(a.peak());
-    EXPECT_EQ(*a.peak(), Bytes{(b100 + b20) * sizeof(Type)});
+    EXPECT_EQ(*a.peak(), Bytes{(b100 + b20) * sizeof(Type)}); // NOLINT
 }

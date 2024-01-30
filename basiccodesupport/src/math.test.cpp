@@ -3,7 +3,7 @@
 #include "ul/floating_point.h"
 #include "ul/warnings.h"
 #include "gtest/gtest.h"
-#include <cmath>
+#include <cmath> // NOLINT
 
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
@@ -21,7 +21,7 @@ UL_PRAGMA_WARNINGS_POP
 #endif
 
 TEST(math_constsTest, test) {
-    const auto pi = static_cast<double>(M_PI);
+    const auto pi = M_PI;
     EXPECT_DOUBLE_EQ(pi, ul::math::consts::pi<double>());
     EXPECT_TRUE(ul::almost_equal(pi, ul::math::consts::pi<double>()));
 
