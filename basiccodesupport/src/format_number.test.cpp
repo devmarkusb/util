@@ -1,4 +1,5 @@
 #include "ul/format_number.h" // NOLINT
+#include "ul/macros.h"
 #include "gtest/gtest.h"
 
 #if UL_HAS_NOCRASH_IMBUE_LOCALE
