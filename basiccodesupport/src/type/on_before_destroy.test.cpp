@@ -1,1 +1,1 @@
-#include "ul/type/on_before_destroy.h"
+#include "ul/type/on_before_destroy.h" // NOLINT

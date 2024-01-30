@@ -1,7 +1,9 @@
-#include "ul/format_number.h"
+#include "ul/format_number.h" // NOLINT
 #include "gtest/gtest.h"
 
+#if UL_HAS_NOCRASH_IMBUE_LOCALE
 namespace ul = mb::ul;
+#endif
 
 TEST(fmt_groupThousands, basics) {
 #if UL_HAS_NOCRASH_IMBUE_LOCALE

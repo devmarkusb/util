@@ -1,4 +1,5 @@
 #include "ul/string/str_convert.h"
+#include "utf8/unchecked.h"
 #include "gtest/gtest.h"
 #include <iterator>
 #include <string>

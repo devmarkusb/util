@@ -1,6 +1,5 @@
 //! Note: quick_exit instead of exit because of clang thread safety warning.
 #include "ul/crash.h"
-#include "ul/macros.h"
 
 #include "gtest/gtest.h"
 #include <csignal>

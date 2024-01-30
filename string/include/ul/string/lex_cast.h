@@ -24,8 +24,7 @@ T lex_cast_throw(const S& s) {
     strs >> t;
     if (strs)
         return t;
-    else
-        throw ErrBadLexCast();
+    throw ErrBadLexCast();
 }
 
 template <typename T, typename S>

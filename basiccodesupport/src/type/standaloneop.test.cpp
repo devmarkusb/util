@@ -1,1 +1,1 @@
-#include "ul/type/standaloneop.h"
+#include "ul/type/standaloneop.h" // NOLINT

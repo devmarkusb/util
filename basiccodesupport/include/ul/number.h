@@ -58,7 +58,7 @@ int sgn(T val) {
 
 template <typename T>
 std::string to_leading_zeros(T x, int digits) {
-    static_assert(std::is_integral<T>::value);
+    static_assert(std::is_integral_v<T>);
     UL_EXPECT_THROW(x >= T());
     UL_EXPECT_THROW(digits >= 0);
 
@@ -73,7 +73,7 @@ std::string to_leading_zeros(T x, int digits) {
 template <typename ArithType>
 //  ArithType expected to be is_arithmetic
 ul::Opt<ArithType> is_power_of(ArithType x, ArithType base) {
-    static_assert(std::is_arithmetic<ArithType>::value, "only arithmetic numbers are allowed as input");
+    static_assert(std::is_arithmetic_v<ArithType>, "only arithmetic numbers are allowed as input");
     UL_EXPECT(x > ArithType{});
     UL_EXPECT(base > ArithType{});
     UL_EXPECT(!ul::almost_equal_alltypes(base, static_cast<ArithType>(1)));

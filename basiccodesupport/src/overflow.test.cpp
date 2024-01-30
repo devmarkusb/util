@@ -1,5 +1,6 @@
 #include "ul/overflow.h"
 #include "gtest/gtest.h"
+#include <limits>
 
 namespace {
 const auto max{std::numeric_limits<int>::max()};

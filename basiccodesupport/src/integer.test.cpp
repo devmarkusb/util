@@ -1,3 +1,1 @@
-#include "ul/integer.h"
-
-#include "gtest/gtest.h"
+#include "ul/integer.h" // NOLINT

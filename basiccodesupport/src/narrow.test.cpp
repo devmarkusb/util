@@ -1,6 +1,6 @@
 #include "ul/narrow.h"
 #include "ul/macros.h"
-#include "ul/macros/UNDEF_MIN_MAX.h"
+#include "ul/macros/UNDEF_MIN_MAX.h" // NOLINT
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

@@ -1,7 +1,10 @@
 #include "ul/matrix.h"
+#include "ul/algebra.h"
 #include "ul/gtest_utils.h"
 
 #include "gtest/gtest.h"
+#include <functional>
+#include <iostream>
 
 namespace {
 using Int = int;

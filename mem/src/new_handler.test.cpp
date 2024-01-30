@@ -1,6 +1,7 @@
 #include "ul/mem/new_handler.h"
 #include "ul/ignore_unused.h"
 #include "gtest/gtest.h"
+#include <new>
 
 namespace ul = mb::ul;
 
