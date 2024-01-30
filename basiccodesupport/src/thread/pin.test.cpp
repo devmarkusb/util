@@ -5,6 +5,9 @@
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
+#include <stdexcept>
+#include <thread>
+#include <vector>
 
 #if UL_OS_LINUX
 namespace ul = mb::ul;

@@ -1,5 +1,7 @@
 #include "ul/hash.h"
 #include "gtest/gtest.h"
+#include <cstddef>
+#include <functional>
 #include <string>
 #include <unordered_set>
 

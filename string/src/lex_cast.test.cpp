@@ -1,5 +1,6 @@
 #include "ul/string/lex_cast.h"
 #include "gtest/gtest.h"
+#include <string>
 
 TEST(lex_cast, int2str) {
     EXPECT_EQ("42", ul::lex_cast<std::string>(42));

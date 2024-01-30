@@ -1,5 +1,6 @@
 #include "ul/enum_cast.h"
 #include "gtest/gtest.h"
+#include <cstdint>
 
 namespace ul = mb::ul;
 

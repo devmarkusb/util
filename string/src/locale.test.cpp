@@ -1,5 +1,9 @@
 #include "ul/string/locale.h"
 #include "gtest/gtest.h"
+#include <iostream>
+#include <locale>
+#include <sstream>
+#include <string>
 
 namespace ul = mb::ul;
 

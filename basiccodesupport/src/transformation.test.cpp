@@ -1,8 +1,17 @@
 #include "ul/transformation.h"
 #include "ul/assert.h"
+#include "ul/foundations.h"
 #include "ul/gtest_utils.h"
 
 #include "gtest/gtest.h"
+#include <iostream>
+#include <limits>
+#include <ostream>
+#include <sstream>
+#include <stdexcept>
+#include <string_view>
+#include <tuple>
+#include <type_traits>
 
 namespace {
 const auto pos_example_nr{42};

@@ -32,7 +32,7 @@ private:
 
 //! Strange, crashes for non-Linux?!
 template <typename T>
-inline std::string group_thousands(T t, [[maybe_unused]] char sep = '\'') {
+std::string group_thousands(T t, [[maybe_unused]] char sep = '\'') {
     std::stringstream ss;
 #if UL_HAS_NOCRASH_IMBUE_LOCALE
     ss.imbue(std::locale(std::locale::classic(), new detail::GroupThousandsNumpunct{sep}));

@@ -1,7 +1,9 @@
 #include "ul/mem/alloc/onstack.h"
 #include "ul/ignore_unused.h"
+#include "ul/mem/alloc/statistics.h"
+#include "ul/mem/types.h"
 #include "gtest/gtest.h"
-#include <cstddef>
+#include <new>
 
 namespace ul = mb::ul;
 using ul::mem::Bytes;

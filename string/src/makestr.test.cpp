@@ -1,5 +1,7 @@
 #include "ul/string/makestr.h"
 #include "gtest/gtest.h"
+#include <ios>
+#include <string>
 
 namespace ul = mb::ul;
 

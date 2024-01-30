@@ -41,7 +41,7 @@ using Owner = T;
     */
 template <class T>
 class NotNull {
-    static_assert(std::is_assignable<T&, std::nullptr_t>::value, "T cannot be assigned nullptr.");
+    static_assert(std::is_assignable_v<T&, std::nullptr_t>, "T cannot be assigned nullptr.");
 
 public:
     /*implicit*/ NotNull(T t)
@@ -63,12 +63,12 @@ public:
     NotNull& operator=(NotNull&&) noexcept = default;
 #endif
 
-    template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
+    template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible_v<U, T>>>
     explicit NotNull(const NotNull<U>& other) {
         *this = other;
     }
 
-    template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible<U, T>::value>>
+    template <typename U, typename Dummy = ul::enable_if_t<std::is_convertible_v<U, T>>>
     NotNull& operator=(const NotNull<U>& other) {
         this->ptr_ = other.get();
         return *this;

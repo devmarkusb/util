@@ -1,6 +1,8 @@
 // VLD detects lots of memory leaks in this file (unclear)
 #include "ul/std/vector.h"
 #include "gtest/gtest.h"
+#include <string>
+#include <vector>
 
 namespace ul = mb::ul;
 

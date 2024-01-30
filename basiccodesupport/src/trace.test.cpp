@@ -1,5 +1,6 @@
 #include "ul/trace.h"
 #include "gtest/gtest.h"
+#include <sstream>
 
 namespace ul = mb::ul;
 

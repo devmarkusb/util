@@ -1,9 +1,9 @@
 // VLD detects lots of memory leaks for this file (unclear)
 #include "ul/assert.h"
 #include "ul/gtest_utils.h"
+#include "ul/macros.h"
 #include "ul/warnings.h"
 #include "gtest/gtest.h"
-#include <exception>
 #include <iostream>
 
 

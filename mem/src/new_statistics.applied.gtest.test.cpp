@@ -4,6 +4,7 @@
 #include "ul/format_number.h"
 #include "ul/macros.h"
 #include "gtest/gtest.h"
+#include <iostream>
 
 namespace ul = mb::ul;
 
