@@ -76,28 +76,56 @@ endif ()
 
 ### general ###
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin \
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
+-D_GLIBCXX_ASSERTIONS \
+-fstack-clash-protection -fstack-protector-strong \
+-fexceptions \
+")
+    if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+-fno-delete-null-pointer-checks \
+-fno-strict-overflow \
+-fno-strict-aliasing \
+-ftrivial-auto-var-init=zero \
+")
+    endif ()
+endif ()
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
     # introduced for gperftools, but shouldn't do any harm generally
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin")
+    if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    endif ()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # nothing yet
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-limit-debug-info")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-limit-debug-info \
+-fstrict-flex-arrays=3 \
+")
 endif ()
 
 ### warnings ###
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror \
--Wno-deprecated-declarations -Wno-comment")
+-Wno-deprecated-declarations -Wformat -Wformat=2 -Wimplicit-fallthrough -Werror=format-security \
+")
+
+    # for C code
+    # -Werror=implicit -Werror=incompatible-pointer-types -Werror=int-conversion
+endif ()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-comment -Wtrampolines -Wbidi-chars=any")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror \
--Wmissing-prototypes -Wno-c++11-narrowing -Wdocumentation -Wno-deprecated-declarations -Wno-c++20-compat")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-prototypes -Wno-c++11-narrowing -Wdocumentation \
+-Wno-c++20-compat")
 endif ()
 
 
@@ -128,6 +156,12 @@ macro(ul_set_target_defaults target)
 
     if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
         target_compile_definitions(${target} INTERFACE _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
+    endif ()
+
+    get_target_property(target_type ${target} TYPE)
+    if (target_type STREQUAL "EXECUTABLE" OR target_type STREQUAL "SHARED_LIBRARY")
+        target_link_options(${target} PUBLIC "LINKER:-z,nodlopen" "LINKER:-z,noexecstack" "LINKER:-z,relro"
+            "LINKER:-z,now" "LINKER:--as-needed" "LINKER:--no-copy-dt-needed-entries")
     endif ()
 endmacro()
 
