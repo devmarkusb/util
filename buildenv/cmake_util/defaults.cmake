@@ -159,8 +159,9 @@ macro(ul_set_target_defaults target)
 
     get_target_property(target_type ${target} TYPE)
     if (target_type STREQUAL "EXECUTABLE" OR target_type STREQUAL "SHARED_LIBRARY")
-        if (NOT (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"  OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-            AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17))
+        if (NOT (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+            AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17)
+            AND NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC"))
             target_link_options(${target} PUBLIC "LINKER:-z,nodlopen" "LINKER:-z,noexecstack" "LINKER:-z,relro"
                 "LINKER:-z,now" "LINKER:--as-needed" "LINKER:--no-copy-dt-needed-entries")
         endif ()
