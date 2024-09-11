@@ -8,7 +8,7 @@ jobs:
       matrix:
         build_type: [Debug, RelWithDebInfo]
         config:
-          - {os: ubuntu-latest,  compiler: GNU,  CC: gcc-13,   CXX: g++-13,     warnall: ON,  clanglib: OFF}
+          - {os: ubuntu-latest,  compiler: GNU,  CC: gcc-12,   CXX: g++-12,     warnall: ON,  clanglib: OFF}
           - {os: ubuntu-latest,  compiler: LLVM, CC: clang-15, CXX: clang++-15, warnall: ON,  clanglib: ON}
           - {os: windows-latest, compiler: MSVC, CC: cl,       CXX: cl,         warnall: OFF, clanglib: OFF}
           - {os: macos-latest,   compiler: LLVM, CC: clang,    CXX: clang++,    warnall: ON,  clanglib: ON}
