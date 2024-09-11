@@ -88,7 +88,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STRE
 -fno-delete-null-pointer-checks \
 -fno-strict-overflow \
 -fno-strict-aliasing \
--ftrivial-auto-var-init=zero \
 ")
     endif ()
 endif ()
@@ -98,7 +97,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # introduced for gperftools, but shouldn't do any harm generally
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
     if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftrivial-auto-var-init=zero")
     endif ()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # nothing yet
@@ -160,8 +159,11 @@ macro(ul_set_target_defaults target)
 
     get_target_property(target_type ${target} TYPE)
     if (target_type STREQUAL "EXECUTABLE" OR target_type STREQUAL "SHARED_LIBRARY")
-        target_link_options(${target} PUBLIC "LINKER:-z,nodlopen" "LINKER:-z,noexecstack" "LINKER:-z,relro"
-            "LINKER:-z,now" "LINKER:--as-needed" "LINKER:--no-copy-dt-needed-entries")
+        if (NOT (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"  OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+            AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17))
+            target_link_options(${target} PUBLIC "LINKER:-z,nodlopen" "LINKER:-z,noexecstack" "LINKER:-z,relro"
+                "LINKER:-z,now" "LINKER:--as-needed" "LINKER:--no-copy-dt-needed-entries")
+        endif ()
     endif ()
 endmacro()
 
