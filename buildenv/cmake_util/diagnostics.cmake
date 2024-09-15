@@ -22,7 +22,8 @@ if (UL_ADDRESS_SAN)
         # nothing yet
         message(FATAL_ERROR "UL_ADDRESS_SAN not implemented for MSVC compiler")
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address \
+-O1 -g -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-common")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
     endif ()
 elseif (UL_THREAD_SAN)
