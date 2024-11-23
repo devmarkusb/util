@@ -9,6 +9,7 @@
 #include "../ignore_unused.h"
 
 #include "ul/macros.h"
+#include "ul/warnings.h"
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
@@ -122,7 +123,7 @@ inline int pin_to_logical_core(int logical_core_idx) {
     CPU_ZERO(&cpuset);
     UL_PRAGMA_WARNINGS_PUSH
     // clang-format off
-UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
+    UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
     // clang-format on
     CPU_SET(logical_core_idx, &cpuset);
     UL_PRAGMA_WARNINGS_POP
