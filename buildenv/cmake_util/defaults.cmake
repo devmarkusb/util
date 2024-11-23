@@ -124,7 +124,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-prototypes -Wno-c++11-narrowing -Wdocumentation \
--Wno-c++20-compat")
+-Wno-c++20-compat -Wno-switch-default")
 endif ()
 
 
