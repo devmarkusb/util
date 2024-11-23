@@ -8,7 +8,9 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -Wno-zero-as-null-pointer-constant -Wno-sign-conversion -Wno-shift-sign-overflow
             -Wno-missing-variable-declarations -Wno-missing-field-initializers -Wno-used-but-marked-unused
             -Wno-disabled-macro-expansion -Wno-missing-prototypes
-            -Wno-extra-semi-stmt -Wno-comma -Wno-float-equal)
+            -Wno-extra-semi-stmt -Wno-comma -Wno-float-equal
+            -Wno-unsafe-buffer-usage
+            -Wno-switch-default)
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13)
         list(APPEND UL_gtest_compile_options -Wno-reserved-identifier)
     endif ()
