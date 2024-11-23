@@ -21,6 +21,8 @@ target_include_directories(${target} PRIVATE ${utfcpp_INCLUDE_DIRS})
 
 target_link_libraries(${target} PRIVATE gtest_main)
 
+target_compile_options(${target} PRIVATE -Wno-unsafe-buffer-usage)
+
 ul_set_target_defaults(${target})
 
 ul_run_target_postbuild(${target})
