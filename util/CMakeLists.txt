@@ -25,6 +25,6 @@ target_include_directories(${target} PUBLIC
         ${ulString_INCLUDE_DIRS}
 )
 
-target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport ulMem)
+target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport ulMem ulString)
 
 ul_set_target_defaults(${target})
