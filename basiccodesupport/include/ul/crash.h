@@ -5,6 +5,7 @@
 #include "ul/warnings.h"
 #include <csignal>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <stdexcept>
 #include <string>

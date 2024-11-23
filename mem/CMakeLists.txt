@@ -27,6 +27,8 @@ target_include_directories(${target} PUBLIC
         ${ulBasicCodeSupport_INCLUDE_DIRS}
 )
 
+target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport)
+
 ul_set_target_defaults(${target})
 
 set(${target}_INCLUDE_DIRS
