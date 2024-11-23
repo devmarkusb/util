@@ -8,8 +8,8 @@ jobs:
       matrix:
         build_type: [Debug, RelWithDebInfo]
         config:
-          - {os: ubuntu-latest,  compiler: GNU,  CC: gcc-12,   CXX: g++-12,     warnall: ON,  clanglib: OFF}
-          - {os: ubuntu-latest,  compiler: LLVM, CC: clang-15, CXX: clang++-15, warnall: ON,  clanglib: ON}
+          - {os: ubuntu-latest,  compiler: GNU,  CC: gcc-14,   CXX: g++-14,     warnall: ON,  clanglib: OFF}
+          - {os: ubuntu-latest,  compiler: LLVM, CC: clang-18, CXX: clang++-18, warnall: ON,  clanglib: ON}
           - {os: windows-latest, compiler: MSVC, CC: cl,       CXX: cl,         warnall: OFF, clanglib: OFF}
           - {os: macos-latest,   compiler: LLVM, CC: clang,    CXX: clang++,    warnall: ON,  clanglib: ON}
 
@@ -28,7 +28,7 @@ jobs:
     - name: Install libc++
       if: ${{startsWith(matrix.config.os, 'ubuntu')}}
       run: >
-        sudo apt-get install -y libc++abi-15-dev libc++-15-dev
+        sudo apt-get install -y libc++abi-18-dev libc++-18-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
