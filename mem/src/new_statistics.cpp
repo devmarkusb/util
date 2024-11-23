@@ -1,4 +1,5 @@
 #include "ul/mem/types.h"
+#include "ul/warnings.h"
 #include <cstddef>
 #include <new>
 #define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
@@ -6,6 +7,11 @@
 #undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 
 namespace ul = mb::ul;
+
+UL_PRAGMA_WARNINGS_PUSH
+// clang-format off
+UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
+// clang-format on
 
 void* operator new(size_t size_in_bytes) {
     auto* const p = reinterpret_cast<uint8_t*>(std::malloc(sizeof(ul::mem::StatsHeader) + size_in_bytes)); // NOLINT
@@ -52,3 +58,5 @@ void operator delete[](void* p, size_t /*unused*/) noexcept {
     ul::mem::Statistics::instance().delete_call(p);
     std::free(p); // NOLINT
 }
+
+UL_PRAGMA_WARNINGS_POP
