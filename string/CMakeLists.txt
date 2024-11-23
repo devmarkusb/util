@@ -12,19 +12,21 @@ add_subdirectory(sdks)
 
 file(GLOB_RECURSE target_INCS "include/*.h*")
 
-#add_library(${target} STATIC ${target_INCS})
-
-#target_include_directories(${target} PUBLIC ${ulBasicCodeSupport_INCLUDE_DIRS})
-
-#target_link_libraries(${target}) # ulBasicCodeSupport utf8cpp
-
-#ul_set_target_defaults(${target})
+add_library(${target} STATIC ${target_INCS} src/empty.cpp)
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${utfcpp_INCLUDE_DIRS}
     ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
+
+target_include_directories(${target} PUBLIC ${${target}_INCLUDE_DIRS})
+
+#target_link_libraries(${target}) # ulBasicCodeSupport utf8cpp
+
+target_compile_options(${target} PRIVATE -Wno-unsafe-buffer-usage)
+
+#ul_set_target_defaults(${target})
 
 
 ################################################################################################
@@ -46,7 +48,7 @@ ul_add_test(${targetTest})
 
 target_include_directories(${targetTest} PRIVATE ${ulString_INCLUDE_DIRS})
 
-target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
+target_link_libraries(${targetTest} PRIVATE gtest_main ${target})
 
 ul_set_target_defaults(${targetTest})
 
