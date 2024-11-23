@@ -24,7 +24,7 @@ target_include_directories(${target} PUBLIC ${${target}_INCLUDE_DIRS})
 
 #target_link_libraries(${target}) # ulBasicCodeSupport utf8cpp
 
-target_compile_options(${target} PRIVATE -Wno-unsafe-buffer-usage)
+target_compile_options(${target} PUBLIC -Wno-unsafe-buffer-usage)
 
 #ul_set_target_defaults(${target})
 
