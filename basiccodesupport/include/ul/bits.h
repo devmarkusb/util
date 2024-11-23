@@ -6,6 +6,7 @@
 #include "assert.h"
 #include "enum_cast.h"
 #include "narrow.h"
+#include "ul/warnings.h"
 #include <array>
 #include <climits>
 #include <cstdint>
@@ -226,7 +227,12 @@ struct FieldsLookup {
         static_assert(fields == sizeof...(cs));
 
         indices[0] = {};
+        UL_PRAGMA_WARNINGS_PUSH
+        // clang-format off
+        UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
+        // clang-format on
         std::partial_sum(std::begin(counts), std::end(counts) - 1, std::begin(indices) + 1);
+        UL_PRAGMA_WARNINGS_POP
         // runtime check as long as we don't have a compiletime partial_sum
         UL_ENSURE_THROW(indices.back() + counts.back() <= max_count);
     }
