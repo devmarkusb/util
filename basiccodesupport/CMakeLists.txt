@@ -19,7 +19,10 @@ set(${target}_INCLUDE_DIRS
 
 target_include_directories(${target} PUBLIC ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${target} PUBLIC ulBuildEnv stdc++exp)
+target_link_libraries(${target} PUBLIC ulBuildEnv)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    target_link_libraries(${target} PUBLIC stdc++exp)
+endif ()
 
 ul_set_target_defaults(${target})
 
