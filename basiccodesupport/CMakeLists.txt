@@ -19,7 +19,7 @@ set(${target}_INCLUDE_DIRS
 
 target_include_directories(${target} PUBLIC ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${target} PUBLIC ulBuildEnv)
+target_link_libraries(${target} PUBLIC ulBuildEnv stdc++exp)
 
 ul_set_target_defaults(${target})
 
@@ -43,7 +43,7 @@ ul_add_test(${targetTest})
 
 target_include_directories(${targetTest} PRIVATE ${ulBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${targetTest} PRIVATE gtest_main) #${target}
+target_link_libraries(${targetTest} PRIVATE gtest_main ${target})
 
 ul_set_target_filesystem(${targetTest})
 
