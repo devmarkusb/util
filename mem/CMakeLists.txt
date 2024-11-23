@@ -92,10 +92,6 @@ endif ()
 
 ###
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    return ()
-endif ()
-
 add_executable(${targetTest}_new_statistics_applied
         src/new_statistics.applied.test.cpp
         ${target_INCS}
