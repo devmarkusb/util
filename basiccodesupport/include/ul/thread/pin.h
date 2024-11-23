@@ -120,7 +120,12 @@ inline int pin_to_logical_core(int logical_core_idx) {
 #if UL_OS_LINUX
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
+    UL_PRAGMA_WARNINGS_PUSH
+    // clang-format off
+UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
+    // clang-format on
     CPU_SET(logical_core_idx, &cpuset);
+    UL_PRAGMA_WARNINGS_POP
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
     ul::ignore_unused(logical_core_idx);
