@@ -9,7 +9,7 @@ jobs:
         build_type: [Debug, RelWithDebInfo]
         config:
           - {os: ubuntu-24.04,  compiler: GNU,  CC: gcc-14,   CXX: g++-14,     warnall: ON,  clanglib: OFF}
-          - {os: ubuntu-24.04,  compiler: LLVM, CC: clang-18, CXX: clang++-18, warnall: ON,  clanglib: OFF}
+          - {os: ubuntu-24.04,  compiler: LLVM, CC: clang-18, CXX: clang++-18, warnall: ON,  clanglib: ON}
           - {os: windows-latest, compiler: MSVC, CC: cl,       CXX: cl,         warnall: OFF, clanglib: OFF}
           - {os: macos-latest,   compiler: LLVM, CC: clang,    CXX: clang++,    warnall: ON,  clanglib: ON}
 
