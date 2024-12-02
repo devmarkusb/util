@@ -111,7 +111,7 @@ endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror \
--Wno-deprecated-declarations -Wformat -Wformat=2 -Wimplicit-fallthrough -Werror=format-security \
+-Wno-deprecated-declarations -Wformat -Wformat=2 -Wimplicit-fallthrough \
 ")
 
     # for C code
