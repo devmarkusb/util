@@ -121,6 +121,6 @@ if (UL_COVERAGE)
     endif ()
 endif ()
 
-if (UL_LIBCPP_DEBUG)-DUL_USE_CLANG_STDLIB=ON
+if (UL_LIBCPP_DEBUG)
     add_definitions(-D_LIBCPP_DEBUG=1)
 endif ()
