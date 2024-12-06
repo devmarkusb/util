@@ -14,6 +14,10 @@ option(UL_THREAD_SAN "thread sanitizer" OFF)
 option(UL_MEMORY_SAN "memory sanitizer" OFF)
 option(UL_UNDEF_SAN "undefined behavior sanitizer" OFF)
 
+if (${UL_CPP_STD_LIB} STREQUAL "libc++")
+    option(UL_LIBCPP_DEBUG "enables the _LIBCPP_DEBUG mode, prerequiste: compiler being built with LIBCXX_ENABLE_DEBUG_MODE_SUPPORT" OFF)
+endif ()
+
 if (UL_ADDRESS_SAN)
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # nothing yet
@@ -115,4 +119,8 @@ if (UL_COVERAGE)
                 COMMAND ${GENHTML} --demangle-cpp -o coverage coverage.info
                 WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     endif ()
+endif ()
+
+if (UL_LIBCPP_DEBUG)-DUL_USE_CLANG_STDLIB=ON
+    add_definitions(-D_LIBCPP_DEBUG=1)
 endif ()
