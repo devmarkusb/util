@@ -1,0 +1,7 @@
+set(Protobuf_USE_STATIC_LIBS ON)
+find_package(Protobuf REQUIRED)
+set(gRPC_USE_STATIC_LIBS ON)
+find_package(gRPC REQUIRED)
+add_library(libgrpc INTERFACE)
+find_library(GRPC_REFLECTION_LIBRARIES NAMES libgrpc++_reflection.a grpc++_reflection)
+target_link_libraries(libgrpc INTERFACE gRPC::grpc++ protobuf::libprotobuf ${GRPC_REFLECTION_LIBRARIES})

@@ -1,5 +1,19 @@
 cmake_minimum_required(VERSION 3.20)
 
+find_package(GTest QUIET)
+if (GTest_FOUND)
+    add_library(libgtest INTERFACE)
+    target_link_libraries(libgtest INTERFACE GTest::gtest)
+    add_library(libgtest_main INTERFACE)
+    target_link_libraries(libgtest_main INTERFACE GTest::gtest_main)
+    add_library(libgmock INTERFACE)
+    target_link_libraries(libgmock INTERFACE GTest::gmock)
+    add_library(libgmock_main INTERFACE)
+    target_link_libraries(libgmock_main INTERFACE GTest::gmock_main)
+    return()
+endif()
+message(STATUS "google test not found, building from source")
+
 enable_testing()
 
 set(CMAKE_CXX_STANDARD ${UL_CXX_STANDARD})
