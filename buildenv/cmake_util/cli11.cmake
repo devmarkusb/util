@@ -2,6 +2,13 @@
 # link with CLI11::CLI11
 cmake_minimum_required(VERSION 3.14)
 
+find_package(CLI11 QUIET)
+if (CLI11_FOUND)
+    add_library(cli11 INTERFACE)
+    return()
+endif()
+message(STATUS "CLI11 not found, building from source")
+
 include(FetchContent)
 
 FetchContent_Declare(

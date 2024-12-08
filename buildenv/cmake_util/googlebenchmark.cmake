@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 3.14)
 
+find_library(benchmark_LIBRARIES NAMES libbenchmark.a benchmark)
+if (benchmark_LIBRARIES)
+    add_library(libbenchmark INTERFACE)
+    target_link_libraries(libbenchmark INTERFACE ${benchmark_LIBRARIES})
+    find_library(benchmark_main_LIBRARIES NAMES libbenchmark_main.a benchmark_main)
+    add_library(libbenchmark_main INTERFACE)
+    target_link_libraries(libbenchmark_main INTERFACE ${benchmark_main_LIBRARIES})
+    return()
+endif()
+message(STATUS "google benchmark not found, building from source")
+
 set(BENCHMARK_ENABLE_TESTING OFF)
 
 include(FetchContent)
