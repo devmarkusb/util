@@ -277,6 +277,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
     #pragma message UL_STRINGIFY(SOMETHING) // prints SOMETHING
     #pragma message UL_STRINGIFY_VALUE(SOMETHING) // prints 42
     \endcode
+    Warning: Only works, if SOMETHING is defined *after* including this header.
 */
 //!@{
 #define UL_STRINGIFY_VALUE(MACRO) UL_STRINGIFY(MACRO)
