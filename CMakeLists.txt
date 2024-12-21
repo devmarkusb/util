@@ -13,6 +13,7 @@ configure_file(
 ul_include(defaults.cmake)
 
 ul_include(googletest.cmake)
+ul_include(googlebenchmark.cmake)
 
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
