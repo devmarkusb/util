@@ -40,7 +40,7 @@ TEST(UL_STRINGIFYTest, macro) {
 }
 
 namespace ppdefs::test::impl::treat_this_as_anonymous_namespace {
-UL_DEPRECATED void deprecated_function() {
+UL_DEPRECATED [[maybe_unused]] static void deprecated_function() {
 }
 } // namespace ppdefs::test::impl::treat_this_as_anonymous_namespace
 

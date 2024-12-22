@@ -7,6 +7,7 @@
 #include <cstdlib>
 
 namespace wrap {
+namespace {
 void exit(int status) {
 #if UL_OS_MAC
     std::exit(status);
@@ -14,6 +15,7 @@ void exit(int status) {
     std::quick_exit(status);
 #endif
 }
+} // namespace
 } // namespace wrap
 
 #if !UL_ADDRESS_SAN && !UL_UNDEF_SAN

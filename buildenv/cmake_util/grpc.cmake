@@ -1,3 +1,7 @@
+if (TARGET libgrpc)
+    return()
+endif()
+
 set(Protobuf_USE_STATIC_LIBS ON)
 find_package(Protobuf REQUIRED)
 set(gRPC_USE_STATIC_LIBS ON)

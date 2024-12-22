@@ -19,6 +19,7 @@ enum class Ex1 : uint8_t {
     end
 };
 
+namespace {
 std::ostream& operator<<(std::ostream& os, Ex1 e) {
     switch (e) {
         case Ex1::first:
@@ -35,6 +36,7 @@ std::ostream& operator<<(std::ostream& os, Ex1 e) {
             break;
     }
     return os;
+}
 }
 
 using Ex1Bitset = EnumBitset<Ex1>;
@@ -114,7 +116,7 @@ TEST(EnumBitSet, operators) {
 
     EXPECT_NE(bitset2, bitset3);
 
-    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(~static_cast<Ex1Bitset::UnderlyingT>(0)));
+    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(static_cast<Ex1Bitset::UnderlyingT>(~0u)));
 }
 
 TEST(EnumBitSet, comparisons) {
