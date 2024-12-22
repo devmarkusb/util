@@ -1,3 +1,7 @@
+if (TARGET libcurl)
+    return()
+endif()
+
 find_package(CURL REQUIRED)
 add_library(libcurl INTERFACE)
 find_library(CURL_LIBRARIES NAMES libcurl.a curl)

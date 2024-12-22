@@ -1,3 +1,7 @@
+if (TARGET tiny-process-library)
+    return()
+endif()
+
 find_package(tiny-process-library REQUIRED)
 add_library(libtiny-process-library INTERFACE)
 find_library(TINY_PROCESS_LIBRARY_LIBRARIES NAMES libtiny-process-library.a)

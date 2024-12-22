@@ -29,15 +29,15 @@ constexpr Count count() noexcept {
     return bits_per_byte * sizeof(Type);
 }
 
-constexpr uint32_t count_set(uint32_t data) noexcept {
+constexpr int count_set(uint32_t data) noexcept {
 #if __cpp_lib_bitop
-    return static_cast<uint32_t>(std::popcount(data));
+    return std::popcount(data);
 #else
     // NOLINTBEGIN
     // Hamming Weight algorithm
-    data = data - ((data >> 1) & 0x55555555);
-    data = (data & 0x33333333) + ((data >> 2) & 0x33333333);
-    return (((data + (data >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+    data = data - ((data >> 1u) & 0x55555555u);
+    data = (data & 0x33333333u) + ((data >> 2u) & 0x33333333u);
+    return static_cast<int>((((data + (data >> 4u)) & 0x0F0F0F0Fu) * 0x01010101u) >> 24u);
     // NOLINTEND
 #endif
 }
@@ -143,7 +143,7 @@ constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from)
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
     UL_EXPECT(count <= ul::bits::count<SourceType>());
 
-    return static_cast<TargetType>((to & (~ul::bits::set_range(idx, count))) | (from << idx)); // NOLINT
+    return static_cast<TargetType>((to & (~ul::bits::set_range(idx, count))) | (from << static_cast<SourceType>(idx))); // NOLINT
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.

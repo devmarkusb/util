@@ -89,10 +89,10 @@ TEST(semiring, tests) {
 
     const SemiRingEx id_comm_monoid{};
     const SemiRingEx id_monoid{1};
-    EXPECT_EQ(example_op(id_comm_monoid, 2, id_monoid), 2);
-    EXPECT_EQ(example_op(2, id_comm_monoid, id_monoid), 2);
-    EXPECT_EQ(example_op(2, 3, id_monoid), 5);
-    EXPECT_EQ(example_op(2, 3, 2), 10);
+    EXPECT_EQ(example_op(id_comm_monoid, SemiRingEx{2}, id_monoid), SemiRingEx{2});
+    EXPECT_EQ(example_op(SemiRingEx{2}, id_comm_monoid, id_monoid), SemiRingEx{2});
+    EXPECT_EQ(example_op(SemiRingEx{2}, SemiRingEx{3}, id_monoid), SemiRingEx{5});
+    EXPECT_EQ(example_op(SemiRingEx{2}, SemiRingEx{3}, SemiRingEx{2}), SemiRingEx{10});
 }
 
 TEST(power_accumulate_semigroup, tests) {
