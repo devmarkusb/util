@@ -9,6 +9,7 @@
 #include "ul/warnings.h"
 #include <array>
 #include <climits>
+#include <concepts>
 #include <cstdint>
 #include <numeric>
 #include <type_traits>
@@ -102,7 +103,7 @@ constexpr TargetType check_any_of_mask(SourceType from, SourceType mask) noexcep
 /** \tparam TargetType is typically chosen to be uintX_t, that is unsigned with some arbitrary bit count.
     You can think of the index starting at the LSB (least significant bit, which comes last in the memory order
     of big endian, but endianness doesn't matter considering the realm of this function alone).*/
-template <typename TargetType = uint64_t>
+template <std::unsigned_integral TargetType = uint64_t>
 constexpr TargetType set_range(Idx idx, Count count) noexcept {
     static_assert(std::is_unsigned_v<TargetType>);
     UL_EXPECT(idx >= 0);
@@ -136,14 +137,15 @@ constexpr TargetType read_and_cast(SourceType from, Idx idx, Count count) noexce
 }
 
 //! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
-template <typename TargetType, typename SourceType>
+template <std::unsigned_integral TargetType, std::unsigned_integral SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
     UL_EXPECT(count <= ul::bits::count<SourceType>());
 
-    return static_cast<TargetType>((to & (~ul::bits::set_range(idx, count))) | (from << static_cast<SourceType>(idx))); // NOLINT
+    return static_cast<TargetType>(
+        (to & (~ul::bits::set_range<TargetType>(idx, count))) | (from << static_cast<SourceType>(idx))); // NOLINT
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
@@ -179,8 +181,8 @@ private:
         static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
     std::array<BaseType, parts_count> array_{};
 
-    [[nodiscard]] Idx n(Idx idx) const noexcept {
-        return idx / ul::bits::count<BaseType>();
+    [[nodiscard]] size_t n(Idx idx) const noexcept {
+        return static_cast<size_t>(idx / ul::bits::count<BaseType>());
     }
 
     [[nodiscard]] Idx i(Idx idx) const noexcept {
@@ -239,14 +241,14 @@ struct FieldsLookup {
 };
 
 //! Just if can't use Fields (cf.) because you need it to be no larger than sizeof(BitDataType).
-template <typename BitDataType, typename EnumType, size_t fields>
+template <std::unsigned_integral BitDataType, typename EnumType, size_t fields>
 class FieldsRaw {
 public:
     static_assert(std::is_unsigned_v<BitDataType>);
     static_assert(std::is_enum_v<EnumType>);
     static_assert(fields > 0);
 
-    template <typename SourceDataType>
+    template <std::unsigned_integral SourceDataType>
     constexpr void set(const FieldsLookup<fields>& fields_lookup, EnumType field, SourceDataType value) noexcept {
         const auto fieldnr{as_number(field)};
         UL_ASSERT(fieldnr >= 0);
@@ -255,7 +257,7 @@ public:
             data_, fields_lookup.indices[fieldnr_c], fields_lookup.counts[fieldnr_c], value); // NOLINT
     }
 
-    template <typename TargetDataType = BitDataType>
+    template <std::unsigned_integral TargetDataType = BitDataType>
     [[nodiscard]] constexpr TargetDataType get(
         const FieldsLookup<fields>& fields_lookup, EnumType field) const noexcept {
         const auto fieldnr{as_number(field)};
@@ -288,7 +290,7 @@ private:
         UL_ASSERT(bits_.get(Fields::second) == 255);
     }
     */
-template <typename BitDataType, typename EnumType, size_t fields>
+template <std::unsigned_integral BitDataType, typename EnumType, size_t fields>
 class Fields {
 public:
     static_assert(std::is_unsigned_v<BitDataType>);
@@ -303,12 +305,12 @@ public:
         static_assert(fields == sizeof...(counts));
     }
 
-    template <typename SourceDataType>
+    template <std::unsigned_integral SourceDataType>
     constexpr void set(EnumType field, SourceDataType value) noexcept {
         raw_.set(fields_lookup_, field, value);
     }
 
-    template <typename TargetDataType = BitDataType>
+    template <std::unsigned_integral TargetDataType = BitDataType>
     [[nodiscard]] constexpr TargetDataType get(EnumType field) const noexcept {
         return raw_.template get<TargetDataType>(fields_lookup_, field);
     }

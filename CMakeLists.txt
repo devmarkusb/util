@@ -44,6 +44,3 @@ set(ul_INCLUDE_DIRS
 set(ul_CMAKE_DIRS
         ${ulBuildEnv_CMAKE_DIRS}
         CACHE INTERNAL "util cmake util directories" FORCE)
-
-# Note, there are no libs that need linking, everything just header only.
-# Internally some static libs are built for testing.
