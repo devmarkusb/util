@@ -38,4 +38,4 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
             COMPILE_FLAGS "-Wno-conversion")
     set_target_properties(ConsoleTable PROPERTIES
             COMPILE_FLAGS "-Wno-conversion")
-endif ()
+endif()

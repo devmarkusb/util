@@ -18,12 +18,16 @@ void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v) {
         return;
     const size_t final_dst = dst > start ? dst - length : dst;
     const size_t orig_size = v.size();
-    std::vector<T> tmp(std::make_move_iterator(v.begin() + start), std::make_move_iterator(v.begin() + start + length));
-    v.erase(v.begin() + start, v.begin() + start + length);
+    std::vector<T> tmp(
+        std::make_move_iterator(v.begin() + static_cast<ptrdiff_t>(start)),
+        std::make_move_iterator(v.begin() + static_cast<ptrdiff_t>(start + length)));
+    v.erase(v.begin() + static_cast<ptrdiff_t>(start), v.begin() + static_cast<ptrdiff_t>(start + length));
     if (dst >= orig_size)
         v.insert(v.end(), std::make_move_iterator(tmp.begin()), std::make_move_iterator(tmp.end()));
     else
-        v.insert(v.begin() + final_dst, std::make_move_iterator(tmp.begin()), std::make_move_iterator(tmp.end()));
+        v.insert(
+            v.begin() + static_cast<ptrdiff_t>(final_dst), std::make_move_iterator(tmp.begin()),
+            std::make_move_iterator(tmp.end()));
 }
 } // namespace mb::ul::vector
 

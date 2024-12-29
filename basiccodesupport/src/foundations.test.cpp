@@ -108,13 +108,13 @@ int func_proc_ex6(double, double) {
 [[maybe_unused]] int func_proc_ex16(int*) {
     return {};
 }
-} // namespace
 
 struct RegularEx1 {};
 
-bool operator==(const RegularEx1&, const RegularEx1&) {
+[[maybe_unused]] bool operator==(const RegularEx1&, const RegularEx1&) {
     return true;
 }
+} // namespace
 
 // Example, where the work of defining the required trait isn't done automagically for you.
 namespace mb::ul {
