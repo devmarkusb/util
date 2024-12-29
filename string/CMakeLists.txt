@@ -16,17 +16,13 @@ add_library(${target} STATIC ${target_INCS} src/empty.cpp)
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
-    ${utfcpp_INCLUDE_DIRS}
     ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
 
 target_include_directories(${target} PUBLIC ${${target}_INCLUDE_DIRS})
+target_include_directories(${target} SYSTEM PUBLIC ${utfcpp_INCLUDE_DIRS})
 
 target_link_libraries(${target} ulBasicCodeSupport) # utf8cpp
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    target_compile_options(${target} PUBLIC -Wno-unsafe-buffer-usage)
-endif ()
 
 ul_set_target_defaults(${target})
 

@@ -32,8 +32,8 @@ TEST(bits_countSetBits, various) {
 }
 
 TEST(bits_set, various) {
-    EXPECT_EQ(ul::bits::set(0b000u, 0u), 0b001);
-    EXPECT_EQ(ul::bits::set(0b000u, 1u), 0b010);
+    EXPECT_EQ(ul::bits::set(0b000U, 0U), 0b001);
+    EXPECT_EQ(ul::bits::set(0b000U, 1U), 0b010);
     EXPECT_EQ(ul::bits::set<uint8_t>(0b1, 7), 0b10000001);
     EXPECT_DEBUG_DEATH(ul::bits::set<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
@@ -72,44 +72,44 @@ TEST(bits_change, various) {
 }
 
 TEST(bits_setMask, various) {
-    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b001u), 0b001u);
-    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b010u), 0b010u);
-    EXPECT_EQ(ul::bits::set_mask(0b000u, 0b101u), 0b101u);
+    EXPECT_EQ(ul::bits::set_mask(0b000U, 0b001U), 0b001U);
+    EXPECT_EQ(ul::bits::set_mask(0b000U, 0b010U), 0b010U);
+    EXPECT_EQ(ul::bits::set_mask(0b000U, 0b101U), 0b101U);
     EXPECT_EQ(ul::bits::set_mask<uint8_t>(0b1, 1 << 7), (1 << 7) | 0b1);
 }
 
 TEST(bits_unsetMask, various) {
-    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b001u), 0b110u);
-    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b010u), 0b101u);
-    EXPECT_EQ(ul::bits::unset_mask(0b111u, 0b101u), 0b010u);
-    EXPECT_EQ(ul::bits::unset_mask<uint8_t>((1u << 7u) | 0b1u, 1u << 7u), 0b1u);
+    EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b001U), 0b110U);
+    EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b010U), 0b101U);
+    EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b101U), 0b010U);
+    EXPECT_EQ(ul::bits::unset_mask<uint8_t>((1u << 7U) | 0b1U, 1u << 7U), 0b1U);
 }
 
 TEST(bits_toggleMask, various) {
-    EXPECT_EQ(ul::bits::toggle_mask(0b111u, 0b001u), 0b110u);
-    EXPECT_EQ(ul::bits::toggle_mask(0b110u, 0b001u), 0b111u);
-    EXPECT_EQ(ul::bits::toggle_mask(0b111u, 0b101u), 0b010u);
+    EXPECT_EQ(ul::bits::toggle_mask(0b111U, 0b001U), 0b110U);
+    EXPECT_EQ(ul::bits::toggle_mask(0b110U, 0b001U), 0b111U);
+    EXPECT_EQ(ul::bits::toggle_mask(0b111U, 0b101U), 0b010U);
     EXPECT_EQ(ul::bits::toggle_mask<uint8_t>((1 << 7) | 0b1, 1 << 7), 0b1);
 }
 
 TEST(bits_check_all_of_mask, various) {
-    EXPECT_TRUE(ul::bits::check_all_of_mask(0b111u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_all_of_mask(0b101u, 0b101u));
-    EXPECT_FALSE(ul::bits::check_all_of_mask(0b110u, 0b101u));
-    EXPECT_FALSE(ul::bits::check_all_of_mask(0b010u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_all_of_mask(0b010u, 0b010u));
-    EXPECT_FALSE(ul::bits::check_all_of_mask(0b101u, 0b010u));
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b111U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b101U, 0b101U));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b110U, 0b101U));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b010U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_all_of_mask(0b010U, 0b010U));
+    EXPECT_FALSE(ul::bits::check_all_of_mask(0b101U, 0b010U));
 }
 
 TEST(bits_check_any_of_mask, various) {
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b111u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b101u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b100u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b001u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b110u, 0b101u));
-    EXPECT_FALSE(ul::bits::check_any_of_mask(0b010u, 0b101u));
-    EXPECT_TRUE(ul::bits::check_any_of_mask(0b010u, 0b010u));
-    EXPECT_FALSE(ul::bits::check_any_of_mask(0b101u, 0b010u));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b111U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b101U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b100U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b001U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b110U, 0b101U));
+    EXPECT_FALSE(ul::bits::check_any_of_mask(0b010U, 0b101U));
+    EXPECT_TRUE(ul::bits::check_any_of_mask(0b010U, 0b010U));
+    EXPECT_FALSE(ul::bits::check_any_of_mask(0b101U, 0b010U));
 }
 
 TEST(bits_set_range, empty) {
@@ -117,11 +117,11 @@ TEST(bits_set_range, empty) {
 }
 
 TEST(bits_set_range, bitNr0) {
-    EXPECT_EQ(ul::bits::set_range(0, 1), 0b1u);
+    EXPECT_EQ(ul::bits::set_range(0, 1), 0b1U);
 }
 
 TEST(bits_set_range, bitNr1) {
-    EXPECT_EQ(ul::bits::set_range(1, 1), 0b10u);
+    EXPECT_EQ(ul::bits::set_range(1, 1), 0b10U);
 }
 
 TEST(bits_set_range, bitNr63) {
@@ -133,21 +133,21 @@ TEST(bits_set_range, highestTwoBits) {
 }
 
 TEST(bits_set_range, lowestTwoBits) {
-    EXPECT_EQ(ul::bits::set_range(0, 2), 0b11u);
+    EXPECT_EQ(ul::bits::set_range(0, 2), 0b11U);
 }
 
 TEST(bits_set_range, someMiddleRangeOfBits) {
-    EXPECT_EQ(ul::bits::set_range(3, 6), 0b111111000u);
+    EXPECT_EQ(ul::bits::set_range(3, 6), 0b111111000U);
 }
 
 TEST(bits_set_range, someMiddleRangeOfBits_castedToSufficientSmallerType) {
-    EXPECT_EQ(ul::bits::set_range<uint8_t>(2, 6), 0b11111100u);
+    EXPECT_EQ(ul::bits::set_range<uint8_t>(2, 6), 0b11111100U);
     EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
-    EXPECT_EQ(ul::bits::set_range<uint16_t>(2, 7), 0b111111100u);
+    EXPECT_EQ(ul::bits::set_range<uint16_t>(2, 7), 0b111111100U);
 }
 
 TEST(bits_read, typical) {
-    EXPECT_EQ(ul::bits::read(0b11000101100u, 2, 5), 0b01011u);
+    EXPECT_EQ(ul::bits::read(0b11000101100U, 2, 5), 0b01011U);
     const auto x = ul::bits::read_and_cast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
     EXPECT_EQ(x, uint8_t{0b01011});
     EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
@@ -163,34 +163,34 @@ constexpr TargetType read_from16_testhelper(uint16_t data, ul::bits::Idx idx, ul
 } // namespace
 
 TEST(bits_read, range_overflows) {
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 2, 7), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 9, 0), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 0, 9), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100u, 2, 9), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 2, 7), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 9, 0), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 0, 9), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100U, 2, 9), ul::death_assert_regex);
 }
 
 TEST(bits_read, none) {
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100u, 2, 0), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 2, 0), ul::death_assert_regex);
 }
 
 TEST(bits_read, one) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 2, 1), 1);
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101000u, 2, 1), 0);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 2, 1), 1);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101000U, 2, 1), 0);
 }
 
 TEST(bits_read, last) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 7, 1), 1);
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b00101100u, 7, 1), 0);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 7, 1), 1);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b00101100U, 7, 1), 0);
 }
 
 TEST(bits_read, all) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100u, 0, 8), 0b10101100u);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 0, 8), 0b10101100U);
 }
 
 TEST(bits_read, types) {
-    auto x = ul::bits::read<uint8_t>(0b10101100u, 2, 1);
+    auto x = ul::bits::read<uint8_t>(0b10101100U, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
-    auto x2 = ul::bits::read<uint16_t>(0b10101100u, 2, 1);
+    auto x2 = ul::bits::read<uint16_t>(0b10101100U, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 
     // the actually interesting one
@@ -200,33 +200,33 @@ TEST(bits_read, types) {
 }
 
 TEST(bits_read, types_cast) {
-    auto x = ul::bits::read_and_cast<uint8_t, uint16_t>(0b10101100u, 2, 1);
+    auto x = ul::bits::read_and_cast<uint8_t, uint16_t>(0b10101100U, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
     auto x2 = ul::bits::read_and_cast<uint16_t>(uint32_t{0b10101100u}, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 }
 
 TEST(bits_write, typical) {
-    EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b01011u), 0b11000101100u);
-    EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b11111u), 0b11001111100u);
-    EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b00000u), 0b11000000000u);
-    EXPECT_EQ(ul::bits::write(0b11000101100u, 2, 5, 0b10101u), 0b11001010100u);
+    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b01011U), 0b11000101100U);
+    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b11111U), 0b11001111100U);
+    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b00000U), 0b11000000000U);
+    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b10101U), 0b11001010100U);
 }
 
 TEST(bits_write, different_sizes) {
     uint16_t x16{0b11000101100};
     uint8_t x8{0b101001};
-    EXPECT_EQ(ul::bits::write(x16, 0, 3, x8), 0b11000101001u);
-    EXPECT_EQ(ul::bits::write(x8, 0, 3, x16), 0b101100u);
+    EXPECT_EQ(ul::bits::write(x16, 0, 3, x8), 0b11000101001U);
+    EXPECT_EQ(ul::bits::write(x8, 0, 3, x16), 0b101100U);
 }
 
 TEST(bits_write, none) {
-    EXPECT_DEBUG_DEATH(ul::bits::write(0b10101100u, 2, 0, 1), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::write(0b10101100U, 2, 0, 1U), ul::death_assert_regex);
 }
 
 TEST(bits_write, one) {
-    EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 1), 0b10101100u);
-    EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 0), 0b10101000u);
+    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 1U), 0b10101100U);
+    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 0U), 0b10101000U);
 }
 
 namespace {
@@ -239,26 +239,26 @@ constexpr uint8_t write_to8_testhelper(uint8_t to, ul::bits::Idx idx, ul::bits::
 } // namespace
 
 TEST(bits_write, range_overflows) {
-    EXPECT_DEBUG_DEATH(ul::bits::write<uint16_t>(0, 0, 17, 0), ul::death_assert_regex);
-    auto _ = ul::bits::write<uint16_t>(0, 0, 16, 0);
+    EXPECT_DEBUG_DEATH(ul::bits::write<uint16_t>(0U, 0, 17, 0U), ul::death_assert_regex);
+    auto _ = ul::bits::write<uint16_t>(0U, 0, 16, 0U);
     EXPECT_DEBUG_DEATH(write_to8_testhelper<uint8_t>(0, 0, 9, 0), ul::death_assert_regex);
     _ = write_to8_testhelper<uint8_t>(0, 0, 8, 0);
     ul::ignore_unused(_);
 }
 
 TEST(bits_write, last) {
-    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100u, 7, 1, 0), 0b00101100u);
-    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100u, 7, 1, 1), 0b10101100u);
-    EXPECT_EQ(ul::bits::write(0b10101100u, 2, 1, 0), 0b10101000u);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 7, 1, 0b1u), 0b10101100u);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 7, 1, 0b0u), 0b00101100u);
+    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100U, 7, 1, 0U), 0b00101100U);
+    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100U, 7, 1, 1U), 0b10101100U);
+    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 0U), 0b10101000U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 7, 1, 0b1U), 0b10101100U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 7, 1, 0b0U), 0b00101100U);
 }
 
 TEST(bits_write, all) {
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 0, 8, 0b11111111u), 0b11111111u);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100u, 0, 8, 0), 0);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b11111111u, 0, 8, 0b10101100u), 0b10101100u);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b00000000u, 0, 8, 0b10101100u), 0b10101100u);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 0, 8, 0b11111111U), 0b11111111U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 0, 8, 0), 0);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b11111111U, 0, 8, 0b10101100U), 0b10101100U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b00000000U, 0, 8, 0b10101100U), 0b10101100U);
 }
 
 TEST(bits_BitArray, construct) {
@@ -334,31 +334,31 @@ TEST(bits_Field, basics) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 0);
-    s.bits_.set(S::Field::octdigit, 7);
+    s.bits_.set(S::Field::octdigit, 7U);
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 7);
     EXPECT_EQ(s.bits_.get(S::Field::toggle), 0);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0);
-    s.bits_.set(S::Field::octdigit, 0);
+    s.bits_.set(S::Field::octdigit, 0U);
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 0);
 
     EXPECT_EQ(s.bits_.get(S::Field::toggle), 0);
-    s.bits_.set(S::Field::toggle, 0);
+    s.bits_.set(S::Field::toggle, 0U);
     EXPECT_EQ(s.bits_.get(S::Field::toggle), 0);
-    s.bits_.set(S::Field::toggle, 1);
+    s.bits_.set(S::Field::toggle, 1U);
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 0);
     EXPECT_EQ(s.bits_.get(S::Field::toggle), 1);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0);
 
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0);
-    s.bits_.set(S::Field::flags, 0b0001);
+    s.bits_.set(S::Field::flags, 0b0001U);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0b0001);
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 0);
     EXPECT_EQ(s.bits_.get(S::Field::toggle), 1);
-    s.bits_.set(S::Field::flags, 0b0010);
+    s.bits_.set(S::Field::flags, 0b0010U);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0b0010);
-    s.bits_.set(S::Field::flags, 0b0011);
+    s.bits_.set(S::Field::flags, 0b0011U);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0b0011);
-    s.bits_.set(S::Field::flags, 0b1000);
+    s.bits_.set(S::Field::flags, 0b1000U);
     EXPECT_EQ(s.bits_.get(S::Field::flags), 0b1000);
 }
 
@@ -374,9 +374,9 @@ TEST(bits_Field, experiment_char) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::character), 0);
-    s.bits_.set(S::Field::character, 'M');
+    s.bits_.set(S::Field::character, static_cast<uint8_t>('M'));
     EXPECT_EQ(s.bits_.get(S::Field::character), 'M');
-    s.bits_.set(S::Field::character, 255);
+    s.bits_.set(S::Field::character, 255U);
     EXPECT_EQ(s.bits_.get(S::Field::character), 255);
 }
 
@@ -391,7 +391,7 @@ TEST(bits_Field, one) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
-    s.bits_.set(S::Field::number, 1234);
+    s.bits_.set(S::Field::number, 1234U);
     EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
 }
 
@@ -406,7 +406,7 @@ TEST(bits_Field, some_capacity_left) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
-    s.bits_.set(S::Field::number, 1234);
+    s.bits_.set(S::Field::number, 1234U);
     EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
 }
 

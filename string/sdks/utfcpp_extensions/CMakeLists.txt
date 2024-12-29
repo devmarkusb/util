@@ -17,7 +17,6 @@ add_executable(${target}
 
 target_include_directories(${target} PRIVATE ${ulBasicCodeSupport_INCLUDE_DIRS})
 target_include_directories(${target} PRIVATE ${ulString_INCLUDE_DIRS})
-target_include_directories(${target} PRIVATE ${utfcpp_INCLUDE_DIRS})
 
 target_link_libraries(${target} PRIVATE gtest_main ulString)
 

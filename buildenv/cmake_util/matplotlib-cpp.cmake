@@ -32,4 +32,5 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(UL_matplotlib_cpp_compile_options
             -Wno-conversion -Wno-sign-compare -Wno-unused-parameter)
 endif ()
+
 target_compile_options(matplotlib_cpp INTERFACE ${UL_matplotlib_cpp_compile_options})
