@@ -14,9 +14,9 @@ set(${target}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
         CACHE INTERNAL "${target}: include directories" FORCE)
 
-add_library(${target} STATIC ${target_INCS} src/empty.cpp)
+add_library(${target} INTERFACE ${target_INCS})
 
-target_include_directories(${target} PUBLIC
+target_include_directories(${target} INTERFACE
         ${mb-util_INCLUDE_DIRS}
         ${ulBasicCodeSupport_INCLUDE_DIRS}
         ${ulBuildEnv_INCLUDE_DIRS}
@@ -25,6 +25,6 @@ target_include_directories(${target} PUBLIC
         ${ulString_INCLUDE_DIRS}
 )
 
-target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport ulString)
+target_link_libraries(${target} INTERFACE ulBuildEnv ulBasicCodeSupport ulString)
 
 ul_set_target_defaults(${target})
