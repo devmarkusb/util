@@ -12,20 +12,20 @@ add_subdirectory(sdks)
 
 file(GLOB_RECURSE target_INCS "include/*.h*")
 
-add_library(${target} STATIC ${target_INCS} src/empty.cpp)
+add_library(${target} INTERFACE ${target_INCS})
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL "${target}: include directories" FORCE)
 
-target_include_directories(${target} PUBLIC ${${target}_INCLUDE_DIRS})
-target_include_directories(${target} SYSTEM PUBLIC ${utfcpp_INCLUDE_DIRS})
+target_include_directories(${target} INTERFACE ${${target}_INCLUDE_DIRS})
+target_include_directories(${target} SYSTEM INTERFACE ${utfcpp_INCLUDE_DIRS})
 
-target_link_libraries(${target} ulBasicCodeSupport) # utf8cpp
+target_link_libraries(${target} INTERFACE ulBasicCodeSupport) # utf8cpp
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    target_compile_options(${target} PUBLIC -Wno-unsafe-buffer-usage)
+    target_compile_options(${target} INTERFACE -Wno-unsafe-buffer-usage)
 endif ()
 
 ul_set_target_defaults(${target})
