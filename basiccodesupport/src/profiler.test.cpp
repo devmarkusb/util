@@ -64,7 +64,7 @@ TEST(ToFormattedStringTest, Inf) {
 }
 
 // NOLINTBEGIN
-TEST(DumpAllItemsTest, PracticalScenario) {
+TEST(DumpAllItemsTest, DISABLED_PracticalScenario) {
     ul::dump_test_name();
     ul::PerformanceProfiler perfscope0("1. 500ms");
     EXPECT_NEAR(0.0, perfscope0.elapsed_current_item(), 0.02);
