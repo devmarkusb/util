@@ -10,18 +10,18 @@ set(target ${PROJECT_NAME})
 
 file(GLOB_RECURSE target_INCS "include/*.h")
 
-add_library(${target} STATIC ${target_INCS} src/empty.cpp)
+add_library(${target} INTERFACE ${target_INCS})
 
 set(${target}_INCLUDE_DIRS
         ${PROJECT_SOURCE_DIR}/include
         ${ulBuildEnv_INCLUDE_DIRS}
         CACHE INTERNAL "${target}: include directories" FORCE)
 
-target_include_directories(${target} PUBLIC ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(${target} INTERFACE ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS})
 
-target_link_libraries(${target} PUBLIC ulBuildEnv)
+target_link_libraries(${target} INTERFACE ulBuildEnv)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    target_link_libraries(${target} PUBLIC stdc++exp)
+    target_link_libraries(${target} INTERFACE stdc++exp)
 endif ()
 
 ul_set_target_defaults(${target})

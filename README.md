@@ -33,7 +33,7 @@ from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 ```
 add_subdirectory(util)
 # ...
-target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
+target_link_libraries(YourTarget PUBLIC mb-util)
 ```
 or
 ```
@@ -54,9 +54,9 @@ FetchContent_Declare(mb-util
 
 FetchContent_MakeAvailable(mb-util)
 # ...
-target_include_directories(YourTarget PUBLIC ${ul_INCLUDE_DIRS})
+target_link_libraries(YourTarget PUBLIC mb-util)
 ```
-and `#include "ul/ul.h"` should be all you need. The library is header-only.
+and `#include "ul/ul.h"` should be all you need. The library is mostly header-only.
 
 ## FAQ
 
