@@ -20,7 +20,7 @@ file(COPY ${mb-clangformat_SOURCE_DIR}/clangformat.sh DESTINATION ${PROJECT_SOUR
         FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
 set(cxx_dirs_general "apps;include;libs;sdks;source;src;test")
-if (${PROJECT_NAME} STREQUAL "util")
+if ("${PROJECT_NAME}" STREQUAL "util")
     set(cxx_dirs_util ";basiccodesupport;buildenv;linklib;mem;string")
 endif ()
 
