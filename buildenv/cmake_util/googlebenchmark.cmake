@@ -45,6 +45,6 @@ else ()
 endif ()
 
 target_compile_options(benchmark PUBLIC ${UL_google_benchmark_compile_options})
-if (${UL_CPP_STD_LIB} STREQUAL "libc++")
+if ("${UL_CPP_STD_LIB}" STREQUAL "libc++")
     add_definitions(-DBENCHMARK_USE_LIBCXX=ON)
 endif ()
