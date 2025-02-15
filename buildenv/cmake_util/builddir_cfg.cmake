@@ -34,7 +34,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         set(impl_CompilerSubdir "msvc")
     endif ()
 endif ()
-if (NOT ${UL_CUSTOM_TARGET_SPECIFIER} STREQUAL "")
+if (NOT "${UL_CUSTOM_TARGET_SPECIFIER}" STREQUAL "")
     set(impl_CompilerSubdir "${impl_CompilerSubdir}_${UL_CUSTOM_TARGET_SPECIFIER}")
 endif ()
 
