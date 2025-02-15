@@ -14,7 +14,7 @@ option(UL_THREAD_SAN "thread sanitizer" OFF)
 option(UL_MEMORY_SAN "memory sanitizer" OFF)
 option(UL_UNDEF_SAN "undefined behavior sanitizer" OFF)
 
-if (${UL_CPP_STD_LIB} STREQUAL "libc++")
+if ("${UL_CPP_STD_LIB}" STREQUAL "libc++")
     option(UL_LIBCPP_DEBUG "enables the _LIBCPP_DEBUG mode, prerequiste: compiler being built with LIBCXX_ENABLE_DEBUG_MODE_SUPPORT" OFF)
 endif ()
 
