@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
+if (ANDROID)
+    return()
+endif()
+
 find_library(benchmark_LIBRARIES NAMES libbenchmark.a benchmark)
 if (benchmark_LIBRARIES)
     add_library(benchmark INTERFACE)
