@@ -22,6 +22,10 @@ target_include_directories(${target} INTERFACE ${ulBuildEnv_INCLUDE_DIRS} ${ulBa
 target_link_libraries(${target} INTERFACE ulBuildEnv)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     target_link_libraries(${target} INTERFACE stdc++exp)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID)
+    # workaround
+    # needed for stacktrace
+    target_link_libraries(${target} INTERFACE stdc++exp)
 endif ()
 
 ul_set_target_defaults(${target})
