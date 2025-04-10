@@ -1,5 +1,9 @@
 # File to include for cmake Qt postbuild deployment dependency additions.
 
+get_filename_component(UL_QT_INSTALL_PREFIX "${Qt6_DIR}" DIRECTORY)
+get_filename_component(UL_QT_INSTALL_PREFIX "${QT_INSTALL_PREFIX}" DIRECTORY)
+get_filename_component(UL_QT_INSTALL_PREFIX "${QT_INSTALL_PREFIX}" DIRECTORY)
+
 # \param path_to_qml needs to be the one pointing to the root of *all* qml files, containing qml.qrc also.
 macro(ul_qt_deploy target path_to_qml)
     set(impl_TargetFileName $<TARGET_FILE_NAME:${target}>)
@@ -31,7 +35,7 @@ macro(ul_qt_deploy target path_to_qml)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${UL_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_win.bat"
-                "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}" "${UL_QT_VER_COMP_PATH}/bin"
+                "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}" "${UL_QT_INSTALL_PREFIX}/bin"
                 ${impl_TargetBuildType} -qml -widgets ${impl_QmlDirParam} ${impl_QmlSourcesToUse} ${impl_TargetFileName}
         )
     elseif (UL_LINUX AND "${UL_DEPLOY_TARGET}" STREQUAL "linuxAppDir")
@@ -40,7 +44,7 @@ macro(ul_qt_deploy target path_to_qml)
             COMMAND "${UL_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_linux.sh"
             "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/usr/share/applications/${impl_TargetFileName}.desktop"
             -bundle-non-qt-libs
-            -qmake="${UL_QT_VER_COMP_PATH}/bin/qmake"
+            -qmake="${UL_QT_INSTALL_PREFIX}/bin/qmake"
             ${impl_QmlSourcesToUse}
             -verbose=3
             WORKING_DIRECTORY "${UL_CMAKE_UTIL_DIR}/assets"
@@ -77,7 +81,7 @@ macro(ul_qt_deploy target path_to_qml)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${UL_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_macos.sh"
-                "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}" "${UL_QT_VER_COMP_PATH}/bin"
+                "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}" "${UL_QT_INSTALL_PREFIX}/bin"
                 -verbose=3 -dmg ${impl_QmlSourcesToUse}
         )
     endif ()
