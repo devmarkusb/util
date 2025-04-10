@@ -1,8 +1,8 @@
 # File to include for cmake Qt postbuild deployment dependency additions.
 
 get_filename_component(UL_QT_INSTALL_PREFIX "${Qt6_DIR}" DIRECTORY)
-get_filename_component(UL_QT_INSTALL_PREFIX "${QT_INSTALL_PREFIX}" DIRECTORY)
-get_filename_component(UL_QT_INSTALL_PREFIX "${QT_INSTALL_PREFIX}" DIRECTORY)
+get_filename_component(UL_QT_INSTALL_PREFIX "${UL_QT_INSTALL_PREFIX}" DIRECTORY)
+get_filename_component(UL_QT_INSTALL_PREFIX "${UL_QT_INSTALL_PREFIX}" DIRECTORY)
 
 # \param path_to_qml needs to be the one pointing to the root of *all* qml files, containing qml.qrc also.
 macro(ul_qt_deploy target path_to_qml)
