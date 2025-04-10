@@ -159,8 +159,8 @@ macro(ul_set_target_defaults target)
 
     get_target_property(target_type ${target} TYPE)
     if (target_type STREQUAL "EXECUTABLE" OR target_type STREQUAL "SHARED_LIBRARY")
-        # AppleClang doesn't seem to know these, ok it's a linker thing, left to investigate
-        if (NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
+        if (NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang"
+            AND NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
             AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17)
             AND NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC"))
             target_link_options(${target} PUBLIC "LINKER:-z,nodlopen" "LINKER:-z,noexecstack" "LINKER:-z,relro"
