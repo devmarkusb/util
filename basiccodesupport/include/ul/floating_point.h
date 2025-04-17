@@ -22,6 +22,9 @@ namespace mb::ul::math {
     other params.*/
 template <typename FloatType>
 std::enable_if_t<std::is_floating_point_v<FloatType>, bool> approx_equal(FloatType x, FloatType y, FloatType eps) {
+    if (x == y) {
+        return true;
+    }
     return std::abs(x - y) < eps;
 }
 
