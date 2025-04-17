@@ -145,3 +145,69 @@ TEST(toHexString, test) {
     EXPECT_STREQ("c3a4", ul::str::to_hex_string("\xc3\xa4").c_str());
     EXPECT_STREQ("\\xc3\\xa4", ul::str::to_hex_string("\xc3\xa4", "\\x").c_str());
 }
+
+// New tests for additional functionality
+
+TEST(utf8_to_html, empty_string) {
+    const std::string s{""};
+    const std::string ret = ul::str::utf8_to_html(s);
+    EXPECT_EQ("", ret);
+}
+
+TEST(utf8_to_html, ascii_only) {
+    const std::string s{"Hello World!"};
+    const std::string ret = ul::str::utf8_to_html(s);
+    EXPECT_EQ("Hello World!", ret);
+}
+
+TEST(utf8_to_html, mixed_content) {
+    const std::string s{"Hello \xc3\xa4 World \xe2\x82\xac!"};
+    const std::string ret = ul::str::utf8_to_html(s);
+    EXPECT_EQ("Hello &#228; World &#8364;!", ret);
+}
+
+TEST(utf8_to_html, special_characters) {
+    const std::string s{"\x09\x0a\x0d\x20\x7e\x7f"};
+    const std::string ret = ul::str::utf8_to_html(s);
+    EXPECT_EQ("\x09\x0a\x0d\x20\x7e&#127;", ret);
+}
+
+TEST(utf8_to_html, invalid_utf8) {
+    // This test might fail if the function doesn't handle invalid UTF-8
+    // If it does fail, we should modify the function to handle invalid UTF-8
+    const std::string s{"\xc3"}; // Incomplete UTF-8 sequence
+    EXPECT_THROW(ul::str::utf8_to_html(s), std::exception);
+}
+
+TEST(to_hex_string, empty_string) {
+    EXPECT_STREQ("", ul::str::to_hex_string("").c_str());
+    EXPECT_STREQ("", ul::str::to_hex_string("", "\\x").c_str());
+}
+
+TEST(to_hex_string, ascii_only) {
+    EXPECT_STREQ("48656c6c6f", ul::str::to_hex_string("Hello").c_str());
+    EXPECT_STREQ("\\x48\\x65\\x6c\\x6c\\x6f", ul::str::to_hex_string("Hello", "\\x").c_str());
+}
+
+TEST(to_hex_string, custom_prefix) {
+    EXPECT_STREQ("0x480x650x6c0x6c0x6f", ul::str::to_hex_string("Hello", "0x").c_str());
+    EXPECT_STREQ("#48#65#6c#6c#6f", ul::str::to_hex_string("Hello", "#").c_str());
+}
+
+TEST(s2psz, test) {
+    const std::string s{"Hello World"};
+    char* psz = ul::str::s2psz(s);
+    EXPECT_STREQ("Hello World", psz);
+}
+
+TEST(s2psz, empty_string) {
+    const std::string s{""};
+    char* psz = ul::str::s2psz(s);
+    EXPECT_STREQ("", psz);
+}
+
+TEST(s2psz, null_terminated) {
+    const std::string s{"Hello\0World"};
+    char* psz = ul::str::s2psz(s);
+    EXPECT_STREQ("Hello", psz); // Should stop at the null terminator
+}
