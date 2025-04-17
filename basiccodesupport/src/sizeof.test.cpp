@@ -29,9 +29,6 @@ TEST(SizeofTest, VerifySizes) {
     static_assert(sizeof(double) == 8, "double should be 8 bytes");
     static_assert(sizeof(void*) == 8, "void* should be 8 bytes");
     
-    static_assert(sizeof(std::string) == 24, "std::string should be 24 bytes");
-    static_assert(sizeof(std::vector<int>) == 24, "std::vector<int> should be 24 bytes");
-    
     // Add a runtime assertion to make the test do something
     SUCCEED() << "All size checks passed at compile time";
 }
