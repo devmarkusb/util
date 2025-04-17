@@ -13,7 +13,7 @@ TEST(multiplicative_inverse_fermat, tests) {
 
 TEST(IntegerTest, ModuloOperations) {
     // Test ModuloMultiply
-    const ul::ModuloMultiply mmult{7};
+    const ul::ModuloMultiply<int> mmult{7};
     EXPECT_EQ(mmult(3, 4), 5); // 3 * 4 = 12, 12 % 7 = 5
     
     // Test identity_element
