@@ -39,7 +39,7 @@ inline char make_lower(char& c) {
     return c;
 }
 
-//! Expects fromSub non-empty.
+//! Expects from_sub non-empty.
 inline void replace_all(std::string& s, const std::string& from_sub, const std::string& to_sub) {
     UL_EXPECT(!from_sub.empty());
     size_t start_pos{};
@@ -49,8 +49,8 @@ inline void replace_all(std::string& s, const std::string& from_sub, const std::
     }
 }
 
-/** Expects fromSub non-empty. Expects toSubs to be of at least the
-    count of occurrences of fromSub within s.*/
+/** Expects from_sub non-empty. Expects to_subs to be of at least the
+    count of occurrences of from_sub within s.*/
 inline void replace_all(std::string& s, const std::string& from_sub, const std::vector<std::string>& to_subs) {
     UL_EXPECT(!from_sub.empty());
     if (s.empty()) {
