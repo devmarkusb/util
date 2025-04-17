@@ -1,7 +1,7 @@
 /**
     \file
     If you expected this file to define yet another custom string type, you are fortunately wrong.
-    Instead it serves just as a documentation of guidelines of how to deal with strings in your
+    Instead, it serves just as a documentation of guidelines of how to deal with strings in your
     program.
     A short glance at function getLength and its implementation below should give you an immediate
     idea of what your dealing with here. (The count of bytes isn't equal to the count of characters...)
