@@ -4,6 +4,7 @@
 #define FILE_H_SDUIFHG3GFY324N178FSFFE4F
 
 #include "assert.h"
+#include "ul/config.h"
 #include <cerrno>
 #include <cstring>
 #include <fstream>
@@ -11,16 +12,17 @@
 #include <string>
 
 namespace mb::ul::file {
-/** \param ret_err_detail returns error detail string or is empty on success.
+/** \param ret_err_detail returns error detail string or is empty on success, except for eof.
     \return false on success.*/
 template <class FStream>
 bool fstream_failed(std::string& ret_err_detail, const FStream& fs) {
     ret_err_detail.clear();
-    if (fs)
+    if (fs) {
+        if (fs.eof())
+            ret_err_detail = "eof";
         return false;
-    if (fs.eof())
-        ret_err_detail = "eof";
-    else if (fs.bad())
+    }
+    if (fs.bad())
         ret_err_detail = "bad";
     else if (fs.fail())
         ret_err_detail = "fail";
@@ -52,5 +54,7 @@ enum class Operation {
     throw std::runtime_error{ss.str()};
 }
 } // namespace mb::ul::file
+
+UL_HEADER_END
 
 #endif
