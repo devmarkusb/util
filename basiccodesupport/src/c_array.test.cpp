@@ -18,7 +18,6 @@ TEST(CArrayTest, BasicFunctionality) {
     EXPECT_EQ(ul::c_array_length(char_array), 3);
     
     // Test with string literals
-    const char* str_literal = "Hello";
     EXPECT_EQ(ul::c_array_length("Hello"), 6); // Including null terminator
     
     // Test with single-element arrays (smallest valid array size)
