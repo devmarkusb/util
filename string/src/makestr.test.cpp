@@ -63,16 +63,17 @@ TEST(makestrTest, stream_manipulators) {
     EXPECT_EQ("3.14", s4);
 }
 
+namespace {
+// Helper function for the implicit conversion test
+void test_function(const std::string& s) {
+    EXPECT_EQ("Hello World", s);
+}
+}
+
 TEST(makestrTest, implicit_conversion) {
     std::string s = ul::str::Makestr() << "Hello" << " " << "World";
     EXPECT_EQ("Hello World", s);
     
     // Test that the implicit conversion works
-    void test_function(const std::string& s);
     test_function(ul::str::Makestr() << "Hello" << " " << "World");
-}
-
-// Helper function for the implicit conversion test
-void test_function(const std::string& s) {
-    EXPECT_EQ("Hello World", s);
 }
