@@ -33,6 +33,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
 include(GoogleTest)
 enable_testing()
 
+option(UL_ENABLE_LTO "enables link time optimization" OFF)
+
 set(UL_BUILD_UNITTESTS ON CACHE BOOL "build (and run) unit tests as postbuild step")
 if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
@@ -41,6 +43,14 @@ if (UL_ANDROID)
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
 endif ()
 option(UL_RUN_UNITTESTS_POSTBUILD "unit tests are run as part of the build - recommended to be disabled for debugging and CI" OFF)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(UL_IS_NON_APPLE_CLANG_COMPILER TRUE)
+else()
+    set(UL_IS_NON_APPLE_CLANG_COMPILER FALSE)
+endif()
+
+option(UL_USE_LLD_LINKER "use lld linker" ${UL_IS_NON_APPLE_CLANG_COMPILER})
 
 # Might be used by clang-tidy and coverage, why not on by default.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -68,6 +78,23 @@ if (MINGW)
     set(CMAKE_RC_COMPILER_INIT windres)
     enable_language(RC)
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+endif ()
+
+if (UL_USE_LLD_LINKER)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fuse-ld=lld")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=lld")
+endif ()
+
+if (UL_ENABLE_LTO)
+    message(STATUS "IPO / LTO enabled")
+    get_all_targets(all_targets ${CMAKE_SOURCE_DIR})
+    foreach (target IN ITEMS ${all_targets})
+        get_target_property(type ${target} TYPE)
+        if (type STREQUAL "SHARED_LIBRARY" OR type STREQUAL "STATIC_LIBRARY" OR type STREQUAL "EXECUTABLE")
+            set_property(TARGET ${target} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+        endif ()
+    endforeach ()
 endif ()
 
 
