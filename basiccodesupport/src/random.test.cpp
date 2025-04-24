@@ -26,7 +26,7 @@ TEST(RandomTest, random_frac) {
     // Count samples in each decile
     std::vector decile_counts(10, 0);
     for (const auto sample : samples) {
-        const auto decile = static_cast<int>(sample * 10);
+        const auto decile = static_cast<size_t>(sample * 10);
         decile_counts[decile]++;
     }
     

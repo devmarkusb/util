@@ -80,12 +80,12 @@ TEST(SharedInstanceTest, ThreadSafety) {
     // Reset instance count
     TestClass::instance_count = 0;
     
-    const int num_threads = 10;
+    const size_t num_threads = 10;
     std::vector<std::thread> threads;
     std::vector<std::shared_ptr<TestClass>> instances(num_threads);
     
     // Create threads that each get a shared instance
-    for (int i = 0; i < num_threads; ++i) {
+    for (size_t i = 0; i < num_threads; ++i) {
         threads.emplace_back([&instances, i]() {
             instances[i] = ul::get_shared_instance<TestClass>();
         });
@@ -100,7 +100,7 @@ TEST(SharedInstanceTest, ThreadSafety) {
     EXPECT_EQ(TestClass::instance_count, 1);
     
     // Verify all instances are the same
-    for (int i = 1; i < num_threads; ++i) {
+    for (size_t  i = 1; i < num_threads; ++i) {
         EXPECT_EQ(instances[0].get(), instances[i].get());
     }
     
