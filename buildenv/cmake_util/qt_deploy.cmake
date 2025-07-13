@@ -4,7 +4,7 @@ get_filename_component(UL_QT_INSTALL_PREFIX "${Qt6_DIR}" DIRECTORY)
 get_filename_component(UL_QT_INSTALL_PREFIX "${UL_QT_INSTALL_PREFIX}" DIRECTORY)
 get_filename_component(UL_QT_INSTALL_PREFIX "${UL_QT_INSTALL_PREFIX}" DIRECTORY)
 
-# \param path_to_qml needs to be the one pointing to the root of *all* qml files, containing qml.qrc also.
+# \param path_to_qml needs to be the one pointing to the root of *all* qml files.
 macro(ul_qt_deploy target path_to_qml)
     set(impl_TargetFileName $<TARGET_FILE_NAME:${target}>)
     if (UL_WINDOWS)
