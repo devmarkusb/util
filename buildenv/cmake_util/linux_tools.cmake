@@ -19,7 +19,7 @@ macro(ul_linux_prepare_package TARGET_NAME DISPLAYNAME)
 
         add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${TARGET_NAME}>
-            ${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}
+            ${RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}
         )
 
         set(TARGET_NAME ${TARGET_NAME})
