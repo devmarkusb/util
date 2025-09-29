@@ -24,7 +24,7 @@ macro(ul_qt_deploy target path_to_qml)
     if ("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
         # Note: rename instead of copy hinders MSVC to copy (again)
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${impl_TargetFileName} ${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}
+            COMMAND ${CMAKE_COMMAND} -E copy ${impl_TargetFileName} ${RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}
             WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
         )
     endif ()
@@ -35,7 +35,7 @@ macro(ul_qt_deploy target path_to_qml)
         add_custom_command(
             TARGET ${target} POST_BUILD
             COMMAND "${UL_CMAKE_UTIL_DIR}/assets/qt_deploy_autodepends_win.bat"
-                "${UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}" "${UL_QT_INSTALL_PREFIX}/bin"
+                "${RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR}" "${UL_QT_INSTALL_PREFIX}/bin"
                 ${impl_TargetBuildType} -qml -widgets ${impl_QmlDirParam} ${impl_QmlSourcesToUse} ${impl_TargetFileName}
         )
     elseif (UL_LINUX AND "${UL_DEPLOY_TARGET}" STREQUAL "linuxAppDir")
