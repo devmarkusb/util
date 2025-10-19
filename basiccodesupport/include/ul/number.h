@@ -7,14 +7,13 @@
 #include "assert.h"
 #include "enum_cast.h"
 #include "floating_point.h"
-#include "math.h"
 #include "narrow.h"
-#include "optional.h"
 
 #include "ul/comp_bwds.h"
 #include "ul/config.h"
 #include <cmath>
 #include <iomanip>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -72,11 +71,11 @@ std::string to_leading_zeros(T x, int digits) {
     Note that the return value can be < 0, e.g. 0.5 is the -1 power of base 2.*/
 template <typename ArithType>
 //  ArithType expected to be is_arithmetic
-ul::Opt<ArithType> is_power_of(ArithType x, ArithType base) {
+std::optional<ArithType> is_power_of(ArithType x, ArithType base) {
     static_assert(std::is_arithmetic_v<ArithType>, "only arithmetic numbers are allowed as input");
     UL_EXPECT(x > ArithType{});
     UL_EXPECT(base > ArithType{});
-    UL_EXPECT(!ul::almost_equal_alltypes(base, static_cast<ArithType>(1)));
+    UL_EXPECT(!almost_equal_alltypes(base, static_cast<ArithType>(1)));
 
     /** Impl. notes:
             If you wonder, whether this could be implemented using std::modf instead of the rounding check,
@@ -86,13 +85,13 @@ ul::Opt<ArithType> is_power_of(ArithType x, ArithType base) {
             Though one could improve the hard-coded 1e-12 (std::numeric_limits<long double>::min() is
             much too small).*/
     const long double exp = std::log(x) / std::log(base);
-    const int64_t intpart = ul::llround(exp);
-    const auto intpart_dbl = ul::narrow_cast<long double>(intpart);
+    const int64_t intpart = llround(exp);
+    const auto intpart_dbl = narrow_cast<long double>(intpart);
 
     if (constexpr auto sufficiently_small_deviation{1e-12L};
-        !ul::math::approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
+        !approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
         return {};
-    return ul::narrow_cast<ArithType>(intpart);
+    return narrow_cast<ArithType>(intpart);
 }
 } // namespace mb::ul::math
 
