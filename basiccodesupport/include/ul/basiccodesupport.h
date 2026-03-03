@@ -33,7 +33,6 @@ All-in-one include file for this part of the lib.
 #include "narrow.h"
 #include "number.h"
 #include "operation.h"
-#include "optional.h"
 #include "overflow.h"
 #include "profiler.h"
 #include "ptr.h"
