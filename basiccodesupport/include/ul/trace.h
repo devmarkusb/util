@@ -33,7 +33,7 @@ namespace mb::ul {
         int main()
         {
             // first call init (and only once)
-            ul::tracer::init(); // cf. function doc. for configuration possiblities
+            ul::tracer::init(); // cf. function doc. for configuration possibilities
             ul::trace("ERROR") << "not so good, " << 42;
             ul::trace() << "not so good, " << 42; // does the same, since "ERROR" is also default
         }
@@ -253,7 +253,7 @@ inline StreamTracer& stream() {
                             there you can open an additional console window to see traces if
                             switched on
         AlsoBindStdoutToNewConsolePolicy: only makes sense if you checked+opened a new console
-                            window by the previous policy; then youn have the option to not only
+                            window by the previous policy; then you have the option to not only
                             bind stderr (cerr) - which is done by default and used for traces
                             to the console - but also stdout (cout) to the console window output.*/
 template <

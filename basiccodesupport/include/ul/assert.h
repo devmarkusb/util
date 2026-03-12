@@ -44,15 +44,16 @@ namespace mb::ul {
 //! This is thrown by any throwing assertion.
 struct FailFast : std::runtime_error {
     explicit FailFast(const char* const message)
-        : std::runtime_error {
+        : std::runtime_error{
 #if __cpp_lib_stacktrace
-        std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
+              std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
 #else
-        std::string{message}.append("\n")
+              std::string{message}.append("\n")
 #endif
-    }
+          }
 
-    {}
+    {
+    }
 };
 } // namespace mb::ul
 

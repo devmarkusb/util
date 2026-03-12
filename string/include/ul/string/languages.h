@@ -70,7 +70,7 @@ inline std::string get_native_language_name(const LangIdIso6391& id) {
     else if (id == "zh")
         return "\xE4\xB8\xAD\xE6\x96\x87";
     else
-        throw ul::NotImplemented{"unsupported or unknonwn ISO 639-1 language code"};
+        throw ul::NotImplemented{"unsupported or unknown ISO 639-1 language code"};
 }
 
 inline std::string get_english_language_name(const LangIdIso6391& id) {
@@ -105,7 +105,7 @@ inline std::string get_english_language_name(const LangIdIso6391& id) {
     else if (id == "zh")
         return "Chinese";
     else
-        throw ul::NotImplemented{"unsupported or unknonwn ISO 639-1 language code"};
+        throw ul::NotImplemented{"unsupported or unknown ISO 639-1 language code"};
 }
 } // namespace mb::ul::str
 

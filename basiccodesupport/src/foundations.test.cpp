@@ -1,5 +1,5 @@
 /** Note: many unit tests here are in fact just compilation tests against concept definitions.
-    Note: don't add more _check function if not absolutely needed. They are superseeded by just checking concepts
+    Note: don't add more _check function if not absolutely needed. They are superseded by just checking concepts
     in static_asserts.*/
 
 #include "ul/foundations.h"

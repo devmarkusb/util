@@ -235,7 +235,7 @@ struct FieldsLookup {
         // clang-format on
         std::partial_sum(std::begin(counts), std::end(counts) - 1, std::begin(indices) + 1);
         UL_PRAGMA_WARNINGS_POP
-        // runtime check as long as we don't have a compiletime partial_sum
+        // runtime check as long as we don't have a compile-time partial_sum
         UL_ENSURE_THROW(indices.back() + counts.back() <= max_count);
     }
 };

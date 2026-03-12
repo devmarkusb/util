@@ -1,4 +1,5 @@
 # util library (ul)
+
 [![build](https://github.com/devmarkusb/util/actions/workflows/build.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/build.yml)
 [![clang-tidy-review](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml)
 [![Codacy Security Scan](https://github.com/devmarkusb/util/actions/workflows/codacy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codacy.yml)
@@ -30,13 +31,15 @@ from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 
 ### CMake
 
-```
+```cmake
 add_subdirectory(util)
 # ...
 target_link_libraries(YourTarget PUBLIC mb-util)
 ```
+
 or
-```
+
+```cmake
 cmake_minimum_required(VERSION 3.14)
 
 if (TARGET ulBuildEnv)
@@ -56,6 +59,7 @@ FetchContent_MakeAvailable(mb-util)
 # ...
 target_link_libraries(YourTarget PUBLIC mb-util)
 ```
+
 and `#include "ul/ul.h"` should be all you need. The library is mostly header-only.
 
 ## FAQ

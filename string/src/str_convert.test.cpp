@@ -8,8 +8,9 @@ namespace ul = mb::ul;
 
 TEST(utf16to8_ws2sTest, test) {
     // use the perfectly tested utf8cpp lib to construct an utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -20,8 +21,9 @@ TEST(utf16to8_ws2sTest, test) {
 
 TEST(utf16to8_ws2s_portableTest, test) {
     // use the perfectly tested utf8cpp lib to construct an utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -32,8 +34,9 @@ TEST(utf16to8_ws2s_portableTest, test) {
 
 TEST(utf8to16_s2wsTest, test) {
     // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -44,8 +47,9 @@ TEST(utf8to16_s2wsTest, test) {
 
 TEST(utf8to16_s2ws_portableTest, test) {
     // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -57,8 +61,9 @@ TEST(utf8to16_s2ws_portableTest, test) {
 TEST(utf16to8_ws2s_codecvtTest, test) {
 #if !UL_HAS_NO_CODECVT
     // use the perfectly tested utf8cpp lib to construct an utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -71,8 +76,9 @@ TEST(utf16to8_ws2s_codecvtTest, test) {
 TEST(utf8to16_s2ws_codecvtTest, test) {
 #if !UL_HAS_NO_CODECVT
     // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
@@ -93,8 +99,9 @@ TEST(locenc_s2wsTest, test) {
 }
 
 TEST(utf8toHTML, test) {
-    const std::string s("\xc3\xa4"
-                        "hnlich\x21 Und nochmal:\xc3\xa4");
+    const std::string s(
+        "\xc3\xa4"
+        "hnlich\x21 Und nochmal:\xc3\xa4");
     const std::string ret = ul::str::utf8_to_html(s);
     EXPECT_EQ("&#228;hnlich! Und nochmal:&#228;", ret);
 }

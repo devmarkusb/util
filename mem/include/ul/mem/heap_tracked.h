@@ -10,7 +10,7 @@
 #include <list>
 
 namespace mb::ul::mem {
-//! Usage: let your class publically derive from this one.
+//! Usage: let your class publicly derive from this one.
 /** Note: doesn't work with smart pointers, except they are explicitly created by new.
     Testing make_unique/make_shared showed negative results.
     Also note that array allocation (new[]) is not supported.*/

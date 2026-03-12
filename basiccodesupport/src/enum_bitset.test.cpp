@@ -37,7 +37,7 @@ std::ostream& operator<<(std::ostream& os, Ex1 e) {
     }
     return os;
 }
-}
+} // namespace
 
 using Ex1Bitset = EnumBitset<Ex1>;
 
