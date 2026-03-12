@@ -21,26 +21,31 @@ ul_set_target_defaults(${target})
 
 get_target_property(interfaceInclDirs ${target} INTERFACE_INCLUDE_DIRECTORIES)
 
-set(${target}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include ${interfaceInclDirs}
-    CACHE INTERNAL "${target}: include directories" FORCE)
-set(${target}_CMAKE_DIRS ${PROJECT_SOURCE_DIR}
-        CACHE INTERNAL "${target}: include directories" FORCE)
-
+set(${target}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${interfaceInclDirs}
+    CACHE INTERNAL
+    "${target}: include directories"
+    FORCE
+)
+set(${target}_CMAKE_DIRS
+    ${PROJECT_SOURCE_DIR}
+    CACHE INTERNAL
+    "${target}: include directories"
+    FORCE
+)
 
 ################################################################################################
 
-if (NOT UL_BUILD_UNITTESTS)
-    return ()
-endif ()
+if(NOT UL_BUILD_UNITTESTS)
+    return()
+endif()
 
 set(targetTest ${PROJECT_NAME}-test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
 
-add_executable(${targetTest}
-    ${targetTest_SOURCES}
-    ${target_INCS}
-)
+add_executable(${targetTest} ${targetTest_SOURCES} ${target_INCS})
 
 ul_add_test(${targetTest})
 

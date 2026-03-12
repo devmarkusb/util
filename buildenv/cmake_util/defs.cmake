@@ -1,29 +1,29 @@
 ### OS ###
 # Note, in code we call them UL_OS_... instead of UL_...
 
-if (WIN32)
+if(WIN32)
     # one might still prefer the very common WIN32
     set(UL_WINDOWS TRUE)
-endif ()
+endif()
 
-if (APPLE OR (${CMAKE_SYSTEM_NAME} MATCHES "Darwin"))
+if(APPLE OR (${CMAKE_SYSTEM_NAME} MATCHES "Darwin"))
     set(UL_MACOS TRUE)
-endif ()
+endif()
 
-if (UNIX AND NOT UL_MACOS)
+if(UNIX AND NOT UL_MACOS)
     set(UL_LINUX TRUE)
-endif ()
+endif()
 
-if (UNIX)
+if(UNIX)
     set(UL_UNIX TRUE)
-endif ()
+endif()
 
 # so far defined by toolchain we use
-if (ANDROID)
+if(ANDROID)
     set(UL_ANDROID TRUE)
-endif ()
+endif()
 
 # indicating an 'app' in the common restricted sense compared to desktop software
-if (UL_ANDROID)
+if(UL_ANDROID)
     set(UL_APP TRUE)
-endif ()
+endif()

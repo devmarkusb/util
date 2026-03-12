@@ -90,8 +90,7 @@ cmake_print_variables(MSVC71)
 cmake_print_variables(MSVC80)
 cmake_print_variables(CMAKE_COMPILER_2005)
 
-
-#set this to true if you don't want to rebuild the object files if the rules have changed, 
+#set this to true if you don't want to rebuild the object files if the rules have changed,
 #but not the actual source files or headers(e.g.if you changed the some compiler switches)
 cmake_print_variables(CMAKE_SKIP_RULE_DEPENDENCY)
 
@@ -110,7 +109,6 @@ cmake_print_variables(CMAKE_VERBOSE_MAKEFILE)
 #you want to use the generated build files on another machine.
 cmake_print_variables(CMAKE_SUPPRESS_REGENERATION)
 
-
 #A simple way to get switches to the compiler is to use ADD_DEFINITIONS().
 #But there are also two variables exactly for this purpose:
 
@@ -119,7 +117,6 @@ cmake_print_variables(CMAKE_C_FLAGS)
 
 #the compiler flags for compiling C++ sources
 cmake_print_variables(CMAKE_CXX_FLAGS)
-
 
 #Choose the type of build.Example : SET(CMAKE_BUILD_TYPE Debug)
 cmake_print_variables(CMAKE_BUILD_TYPE)
@@ -137,7 +134,7 @@ cmake_print_variables(CMAKE_CXX_COMPILER)
 cmake_print_variables(CMAKE_COMPILER_IS_GNUCC)
 
 #if the compiler is a variant of g++, this should be set to 1
-cmake_print_variables(CMAKE_COMPILER_IS_GNUCXX )
+cmake_print_variables(CMAKE_COMPILER_IS_GNUCXX)
 
 #the tools for creating libraries
 cmake_print_variables(CMAKE_AR)

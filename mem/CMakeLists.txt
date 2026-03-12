@@ -11,20 +11,19 @@ set(target ${PROJECT_NAME})
 file(GLOB_RECURSE target_INCS "include/*.h")
 file(GLOB_RECURSE target_SRC_INCS "src/*.h*")
 
-set(target_SOURCES
-        src/new_statistics.cpp
+set(target_SOURCES src/new_statistics.cpp)
+
+add_library(
+    ${target}
+    STATIC
+    ${target_SOURCES}
+    ${target_INCS}
+    ${target_SRC_INCS}
 )
 
-add_library(${target} STATIC
-        ${target_SOURCES}
-        ${target_INCS}
-        ${target_SRC_INCS}
-)
-
-target_include_directories(${target} PUBLIC
-        include
-        ${ulBuildEnv_INCLUDE_DIRS}
-        ${ulBasicCodeSupport_INCLUDE_DIRS}
+target_include_directories(
+    ${target}
+    PUBLIC include ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS}
 )
 
 target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport)
@@ -34,8 +33,10 @@ ul_set_target_defaults(${target})
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     ${ulBasicCodeSupport_INCLUDE_DIRS}
-    CACHE INTERNAL "${target}: include directories" FORCE)
-
+    CACHE INTERNAL
+    "${target}: include directories"
+    FORCE
+)
 
 ################################################################################################
 
@@ -44,19 +45,22 @@ set(${target}_INCLUDE_DIRS
 #if (${UL_CPP_STD_LIB} STREQUAL "libc++")
 #    return ()
 #endif ()
-if (NOT UL_BUILD_UNITTESTS)
-    return ()
-endif ()
+if(NOT UL_BUILD_UNITTESTS)
+    return()
+endif()
 
 set(targetTest ${PROJECT_NAME}-test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
-list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.test.cpp")
-list(REMOVE_ITEM targetTest_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.applied.test.cpp")
-add_executable(${targetTest}
-    ${targetTest_SOURCES}
-    ${target_INCS}
+list(
+    REMOVE_ITEM targetTest_SOURCES
+    "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.test.cpp"
 )
+list(
+    REMOVE_ITEM targetTest_SOURCES
+    "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.applied.test.cpp"
+)
+add_executable(${targetTest} ${targetTest_SOURCES} ${target_INCS})
 
 ul_add_test(${targetTest})
 
@@ -72,34 +76,42 @@ ul_run_target_postbuild(${targetTest})
 
 ###
 
-add_executable(${targetTest}_new_statistics
-        src/new_statistics.test.cpp
-        ${target_INCS}
+add_executable(
+    ${targetTest}_new_statistics
+    src/new_statistics.test.cpp
+    ${target_INCS}
 )
 
 ul_add_test(${targetTest}_new_statistics)
 
-target_include_directories(${targetTest}_new_statistics PRIVATE ${ulMem_INCLUDE_DIRS})
+target_include_directories(
+    ${targetTest}_new_statistics
+    PRIVATE ${ulMem_INCLUDE_DIRS}
+)
 
 target_link_libraries(${targetTest}_new_statistics PRIVATE ${target})
 
 ul_set_target_defaults(${targetTest}_new_statistics)
 
 # *WARNING* This doesn't run in Release mode starting with gcc-10?!
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     ul_run_target_postbuild(${targetTest}_new_statistics)
-endif ()
+endif()
 
 ###
 
-add_executable(${targetTest}_new_statistics_applied
-        src/new_statistics.applied.test.cpp
-        ${target_INCS}
-        )
+add_executable(
+    ${targetTest}_new_statistics_applied
+    src/new_statistics.applied.test.cpp
+    ${target_INCS}
+)
 
 ul_add_test(${targetTest}_new_statistics_applied)
 
-target_include_directories(${targetTest}_new_statistics_applied PRIVATE ${ulMem_INCLUDE_DIRS})
+target_include_directories(
+    ${targetTest}_new_statistics_applied
+    PRIVATE ${ulMem_INCLUDE_DIRS}
+)
 
 target_link_libraries(${targetTest}_new_statistics_applied PRIVATE ${target})
 

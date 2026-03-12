@@ -1,4 +1,4 @@
-if (TARGET libcurl)
+if(TARGET libcurl)
     return()
 endif()
 
