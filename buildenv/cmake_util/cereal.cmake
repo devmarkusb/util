@@ -1,4 +1,4 @@
-if (TARGET cereal)
+if(TARGET cereal)
     return()
 endif()
 
