@@ -19,7 +19,7 @@ namespace mb::ul {
     ul::any x = std::vector<long>{1,2,3,4,5};
     std::vector<long> back = ul::any_cast<std::vector<long>>(x);
     \endcode
-    The type cann be especially useful for interfaces that shouldn't be touched
+    The type can be especially useful for interfaces that shouldn't be touched
     again but remain flexible, example shown in any.test.cpp.
     So you can parametrize interface functions with (1.) an enum type as attribute
     description plus commenting the expected concrete type, and (2.) ul::any.

@@ -27,8 +27,6 @@ add_subdirectory(mem)
 add_subdirectory(linklib)
 add_subdirectory(util)
 
-ul_include(clang-format.cmake)
-
 set(UL_USE_DEFAULT_CLANG_TIDY_CONFIG ON)
 set(UL_CLANG_TIDY_DIRS "basiccodesupport;buildenv;linklib;mem;string;util")
 ul_include(clang-tidy.cmake)

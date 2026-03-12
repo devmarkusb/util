@@ -23,12 +23,12 @@ TEST(SizeofTest, VerifySizes) {
     static_assert(sizeof(SmallStruct) == 1, "SmallStruct should be 1 byte");
     static_assert(sizeof(MediumStruct) == 16, "MediumStruct should be 16 bytes");
     static_assert(sizeof(LargeStruct) == 100, "LargeStruct should be 100 bytes");
-    
+
     static_assert(sizeof(char) == 1, "char should be 1 byte");
     static_assert(sizeof(int) == 4, "int should be 4 bytes");
     static_assert(sizeof(double) == 8, "double should be 8 bytes");
     static_assert(sizeof(void*) == 8, "void* should be 8 bytes");
-    
+
     // Add a runtime assertion to make the test do something
     SUCCEED() << "All size checks passed at compile time";
 }

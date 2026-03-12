@@ -93,6 +93,7 @@ UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_CLANG(deprecated-declarations)
 
 // clang-format on
+
 inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr) {
     using CC = std::codecvt_utf8_utf16<wchar_t>;
     std::wstring_convert<CC, wchar_t> converter;
@@ -118,10 +119,10 @@ UL_PRAGMA_WARNINGS_POP
 {
     // of course this could be implemented better, but since this shouldn't be used anyway, a quick version was welcome
     std::string ret;
-    std::u16string interm;
+    std::u16string intermediate;
     // compiler warning, utf8cpp expects 8bit type for utf8
-    utf8::utf8to16(wstr.begin(), wstr.end(), std::back_inserter(interm));
-    utf8::utf16to8(interm.begin(), interm.end(), std::back_inserter(ret));
+    utf8::utf8to16(wstr.begin(), wstr.end(), std::back_inserter(intermediate));
+    utf8::utf16to8(intermediate.begin(), intermediate.end(), std::back_inserter(ret));
     return ret;
 }*/
 
@@ -129,9 +130,9 @@ UL_PRAGMA_WARNINGS_POP
 {
     // of course this could be implemented better, but since this shouldn't be used anyway, a quick version was welcome
     std::wstring ret;
-    std::u16string interm;
-    utf8::utf8to16(str.begin(), str.end(), std::back_inserter(interm));
-    utf8::utf16to8(interm.begin(), interm.end(), std::back_inserter(ret));
+    std::u16string intermediate;
+    utf8::utf8to16(str.begin(), str.end(), std::back_inserter(intermediate));
+    utf8::utf16to8(intermediate.begin(), intermediate.end(), std::back_inserter(ret));
     return ret;
 }*/
 

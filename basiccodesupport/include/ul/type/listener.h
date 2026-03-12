@@ -88,7 +88,7 @@ public:
     virtual ~ListenerRegister() = default;
 
     /** l has to be non-nullptr and valid/alive until calling unregister_listener on it,
-        which also has to be called before l's livetime ends.
+        which also has to be called before l's lifetime ends.
         The same l also mustn't be registered more than once.*/
     virtual void register_listener(Listener* l) {
         UL_EXPECT(l);
@@ -128,7 +128,7 @@ template <class StaticNotifier>
 class ListenerStaticRegister {
 public:
     /** \param l has to be non-nullptr and valid/alive until calling unregister_listener on it,
-        which also has to be called before l's livetime ends.
+        which also has to be called before l's lifetime ends.
         The same l also mustn't be registered more than once.*/
     static void register_listener(Listener* l) {
         UL_EXPECT(l);

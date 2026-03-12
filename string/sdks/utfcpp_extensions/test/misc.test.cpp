@@ -235,8 +235,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, test) {
 }
 
 TEST(utf8cpp_unchecked_8to16to8Test, test2) {
-    std::string utf8("\xc3\xa4"
-                     "hnlich\x21");
+    std::string utf8(
+        "\xc3\xa4"
+        "hnlich\x21");
     std::u16string utf16;
     utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
     std::string back;
@@ -266,8 +267,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, test2) {
 
 TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     {
-        std::string utf8("\xc3\xa4"
-                         "hnlich\x21");
+        std::string utf8(
+            "\xc3\xa4"
+            "hnlich\x21");
         std::vector<unsigned short> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -276,8 +278,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     }
 
     {
-        std::string utf8("\xc3\xa4"
-                         "hnlich\x21");
+        std::string utf8(
+            "\xc3\xa4"
+            "hnlich\x21");
         std::vector<char16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -286,8 +289,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     }
 
     {
-        std::string utf8("\xc3\xa4"
-                         "hnlich\x21");
+        std::string utf8(
+            "\xc3\xa4"
+            "hnlich\x21");
         std::vector<uint16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -296,8 +300,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     }
 
     {
-        std::string utf8("\xc3\xa4"
-                         "hnlich\x21");
+        std::string utf8(
+            "\xc3\xa4"
+            "hnlich\x21");
         std::vector<int16_t> utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;
@@ -306,8 +311,9 @@ TEST(utf8cpp_unchecked_8to16to8Test, type_experiments) {
     }
 
     {
-        std::string utf8("\xc3\xa4"
-                         "hnlich\x21");
+        std::string utf8(
+            "\xc3\xa4"
+            "hnlich\x21");
         std::u32string utf16;
         utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
         std::string back;

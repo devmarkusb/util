@@ -34,32 +34,32 @@ TEST(ulStringTest, get_length_mixed) {
 
 TEST(ulStringTest, get_length_special) {
     // Test with special characters
-    EXPECT_EQ(ul::str::get_length("\n\t\r"), 3);  // Control characters
-    EXPECT_EQ(ul::str::get_length(" "), 1);       // Space
-    EXPECT_EQ(ul::str::get_length("  "), 2);      // Multiple spaces
-    EXPECT_EQ(ul::str::get_length("!@#$%^&*()"), 10);  // Special ASCII characters
+    EXPECT_EQ(ul::str::get_length("\n\t\r"), 3); // Control characters
+    EXPECT_EQ(ul::str::get_length(" "), 1); // Space
+    EXPECT_EQ(ul::str::get_length("  "), 2); // Multiple spaces
+    EXPECT_EQ(ul::str::get_length("!@#$%^&*()"), 10); // Special ASCII characters
 }
 
 TEST(ulStringTest, get_length_emoji) {
     // Test with emoji (which are UTF-8 characters)
-    EXPECT_EQ(ul::str::get_length("😀"), 1);  // Basic emoji
-    EXPECT_EQ(ul::str::get_length("👋🌍"), 2);  // Multiple emoji
-    EXPECT_EQ(ul::str::get_length("Hello 😀"), 7);  // Mixed with ASCII
+    EXPECT_EQ(ul::str::get_length("😀"), 1); // Basic emoji
+    EXPECT_EQ(ul::str::get_length("👋🌍"), 2); // Multiple emoji
+    EXPECT_EQ(ul::str::get_length("Hello 😀"), 7); // Mixed with ASCII
 }
 
 TEST(ulStringTest, get_length_edge_cases) {
     // Test edge cases
     std::string empty;
     EXPECT_EQ(ul::str::get_length(empty), 0);
-    
+
     // Test with string containing only null bytes
     std::string nulls(3, '\0');
     EXPECT_EQ(ul::str::get_length(nulls), 3);
-    
+
     // Test with string containing invalid UTF-8
-    std::string invalid_utf8 = "\xc3";  // Incomplete UTF-8 sequence
+    std::string invalid_utf8 = "\xc3"; // Incomplete UTF-8 sequence
     EXPECT_ANY_THROW(ul::str::get_length(invalid_utf8));
-    
+
     // Test with very long string
     std::string long_string(1000, 'a');
     EXPECT_EQ(ul::str::get_length(long_string), 1000);
