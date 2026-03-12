@@ -353,8 +353,8 @@ globtilde(pattern, patbuf, patbuf_len, pglob)
 	if (*pattern != TILDE || !(pglob->gl_flags & GLOB_TILDE))
 		return pattern;
 
-	/* 
-	 * Copy up to the end of the string or / 
+	/*
+	 * Copy up to the end of the string or /
 	 */
 	eb = &patbuf[patbuf_len - 1];
 	for (p = pattern + 1, h = (char *) patbuf;
@@ -414,7 +414,7 @@ glob0(pattern, pglob)
 	int c, err, oldpathc;
 	Char *bufnext, patbuf[MAXPATHLEN+1];
 
-	qpatnext = globtilde(pattern, patbuf, sizeof(patbuf) / sizeof(Char), 
+	qpatnext = globtilde(pattern, patbuf, sizeof(patbuf) / sizeof(Char),
 	    pglob);
 	oldpathc = pglob->gl_pathc;
 	bufnext = patbuf;
@@ -634,7 +634,7 @@ glob3(pathbuf, pathend, pattern, restpattern, pglob)
 
 
 /*
- * Extend the gl_pathv member of a glob_t structure to accomodate a new item,
+ * Extend the gl_pathv member of a glob_t structure to accommodate a new item,
  * add the new item, and update gl_pathc.
  *
  * This assumes the BSD realloc, which only copies the block when its size

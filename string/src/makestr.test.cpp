@@ -20,16 +20,16 @@ TEST(makestrTest, empty) {
 TEST(makestrTest, single_value) {
     const std::string s1 = ul::str::Makestr() << "Hello";
     EXPECT_EQ("Hello", s1);
-    
+
     const std::string s2 = ul::str::Makestr() << 42;
     EXPECT_EQ("42", s2);
-    
+
     const std::string s3 = ul::str::Makestr() << 3.14;
     EXPECT_EQ("3.14", s3);
-    
+
     const std::string s4 = ul::str::Makestr() << true;
     EXPECT_EQ("1", s4);
-    
+
     const std::string s5 = ul::str::Makestr() << std::boolalpha << true;
     EXPECT_EQ("true", s5);
 }
@@ -52,13 +52,13 @@ TEST(makestrTest, utf8_characters) {
 TEST(makestrTest, stream_manipulators) {
     const std::string s1 = ul::str::Makestr() << std::hex << 42;
     EXPECT_EQ("2a", s1);
-    
+
     const std::string s2 = ul::str::Makestr() << std::dec << 42;
     EXPECT_EQ("42", s2);
-    
+
     const std::string s3 = ul::str::Makestr() << std::setw(5) << std::setfill('0') << 42;
     EXPECT_EQ("00042", s3);
-    
+
     const std::string s4 = ul::str::Makestr() << std::fixed << std::setprecision(2) << 3.14159;
     EXPECT_EQ("3.14", s4);
 }
@@ -68,12 +68,12 @@ namespace {
 void test_function(const std::string& s) {
     EXPECT_EQ("Hello World", s);
 }
-}
+} // namespace
 
 TEST(makestrTest, implicit_conversion) {
     std::string s = ul::str::Makestr() << "Hello" << " " << "World";
     EXPECT_EQ("Hello World", s);
-    
+
     // Test that the implicit conversion works
     test_function(ul::str::Makestr() << "Hello" << " " << "World");
 }

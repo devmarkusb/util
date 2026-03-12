@@ -75,10 +75,10 @@ TEST(lex_cast, str2char) {
 TEST(lex_cast, error_handling) {
     // Test with invalid input for str2int
     EXPECT_EQ(0, ul::lex_cast<int>("not a number")); // Should return default value (0)
-    
+
     // Test with invalid input for str2float
     EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>("not a number")); // Should return default value (0.0)
-    
+
     // Test with empty string
     EXPECT_EQ(0, ul::lex_cast<int>("")); // Should return default value (0)
     EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>("")); // Should return default value (0.0)
@@ -99,10 +99,10 @@ TEST(lex_cast_throw, str2int) {
 TEST(lex_cast_throw, error_handling) {
     // Test with invalid input for str2int
     EXPECT_THROW(ul::lex_cast_throw<int>("not a number"), ul::ErrBadLexCast);
-    
+
     // Test with invalid input for str2float
     EXPECT_THROW(ul::lex_cast_throw<float>("not a number"), ul::ErrBadLexCast);
-    
+
     // Test with empty string
     EXPECT_THROW(ul::lex_cast_throw<int>(""), ul::ErrBadLexCast);
     EXPECT_THROW(ul::lex_cast_throw<float>(""), ul::ErrBadLexCast);

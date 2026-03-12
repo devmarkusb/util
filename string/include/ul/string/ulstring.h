@@ -23,7 +23,7 @@
         doesn't compile. Solution: use "\xc3\xa4""hnlich" instead of "\xc3\xa4hnlich".
         Hint: use http://www.utf8-zeichentabelle.de
 
-    (3) So always ask youself:
+    (3) So always ask yourself:
         (i) Can I safely pass my UTF-8 string somewhere, or do I need to convert to something the
             receiver understands?
         (ii) Before assigning to my UTF-8 string, what's the source encoding, do I need to convert?

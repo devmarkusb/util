@@ -112,11 +112,7 @@ struct Method<Ret (FctObjType::*)(Args...) const> {
 };
 
 template <typename F>
-concept HasCallOperator = most_generic::FunctionalProcedure<F>&&
-    requires(F)
-{
-    decltype(&F::operator()){};
-};
+concept HasCallOperator = most_generic::FunctionalProcedure<F> && requires(F) { decltype(&F::operator()){}; };
 
 template <most_generic::FunctionalProcedure F>
 using CallOperator = Method<decltype(&F::operator())>;

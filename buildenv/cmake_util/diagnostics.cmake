@@ -26,7 +26,7 @@ option(
 if("${UL_CPP_STD_LIB}" STREQUAL "libc++")
     option(
         UL_LIBCPP_DEBUG
-        "enables the _LIBCPP_DEBUG mode, prerequiste: compiler being built with LIBCXX_ENABLE_DEBUG_MODE_SUPPORT"
+        "enables the _LIBCPP_DEBUG mode, prerequisite: compiler being built with LIBCXX_ENABLE_DEBUG_MODE_SUPPORT"
         OFF
     )
 endif()

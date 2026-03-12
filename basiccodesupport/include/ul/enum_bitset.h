@@ -17,7 +17,7 @@
 namespace mb::ul {
 /** Wrap your enum EnumType into a type allowing logical combinations of the enum's elements by mapping (all) the enum
     values to different bit positions (starting with LSB). Note, that the EnumBitset automatically provides an
-    optional-like empty value - the default contruction.
+    optional-like empty value - the default construction.
     Requirements: The enum must contain an element called `end` being the last one (having an enum value greater
     than everyone else). The enum value of `end` needs to be less than or equal the number of bits within type SizeType.
     The enum should not contain values smaller than 0 (at least you have to take care yourself, that you don't do

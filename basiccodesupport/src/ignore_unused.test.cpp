@@ -53,4 +53,4 @@ TEST(IgnoreUnusedTest, BasicFunctionality) {
     // All of these should compile without warnings
     EXPECT_TRUE(true); // Just to have an assertion
 }
-}
+} // namespace
