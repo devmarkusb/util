@@ -1,4 +1,4 @@
-if (TARGET libtbb)
+if(TARGET libtbb)
     return()
 endif()
 

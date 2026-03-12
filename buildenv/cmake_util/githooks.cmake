@@ -2,4 +2,6 @@
 # control, opposed to .git/hooks
 
 # in order to work for submodules also I found no other way than to use --global
-execute_process(COMMAND git config --global core.hookspath .githooks)
+execute_process(
+    COMMAND git config --global core.hookspath .githooks
+)

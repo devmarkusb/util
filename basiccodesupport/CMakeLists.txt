@@ -13,42 +13,47 @@ file(GLOB_RECURSE target_INCS "include/*.h")
 add_library(${target} INTERFACE ${target_INCS})
 
 set(${target}_INCLUDE_DIRS
-        ${PROJECT_SOURCE_DIR}/include
-        ${ulBuildEnv_INCLUDE_DIRS}
-        CACHE INTERNAL "${target}: include directories" FORCE)
+    ${PROJECT_SOURCE_DIR}/include
+    ${ulBuildEnv_INCLUDE_DIRS}
+    CACHE INTERNAL
+    "${target}: include directories"
+    FORCE
+)
 
-target_include_directories(${target} INTERFACE ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(
+    ${target}
+    INTERFACE ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS}
+)
 
 target_link_libraries(${target} INTERFACE ulBuildEnv)
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     target_link_libraries(${target} INTERFACE stdc++exp)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
     # workaround
     # needed for stacktrace
     target_link_libraries(${target} INTERFACE stdc++exp)
-endif ()
+endif()
 
 ul_set_target_defaults(${target})
 
-
 ################################################################################################
 
-if (NOT UL_BUILD_UNITTESTS)
-    return ()
-endif ()
+if(NOT UL_BUILD_UNITTESTS)
+    return()
+endif()
 
 set(targetTest ${PROJECT_NAME}-test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
 
-add_executable(${targetTest}
-    ${targetTest_SOURCES}
-    ${target_INCS}
-)
+add_executable(${targetTest} ${targetTest_SOURCES} ${target_INCS})
 
 ul_add_test(${targetTest})
 
-target_include_directories(${targetTest} PRIVATE ${ulBasicCodeSupport_INCLUDE_DIRS})
+target_include_directories(
+    ${targetTest}
+    PRIVATE ${ulBasicCodeSupport_INCLUDE_DIRS}
+)
 
 target_link_libraries(${targetTest} PRIVATE gtest_main ${target})
 

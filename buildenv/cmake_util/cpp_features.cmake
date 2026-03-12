@@ -13,6 +13,7 @@ check_cxx_source_compiles(
     #endif
     int main() { return 0; }
     "
-    UL_HAS_CPP_FILESYSTEM_IMPL)
+    UL_HAS_CPP_FILESYSTEM_IMPL
+)
 
 set(UL_HAS_CPP_FILESYSTEM ${UL_HAS_CPP_FILESYSTEM_IMPL} CACHE INTERNAL "" FORCE)

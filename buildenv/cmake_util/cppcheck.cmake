@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 3.10)
 
 option(UL_CPPCHECK "run cppcheck" OFF)
 
-if (UL_CPPCHECK)
+if(UL_CPPCHECK)
     find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
-    if (CMAKE_CXX_CPPCHECK)
+    if(CMAKE_CXX_CPPCHECK)
         list(
             APPEND CMAKE_CXX_CPPCHECK
             "--enable=warning"
