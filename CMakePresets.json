@@ -1,0 +1,464 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "26",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "./devenv/cmake/fetch-content-from-lockfile.cmake"
+      }
+    },
+    {
+      "name": "debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "gcc",
+      "hidden": true,
+      "toolchainFile": "devenv/cmake/toolchains/gcc-toolchain.cmake"
+    },
+    {
+      "name": "clang",
+      "hidden": true,
+      "toolchainFile": "devenv/cmake/toolchains/clang-toolchain.cmake"
+    },
+    {
+      "name": "clang-libc++",
+      "hidden": true,
+      "toolchainFile": "devenv/cmake/toolchains/clang-libc++-toolchain.cmake"
+    },
+    {
+      "name": "appleclang",
+      "hidden": true,
+      "toolchainFile": "devenv/cmake/toolchains/appleclang-toolchain.cmake"
+    },
+    {
+      "name": "msvc",
+      "hidden": true,
+      "toolchainFile": "devenv/cmake/toolchains/msvc-toolchain.cmake"
+    },
+    {
+      "name": "MaxSan",
+      "hidden": true,
+      "cacheVariables": {
+        "MB_SANITIZER": "MaxSan"
+      }
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "GCC Debug Build",
+      "inherits": [
+        "base",
+        "debug",
+        "gcc"
+      ]
+    },
+    {
+      "name": "gcc-release",
+      "displayName": "GCC Release Build",
+      "inherits": [
+        "base",
+        "release",
+        "gcc"
+      ]
+    },
+    {
+      "name": "clang-debug",
+      "displayName": "Clang Debug Build",
+      "inherits": [
+        "base",
+        "debug",
+        "clang"
+      ]
+    },
+    {
+      "name": "clang-release",
+      "displayName": "Clang Release Build",
+      "inherits": [
+        "base",
+        "release",
+        "clang"
+      ]
+    },
+    {
+      "name": "clang-libc++-debug",
+      "displayName": "Clang-libc++ Debug Build",
+      "inherits": [
+        "base",
+        "debug",
+        "clang-libc++"
+      ]
+    },
+    {
+      "name": "clang-libc++-release",
+      "displayName": "Clang-libc++ Release Build",
+      "inherits": [
+        "base",
+        "release",
+        "clang-libc++"
+      ]
+    },
+    {
+      "name": "appleclang-debug",
+      "displayName": "Appleclang Debug Build",
+      "inherits": [
+        "base",
+        "debug",
+        "appleclang"
+      ]
+    },
+    {
+      "name": "appleclang-release",
+      "displayName": "Appleclang Release Build",
+      "inherits": [
+        "base",
+        "release",
+        "appleclang"
+      ]
+    },
+    {
+      "name": "msvc-debug",
+      "displayName": "MSVC Debug Build",
+      "inherits": [
+        "base",
+        "debug",
+        "msvc"
+      ]
+    },
+    {
+      "name": "msvc-release",
+      "displayName": "MSVC Release Build",
+      "inherits": [
+        "base",
+        "release",
+        "msvc"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "jobs": 0
+    },
+    {
+      "name": "gcc-debug",
+      "configurePreset": "gcc-debug",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "gcc-release",
+      "configurePreset": "gcc-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clang-debug",
+      "configurePreset": "clang-debug",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clang-release",
+      "configurePreset": "clang-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clang-libc++-debug",
+      "configurePreset": "clang-libc++-debug",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "clang-libc++-release",
+      "configurePreset": "clang-libc++-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "appleclang-debug",
+      "configurePreset": "appleclang-debug",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "appleclang-release",
+      "configurePreset": "appleclang-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "msvc-debug",
+      "configurePreset": "msvc-debug",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "msvc-release",
+      "configurePreset": "msvc-release",
+      "inherits": [
+        "base"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "gcc-debug",
+      "inherits": "base",
+      "configurePreset": "gcc-debug"
+    },
+    {
+      "name": "gcc-release",
+      "inherits": "base",
+      "configurePreset": "gcc-release"
+    },
+    {
+      "name": "clang-debug",
+      "inherits": "base",
+      "configurePreset": "clang-debug"
+    },
+    {
+      "name": "clang-release",
+      "inherits": "base",
+      "configurePreset": "clang-release"
+    },
+    {
+      "name": "clang-libc++-debug",
+      "inherits": "base",
+      "configurePreset": "clang-libc++-debug"
+    },
+    {
+      "name": "clang-libc++-release",
+      "inherits": "base",
+      "configurePreset": "clang-libc++-release"
+    },
+    {
+      "name": "appleclang-debug",
+      "inherits": "base",
+      "configurePreset": "appleclang-debug"
+    },
+    {
+      "name": "appleclang-release",
+      "inherits": "base",
+      "configurePreset": "appleclang-release"
+    },
+    {
+      "name": "msvc-debug",
+      "inherits": "base",
+      "configurePreset": "msvc-debug"
+    },
+    {
+      "name": "msvc-release",
+      "inherits": "base",
+      "configurePreset": "msvc-release"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "gcc-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "gcc-debug"
+        },
+        {
+          "type": "build",
+          "name": "gcc-debug"
+        },
+        {
+          "type": "test",
+          "name": "gcc-debug"
+        }
+      ]
+    },
+    {
+      "name": "gcc-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "gcc-release"
+        },
+        {
+          "type": "build",
+          "name": "gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "clang-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-debug"
+        },
+        {
+          "type": "build",
+          "name": "clang-debug"
+        },
+        {
+          "type": "test",
+          "name": "clang-debug"
+        }
+      ]
+    },
+    {
+      "name": "clang-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-release"
+        },
+        {
+          "type": "build",
+          "name": "clang-release"
+        },
+        {
+          "type": "test",
+          "name": "clang-release"
+        }
+      ]
+    },
+    {
+      "name": "clang-libc++-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-libc++-debug"
+        },
+        {
+          "type": "build",
+          "name": "clang-libc++-debug"
+        },
+        {
+          "type": "test",
+          "name": "clang-libc++-debug"
+        }
+      ]
+    },
+    {
+      "name": "clang-libc++-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-libc++-release"
+        },
+        {
+          "type": "build",
+          "name": "clang-libc++-release"
+        },
+        {
+          "type": "test",
+          "name": "clang-libc++-release"
+        }
+      ]
+    },
+    {
+      "name": "appleclang-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "appleclang-debug"
+        },
+        {
+          "type": "build",
+          "name": "appleclang-debug"
+        },
+        {
+          "type": "test",
+          "name": "appleclang-debug"
+        }
+      ]
+    },
+    {
+      "name": "appleclang-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "appleclang-release"
+        },
+        {
+          "type": "build",
+          "name": "appleclang-release"
+        },
+        {
+          "type": "test",
+          "name": "appleclang-release"
+        }
+      ]
+    },
+    {
+      "name": "msvc-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "msvc-debug"
+        },
+        {
+          "type": "build",
+          "name": "msvc-debug"
+        },
+        {
+          "type": "test",
+          "name": "msvc-debug"
+        }
+      ]
+    },
+    {
+      "name": "msvc-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "msvc-release"
+        },
+        {
+          "type": "build",
+          "name": "msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "msvc-release"
+        }
+      ]
+    }
+  ]
+}
