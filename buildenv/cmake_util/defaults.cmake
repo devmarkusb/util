@@ -288,6 +288,11 @@ macro(ul_add_test target)
     gtest_discover_tests(${target})
 endmacro()
 
+# Test executable with plain main() (no GTest): register as single test, do not run at build time.
+macro(ul_add_simple_test target)
+    add_test(NAME ${target} COMMAND ${target})
+endmacro()
+
 # a platform independent 'executable', extra args are just all sources, lead by optional additional switches
 macro(ul_add_executable target)
     set(impl_target_input)

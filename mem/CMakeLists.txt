@@ -82,15 +82,27 @@ add_executable(
     ${target_INCS}
 )
 
-ul_add_test(${targetTest}_new_statistics)
+ul_add_simple_test(${targetTest}_new_statistics)
+# LeakSanitizer can report false positives with our custom operator new (malloc + header offset);
+# avoid overriding exit code so test pass/fail = main() return value.
+set_tests_properties(
+    ${targetTest}_new_statistics
+    PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
+)
 
 target_include_directories(
     ${targetTest}_new_statistics
     PRIVATE ${ulMem_INCLUDE_DIRS}
 )
 
-target_link_libraries(${targetTest}_new_statistics PRIVATE ${target})
-
+# Whole archive so operator new/delete from new_statistics.cpp are actually linked (replace global ones)
+target_link_libraries(
+    ${targetTest}_new_statistics
+    PRIVATE
+    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--whole-archive>
+    ${target}
+    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--no-whole-archive>
+)
 ul_set_target_defaults(${targetTest}_new_statistics)
 
 # *WARNING* This doesn't run in Release mode starting with gcc-10?!
@@ -106,15 +118,25 @@ add_executable(
     ${target_INCS}
 )
 
-ul_add_test(${targetTest}_new_statistics_applied)
+ul_add_simple_test(${targetTest}_new_statistics_applied)
+set_tests_properties(
+    ${targetTest}_new_statistics_applied
+    PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
+)
 
 target_include_directories(
     ${targetTest}_new_statistics_applied
     PRIVATE ${ulMem_INCLUDE_DIRS}
 )
 
-target_link_libraries(${targetTest}_new_statistics_applied PRIVATE ${target})
-
+# Whole archive so operator new/delete from new_statistics.cpp are actually linked (replace global ones)
+target_link_libraries(
+    ${targetTest}_new_statistics_applied
+    PRIVATE
+    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--whole-archive>
+    ${target}
+    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--no-whole-archive>
+)
 ul_set_target_defaults(${targetTest}_new_statistics_applied)
 
 ul_run_target_postbuild(${targetTest}_new_statistics_applied)

@@ -7,6 +7,7 @@
 #include "ul/mem/types.h"
 #include <cstddef>
 #include <iostream>
+#include <memory>
 #include <vector>
 
 namespace ul = mb::ul;
@@ -27,8 +28,8 @@ int main() {
         constexpr auto n10{10};
         constexpr auto b44{44};
         {
-            // volatile preventing the compiler from optimizing out not officially used p1
-            int* volatile p1 = new int;
+            // RAII so we don't leak on assertion failure (e.g. during CMake test discovery)
+            std::unique_ptr<int> p1(new int); // NOLINT
             UL_ASSERT_THROW(memstats.new_calls() == 1u);
             UL_ASSERT_THROW(memstats.peak_size() == ul::mem::Bytes{4});
 
@@ -50,16 +51,16 @@ int main() {
             exp_delete_calls = 1 + (impl_correction_ofs ? 1 : 0);
             UL_ASSERT_THROW(memstats.delete_calls() == exp_delete_calls);
 
-            delete p1; // NOLINT
+            p1.reset(); // calls delete, so stats still updated
             ++exp_delete_calls;
             UL_ASSERT_THROW(memstats.delete_calls() == exp_delete_calls);
 
             UL_ASSERT_THROW(memstats.peak_size() == ul::mem::Bytes{b44} + impl_correction_ofs);
 
-            int* volatile p2 = new int[n10]; // NOLINT
+            std::unique_ptr<int[]> p2(new int[n10]); // NOLINT
             ++exp_new_calls;
             UL_ASSERT_THROW(memstats.new_calls() == exp_new_calls);
-            delete[] p2; // NOLINT
+            p2.reset(); // calls delete[], stats still updated
             ++exp_delete_calls;
             UL_ASSERT_THROW(memstats.delete_calls() == exp_delete_calls);
         }
