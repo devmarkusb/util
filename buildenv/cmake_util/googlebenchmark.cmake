@@ -27,20 +27,26 @@ set(BENCHMARK_ENABLE_TESTING OFF)
 # CMAKE_CXX_FLAGS. With -Werror, -Wall, -Wextra, or other strict flags, those
 # checks can fail due to warnings in the test code or system headers, leading to
 # "Failed to determine the source files for the regular expression backend".
-# Clear all CXX flags for the dependency's configure and build so detection and
-# compilation succeed on all CI platforms (Linux gcc/clang, macOS, Windows).
-# Use CACHE FORCE so try_compile() and the benchmark subproject see empty flags
-# (they can read from cache); restore cache after so the main project keeps its flags.
+# Replace CXX flags with a minimal set (C++ standard only) for the dependency's
+# configure and build so detection and compilation succeed on all CI platforms
+# (Linux gcc/clang, macOS, Windows). Use CACHE FORCE so try_compile() and the
+# benchmark subproject see these flags; restore cache after so the main project
+# keeps its flags.
 set(UL_SAVED_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
-set(CMAKE_CXX_FLAGS "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_DEBUG "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_RELEASE "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_MINSIZEREL "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
+if(MSVC)
+    set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "/std:c++${CMAKE_CXX_STANDARD}")
+else()
+    set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD}")
+endif()
+set(CMAKE_CXX_FLAGS "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 
 include(FetchContent)
 
