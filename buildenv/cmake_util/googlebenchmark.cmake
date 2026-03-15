@@ -22,6 +22,8 @@ endif()
 message(STATUS "google benchmark not found, building from source")
 
 set(BENCHMARK_ENABLE_TESTING OFF)
+set(HAVE_STD_REGEX ON CACHE BOOL "Use std::regex for benchmark" FORCE)
+set(RUN_HAVE_STD_REGEX 1 CACHE STRING "Use std::regex at runtime" FORCE)
 
 # Google Benchmark's regex backend detection uses try_compile(), which inherits
 # CMAKE_CXX_FLAGS. With -Werror, -Wall, -Wextra, or other strict flags, those
