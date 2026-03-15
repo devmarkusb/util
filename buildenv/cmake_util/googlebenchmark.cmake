@@ -24,15 +24,21 @@ message(STATUS "google benchmark not found, building from source")
 set(BENCHMARK_ENABLE_TESTING OFF)
 
 # Google Benchmark's regex backend detection uses try_compile(), which inherits
-# CMAKE_CXX_FLAGS. With -Werror (and -Wconversion), those checks can fail due to
-# warnings in the test code or system headers, leading to "Failed to determine
-# the source files for the regular expression backend". Temporarily relax flags
-# for the dependency's configure only.
+# CMAKE_CXX_FLAGS. With -Werror, -Wall, -Wextra, or other strict flags, those
+# checks can fail due to warnings in the test code or system headers, leading to
+# "Failed to determine the source files for the regular expression backend".
+# Clear all CXX flags for the dependency's configure and build so detection and
+# compilation succeed on all CI platforms (Linux gcc/clang, macOS, Windows).
 set(UL_SAVED_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-string(REPLACE "-Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-string(REPLACE "-Wconversion" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-string(REGEX REPLACE " +" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-string(STRIP "${CMAKE_CXX_FLAGS}" CMAKE_CXX_FLAGS)
+set(UL_SAVED_CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+set(UL_SAVED_CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+set(UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
+set(CMAKE_CXX_FLAGS "")
+set(CMAKE_CXX_FLAGS_DEBUG "")
+set(CMAKE_CXX_FLAGS_RELEASE "")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "")
 
 include(FetchContent)
 
@@ -47,6 +53,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googlebenchmark)
 
 set(CMAKE_CXX_FLAGS "${UL_SAVED_CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}")
+set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_google_benchmark_compile_options
