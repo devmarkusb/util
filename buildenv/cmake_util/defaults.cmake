@@ -125,12 +125,15 @@ if(
 )
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} -fno-builtin \
--U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
 -D_GLIBCXX_ASSERTIONS \
 -fstack-clash-protection -fstack-protector-strong \
 -fexceptions \
 "
     )
+    # _FORTIFY_SOURCE requires -O (optimization); Debug uses -O0, so enable only for non-Debug
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3")
+    endif()
     if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_CXX_FLAGS
             "${CMAKE_CXX_FLAGS} \
