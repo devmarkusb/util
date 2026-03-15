@@ -29,16 +29,18 @@ set(BENCHMARK_ENABLE_TESTING OFF)
 # "Failed to determine the source files for the regular expression backend".
 # Clear all CXX flags for the dependency's configure and build so detection and
 # compilation succeed on all CI platforms (Linux gcc/clang, macOS, Windows).
+# Use CACHE FORCE so try_compile() and the benchmark subproject see empty flags
+# (they can read from cache); restore cache after so the main project keeps its flags.
 set(UL_SAVED_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
-set(CMAKE_CXX_FLAGS "")
-set(CMAKE_CXX_FLAGS_DEBUG "")
-set(CMAKE_CXX_FLAGS_RELEASE "")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "")
-set(CMAKE_CXX_FLAGS_MINSIZEREL "")
+set(CMAKE_CXX_FLAGS "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_DEBUG "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_RELEASE "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
+set(CMAKE_CXX_FLAGS_MINSIZEREL "" CACHE STRING "Cleared for benchmark regex detection" FORCE)
 
 include(FetchContent)
 
@@ -91,11 +93,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googlebenchmark)
 
-set(CMAKE_CXX_FLAGS "${UL_SAVED_CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}")
-set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
-set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}")
+set(CMAKE_CXX_FLAGS "${UL_SAVED_CMAKE_CXX_FLAGS}" CACHE STRING "C++ compiler flags" FORCE)
+set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "C++ compiler flags (Debug)" FORCE)
+set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "C++ compiler flags (Release)" FORCE)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}" CACHE STRING "C++ compiler flags (RelWithDebInfo)" FORCE)
+set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}" CACHE STRING "C++ compiler flags (MinSizeRel)" FORCE)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_google_benchmark_compile_options
