@@ -1,0 +1,55 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug-custom",
+      "description": "commment: adapt inherit, vars, etc.",
+      "inherits": ["clang-debug", "MaxSan"],
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchainName": "docker-clang-beman"
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "23"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug-custom",
+      "configurePreset": "debug-custom",
+      "inherits": [
+        "base"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug-custom",
+      "configurePreset": "debug-custom",
+      "inherits": [
+        "base"
+      ]
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "debug-custom",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug-custom"
+        },
+        {
+          "type": "build",
+          "name": "debug-custom"
+        },
+        {
+          "type": "test",
+          "name": "debug-custom"
+        }
+      ]
+    }
+  ]
+}
