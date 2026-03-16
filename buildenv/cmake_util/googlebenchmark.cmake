@@ -29,23 +29,35 @@ set(RUN_HAVE_STD_REGEX 1 CACHE STRING "Use std::regex at runtime" FORCE)
 # CMAKE_CXX_FLAGS. With -Werror, -Wall, -Wextra, or other strict flags, those
 # checks can fail due to warnings in the test code or system headers, leading to
 # "Failed to determine the source files for the regular expression backend".
-# Replace CXX flags with a minimal set (C++ standard only) for the dependency's
-# configure and build so detection and compilation succeed on all CI platforms
-# (Linux gcc/clang, macOS, Windows). Use CACHE FORCE so try_compile() and the
-# benchmark subproject see these flags; restore cache after so the main project
-# keeps its flags.
+# Replace C and CXX flags with a minimal set for the dependency's configure and
+# build so detection and compilation succeed on all CI platforms (Linux gcc/clang
+# with sanitizers, macOS, Windows). FindThreads uses C try_compile; HAVE_STEADY_CLOCK
+# and regex use C++. Use CACHE FORCE so try_compile() and the benchmark subproject
+# see these flags; restore cache after so the main project keeps its flags.
+set(UL_SAVED_CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+set(UL_SAVED_CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+set(UL_SAVED_CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+set(UL_SAVED_CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+set(UL_SAVED_CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL}")
 set(UL_SAVED_CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
 if(MSVC)
+    set(UL_BENCHMARK_MINIMAL_C_FLAGS "")
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "/std:c++${CMAKE_CXX_STANDARD}")
 else()
-    # -pthread required so FindThreads and HAVE_STEADY_CLOCK try_compile succeed in
-    # the benchmark subproject (e.g. clang CI with minimal flags).
+    # -pthread required so FindThreads (C try_compile) and HAVE_STEADY_CLOCK (C++)
+    # try_compile succeed in the benchmark subproject (e.g. clang-debug with sanitizers).
+    set(UL_BENCHMARK_MINIMAL_C_FLAGS "-pthread")
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -pthread")
 endif()
+set(CMAKE_C_FLAGS "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
+set(CMAKE_C_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
+set(CMAKE_C_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
+set(CMAKE_C_FLAGS_MINSIZEREL "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
 set(CMAKE_CXX_FLAGS "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 set(CMAKE_CXX_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 set(CMAKE_CXX_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
@@ -103,6 +115,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googlebenchmark)
 
+set(CMAKE_C_FLAGS "${UL_SAVED_CMAKE_C_FLAGS}" CACHE STRING "C compiler flags" FORCE)
+set(CMAKE_C_FLAGS_DEBUG "${UL_SAVED_CMAKE_C_FLAGS_DEBUG}" CACHE STRING "C compiler flags (Debug)" FORCE)
+set(CMAKE_C_FLAGS_RELEASE "${UL_SAVED_CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C compiler flags (Release)" FORCE)
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_C_FLAGS_RELWITHDEBINFO}" CACHE STRING "C compiler flags (RelWithDebInfo)" FORCE)
+set(CMAKE_C_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_C_FLAGS_MINSIZEREL}" CACHE STRING "C compiler flags (MinSizeRel)" FORCE)
 set(CMAKE_CXX_FLAGS "${UL_SAVED_CMAKE_CXX_FLAGS}" CACHE STRING "C++ compiler flags" FORCE)
 set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "C++ compiler flags (Debug)" FORCE)
 set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "C++ compiler flags (Release)" FORCE)
