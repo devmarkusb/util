@@ -19,6 +19,8 @@ public:
 //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
 #undef new
     void* operator new(size_t size);
+    void operator delete(void* ptr) noexcept;
+    void operator delete(void* ptr, size_t size) noexcept;
 
 private:
     //! Class specific new handler.
@@ -49,6 +51,16 @@ void* NewHandlerSupport<T>::operator new(size_t size) {
     }
     std::set_new_handler(global_handler);
     return memory;
+}
+
+template <typename T>
+void NewHandlerSupport<T>::operator delete(void* ptr) noexcept {
+    ::operator delete(ptr);
+}
+
+template <typename T>
+void NewHandlerSupport<T>::operator delete(void* ptr, size_t size) noexcept {
+    ::operator delete(ptr, size);
 }
 } // namespace mb::ul::mem
 
