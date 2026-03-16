@@ -42,7 +42,9 @@ set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
 if(MSVC)
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "/std:c++${CMAKE_CXX_STANDARD}")
 else()
-    set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD}")
+    # -pthread required so FindThreads and HAVE_STEADY_CLOCK try_compile succeed in
+    # the benchmark subproject (e.g. clang CI with minimal flags).
+    set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -pthread")
 endif()
 set(CMAKE_CXX_FLAGS "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 set(CMAKE_CXX_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
