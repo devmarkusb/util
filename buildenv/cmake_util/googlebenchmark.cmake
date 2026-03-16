@@ -34,6 +34,8 @@ set(RUN_HAVE_STD_REGEX 1 CACHE STRING "Use std::regex at runtime" FORCE)
 # with sanitizers, macOS, Windows). FindThreads uses C try_compile; HAVE_STEADY_CLOCK
 # and regex use C++. Use CACHE FORCE so try_compile() and the benchmark subproject
 # see these flags; restore cache after so the main project keeps its flags.
+# FindThreads try_compile also links an executable, so linker flags need -pthread.
+set(THREADS_PREFER_PTHREAD_FLAG ON CACHE BOOL "Prefer -pthread for FindThreads" FORCE)
 set(UL_SAVED_CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 set(UL_SAVED_CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
@@ -44,14 +46,21 @@ set(UL_SAVED_CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 set(UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
+set(UL_SAVED_CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+set(UL_SAVED_CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
 if(MSVC)
     set(UL_BENCHMARK_MINIMAL_C_FLAGS "")
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "/std:c++${CMAKE_CXX_STANDARD}")
+    set(UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS "")
+    set(UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS "")
 else()
     # -pthread required so FindThreads (C try_compile) and HAVE_STEADY_CLOCK (C++)
     # try_compile succeed in the benchmark subproject (e.g. clang-debug with sanitizers).
+    # FindThreads try_compile links an executable, so linker flags need -pthread too.
     set(UL_BENCHMARK_MINIMAL_C_FLAGS "-pthread")
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -pthread")
+    set(UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS "-pthread")
+    set(UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS "-pthread")
 endif()
 set(CMAKE_C_FLAGS "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
 set(CMAKE_C_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
@@ -63,6 +72,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Mini
 set(CMAKE_CXX_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
 set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
+set(CMAKE_EXE_LINKER_FLAGS "${UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads link" FORCE)
+set(CMAKE_SHARED_LINKER_FLAGS "${UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads link" FORCE)
 
 include(FetchContent)
 
@@ -125,6 +136,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "C++ 
 set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "C++ compiler flags (Release)" FORCE)
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}" CACHE STRING "C++ compiler flags (RelWithDebInfo)" FORCE)
 set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}" CACHE STRING "C++ compiler flags (MinSizeRel)" FORCE)
+set(CMAKE_EXE_LINKER_FLAGS "${UL_SAVED_CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "Executable linker flags" FORCE)
+set(CMAKE_SHARED_LINKER_FLAGS "${UL_SAVED_CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Shared library linker flags" FORCE)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_google_benchmark_compile_options
