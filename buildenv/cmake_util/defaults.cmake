@@ -130,10 +130,13 @@ if(
 -fexceptions \
 "
     )
-    # _FORTIFY_SOURCE requires -O (optimization); Debug uses -O0, so enable only for non-Debug
-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3")
-    endif()
+    # _FORTIFY_SOURCE requires -O (optimization); Debug uses -O0, so enable only for non-Debug.
+    # Use generator expression so this works with multi-config (e.g. Ninja Multi-Config) and when
+    # CMAKE_BUILD_TYPE is empty at configure time.
+    add_compile_options(
+        "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
+        "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>"
+    )
     if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_CXX_FLAGS
             "${CMAKE_CXX_FLAGS} \
