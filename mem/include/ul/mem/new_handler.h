@@ -59,8 +59,8 @@ void NewHandlerSupport<T>::operator delete(void* ptr) noexcept {
 }
 
 template <typename T>
-void NewHandlerSupport<T>::operator delete(void* ptr, size_t size) noexcept {
-    ::operator delete(ptr, size);
+void NewHandlerSupport<T>::operator delete(void* ptr, size_t /*size*/) noexcept {
+    ::operator delete(ptr);
 }
 } // namespace mb::ul::mem
 
