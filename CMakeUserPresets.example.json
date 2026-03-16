@@ -13,6 +13,18 @@
       "cacheVariables": {
         "CMAKE_CXX_STANDARD": "23"
       }
+    },
+    {
+      "name": "release-custom",
+      "description": "commment: adapt inherit, vars, etc.",
+      "inherits": ["clang-release"],
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchainName": "docker-clang-beman"
+        }
+      },
+      "cacheVariables": {
+      }
     }
   ],
   "buildPresets": [
@@ -22,12 +34,26 @@
       "inherits": [
         "base"
       ]
+    },
+    {
+      "name": "release-custom",
+      "configurePreset": "release-custom",
+      "inherits": [
+        "base"
+      ]
     }
   ],
   "testPresets": [
     {
       "name": "debug-custom",
       "configurePreset": "debug-custom",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "release-custom",
+      "configurePreset": "release-custom",
       "inherits": [
         "base"
       ]
@@ -48,6 +74,23 @@
         {
           "type": "test",
           "name": "debug-custom"
+        }
+      ]
+    },
+    {
+      "name": "release-custom",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "release-custom"
+        },
+        {
+          "type": "build",
+          "name": "release-custom"
+        },
+        {
+          "type": "test",
+          "name": "release-custom"
         }
       ]
     }
