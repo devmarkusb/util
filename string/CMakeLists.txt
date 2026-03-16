@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.23)
 
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
@@ -12,7 +12,12 @@ add_subdirectory(sdks)
 
 file(GLOB_RECURSE target_INCS "include/*.h*")
 
-add_library(${target} INTERFACE ${target_INCS})
+add_library(${target} INTERFACE)
+target_sources(${target} INTERFACE
+    FILE_SET headers TYPE HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    FILES ${target_INCS}
+)
 
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
@@ -46,11 +51,9 @@ set(targetTest ${PROJECT_NAME}-test)
 
 file(GLOB_RECURSE targetTest_SOURCES "src/*.test.cpp")
 
-add_executable(${targetTest} ${targetTest_SOURCES} ${target_INCS})
+add_executable(${targetTest} ${targetTest_SOURCES})
 
 ul_add_test(${targetTest})
-
-target_include_directories(${targetTest} PRIVATE ${ulString_INCLUDE_DIRS})
 
 target_link_libraries(${targetTest} PRIVATE gtest_main ${target})
 
