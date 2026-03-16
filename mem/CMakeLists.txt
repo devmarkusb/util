@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.23)
 
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
@@ -13,17 +13,20 @@ file(GLOB_RECURSE target_SRC_INCS "src/*.h*")
 
 set(target_SOURCES src/new_statistics.cpp)
 
-add_library(
-    ${target}
-    STATIC
-    ${target_SOURCES}
-    ${target_INCS}
-    ${target_SRC_INCS}
+add_library(${target} STATIC ${target_SOURCES})
+target_sources(${target} PUBLIC
+    FILE_SET headers TYPE HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    FILES ${target_INCS}
 )
-
+target_sources(${target} PRIVATE
+    FILE_SET src_headers TYPE HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    FILES ${target_SRC_INCS}
+)
 target_include_directories(
     ${target}
-    PUBLIC include ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS}
+    PUBLIC ${ulBuildEnv_INCLUDE_DIRS} ${ulBasicCodeSupport_INCLUDE_DIRS}
 )
 
 target_link_libraries(${target} PUBLIC ulBuildEnv ulBasicCodeSupport)
@@ -60,11 +63,9 @@ list(
     REMOVE_ITEM targetTest_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/src/new_statistics.applied.test.cpp"
 )
-add_executable(${targetTest} ${targetTest_SOURCES} ${target_INCS})
+add_executable(${targetTest} ${targetTest_SOURCES})
 
 ul_add_test(${targetTest})
-
-target_include_directories(${targetTest} PRIVATE ${ulMem_INCLUDE_DIRS})
 
 # using own main, implemented in new_statistics.applied.test.cpp, in order to test new_statistics in an 'application'
 # like environment
@@ -76,11 +77,7 @@ ul_run_target_postbuild(${targetTest})
 
 ###
 
-add_executable(
-    ${targetTest}_new_statistics
-    src/new_statistics.test.cpp
-    ${target_INCS}
-)
+add_executable(${targetTest}_new_statistics src/new_statistics.test.cpp)
 
 ul_add_simple_test(${targetTest}_new_statistics)
 # LeakSanitizer can report false positives with our custom operator new (malloc + header offset);
@@ -88,11 +85,6 @@ ul_add_simple_test(${targetTest}_new_statistics)
 set_tests_properties(
     ${targetTest}_new_statistics
     PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
-)
-
-target_include_directories(
-    ${targetTest}_new_statistics
-    PRIVATE ${ulMem_INCLUDE_DIRS}
 )
 
 # Whole archive so operator new/delete from new_statistics.cpp are actually linked (replace global ones)
@@ -112,21 +104,12 @@ endif()
 
 ###
 
-add_executable(
-    ${targetTest}_new_statistics_applied
-    src/new_statistics.applied.test.cpp
-    ${target_INCS}
-)
+add_executable(${targetTest}_new_statistics_applied src/new_statistics.applied.test.cpp)
 
 ul_add_simple_test(${targetTest}_new_statistics_applied)
 set_tests_properties(
     ${targetTest}_new_statistics_applied
     PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
-)
-
-target_include_directories(
-    ${targetTest}_new_statistics_applied
-    PRIVATE ${ulMem_INCLUDE_DIRS}
 )
 
 # Whole archive so operator new/delete from new_statistics.cpp are actually linked (replace global ones)

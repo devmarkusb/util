@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.23)
 
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
@@ -10,14 +10,19 @@ set(target ${PROJECT_NAME})
 
 file(GLOB_RECURSE target_INCS "include/*.h")
 
+add_library(${target} INTERFACE)
+target_sources(${target} INTERFACE
+    FILE_SET headers TYPE HEADERS
+    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    FILES ${target_INCS}
+)
+
 set(${target}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL
     "${target}: include directories"
     FORCE
 )
-
-add_library(${target} INTERFACE ${target_INCS})
 
 target_include_directories(
     ${target}
