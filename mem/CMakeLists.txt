@@ -91,9 +91,9 @@ set_tests_properties(
 target_link_libraries(
     ${targetTest}_new_statistics
     PRIVATE
-    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--whole-archive>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--whole-archive>
     ${target}
-    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--no-whole-archive>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--no-whole-archive>
 )
 ul_set_target_defaults(${targetTest}_new_statistics)
 
@@ -116,9 +116,9 @@ set_tests_properties(
 target_link_libraries(
     ${targetTest}_new_statistics_applied
     PRIVATE
-    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--whole-archive>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--whole-archive>
     ${target}
-    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wl,--no-whole-archive>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--no-whole-archive>
 )
 ul_set_target_defaults(${targetTest}_new_statistics_applied)
 
