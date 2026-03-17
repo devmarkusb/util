@@ -41,3 +41,8 @@ target_link_libraries(
 )
 
 ul_set_target_defaults(${target})
+
+set_target_properties(
+    ${target}
+    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON
+)
