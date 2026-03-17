@@ -32,6 +32,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
 
 include(GoogleTest)
 enable_testing()
+# Show stdout/stderr when a test fails (e.g. on CI)
+list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
 
 option(UL_ENABLE_LTO "enables link time optimization" OFF)
 
