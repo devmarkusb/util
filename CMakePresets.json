@@ -165,7 +165,6 @@
     {
       "name": "gcc-release",
       "configurePreset": "gcc-release",
-      "verbose": true,
       "inherits": [
         "base"
       ]
