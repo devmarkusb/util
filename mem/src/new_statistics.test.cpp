@@ -72,7 +72,11 @@ int main() {
         std::cout << "PASSED (" << __FILE__ << ")\n";
 
         return ul::prog_exit_success;
+    } catch (const std::exception& e) {
+        std::cerr << "FAILED: " << e.what() << "\n";
+        return ul::prog_exit_failure;
     } catch (...) {
+        std::cerr << "FAILED: unknown exception\n";
         return ul::prog_exit_failure;
     }
 }
