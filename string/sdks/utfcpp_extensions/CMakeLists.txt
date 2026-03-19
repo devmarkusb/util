@@ -17,7 +17,7 @@ target_sources(${target} PRIVATE
     FILES ${${target}_SRC_INCS}
 )
 
-target_link_libraries(${target} PRIVATE gtest_main ulString)
+target_link_libraries(${target} PRIVATE GTest::gtest GTest::gtest_main ulString)
 
 ul_set_target_defaults(${target})
 

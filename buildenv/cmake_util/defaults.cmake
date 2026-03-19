@@ -30,18 +30,20 @@ include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cppcheck.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
 
-include(GoogleTest)
-enable_testing()
-# Show stdout/stderr when a test fails (e.g. on CI)
-list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-
 option(UL_ENABLE_LTO "enables link time optimization" OFF)
 
 set(UL_BUILD_UNITTESTS
-    ON
+    ${PROJECT_IS_TOP_LEVEL}
     CACHE BOOL
     "build (and run) unit tests as postbuild step"
 )
+if(UL_BUILD_UNITTESTS)
+    include(GoogleTest)
+    enable_testing()
+    # Show stdout/stderr when a test fails (e.g. on CI)
+    list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+endif()
+
 if("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
 endif()

@@ -67,7 +67,7 @@ ul_add_test(ulMem-test)
 
 # using own main, implemented in new_statistics.applied.test.cpp, in order to test new_statistics in an 'application'
 # like environment
-target_link_libraries(ulMem-test PRIVATE gtest ulMem)
+target_link_libraries(ulMem-test PRIVATE GTest::gtest GTest::gtest_main ulMem)
 
 ul_set_target_defaults(ulMem-test)
 
