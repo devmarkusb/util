@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)  # FILE_SET for proper header association
+cmake_minimum_required(VERSION 3.23)
 
 project(util)
 
@@ -17,8 +17,8 @@ configure_file(
 
 ul_include(defaults.cmake)
 
-ul_include(googletest.cmake)
-ul_include(googlebenchmark.cmake)
+#ul_include(googletest.cmake)
+#ul_include(googlebenchmark.cmake)
 
 add_subdirectory(buildenv)
 add_subdirectory(basiccodesupport)
