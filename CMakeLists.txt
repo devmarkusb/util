@@ -17,7 +17,12 @@ configure_file(
 
 ul_include(defaults.cmake)
 
-#ul_include(googletest.cmake)
+if(UL_BUILD_UNITTESTS)
+    #ul_include(googletest.cmake)
+    find_package(GTest REQUIRED)
+    include(GoogleTest)
+endif()
+
 #ul_include(googlebenchmark.cmake)
 
 add_subdirectory(buildenv)

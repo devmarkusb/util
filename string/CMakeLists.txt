@@ -55,7 +55,7 @@ add_executable(${targetTest} ${targetTest_SOURCES})
 
 ul_add_test(${targetTest})
 
-target_link_libraries(${targetTest} PRIVATE gtest_main ${target})
+target_link_libraries(${targetTest} PRIVATE GTest::gtest GTest::gtest_main ${target})
 
 ul_set_target_defaults(${targetTest})
 
