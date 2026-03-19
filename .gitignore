@@ -6,15 +6,16 @@
 .idea/
 
 # build
-build/
+/build/
 /compile_commands.json
-_build*
-bin
-bin_*
-cmake-build-*
-lib
-lib_*
-out
+/__*/
+/_build*/
+bin/
+bin_*/
+cmake-build-*/
+lib/
+lib_*/
+out/
 
 # python
 .venv
