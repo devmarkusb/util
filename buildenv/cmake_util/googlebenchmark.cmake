@@ -57,10 +57,17 @@ else()
     # -pthread required so FindThreads (C try_compile) and HAVE_STEADY_CLOCK (C++)
     # try_compile succeed in the benchmark subproject (e.g. clang-debug with sanitizers).
     # FindThreads try_compile links an executable, so linker flags need -pthread too.
+    # Keep saved linker flags (e.g. -fuse-ld=lld from defaults.cmake): replacing the
+    # cache with only -pthread breaks try_compile/link on images where the default
+    # system linker is missing but lld is used.
     set(UL_BENCHMARK_MINIMAL_C_FLAGS "-pthread")
     set(UL_BENCHMARK_MINIMAL_CXX_FLAGS "-std=c++${CMAKE_CXX_STANDARD} -pthread")
-    set(UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS "-pthread")
-    set(UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS "-pthread")
+    set(UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS
+        "${UL_SAVED_CMAKE_EXE_LINKER_FLAGS} -pthread"
+    )
+    set(UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS
+        "${UL_SAVED_CMAKE_SHARED_LINKER_FLAGS} -pthread"
+    )
 endif()
 set(CMAKE_C_FLAGS "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
 set(CMAKE_C_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
@@ -115,6 +122,26 @@ else()
     endif()
     set(FETCHCONTENT_SOURCE_DIR_GOOGLEBENCHMARK "${UL_benchmark_src}" CACHE PATH "")
 endif()
+
+# GoogleTest calls find_package(Threads) without REQUIRED. When that fails, CMake
+# caches Threads_FOUND=OFF; benchmark then calls find_package(Threads REQUIRED)
+# and fails without re-running detection. Clear thread probe results so benchmark
+# configures with the flags set above.
+foreach(
+    _ul_threads_cache_var
+    IN
+    ITEMS
+    Threads_FOUND
+    CMAKE_HAVE_LIBC_PTHREAD
+    CMAKE_HAVE_PTHREAD_H
+    CMAKE_HAVE_PTHREAD_CREATE
+    THREADS_HAVE_PTHREAD_ARG
+    CMAKE_THREAD_LIBS_INIT
+    CMAKE_USE_PTHREADS_INIT
+    CMAKE_USE_WIN32_THREADS_INIT
+)
+    unset(${_ul_threads_cache_var} CACHE)
+endforeach()
 
 FetchContent_Declare(
     googlebenchmark
