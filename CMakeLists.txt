@@ -18,7 +18,6 @@ configure_file(
 ul_include(defaults.cmake)
 
 if(UL_BUILD_UNITTESTS)
-    #ul_include(googletest.cmake)
     find_package(GTest REQUIRED)
     include(GoogleTest)
 endif()
