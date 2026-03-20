@@ -42,7 +42,7 @@ target_link_libraries(
 
 ul_set_target_defaults(${target})
 
-set_target_properties(
-    ${target}
-    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON
-)
+set(compile_check_target ${target}-compile-check)
+add_executable(${compile_check_target} compile-check.cpp)
+target_link_libraries(${compile_check_target} PRIVATE ${target})
+ul_set_target_defaults(${compile_check_target})

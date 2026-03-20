@@ -69,8 +69,6 @@ ul_add_test(ulMem-test)
 # like environment
 target_link_libraries(ulMem-test PRIVATE GTest::gtest GTest::gtest_main ulMem)
 
-ul_set_target_defaults(ulMem-test)
-
 ul_run_target_postbuild(ulMem-test)
 
 ###
