@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.20)
 
 cmake_policy(SET CMP0054 NEW)
 
-include_guard(DIRECTORY)
+include_guard(GLOBAL)
 
 # to use cmake_print_variables(x) as shortcut for message(STATUS "x: " ${x})
 include(CMakePrintHelpers)
@@ -27,8 +27,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/cpp_std_lib.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
-include(${CMAKE_CURRENT_LIST_DIR}/cppcheck.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
+#include(${CMAKE_CURRENT_LIST_DIR}/cppcheck.cmake)
+#include(${CMAKE_CURRENT_LIST_DIR}/diagnostics.cmake)
 
 option(UL_ENABLE_LTO "enables link time optimization" OFF)
 
@@ -38,7 +38,6 @@ set(UL_BUILD_UNITTESTS
     "build (and run) unit tests as postbuild step"
 )
 if(UL_BUILD_UNITTESTS)
-    include(GoogleTest)
     enable_testing()
     # Show stdout/stderr when a test fails (e.g. on CI)
     list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
@@ -73,10 +72,6 @@ math(EXPR UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 # UL_NPROC will contain processor count and 0 if count couldn't be determined
 include(ProcessorCount)
 ProcessorCount(UL_NPROC)
-
-# this disturbs linking to gtest, expects d there as well...
-# so better handle this via set_target_properties
-#set(CMAKE_DEBUG_POSTFIX "d")
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -119,97 +114,113 @@ if(UL_ENABLE_LTO)
 endif()
 
 ######################################################################################################################
-# compile options
+# Per-target hardening + warnings
 
-### general ###
-
-if(
-    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
-    OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
-)
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -fno-builtin \
--D_GLIBCXX_ASSERTIONS \
--fstack-clash-protection -fstack-protector-strong \
--fexceptions \
-"
-    )
-    # _FORTIFY_SOURCE requires -O (optimization); Debug uses -O0, so enable only for non-Debug.
-    # Use generator expression so this works with multi-config (e.g. Ninja Multi-Config) and when
-    # CMAKE_BUILD_TYPE is empty at configure time.
-    add_compile_options(
-        "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
-        "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>"
-    )
-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} \
--fno-delete-null-pointer-checks \
--fno-strict-overflow \
--fno-strict-aliasing \
-"
+macro(mb_ul_set_target_warnings target)
+    get_target_property(_mb_ul_tw_type ${target} TYPE)
+    if(NOT _mb_ul_tw_type STREQUAL "INTERFACE_LIBRARY")
+        if(
+            "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
+            OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
         )
+            target_compile_definitions(${target} PRIVATE _GLIBCXX_ASSERTIONS)
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -fno-builtin
+                    -fstack-clash-protection
+                    -fstack-protector-strong
+                    -fexceptions
+                    "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
+            )
+            target_compile_definitions(
+                ${target}
+                PRIVATE
+                    $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=3>
+            )
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    $<$<NOT:$<CONFIG:Debug>>:-fno-delete-null-pointer-checks>
+                    $<$<NOT:$<CONFIG:Debug>>:-fno-strict-overflow>
+                    $<$<NOT:$<CONFIG:Debug>>:-fno-strict-aliasing>
+            )
+        endif()
+
+        if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -fext-numeric-literals
+                    -fno-omit-frame-pointer
+                    $<$<NOT:$<CONFIG:Debug>>:-ftrivial-auto-var-init=zero>
+            )
+        elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+            # nothing yet
+        elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -fno-limit-debug-info
+                    -fstrict-flex-arrays=3
+            )
+        endif()
+
+        if(
+            "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
+            OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
+        )
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -Wall
+                    -Wextra
+                    -Wconversion
+                    -Werror
+                    -Wno-deprecated-declarations
+                    -Wformat
+                    -Wformat=2
+                    -Wimplicit-fallthrough
+            )
+            # for C code
+            # -Werror=implicit -Werror=incompatible-pointer-types -Werror=int-conversion
+        endif()
+
+        if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -Wno-comment
+                    -Wtrampolines
+                    -Wbidi-chars=any
+            )
+        elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+            target_compile_options(${target} PRIVATE /W4)
+        elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+            target_compile_options(
+                ${target}
+                PRIVATE
+                    -Wmissing-prototypes
+                    -Wno-c++11-narrowing
+                    -Wdocumentation
+                    -Wno-c++20-compat
+                    -Wno-switch-default
+            )
+        endif()
     endif()
-endif()
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
-    # introduced for gperftools, but shouldn't do any harm generally
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftrivial-auto-var-init=zero")
-    endif()
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    # nothing yet
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -fno-limit-debug-info \
--fstrict-flex-arrays=3 \
-"
-    )
-endif()
-
-### warnings ###
-
-if(
-    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
-    OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
-)
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Werror \
--Wno-deprecated-declarations -Wformat -Wformat=2 -Wimplicit-fallthrough \
-"
-    )
-
-    # for C code
-    # -Werror=implicit -Werror=incompatible-pointer-types -Werror=int-conversion
-endif()
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -Wno-comment -Wtrampolines -Wbidi-chars=any"
-    )
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -Wmissing-prototypes -Wno-c++11-narrowing -Wdocumentation \
--Wno-c++20-compat -Wno-switch-default"
-    )
-endif()
+endmacro()
 
 ######################################################################################################################
-# cpp standard
-
-set(UL_CXX_STANDARD "23" CACHE STRING "Use C++ Standard" FORCE)
-set(CMAKE_CXX_STANDARD ${UL_CXX_STANDARD})
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-######################################################################################################################
-# target specific general choices
+# general target settings
 
 macro(ul_set_target_defaults target)
+    set_target_properties(
+        ${target}
+        PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON
+    )
+
+    mb_ul_set_target_warnings(${target})
+
     if(NOT UL_ANDROID) # easier than to fix the follow-up processes
         set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
     endif()
