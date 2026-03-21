@@ -42,4 +42,6 @@ ul_add_test(${targetTest})
 
 target_link_libraries(${targetTest} PRIVATE GTest::gtest GTest::gtest_main ${target})
 
+ul_set_target_essentials(${targetTest})
+
 ul_run_target_postbuild(${targetTest})

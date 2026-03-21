@@ -42,7 +42,7 @@ constexpr enable_if_t<std::is_enum_v<Enumeration>, Enumeration> enum_cast(const 
 }
 
 template <typename Enumeration>
-constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> as_number(
+constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> enum_cast(
     const Enumeration value) noexcept {
     return enum_cast<Enumeration>(value);
 }
