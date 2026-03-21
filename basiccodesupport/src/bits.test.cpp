@@ -330,7 +330,7 @@ TEST(bits_Field, basics) {
             end, // one behind last
         };
 
-        ul::bits::Fields<uint8_t, Field, ul::as_number(Field::end)> bits_{3, 1, 4};
+        ul::bits::Fields<uint8_t, Field, ul::enum_cast(Field::end)> bits_{3, 1, 4};
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::octdigit), 0);
@@ -370,7 +370,7 @@ TEST(bits_Field, experiment_char) {
             end, // one behind last
         };
 
-        ul::bits::Fields<uint16_t, Field, ul::as_number(Field::end)> bits_{8, 8};
+        ul::bits::Fields<uint16_t, Field, ul::enum_cast(Field::end)> bits_{8, 8};
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::character), 0);
@@ -387,7 +387,7 @@ TEST(bits_Field, one) {
             end, // one behind last
         };
 
-        ul::bits::Fields<uint16_t, Field, ul::as_number(Field::end)> bits_{16};
+        ul::bits::Fields<uint16_t, Field, ul::enum_cast(Field::end)> bits_{16};
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
@@ -402,7 +402,7 @@ TEST(bits_Field, some_capacity_left) {
             end, // one behind last
         };
 
-        ul::bits::Fields<uint32_t, Field, ul::as_number(Field::end)> bits_{20};
+        ul::bits::Fields<uint32_t, Field, ul::enum_cast(Field::end)> bits_{20};
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
@@ -418,7 +418,7 @@ TEST(bits_Field, overflow) {
                 numberLarger,
                 end, // one behind last
             };
-            ul::bits::Fields<uint32_t, Field, ul::as_number(Field::end)> bits_{16, 17};
+            ul::bits::Fields<uint32_t, Field, ul::enum_cast(Field::end)> bits_{16, 17};
         } s;
     };
 #if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80200 && UL_COMP_GNU_CPP_VER < 90000

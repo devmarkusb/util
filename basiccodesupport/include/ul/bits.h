@@ -250,7 +250,7 @@ public:
 
     template <std::unsigned_integral SourceDataType>
     constexpr void set(const FieldsLookup<fields>& fields_lookup, EnumType field, SourceDataType value) noexcept {
-        const auto fieldnr{as_number(field)};
+        const auto fieldnr{enum_cast(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_c{static_cast<size_t>(fieldnr)};
         data_ = write<BitDataType, SourceDataType>(
@@ -260,7 +260,7 @@ public:
     template <std::unsigned_integral TargetDataType = BitDataType>
     [[nodiscard]] constexpr TargetDataType get(
         const FieldsLookup<fields>& fields_lookup, EnumType field) const noexcept {
-        const auto fieldnr{as_number(field)};
+        const auto fieldnr{enum_cast(field)};
         UL_ASSERT(fieldnr >= 0);
         const auto fieldnr_c{static_cast<size_t>(fieldnr)};
         return read_and_cast<TargetDataType, BitDataType>(

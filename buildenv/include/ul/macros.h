@@ -263,6 +263,33 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_HAS_NOCRASH_IMBUE_LOCALE 0
 #endif
 
+//! <codecvt> (std::codecvt_utf8_utf16, std::wstring_convert): C++11 through C++23; removed in C++26.
+//! Prefer __cpp_lib_codecvt (SD-6 / std.featuretest); fall back to __has_include(<codecvt>) when the
+//! implementation omits the macro but still ships the header.
+#if defined(__cplusplus)
+#if (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L)) || (!defined(_MSVC_LANG) && (__cplusplus >= 201103L))
+#if defined(__has_include)
+#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200806L
+#define UL_HAS_STD_CODECVT 1
+#elif __has_include(<codecvt>)
+#define UL_HAS_STD_CODECVT 1
+#else
+#define UL_HAS_STD_CODECVT 0
+#endif
+#else
+#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200806L
+#define UL_HAS_STD_CODECVT 1
+#else
+#define UL_HAS_STD_CODECVT 1
+#endif
+#endif
+#else
+#define UL_HAS_STD_CODECVT 0
+#endif
+#else
+#define UL_HAS_STD_CODECVT 0
+#endif
+
 //!@}
 
 
