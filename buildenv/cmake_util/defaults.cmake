@@ -63,6 +63,36 @@ endif()
 
 option(UL_USE_LLD_LINKER "use lld linker" ${UL_IS_NON_APPLE_CLANG_COMPILER})
 
+# If requested, verify the toolchain can link with lld before setting -fuse-ld=lld.
+set(UL_HAVE_WORKING_LLD FALSE)
+if(UL_USE_LLD_LINKER)
+    if(CMAKE_CXX_COMPILER)
+        set(_ul_lld_probe_src "${CMAKE_BINARY_DIR}/CMakeFiles/ul_lld_probe.cxx")
+        file(WRITE "${_ul_lld_probe_src}" "int main(){return 0;}\n")
+        try_compile(
+            UL_HAVE_WORKING_LLD
+            "${CMAKE_BINARY_DIR}"
+            "${_ul_lld_probe_src}"
+            LINK_OPTIONS "-fuse-ld=lld"
+        )
+    elseif(CMAKE_C_COMPILER)
+        set(_ul_lld_probe_src "${CMAKE_BINARY_DIR}/CMakeFiles/ul_lld_probe.c")
+        file(WRITE "${_ul_lld_probe_src}" "int main(void){return 0;}\n")
+        try_compile(
+            UL_HAVE_WORKING_LLD
+            "${CMAKE_BINARY_DIR}"
+            "${_ul_lld_probe_src}"
+            LINK_OPTIONS "-fuse-ld=lld"
+        )
+    endif()
+    if(NOT UL_HAVE_WORKING_LLD)
+        message(
+            STATUS
+            "UL_USE_LLD_LINKER is ON but linking with -fuse-ld=lld failed; using the default linker"
+        )
+    endif()
+endif()
+
 # Might be used by clang-tidy and coverage, why not on by default.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -89,7 +119,7 @@ if(MINGW)
     )
 endif()
 
-if(UL_USE_LLD_LINKER)
+if(UL_HAVE_WORKING_LLD)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
     set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fuse-ld=lld")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=lld")
