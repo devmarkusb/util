@@ -5,9 +5,7 @@
 
 #include "ul/config.h"
 
-#if __has_include(<concepts>) && __cpp_concepts && __cpp_lib_concepts
 #include "concepts.h"
-#include <concepts>
 
 namespace mb::ul {
 template <EnumConcept E>
@@ -26,28 +24,6 @@ constexpr E enum_cast(std::underlying_type_t<E> value) noexcept {
     return static_cast<E>(value);
 }
 } // namespace mb::ul
-#else
-#include "std/std_extensions.h"
-
-namespace mb::ul {
-template <typename Enumeration>
-constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> enum_cast(
-    const Enumeration value) noexcept {
-    return static_cast<underlying_type_t<Enumeration>>(value);
-}
-
-template <typename Enumeration>
-constexpr enable_if_t<std::is_enum_v<Enumeration>, Enumeration> enum_cast(const std::integral auto value) noexcept {
-    return static_cast<Enumeration>(value);
-}
-
-template <typename Enumeration>
-constexpr enable_if_t<std::is_enum_v<Enumeration>, underlying_type_t<Enumeration>> enum_cast(
-    const Enumeration value) noexcept {
-    return enum_cast<Enumeration>(value);
-}
-} // namespace mb::ul
-#endif
 
 UL_HEADER_END
 
