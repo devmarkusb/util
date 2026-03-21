@@ -34,7 +34,7 @@ public:
         f3,
         end,
     };
-    static constexpr auto field_count{ul::as_number(Field::end)};
+    static constexpr auto field_count{ul::enum_cast(Field::end)};
 
     static ul::bits::FieldsLookup<field_count> make_field_lookup() {
         return make_field_lookup_impl(ul::idx::GenSeq<bit_counts.size()>());
@@ -59,7 +59,7 @@ private:
     static_assert(field_count == bit_counts.size());
     static_assert(ul::bits::count<BitsType>() >= ul::ct_accumulate(bit_counts, 0));
 
-    ul::bits::FieldsRaw<BitsType, Field, ul::as_number(Field::end)> bits_;
+    ul::bits::FieldsRaw<BitsType, Field, ul::enum_cast(Field::end)> bits_;
 
     template <int... is>
     static ul::bits::FieldsLookup<field_count> make_field_lookup_impl(ul::idx::Seq<is...>) {

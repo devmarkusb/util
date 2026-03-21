@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-#if !UL_HAS_NO_CODECVT
+#if UL_HAS_STD_CODECVT
 #include <codecvt>
 #endif
 #if UL_OS_WINDOWS
@@ -87,7 +87,7 @@ inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
 #endif
 }
 
-#if !UL_HAS_NO_CODECVT
+#if UL_HAS_STD_CODECVT
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
 UL_WARNING_DISABLE_CLANG(deprecated-declarations)

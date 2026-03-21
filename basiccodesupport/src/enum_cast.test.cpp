@@ -10,14 +10,14 @@ TEST(EnumCast_as_numberTest, test) {
         first,
         second,
     };
-    auto number = ul::as_number(EC::first);
+    auto number = ul::enum_cast(EC::first);
     EXPECT_EQ(1, number);
     enum class E {
         zeroth,
         first,
         second,
     };
-    number = ul::as_number(E::first);
+    number = ul::enum_cast(E::first);
     EXPECT_EQ(1, number);
 }
 
@@ -27,7 +27,7 @@ TEST(EnumCast_as_numberTest, TypeSpecific) {
         first,
         second,
     };
-    auto number = ul::as_number(EC::first);
+    auto number = ul::enum_cast(EC::first);
     EXPECT_EQ(1ul, number);
     EXPECT_TRUE(typeid(number) == typeid(uint64_t));
 }

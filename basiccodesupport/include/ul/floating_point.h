@@ -45,7 +45,8 @@ struct ToStringConverter;
         a) the count of significant digits for FF `default_`, or
         b) the decimal places for FF `fixed` or `scientific`.
     FF scientific leads to exponential formatting.
-    If don't want to pass precision and use a default one (e.g. 6) and use FF default_, just use std::to_string.*/
+    If don't want to pass precision, FF `default_choice` uses fixed-point formatting with 6 digits after the decimal
+    (portable; `std::to_string` for floats omits trailing zeros on some platforms).*/
 template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
 std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x, int precision) {
@@ -54,8 +55,8 @@ std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(Flo
 }
 
 //! \return a string of the floating point number x.
-/** \tparam ff selects the formatting: `default_` being equivalent to a call of std::to_string,
-    `fixed` meaning fixed count of decimal places and `scientific` an exponential formatting.*/
+/** \tparam ff selects the formatting: `default_choice` uses fixed-point with 6 fractional digits (see convert impl),
+    `fixed` / `scientific` use stream formatting with default or explicit precision.*/
 template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
 //  FloatType expected as floating point
 std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x) {
@@ -69,7 +70,10 @@ struct ToStringConverter {};
 template <typename FloatType>
 struct ToStringConverter<FloatType, FloatFormat::default_choice> {
     static std::string convert(FloatType x) {
-        return ul::to_string(x);
+        // Avoid std::to_string: trailing fractional zeros are not guaranteed (e.g. "4.556" vs "4.556000").
+        std::ostringstream ret;
+        ret << std::fixed << std::setprecision(6) << x;
+        return ret.str();
     }
 
     static std::string convert(FloatType x, int precision) {

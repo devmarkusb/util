@@ -131,7 +131,6 @@ macro(mb_ul_set_target_warnings target)
                     -fstack-clash-protection
                     -fstack-protector-strong
                     -fexceptions
-                    "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
             )
             target_compile_definitions(
                 ${target}
@@ -213,7 +212,19 @@ endmacro()
 ######################################################################################################################
 # general target settings
 
+macro(ul_set_target_essentials target)
+    if(WIN32)
+        set_property(
+            TARGET ${target}
+            APPEND
+            PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE
+        )
+    endif()
+endmacro()
+
 macro(ul_set_target_defaults target)
+    ul_set_target_essentials(${target})
+
     set_target_properties(
         ${target}
         PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON
@@ -228,14 +239,6 @@ macro(ul_set_target_defaults target)
     set_target_properties(${target} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
     set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
-
-    if(WIN32)
-        set_property(
-            TARGET ${target}
-            APPEND
-            PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE
-        )
-    endif()
 
     if("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
         target_compile_definitions(

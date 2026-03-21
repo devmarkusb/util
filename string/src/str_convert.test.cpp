@@ -1,6 +1,7 @@
 #include "ul/string/str_convert.h"
-#include "utf8/unchecked.h"
+
 #include "gtest/gtest.h"
+#include "utf8/unchecked.h"
 #include <iterator>
 #include <string>
 
@@ -59,7 +60,7 @@ TEST(utf8to16_s2ws_portableTest, test) {
 }
 
 TEST(utf16to8_ws2s_codecvtTest, test) {
-#if !UL_HAS_NO_CODECVT
+#if UL_HAS_STD_CODECVT
     // use the perfectly tested utf8cpp lib to construct an utf16 wstring
     std::string utf8(
         "\xc3\xa4"
@@ -74,7 +75,7 @@ TEST(utf16to8_ws2s_codecvtTest, test) {
 }
 
 TEST(utf8to16_s2ws_codecvtTest, test) {
-#if !UL_HAS_NO_CODECVT
+#if UL_HAS_STD_CODECVT
     // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
     std::string utf8(
         "\xc3\xa4"
