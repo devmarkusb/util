@@ -290,6 +290,16 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_HAS_STD_CODECVT 0
 #endif
 
+//! libc++ (Apple Clang, etc.): <codecvt> still exists in C++26 but the deprecated
+//! codecvt_utf8_utf16 templates are omitted unless _LIBCPP_ENABLE_CXX26_REMOVED_CODECVT.
+//! wstring_convert is omitted unless _LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT.
+//! __has_include(<codecvt>) stays true, so force off unless both opt-ins are set.
+#if defined(_LIBCPP_VERSION) && defined(_LIBCPP_STD_VER) && (_LIBCPP_STD_VER >= 26) \
+    && (!defined(_LIBCPP_ENABLE_CXX26_REMOVED_CODECVT) || !defined(_LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT))
+#undef UL_HAS_STD_CODECVT
+#define UL_HAS_STD_CODECVT 0
+#endif
+
 //!@}
 
 
