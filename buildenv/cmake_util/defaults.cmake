@@ -124,6 +124,8 @@ macro(mb_ul_set_target_warnings target)
             OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
         )
             target_compile_definitions(${target} PRIVATE _GLIBCXX_ASSERTIONS)
+            # _FORTIFY_SOURCE must be -U then -D in one option list; CMake can place
+            # target_compile_definitions before target_compile_options, causing redefinition vs GCC's built-in.
             target_compile_options(
                 ${target}
                 PRIVATE
@@ -131,11 +133,8 @@ macro(mb_ul_set_target_warnings target)
                     -fstack-clash-protection
                     -fstack-protector-strong
                     -fexceptions
-            )
-            target_compile_definitions(
-                ${target}
-                PRIVATE
-                    $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=3>
+                    "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
+                    "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>"
             )
             target_compile_options(
                 ${target}
