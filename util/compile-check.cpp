@@ -2,4 +2,6 @@
 #include "ul/ul.h"
 #include <cstdint>
 
-int32_t main() { return 0; }
+int32_t main() {
+    return 0;
+}

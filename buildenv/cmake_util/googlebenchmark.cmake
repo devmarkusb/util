@@ -35,7 +35,12 @@ set(RUN_HAVE_STD_REGEX 1 CACHE STRING "Use std::regex at runtime" FORCE)
 # and regex use C++. Use CACHE FORCE so try_compile() and the benchmark subproject
 # see these flags; restore cache after so the main project keeps its flags.
 # FindThreads try_compile also links an executable, so linker flags need -pthread.
-set(THREADS_PREFER_PTHREAD_FLAG ON CACHE BOOL "Prefer -pthread for FindThreads" FORCE)
+set(THREADS_PREFER_PTHREAD_FLAG
+    ON
+    CACHE BOOL
+    "Prefer -pthread for FindThreads"
+    FORCE
+)
 set(UL_SAVED_CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 set(UL_SAVED_CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
 set(UL_SAVED_CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
@@ -69,18 +74,78 @@ else()
         "${UL_SAVED_CMAKE_SHARED_LINKER_FLAGS} -pthread"
     )
 endif()
-set(CMAKE_C_FLAGS "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
-set(CMAKE_C_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
-set(CMAKE_C_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
-set(CMAKE_C_FLAGS_RELWITHDEBINFO "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
-set(CMAKE_C_FLAGS_MINSIZEREL "${UL_BENCHMARK_MINIMAL_C_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads" FORCE)
-set(CMAKE_CXX_FLAGS "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_DEBUG "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_RELEASE "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
-set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}" CACHE STRING "Minimal for benchmark regex detection" FORCE)
-set(CMAKE_EXE_LINKER_FLAGS "${UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads link" FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS "${UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS}" CACHE STRING "Minimal for benchmark FindThreads link" FORCE)
+set(CMAKE_C_FLAGS
+    "${UL_BENCHMARK_MINIMAL_C_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads"
+    FORCE
+)
+set(CMAKE_C_FLAGS_DEBUG
+    "${UL_BENCHMARK_MINIMAL_C_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads"
+    FORCE
+)
+set(CMAKE_C_FLAGS_RELEASE
+    "${UL_BENCHMARK_MINIMAL_C_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads"
+    FORCE
+)
+set(CMAKE_C_FLAGS_RELWITHDEBINFO
+    "${UL_BENCHMARK_MINIMAL_C_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads"
+    FORCE
+)
+set(CMAKE_C_FLAGS_MINSIZEREL
+    "${UL_BENCHMARK_MINIMAL_C_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS
+    "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark regex detection"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_DEBUG
+    "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark regex detection"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_RELEASE
+    "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark regex detection"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark regex detection"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_MINSIZEREL
+    "${UL_BENCHMARK_MINIMAL_CXX_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark regex detection"
+    FORCE
+)
+set(CMAKE_EXE_LINKER_FLAGS
+    "${UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads link"
+    FORCE
+)
+set(CMAKE_SHARED_LINKER_FLAGS
+    "${UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS}"
+    CACHE STRING
+    "Minimal for benchmark FindThreads link"
+    FORCE
+)
 
 include(FetchContent)
 
@@ -88,17 +153,25 @@ include(FetchContent)
 # pre-clone with retries so a single flaky attempt doesn't fail the configure.
 set(UL_benchmark_src "${CMAKE_BINARY_DIR}/_deps/googlebenchmark-src")
 if(EXISTS "${UL_benchmark_src}/CMakeLists.txt")
-    set(FETCHCONTENT_SOURCE_DIR_GOOGLEBENCHMARK "${UL_benchmark_src}" CACHE PATH "")
+    set(FETCHCONTENT_SOURCE_DIR_GOOGLEBENCHMARK
+        "${UL_benchmark_src}"
+        CACHE PATH
+        ""
+    )
 else()
     find_package(Git REQUIRED QUIET)
     set(UL_clone_result 1)
     set(UL_attempt 0)
     while(UL_attempt LESS 5)
         math(EXPR UL_attempt_1 "${UL_attempt} + 1")
-        message(STATUS "Fetching google/benchmark (attempt ${UL_attempt_1}/5)...")
+        message(
+            STATUS
+            "Fetching google/benchmark (attempt ${UL_attempt_1}/5)..."
+        )
         file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/_deps")
         execute_process(
-            COMMAND ${GIT_EXECUTABLE} clone --depth 1 -b main
+            COMMAND
+                ${GIT_EXECUTABLE} clone --depth 1 -b main
                 https://github.com/google/benchmark.git googlebenchmark-src
             WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/_deps"
             RESULT_VARIABLE UL_clone_result
@@ -116,11 +189,17 @@ else()
         endif()
     endwhile()
     if(NOT UL_clone_result EQUAL 0)
-        message(FATAL_ERROR
+        message(
+            FATAL_ERROR
             "Failed to clone google/benchmark after 5 attempts. "
-            "Check network, VPN, firewall, or install system libbenchmark-dev.")
+            "Check network, VPN, firewall, or install system libbenchmark-dev."
+        )
     endif()
-    set(FETCHCONTENT_SOURCE_DIR_GOOGLEBENCHMARK "${UL_benchmark_src}" CACHE PATH "")
+    set(FETCHCONTENT_SOURCE_DIR_GOOGLEBENCHMARK
+        "${UL_benchmark_src}"
+        CACHE PATH
+        ""
+    )
 endif()
 
 # GoogleTest calls find_package(Threads) without REQUIRED. When that fails, CMake
@@ -131,14 +210,14 @@ foreach(
     _ul_threads_cache_var
     IN
     ITEMS
-    Threads_FOUND
-    CMAKE_HAVE_LIBC_PTHREAD
-    CMAKE_HAVE_PTHREAD_H
-    CMAKE_HAVE_PTHREAD_CREATE
-    THREADS_HAVE_PTHREAD_ARG
-    CMAKE_THREAD_LIBS_INIT
-    CMAKE_USE_PTHREADS_INIT
-    CMAKE_USE_WIN32_THREADS_INIT
+        Threads_FOUND
+        CMAKE_HAVE_LIBC_PTHREAD
+        CMAKE_HAVE_PTHREAD_H
+        CMAKE_HAVE_PTHREAD_CREATE
+        THREADS_HAVE_PTHREAD_ARG
+        CMAKE_THREAD_LIBS_INIT
+        CMAKE_USE_PTHREADS_INIT
+        CMAKE_USE_WIN32_THREADS_INIT
 )
     unset(${_ul_threads_cache_var} CACHE)
 endforeach()
@@ -153,18 +232,78 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googlebenchmark)
 
-set(CMAKE_C_FLAGS "${UL_SAVED_CMAKE_C_FLAGS}" CACHE STRING "C compiler flags" FORCE)
-set(CMAKE_C_FLAGS_DEBUG "${UL_SAVED_CMAKE_C_FLAGS_DEBUG}" CACHE STRING "C compiler flags (Debug)" FORCE)
-set(CMAKE_C_FLAGS_RELEASE "${UL_SAVED_CMAKE_C_FLAGS_RELEASE}" CACHE STRING "C compiler flags (Release)" FORCE)
-set(CMAKE_C_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_C_FLAGS_RELWITHDEBINFO}" CACHE STRING "C compiler flags (RelWithDebInfo)" FORCE)
-set(CMAKE_C_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_C_FLAGS_MINSIZEREL}" CACHE STRING "C compiler flags (MinSizeRel)" FORCE)
-set(CMAKE_CXX_FLAGS "${UL_SAVED_CMAKE_CXX_FLAGS}" CACHE STRING "C++ compiler flags" FORCE)
-set(CMAKE_CXX_FLAGS_DEBUG "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "C++ compiler flags (Debug)" FORCE)
-set(CMAKE_CXX_FLAGS_RELEASE "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "C++ compiler flags (Release)" FORCE)
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}" CACHE STRING "C++ compiler flags (RelWithDebInfo)" FORCE)
-set(CMAKE_CXX_FLAGS_MINSIZEREL "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}" CACHE STRING "C++ compiler flags (MinSizeRel)" FORCE)
-set(CMAKE_EXE_LINKER_FLAGS "${UL_SAVED_CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "Executable linker flags" FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS "${UL_SAVED_CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Shared library linker flags" FORCE)
+set(CMAKE_C_FLAGS
+    "${UL_SAVED_CMAKE_C_FLAGS}"
+    CACHE STRING
+    "C compiler flags"
+    FORCE
+)
+set(CMAKE_C_FLAGS_DEBUG
+    "${UL_SAVED_CMAKE_C_FLAGS_DEBUG}"
+    CACHE STRING
+    "C compiler flags (Debug)"
+    FORCE
+)
+set(CMAKE_C_FLAGS_RELEASE
+    "${UL_SAVED_CMAKE_C_FLAGS_RELEASE}"
+    CACHE STRING
+    "C compiler flags (Release)"
+    FORCE
+)
+set(CMAKE_C_FLAGS_RELWITHDEBINFO
+    "${UL_SAVED_CMAKE_C_FLAGS_RELWITHDEBINFO}"
+    CACHE STRING
+    "C compiler flags (RelWithDebInfo)"
+    FORCE
+)
+set(CMAKE_C_FLAGS_MINSIZEREL
+    "${UL_SAVED_CMAKE_C_FLAGS_MINSIZEREL}"
+    CACHE STRING
+    "C compiler flags (MinSizeRel)"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS
+    "${UL_SAVED_CMAKE_CXX_FLAGS}"
+    CACHE STRING
+    "C++ compiler flags"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_DEBUG
+    "${UL_SAVED_CMAKE_CXX_FLAGS_DEBUG}"
+    CACHE STRING
+    "C++ compiler flags (Debug)"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_RELEASE
+    "${UL_SAVED_CMAKE_CXX_FLAGS_RELEASE}"
+    CACHE STRING
+    "C++ compiler flags (Release)"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    "${UL_SAVED_CMAKE_CXX_FLAGS_RELWITHDEBINFO}"
+    CACHE STRING
+    "C++ compiler flags (RelWithDebInfo)"
+    FORCE
+)
+set(CMAKE_CXX_FLAGS_MINSIZEREL
+    "${UL_SAVED_CMAKE_CXX_FLAGS_MINSIZEREL}"
+    CACHE STRING
+    "C++ compiler flags (MinSizeRel)"
+    FORCE
+)
+set(CMAKE_EXE_LINKER_FLAGS
+    "${UL_SAVED_CMAKE_EXE_LINKER_FLAGS}"
+    CACHE STRING
+    "Executable linker flags"
+    FORCE
+)
+set(CMAKE_SHARED_LINKER_FLAGS
+    "${UL_SAVED_CMAKE_SHARED_LINKER_FLAGS}"
+    CACHE STRING
+    "Shared library linker flags"
+    FORCE
+)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_google_benchmark_compile_options

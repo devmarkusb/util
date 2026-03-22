@@ -18,7 +18,6 @@
 #include <cstdint>
 #include <new>
 
-
 namespace mb::ul::mem {
 class StatsHeader {
 public:

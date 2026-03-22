@@ -188,9 +188,7 @@ macro(mb_ul_set_target_warnings target)
         elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             target_compile_options(
                 ${target}
-                PRIVATE
-                    -fno-limit-debug-info
-                    -fstrict-flex-arrays=3
+                PRIVATE -fno-limit-debug-info -fstrict-flex-arrays=3
             )
         endif()
 
@@ -217,10 +215,7 @@ macro(mb_ul_set_target_warnings target)
         if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
             target_compile_options(
                 ${target}
-                PRIVATE
-                    -Wno-comment
-                    -Wtrampolines
-                    -Wbidi-chars=any
+                PRIVATE -Wno-comment -Wtrampolines -Wbidi-chars=any
             )
         elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
             target_compile_options(${target} PRIVATE /W4)
@@ -254,10 +249,7 @@ endmacro()
 macro(ul_set_target_defaults target)
     ul_set_target_essentials(${target})
 
-    set_target_properties(
-        ${target}
-        PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON
-    )
+    set_target_properties(${target} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
     mb_ul_set_target_warnings(${target})
 
