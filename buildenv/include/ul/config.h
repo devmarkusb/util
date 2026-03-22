@@ -4,6 +4,10 @@
 #include "config_gen.h"
 
 #if !UL_DISABLE_NAMESPACE_ALIAS
+namespace mb::ul
+{
+}
+
 #define UL_HEADER_END namespace ul = mb::ul;
 #else
 #define UL_HEADER_END
