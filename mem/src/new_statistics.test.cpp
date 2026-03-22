@@ -1,6 +1,4 @@
-#define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "ul/mem/new_statistics.h"
-#undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 #include "ul/assert.h"
 #include "ul/error.h"
 #include "ul/mem/compiler_quirks.h"

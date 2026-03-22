@@ -3,6 +3,7 @@
 #ifndef STR_CONVERT_H_827RT82RTRXJR38T
 #define STR_CONVERT_H_827RT82RTRXJR38T
 
+#include "detail/str_convert_decl.hpp"
 //! ulstring.h included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "ulstring.h"
@@ -92,12 +93,6 @@ struct ThrowOnConversionError {
         std::string s{"conversion error on codepoint "};
         s += ul::to_string(codepoint);
         throw ConversionError(s.c_str());
-    }
-};
-
-struct ConversionErrorToQuestionMark {
-    static char on_conversion_error(unsigned int) {
-        return '?';
     }
 };
 
