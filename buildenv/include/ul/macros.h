@@ -307,10 +307,8 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! Also key off __cplusplus: some libc++ builds omit these symbols under -std=c++26 while
 //! _LIBCPP_STD_VER has not yet been bumped to 26, which would leave UL_HAS_STD_CODECVT wrongly at 1.
 #if defined(_LIBCPP_VERSION) \
-    && (((defined(_LIBCPP_STD_VER) && (_LIBCPP_STD_VER >= 26)) \
-         || (defined(__cplusplus) && (__cplusplus >= 202400L))) \
-        && (!defined(_LIBCPP_ENABLE_CXX26_REMOVED_CODECVT) \
-            || !defined(_LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT)))
+    && (((defined(_LIBCPP_STD_VER) && (_LIBCPP_STD_VER >= 26)) || (defined(__cplusplus) && (__cplusplus >= 202400L))) \
+        && (!defined(_LIBCPP_ENABLE_CXX26_REMOVED_CODECVT) || !defined(_LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT)))
 #undef UL_HAS_STD_CODECVT
 #define UL_HAS_STD_CODECVT 0
 #endif
