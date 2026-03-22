@@ -35,10 +35,7 @@ target_include_directories(${target} SYSTEM INTERFACE ${utfcpp_INCLUDE_DIRS})
 
 target_link_libraries(${target} INTERFACE ulBasicCodeSupport) # utf8cpp
 
-if(
-    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
-    OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
-)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(${target} INTERFACE -Wno-unsafe-buffer-usage)
 endif()
 
