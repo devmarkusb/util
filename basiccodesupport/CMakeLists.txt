@@ -63,6 +63,10 @@ target_link_libraries(
     PRIVATE GTest::gtest GTest::gtest_main ${target}
 )
 
+if(MB_SANITIZER)
+    target_compile_definitions(ulMem-test PRIVATE MB_SANITIZER=1)
+endif()
+
 ul_set_target_filesystem(${targetTest})
 
 ul_set_target_essentials(${targetTest})
