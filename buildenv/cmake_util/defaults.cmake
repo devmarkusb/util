@@ -229,11 +229,13 @@ endmacro()
 
 macro(ul_set_target_essentials target)
     if(WIN32)
-        set_property(
-            TARGET ${target}
-            APPEND
-            PROPERTY COMPILE_DEFINITIONS UNICODE _UNICODE
-        )
+        get_target_property(_ul_ste_type ${target} TYPE)
+        if(_ul_ste_type STREQUAL "INTERFACE_LIBRARY")
+            # INTERFACE_COMPILE_DEFINITIONS so VERIFY_INTERFACE_HEADER_SETS (and consumers) see these.
+            target_compile_definitions(${target} INTERFACE UNICODE _UNICODE)
+        else()
+            target_compile_definitions(${target} PRIVATE UNICODE _UNICODE)
+        endif()
     endif()
 endmacro()
 
