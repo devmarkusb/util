@@ -64,7 +64,7 @@ target_link_libraries(
 )
 
 if(MB_SANITIZER)
-    target_compile_definitions(ulMem-test PRIVATE MB_SANITIZER=1)
+    target_compile_definitions(${targetTest} PRIVATE MB_SANITIZER=1)
 endif()
 
 ul_set_target_filesystem(${targetTest})
