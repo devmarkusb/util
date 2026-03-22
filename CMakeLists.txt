@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(util)
+project(mb.util
+    VERSION 0.1.0
+)
 
 include(buildenv-bootstrap.cmake)
 
@@ -52,7 +54,7 @@ set(ul_INCLUDE_DIRS
     ${ulLinklib_INCLUDE_DIRS}
     ${ulMem_INCLUDE_DIRS}
     ${ulString_INCLUDE_DIRS}
-    ${mb-util_INCLUDE_DIRS}
+    ${mb.util_INCLUDE_DIRS}
     CACHE INTERNAL
     "util include directories"
     FORCE

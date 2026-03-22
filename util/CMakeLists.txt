@@ -2,20 +2,21 @@ cmake_minimum_required(VERSION 3.23)
 
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
-project(mb-util)
-
 ul_include(defaults.cmake)
+include(../devenv/cmake/install-library-config.cmake)
 
 set(target ${PROJECT_NAME})
 
 file(GLOB_RECURSE target_INCS "include/*.h")
 
 add_library(${target} INTERFACE)
+add_library(mb::util ALIAS ${target})
+add_library(mb-util ALIAS ${target})
+
 target_sources(
     ${target}
     INTERFACE
-        FILE_SET headers
-            TYPE HEADERS
+        FILE_SET HEADERS
             BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
             FILES ${target_INCS}
 )
@@ -49,3 +50,5 @@ set(compile_check_target ${target}-compile-check)
 add_executable(${compile_check_target} compile-check.cpp)
 target_link_libraries(${compile_check_target} PRIVATE ${target})
 ul_set_target_defaults(${compile_check_target})
+
+#mb_install_library(mb.util)

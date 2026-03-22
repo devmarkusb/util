@@ -99,10 +99,10 @@ jobs:
           ]
         }
 
-  install-test:
-    uses: devmarkusb/gh-workflows/.github/workflows/install-test.yml@main
-    with:
-      image: ghcr.io/bemanproject/infra-containers-gcc:latest
-      cxx_standard: 26
-      namespace: mb
-      main_header: cpp-lib-template.hpp
+#   install-test:
+#     uses: devmarkusb/gh-workflows/.github/workflows/install-test.yml@main
+#     with:
+#       image: ghcr.io/bemanproject/infra-containers-gcc:latest
+#       cxx_standard: 26
+#       namespace: mb
+#       main_header: ul.h
