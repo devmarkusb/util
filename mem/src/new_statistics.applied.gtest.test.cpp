@@ -1,6 +1,4 @@
-#define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "ul/mem/new_statistics.h"
-#undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 #include "ul/error.h"
 #include "ul/format_number.h"
 #include "ul/macros.h"

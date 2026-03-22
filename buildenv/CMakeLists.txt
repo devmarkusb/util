@@ -10,6 +10,10 @@ ul_include(gsl.cmake)
 set(target ${PROJECT_NAME})
 
 file(GLOB_RECURSE target_INCS "include/*.h")
+# gtest_utils.h includes gtest; keep it out of the verified header set when tests are off (no GTest target).
+if(NOT UL_BUILD_UNITTESTS)
+    list(FILTER target_INCS EXCLUDE REGEX "gtest_utils\\.h$")
+endif()
 
 add_library(${target} INTERFACE)
 target_sources(${target} INTERFACE
@@ -20,6 +24,10 @@ target_sources(${target} INTERFACE
 target_include_directories(${target} INTERFACE ${GSL_SOURCE_DIR}/include)
 
 target_link_libraries(${target} INTERFACE Microsoft.GSL::GSL)
+if(UL_BUILD_UNITTESTS)
+    # VERIFY_INTERFACE_HEADER_SETS compiles each FILE_SET header with INTERFACE usage requirements only.
+    target_link_libraries(${target} INTERFACE $<BUILD_INTERFACE:GTest::gtest>)
+endif()
 
 ul_set_target_defaults(${target})
 

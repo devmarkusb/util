@@ -2,9 +2,7 @@
 #include "ul/warnings.h"
 #include <cstddef>
 #include <new>
-#define UL_I_AM_SURE_TO_REPLACE_NEW_DELETE 1
 #include "ul/mem/new_statistics.h"
-#undef UL_I_AM_SURE_TO_REPLACE_NEW_DELETE
 
 namespace ul = mb::ul;
 
