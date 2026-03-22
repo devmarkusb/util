@@ -23,24 +23,24 @@
 #endif
 
 namespace mb::ul::str {
-    inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr) {
+inline std::string utf16or32to8_ws2s_portable(const std::wstring& wstr) {
 #if UL_SIZEOF_WCHAR_T == 2
-        std::string ret;
-        utf8::utf16to8(wstr.begin(), wstr.end(), std::back_inserter(ret));
-        return ret;
+    std::string ret;
+    utf8::utf16to8(wstr.begin(), wstr.end(), std::back_inserter(ret));
+    return ret;
 #elif UL_SIZEOF_WCHAR_T == 4
-        // not tested!
-        std::u32string tmp(wstr.begin(), wstr.end());
-        std::string ret;
-        utf8::utf32to8(tmp.begin(), tmp.end(), std::back_inserter(ret));
-        return ret;
+    // not tested!
+    std::u32string tmp(wstr.begin(), wstr.end());
+    std::string ret;
+    utf8::utf32to8(tmp.begin(), tmp.end(), std::back_inserter(ret));
+    return ret;
 #else
-        ul::ignore_unused(wstr);
-        throw ul::NotImplemented{"utf16or32to8_ws2s_portable"};
+    ul::ignore_unused(wstr);
+    throw ul::NotImplemented{"utf16or32to8_ws2s_portable"};
 #endif
-    }
+}
 
-    inline std::string utf16to8_ws2s(const std::wstring& wstr) {
+inline std::string utf16to8_ws2s(const std::wstring& wstr) {
 #if UL_OS_WINDOWS
     std::string convertedString;
     int requiredSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, 0, 0, 0, 0);
@@ -55,22 +55,22 @@ namespace mb::ul::str {
 #endif
 }
 
-    inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
+inline std::wstring utf8to16or32_s2ws_portable(const std::string& str) {
 #if UL_SIZEOF_WCHAR_T == 2
-        std::wstring ret;
-        utf8::utf8to16(str.begin(), str.end(), std::back_inserter(ret));
-        return ret;
+    std::wstring ret;
+    utf8::utf8to16(str.begin(), str.end(), std::back_inserter(ret));
+    return ret;
 #elif UL_SIZEOF_WCHAR_T == 4
-        // not tested!
-        std::u32string utf32;
-        utf8::utf8to32(str.begin(), str.end(), std::back_inserter(utf32));
-        std::wstring ret(utf32.begin(), utf32.end());
-        return ret;
+    // not tested!
+    std::u32string utf32;
+    utf8::utf8to32(str.begin(), str.end(), std::back_inserter(utf32));
+    std::wstring ret(utf32.begin(), utf32.end());
+    return ret;
 #else
-        ul::ignore_unused(str);
-        throw ul::NotImplemented{"utf8to16or32_s2ws_portable"};
+    ul::ignore_unused(str);
+    throw ul::NotImplemented{"utf8to16or32_s2ws_portable"};
 #endif
-    }
+}
 
 inline std::wstring utf8to16_s2ws(const std::string& str) {
 #if UL_OS_WINDOWS

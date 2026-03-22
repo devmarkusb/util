@@ -13,10 +13,13 @@ add_subdirectory(sdks)
 file(GLOB_RECURSE target_INCS "include/*.h*")
 
 add_library(${target} INTERFACE)
-target_sources(${target} INTERFACE
-    FILE_SET headers TYPE HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    FILES ${target_INCS}
+target_sources(
+    ${target}
+    INTERFACE
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            FILES ${target_INCS}
 )
 
 set(${target}_INCLUDE_DIRS
@@ -55,7 +58,10 @@ add_executable(${targetTest} ${targetTest_SOURCES})
 
 ul_add_test(${targetTest})
 
-target_link_libraries(${targetTest} PRIVATE GTest::gtest GTest::gtest_main ${target})
+target_link_libraries(
+    ${targetTest}
+    PRIVATE GTest::gtest GTest::gtest_main ${target}
+)
 
 ul_set_target_essentials(${targetTest})
 

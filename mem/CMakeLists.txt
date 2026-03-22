@@ -12,15 +12,21 @@ file(GLOB_RECURSE target_SRC_INCS "src/*.h*")
 set(target_SOURCES src/new_statistics.cpp)
 
 add_library(ulMem STATIC ${target_SOURCES})
-target_sources(ulMem PUBLIC
-    FILE_SET headers TYPE HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    FILES ${target_INCS}
+target_sources(
+    ulMem
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            FILES ${target_INCS}
 )
-target_sources(ulMem PRIVATE
-    FILE_SET src_headers TYPE HEADERS
-    BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    FILES ${target_SRC_INCS}
+target_sources(
+    ulMem
+    PRIVATE
+        FILE_SET src_headers
+            TYPE HEADERS
+            BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src"
+            FILES ${target_SRC_INCS}
 )
 target_include_directories(
     ulMem
@@ -93,7 +99,10 @@ endif()
 
 ###
 
-add_executable(ulMem-test_new_statistics_applied src/new_statistics.applied.test.cpp)
+add_executable(
+    ulMem-test_new_statistics_applied
+    src/new_statistics.applied.test.cpp
+)
 
 ul_add_simple_test(ulMem-test_new_statistics_applied)
 set_tests_properties(
