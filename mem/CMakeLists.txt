@@ -77,31 +77,34 @@ target_link_libraries(ulMem-test PRIVATE GTest::gtest GTest::gtest_main ulMem)
 
 ###
 
-add_executable(ulMem-test_new_statistics src/new_statistics.test.cpp)
+# These tests assume exact new/delete/peak accounting; sanitizers instrument or redirect allocation and break that.
+if(NOT MB_SANITIZER)
+    add_executable(ulMem-test_new_statistics src/new_statistics.test.cpp)
 
-ul_add_simple_test(ulMem-test_new_statistics)
-# LeakSanitizer can report false positives with our custom operator new (malloc + header offset);
-# avoid overriding exit code so test pass/fail = main() return value.
-set_tests_properties(
-    ulMem-test_new_statistics
-    PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
-)
+    ul_add_simple_test(ulMem-test_new_statistics)
+    # LeakSanitizer can report false positives with our custom operator new (malloc + header offset);
+    # avoid overriding exit code so test pass/fail = main() return value.
+    set_tests_properties(
+        ulMem-test_new_statistics
+        PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
+    )
 
-target_link_libraries(ulMem-test_new_statistics PRIVATE ulMem)
-ul_set_target_defaults(ulMem-test_new_statistics)
+    target_link_libraries(ulMem-test_new_statistics PRIVATE ulMem)
+    ul_set_target_defaults(ulMem-test_new_statistics)
 
-###
+    ###
 
-add_executable(
-    ulMem-test_new_statistics_applied
-    src/new_statistics.applied.test.cpp
-)
+    add_executable(
+        ulMem-test_new_statistics_applied
+        src/new_statistics.applied.test.cpp
+    )
 
-ul_add_simple_test(ulMem-test_new_statistics_applied)
-set_tests_properties(
-    ulMem-test_new_statistics_applied
-    PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
-)
+    ul_add_simple_test(ulMem-test_new_statistics_applied)
+    set_tests_properties(
+        ulMem-test_new_statistics_applied
+        PROPERTIES ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0"
+    )
 
-target_link_libraries(ulMem-test_new_statistics_applied PRIVATE ulMem)
-ul_set_target_defaults(ulMem-test_new_statistics_applied)
+    target_link_libraries(ulMem-test_new_statistics_applied PRIVATE ulMem)
+    ul_set_target_defaults(ulMem-test_new_statistics_applied)
+endif()
