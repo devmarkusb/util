@@ -23,5 +23,3 @@ target_sources(
 target_link_libraries(${target} PRIVATE GTest::gtest GTest::gtest_main ulString)
 
 ul_set_target_defaults(${target})
-
-ul_run_target_postbuild(${target})
