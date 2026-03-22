@@ -154,9 +154,11 @@ macro(mb_ul_set_target_warnings target)
                     -fstack-clash-protection
                     -fstack-protector-strong
                     -fexceptions
-                    # Clear env/distro _FORTIFY_SOURCE on Debug (-O0); re-enable below for optimized builds.
+                    # Clear env/distro _FORTIFY_SOURCE; only re-enable on configs that use -O (glibc warns
+                    # otherwise, and -Werror turns that into a hard error). "Not Debug" is wrong when
+                    # CMAKE_BUILD_TYPE is unset (install-test): $<CONFIG> is empty, not Debug, but there is no -O.
                     -U_FORTIFY_SOURCE
-                    "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>"
+                    "$<$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>,$<CONFIG:MinSizeRel>>:-D_FORTIFY_SOURCE=3>"
             )
             target_compile_options(
                 ${target}
