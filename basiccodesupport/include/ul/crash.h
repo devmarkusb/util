@@ -41,6 +41,8 @@ inline void crash(int signal, bool try_indirect = true) {
                 std::memset(mem - i, 0, i);
                 std::free(mem);
             }
+            // Optimized builds (e.g. Clang release) may complete the loop without the allocator aborting.
+            std::raise(SIGABRT);
         } else if (signal == SIGSEGV) {
             const auto* foo = reinterpret_cast<int*>(-1);
             std::printf("%d\n", *foo);
