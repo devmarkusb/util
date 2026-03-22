@@ -22,8 +22,7 @@ TEST(physmemusage, usage) {
 
     // glibc malloc may satisfy a multi-page request from an existing arena without growing the
     // map, so VmSize/RSS can stay flat (flaky). Anonymous mmap always adds a new mapping.
-    void* const mapped =
-        ::mmap(nullptr, memsize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    void* const mapped = ::mmap(nullptr, memsize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     ASSERT_NE(mapped, MAP_FAILED);
     auto* waste = static_cast<char*>(mapped);
     std::memset(waste, 1, memsize);
