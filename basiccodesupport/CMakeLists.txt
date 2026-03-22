@@ -67,6 +67,4 @@ ul_set_target_filesystem(${targetTest})
 
 ul_set_target_essentials(${targetTest})
 
-ul_run_target_postbuild(${targetTest})
-
 #ul_target_coverage(${PROJECT_NAME})

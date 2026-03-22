@@ -49,5 +49,3 @@ target_link_libraries(
 )
 
 ul_set_target_essentials(${targetTest})
-
-ul_run_target_postbuild(${targetTest})
