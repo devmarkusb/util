@@ -9,6 +9,16 @@
 
 namespace ul = mb::ul;
 
+namespace {
+/** GCC at high optimization can remove `new`/`delete` pairs when no *standard-observable* use of the
+    storage remains; our Statistics hooks are not visible to the optimizer, so counts would stay at 0. */
+void pin_heap_allocation([[maybe_unused]] void* p) noexcept {
+#if defined(__GNUC__)
+    asm volatile("" : : "g"(p) : "memory");
+#endif
+}
+} // namespace
+
 int main() {
     try {
         std::cout << "Running main() from " << __FILE__ << "\n";
@@ -27,6 +37,7 @@ int main() {
         {
             // RAII so we don't leak on assertion failure (e.g. during CMake test discovery)
             std::unique_ptr<int> p1(new int); // NOLINT
+            pin_heap_allocation(p1.get());
             UL_ASSERT_THROW(memstats.new_calls() == 1u);
             UL_ASSERT_THROW(memstats.peak_size() == ul::mem::Bytes{4});
 
@@ -55,6 +66,7 @@ int main() {
             UL_ASSERT_THROW(memstats.peak_size() == ul::mem::Bytes{b44} + impl_correction_ofs);
 
             std::unique_ptr<int[]> p2(new int[n10]); // NOLINT
+            pin_heap_allocation(p2.get());
             ++exp_new_calls;
             UL_ASSERT_THROW(memstats.new_calls() == exp_new_calls);
             p2.reset(); // calls delete[], stats still updated
