@@ -290,6 +290,16 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_HAS_STD_CODECVT 0
 #endif
 
+//! _LIBCPP_VERSION is only defined after a libc++ stdlib header. Many TUs include ul/macros.h
+//! before <string> etc., so without this the libc++ <codecvt> workaround below never runs.
+#if defined(__cplusplus) && defined(__has_include)
+#if __has_include(<version>)
+#include <version>
+#elif __has_include(<cstddef>)
+#include <cstddef>
+#endif
+#endif
+
 //! libc++ (Apple Clang, etc.): <codecvt> still exists in C++26 but the deprecated
 //! codecvt_utf8_utf16 templates are omitted unless _LIBCPP_ENABLE_CXX26_REMOVED_CODECVT.
 //! wstring_convert is omitted unless _LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT.
