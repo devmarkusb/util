@@ -3,7 +3,7 @@
   "configurePresets": [
     {
       "name": "debug-custom",
-      "description": "commment: adapt inherit, vars, etc.",
+      "description": "comment: adapt inherit, vars, etc.",
       "inherits": ["clang-debug", "MaxSan"],
       "vendor": {
         "jetbrains.com/clion": {
@@ -16,7 +16,7 @@
     },
     {
       "name": "release-custom",
-      "description": "commment: adapt inherit, vars, etc.",
+      "description": "comment: adapt inherit, vars, etc.",
       "inherits": ["clang-release"],
       "vendor": {
         "jetbrains.com/clion": {

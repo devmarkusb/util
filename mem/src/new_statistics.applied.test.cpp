@@ -1,9 +1,9 @@
-#include "ul/assert.h"
-#include "ul/mem/types.h"
 #include "ul/mem/new_statistics.h"
+#include "ul/assert.h"
 #include "ul/error.h"
 #include "ul/format_number.h"
 #include "ul/macros.h"
+#include "ul/mem/types.h"
 #include <iostream>
 
 namespace ul = mb::ul;
