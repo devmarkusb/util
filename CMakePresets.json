@@ -59,6 +59,13 @@
       }
     },
     {
+      "name": "TSan",
+      "hidden": true,
+      "cacheVariables": {
+        "MB_SANITIZER": "TSan"
+      }
+    },
+    {
       "name": "gcc-debug",
       "displayName": "GCC Debug Build",
       "inherits": [
