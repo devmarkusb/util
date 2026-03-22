@@ -3,9 +3,11 @@
 #include "ul/macros.h"
 #include "ul/mem/types.h"
 #include "gtest/gtest.h"
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
+#if UL_OS_LINUX
+#include <sys/mman.h>
+#endif
 
 namespace ul = mb::ul;
 
@@ -18,29 +20,31 @@ TEST(physmemusage, usage) {
     ul::mem::usage(vm_initial, pm_initial);
     std::cout << "initial: virtmem: " << vm_initial << ", physmem: " << pm_initial << "\n";
 
-    auto* waste = reinterpret_cast<char*>(std::malloc(memsize)); // NOLINT
-    ASSERT_NE(waste, nullptr);
+    // glibc malloc may satisfy a multi-page request from an existing arena without growing the
+    // map, so VmSize/RSS can stay flat (flaky). Anonymous mmap always adds a new mapping.
+    void* const mapped =
+        ::mmap(nullptr, memsize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    ASSERT_NE(mapped, MAP_FAILED);
+    auto* waste = static_cast<char*>(mapped);
     std::memset(waste, 1, memsize);
-    // Release+LTO can treat malloc/memset/free as dead if nothing in this TU "reads" the buffer;
-    // /proc/self/stat is outside the optimizer's model, so pin the allocation before sampling.
-    [[maybe_unused]] auto* const vwaste = reinterpret_cast<volatile char*>(waste);
-    ul::ignore_unused(vwaste[0]);
-    ul::ignore_unused(vwaste[memsize - 1]);
+#if defined(__GNUC__) || defined(__clang__)
+    __asm__ __volatile__("" ::: "memory");
+#endif
 
     double vm{};
     double pm{};
     ul::mem::usage(vm, pm);
-    std::cout << "after malloc: virtmem: " << vm << ", physmem: " << pm << "\n";
+    std::cout << "after mmap: virtmem: " << vm << ", physmem: " << pm << "\n";
 #if !defined(MB_SANITIZER)
     EXPECT_TRUE(vm > vm_initial || pm > pm_initial);
 #endif
 
-    std::free(waste); // NOLINT
+    ASSERT_EQ(::munmap(mapped, memsize), 0);
     double vm_final{};
     double pm_final{};
     ul::mem::usage(vm_final, pm_final);
-    std::cout << "after free: virtmem: " << vm_final << ", physmem: " << pm_final << "\n";
-    // Allocator may keep freed memory for reuse (RSS often does not drop); no strict assertion.
+    std::cout << "after munmap: virtmem: " << vm_final << ", physmem: " << pm_final << "\n";
+    // RSS may not drop immediately after unmap; no strict assertion vs. the peak sample above.
     // (vm > vm_final || pm > pm_final might not hold).
 #endif
 }
