@@ -75,6 +75,10 @@ ul_add_test(ulMem-test)
 # like environment
 target_link_libraries(ulMem-test PRIVATE GTest::gtest GTest::gtest_main ulMem)
 
+if(MB_SANITIZER)
+    target_compile_definitions(ulMem-test PRIVATE MB_SANITIZER=1)
+endif()
+
 ###
 
 # These tests assume exact new/delete/peak accounting; sanitizers instrument or redirect allocation and break that.

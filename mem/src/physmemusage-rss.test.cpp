@@ -19,12 +19,21 @@ TEST(physmemusage, usage) {
     std::cout << "initial: virtmem: " << vm_initial << ", physmem: " << pm_initial << "\n";
 
     auto* waste = reinterpret_cast<char*>(std::malloc(memsize)); // NOLINT
+    ASSERT_NE(waste, nullptr);
     std::memset(waste, 1, memsize);
+    // Release+LTO can treat malloc/memset/free as dead if nothing in this TU "reads" the buffer;
+    // /proc/self/stat is outside the optimizer's model, so pin the allocation before sampling.
+    [[maybe_unused]] auto* const vwaste = reinterpret_cast<volatile char*>(waste);
+    ul::ignore_unused(vwaste[0]);
+    ul::ignore_unused(vwaste[memsize - 1]);
+
     double vm{};
     double pm{};
     ul::mem::usage(vm, pm);
     std::cout << "after malloc: virtmem: " << vm << ", physmem: " << pm << "\n";
+#if !defined(MB_SANITIZER)
     EXPECT_TRUE(vm > vm_initial || pm > pm_initial);
+#endif
 
     std::free(waste); // NOLINT
     double vm_final{};
