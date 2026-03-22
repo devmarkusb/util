@@ -75,8 +75,6 @@ ul_add_test(ulMem-test)
 # like environment
 target_link_libraries(ulMem-test PRIVATE GTest::gtest GTest::gtest_main ulMem)
 
-ul_run_target_postbuild(ulMem-test)
-
 ###
 
 add_executable(ulMem-test_new_statistics src/new_statistics.test.cpp)
@@ -91,11 +89,6 @@ set_tests_properties(
 
 target_link_libraries(ulMem-test_new_statistics PRIVATE ulMem)
 ul_set_target_defaults(ulMem-test_new_statistics)
-
-# *WARNING* This doesn't run in Release mode starting with gcc-10?!
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    ul_run_target_postbuild(ulMem-test_new_statistics)
-endif()
 
 ###
 
@@ -112,5 +105,3 @@ set_tests_properties(
 
 target_link_libraries(ulMem-test_new_statistics_applied PRIVATE ulMem)
 ul_set_target_defaults(ulMem-test_new_statistics_applied)
-
-ul_run_target_postbuild(ulMem-test_new_statistics_applied)

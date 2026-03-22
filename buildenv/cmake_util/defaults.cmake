@@ -49,11 +49,6 @@ endif()
 if(UL_ANDROID)
     set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
 endif()
-option(
-    UL_RUN_UNITTESTS_POSTBUILD
-    "unit tests are run as part of the build - recommended to be disabled for debugging and CI"
-    OFF
-)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_IS_NON_APPLE_CLANG_COMPILER TRUE)
@@ -313,15 +308,6 @@ endmacro()
 
 macro(ul_set_target_cuda_separable_compilation target)
     set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-endmacro()
-
-macro(ul_run_target_postbuild target)
-    if(UL_RUN_UNITTESTS_POSTBUILD)
-        #    add_custom_command(TARGET ${target}
-        #            POST_BUILD
-        #            COMMAND ctest -V -C $<CONFIGURATION>)
-        add_custom_command(TARGET ${target} POST_BUILD COMMAND ${target})
-    endif()
 endmacro()
 
 # shared lib export define (such that the build know whether to export or import symbols)
