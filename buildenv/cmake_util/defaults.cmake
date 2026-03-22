@@ -154,7 +154,8 @@ macro(mb_ul_set_target_warnings target)
                     -fstack-clash-protection
                     -fstack-protector-strong
                     -fexceptions
-                    "$<$<NOT:$<CONFIG:Debug>>:-U_FORTIFY_SOURCE>"
+                    # Clear env/distro _FORTIFY_SOURCE on Debug (-O0); re-enable below for optimized builds.
+                    -U_FORTIFY_SOURCE
                     "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=3>"
             )
             target_compile_options(
