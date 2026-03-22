@@ -4,7 +4,6 @@
 
 #include "gtest/gtest.h"
 #include <csignal>
-#include <cstdlib>
 
 namespace wrap {
 namespace {
@@ -18,7 +17,7 @@ void exit(int status) {
 } // namespace
 } // namespace wrap
 
-#if !UL_ADDRESS_SAN && !UL_UNDEF_SAN
+#if !defined(MB_SANITIZER)
 #if UL_OS_WINDOWS
 TEST(crashDeathTest, sigsegv) {
     EXPECT_DEATH(ul::crash(SIGSEGV), ".*");
