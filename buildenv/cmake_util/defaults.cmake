@@ -28,24 +28,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
 
 option(UL_ENABLE_LTO "enables link time optimization" OFF)
 
-set(UL_BUILD_UNITTESTS
-    ${PROJECT_IS_TOP_LEVEL}
-    CACHE BOOL
-    "build (and run) unit tests as postbuild step"
-)
-if(UL_BUILD_UNITTESTS)
-    enable_testing()
-    # Show stdout/stderr when a test fails (e.g. on CI)
-    list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-endif()
-
-if("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
-    set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for uwp" FORCE)
-endif()
-if(UL_ANDROID)
-    set(UL_BUILD_UNITTESTS OFF CACHE BOOL "do not change for android" FORCE)
-endif()
-
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(UL_IS_NON_APPLE_CLANG_COMPILER TRUE)
 else()
