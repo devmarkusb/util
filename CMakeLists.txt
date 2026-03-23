@@ -6,11 +6,17 @@ project(mb.util
 
 include(buildenv-bootstrap.cmake)
 
+set(UL_BUILD_UNITTESTS
+    ${PROJECT_IS_TOP_LEVEL}
+    CACHE BOOL
+    "build unit tests"
+)
 option(
     UL_DISABLE_NAMESPACE_ALIAS
     "Set to ON if you want the base namespace to be mb::ul instead of ul"
     OFF
 )
+
 configure_file(
     ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h.in
     ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h
@@ -20,8 +26,7 @@ configure_file(
 ul_include(defaults.cmake)
 
 if(UL_BUILD_UNITTESTS)
-    find_package(GTest REQUIRED)
-    include(GoogleTest)
+    ul_include(googletest.cmake)
 endif()
 
 #ul_include(googlebenchmark.cmake)
