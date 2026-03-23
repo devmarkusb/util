@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.23)
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
 ul_include(defaults.cmake)
-include(../devenv/cmake/install-library-config.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../devenv/cmake/install-library-config.cmake)
 
 set(target ${PROJECT_NAME})
 
