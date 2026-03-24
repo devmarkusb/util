@@ -55,14 +55,21 @@
       "name": "MaxSan",
       "hidden": true,
       "cacheVariables": {
-        "MB_SANITIZER": "MaxSan"
+        "MB_DEVENV_SANITIZER": "MaxSan"
       }
     },
     {
       "name": "TSan",
       "hidden": true,
       "cacheVariables": {
-        "MB_SANITIZER": "TSan"
+        "MB_DEVENV_SANITIZER": "TSan"
+      }
+    },
+    {
+      "name": "MSan",
+      "hidden": true,
+      "cacheVariables": {
+        "MB_DEVENV_SANITIZER": "TSan"
       }
     },
     {
