@@ -17,7 +17,7 @@ void exit(int status) {
 } // namespace
 } // namespace wrap
 
-#if !defined(MB_SANITIZER)
+#if !defined(MB_DEVENV_SANITIZER)
 #if UL_OS_WINDOWS
 TEST(crashDeathTest, sigsegv) {
     EXPECT_DEATH(ul::crash(SIGSEGV), ".*");
