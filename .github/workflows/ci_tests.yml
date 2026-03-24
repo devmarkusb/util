@@ -57,7 +57,7 @@ jobs:
                       "tests": [
                         "Release.Default", "Release.TSan",
                         "Release.MaxSan", "Release.MaxWarn",
-                        "Debug.MaxWarn",
+                        "Debug.MaxWarn"
                       ]
                     }
                   ]
