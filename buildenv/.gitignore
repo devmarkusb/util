@@ -1,8 +1,0 @@
-_build*
-*.user
-bin
-bin_*
-lib
-lib_*
-
-!.clang-format
