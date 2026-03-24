@@ -45,31 +45,31 @@ constexpr int count_set(uint32_t data) noexcept {
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType set(SourceType from, Idx idx) noexcept {
-    UL_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < bits::count<TargetType>());
     return static_cast<TargetType>(from | (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType unset(SourceType from, Idx idx) noexcept {
-    UL_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from & ~(TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType toggle(SourceType from, Idx idx) noexcept {
-    UL_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < bits::count<TargetType>());
     return ul::narrow_cast<TargetType>(from ^ (TargetType{1} << idx)); // NOLINT
 }
 
 template <typename SourceType, typename TargetType = SourceType>
 constexpr TargetType check(SourceType from, Idx idx) noexcept {
-    UL_EXPECT(idx < ul::bits::count<SourceType>());
+    UL_EXPECT(idx < bits::count<SourceType>());
     return ul::narrow_cast<TargetType>((from >> idx) & TargetType{1}); // NOLINT
 }
 
 template <typename SourceType, typename ChangeBitSourceType, typename TargetType = SourceType>
 constexpr TargetType change(SourceType from, Idx idx, ChangeBitSourceType x) noexcept {
-    UL_EXPECT(idx < ul::bits::count<TargetType>());
+    UL_EXPECT(idx < bits::count<TargetType>());
     const SourceType newbit = static_cast<bool>(x); // ensure 1 or 0
     return ul::narrow_cast<TargetType>(from ^ ((-newbit ^ from) & (TargetType{1} << idx))); // NOLINT
 }
@@ -108,7 +108,7 @@ constexpr TargetType set_range(Idx idx, Count count) noexcept {
     static_assert(std::is_unsigned_v<TargetType>);
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
-    UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
+    UL_EXPECT(idx + count <= bits::count<TargetType>());
 
     return static_cast<TargetType>(
         ((TargetType{1} << static_cast<TargetType>(count)) - 1) << static_cast<TargetType>(idx)); // NOLINT
@@ -119,9 +119,9 @@ template <typename SourceType>
 constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
-    UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
+    UL_EXPECT(idx + count <= bits::count<SourceType>());
 
-    return (from & ul::bits::set_range<SourceType>(idx, count)) >> idx; // NOLINT
+    return (from & bits::set_range<SourceType>(idx, count)) >> idx; // NOLINT
 }
 
 //! Like read. But here you can also opt for a different target type.
@@ -130,10 +130,10 @@ template <typename TargetType, typename SourceType /*>= TargetType*/>
 constexpr TargetType read_and_cast(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
-    UL_EXPECT(idx + count <= ul::bits::count<SourceType>());
-    UL_EXPECT(count <= ul::bits::count<TargetType>());
+    UL_EXPECT(idx + count <= bits::count<SourceType>());
+    UL_EXPECT(count <= bits::count<TargetType>());
 
-    return static_cast<TargetType>((from & ul::bits::set_range<SourceType>(idx, count)) >> idx); // NOLINT
+    return static_cast<TargetType>((from & bits::set_range<SourceType>(idx, count)) >> idx); // NOLINT
 }
 
 //! Write count > 0 bits of from into to starting at 0-based index idx there (0 is LSB).
@@ -141,11 +141,11 @@ template <std::unsigned_integral TargetType, std::unsigned_integral SourceType>
 constexpr TargetType write(TargetType to, Idx idx, Count count, SourceType from) noexcept {
     UL_EXPECT(idx >= 0);
     UL_EXPECT(count > 0);
-    UL_EXPECT(idx + count <= ul::bits::count<TargetType>());
-    UL_EXPECT(count <= ul::bits::count<SourceType>());
+    UL_EXPECT(idx + count <= bits::count<TargetType>());
+    UL_EXPECT(count <= bits::count<SourceType>());
 
     return static_cast<TargetType>(
-        (to & (~ul::bits::set_range<TargetType>(idx, count))) | (from << static_cast<SourceType>(idx))); // NOLINT
+        (to & (~bits::set_range<TargetType>(idx, count))) | (from << static_cast<SourceType>(idx))); // NOLINT
 }
 
 //! If 64 bits aren't sufficient, this is the type to go.
@@ -177,16 +177,16 @@ public:
     }
 
 private:
-    static constexpr Count parts_count{
-        static_cast<Count>((bits + (ul::bits::count<BaseType>() - Count{1})) / ul::bits::count<BaseType>())};
+    static constexpr size_t parts_count{
+        static_cast<size_t>((bits + (bits::count<BaseType>() - Count{1})) / bits::count<BaseType>())};
     std::array<BaseType, parts_count> array_{};
 
     [[nodiscard]] size_t n(Idx idx) const noexcept {
-        return static_cast<size_t>(idx / ul::bits::count<BaseType>());
+        return static_cast<size_t>(idx / bits::count<BaseType>());
     }
 
     [[nodiscard]] Idx i(Idx idx) const noexcept {
-        return idx % ul::bits::count<BaseType>();
+        return idx % bits::count<BaseType>();
     }
 
     [[nodiscard]] BaseType part_bit(Idx n) const noexcept {
@@ -204,7 +204,7 @@ private:
 template <Count bits, typename BaseType = uint32_t>
 Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept {
     Array<bits, BaseType> ret;
-    for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
+    for (size_t i = 0; i < Array<bits, BaseType>::parts_count; ++i)
         ret.array_[i] = lhs.array_[i] & rhs.array_[i];
     return ret;
 }
@@ -212,7 +212,7 @@ Array<bits, BaseType> operator&(const Array<bits, BaseType>& lhs, const Array<bi
 template <Count bits, typename BaseType = uint32_t>
 Array<bits, BaseType> operator|(const Array<bits, BaseType>& lhs, const Array<bits, BaseType>& rhs) noexcept {
     Array<bits, BaseType> ret;
-    for (size_t i = 0; i < Array<bits, BaseType>::partsCount; ++i)
+    for (size_t i = 0; i < Array<bits, BaseType>::parts_count; ++i)
         ret.array_[i] = lhs.array_[i] | rhs.array_[i];
     return ret;
 }
@@ -282,7 +282,7 @@ private:
         third,
         fields_end, // one behind last
     }
-    ul::bits::Field<uint32_t, Fields, fields_end> bits_{16, 8, 8};
+    bits::Field<uint32_t, Fields, fields_end> bits_{16, 8, 8};
 
     void f()
     {
