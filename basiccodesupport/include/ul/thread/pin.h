@@ -118,6 +118,7 @@ inline int pin_to_logical_core(NativeHandle h, int logical_core_idx)
 
 //! Like pinToLogicalCore but current thread only.
 inline int pin_to_logical_core(int logical_core_idx) {
+    UL_EXPECT(logical_core_idx >= 0);
 #if UL_OS_LINUX
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -125,7 +126,7 @@ inline int pin_to_logical_core(int logical_core_idx) {
     // clang-format off
     UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
     // clang-format on
-    CPU_SET(logical_core_idx, &cpuset);
+    CPU_SET(static_cast<size_t>(logical_core_idx), &cpuset);
     UL_PRAGMA_WARNINGS_POP
     return sched_setaffinity(gettid(), sizeof(cpu_set_t), &cpuset);
 #else
