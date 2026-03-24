@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.23)
 
 include(${ulBuildEnv_CMAKE_DIRS}/cmake_util.cmake)
 
-project(ulMem VERSION 0.1.0.0)
-
 ul_include(defaults.cmake)
 
 file(GLOB_RECURSE target_INCS "include/*.h")
@@ -38,7 +36,7 @@ target_link_libraries(ulMem PUBLIC ulBuildEnv ulBasicCodeSupport)
 ul_set_target_defaults(ulMem)
 
 set(ulMem_INCLUDE_DIRS
-    ${PROJECT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${ulBasicCodeSupport_INCLUDE_DIRS}
     CACHE INTERNAL
     "ulMem: include directories"
