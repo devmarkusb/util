@@ -34,7 +34,7 @@ TEST(physmemusage, usage) {
     double pm{};
     ul::mem::usage(vm, pm);
     std::cout << "after mmap: virtmem: " << vm << ", physmem: " << pm << "\n";
-#if !defined(MB_SANITIZER)
+#if !defined(MB_DEVENV_SANITIZER)
     EXPECT_TRUE(vm > vm_initial || pm > pm_initial);
 #endif
 

@@ -17,6 +17,8 @@ jobs:
           {"preset": "gcc-release", "image": "ghcr.io/bemanproject/infra-containers-gcc:latest"},
           {"preset": "clang-debug", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
           {"preset": "clang-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "clang-libc++-debug", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "clang-libc++-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
           {"preset": "appleclang-debug", "runner": "macos-latest"},
           {"preset": "appleclang-release", "runner": "macos-latest"},
           {"preset": "msvc-debug", "runner": "windows-latest"},
@@ -35,19 +37,13 @@ jobs:
                   "tests": [
                     { "stdlibs": ["libstdc++"],
                       "tests": [
-                        "Debug.Default", "Release.Default", "Release.TSan",
-                        "Release.MaxSan", "Debug.MaxError", "Release.MaxError",
+                        "Release.Default", "Release.TSan",
+                        "Release.MaxSan", "Release.MaxWarn",
+                        "Debug.MaxWarn",
                         "Debug.Coverage"
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            { "versions": ["14"],
-              "tests": [
-                { "cxxversions": ["c++26", "c++23"],
-                  "tests": [{ "stdlibs": ["libstdc++"], "tests": ["Release.Default"]}]
                 }
               ]
             }
@@ -59,8 +55,9 @@ jobs:
                   "tests": [
                     { "stdlibs": ["libstdc++", "libc++"],
                       "tests": [
-                        "Debug.Default", "Release.Default", "Release.TSan",
-                        "Release.MaxSan", "Debug.MaxError", "Release.MaxError"
+                        "Release.Default", "Release.TSan",
+                        "Release.MaxSan", "Release.MaxWarn",
+                        "Debug.MaxWarn",
                       ]
                     }
                   ]
@@ -79,7 +76,7 @@ jobs:
             { "versions": ["latest"],
               "tests": [
                 { "cxxversions": ["c++26"],
-                  "tests": [{ "stdlibs": ["libc++"], "tests": ["Debug.Default"]}]
+                  "tests": [{ "stdlibs": ["libc++"], "tests": ["Release.MaxSan", "Debug.MaxWarn"]}]
                 }
               ]
             }
@@ -90,7 +87,7 @@ jobs:
                 { "cxxversions": ["c++23"],
                   "tests": [
                     { "stdlibs": ["stl"],
-                      "tests": ["Debug.Default", "Release.MaxSan", "Debug.MaxError"]
+                      "tests": ["Release.MaxSan", "Debug.MaxWarnMsvc"]
                     }
                   ]
                 }

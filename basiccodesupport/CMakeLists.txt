@@ -63,8 +63,8 @@ target_link_libraries(
     PRIVATE GTest::gtest GTest::gtest_main ${target}
 )
 
-if(MB_SANITIZER)
-    target_compile_definitions(${targetTest} PRIVATE MB_SANITIZER=1)
+if(MB_DEVENV_SANITIZER)
+    target_compile_definitions(${targetTest} PRIVATE MB_DEVENV_SANITIZER=1)
 endif()
 
 ul_set_target_filesystem(${targetTest})
