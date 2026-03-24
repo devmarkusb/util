@@ -18,8 +18,8 @@ option(
 )
 
 configure_file(
-    ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h.in
-    ${PROJECT_SOURCE_DIR}/buildenv/include/ul/config_gen.h
+    ${PROJECT_SOURCE_DIR}/include/ul/buildenv/config_gen.h.in
+    ${PROJECT_SOURCE_DIR}/include/ul/buildenv/config_gen.h
     @ONLY
 )
 
@@ -29,44 +29,28 @@ if(UL_BUILD_UNITTESTS)
     ul_include(googletest.cmake)
 endif()
 
-#ul_include(googlebenchmark.cmake)
-
-add_subdirectory(buildenv)
-add_subdirectory(basiccodesupport)
-add_subdirectory(string)
-add_subdirectory(mem)
-add_subdirectory(linklib)
-add_subdirectory(util)
+add_subdirectory(src)
 
 set(UL_USE_DEFAULT_CLANG_TIDY_CONFIG ON)
-set(UL_CLANG_TIDY_DIRS "basiccodesupport;buildenv;linklib;mem;string;util")
+set(UL_CLANG_TIDY_DIRS "src;mb.alloc-statistics")
 ul_include(clang-tidy.cmake)
 
 set(dirs_to_doc
     README.md
-    basiccodesupport
-    buildenv
-    linklib
-    mem
-    string
-    util
+    src
+    mb.alloc-statistics
 )
 ul_include(doxygen.cmake)
 
-set(ul_INCLUDE_DIRS
-    ${ulBasicCodeSupport_INCLUDE_DIRS}
-    ${ulBuildEnv_INCLUDE_DIRS}
-    ${ulLinklib_INCLUDE_DIRS}
-    ${ulMem_INCLUDE_DIRS}
-    ${ulString_INCLUDE_DIRS}
-    ${MB_UTIL_INCLUDE_DIRS}
+set(MB_UTIL_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL
     "util include directories"
     FORCE
 )
 
 set(ul_CMAKE_DIRS
-    ${ulBuildEnv_CMAKE_DIRS}
+    ${PROJECT_SOURCE_DIR}/cmake
     CACHE INTERNAL
     "util cmake util directories"
     FORCE
