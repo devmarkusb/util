@@ -59,7 +59,7 @@ set(ul_INCLUDE_DIRS
     ${ulLinklib_INCLUDE_DIRS}
     ${ulMem_INCLUDE_DIRS}
     ${ulString_INCLUDE_DIRS}
-    ${mb.util_INCLUDE_DIRS}
+    ${MB_UTIL_INCLUDE_DIRS}
     CACHE INTERNAL
     "util include directories"
     FORCE
