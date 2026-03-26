@@ -1,2 +1,2 @@
-include(cmake/cmake_util.cmake)
+include(cmake/cmake-util.cmake)
 ul_include(defaults.cmake)

@@ -5,7 +5,7 @@
 
 #include "assert.h"
 #include "round.h"
-#include "type/non_copyable.h"
+#include "type/non-copyable.h"
 
 #include "ul/buildenv/config.h"
 #include <algorithm>

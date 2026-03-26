@@ -9,11 +9,11 @@
 #define ONSTACK_H_EOURTZ3478XTH378TGH
 
 #include "ul/basiccodesupport/assert.h"
+#include "ul/basiccodesupport/type/non-copyable.h"
+#include "ul/buildenv/warnings.h"
 #include "ul/mem/alloc/statistics.h"
 #include "ul/mem/types.h"
 #include "ul/mem/utility.h"
-#include "ul/basiccodesupport/type/non_copyable.h"
-#include "ul/buildenv/warnings.h"
 #include <cstddef>
 #include <cstdint>
 

@@ -3,7 +3,7 @@
 #ifndef FINALLY_H_SLKHNUIGCHERX8G3H54XX7TH24XT3NX
 #define FINALLY_H_SLKHNUIGCHERX8G3H54XX7TH24XT3NX
 
-#include "std/std_extensions.h"
+#include "std/std-extensions.h"
 
 namespace mb::ul {
 //! It's not so convenient to use this directly; call the associated helper function instead.

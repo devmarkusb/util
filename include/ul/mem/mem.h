@@ -7,10 +7,10 @@ All-in-one include file for this part of the lib.
 #define MEM_H_ORIEHXTN37834HN789G4H8934HG
 
 #include "allocator.h"
-#include "checked_delete.h"
-#include "compiler_quirks.h"
-#include "heap_tracked.h"
-#include "new_handler.h"
+#include "checked-delete.h"
+#include "compiler-quirks.h"
+#include "heap-tracked.h"
+#include "new-handler.h"
 #include "alloc/default.h"
 #include "alloc/example.h"
 #include "alloc/linear.h"
