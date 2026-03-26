@@ -1,20 +1,20 @@
 option(
-    UL_DEPLOYMENT_BUILD
+    MB_UL_DEPLOYMENT_BUILD
     "do a final release build for deployment"
     $ENV{DeployArtifacts}
 )
-set(UL_DEPLOY_TARGET
+set(MB_UL_DEPLOY_TARGET
     ""
     CACHE STRING
     "Special deployment choice (if OS is not sufficient) out of: uwp, win_desk_bridge, linuxAppDir"
 )
 
-if("${UL_DEPLOY_TARGET}" STREQUAL "win_desk_bridge")
+if("${MB_UL_DEPLOY_TARGET}" STREQUAL "win_desk_bridge")
     add_definitions(-DUL_DEPLOY_TO_WIN_DESK_BRIDGE)
     add_definitions(-DUL_DEPLOY_TO_WINSTORE)
-elseif("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
+elseif("${MB_UL_DEPLOY_TARGET}" STREQUAL "uwp")
     add_definitions(-DUL_DEPLOY_TO_UWP)
     add_definitions(-DUL_DEPLOY_TO_WINSTORE)
-    #elseif ("${UL_DEPLOY_TARGET}" STREQUAL "steam")
+    #elseif ("${MB_UL_DEPLOY_TARGET}" STREQUAL "steam")
     #    add_definitions(-DUL_DEPLOY_TO_STEAM)
 endif()

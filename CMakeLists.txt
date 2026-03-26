@@ -20,7 +20,7 @@ option(
 )
 
 option(
-    UL_DISABLE_NAMESPACE_ALIAS
+    MB_UL_DISABLE_NAMESPACE_ALIAS
     "Set to ON if you want the base namespace to be mb::ul instead of ul."
     OFF
 )
@@ -29,14 +29,14 @@ include(buildenv-bootstrap.cmake)
 include(devenv/cmake/install-library-config.cmake)
 include(GNUInstallDirs)
 
-set(UL_BUILD_UNITTESTS
+set(MB_UL_BUILD_UNITTESTS
     "${MB_UTIL_BUILD_TESTS}"
     CACHE INTERNAL
     "Backwards-compatible unit test toggle"
     FORCE
 )
 
-ul_include(gsl.cmake)
+mb_ul_include(gsl.cmake)
 add_subdirectory(src/string/sdks)
 
 set(mb_util_generated_include_dir
@@ -90,7 +90,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
     target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
 endif()
 
-ul_set_target_defaults(mb.util)
+mb_ul_set_target_defaults(mb.util)
 
 install(
     DIRECTORY "${GSL_SOURCE_DIR}/include/"

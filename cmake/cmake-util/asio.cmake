@@ -1,12 +1,12 @@
 # File to include for using asio (without boost).
 # Usage:
 # 1) Add to your app's CMakeLists.txt
-#       ul_include(asio.cmake)
+#       mb_ul_include(asio.cmake)
 #   and add to target with e.g.
-#       ul_use_asio(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz
+#       mb_ul_use_asio(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz
 #           MD5=43c53b8d255edc385dc4e704e59b3641)
 
-macro(ul_use_asio target path_to_zip hash)
+macro(mb_ul_use_asio target path_to_zip hash)
     if(NOT TARGET asio)
         include(ExternalProject)
         set(asio_PREFIX ${CMAKE_BINARY_DIR}/3rdparty/asio)

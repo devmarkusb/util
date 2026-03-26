@@ -1,18 +1,18 @@
 # File to include for using gperftools.
 # Usage:
 # 1) Add to your app's CMakeLists.txt
-#       ul_include(gperftools.cmake)
+#       mb_ul_include(gperftools.cmake)
 #   and add to target with e.g.
-#       ul_use_gperftools(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/gperftools-2.6.3.tar.gz)
+#       mb_ul_use_gperftools(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/gperftools-2.6.3.tar.gz)
 # 2) Add CMake parameter -DUL_ENABLE_PROFILING_GPERF=ON
 # 3) Run the target with environment variable CPUPROFILE=result.prof (if that doesn't work in
 #   CLion, consult your psychologist, or find the right place for the var to actually work).
 #   Alternatively add the following to your code:
-#   #if UL_ENABLE_PROFILING_GPERF
+#   #if MB_UL_ENABLE_PROFILING_GPERF
 #   #include "gperftools/profiler.hpp"
 #   #endif
 #   ...
-#   #if UL_ENABLE_PROFILING_GPERF
+#   #if MB_UL_ENABLE_PROFILING_GPERF
 #       ProfilerStart("./app.prof");
 #       auto autoStopProfiling = ul::finally([](){ ProfilerStop(); });
 #   #endif
@@ -22,10 +22,14 @@
 #       <path-to-pprof>/pprof --gv targetbinary app.prof
 #       path-to-pprof could e.g. be builddir/sdks/gpertools/bin
 
-macro(ul_use_gperftools target_to_profile path_to_zip)
-    option(UL_ENABLE_PROFILING_GPERF "enable profiling using gperftools" OFF)
+macro(mb_ul_use_gperftools target_to_profile path_to_zip)
+    option(MB_UL_ENABLE_PROFILING_GPERF "enable profiling using gperftools" OFF)
 
-    if(UL_ENABLE_PROFILING_GPERF AND NOT UL_DEPLOYMENT_BUILD AND NOT WIN32)
+    if(
+        MB_UL_ENABLE_PROFILING_GPERF
+        AND NOT MB_UL_DEPLOYMENT_BUILD
+        AND NOT WIN32
+    )
         include(ExternalProject)
         set(gperftools_PREFIX ${CMAKE_BINARY_DIR}/3rdparty/gperftools)
         ExternalProject_Add(
@@ -40,7 +44,7 @@ macro(ul_use_gperftools target_to_profile path_to_zip)
                 CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} CFLAGS=-g
                 <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
                 --enable-frame-pointers
-            BUILD_COMMAND make -j ${UL_NPROC}
+            BUILD_COMMAND make -j ${MB_UL_NPROC}
             INSTALL_COMMAND make install
         )
         add_library(gperftools_profiler SHARED IMPORTED GLOBAL)
@@ -62,7 +66,7 @@ macro(ul_use_gperftools target_to_profile path_to_zip)
         target_link_libraries(${target_to_profile} PUBLIC gperftools_profiler)
         target_compile_definitions(
             ${target_to_profile}
-            PUBLIC UL_ENABLE_PROFILING_GPERF=1
+            PUBLIC MB_UL_ENABLE_PROFILING_GPERF=1
         )
     endif()
 endmacro()

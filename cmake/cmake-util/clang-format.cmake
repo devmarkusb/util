@@ -1,7 +1,7 @@
 # Include in your project root(s) once. Generates 'clang-format' targets and more, see clangformat/README.md
 cmake_minimum_required(VERSION 3.14)
 
-set(UL_ADDITIONAL_CLANG_FORMAT_DIRS
+set(MB_UL_ADDITIONAL_CLANG_FORMAT_DIRS
     ""
     CACHE STRING
     "provide ;-separated list in quotes as a whole"
@@ -43,6 +43,6 @@ if("${PROJECT_NAME}" STREQUAL "util")
 endif()
 
 string(CONCAT cxx_dirs "${cxx_dirs_general}" "${cxx_dirs_util}")
-string(CONCAT cxx_dirs "${cxx_dirs}" ";${UL_ADDITIONAL_CLANG_FORMAT_DIRS}")
+string(CONCAT cxx_dirs "${cxx_dirs}" ";${MB_UL_ADDITIONAL_CLANG_FORMAT_DIRS}")
 
 add_clang_format_project_target("${cxx_dirs}")

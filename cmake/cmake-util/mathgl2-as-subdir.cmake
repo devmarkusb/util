@@ -3,33 +3,33 @@
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
-ul_include(mathgl2-defaults.cmake)
+mb_ul_include(mathgl2-defaults.cmake)
 
 add_subdirectory(mathgl)
-ul_set_target_defaults(mgl)
-ul_set_target_defaults(mgl-static)
-if(NOT UL_ANDROID)
+mb_ul_set_target_defaults(mgl)
+mb_ul_set_target_defaults(mgl-static)
+if(NOT MB_UL_ANDROID)
     # needed for later version of mgl
     #set_target_properties(mgl_translations PROPERTIES EXCLUDE_FROM_ALL TRUE)
 endif()
 
-if(UL_ANDROID)
+if(MB_UL_ANDROID)
     set(mglAdditionalTargetSources
-        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.c
-        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.hpp
-        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/collate.hpp
+        ${MB_UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.c
+        ${MB_UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.hpp
+        ${MB_UL_CMAKE_UTIL_DIR}/assets/std_ext/collate.hpp
     )
     target_sources(mgl PRIVATE ${mglAdditionalTargetSources})
     target_sources(mgl-static PRIVATE ${mglAdditionalTargetSources})
     target_include_directories(
         mgl
         SYSTEM
-        PRIVATE ${UL_CMAKE_UTIL_DIR}/assets/std_ext
+        PRIVATE ${MB_UL_CMAKE_UTIL_DIR}/assets/std_ext
     )
     target_include_directories(
         mgl-static
         SYSTEM
-        PRIVATE ${UL_CMAKE_UTIL_DIR}/assets/std_ext
+        PRIVATE ${MB_UL_CMAKE_UTIL_DIR}/assets/std_ext
     )
 endif()
 
