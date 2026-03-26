@@ -1,6 +1,6 @@
 //! Note: quick_exit instead of exit because of clang thread safety warning.
-#include "ul/basiccodesupport/crash.hpp"
-#include "ul/buildenv/config-gen.hpp"
+#include "mb/ul/basiccodesupport/crash.hpp"
+#include "mb/ul/buildenv/config-gen.hpp"
 
 #include "gtest/gtest.h"
 #include <csignal>

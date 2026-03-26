@@ -7,7 +7,7 @@
     which includes this file here and place your own library import/export define in there like
     \code
     // ...don't forget include guard...
-    #include "ul/linklib/LINKLIB-DEFS.hpp"
+    #include "mb/ul/linklib/LINKLIB-DEFS.hpp"
     #if defined(YOURLIB_LIBRARY)
     #define YOURLIBSHARED_EXPORT    UL_DECL_EXPORT
     #else
@@ -39,7 +39,7 @@
 #ifndef LINKLIB_DEFS_H_KJDSNFXIWZGFNY38TGN38G
 #define LINKLIB_DEFS_H_KJDSNFXIWZGFNY38TGN38G
 
-#include "ul/buildenv/macros.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 
 
 //####################################################################################################################

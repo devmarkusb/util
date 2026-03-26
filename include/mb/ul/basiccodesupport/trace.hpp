@@ -7,7 +7,7 @@
 #include "std/std-extensions.hpp"
 #include "type/non-copyable.hpp"
 
-#include "ul/buildenv/macros.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -28,7 +28,7 @@ namespace mb::ul {
     calls there. The initialization of the tracing is highly configurable, cf. ul::trace::init.
     Usage:
         \code
-        #include "ul/basiccodesupport/trace.hpp" // for the file you want to trace something.
+        #include "mb/ul/basiccodesupport/trace.hpp" // for the file you want to trace something.
 
         int main()
         {
