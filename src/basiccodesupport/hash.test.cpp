@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/hash.h"
+#include "ul/basiccodesupport/hash.hpp"
 #include "gtest/gtest.h"
 #include <cstddef>
 #include <functional>

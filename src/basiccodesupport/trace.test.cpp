@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/trace.h"
+#include "ul/basiccodesupport/trace.hpp"
 #include "gtest/gtest.h"
 #include <sstream>
 

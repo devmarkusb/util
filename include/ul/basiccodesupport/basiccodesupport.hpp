@@ -1,0 +1,72 @@
+/**
+\file
+All-in-one include file for this part of the lib.
+*/
+
+#ifndef BASICCODESUPPORT_H_TRHOG4589HG3589HG
+#define BASICCODESUPPORT_H_TRHOG4589HG3589HG
+
+#include "algebra.hpp"
+#include "almost-equal.hpp"
+#include "any.hpp"
+#include "array.hpp"
+#include "assert.hpp"
+#include "bits.hpp"
+#include "c-array.hpp"
+#include "concepts.hpp"
+#include "crash.hpp"
+#include "debug.hpp"
+#include "enum-bitset.hpp"
+#include "enum-cast.hpp"
+#include "error.hpp"
+#include "file.hpp"
+#include "finally.hpp"
+#include "floating-point.hpp"
+#include "format-number.hpp"
+#include "foundations.hpp"
+#include "hash.hpp"
+#include "ignore-unused.hpp"
+#include "integer.hpp"
+#include "map.hpp"
+#include "math.hpp"
+#include "matrix.hpp"
+#include "narrow.hpp"
+#include "number.hpp"
+#include "operation.hpp"
+#include "overflow.hpp"
+#include "profiler.hpp"
+#include "ptr.hpp"
+#include "ptr2ref.hpp"
+#include "random.hpp"
+#include "ratio.hpp"
+#include "round.hpp"
+#include "shared-instance.hpp"
+#include "sizeof.hpp"
+#include "three-way-compare.hpp"
+#include "trace.hpp"
+#include "transformation.hpp"
+#include "type-name.hpp"
+#include "xor.hpp"
+#include "std/array.hpp"
+#include "std/circular-buffer.hpp"
+#include "std/exception.hpp"
+#include "std/integer-sequence.hpp"
+#include "std/std-ext-filesystem.hpp"
+#include "std/std-extensions.hpp"
+#include "std/vector.hpp"
+#include "thread/atomic.hpp"
+#include "thread/hw.hpp"
+#include "thread/pin.hpp"
+#include "thread/waitcircbuffer.hpp"
+#include "thread/waitqueue.hpp"
+#include "type/listener.hpp"
+#include "type/non-copyable.hpp"
+#include "type/on-before-destroy-notifier.hpp"
+#include "type/on-before-destroy.hpp"
+#include "type/standaloneop.hpp"
+
+#include "ul/buildenv/config.hpp"
+
+UL_HEADER_END
+
+#endif

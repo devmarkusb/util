@@ -1,6 +1,6 @@
-#include "ul/basiccodesupport/ptr.h"
-#include "ul/basiccodesupport/assert.h"
-#include "ul/basiccodesupport/ignore-unused.h"
+#include "ul/basiccodesupport/ptr.hpp"
+#include "ul/basiccodesupport/assert.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

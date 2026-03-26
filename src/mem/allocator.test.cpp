@@ -1,10 +1,10 @@
-#include "ul/mem/allocator.h"
-#include "ul/mem/alloc/default.h"
-#include "ul/mem/alloc/example.h"
-#include "ul/mem/alloc/linear.h"
-#include "ul/mem/alloc/onstack.h"
-#include "ul/mem/compiler-quirks.h"
-#include "ul/mem/types.h"
+#include "ul/mem/allocator.hpp"
+#include "ul/mem/alloc/default.hpp"
+#include "ul/mem/alloc/example.hpp"
+#include "ul/mem/alloc/linear.hpp"
+#include "ul/mem/alloc/onstack.hpp"
+#include "ul/mem/compiler-quirks.hpp"
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 #include <functional>
 #include <iostream>

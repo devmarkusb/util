@@ -1,7 +1,7 @@
-#include "ul/mem/alloc/example.h"
-#include "ul/basiccodesupport/finally.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/mem/types.h"
+#include "ul/mem/alloc/example.hpp"
+#include "ul/basiccodesupport/finally.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

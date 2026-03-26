@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/three-way-compare.h"
+#include "ul/basiccodesupport/three-way-compare.hpp"
 #include "gtest/gtest.h"
 #include <cstdint>
 #include <limits>

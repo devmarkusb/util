@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/thread/waitcircbuffer.h"
+#include "ul/basiccodesupport/thread/waitcircbuffer.hpp"
 #include "gtest/gtest.h"
 #include <atomic>
 #include <mutex>

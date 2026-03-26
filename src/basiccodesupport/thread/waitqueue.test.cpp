@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/thread/waitqueue.h"
+#include "ul/basiccodesupport/thread/waitqueue.hpp"
 #include "gtest/gtest.h"
 #include <atomic>
 #include <mutex>

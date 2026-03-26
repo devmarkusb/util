@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/std/integer-sequence.h"
+#include "ul/basiccodesupport/std/integer-sequence.hpp"
 #include "gtest/gtest.h"
 #include <array>
 #include <cstddef>

@@ -1,7 +1,7 @@
 #if !UL_OS_MAC
-#include "ul/mem/physmemusage-rss.h"
-#include "ul/buildenv/macros.h"
-#include "ul/mem/types.h"
+#include "ul/mem/physmemusage-rss.hpp"
+#include "ul/buildenv/macros.hpp"
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 #include <cstring>
 #include <iostream>

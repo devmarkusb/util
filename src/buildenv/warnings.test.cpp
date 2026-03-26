@@ -1,4 +1,4 @@
-#include "ul/buildenv/warnings.h"
+#include "ul/buildenv/warnings.hpp"
 #include "gtest/gtest.h"
 
 TEST(WarningsTest, CompilerSpecific) {

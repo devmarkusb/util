@@ -1,4 +1,4 @@
-#include "ul/string/locale.h"
+#include "ul/string/locale.hpp"
 #include "gtest/gtest.h"
 #include <iostream>
 #include <locale>

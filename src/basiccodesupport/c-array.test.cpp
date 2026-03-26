@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/c-array.h"
+#include "ul/basiccodesupport/c-array.hpp"
 #include "gtest/gtest.h"
 #include <array>
 #include <string>

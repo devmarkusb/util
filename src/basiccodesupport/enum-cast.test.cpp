@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/enum-cast.h"
+#include "ul/basiccodesupport/enum-cast.hpp"
 #include "gtest/gtest.h"
 #include <cstdint>
 

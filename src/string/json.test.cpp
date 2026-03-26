@@ -1,4 +1,4 @@
-#include "ul/string/json.h" // NOLINT
+#include "ul/string/json.hpp" // NOLINT
 #include "gtest/gtest.h"
 #include <string>
 

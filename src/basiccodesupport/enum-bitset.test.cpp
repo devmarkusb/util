@@ -1,6 +1,6 @@
-#include "ul/basiccodesupport/enum-bitset.h"
-#include "ul/basiccodesupport/std/array.h"
-#include "ul/buildenv/gtest-utils.h"
+#include "ul/basiccodesupport/enum-bitset.hpp"
+#include "ul/basiccodesupport/std/array.hpp"
+#include "ul/buildenv/gtest-utils.hpp"
 
 #include "gtest/gtest.h"
 #include <compare>
