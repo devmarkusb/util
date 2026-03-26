@@ -1,4 +1,4 @@
-find_package(GTest REQUIRED)
+include(mb-devenv-googletest)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     foreach(_mb_util_gtest_target IN ITEMS gtest gtest_main gmock gmock_main)
@@ -31,6 +31,4 @@ endif()
 
 mb_ul_set_target_filesystem(mb.util.test)
 mb_ul_set_target_essentials(mb.util.test)
-
-include(GoogleTest)
-gtest_discover_tests(mb.util.test)
+mb_devenv_add_test(mb.util.test)
