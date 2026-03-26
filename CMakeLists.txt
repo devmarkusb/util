@@ -26,7 +26,8 @@ option(
 )
 
 include(buildenv-bootstrap.cmake)
-include(devenv/cmake/install-library-config.cmake)
+list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/devenv/cmake")
+include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
 set(MB_UL_BUILD_UNITTESTS
