@@ -1,47 +1,115 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(mb.util VERSION 0.1.0)
+project(
+    mb.util
+    DESCRIPTION "Header-only C++ utility library"
+    LANGUAGES CXX
+    VERSION 0.1.0
+)
 
-include(buildenv-bootstrap.cmake)
+option(
+    MB_UTIL_BUILD_TESTS
+    "Enable building tests and test infrastructure. Default: ${PROJECT_IS_TOP_LEVEL}. Values: { ON, OFF }."
+    ${PROJECT_IS_TOP_LEVEL}
+)
 
-set(UL_BUILD_UNITTESTS ${PROJECT_IS_TOP_LEVEL} CACHE BOOL "build unit tests")
+option(
+    MB_UTIL_BUILD_EXAMPLES
+    "Enable building examples. Default: ${PROJECT_IS_TOP_LEVEL}. Values: { ON, OFF }."
+    ${PROJECT_IS_TOP_LEVEL}
+)
+
 option(
     UL_DISABLE_NAMESPACE_ALIAS
-    "Set to ON if you want the base namespace to be mb::ul instead of ul"
+    "Set to ON if you want the base namespace to be mb::ul instead of ul."
     OFF
 )
 
+include(buildenv-bootstrap.cmake)
+include(devenv/cmake/install-library-config.cmake)
+include(GNUInstallDirs)
+
+set(UL_BUILD_UNITTESTS
+    "${MB_UTIL_BUILD_TESTS}"
+    CACHE INTERNAL
+    "Backwards-compatible unit test toggle"
+    FORCE
+)
+
+ul_include(gsl.cmake)
+add_subdirectory(src/string/sdks)
+
+set(mb_util_generated_include_dir
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/include"
+)
+set(MB_UTIL_GENERATED_CONFIG_HEADER
+    "${mb_util_generated_include_dir}/ul/buildenv/config-gen.hpp"
+)
+file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/ul/buildenv")
 configure_file(
-    ${PROJECT_SOURCE_DIR}/include/ul/buildenv/config-gen.hpp.in
-    ${PROJECT_SOURCE_DIR}/include/ul/buildenv/config-gen.hpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/ul/buildenv/config-gen.hpp.in"
+    "${MB_UTIL_GENERATED_CONFIG_HEADER}"
     @ONLY
 )
 
-ul_include(defaults.cmake)
+add_library(mb.util INTERFACE)
+add_library(mb::util ALIAS mb.util)
 
-if(UL_BUILD_UNITTESTS)
-    ul_include(googletest.cmake)
+target_sources(
+    mb.util
+    PUBLIC
+        FILE_SET HEADERS
+            BASE_DIRS
+                "${CMAKE_CURRENT_SOURCE_DIR}/include"
+                "${mb_util_generated_include_dir}"
+)
+
+add_subdirectory(include/ul)
+
+target_include_directories(
+    mb.util
+    INTERFACE
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${mb_util_generated_include_dir}>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+)
+target_include_directories(
+    mb.util
+    SYSTEM
+    INTERFACE
+        "$<BUILD_INTERFACE:${GSL_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${utfcpp_INCLUDE_DIRS}>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+)
+target_compile_features(mb.util INTERFACE cxx_std_20)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    target_link_libraries(mb.util INTERFACE stdc++exp)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
+    target_link_libraries(mb.util INTERFACE stdc++exp)
+    target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
 endif()
 
-add_subdirectory(src)
+ul_set_target_defaults(mb.util)
 
-set(UL_USE_DEFAULT_CLANG_TIDY_CONFIG ON)
-set(UL_CLANG_TIDY_DIRS "src;mb.alloc-statistics")
-ul_include(clang-tidy.cmake)
-
-set(dirs_to_doc README.md src mb.alloc-statistics)
-ul_include(doxygen.cmake)
-
-set(MB_UTIL_INCLUDE_DIRS
-    ${PROJECT_SOURCE_DIR}/include
-    CACHE INTERNAL
-    "util include directories"
-    FORCE
+install(
+    DIRECTORY "${GSL_SOURCE_DIR}/include/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    COMPONENT "mb.util"
+)
+install(
+    DIRECTORY "${utfcpp_SOURCE_DIR}/source/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    COMPONENT "mb.util"
 )
 
-set(ul_CMAKE_DIRS
-    ${PROJECT_SOURCE_DIR}/cmake
-    CACHE INTERNAL
-    "util cmake util directories"
-    FORCE
-)
+mb_install_library(mb.util)
+
+if(MB_UTIL_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(src)
+endif()
+
+if(MB_UTIL_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()

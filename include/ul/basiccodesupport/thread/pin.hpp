@@ -22,7 +22,7 @@
 // not implemented
 #endif
 #if UL_OS_MAC
-#include <mach/mach_types.hpp>
+#include <mach/mach_types.h>
 #include <mach/thread_act.h>
 #include <sys/sysctl.h>
 #endif
