@@ -121,7 +121,7 @@ public:
     }
 
     friend constexpr EnumBitset operator~(const EnumBitset& b) noexcept {
-        return EnumBitset::from_bits(~b.bits_);
+        return EnumBitset::from_bits(static_cast<SizeType>(~b.bits_));
     }
 
     constexpr EnumBitset operator&=(const EnumType& rhs) noexcept {
