@@ -2,7 +2,6 @@
 #include "gtest/gtest.h"
 #include <fstream>
 #include <sstream>
-#include <string_view>
 
 TEST(FileTest, fstream_failed) {
     std::string err_detail;
@@ -33,25 +32,28 @@ TEST(FileTest, fstream_failed) {
 }
 
 TEST(FileTest, throw_error) {
+    const auto get_error_message = [](ul::file::Operation op) -> std::string {
+        try {
+            ul::file::throw_error("test.txt", op, "test error");
+        } catch (const std::runtime_error& e) {
+            return e.what();
+        } catch (...) {
+            ADD_FAILURE() << "Expected std::runtime_error";
+        }
+        return {};
+    };
+
     // Test save operation error
-    try {
-        ul::file::throw_error("test.txt", ul::file::Operation::save, "test error");
-        FAIL() << "Expected std::runtime_error";
-    } catch (const std::runtime_error& e) {
-        std::string_view error_msg{e.what()};
-        EXPECT_TRUE(error_msg.find("test.txt") != std::string::npos);
-        EXPECT_TRUE(error_msg.find("saved") != std::string::npos);
-        EXPECT_TRUE(error_msg.find("test error") != std::string::npos);
-    }
+    const auto save_error_msg = get_error_message(ul::file::Operation::save);
+    EXPECT_FALSE(save_error_msg.empty());
+    EXPECT_TRUE(save_error_msg.find("test.txt") != std::string::npos);
+    EXPECT_TRUE(save_error_msg.find("saved") != std::string::npos);
+    EXPECT_TRUE(save_error_msg.find("test error") != std::string::npos);
 
     // Test load operation error
-    try {
-        ul::file::throw_error("test.txt", ul::file::Operation::load, "test error");
-        FAIL() << "Expected std::runtime_error";
-    } catch (const std::runtime_error& e) {
-        std::string_view error_msg{e.what()};
-        EXPECT_TRUE(error_msg.find("test.txt") != std::string::npos);
-        EXPECT_TRUE(error_msg.find("loaded") != std::string::npos);
-        EXPECT_TRUE(error_msg.find("test error") != std::string::npos);
-    }
+    const auto load_error_msg = get_error_message(ul::file::Operation::load);
+    EXPECT_FALSE(load_error_msg.empty());
+    EXPECT_TRUE(load_error_msg.find("test.txt") != std::string::npos);
+    EXPECT_TRUE(load_error_msg.find("loaded") != std::string::npos);
+    EXPECT_TRUE(load_error_msg.find("test error") != std::string::npos);
 }
