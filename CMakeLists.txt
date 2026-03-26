@@ -98,7 +98,7 @@ install(
     COMPONENT "mb.util"
 )
 install(
-    DIRECTORY "${utfcpp_SOURCE_DIR}/source/"
+    DIRECTORY "${utfcpp_INCLUDE_DIRS}/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT "mb.util"
 )
