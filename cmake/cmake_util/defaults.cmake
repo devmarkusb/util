@@ -22,9 +22,9 @@ if(NOT MSVC AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/defs.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/builddir_cfg.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/cpp_features.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment_build.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/builddir-cfg.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cpp-features.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment-build.cmake)
 
 option(UL_ENABLE_LTO "enables link time optimization" OFF)
 

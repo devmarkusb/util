@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 
-include(${UL_CMAKE_UTIL_DIR}/cmake_util.cmake OPTIONAL)
+include(${UL_CMAKE_UTIL_DIR}/cmake-util.cmake OPTIONAL)
 
 ul_include(defaults.cmake)
 ul_include(gsl.cmake)
@@ -10,7 +10,7 @@ add_subdirectory(string/sdks)
 file(GLOB_RECURSE target_INCS "${CMAKE_CURRENT_SOURCE_DIR}/../include/*.h*")
 file(GLOB_RECURSE target_SRC_INCS "${CMAKE_CURRENT_SOURCE_DIR}/*.h*")
 
-# Exclude gtest_utils.h if not building tests
+# Exclude gtest-utils.h if not building tests
 if(NOT UL_BUILD_UNITTESTS)
     list(FILTER target_INCS EXCLUDE REGEX "gtest_utils\\.h$")
 endif()
@@ -38,7 +38,10 @@ target_sources(
             FILES ${target_SRC_INCS}
 )
 
-target_include_directories(mb.util PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+target_include_directories(
+    mb.util
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include
+)
 target_include_directories(mb.util PUBLIC ${GSL_SOURCE_DIR}/include)
 target_include_directories(mb.util SYSTEM INTERFACE ${utfcpp_INCLUDE_DIRS})
 
@@ -84,4 +87,3 @@ endif()
 
 ul_set_target_filesystem(${targetTest})
 ul_set_target_essentials(${targetTest})
-

@@ -4,8 +4,8 @@
 #define WAITCIRCBUFFER_H_4Z894527892XH5
 
 #include "../error.h"
-#include "../ignore_unused.h"
-#include "../std/circular_buffer.h"
+#include "../ignore-unused.h"
+#include "../std/circular-buffer.h"
 #include <condition_variable>
 #include <mutex>
 #include <queue>

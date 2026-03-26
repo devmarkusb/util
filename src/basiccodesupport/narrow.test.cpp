@@ -1,6 +1,6 @@
 #include "ul/basiccodesupport/narrow.h"
 #include "ul/buildenv/macros.h"
-#include "ul/buildenv/macros/UNDEF_MIN_MAX.h" // NOLINT
+#include "ul/buildenv/macros/UNDEF-MIN-MAX.h" // NOLINT
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

@@ -1,6 +1,6 @@
 // VLD detects lots of memory leaks for this file (unclear)
 #include "ul/basiccodesupport/assert.h"
-#include "ul/buildenv/gtest_utils.h"
+#include "ul/buildenv/gtest-utils.h"
 #include "ul/buildenv/macros.h"
 #include "ul/buildenv/warnings.h"
 #include "gtest/gtest.h"

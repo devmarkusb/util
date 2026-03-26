@@ -20,7 +20,7 @@ set(UL_USE_BOOST_ver2 "67" CACHE STRING "Cf. UL_USE_BOOST_ver1")
 set(UL_USE_BOOST_ver3 "0" CACHE STRING "Cf. UL_USE_BOOST_ver1")
 
 if(UL_ANDROID)
-    include(${CMAKE_CURRENT_LIST_DIR}/detail/find_host_package.cmake)
+    include(${CMAKE_CURRENT_LIST_DIR}/detail/find-host-package.cmake)
 endif()
 
 # Impl. notes:

@@ -1,6 +1,6 @@
 #include "ul/basiccodesupport/matrix.h"
 #include "ul/basiccodesupport/algebra.h"
-#include "ul/buildenv/gtest_utils.h"
+#include "ul/buildenv/gtest-utils.h"
 
 #include "gtest/gtest.h"
 #include <functional>

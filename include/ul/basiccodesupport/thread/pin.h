@@ -6,7 +6,7 @@
 #include "../assert.h"
 #include "../debug.h"
 #include "../error.h"
-#include "../ignore_unused.h"
+#include "../ignore-unused.h"
 
 #include "ul/buildenv/macros.h"
 #include "ul/buildenv/warnings.h"
