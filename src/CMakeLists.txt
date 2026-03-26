@@ -1,5 +1,16 @@
 find_package(GTest REQUIRED)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    foreach(_mb_util_gtest_target IN ITEMS gtest gtest_main gmock gmock_main)
+        if(TARGET ${_mb_util_gtest_target})
+            target_compile_options(
+                ${_mb_util_gtest_target}
+                PRIVATE -Wno-character-conversion
+            )
+        endif()
+    endforeach()
+endif()
+
 add_executable(mb.util.compile-check)
 target_sources(mb.util.compile-check PRIVATE compile-check.cpp)
 target_link_libraries(mb.util.compile-check PRIVATE mb::util)
