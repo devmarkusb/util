@@ -103,7 +103,7 @@ install(
     COMPONENT "mb.util"
 )
 
-mb_install_library(mb.util)
+mb_devenv_install_library(mb.util)
 
 if(MB_UTIL_BUILD_TESTS)
     enable_testing()
