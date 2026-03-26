@@ -1,15 +1,15 @@
-# Include in your project root once. Then configure UL_DOXYGEN=ON.
+# Include in your project root once. Then configure MB_UL_DOXYGEN=ON.
 # Before including the file, set var dirs_to_doc.
 # For the actual generation of documentation build target ${PROJECT_NAME}-doxygen.
 # The generated doc can be found under ${CMAKE_BUILD_DIR}/doc/html/index.html
 
 option(
-    UL_DOXYGEN
+    MB_UL_DOXYGEN
     "Creates doxygen target. Before inclusion of doxygen.cmake you should set var dirs_to_doc."
     OFF
 )
 
-if(UL_DOXYGEN)
+if(MB_UL_DOXYGEN)
     find_package(Doxygen OPTIONAL_COMPONENTS dot)
 
     set(DOXYGEN_BUILTIN_STL_SUPPORT YES) # YES?

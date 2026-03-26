@@ -1,10 +1,10 @@
-# include in your project root once; switch on UL_CPPCHECK cmake option on demand
+# include in your project root once; switch on MB_UL_CPPCHECK cmake option on demand
 
 cmake_minimum_required(VERSION 3.10)
 
-option(UL_CPPCHECK "run cppcheck" OFF)
+option(MB_UL_CPPCHECK "run cppcheck" OFF)
 
-if(UL_CPPCHECK)
+if(MB_UL_CPPCHECK)
     find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
     if(CMAKE_CXX_CPPCHECK)
         list(

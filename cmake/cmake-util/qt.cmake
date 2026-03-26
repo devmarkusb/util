@@ -4,7 +4,7 @@
 #   - use find_package(Qt6 REQUIRED COMPONENTS Quick LinguistTools Widgets Qml) # ...
 
 option(
-    UL_QT_COMPILE_WITH_QML_DEBUGGING_ENABLER
+    MB_UL_QT_COMPILE_WITH_QML_DEBUGGING_ENABLER
     "With QQmlDebuggingEnabler for qml debugging and profiling"
     OFF
 )
