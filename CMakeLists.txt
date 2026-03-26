@@ -44,11 +44,11 @@ set(mb_util_generated_include_dir
     "${CMAKE_CURRENT_BINARY_DIR}/generated/include"
 )
 set(MB_UTIL_GENERATED_CONFIG_HEADER
-    "${mb_util_generated_include_dir}/ul/buildenv/config-gen.hpp"
+    "${mb_util_generated_include_dir}/mb/ul/buildenv/config-gen.hpp"
 )
-file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/ul/buildenv")
+file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/mb/ul/buildenv")
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/ul/buildenv/config-gen.hpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/mb/ul/buildenv/config-gen.hpp.in"
     "${MB_UTIL_GENERATED_CONFIG_HEADER}"
     @ONLY
 )
@@ -65,14 +65,13 @@ target_sources(
                 "${mb_util_generated_include_dir}"
 )
 
-add_subdirectory(include/ul)
-
+add_subdirectory(include/mb/ul)
 target_include_directories(
     mb.util
     INTERFACE
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-        "$<BUILD_INTERFACE:${mb_util_generated_include_dir}>"
-        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mb>"
+        "$<BUILD_INTERFACE:${mb_util_generated_include_dir}/mb>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/mb>"
 )
 target_include_directories(
     mb.util
