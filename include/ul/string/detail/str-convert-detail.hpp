@@ -1,12 +1,12 @@
 //! \file
 
-// No include guard, intentionally, impl. of str-convert.h
+// No include guard, intentionally, impl. of str-convert.hpp
 
 #include "str-convert-decl.hpp"
-#include "../ulstring.h"
-#include "ul/basiccodesupport/error.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/buildenv/macros.h"
+#include "../ulstring.hpp"
+#include "ul/basiccodesupport/error.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/buildenv/macros.hpp"
 #include <algorithm>
 #include <iomanip>
 #include <iterator>

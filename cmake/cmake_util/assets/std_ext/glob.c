@@ -69,11 +69,11 @@ static char sccsid[] = "@(#)glob.c	8.3 (Berkeley) 10/13/93";
 #include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
-#include <glob.h>
+#include <glob.hpp>
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.hpp>
 #include <unistd.h>
 
 // from bsd sources, same header applies
@@ -579,7 +579,7 @@ glob3(pathbuf, pathend, pattern, restpattern, pglob)
 
 	/*
 	 * The readdirfunc declaration can't be prototyped, because it is
-	 * assigned, below, to two functions which are prototyped in glob.h
+	 * assigned, below, to two functions which are prototyped in glob.hpp
 	 * and dirent.h as taking pointers to differently typed opaque
 	 * structures.
 	 */

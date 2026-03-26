@@ -1,5 +1,5 @@
-#include "ul/basiccodesupport/algebra.h"
-#include "ex-for-test.h"
+#include "ul/basiccodesupport/algebra.hpp"
+#include "ex-for-test.hpp"
 
 #include "gtest/gtest.h"
 #include <functional>

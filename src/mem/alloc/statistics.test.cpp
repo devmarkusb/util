@@ -1,5 +1,5 @@
-#include "ul/mem/alloc/statistics.h" // NOLINT
-#include "ul/mem/types.h"
+#include "ul/mem/alloc/statistics.hpp" // NOLINT
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

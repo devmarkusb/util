@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/std/array.h"
+#include "ul/basiccodesupport/std/array.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

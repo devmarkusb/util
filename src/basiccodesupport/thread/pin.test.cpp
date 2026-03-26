@@ -1,5 +1,5 @@
-#include "ul/basiccodesupport/thread/pin.h"
-#include "ul/buildenv/macros.h"
+#include "ul/basiccodesupport/thread/pin.hpp"
+#include "ul/buildenv/macros.hpp"
 #include "gtest/gtest.h"
 #include <algorithm>
 #include <chrono>

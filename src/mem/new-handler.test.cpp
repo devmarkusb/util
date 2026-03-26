@@ -1,5 +1,5 @@
-#include "ul/mem/new-handler.h"
-#include "ul/basiccodesupport/ignore-unused.h"
+#include "ul/mem/new-handler.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
 #include "gtest/gtest.h"
 #include <new>
 

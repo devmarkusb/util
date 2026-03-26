@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/number.h"
+#include "ul/basiccodesupport/number.hpp"
 #include "gtest/gtest.h"
 
 TEST(MathNumberGetDecDigitCountTest, Dec) {

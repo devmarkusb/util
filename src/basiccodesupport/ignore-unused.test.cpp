@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/ignore-unused.h" // NOLINT
+#include "ul/basiccodesupport/ignore-unused.hpp" // NOLINT
 #include "gtest/gtest.h"
 
 namespace {

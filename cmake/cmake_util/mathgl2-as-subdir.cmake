@@ -16,8 +16,8 @@ endif()
 if(UL_ANDROID)
     set(mglAdditionalTargetSources
         ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.c
-        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.h
-        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/collate.h
+        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/glob.hpp
+        ${UL_CMAKE_UTIL_DIR}/assets/std_ext/collate.hpp
     )
     target_sources(mgl PRIVATE ${mglAdditionalTargetSources})
     target_sources(mgl-static PRIVATE ${mglAdditionalTargetSources})
