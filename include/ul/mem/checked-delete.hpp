@@ -10,15 +10,13 @@
 namespace mb::ul::mem {
 template <class T>
 inline void checked_delete(T* x) {
-    using TypeMustBeComplete = char[sizeof(T) ? 1 : -1]; // NOLINT
-    (void)sizeof(TypeMustBeComplete);
+    static_assert(sizeof(T) > 0, "checked_delete requires a complete type");
     delete x; // NOLINT
 }
 
 template <class T>
 inline void checked_array_delete(T* x) {
-    using TypeMustBeComplete = char[sizeof(T) ? 1 : -1]; // NOLINT
-    (void)sizeof(TypeMustBeComplete);
+    static_assert(sizeof(T) > 0, "checked_array_delete requires a complete type");
     delete[] x; // NOLINT
 }
 } // namespace mb::ul::mem
