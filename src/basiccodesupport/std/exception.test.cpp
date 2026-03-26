@@ -1,5 +1,5 @@
-#include "ul/basiccodesupport/std/exception.h"
-#include "ul/buildenv/macros.h"
+#include "ul/basiccodesupport/std/exception.hpp"
+#include "ul/buildenv/macros.hpp"
 #include "gtest/gtest.h"
 #include <stdexcept>
 #include <string_view>

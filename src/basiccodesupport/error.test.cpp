@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/error.h"
+#include "ul/basiccodesupport/error.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

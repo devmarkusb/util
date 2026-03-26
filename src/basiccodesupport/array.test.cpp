@@ -1,5 +1,5 @@
-#include "ul/basiccodesupport/array.h"
-#include "ul/basiccodesupport/std/array.h"
+#include "ul/basiccodesupport/array.hpp"
+#include "ul/basiccodesupport/std/array.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

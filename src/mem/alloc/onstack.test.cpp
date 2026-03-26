@@ -1,7 +1,7 @@
-#include "ul/mem/alloc/onstack.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/mem/alloc/statistics.h"
-#include "ul/mem/types.h"
+#include "ul/mem/alloc/onstack.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/mem/alloc/statistics.hpp"
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 #include <cstddef>
 #include <new>

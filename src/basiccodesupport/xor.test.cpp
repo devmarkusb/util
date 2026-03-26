@@ -1,5 +1,5 @@
 // VLD detects lots of memory leaks for this file (unclear)
-#include "ul/basiccodesupport/xor.h"
+#include "ul/basiccodesupport/xor.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/fermat-miller-rabin.h" // NOLINT
+#include "ul/basiccodesupport/fermat-miller-rabin.hpp" // NOLINT
 #include "gtest/gtest.h"
 #include <cstdint>
 #include <vector>

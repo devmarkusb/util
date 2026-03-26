@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/shared-instance.h"
+#include "ul/basiccodesupport/shared-instance.hpp"
 #include "gtest/gtest.h"
 #include <atomic>
 #include <thread>

@@ -9,7 +9,7 @@
 #   CLion, consult your psychologist, or find the right place for the var to actually work).
 #   Alternatively add the following to your code:
 #   #if UL_ENABLE_PROFILING_GPERF
-#   #include "gperftools/profiler.h"
+#   #include "gperftools/profiler.hpp"
 #   #endif
 #   ...
 #   #if UL_ENABLE_PROFILING_GPERF

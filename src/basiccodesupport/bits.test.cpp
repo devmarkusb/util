@@ -1,8 +1,8 @@
-#include "ul/basiccodesupport/bits.h"
-#include "ul/basiccodesupport/assert.h"
-#include "ul/basiccodesupport/enum-cast.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/buildenv/gtest-utils.h"
+#include "ul/basiccodesupport/bits.hpp"
+#include "ul/basiccodesupport/assert.hpp"
+#include "ul/basiccodesupport/enum-cast.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/buildenv/gtest-utils.hpp"
 #include "gtest/gtest.h"
 #include <type_traits>
 

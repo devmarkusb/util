@@ -17,7 +17,7 @@ namespace ul or prefix UL_ for macros everywhere.
 
 * Above all, your entry point is browsing the header files.
 * The subdirs are just for topic-wise organization - in the end
-it is just one lib, accessible by include `#include "ul/ul.h"`, except
+it is just one lib, accessible by include `#include "ul/ul.hpp"`, except
 for some macro heavy headers or exotics.
 * buildenv just contains stuff helping you in setting up build
 environments, no real coding support.
@@ -60,7 +60,7 @@ FetchContent_MakeAvailable(mb-util)
 target_link_libraries(YourTarget PUBLIC mb-util)
 ```
 
-and `#include "ul/ul.h"` should be all you need. The library is mostly header-only.
+and `#include "ul/ul.hpp"` should be all you need. The library is mostly header-only.
 
 ## FAQ
 

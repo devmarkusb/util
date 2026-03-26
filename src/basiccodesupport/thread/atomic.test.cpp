@@ -1,4 +1,4 @@
-#include "ul/basiccodesupport/thread/atomic.h"
+#include "ul/basiccodesupport/thread/atomic.hpp"
 #include "gtest/gtest.h"
 #include <atomic>
 

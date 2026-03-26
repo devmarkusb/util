@@ -1,5 +1,5 @@
-#include "ul/basiccodesupport/format-number.h" // NOLINT
-#include "ul/buildenv/macros.h"
+#include "ul/basiccodesupport/format-number.hpp" // NOLINT
+#include "ul/buildenv/macros.hpp"
 #include "gtest/gtest.h"
 
 #if UL_HAS_NOCRASH_IMBUE_LOCALE

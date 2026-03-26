@@ -1,4 +1,4 @@
-#include "ul/string/ulstring.h" // NOLINT
+#include "ul/string/ulstring.hpp" // NOLINT
 #include "gtest/gtest.h"
 #include <string>
 

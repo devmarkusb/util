@@ -1,6 +1,6 @@
-#include "ul/basiccodesupport/profiler.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/buildenv/gtest-utils.h"
+#include "ul/basiccodesupport/profiler.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/buildenv/gtest-utils.hpp"
 #include "gtest/gtest.h"
 #include <chrono>
 #include <thread>

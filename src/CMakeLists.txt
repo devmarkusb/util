@@ -10,7 +10,7 @@ add_subdirectory(string/sdks)
 file(GLOB_RECURSE target_INCS "${CMAKE_CURRENT_SOURCE_DIR}/../include/*.h*")
 file(GLOB_RECURSE target_SRC_INCS "${CMAKE_CURRENT_SOURCE_DIR}/*.h*")
 
-# Exclude gtest-utils.h if not building tests
+# Exclude gtest-utils.hpp if not building tests
 if(NOT UL_BUILD_UNITTESTS)
     list(FILTER target_INCS EXCLUDE REGEX "gtest_utils\\.h$")
 endif()

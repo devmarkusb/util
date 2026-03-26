@@ -1,7 +1,7 @@
-#include "ul/mem/alloc/linear.h"
-#include "ul/basiccodesupport/assert.h"
-#include "ul/basiccodesupport/ignore-unused.h"
-#include "ul/mem/types.h"
+#include "ul/mem/alloc/linear.hpp"
+#include "ul/basiccodesupport/assert.hpp"
+#include "ul/basiccodesupport/ignore-unused.hpp"
+#include "ul/mem/types.hpp"
 #include "gtest/gtest.h"
 
 namespace ul = mb::ul;

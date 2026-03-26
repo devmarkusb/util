@@ -1,6 +1,6 @@
 // clang-format off
 //#####!!!!! DO NOT change anything from HERE { (actually from the start of the clang format directive above) ######
-#include "ul/basiccodesupport/debug.h"
+#include "ul/basiccodesupport/debug.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -17,8 +17,8 @@ void f_with_some_sourcefile_location_info()
 //#####!!!!! TO HERE (actually to the end of the clang format directive below) } unless you also update test UL_LOCATIONTest below! ######
 // clang-format on
 
-#include "ul/buildenv/macros.h"
-#include "ul/buildenv/warnings.h"
+#include "ul/buildenv/macros.hpp"
+#include "ul/buildenv/warnings.hpp"
 
 UL_PRAGMA_WARNINGS_PUSH
 UL_WARNING_DISABLE_MSVC(4127)
