@@ -5,7 +5,7 @@
 
 #include "../std/std-extensions.hpp"
 
-#include "ul/buildenv/macros.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 
 namespace mb::ul {
 //! Provides a shortcut ultility to declare classes that are supposed to forbid copying.

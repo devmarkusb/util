@@ -7,8 +7,8 @@
 //! ulstring.hpp included for the major conversion support; whether used in this file or not.
 //! Use utf8::... for ultimate utf8 support with almost arbitrary string types.
 #include "ulstring.hpp"
-#include "ul/buildenv/comp-bwds.hpp"
-#include "ul/buildenv/macros.hpp"
+#include "mb/ul/buildenv/comp-bwds.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 #include <stdexcept>
 #include <string>
 

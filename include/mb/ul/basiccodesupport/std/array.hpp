@@ -3,7 +3,7 @@
 #ifndef ARRAY_H_GH4578XDTN4813478TX34
 #define ARRAY_H_GH4578XDTN4813478TX34
 
-#include "ul/buildenv/config.hpp"
+#include "mb/ul/buildenv/config.hpp"
 #include <array>
 
 namespace mb::ul::array {
