@@ -36,16 +36,21 @@ struct cpu_set_t {
     uint32_t count;
 };
 
+inline uint32_t cpu_mask(int num) {
+    UL_EXPECT(num >= 0);
+    return uint32_t{1} << static_cast<uint32_t>(num);
+}
+
 inline void CPU_ZERO(cpu_set_t* cs) {
     cs->count = 0;
 }
 
 inline void CPU_SET(int num, cpu_set_t* cs) {
-    cs->count |= (1 << num);
+    cs->count |= cpu_mask(num);
 }
 
 inline int CPU_ISSET(int num, cpu_set_t* cs) {
-    return (cs->count & (1 << num));
+    return (cs->count & cpu_mask(num)) != 0u ? 1 : 0;
 }
 
 inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
@@ -58,7 +63,7 @@ inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
     }
     cpu_set->count = 0;
     for (int i = 0; i < core_count; i++) {
-        cpu_set->count |= (1 << i);
+        cpu_set->count |= cpu_mask(i);
     }
 
     return 0;
@@ -66,14 +71,14 @@ inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
 
 inline int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set) {
     thread_port_t mach_thread;
-    int core = 0;
+    size_t core = 0;
 
-    for (core = 0; core < 8 * cpu_size; core++) {
-        if (CPU_ISSET(core, cpu_set))
+    for (core = 0; core < 8u * cpu_size; ++core) {
+        if (CPU_ISSET(static_cast<int>(core), cpu_set))
             break;
     }
-    printf("binding to core %d\n", core);
-    thread_affinity_policy_data_t policy = {core};
+    printf("binding to core %zu\n", core);
+    thread_affinity_policy_data_t policy = {static_cast<integer_t>(core)};
     mach_thread = pthread_mach_thread_np(thread);
     thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, (thread_policy_t)&policy, 1);
     return 0;
@@ -170,7 +175,7 @@ inline int num_logical_cores()
 #elif UL_OS_MAC
     mac::cpu_set_t cpuset{};
     const auto ok = sched_getaffinity({}, {}, &cpuset);
-    return ok <= 0 ? -1 : cpuset.count;
+    return ok < 0 ? -1 : static_cast<int>(cpuset.count);
 #else
     throw ul::NotImplemented{UL_LOCATION " numLogicalCores not yet for non-Unix"};
 #endif
