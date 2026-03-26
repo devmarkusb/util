@@ -313,6 +313,14 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_HAS_STD_CODECVT 0
 #endif
 
+//! libstdc++ still ships wstring_convert in C++26 mode as a deprecated extension.
+//! With -Werror=deprecated-declarations (used by this project), that makes the legacy
+//! codecvt helpers unusable even though <codecvt> is present, so disable the feature.
+#if defined(__GLIBCXX__) && defined(__cplusplus) && (__cplusplus >= 202400L)
+#undef UL_HAS_STD_CODECVT
+#define UL_HAS_STD_CODECVT 0
+#endif
+
 //!@}
 
 
