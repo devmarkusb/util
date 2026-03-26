@@ -91,6 +91,7 @@ inline std::wstring utf8to16_s2ws(const std::string& str) {
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
 UL_WARNING_DISABLE_CLANG(deprecated-declarations)
+UL_WARNING_DISABLE_MSVC(4996)
 
 // clang-format on
 
