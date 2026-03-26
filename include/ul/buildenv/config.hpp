@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_RHF7X3489GT3478GXT34GH
 #define CONFIG_H_RHF7X3489GT3478GXT34GH
 
-#include "config-gen.hpp"
+#include "ul/buildenv/config-gen.hpp"
 
 #if !UL_DISABLE_NAMESPACE_ALIAS
 namespace mb::ul {}
