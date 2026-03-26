@@ -1,0 +1,21 @@
+// Is the extension of this file .h or .h.in? Then read the suitable paragraph below.
+/*  .h
+        This is an automatically generated file by CMake. Do not edit!
+        You can modify it indirectly by editing the pendant file with appended
+        extension ".in". This usually can be found right next to your base
+        CMakeLists.txt file.
+
+    .h.in
+        This is the source file that will undergo preprocessing by CMake.
+        You can tailor this one to your needs.
+        Note that you will need to re-run CMake.
+*/
+
+#ifndef CONFIG_GEN_H_ORGH389GH9Y34HGY894YG4839Y4HG
+#define CONFIG_GEN_H_ORGH389GH9Y34HGY894YG4839Y4HG
+
+#define UL_ADDRESS_SAN             0
+#define UL_UNDEF_SAN               0
+#define UL_DISABLE_NAMESPACE_ALIAS 0
+
+#endif

@@ -3,13 +3,13 @@
 #ifndef NUMBER_H_F29JH8HNF238HRXZ23
 #define NUMBER_H_F29JH8HNF238HRXZ23
 
-#include "almost_equal.h"
+#include "almost-equal.h"
 #include "assert.h"
-#include "enum_cast.h"
-#include "floating_point.h"
+#include "enum-cast.h"
+#include "floating-point.h"
 #include "narrow.h"
 
-#include "ul/buildenv/comp_bwds.h"
+#include "ul/buildenv/comp-bwds.h"
 #include "ul/buildenv/config.h"
 #include <cmath>
 #include <iomanip>

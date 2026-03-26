@@ -1,5 +1,5 @@
-#include "ul/ul.h"
 #include "utf8.h"
+#include "ul/ul.h"
 #include "gtest/gtest.h"
 #include <cstring>
 #include <iterator>

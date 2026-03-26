@@ -3,8 +3,8 @@
 #ifndef NARROW_H_SK837XXGNF83XGFN3G8T34SDJN47
 #define NARROW_H_SK837XXGNF83XGFN3G8T34SDJN47
 
-#include "almost_equal.h"
-#include "std/std_extensions.h"
+#include "almost-equal.h"
+#include "std/std-extensions.h"
 #include <type_traits>
 
 namespace mb::ul {

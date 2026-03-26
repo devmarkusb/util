@@ -3,8 +3,8 @@
 #ifndef LOCALE_H_CONDWHXNU23MHY8MR
 #define LOCALE_H_CONDWHXNU23MHY8MR
 
+#include "ul/basiccodesupport/std/std-extensions.h"
 #include "ul/buildenv/macros.h"
-#include "ul/basiccodesupport/std/std_extensions.h"
 #include <locale>
 
 namespace mb::ul {
