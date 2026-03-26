@@ -1,8 +1,8 @@
 # file to include for cmake VLD settings
 
-option(UL_COMPILE_WITH_VISUAL_LEAK_DETECTOR "With Visual Leak Detection" OFF)
+option(MB_UL_COMPILE_WITH_VISUAL_LEAK_DETECTOR "With Visual Leak Detection" OFF)
 
-if(UL_COMPILE_WITH_VISUAL_LEAK_DETECTOR AND MSVC)
+if(MB_UL_COMPILE_WITH_VISUAL_LEAK_DETECTOR AND MSVC)
     message("Enabling Visual Leak Detector")
     find_library(
         VLD

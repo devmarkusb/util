@@ -26,42 +26,50 @@ include(${CMAKE_CURRENT_LIST_DIR}/builddir-cfg.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cpp-features.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/detail/deployment-build.cmake)
 
-option(UL_ENABLE_LTO "enables link time optimization" OFF)
+option(MB_UL_ENABLE_LTO "enables link time optimization" OFF)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(UL_IS_NON_APPLE_CLANG_COMPILER TRUE)
+    set(MB_UL_IS_NON_APPLE_CLANG_COMPILER TRUE)
 else()
-    set(UL_IS_NON_APPLE_CLANG_COMPILER FALSE)
+    set(MB_UL_IS_NON_APPLE_CLANG_COMPILER FALSE)
 endif()
 
-option(UL_USE_LLD_LINKER "use lld linker" ${UL_IS_NON_APPLE_CLANG_COMPILER})
+option(
+    MB_UL_USE_LLD_LINKER
+    "use lld linker"
+    ${MB_UL_IS_NON_APPLE_CLANG_COMPILER}
+)
 
 # If requested, verify the toolchain can link with lld before setting -fuse-ld=lld.
-set(UL_HAVE_WORKING_LLD FALSE)
-if(UL_USE_LLD_LINKER)
+set(MB_UL_HAVE_WORKING_LLD FALSE)
+if(MB_UL_USE_LLD_LINKER)
     if(CMAKE_CXX_COMPILER)
-        set(_ul_lld_probe_src "${CMAKE_BINARY_DIR}/CMakeFiles/ul_lld_probe.cxx")
+        set(_ul_lld_probe_src
+            "${CMAKE_BINARY_DIR}/CMakeFiles/mb_ul_lld_probe.cxx"
+        )
         file(WRITE "${_ul_lld_probe_src}" "int main(){return 0;}\n")
         try_compile(
-            UL_HAVE_WORKING_LLD
+            MB_UL_HAVE_WORKING_LLD
             "${CMAKE_BINARY_DIR}"
             "${_ul_lld_probe_src}"
             LINK_OPTIONS "-fuse-ld=lld"
         )
     elseif(CMAKE_C_COMPILER)
-        set(_ul_lld_probe_src "${CMAKE_BINARY_DIR}/CMakeFiles/ul_lld_probe.c")
+        set(_ul_lld_probe_src
+            "${CMAKE_BINARY_DIR}/CMakeFiles/mb_ul_lld_probe.c"
+        )
         file(WRITE "${_ul_lld_probe_src}" "int main(void){return 0;}\n")
         try_compile(
-            UL_HAVE_WORKING_LLD
+            MB_UL_HAVE_WORKING_LLD
             "${CMAKE_BINARY_DIR}"
             "${_ul_lld_probe_src}"
             LINK_OPTIONS "-fuse-ld=lld"
         )
     endif()
-    if(NOT UL_HAVE_WORKING_LLD)
+    if(NOT MB_UL_HAVE_WORKING_LLD)
         message(
             STATUS
-            "UL_USE_LLD_LINKER is ON but linking with -fuse-ld=lld failed; using the default linker"
+            "MB_UL_USE_LLD_LINKER is ON but linking with -fuse-ld=lld failed; using the default linker"
         )
     endif()
 endif()
@@ -69,12 +77,12 @@ endif()
 # Might be used by clang-tidy and coverage, why not on by default.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# UL_BITS will be 32, 64, ...
-math(EXPR UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
+# MB_UL_BITS will be 32, 64, ...
+math(EXPR MB_UL_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 
-# UL_NPROC will contain processor count and 0 if count couldn't be determined
+# MB_UL_NPROC will contain processor count and 0 if count couldn't be determined
 include(ProcessorCount)
-ProcessorCount(UL_NPROC)
+ProcessorCount(MB_UL_NPROC)
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -92,13 +100,13 @@ if(MINGW)
     )
 endif()
 
-if(UL_HAVE_WORKING_LLD)
+if(MB_UL_HAVE_WORKING_LLD)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
     set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fuse-ld=lld")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=lld")
 endif()
 
-if(UL_ENABLE_LTO)
+if(MB_UL_ENABLE_LTO)
     message(STATUS "IPO / LTO enabled")
     get_all_targets(all_targets ${CMAKE_SOURCE_DIR})
     foreach(target IN ITEMS ${all_targets})
@@ -212,7 +220,7 @@ endmacro()
 ######################################################################################################################
 # general target settings
 
-macro(ul_set_target_essentials target)
+macro(mb_ul_set_target_essentials target)
     if(WIN32)
         get_target_property(_ul_ste_type ${target} TYPE)
         if(_ul_ste_type STREQUAL "INTERFACE_LIBRARY")
@@ -224,14 +232,14 @@ macro(ul_set_target_essentials target)
     endif()
 endmacro()
 
-macro(ul_set_target_defaults target)
-    ul_set_target_essentials(${target})
+macro(mb_ul_set_target_defaults target)
+    mb_ul_set_target_essentials(${target})
 
     set_target_properties(${target} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
     mb_ul_set_target_warnings(${target})
 
-    if(NOT UL_ANDROID) # easier than to fix the follow-up processes
+    if(NOT MB_UL_ANDROID) # easier than to fix the follow-up processes
         set_target_properties(${target} PROPERTIES DEBUG_POSTFIX "d")
     endif()
 
@@ -239,7 +247,7 @@ macro(ul_set_target_defaults target)
 
     set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
 
-    if("${UL_DEPLOY_TARGET}" STREQUAL "uwp")
+    if("${MB_UL_DEPLOY_TARGET}" STREQUAL "uwp")
         target_compile_definitions(
             ${target}
             INTERFACE _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
@@ -273,9 +281,9 @@ macro(ul_set_target_defaults target)
     endif()
 endmacro()
 
-macro(ul_set_target_filesystem target)
-    if(UL_HAS_CPP_FILESYSTEM)
-        if("${UL_CPP_STD_LIB}" STREQUAL "libstdc++")
+macro(mb_ul_set_target_filesystem target)
+    if(MB_UL_HAS_CPP_FILESYSTEM)
+        if("${MB_UL_CPP_STD_LIB}" STREQUAL "libstdc++")
             target_link_libraries(${target} PUBLIC stdc++fs)
         else()
             #target_link_libraries(${target} PUBLIC c++fs)
@@ -283,39 +291,39 @@ macro(ul_set_target_filesystem target)
     endif()
 endmacro()
 
-macro(ul_set_target_pthread target)
-    if(UL_LINUX)
+macro(mb_ul_set_target_pthread target)
+    if(MB_UL_LINUX)
         target_link_libraries(${target} PUBLIC pthread)
     endif()
 endmacro()
 
-macro(ul_set_target_cuda_separable_compilation target)
+macro(mb_ul_set_target_cuda_separable_compilation target)
     set_target_properties(${target} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 endmacro()
 
 # shared lib export define (such that the build know whether to export or import symbols)
-macro(ul_set_target_lib_export_def target define)
+macro(mb_ul_set_target_lib_export_def target define)
     set_property(TARGET ${target} APPEND PROPERTY COMPILE_DEFINITIONS ${define})
 endmacro()
 
-macro(ul_add_test target)
+macro(mb_ul_add_test target)
     gtest_discover_tests(${target})
 endmacro()
 
 # Test executable with plain main() (no GTest): register as single test, do not run at build time.
-macro(ul_add_simple_test target)
+macro(mb_ul_add_simple_test target)
     add_test(NAME ${target} COMMAND ${target})
 endmacro()
 
 # a platform independent 'executable', extra args are just all sources, lead by optional additional switches
-macro(ul_add_executable target)
+macro(mb_ul_add_executable target)
     set(impl_target_input)
     foreach(arg ${ARGN})
         list(APPEND impl_target_input ${arg})
     endforeach()
-    if(UL_ANDROID)
+    if(MB_UL_ANDROID)
         add_library(${target} SHARED ${impl_target_input})
-    elseif(UL_MACOS)
+    elseif(MB_UL_MACOS)
         add_executable(${target} MACOSX_BUNDLE ${impl_target_input})
         set_target_properties(
             ${target}
@@ -326,7 +334,7 @@ macro(ul_add_executable target)
     endif()
 endmacro()
 
-macro(ul_target_coverage target)
+macro(mb_ul_target_coverage target)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         setup_target_for_coverage_lcov(NAME ${target}_coverage EXECUTABLE ${target}-test)
     endif()

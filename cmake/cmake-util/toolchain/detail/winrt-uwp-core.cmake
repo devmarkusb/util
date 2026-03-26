@@ -2,7 +2,7 @@
 
 set(CMAKE_SYSTEM_NAME WindowsStore)
 
-set(UL_DEPLOY_TARGET
+set(MB_UL_DEPLOY_TARGET
     "uwp"
     CACHE STRING
     "Don't change! UWP is already strictly chosen due to toolchain file."

@@ -21,7 +21,7 @@ set(matplotlib-cpp_INCLUDE_DIRS
 )
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(UL_matplotlib_cpp_compile_options
+    set(MB_UL_matplotlib_cpp_compile_options
         -Wno-sign-conversion
         -Wno-float-conversion
         -Wno-implicit-float-conversion
@@ -32,14 +32,14 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     )
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
         list(
-            APPEND UL_matplotlib_cpp_compile_options
+            APPEND MB_UL_matplotlib_cpp_compile_options
             -Wno-implicit-int-float-conversion
         )
     endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(UL_matplotlib_cpp_compile_options)
+    set(MB_UL_matplotlib_cpp_compile_options)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(UL_matplotlib_cpp_compile_options
+    set(MB_UL_matplotlib_cpp_compile_options
         -Wno-conversion
         -Wno-sign-compare
         -Wno-unused-parameter
@@ -48,5 +48,5 @@ endif()
 
 target_compile_options(
     matplotlib_cpp
-    INTERFACE ${UL_matplotlib_cpp_compile_options}
+    INTERFACE ${MB_UL_matplotlib_cpp_compile_options}
 )
