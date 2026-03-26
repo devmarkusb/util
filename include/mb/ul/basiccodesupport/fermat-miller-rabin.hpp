@@ -6,7 +6,7 @@
 
 #include "algebra.hpp"
 #include "integer.hpp"
-#include "ul/buildenv/config.hpp"
+#include "mb/ul/buildenv/config.hpp"
 
 #if __cpp_concepts && __cpp_lib_concepts
 namespace mb::ul {

@@ -1,4 +1,4 @@
-#include "ul/string/string-trim.hpp" // NOLINT
+#include "mb/ul/string/string-trim.hpp" // NOLINT
 #include "gtest/gtest.h"
 #include <string>
 

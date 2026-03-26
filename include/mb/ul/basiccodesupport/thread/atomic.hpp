@@ -3,7 +3,7 @@
 #ifndef ATOMIC_H_E7TZX3785TZ78G2XH4H2GG
 #define ATOMIC_H_E7TZX3785TZ78G2XH4H2GG
 
-#include "ul/buildenv/macros.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 #include <atomic>
 
 namespace mb::ul::thread::atomic {
