@@ -102,4 +102,4 @@ jobs:
       image: ghcr.io/bemanproject/infra-containers-gcc:latest
       cxx_standard: 26
       namespace: mb
-      main_header: ul.hpp
+      include_header: mb/ul/ul.hpp
