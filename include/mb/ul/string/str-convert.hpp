@@ -21,7 +21,6 @@ struct ConversionError : public std::runtime_error {
 
 //! Whenever a std::wstring crosses your path (god forbid!).
 //! Note that the *_portable versions are recommended over their pendants. They are more future proof.
-//! And of course the *_codecvt are in direct competition.
 //!@{
 
 //! Uses winapi. Encoding is unchecked. Calls utf16or32to8_ws2s_portable() for non-Windows, which could be used for
@@ -38,15 +37,6 @@ inline std::wstring utf8to16_s2ws(const std::string& str);
 
 //! Doesn't use winapi (but note, wchar_t isn't recommended at all). Encoding is unchecked.
 inline std::wstring utf8to16or32_s2ws_portable(const std::string& str);
-
-#if UL_HAS_STD_CODECVT
-//! Implementation using C++11 codecvt. Cf. utf16or32to8_ws2s_portable().
-inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr);
-
-//! Implementation using C++11 codecvt. Cf. utf8to16or32_s2ws_portable().
-inline std::wstring utf8to16_s2ws_codecvt(const std::string& str);
-#endif
-
 
 //! DEPRECATED!
 /** You probably want to use sth. more precise for your encodings.*/
