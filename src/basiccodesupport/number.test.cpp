@@ -32,23 +32,23 @@ TEST(MathNumberGetDecDigitCountTest, Hex) {
 }
 
 TEST(MathNumberGetDigit, Dec) {
-    EXPECT_EQ(5, ul::math::get_digit(12345, 0));
-    EXPECT_EQ(4, ul::math::get_digit(12345, 1));
-    EXPECT_EQ(3, ul::math::get_digit(12345, 2));
-    EXPECT_EQ(2, ul::math::get_digit(12345, 3));
-    EXPECT_EQ(1, ul::math::get_digit(12345, 4));
-    EXPECT_EQ(0, ul::math::get_digit(12345, 5));
+    EXPECT_EQ(5, ul::math::get_digit(12'345, 0));
+    EXPECT_EQ(4, ul::math::get_digit(12'345, 1));
+    EXPECT_EQ(3, ul::math::get_digit(12'345, 2));
+    EXPECT_EQ(2, ul::math::get_digit(12'345, 3));
+    EXPECT_EQ(1, ul::math::get_digit(12'345, 4));
+    EXPECT_EQ(0, ul::math::get_digit(12'345, 5));
 }
 
 TEST(MathNumberGetDigit, Hex) {
-    EXPECT_EQ(0xf, ul::math::get_digit(0x9abcdef, 0, ul::math::NumBase::hex));
-    EXPECT_EQ(0xe, ul::math::get_digit(0x9abcdef, 1, ul::math::NumBase::hex));
-    EXPECT_EQ(0xd, ul::math::get_digit(0x9abcdef, 2, ul::math::NumBase::hex));
-    EXPECT_EQ(0xc, ul::math::get_digit(0x9abcdef, 3, ul::math::NumBase::hex));
-    EXPECT_EQ(0xb, ul::math::get_digit(0x9abcdef, 4, ul::math::NumBase::hex));
-    EXPECT_EQ(0xa, ul::math::get_digit(0x9abcdef, 5, ul::math::NumBase::hex));
-    EXPECT_EQ(0x9, ul::math::get_digit(0x9abcdef, 6, ul::math::NumBase::hex));
-    EXPECT_EQ(0x0, ul::math::get_digit(0x9abcdef, 7, ul::math::NumBase::hex));
+    EXPECT_EQ(0xf, ul::math::get_digit(0x9ab'cdef, 0, ul::math::NumBase::hex));
+    EXPECT_EQ(0xe, ul::math::get_digit(0x9ab'cdef, 1, ul::math::NumBase::hex));
+    EXPECT_EQ(0xd, ul::math::get_digit(0x9ab'cdef, 2, ul::math::NumBase::hex));
+    EXPECT_EQ(0xc, ul::math::get_digit(0x9ab'cdef, 3, ul::math::NumBase::hex));
+    EXPECT_EQ(0xb, ul::math::get_digit(0x9ab'cdef, 4, ul::math::NumBase::hex));
+    EXPECT_EQ(0xa, ul::math::get_digit(0x9ab'cdef, 5, ul::math::NumBase::hex));
+    EXPECT_EQ(0x9, ul::math::get_digit(0x9ab'cdef, 6, ul::math::NumBase::hex));
+    EXPECT_EQ(0x0, ul::math::get_digit(0x9ab'cdef, 7, ul::math::NumBase::hex));
 }
 
 TEST(MathNumberGetDigit, Bin) {
@@ -70,8 +70,8 @@ TEST(math_sgnTest, Hex) {
     EXPECT_EQ(+1, ul::math::sgn(1.0));
     EXPECT_EQ(-1, ul::math::sgn(-1.0));
 
-    EXPECT_EQ(0, ul::math::sgn(0u));
-    EXPECT_EQ(+1, ul::math::sgn(1u));
+    EXPECT_EQ(0, ul::math::sgn(0U));
+    EXPECT_EQ(+1, ul::math::sgn(1U));
 
     EXPECT_EQ(-1, ul::math::sgn(-1L));
 }

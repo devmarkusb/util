@@ -10,8 +10,8 @@ namespace ul = mb::ul;
 using ul::mem::Bytes;
 
 namespace {
-constexpr auto kb{1024};
-constexpr auto b1000{1000};
+constexpr auto kb{1'024};
+constexpr auto b1000{1'000};
 constexpr auto b100{100};
 constexpr auto b24{24};
 constexpr auto b20{20};

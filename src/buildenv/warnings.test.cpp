@@ -4,7 +4,7 @@
 TEST(WarningsTest, CompilerSpecific) {
     UL_PRAGMA_WARNINGS_PUSH
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
-    UL_WARNING_DISABLE_MSVC(4189); // 'identifier': local variable is initialized but not referenced
+    UL_WARNING_DISABLE_MSVC(4'189); // 'identifier': local variable is initialized but not referenced
 #elif UL_COMP_CLANG
     UL_WARNING_DISABLE_CLANG(unused-variable);
 #elif UL_COMP_GNU_CPP

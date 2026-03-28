@@ -22,7 +22,7 @@ TEST(consoleTest, set_global_localeTest_localenc) {
 // Strange stuff: Happens only during unit test as part of compilation. Not failing when
 // starting the test exe separately - so no debugging possible :/
 // Also the build server doesn't fail!
-#if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50300)
+#if !(UL_COMP_MINGW && UL_COMP_MINGW_VER <= 50'300)
     const ul::SetGlobalLocaleScoped loc{ul::GlobalLocale::user_preferred};
     const std::locale first = loc.get_original_locale();
     EXPECT_EQ(std::locale::classic(), first);

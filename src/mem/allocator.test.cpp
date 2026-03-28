@@ -47,7 +47,7 @@ void common_vector_test(Vector& v) {
     }
     // NOLINTEND
     std::cout << "capacity: " << v.capacity() << "\n";
-    EXPECT_EQ(v.size(), 1000);
+    EXPECT_EQ(v.size(), 1'000);
 }
 
 template <typename Map>
@@ -109,7 +109,8 @@ TEST(allocator_linear, vector) {
     using Allocator = ul::mem::Allocator<int, Arena>;
     try {
         Arena a{
-            Bytes{mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}};
+            Bytes{mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value}, Bytes{alignof(int)}
+        };
         const Allocator al{a};
         std::vector<int, Allocator> v{al};
 
@@ -132,8 +133,8 @@ TEST(allocator_linear, map) {
 }
 
 TEST(allocator_onstack, vector) {
-    using Arena = ul::mem::alloc::OnStack<
-        mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
+    using Arena = ul::mem::alloc::
+        OnStack<mem100k * sizeof(int) + ul::mem::quirk::vector::constr_heap_alloc_size.value, alignof(int)>;
     using Allocator = ul::mem::Allocator<int, Arena>;
     try {
         Arena a;

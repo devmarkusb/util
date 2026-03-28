@@ -8,43 +8,43 @@ TEST(lex_cast, int2str) {
     EXPECT_EQ("42", ul::lex_cast<std::string>(42));
     EXPECT_EQ("-42", ul::lex_cast<std::string>(-42));
     EXPECT_EQ("0", ul::lex_cast<std::string>(0));
-    EXPECT_EQ("2147483647", ul::lex_cast<std::string>(2147483647)); // INT_MAX
-    EXPECT_EQ("-2147483648", ul::lex_cast<std::string>(-2147483648)); // INT_MIN
+    EXPECT_EQ("2147483647", ul::lex_cast<std::string>(2'147'483'647)); // INT_MAX
+    EXPECT_EQ("-2147483648", ul::lex_cast<std::string>(-2'147'483'648)); // INT_MIN
 }
 
 TEST(lex_cast, str2int) {
     EXPECT_EQ(42, ul::lex_cast<int>("42"));
     EXPECT_EQ(-42, ul::lex_cast<int>("-42"));
     EXPECT_EQ(0, ul::lex_cast<int>("0"));
-    EXPECT_EQ(2147483647, ul::lex_cast<int>("2147483647")); // INT_MAX
-    EXPECT_EQ(-2147483648, ul::lex_cast<int>("-2147483648")); // INT_MIN
+    EXPECT_EQ(2'147'483'647, ul::lex_cast<int>("2147483647")); // INT_MAX
+    EXPECT_EQ(-2'147'483'648, ul::lex_cast<int>("-2147483648")); // INT_MIN
 }
 
 TEST(lex_cast, float2int) {
-    EXPECT_EQ(42, ul::lex_cast<int>(42.0f));
-    EXPECT_EQ(42, ul::lex_cast<int>(42.7f)); // Truncation
-    EXPECT_EQ(-42, ul::lex_cast<int>(-42.0f));
-    EXPECT_EQ(0, ul::lex_cast<int>(0.0f));
+    EXPECT_EQ(42, ul::lex_cast<int>(42.0F));
+    EXPECT_EQ(42, ul::lex_cast<int>(42.7F)); // Truncation
+    EXPECT_EQ(-42, ul::lex_cast<int>(-42.0F));
+    EXPECT_EQ(0, ul::lex_cast<int>(0.0F));
 }
 
 TEST(lex_cast, int2float) {
-    EXPECT_FLOAT_EQ(42.0f, ul::lex_cast<float>(42));
-    EXPECT_FLOAT_EQ(-42.0f, ul::lex_cast<float>(-42));
-    EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>(0));
+    EXPECT_FLOAT_EQ(42.0F, ul::lex_cast<float>(42));
+    EXPECT_FLOAT_EQ(-42.0F, ul::lex_cast<float>(-42));
+    EXPECT_FLOAT_EQ(0.0F, ul::lex_cast<float>(0));
 }
 
 TEST(lex_cast, str2float) {
-    EXPECT_FLOAT_EQ(42.0f, ul::lex_cast<float>("42"));
-    EXPECT_FLOAT_EQ(42.7f, ul::lex_cast<float>("42.7"));
-    EXPECT_FLOAT_EQ(-42.0f, ul::lex_cast<float>("-42"));
-    EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>("0"));
+    EXPECT_FLOAT_EQ(42.0F, ul::lex_cast<float>("42"));
+    EXPECT_FLOAT_EQ(42.7F, ul::lex_cast<float>("42.7"));
+    EXPECT_FLOAT_EQ(-42.0F, ul::lex_cast<float>("-42"));
+    EXPECT_FLOAT_EQ(0.0F, ul::lex_cast<float>("0"));
 }
 
 TEST(lex_cast, float2str) {
-    EXPECT_EQ("42", ul::lex_cast<std::string>(42.0f));
-    EXPECT_EQ("42.7", ul::lex_cast<std::string>(42.7f));
-    EXPECT_EQ("-42", ul::lex_cast<std::string>(-42.0f));
-    EXPECT_EQ("0", ul::lex_cast<std::string>(0.0f));
+    EXPECT_EQ("42", ul::lex_cast<std::string>(42.0F));
+    EXPECT_EQ("42.7", ul::lex_cast<std::string>(42.7F));
+    EXPECT_EQ("-42", ul::lex_cast<std::string>(-42.0F));
+    EXPECT_EQ("0", ul::lex_cast<std::string>(0.0F));
 }
 
 TEST(lex_cast, bool2str) {
@@ -77,11 +77,11 @@ TEST(lex_cast, error_handling) {
     EXPECT_EQ(0, ul::lex_cast<int>("not a number")); // Should return default value (0)
 
     // Test with invalid input for str2float
-    EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>("not a number")); // Should return default value (0.0)
+    EXPECT_FLOAT_EQ(0.0F, ul::lex_cast<float>("not a number")); // Should return default value (0.0)
 
     // Test with empty string
     EXPECT_EQ(0, ul::lex_cast<int>("")); // Should return default value (0)
-    EXPECT_FLOAT_EQ(0.0f, ul::lex_cast<float>("")); // Should return default value (0.0)
+    EXPECT_FLOAT_EQ(0.0F, ul::lex_cast<float>("")); // Should return default value (0.0)
 }
 
 TEST(lex_cast_throw, int2str) {

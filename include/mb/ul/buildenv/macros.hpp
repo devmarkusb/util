@@ -86,12 +86,12 @@
 
 #if defined(__clang__) && (__clang__ == 1)
 #define UL_COMP_CLANG     1
-#define UL_COMP_CLANG_VER (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+#define UL_COMP_CLANG_VER (__clang_major__ * 10'000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #endif
 
 #if defined(__GNUC__) && !UL_COMP_CLANG
 #define UL_COMP_GNU_CPP     1
-#define GCC_VERSION         (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+#define GCC_VERSION         (__GNUC__ * 10'000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #define UL_COMP_GNU_CPP_VER GCC_VERSION
 #endif
 
@@ -137,7 +137,7 @@
 #ifdef __STDC__
 #define UL_LANG_STANDARD_C   1
 #define UL_LANG_STANDARD_C89 1
-#if __STDC_VERSION__ >= 199901L
+#if __STDC_VERSION__ >= 199'901L
 #define UL_LANG_STANDARD_C99 1
 #endif
 #endif
@@ -148,10 +148,10 @@
 #else
 #define UL_LANG_STANDARD_CPP 1
 #endif
-#define UL_LANG_STANDARD_CPP98 199711L
-#define UL_LANG_STANDARD_CPP11 201103L
-#define UL_LANG_STANDARD_CPP14 201402L
-#define UL_LANG_STANDARD_CPP17 201703L
+#define UL_LANG_STANDARD_CPP98 199'711L
+#define UL_LANG_STANDARD_CPP11 201'103L
+#define UL_LANG_STANDARD_CPP14 201'402L
+#define UL_LANG_STANDARD_CPP17 201'703L
 #endif
 
 #ifdef __cplusplus_cli
@@ -193,37 +193,37 @@
 //! Language/Compiler/OS/... feature defines.
 //!@{
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'800)
 #define UL_HAS_NO_CPP11_U8 1
 #else
 #define UL_HAS_NO_CPP11_U8 0
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'800)
 #define UL_HAS_CPP11_DEFAULT_MOVES 0
 #else
 #define UL_HAS_CPP11_DEFAULT_MOVES 1
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'800)
 #define UL_HAS_NO_CPP11_CONSTEXPR 1
 #else
 #define UL_HAS_NO_CPP11_CONSTEXPR 0
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'800)
 #define UL_HAS_NO_CPP11_NOEXCEPT 1
 #else
 #define UL_HAS_NO_CPP11_NOEXCEPT 0
 #endif
 
-#if !(UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1800)
+#if !(UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1'800)
 #define UL_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS 1
 #else
 #define UL_HAS_NO_CPP14_TYPE_TRAITS_T_SHORTCUTS 0
 #endif
 
-#if __SIZEOF_WCHAR_T__ == 4 || __WCHAR_MAX__ > 0x10000
+#if __SIZEOF_WCHAR_T__ == 4 || __WCHAR_MAX__ > 0x1'0000
 #define UL_SIZEOF_WCHAR_T 4
 static_assert(sizeof(wchar_t) == 4, "You might adapt the above conditionals to your platform");
 #else
@@ -231,13 +231,13 @@ static_assert(sizeof(wchar_t) == 4, "You might adapt the above conditionals to y
 static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to your platform");
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1'800)
 #define UL_HAS_BRACE_INIT_MEMBER_NON_STATIC 0
 #else
 #define UL_HAS_BRACE_INIT_MEMBER_NON_STATIC 1
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1800)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'800)
 #define UL_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE 1
 #else
 #define UL_HAS_COMPILER_WARNING_INHERITS_BY_DOMINANCE 0
@@ -249,7 +249,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #endif
 #endif
 
-#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1900)
+#if (UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER >= 1'900)
 #define UL_CAN_BUILD_WINRT_WRL_UWP 1
 #else
 #define UL_CAN_BUILD_WINRT_WRL_UWP 0
@@ -267,9 +267,9 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! Prefer __cpp_lib_codecvt (SD-6 / std.featuretest); fall back to __has_include(<codecvt>) when the
 //! implementation omits the macro but still ships the header.
 #if defined(__cplusplus)
-#if (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L)) || (!defined(_MSVC_LANG) && (__cplusplus >= 201103L))
+#if (defined(_MSVC_LANG) && (_MSVC_LANG >= 201'103L)) || (!defined(_MSVC_LANG) && (__cplusplus >= 201'103L))
 #if defined(__has_include)
-#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200806L
+#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200'806L
 #define UL_HAS_STD_CODECVT 1
 #elif __has_include(<codecvt>)
 #define UL_HAS_STD_CODECVT 1
@@ -277,7 +277,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_HAS_STD_CODECVT 0
 #endif
 #else
-#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200806L
+#if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200'806L
 #define UL_HAS_STD_CODECVT 1
 #else
 #define UL_HAS_STD_CODECVT 1
@@ -307,7 +307,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! Also key off __cplusplus: some libc++ builds omit these symbols under -std=c++26 while
 //! _LIBCPP_STD_VER has not yet been bumped to 26, which would leave UL_HAS_STD_CODECVT wrongly at 1.
 #if defined(_LIBCPP_VERSION) \
-    && (((defined(_LIBCPP_STD_VER) && (_LIBCPP_STD_VER >= 26)) || (defined(__cplusplus) && (__cplusplus >= 202400L))) \
+    && (((defined(_LIBCPP_STD_VER) && (_LIBCPP_STD_VER >= 26)) || (defined(__cplusplus) && (__cplusplus >= 202'400L))) \
         && (!defined(_LIBCPP_ENABLE_CXX26_REMOVED_CODECVT) || !defined(_LIBCPP_ENABLE_CXX26_REMOVED_WSTRING_CONVERT)))
 #undef UL_HAS_STD_CODECVT
 #define UL_HAS_STD_CODECVT 0
@@ -316,7 +316,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! libstdc++ still ships wstring_convert in C++26 mode as a deprecated extension.
 //! With -Werror=deprecated-declarations (used by this project), that makes the legacy
 //! codecvt helpers unusable even though <codecvt> is present, so disable the feature.
-#if defined(__GLIBCXX__) && defined(__cplusplus) && (__cplusplus >= 202400L)
+#if defined(__GLIBCXX__) && defined(__cplusplus) && (__cplusplus >= 202'400L)
 #undef UL_HAS_STD_CODECVT
 #define UL_HAS_STD_CODECVT 0
 #endif

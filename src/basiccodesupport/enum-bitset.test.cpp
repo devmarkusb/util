@@ -116,7 +116,7 @@ TEST(EnumBitSet, operators) {
 
     EXPECT_NE(bitset2, bitset3);
 
-    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(static_cast<Ex1Bitset::UnderlyingT>(~0u)));
+    EXPECT_EQ(~bitset, Ex1Bitset::from_bits(static_cast<Ex1Bitset::UnderlyingT>(~0U)));
 }
 
 TEST(EnumBitSet, comparisons) {

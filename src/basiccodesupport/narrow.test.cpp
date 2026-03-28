@@ -11,13 +11,13 @@ constexpr auto enable_float_precision_test{false};
 // NOLINTBEGIN
 
 TEST(NarrowTest, Cast) {
-    EXPECT_TRUE(static_cast<long>(ul::narrow_cast<unsigned char>(42l)) == 42l);
+    EXPECT_TRUE(static_cast<long>(ul::narrow_cast<unsigned char>(42L)) == 42L);
 }
 
 TEST(NarrowTest, CheckedCast) {
-    EXPECT_TRUE(static_cast<long>(ul::narrow<unsigned char>(42l)) == 42l);
-    EXPECT_NO_THROW(ul::narrow<unsigned char>(42l));
-    EXPECT_THROW(ul::narrow<unsigned char>(300l), ul::NarrowingError);
+    EXPECT_TRUE(static_cast<long>(ul::narrow<unsigned char>(42L)) == 42L);
+    EXPECT_NO_THROW(ul::narrow<unsigned char>(42L));
+    EXPECT_THROW(ul::narrow<unsigned char>(300L), ul::NarrowingError);
 }
 
 TEST(NarrowTest, Misc) {
@@ -37,9 +37,9 @@ TEST(NarrowTest, floating_point) {
 
     if (enable_float_precision_test) {
 #if !UL_DEBUG \
-    && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50300 \
-        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER < 140000 \
-        || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160000)
+    && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50'300 \
+        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60'201 && UL_COMP_GNU_CPP_VER < 140'000 \
+        || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160'000)
         // absolutely no idea so far why this doesn't throw in release under these compilers :O
         EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
 #else

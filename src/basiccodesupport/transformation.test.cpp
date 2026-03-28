@@ -157,14 +157,17 @@ class OrbitAlgTest
 
 // NOLINTBEGIN
 INSTANTIATE_TEST_SUITE_P(
-    OrbitAlgMisc, OrbitAlgTest,
+    OrbitAlgMisc,
+    OrbitAlgTest,
     testing::Values(
         // cyclic
-        std::make_tuple(0, 0u, 5u),
+        std::make_tuple(0, 0U, 5U),
         // \rho-shaped
-        std::make_tuple(0, 2u, 11u), std::make_tuple(7, 97u, 17u), std::make_tuple(0, 4u, 2u),
+        std::make_tuple(0, 2U, 11U),
+        std::make_tuple(7, 97U, 17U),
+        std::make_tuple(0, 4U, 2U),
         // terminating
-        std::make_tuple(0, 101u, 0u)));
+        std::make_tuple(0, 101U, 0U)));
 
 // NOLINTEND
 
@@ -257,27 +260,28 @@ TEST_P(OrbitAlgTest, action) {
 }
 
 TEST(distanceTest, misc) {
-    const TransfEx<int> f_c{0, 0u, 5u};
-    EXPECT_EQ(ul::distance(1, 3, f_c), 2u);
-    EXPECT_EQ(ul::distance(2, 1, f_c), 4u);
-    EXPECT_EQ(ul::distance(2, 2, f_c), 0u);
-    EXPECT_EQ(ul::distance(0, 0, f_c), 0u);
-    EXPECT_EQ(ul::distance(4, 4, f_c), 0u);
-    EXPECT_EQ(ul::distance(4, 0, f_c), 1u);
+    const TransfEx<int> f_c{0, 0U, 5U};
+    EXPECT_EQ(ul::distance(1, 3, f_c), 2U);
+    EXPECT_EQ(ul::distance(2, 1, f_c), 4U);
+    EXPECT_EQ(ul::distance(2, 2, f_c), 0U);
+    EXPECT_EQ(ul::distance(0, 0, f_c), 0U);
+    EXPECT_EQ(ul::distance(4, 4, f_c), 0U);
+    EXPECT_EQ(ul::distance(4, 0, f_c), 1U);
 
-    const TransfEx<int> f_r{0, 4u, 2u};
-    EXPECT_EQ(ul::distance(0, 5, f_r), 5u);
+    const TransfEx<int> f_r{0, 4U, 2U};
+    EXPECT_EQ(ul::distance(0, 5, f_r), 5U);
 
-    const TransfEx<int> f_t{0, 4u, 0u};
-    EXPECT_EQ(ul::distance(0, 4, f_t), 4u);
+    const TransfEx<int> f_t{0, 4U, 0U};
+    EXPECT_EQ(ul::distance(0, 4, f_t), 4U);
 
     EXPECT_EQ(
         ul::distance(
-            1, 5,
+            1,
+            5,
             [](int x) {
                 return x + 1;
             }),
-        4u);
+        4U);
 
     static_assert(ul::Action<
                   decltype([](int& x) {
@@ -286,11 +290,12 @@ TEST(distanceTest, misc) {
                   int&>);
     EXPECT_EQ(
         ul::distance_action<int>(
-            1, 5,
+            1,
+            5,
             [](int& x) {
                 ++x;
             }),
-        4u);
+        4U);
 }
 
 TEST(intersectTest, both_terminating) {
@@ -321,11 +326,11 @@ TEST(intersectTest, both_non_terminating) {
 }
 
 TEST(convergent_point_guardedTest, misc) {
-    EXPECT_TRUE(ul::convergent_point_guarded(1024, 64, hf<int>, hf_pred) == 64);
-    EXPECT_TRUE(ul::convergent_point_guarded(1025, 65, hf<int>, hf_pred) == 32);
-    EXPECT_TRUE(ul::convergent_point_guarded(64, 1024, hf<int>, hf_pred) == 64);
-    EXPECT_TRUE(ul::convergent_point_guarded(65, 1025, hf<int>, hf_pred) == 32);
-    EXPECT_TRUE(ul::convergent_point_guarded(1024, 2047, hf<int>, hf_pred) == 1);
+    EXPECT_TRUE(ul::convergent_point_guarded(1'024, 64, hf<int>, hf_pred) == 64);
+    EXPECT_TRUE(ul::convergent_point_guarded(1'025, 65, hf<int>, hf_pred) == 32);
+    EXPECT_TRUE(ul::convergent_point_guarded(64, 1'024, hf<int>, hf_pred) == 64);
+    EXPECT_TRUE(ul::convergent_point_guarded(65, 1'025, hf<int>, hf_pred) == 32);
+    EXPECT_TRUE(ul::convergent_point_guarded(1'024, 2'047, hf<int>, hf_pred) == 1);
 }
 
 TEST(orbit_dumpTest, test) {
@@ -348,7 +353,8 @@ TEST(orbit_dumpTest, dumps) {
     ul::dump_test_name();
     orbit_dump(std::cout, transf_ex_terminating_orbit, transf_ex_terminating_orbit_pred, "transf_ex_terminating_orbit");
     orbit_dump(
-        std::cout, transf_ex_non_terminating_orbit,
+        std::cout,
+        transf_ex_non_terminating_orbit,
         [](int) {
             return true;
         },

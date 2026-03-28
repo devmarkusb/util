@@ -97,18 +97,18 @@ TEST(utf8cpp_iteratorTest, test) {
     utf8::iterator<char*> it(threechars, threechars, threechars + 9);
     utf8::iterator<char*> it2 = it;
     EXPECT_EQ(it2, it);
-    EXPECT_EQ(0x10346u, *it);
-    EXPECT_EQ(0x65e5u, *(++it));
-    EXPECT_EQ(0x65e5u, (*it++));
-    EXPECT_EQ(0x0448u, *it);
+    EXPECT_EQ(0x1'0346U, *it);
+    EXPECT_EQ(0x65e5U, *(++it));
+    EXPECT_EQ(0x65e5U, *it++);
+    EXPECT_EQ(0x0448U, *it);
     EXPECT_NE(it, it2);
     utf8::iterator<char*> endit(threechars + 9, threechars, threechars + 9);
     EXPECT_EQ(++it, endit);
-    EXPECT_EQ(0x0448u, *(--it));
-    EXPECT_EQ(0x0448u, (*it--));
-    EXPECT_EQ(0x65e5u, *it);
+    EXPECT_EQ(0x0448U, *(--it));
+    EXPECT_EQ(0x0448U, *it--);
+    EXPECT_EQ(0x65e5U, *it);
     EXPECT_EQ(--it, utf8::iterator<char*>(threechars, threechars, threechars + 9));
-    EXPECT_EQ(0x10346u, *it);
+    EXPECT_EQ(0x1'0346U, *it);
 }
 
 TEST(utf8cpp_8to16to8Test, test) {
@@ -116,14 +116,14 @@ TEST(utf8cpp_8to16to8Test, test) {
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
     std::vector<unsigned short> utf16result;
     utf8::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, std::back_inserter(utf16result));
-    EXPECT_EQ(4u, utf16result.size());
+    EXPECT_EQ(4U, utf16result.size());
     EXPECT_EQ(0xd834, utf16result[2]);
     EXPECT_EQ(0xdd1e, utf16result[3]);
 
     unsigned short utf16string[] = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     std::vector<unsigned char> utf8result;
     utf8::utf16to8(utf16string, utf16string + 5, back_inserter(utf8result));
-    EXPECT_EQ(10u, utf8result.size());
+    EXPECT_EQ(10U, utf8result.size());
 }
 
 TEST(utf8cpp_8to32to8Test, test) {
@@ -131,12 +131,12 @@ TEST(utf8cpp_8to32to8Test, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     std::vector<int> utf32result;
     utf8::utf8to32(twochars, twochars + 5, std::back_inserter(utf32result));
-    EXPECT_EQ(2u, utf32result.size());
+    EXPECT_EQ(2U, utf32result.size());
 
-    int utf32string[] = {0x448, 0x65E5, 0x10346, 0};
+    int utf32string[] = {0x448, 0x65E5, 0x1'0346, 0};
     std::vector<unsigned char> utf8result;
     utf8::utf32to8(utf32string, utf32string + 3, back_inserter(utf8result));
-    EXPECT_EQ(9u, utf8result.size());
+    EXPECT_EQ(9U, utf8result.size());
 }
 
 TEST(utf8cpp_unchecked_appendTest, test) {
@@ -179,7 +179,7 @@ TEST(utf8cpp_unchecked_advanceTest, test) {
 TEST(utf8cpp_unchecked_distanceTest, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     auto dist = utf8::unchecked::distance(twochars, twochars + 5);
-    EXPECT_EQ(2u, dist);
+    EXPECT_EQ(2U, dist);
 }
 
 TEST(utf8cpp_unchecked_iteratorTest, test) {
@@ -188,18 +188,18 @@ TEST(utf8cpp_unchecked_iteratorTest, test) {
     utf8::unchecked::iterator<char*> it(threechars);
     utf8::unchecked::iterator<char*> it2 = it;
     EXPECT_EQ(it2, it);
-    EXPECT_EQ(0x10346u, *it);
-    EXPECT_EQ(0x65e5u, *++it);
-    EXPECT_EQ(0x65e5u, *it++);
-    EXPECT_EQ(0x0448u, *it);
+    EXPECT_EQ(0x1'0346U, *it);
+    EXPECT_EQ(0x65e5U, *++it);
+    EXPECT_EQ(0x65e5U, *it++);
+    EXPECT_EQ(0x0448U, *it);
     EXPECT_NE(it, it2);
     utf8::unchecked::iterator<char*> endit(threechars + 9);
     EXPECT_EQ(++it, endit);
-    EXPECT_EQ(0x0448u, *(--it));
-    EXPECT_EQ(0x0448u, (*it--));
-    EXPECT_EQ(0x65e5u, *it);
+    EXPECT_EQ(0x0448U, *(--it));
+    EXPECT_EQ(0x0448U, *it--);
+    EXPECT_EQ(0x65e5U, *it);
     EXPECT_EQ(--it, utf8::unchecked::iterator<char*>(threechars));
-    EXPECT_EQ(0x10346u, *it);
+    EXPECT_EQ(0x1'0346U, *it);
 }
 
 TEST(utf8cpp_unchecked_8to16to8Test, test) {
@@ -207,7 +207,7 @@ TEST(utf8cpp_unchecked_8to16to8Test, test) {
     char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
     /*std::vector <char16_t> */ std::u16string utf16result;
     utf8::unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, std::back_inserter(utf16result));
-    EXPECT_EQ(4u, utf16result.size());
+    EXPECT_EQ(4U, utf16result.size());
     EXPECT_EQ(0xd834, static_cast<int>(utf16result[2]));
     EXPECT_EQ(0xdd1e, static_cast<int>(utf16result[3]));
     // full result: 0x65e5 0x0448 0xd834 0xdd1e
@@ -224,7 +224,7 @@ TEST(utf8cpp_unchecked_8to16to8Test, test) {
     unsigned short utf16string[] = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     std::vector<unsigned char> utf8result;
     utf8::unchecked::utf16to8(utf16string, utf16string + 5, std::back_inserter(utf8result));
-    EXPECT_EQ(10u, utf8result.size());
+    EXPECT_EQ(10U, utf8result.size());
 }
 
 TEST(utf8cpp_unchecked_8to16to8Test, test2) {
@@ -331,15 +331,15 @@ TEST(utf8cpp_unchecked_8to32to8Test, test) {
     char twochars[] = "\xe6\x97\xa5\xd1\x88";
     std::vector<int> utf32result;
     utf8::unchecked::utf8to32(twochars, twochars + 5, std::back_inserter(utf32result));
-    EXPECT_EQ(2u, utf32result.size());
+    EXPECT_EQ(2U, utf32result.size());
     std::string back;
     utf8::unchecked::utf32to8(utf32result.begin(), utf32result.end(), std::back_inserter(back));
     EXPECT_FALSE(std::strcmp(twochars, back.c_str()));
 
-    int utf32string[] = {0x448, 0x65E5, 0x10346, 0};
+    int utf32string[] = {0x448, 0x65E5, 0x1'0346, 0};
     std::vector<unsigned char> utf8result;
     utf8::unchecked::utf32to8(utf32string, utf32string + 3, back_inserter(utf8result));
-    EXPECT_EQ(9u, utf8result.size());
+    EXPECT_EQ(9U, utf8result.size());
 }
 
 TEST(utf8cpp_unchecked_8to32to8Test, readable_test) {

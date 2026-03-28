@@ -34,6 +34,6 @@ TEST(MathRoundToTest, ToIntegralTypeIgnoreDecimalPlaces) {
 }
 
 TEST(MathRoundToTest, ToFloat) {
-    EXPECT_DOUBLE_EQ(2.9f, ul::math::round_to<float>(2.9, 1));
-    EXPECT_DOUBLE_EQ(2.0f, ul::math::round_to<float>(2.1, 0));
+    EXPECT_DOUBLE_EQ(2.9F, ul::math::round_to<float>(2.9, 1));
+    EXPECT_DOUBLE_EQ(2.0F, ul::math::round_to<float>(2.1, 0));
 }

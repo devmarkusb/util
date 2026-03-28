@@ -106,7 +106,7 @@ inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
     // Note that this isn't understood very well.
     // The test under Windows and mingw succeeds for the little_endian choice.
     // It could very well be that this doesn't hold on every platform.
-    constexpr auto max_code{0x10ffff}; // the default
+    constexpr auto max_code{0x10'ffff}; // the default
     using Cc = std::codecvt_utf8_utf16<wchar_t, max_code, std::little_endian>;
     std::wstring_convert<Cc, wchar_t> converter;
 
@@ -175,12 +175,12 @@ inline std::wstring locenc_s2ws(const std::string& s) {
 }
 
 namespace detail_impl {
-#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1900
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1'900
 #define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE 1
 #endif
 #if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
 #pragma warning(push)
-#pragma warning(disable : 4702)
+#pragma warning(disable : 4'702)
 #endif
 template <class OnConversionErrorPolicy = ConversionErrorToQuestionMark, unsigned int from, unsigned int to>
 std::string utf8_to_latin1_range(const std::string& s) {
@@ -194,15 +194,15 @@ std::string utf8_to_latin1_range(const std::string& s) {
         if (uc <= 0x7f) // NOLINT
             ui_codepoint = uc;
         else if (uc <= 0xbf) // NOLINT
-            ui_codepoint = (ui_codepoint << 6u) | (uc & 0x3fu); // NOLINT
+            ui_codepoint = (ui_codepoint << 6U) | (uc & 0x3fU); // NOLINT
         else if (uc <= 0xdf) // NOLINT
-            ui_codepoint = uc & 0x1fu; // NOLINT
+            ui_codepoint = uc & 0x1fU; // NOLINT
         else if (uc <= 0xef) // NOLINT
-            ui_codepoint = uc & 0x0fu; // NOLINT
+            ui_codepoint = uc & 0x0fU; // NOLINT
         else
-            ui_codepoint = uc & 0x07u; // NOLINT
+            ui_codepoint = uc & 0x07U; // NOLINT
         ++cptr; // NOLINT
-        if (((static_cast<unsigned char>(*cptr) & 0xc0u) != 0x80u) && (ui_codepoint <= 0x10ffffu)) { // NOLINT
+        if (((static_cast<unsigned char>(*cptr) & 0xc0U) != 0x80U) && (ui_codepoint <= 0x10'ffffU)) { // NOLINT
             bool in_range{ui_codepoint <= to};
             if constexpr (from)
                 in_range = in_range && from <= ui_codepoint;
@@ -236,9 +236,9 @@ inline std::string latin1_to_utf8(const std::string& s) {
         if (ui8 < 0x80) // NOLINT
             ret.append(1, c);
         else {
-            const auto c_pt1 = 0xc0u | (ui8 & 0xc0u) >> 6u; // NOLINT
+            const auto c_pt1 = 0xc0U | (ui8 & 0xc0U) >> 6U; // NOLINT
             ret.append(1, static_cast<char>(c_pt1));
-            const auto c_pt2 = 0x80u | (ui8 & 0x3fu); // NOLINT
+            const auto c_pt2 = 0x80U | (ui8 & 0x3fU); // NOLINT
             ret.append(1, static_cast<char>(c_pt2));
         }
     }

@@ -28,6 +28,6 @@ TEST(EnumCast_as_numberTest, TypeSpecific) {
         second,
     };
     auto number = ul::enum_cast(EC::first);
-    EXPECT_EQ(1ul, number);
+    EXPECT_EQ(1UL, number);
     EXPECT_TRUE(typeid(number) == typeid(uint64_t));
 }
