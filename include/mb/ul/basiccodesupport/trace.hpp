@@ -188,7 +188,8 @@ inline StreamTracer& operator<<(StreamTracer& t, const StreamTraceEndOfLine& /*u
 }
 
 template <
-    class EnabledIfPolicy, class OutputToIDEWindowPolicy = OutputToIDEWindow,
+    class EnabledIfPolicy,
+    class OutputToIDEWindowPolicy = OutputToIDEWindow,
     class OutputToConsolePolicy = NoOutputToConsole>
 struct StreamTracerImpl : public StreamTracer {
     StreamTracerImpl(bool close_stderr, bool close_stdout)
@@ -257,8 +258,10 @@ inline StreamTracer& stream() {
                             bind stderr (cerr) - which is done by default and used for traces
                             to the console - but also stdout (cout) to the console window output.*/
 template <
-    class EnabledIfPolicy = Enabled, class OutputToIDEWindowPolicy = OutputToIDEWindow,
-    class OutputToConsolePolicy = NoOutputToConsole, class CheckConsoleOpenPolicy = DontCheckConsoleOpen,
+    class EnabledIfPolicy = Enabled,
+    class OutputToIDEWindowPolicy = OutputToIDEWindow,
+    class OutputToConsolePolicy = NoOutputToConsole,
+    class CheckConsoleOpenPolicy = DontCheckConsoleOpen,
     class AlsoBindStdoutToNewConsolePolicy = DontAlsoBindStdout>
 // EnabledIfPolicy expected to be Enabled or Disabled
 // OutputToIDEWindowPolicy expected to be OutputToIDEWindow or NoOutputToIDEWindow

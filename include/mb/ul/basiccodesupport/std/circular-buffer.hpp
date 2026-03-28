@@ -134,7 +134,7 @@ public:
     }
 
     [[nodiscard]] bool empty() const noexcept {
-        return (!full_ && (head_ == tail_));
+        return !full_ && (head_ == tail_);
     }
 
     [[nodiscard]] bool full() const noexcept {

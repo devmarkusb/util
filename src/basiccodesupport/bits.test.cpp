@@ -26,15 +26,15 @@ TEST(bits_countSetBits, various) {
     EXPECT_EQ(ul::bits::count_set(0b11), 2);
     EXPECT_EQ(ul::bits::count_set(0b101), 2);
     EXPECT_EQ(ul::bits::count_set(0b111), 3);
-    EXPECT_EQ(ul::bits::count_set(0b1111110), 6);
-    EXPECT_EQ(ul::bits::count_set(0b1111110111), 9);
-    EXPECT_EQ(ul::bits::count_set(0b10000000000), 1);
+    EXPECT_EQ(ul::bits::count_set(0b111'1110), 6);
+    EXPECT_EQ(ul::bits::count_set(0b11'1111'0111), 9);
+    EXPECT_EQ(ul::bits::count_set(0b100'0000'0000), 1);
 }
 
 TEST(bits_set, various) {
     EXPECT_EQ(ul::bits::set(0b000U, 0U), 0b001);
     EXPECT_EQ(ul::bits::set(0b000U, 1U), 0b010);
-    EXPECT_EQ(ul::bits::set<uint8_t>(0b1, 7), 0b10000001);
+    EXPECT_EQ(ul::bits::set<uint8_t>(0b1, 7), 0b1000'0001);
     EXPECT_DEBUG_DEATH(ul::bits::set<uint8_t>(0b1, 8), ul::death_assert_regex);
 }
 
@@ -82,7 +82,7 @@ TEST(bits_unsetMask, various) {
     EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b001U), 0b110U);
     EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b010U), 0b101U);
     EXPECT_EQ(ul::bits::unset_mask(0b111U, 0b101U), 0b010U);
-    EXPECT_EQ(ul::bits::unset_mask<uint8_t>((1u << 7U) | 0b1U, 1u << 7U), 0b1U);
+    EXPECT_EQ(ul::bits::unset_mask<uint8_t>((1U << 7U) | 0b1U, 1U << 7U), 0b1U);
 }
 
 TEST(bits_toggleMask, various) {
@@ -137,19 +137,19 @@ TEST(bits_set_range, lowestTwoBits) {
 }
 
 TEST(bits_set_range, someMiddleRangeOfBits) {
-    EXPECT_EQ(ul::bits::set_range(3, 6), 0b111111000U);
+    EXPECT_EQ(ul::bits::set_range(3, 6), 0b1'1111'1000U);
 }
 
 TEST(bits_set_range, someMiddleRangeOfBits_castedToSufficientSmallerType) {
-    EXPECT_EQ(ul::bits::set_range<uint8_t>(2, 6), 0b11111100U);
+    EXPECT_EQ(ul::bits::set_range<uint8_t>(2, 6), 0b1111'1100U);
     EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
-    EXPECT_EQ(ul::bits::set_range<uint16_t>(2, 7), 0b111111100U);
+    EXPECT_EQ(ul::bits::set_range<uint16_t>(2, 7), 0b1'1111'1100U);
 }
 
 TEST(bits_read, typical) {
-    EXPECT_EQ(ul::bits::read(0b11000101100U, 2, 5), 0b01011U);
-    const auto x = ul::bits::read_and_cast<uint8_t>(uint16_t{0b11000101100u}, 2, 5);
-    EXPECT_EQ(x, uint8_t{0b01011});
+    EXPECT_EQ(ul::bits::read(0b110'0010'1100U, 2, 5), 0b0'1011U);
+    const auto x = ul::bits::read_and_cast<uint8_t>(uint16_t{0b110'0010'1100U}, 2, 5);
+    EXPECT_EQ(x, uint8_t{0b0'1011});
     EXPECT_DEBUG_DEATH(ul::bits::set_range<uint8_t>(2, 7), ul::death_assert_regex);
 }
 
@@ -163,70 +163,70 @@ constexpr TargetType read_from16_testhelper(uint16_t data, ul::bits::Idx idx, ul
 } // namespace
 
 TEST(bits_read, range_overflows) {
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 2, 7), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 9, 0), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 0, 9), ul::death_assert_regex);
-    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b11000101100U, 2, 9), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b1010'1100U, 2, 7), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b1010'1100U, 9, 0), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b1010'1100U, 0, 9), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(read_from16_testhelper<uint8_t>(0b110'0010'1100U, 2, 9), ul::death_assert_regex);
 }
 
 TEST(bits_read, none) {
-    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b10101100U, 2, 0), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::read<uint8_t>(0b1010'1100U, 2, 0), ul::death_assert_regex);
 }
 
 TEST(bits_read, one) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 2, 1), 1);
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101000U, 2, 1), 0);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b1010'1100U, 2, 1), 1);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b1010'1000U, 2, 1), 0);
 }
 
 TEST(bits_read, last) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 7, 1), 1);
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b00101100U, 7, 1), 0);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b1010'1100U, 7, 1), 1);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b0010'1100U, 7, 1), 0);
 }
 
 TEST(bits_read, all) {
-    EXPECT_EQ(ul::bits::read<uint8_t>(0b10101100U, 0, 8), 0b10101100U);
+    EXPECT_EQ(ul::bits::read<uint8_t>(0b1010'1100U, 0, 8), 0b1010'1100U);
 }
 
 TEST(bits_read, types) {
-    auto x = ul::bits::read<uint8_t>(0b10101100U, 2, 1);
+    auto x = ul::bits::read<uint8_t>(0b1010'1100U, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
-    auto x2 = ul::bits::read<uint16_t>(0b10101100U, 2, 1);
+    auto x2 = ul::bits::read<uint16_t>(0b1010'1100U, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 
     // the actually interesting one
-    uint8_t u8{0b10101100u};
+    uint8_t u8{0b1010'1100U};
     auto x3 = ul::bits::read(u8, 2, 1);
     static_assert(std::is_same_v<decltype(x3), uint8_t>);
 }
 
 TEST(bits_read, types_cast) {
-    auto x = ul::bits::read_and_cast<uint8_t, uint16_t>(0b10101100U, 2, 1);
+    auto x = ul::bits::read_and_cast<uint8_t, uint16_t>(0b1010'1100U, 2, 1);
     static_assert(std::is_same_v<decltype(x), uint8_t>);
-    auto x2 = ul::bits::read_and_cast<uint16_t>(uint32_t{0b10101100u}, 2, 1);
+    auto x2 = ul::bits::read_and_cast<uint16_t>(uint32_t{0b1010'1100U}, 2, 1);
     static_assert(std::is_same_v<decltype(x2), uint16_t>);
 }
 
 TEST(bits_write, typical) {
-    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b01011U), 0b11000101100U);
-    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b11111U), 0b11001111100U);
-    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b00000U), 0b11000000000U);
-    EXPECT_EQ(ul::bits::write(0b11000101100U, 2, 5, 0b10101U), 0b11001010100U);
+    EXPECT_EQ(ul::bits::write(0b110'0010'1100U, 2, 5, 0b0'1011U), 0b110'0010'1100U);
+    EXPECT_EQ(ul::bits::write(0b110'0010'1100U, 2, 5, 0b1'1111U), 0b110'0111'1100U);
+    EXPECT_EQ(ul::bits::write(0b110'0010'1100U, 2, 5, 0b0'0000U), 0b110'0000'0000U);
+    EXPECT_EQ(ul::bits::write(0b110'0010'1100U, 2, 5, 0b1'0101U), 0b110'0101'0100U);
 }
 
 TEST(bits_write, different_sizes) {
-    uint16_t x16{0b11000101100};
-    uint8_t x8{0b101001};
-    EXPECT_EQ(ul::bits::write(x16, 0, 3, x8), 0b11000101001U);
-    EXPECT_EQ(ul::bits::write(x8, 0, 3, x16), 0b101100U);
+    uint16_t x16{0b110'0010'1100};
+    uint8_t x8{0b10'1001};
+    EXPECT_EQ(ul::bits::write(x16, 0, 3, x8), 0b110'0010'1001U);
+    EXPECT_EQ(ul::bits::write(x8, 0, 3, x16), 0b10'1100U);
 }
 
 TEST(bits_write, none) {
-    EXPECT_DEBUG_DEATH(ul::bits::write(0b10101100U, 2, 0, 1U), ul::death_assert_regex);
+    EXPECT_DEBUG_DEATH(ul::bits::write(0b1010'1100U, 2, 0, 1U), ul::death_assert_regex);
 }
 
 TEST(bits_write, one) {
-    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 1U), 0b10101100U);
-    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 0U), 0b10101000U);
+    EXPECT_EQ(ul::bits::write(0b1010'1100U, 2, 1, 1U), 0b1010'1100U);
+    EXPECT_EQ(ul::bits::write(0b1010'1100U, 2, 1, 0U), 0b1010'1000U);
 }
 
 namespace {
@@ -247,18 +247,18 @@ TEST(bits_write, range_overflows) {
 }
 
 TEST(bits_write, last) {
-    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100U, 7, 1, 0U), 0b00101100U);
-    EXPECT_EQ(ul::bits::write<uint8_t>(0b10101100U, 7, 1, 1U), 0b10101100U);
-    EXPECT_EQ(ul::bits::write(0b10101100U, 2, 1, 0U), 0b10101000U);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 7, 1, 0b1U), 0b10101100U);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 7, 1, 0b0U), 0b00101100U);
+    EXPECT_EQ(ul::bits::write<uint8_t>(0b1010'1100U, 7, 1, 0U), 0b0010'1100U);
+    EXPECT_EQ(ul::bits::write<uint8_t>(0b1010'1100U, 7, 1, 1U), 0b1010'1100U);
+    EXPECT_EQ(ul::bits::write(0b1010'1100U, 2, 1, 0U), 0b1010'1000U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b1010'1100U, 7, 1, 0b1U), 0b1010'1100U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b1010'1100U, 7, 1, 0b0U), 0b0010'1100U);
 }
 
 TEST(bits_write, all) {
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 0, 8, 0b11111111U), 0b11111111U);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b10101100U, 0, 8, 0), 0);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b11111111U, 0, 8, 0b10101100U), 0b10101100U);
-    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b00000000U, 0, 8, 0b10101100U), 0b10101100U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b1010'1100U, 0, 8, 0b1111'1111U), 0b1111'1111U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b1010'1100U, 0, 8, 0), 0);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b1111'1111U, 0, 8, 0b1010'1100U), 0b1010'1100U);
+    EXPECT_EQ(write_to8_testhelper<uint8_t>(0b0000'0000U, 0, 8, 0b1010'1100U), 0b1010'1100U);
 }
 
 TEST(bits_BitArray, construct) {
@@ -391,8 +391,8 @@ TEST(bits_Field, one) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
-    s.bits_.set(S::Field::number, 1234U);
-    EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
+    s.bits_.set(S::Field::number, 1'234U);
+    EXPECT_EQ(s.bits_.get(S::Field::number), 1'234);
 }
 
 TEST(bits_Field, some_capacity_left) {
@@ -406,8 +406,8 @@ TEST(bits_Field, some_capacity_left) {
     } s;
 
     EXPECT_EQ(s.bits_.get(S::Field::number), 0);
-    s.bits_.set(S::Field::number, 1234U);
-    EXPECT_EQ(s.bits_.get(S::Field::number), 1234);
+    s.bits_.set(S::Field::number, 1'234U);
+    EXPECT_EQ(s.bits_.get(S::Field::number), 1'234);
 }
 
 TEST(bits_Field, overflow) {
@@ -421,7 +421,7 @@ TEST(bits_Field, overflow) {
             ul::bits::Fields<uint32_t, Field, ul::enum_cast(Field::end)> bits_{16, 17};
         } s;
     };
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80200 && UL_COMP_GNU_CPP_VER < 90000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80'200 && UL_COMP_GNU_CPP_VER < 90'000
     ul::ignore_unused(lambda);
     // strange and disturbing, it just terminates when throwing
     //{

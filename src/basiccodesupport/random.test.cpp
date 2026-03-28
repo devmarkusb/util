@@ -7,7 +7,7 @@
 namespace ul = mb::ul;
 
 TEST(RandomTest, random_frac) {
-    const int num_samples = 10000;
+    const int num_samples = 10'000;
     std::vector<double> samples;
     samples.reserve(num_samples);
 

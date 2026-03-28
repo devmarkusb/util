@@ -19,9 +19,9 @@ TEST(FloatingPointTest, to_string_misc) {
     EXPECT_STREQ("4.56", ul::math::to_string<ul::math::FloatFormat::fixed>(4.556, 2).c_str());
 
     const auto s1 = ul::math::to_string<ul::math::FloatFormat::scientific>(4.556);
-    EXPECT_EQ(0u, s1.find("4.556000e+00"));
+    EXPECT_EQ(0U, s1.find("4.556000e+00"));
     const auto s2 = ul::math::to_string<ul::math::FloatFormat::scientific>(4.556, 2);
-    EXPECT_EQ(0u, s2.find("4.56e+00"));
+    EXPECT_EQ(0U, s2.find("4.56e+00"));
 }
 
 TEST(FloatingPointTest, ApproxEqual) {
@@ -31,9 +31,9 @@ TEST(FloatingPointTest, ApproxEqual) {
     EXPECT_FALSE(mb::ul::math::approx_equal(1.0, 1.1, 0.0001));
 
     // Test with float
-    EXPECT_TRUE(mb::ul::math::approx_equal(1.0f, 1.0f, 0.0001f));
-    EXPECT_TRUE(mb::ul::math::approx_equal(1.0f, 1.00001f, 0.0001f));
-    EXPECT_FALSE(mb::ul::math::approx_equal(1.0f, 1.1f, 0.0001f));
+    EXPECT_TRUE(mb::ul::math::approx_equal(1.0F, 1.0F, 0.0001F));
+    EXPECT_TRUE(mb::ul::math::approx_equal(1.0F, 1.00001F, 0.0001F));
+    EXPECT_FALSE(mb::ul::math::approx_equal(1.0F, 1.1F, 0.0001F));
 
     // Test with long double
     EXPECT_TRUE(mb::ul::math::approx_equal(1.0L, 1.0L, 0.0001L));
@@ -90,9 +90,9 @@ TEST(FloatingPointTest, ToStringDefault) {
     EXPECT_EQ(mb::ul::math::to_string(3.14159, 5), "3.1416");
 
     // Test with float
-    EXPECT_EQ(mb::ul::math::to_string(3.14159f), "3.141590");
-    EXPECT_EQ(mb::ul::math::to_string(3.14159f, 3), "3.14");
-    EXPECT_EQ(mb::ul::math::to_string(3.14159f, 5), "3.1416");
+    EXPECT_EQ(mb::ul::math::to_string(3.14159F), "3.141590");
+    EXPECT_EQ(mb::ul::math::to_string(3.14159F, 3), "3.14");
+    EXPECT_EQ(mb::ul::math::to_string(3.14159F, 5), "3.1416");
 
     // Test with long double
     EXPECT_EQ(mb::ul::math::to_string(3.14159L), "3.141590");
@@ -145,9 +145,9 @@ TEST(FloatingPointTest, ToStringFixed) {
     EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159, 5), "3.14159");
 
     // Test with float
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159f), "3.141590");
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159f, 3), "3.142");
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159f, 5), "3.14159");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159F), "3.141590");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159F, 3), "3.142");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159F, 5), "3.14159");
 
     // Test with long double
     EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::fixed>(3.14159L), "3.141590");
@@ -192,9 +192,9 @@ TEST(FloatingPointTest, ToStringScientific) {
     EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159, 5), "3.14159e+00");
 
     // Test with float
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159f), "3.141590e+00");
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159f, 3), "3.142e+00");
-    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159f, 5), "3.14159e+00");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159F), "3.141590e+00");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159F, 3), "3.142e+00");
+    EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159F, 5), "3.14159e+00");
 
     // Test with long double
     EXPECT_EQ(mb::ul::math::to_string<mb::ul::math::FloatFormat::scientific>(3.14159L), "3.141590e+00");

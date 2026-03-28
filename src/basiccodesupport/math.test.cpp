@@ -73,7 +73,7 @@ TEST(math_NextGreaterOrEqPow2, ints) {
 TEST(math_NextGreaterOrEqPow2, int_neg) {
     static_assert(ul::math::NextGreaterOrEqPow2<int, -1>::value() == 1);
     static_assert(ul::math::NextGreaterOrEqPow2<int, -2>::value() == 1);
-    static_assert(ul::math::NextGreaterOrEqPow2<int, -1000>::value() == 1);
+    static_assert(ul::math::NextGreaterOrEqPow2<int, -1'000>::value() == 1);
 }
 
 TEST(math_NextGreaterOrEqPow2, uint8_t_zero) {
@@ -132,7 +132,7 @@ TEST(math_NextGreaterPow2, ints) {
 TEST(math_NextGreaterPow2, int_neg) {
     static_assert(ul::math::NextGreaterPow2<int, -1>::value() == 1);
     static_assert(ul::math::NextGreaterPow2<int, -2>::value() == 1);
-    static_assert(ul::math::NextGreaterPow2<int, -1000>::value() == 1);
+    static_assert(ul::math::NextGreaterPow2<int, -1'000>::value() == 1);
 }
 #endif
 

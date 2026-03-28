@@ -11,7 +11,8 @@ TEST(exception_Capture, basics) {
         [](std::string_view s) {
             throw std::runtime_error{s.data()};
         },
-        "test error 1"};
+        "test error 1"
+    };
     EXPECT_THROW(ec1.rethrow(), std::runtime_error);
     try {
         ec1.rethrow();

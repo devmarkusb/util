@@ -115,7 +115,10 @@ Domain<F> collision_point(const Domain<F>& x, F f, P p) {
 }
 
 template <
-    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
+    Regular Arg,
+    Action<Arg> A,
+    UnaryPredicate P,
+    Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 Domain<F> collision_point_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -145,7 +148,10 @@ bool terminating(const Domain<F>& x, F f, P p) {
 }
 
 template <
-    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
+    Regular Arg,
+    Action<Arg> A,
+    UnaryPredicate P,
+    Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 bool terminating_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -237,7 +243,10 @@ Domain<F> connection_point(const Domain<F>& x, F f, P p) {
 }
 
 template <
-    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
+    Regular Arg,
+    Action<Arg> A,
+    UnaryPredicate P,
+    Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 Domain<F> connection_point_action(Domain<F> x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);
@@ -283,7 +292,10 @@ std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure(const Do
 }
 
 template <
-    Regular Arg, Action<Arg> A, UnaryPredicate P, Transformation F = typename TransformationFromAction<Arg, A>::Type>
+    Regular Arg,
+    Action<Arg> A,
+    UnaryPredicate P,
+    Transformation F = typename TransformationFromAction<Arg, A>::Type>
     requires std::same_as<Domain<F>, Domain<P>>
 std::tuple<DistanceType<F>, DistanceType<F>, Domain<F>> orbit_structure_action(const Domain<F>& x, A f, P p) {
     // UL_EXPECT(!p(x) || f(x) defined);

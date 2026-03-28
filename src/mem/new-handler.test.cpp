@@ -28,10 +28,10 @@ TEST(NewHandlerSupportTest, test) {
 
     private:
         // about 2GB
-        int i1_[0x7ffffff]; // NOLINT
-        int i2_[0x7ffffff]; // NOLINT
-        int i3_[0x7ffffff]; // NOLINT
-        int i4_[0x7ffffff]; // NOLINT
+        int i1_[0x7ff'ffff]; // NOLINT
+        int i2_[0x7ff'ffff]; // NOLINT
+        int i3_[0x7ff'ffff]; // NOLINT
+        int i4_[0x7ff'ffff]; // NOLINT
     };
 
     ul::mem::NewHandlerSupport<C>::set_new_handler(my_new_handler);
