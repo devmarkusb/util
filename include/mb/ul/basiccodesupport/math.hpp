@@ -99,13 +99,13 @@ struct NextGreaterPow2 : public detail::NextGreaterOrEqPow2<NumberType, std::int
     Cf. https://stackoverflow.com/questions/1322510#1322548*/
 constexpr uint64_t next_greater_or_eq_pow2(uint64_t v) noexcept {
     --v;
-    v |= v >> 1u;
+    v |= v >> 1U;
     // NOLINTBEGIN
-    v |= v >> 2u;
-    v |= v >> 4u;
-    v |= v >> 8u;
-    v |= v >> 16u;
-    v |= v >> 32u;
+    v |= v >> 2U;
+    v |= v >> 4U;
+    v |= v >> 8U;
+    v |= v >> 16U;
+    v |= v >> 32U;
     // NOLINTEND
     return v + 1;
 }

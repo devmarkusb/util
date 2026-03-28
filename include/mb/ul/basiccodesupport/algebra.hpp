@@ -147,8 +147,13 @@ concept SemiRing =
     && std::is_convertible_v<Domain<OpCommutativeMonoid>, Domain<OpMonoid>>
     && std::is_convertible_v<Domain<OpMonoid>, Domain<OpCommutativeMonoid>>
     && requires(
-        OpCommutativeMonoid op_commutative_monoid, OpMonoid op_monoid, Domain<OpMonoid> a, Domain<OpMonoid> b,
-        Domain<OpMonoid> c, Domain<OpCommutativeMonoid> commutative_monoid_identity, Domain<OpMonoid> monoid_identity) {
+        OpCommutativeMonoid op_commutative_monoid,
+        OpMonoid op_monoid,
+        Domain<OpMonoid> a,
+        Domain<OpMonoid> b,
+        Domain<OpMonoid> c,
+        Domain<OpCommutativeMonoid> commutative_monoid_identity,
+        Domain<OpMonoid> monoid_identity) {
            UL_SEMANTICS {
                commutative_monoid_identity != monoid_identity;
                op_monoid(commutative_monoid_identity, a) == commutative_monoid_identity;
@@ -163,18 +168,22 @@ template <typename OpCommutativeGroup /*add*/, typename OpInvCommutativeGroup /*
 concept Ring = SemiRing<OpCommutativeGroup, OpMonoid> && Group<OpCommutativeGroup, OpInvCommutativeGroup>;
 
 template <
-    typename OpCommutativeGroup /*add*/, typename OpInvCommutativeGroup /*add*/,
+    typename OpCommutativeGroup /*add*/,
+    typename OpInvCommutativeGroup /*add*/,
     typename OpCommutativeMonoid /*multiply*/>
 concept CommutativeRing =
     Ring<OpCommutativeGroup, OpInvCommutativeGroup, OpCommutativeMonoid> && CommutativeMonoid<OpCommutativeMonoid>;
 
 template <
-    typename OpCommutativeGroup /*add*/, typename OpInvCommutativeGroup /*add*/,
+    typename OpCommutativeGroup /*add*/,
+    typename OpInvCommutativeGroup /*add*/,
     typename OpCommutativeMonoid /*multiply*/>
 concept IntegralDomain =
     CommutativeRing<OpCommutativeGroup, OpInvCommutativeGroup, OpCommutativeMonoid>
     && requires(
-        OpCommutativeMonoid op_commutative_monoid, Domain<OpCommutativeGroup> a, Domain<OpCommutativeGroup> b,
+        OpCommutativeMonoid op_commutative_monoid,
+        Domain<OpCommutativeGroup> a,
+        Domain<OpCommutativeGroup> b,
         Domain<OpCommutativeGroup> commutative_group_identity) {
            UL_SEMANTICS {
                // a * b = 0  => a = 0 || b = 0 (no other zero divisor besides 0)
@@ -185,16 +194,25 @@ concept IntegralDomain =
        };
 
 template <
-    typename OpCommutativeGroup /*add*/, typename OpInvCommutativeGroup /*add*/,
-    typename OpCommutativeMonoid /*multiply*/, typename OpQuotient, typename OpRemainder, typename OpNorm>
+    typename OpCommutativeGroup /*add*/,
+    typename OpInvCommutativeGroup /*add*/,
+    typename OpCommutativeMonoid /*multiply*/,
+    typename OpQuotient,
+    typename OpRemainder,
+    typename OpNorm>
 concept EuclideanDomain =
     IntegralDomain<OpCommutativeGroup, OpInvCommutativeGroup, OpCommutativeMonoid> && BinaryOperation<OpQuotient>
     && BinaryOperation<OpRemainder> && std::regular_invocable<OpNorm, Domain<OpCommutativeGroup>>
     && NaturalNumber<std::invoke_result_t<OpNorm, Domain<OpCommutativeGroup>>>
     && requires(
-        Domain<OpCommutativeGroup> a, Domain<OpCommutativeGroup> b,
-        Domain<OpCommutativeGroup> commutative_group_identity, OpQuotient op_quotient, OpRemainder op_remainder,
-        OpCommutativeMonoid op_commutative_monoid, OpCommutativeGroup op_commutative_group, OpNorm op_norm) {
+        Domain<OpCommutativeGroup> a,
+        Domain<OpCommutativeGroup> b,
+        Domain<OpCommutativeGroup> commutative_group_identity,
+        OpQuotient op_quotient,
+        OpRemainder op_remainder,
+        OpCommutativeMonoid op_commutative_monoid,
+        OpCommutativeGroup op_commutative_group,
+        OpNorm op_norm) {
            { op_quotient(a, b) } -> std::convertible_to<Domain<OpCommutativeGroup>>;
            { op_remainder(a, b) } -> std::convertible_to<Domain<OpCommutativeGroup>>;
            { op_norm(a) } -> NaturalNumber;
@@ -220,11 +238,18 @@ struct Abs {
 
 template <typename SetT>
 concept EuclideanDomainAddMult = EuclideanDomain<
-    std::plus<SetT>, std::negate<SetT>, std::multiplies<SetT>, std::divides<SetT>, std::modulus<SetT>, Abs<SetT>>;
+    std::plus<SetT>,
+    std::negate<SetT>,
+    std::multiplies<SetT>,
+    std::divides<SetT>,
+    std::modulus<SetT>,
+    Abs<SetT>>;
 
 template <
-    typename OpCommutativeGroup /*add*/, typename OpInvCommutativeGroup /*add*/,
-    typename OpCommutativeGroupMul /*multiply*/, typename OpInvCommutativeGroupMul /*multiply*/>
+    typename OpCommutativeGroup /*add*/,
+    typename OpInvCommutativeGroup /*add*/,
+    typename OpCommutativeGroupMul /*multiply*/,
+    typename OpInvCommutativeGroupMul /*multiply*/>
 concept Field = IntegralDomain<OpCommutativeGroup, OpInvCommutativeGroup, OpCommutativeGroupMul>
                 && Group<OpCommutativeGroupMul, OpInvCommutativeGroupMul>;
 

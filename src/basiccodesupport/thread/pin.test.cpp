@@ -29,8 +29,8 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
 }
 #else
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
-    const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
-    ASSERT_GE(num_threads, 2u); // get some modern system for development!
+    const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
+    ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
     std::vector<std::thread> threads;
     std::vector<Ready2go> ready2go(num_threads);
@@ -64,8 +64,8 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEa
 }
 #else
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
-    const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
-    ASSERT_GE(num_threads, 2u); // get some modern system for development!
+    const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
+    ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
     std::vector<std::thread> threads(num_threads);
     std::vector<Ready2go> ready2go(num_threads);
@@ -100,8 +100,8 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 #else
 // NOLINTBEGIN
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
-    const auto num_threads = std::min(2u, std::thread::hardware_concurrency());
-    ASSERT_GE(num_threads, 2u); // get some modern system for development!
+    const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
+    ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
     std::vector<std::thread> threads(num_threads);
     std::vector<Ready2go> ready2go(num_threads);
@@ -129,7 +129,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
                             switchCores();
                         }
                     } else {
-                        EXPECT_EQ(static_cast<int>(i + 1u % num_threads), ul::thread::num_logical_cores());
+                        EXPECT_EQ(static_cast<int>(i + 1U % num_threads), ul::thread::num_logical_cores());
                     }
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(num_waits));
@@ -156,7 +156,7 @@ TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEac
 #else
 TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
     const auto num_threads = std::thread::hardware_concurrency();
-    ASSERT_GT(num_threads, 0u); // hardware_concurrency failed
+    ASSERT_GT(num_threads, 0U); // hardware_concurrency failed
 
     std::vector<std::thread> threads(num_threads);
     std::vector<Ready2go> ready2go(num_threads);

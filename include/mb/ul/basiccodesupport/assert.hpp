@@ -50,9 +50,7 @@ struct FailFast : std::runtime_error {
 #else
               std::string{message}.append("\n")
 #endif
-          }
-
-    {
+          } {
     }
 };
 } // namespace mb::ul
@@ -66,7 +64,7 @@ struct FailFast : std::runtime_error {
 // Begin warning suppression, and don't end! There is no other chance, or do you know an alternative to do {...} while
 // (false)?
 UL_PRAGMA_WARNINGS_PUSH
-UL_WARNING_DISABLE_MSVC(4127)
+UL_WARNING_DISABLE_MSVC(4'127)
 
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
 #if UL_DEBUG
@@ -100,7 +98,8 @@ inline void UL_ASSERT_THROW_IMPL(
                 .append(") `")
                 .append(location.function_name())
                 .append("`\n")
-                .c_str()};
+                .c_str()
+        };
 }
 #else
 // NOLINTBEGIN

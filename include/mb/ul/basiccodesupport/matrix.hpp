@@ -48,12 +48,17 @@ std::ostream& operator<<(std::ostream& os, const Matrix<ElemT, m, n>& matrix) {
 }
 
 template <
-    size_t m, size_t k, size_t n, CommutativeMonoidOperation OpElemCommutativeMonoid /*add*/,
+    size_t m,
+    size_t k,
+    size_t n,
+    CommutativeMonoidOperation OpElemCommutativeMonoid /*add*/,
     MonoidOperation OpElemMonoid /*multiply*/>
     requires SemiRing<OpElemCommutativeMonoid, OpElemMonoid>
 auto multiply(
-    const Matrix<Domain<OpElemMonoid>, m, k>& l, const Matrix<Domain<OpElemMonoid>, k, n>& r,
-    OpElemCommutativeMonoid inner_add, OpElemMonoid inner_mul) {
+    const Matrix<Domain<OpElemMonoid>, m, k>& l,
+    const Matrix<Domain<OpElemMonoid>, k, n>& r,
+    OpElemCommutativeMonoid inner_add,
+    OpElemMonoid inner_mul) {
     Matrix<Domain<OpElemMonoid>, m, n> res{};
     for (decltype(m) i{}; i < m; ++i)
         for (decltype(k) h{}; h < k; ++h)

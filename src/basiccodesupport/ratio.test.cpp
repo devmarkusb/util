@@ -14,8 +14,8 @@ TEST(gcdTest, pathol) {
     EXPECT_EQ(42, ul::math::gcd(0, 42));
     EXPECT_EQ(1, ul::math::gcd(1, 1));
     EXPECT_EQ(1, ul::math::gcd(1, 2));
-    EXPECT_EQ(1, ul::math::gcd(1, 23432));
-    EXPECT_EQ(1, ul::math::gcd(23432, 1));
+    EXPECT_EQ(1, ul::math::gcd(1, 23'432));
+    EXPECT_EQ(1, ul::math::gcd(23'432, 1));
 }
 
 TEST(gcdTest, neg) {
@@ -56,11 +56,11 @@ TEST(RationalTest, constr) {
     const auto m = std::micro{};
     const ul::math::Rational r5{m};
     EXPECT_EQ(1, r5.num);
-    EXPECT_EQ(1000000, r5.denom);
+    EXPECT_EQ(1'000'000, r5.denom);
 
     const auto k = std::kilo{};
     const ul::math::Rational r6{k};
-    EXPECT_EQ(1000, r6.num);
+    EXPECT_EQ(1'000, r6.num);
     EXPECT_EQ(1, r6.denom);
 }
 

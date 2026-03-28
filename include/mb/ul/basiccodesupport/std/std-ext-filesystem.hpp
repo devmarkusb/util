@@ -15,7 +15,7 @@
 #include <filesystem>
 
 namespace mb::ul {
-#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1914
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'914
 namespace std_fs = std::experimental::filesystem;
 #else
 namespace std_fs = std::filesystem;
@@ -156,7 +156,8 @@ struct path {
         else
             s_.replace(
                 std::begin(s_) + static_cast<std::iterator_traits<decltype(std::begin(s_))>::difference_type>(start),
-                std::end(s_), replacement.string());
+                std::end(s_),
+                replacement.string());
 
         return *this;
     }
@@ -371,7 +372,7 @@ inline bool exists(const path& p) {
 #if UL_OS_UNIX
     struct stat dummy;
     memset(&dummy, 0, sizeof(struct stat));
-    return (stat(p.c_str(), &dummy) == 0);
+    return stat(p.c_str(), &dummy) == 0;
 #else
 #error "not implemented"
 #endif

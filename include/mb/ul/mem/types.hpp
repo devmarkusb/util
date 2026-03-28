@@ -8,13 +8,13 @@
 #include <ostream>
 
 namespace mb::ul::mem {
-const size_t kb = 1000;
-constexpr size_t mb = 1000 * kb;
-constexpr size_t gb = 1000 * mb;
+const size_t kb = 1'000;
+constexpr size_t mb = 1'000 * kb;
+constexpr size_t gb = 1'000 * mb;
 
-const size_t kib = 1024;
-constexpr size_t mib = 1024 * kb;
-constexpr size_t gib = 1024 * mb;
+const size_t kib = 1'024;
+constexpr size_t mib = 1'024 * kb;
+constexpr size_t gib = 1'024 * mb;
 
 struct Bytes {
     size_t value{};

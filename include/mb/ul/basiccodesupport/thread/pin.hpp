@@ -50,7 +50,7 @@ inline void CPU_SET(int num, cpu_set_t* cs) {
 }
 
 inline int CPU_ISSET(int num, cpu_set_t* cs) {
-    return (cs->count & cpu_mask(num)) != 0u ? 1 : 0;
+    return (cs->count & cpu_mask(num)) != 0U ? 1 : 0;
 }
 
 inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
@@ -73,7 +73,7 @@ inline int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* 
     thread_port_t mach_thread;
     size_t core = 0;
 
-    for (core = 0; core < 8u * cpu_size; ++core) {
+    for (core = 0; core < 8U * cpu_size; ++core) {
         if (CPU_ISSET(static_cast<int>(core), cpu_set))
             break;
     }

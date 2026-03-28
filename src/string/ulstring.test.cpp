@@ -61,6 +61,6 @@ TEST(ulStringTest, get_length_edge_cases) {
     EXPECT_ANY_THROW(ul::str::get_length(invalid_utf8));
 
     // Test with very long string
-    std::string long_string(1000, 'a');
-    EXPECT_EQ(ul::str::get_length(long_string), 1000);
+    std::string long_string(1'000, 'a');
+    EXPECT_EQ(ul::str::get_length(long_string), 1'000);
 }

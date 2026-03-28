@@ -6,13 +6,13 @@
 #include "config.hpp"
 #include "macros.hpp"
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
 #define UL_HAS_LLROUND 0
 #else
 #define UL_HAS_LLROUND 1
 #endif
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
 #define UL_HAS_STOI 0
 #else
 #define UL_HAS_STOI 1
@@ -20,7 +20,7 @@
 
 #define UL_HAS_FROM_STRING 0
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
 #define UL_HAS_TO_STRING 0
 #else
 #define UL_HAS_TO_STRING 1
@@ -45,7 +45,7 @@ inline int64_t llround(FloatingPointNumber x) {
 #if UL_HAS_LLROUND
     return std::llround(x);
 #else
-    return static_cast<long long>(x < 0.0f ? x - 0.5f : x + 0.5f);
+    return static_cast<long long>(x < 0.0F ? x - 0.5F : x + 0.5F);
 #endif
 }
 

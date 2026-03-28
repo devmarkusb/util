@@ -43,7 +43,11 @@ struct CtMapTT<TypeForValue, not_found_value> {
 };
 
 template <
-    typename TypeForKey, typename TypeForValue, TypeForValue not_found_value, TypeForKey key, TypeForValue value,
+    typename TypeForKey,
+    typename TypeForValue,
+    TypeForValue not_found_value,
+    TypeForKey key,
+    TypeForValue value,
     typename... FurtherKeyValuEs>
 struct CtMapTT<TypeForValue, not_found_value, KeyValue<TypeForKey, TypeForValue, key, value>, FurtherKeyValuEs...> {
     template <TypeForKey this_key>

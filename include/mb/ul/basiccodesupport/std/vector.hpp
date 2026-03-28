@@ -26,7 +26,8 @@ void move_range(size_t start, size_t length, size_t dst, std::vector<T>& v) {
         v.insert(v.end(), std::make_move_iterator(tmp.begin()), std::make_move_iterator(tmp.end()));
     else
         v.insert(
-            v.begin() + static_cast<ptrdiff_t>(final_dst), std::make_move_iterator(tmp.begin()),
+            v.begin() + static_cast<ptrdiff_t>(final_dst),
+            std::make_move_iterator(tmp.begin()),
             std::make_move_iterator(tmp.end()));
 }
 } // namespace mb::ul::vector

@@ -60,7 +60,7 @@ TEST(ToFormattedStringTest, Neg) {
 }
 
 TEST(ToFormattedStringTest, Inf) {
-    EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::to_formatted_string(360000));
+    EXPECT_EQ(">= 100 h", ul::PerformanceProfiler::to_formatted_string(360'000));
 }
 
 // NOLINTBEGIN
@@ -93,65 +93,65 @@ TEST(DumpAllItemsTest, DISABLED_PracticalScenario) {
     perfscope0.stop_item();
     std::cout << ul::PerformanceProfiler::dump_all_items<ul::PerformanceProfiler::DumpFormat::string_and_structure>();
     const std::vector<ul::PerformanceProfiler::DumpDataset>& data = ul::PerformanceProfiler::dumped_data();
-    ASSERT_EQ(9u, data.size());
+    ASSERT_EQ(9U, data.size());
     EXPECT_EQ("1. 500ms", data[0].item_name);
-    EXPECT_EQ(1u, data[0].count);
+    EXPECT_EQ(1U, data[0].count);
     EXPECT_NEAR(0.5, data[0].total, 0.02);
     EXPECT_NEAR(0.5, data[0].average, 0.02);
     EXPECT_NEAR(0.5, data[0].mean, 0.02);
     EXPECT_NEAR(0.0, data[0].std_dev, 0.0);
 
     EXPECT_EQ("2. nest0", data[1].item_name);
-    EXPECT_EQ(1u, data[1].count);
+    EXPECT_EQ(1U, data[1].count);
     EXPECT_NEAR(2.8, data[1].total, 0.1);
     EXPECT_NEAR(2.8, data[1].average, 0.1);
     EXPECT_NEAR(2.8, data[1].mean, 0.1);
     EXPECT_NEAR(0.0, data[1].std_dev, 0.0);
 
     EXPECT_EQ(" 3. 100ms", data[2].item_name);
-    EXPECT_EQ(1u, data[2].count);
+    EXPECT_EQ(1U, data[2].count);
     EXPECT_NEAR(0.1, data[2].total, 0.02);
     EXPECT_NEAR(0.1, data[2].average, 0.02);
     EXPECT_NEAR(0.1, data[2].mean, 0.02);
     EXPECT_NEAR(0.0, data[2].std_dev, 0.0);
 
     EXPECT_EQ(" 4. nest1", data[3].item_name);
-    EXPECT_EQ(1u, data[3].count);
+    EXPECT_EQ(1U, data[3].count);
     EXPECT_NEAR(2.7, data[3].total, 0.1);
     EXPECT_NEAR(2.7, data[3].average, 0.1);
     EXPECT_NEAR(2.7, data[3].mean, 0.1);
     EXPECT_NEAR(0.0, data[3].std_dev, 0.0);
 
     EXPECT_EQ("  5. for", data[4].item_name);
-    EXPECT_EQ(1u, data[4].count);
+    EXPECT_EQ(1U, data[4].count);
     EXPECT_NEAR(2.5, data[4].total, 0.1);
     EXPECT_NEAR(2.5, data[4].average, 0.1);
     EXPECT_NEAR(2.5, data[4].mean, 0.1);
     EXPECT_NEAR(0.0, data[4].std_dev, 0.0);
 
     EXPECT_EQ("   6. 500ms", data[5].item_name);
-    EXPECT_EQ(5u, data[5].count);
+    EXPECT_EQ(5U, data[5].count);
     EXPECT_NEAR(2.5, data[5].total, 0.1);
     EXPECT_NEAR(0.5, data[5].average, 0.02);
     EXPECT_NEAR(0.5, data[5].mean, 0.02);
     EXPECT_NEAR(0.0, data[5].std_dev, 0.02);
 
     EXPECT_EQ("  7. 200ms", data[6].item_name);
-    EXPECT_EQ(1u, data[6].count);
+    EXPECT_EQ(1U, data[6].count);
     EXPECT_NEAR(0.2, data[6].total, 0.02);
     EXPECT_NEAR(0.2, data[6].average, 0.02);
     EXPECT_NEAR(0.2, data[6].mean, 0.02);
     EXPECT_NEAR(0.0, data[6].std_dev, 0.0);
 
     EXPECT_EQ("8. 300ms", data[7].item_name);
-    EXPECT_EQ(1u, data[7].count);
+    EXPECT_EQ(1U, data[7].count);
     EXPECT_NEAR(0.3, data[7].total, 0.02);
     EXPECT_NEAR(0.3, data[7].average, 0.02);
     EXPECT_NEAR(0.3, data[7].mean, 0.02);
     EXPECT_NEAR(0.0, data[7].std_dev, 0.0);
 
     EXPECT_EQ("9. 100ms", data[8].item_name);
-    EXPECT_EQ(1u, data[8].count);
+    EXPECT_EQ(1U, data[8].count);
     EXPECT_NEAR(0.1, data[8].total, 0.02);
     EXPECT_NEAR(0.1, data[8].average, 0.02);
     EXPECT_NEAR(0.1, data[8].mean, 0.02);
@@ -161,7 +161,7 @@ TEST(DumpAllItemsTest, DISABLED_PracticalScenario) {
     EXPECT_STREQ(
         ul::PerformanceProfiler::dump_all_items<ul::PerformanceProfiler::DumpFormat::string_and_structure>().c_str(),
         "No performance measurement data.\n");
-    EXPECT_EQ(0u, data.size());
+    EXPECT_EQ(0U, data.size());
 }
 
 // NOLINTEND

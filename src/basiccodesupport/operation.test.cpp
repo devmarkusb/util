@@ -10,7 +10,8 @@ TEST(power_opt2Test, misc) {
     EXPECT_EQ(ul::power_pos(2, 4, std::multiplies<int>{}), 16);
     EXPECT_EQ(
         ul::power_pos(
-            2, 4,
+            2,
+            4,
             [](int a, int b) {
                 return a * b;
             }),

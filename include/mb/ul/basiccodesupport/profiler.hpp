@@ -222,7 +222,9 @@ std::string PerformanceProfiler::dump_all_items() {
     using TKeySet_unsorted = std::map<ItemNameAsKey, impl_dump_all_items::KeyData>;
     TKeySet_unsorted keys_unsorted;
     std::transform(
-        items().begin(), items().end(), std::inserter(keys_unsorted, keys_unsorted.begin()),
+        items().begin(),
+        items().end(),
+        std::inserter(keys_unsorted, keys_unsorted.begin()),
         [](decltype(*items().begin())& i) {
             return std::make_pair(i.first, impl_dump_all_items::KeyData(i.second));
         });

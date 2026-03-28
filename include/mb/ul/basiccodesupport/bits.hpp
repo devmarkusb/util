@@ -36,9 +36,9 @@ constexpr int count_set(uint32_t data) noexcept {
 #else
     // NOLINTBEGIN
     // Hamming Weight algorithm
-    data = data - ((data >> 1u) & 0x55555555u);
-    data = (data & 0x33333333u) + ((data >> 2u) & 0x33333333u);
-    return static_cast<int>((((data + (data >> 4u)) & 0x0F0F0F0Fu) * 0x01010101u) >> 24u);
+    data = data - ((data >> 1U) & 0x5555'5555U);
+    data = (data & 0x3333'3333U) + ((data >> 2U) & 0x3333'3333U);
+    return static_cast<int>((((data + (data >> 4U)) & 0x0F0F'0F0FU) * 0x0101'0101U) >> 24U);
     // NOLINTEND
 #endif
 }
@@ -177,8 +177,8 @@ public:
     }
 
 private:
-    static constexpr size_t parts_count{
-        static_cast<size_t>((bits + (bits::count<BaseType>() - Count{1})) / bits::count<BaseType>())};
+    static constexpr size_t parts_count{static_cast<size_t>(
+        (bits + (bits::count<BaseType>() - Count{1})) / bits::count<BaseType>())};
     std::array<BaseType, parts_count> array_{};
 
     [[nodiscard]] size_t n(Idx idx) const noexcept {
@@ -343,7 +343,8 @@ template <bits::Count least_nr_of_bits>
 using TypeLeast = std::conditional_t<
     (least_nr_of_bits > 8),
     std::conditional_t<
-        (least_nr_of_bits > 16), std::conditional_t<(least_nr_of_bits > 32), uint_least64_t, uint_least32_t>,
+        (least_nr_of_bits > 16),
+        std::conditional_t<(least_nr_of_bits > 32), uint_least64_t, uint_least32_t>,
         uint_least16_t>,
     uint_least8_t>;
 // NOLINTEND

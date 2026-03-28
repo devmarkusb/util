@@ -21,7 +21,7 @@ void f_with_some_sourcefile_location_info()
 #include "mb/ul/buildenv/warnings.hpp"
 
 UL_PRAGMA_WARNINGS_PUSH
-UL_WARNING_DISABLE_MSVC(4127)
+UL_WARNING_DISABLE_MSVC(4'127)
 
 namespace {
 void f_with_debug_break() {

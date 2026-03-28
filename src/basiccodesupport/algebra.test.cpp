@@ -118,7 +118,8 @@ TEST(power_monoid, tests) {
     EXPECT_EQ(ul::power_monoid(MonoidEx{"a"}, 3, std::plus<MonoidEx>{}, MonoidEx{""}), MonoidEx{"aaa"});
     EXPECT_EQ(
         ul::power_monoid(
-            MonoidEx{"a"}, 3,
+            MonoidEx{"a"},
+            3,
             [](const MonoidEx& a, const MonoidEx& b) {
                 return a + b;
             },
@@ -131,22 +132,34 @@ using CommutativeAdditiveGroupEx = int;
 TEST(power_group, tests) {
     EXPECT_EQ(
         ul::power_group(
-            CommutativeAdditiveGroupEx{1}, 3, std::plus<CommutativeAdditiveGroupEx>{},
-            std::negate<CommutativeAdditiveGroupEx>{}, CommutativeAdditiveGroupEx{}),
+            CommutativeAdditiveGroupEx{1},
+            3,
+            std::plus<CommutativeAdditiveGroupEx>{},
+            std::negate<CommutativeAdditiveGroupEx>{},
+            CommutativeAdditiveGroupEx{}),
         CommutativeAdditiveGroupEx{3});
     EXPECT_EQ(
         ul::power_group(
-            CommutativeAdditiveGroupEx{2}, 3, std::plus<CommutativeAdditiveGroupEx>{},
-            std::negate<CommutativeAdditiveGroupEx>{}, CommutativeAdditiveGroupEx{}),
+            CommutativeAdditiveGroupEx{2},
+            3,
+            std::plus<CommutativeAdditiveGroupEx>{},
+            std::negate<CommutativeAdditiveGroupEx>{},
+            CommutativeAdditiveGroupEx{}),
         CommutativeAdditiveGroupEx{6});
     EXPECT_EQ(
         ul::power_group(
-            CommutativeAdditiveGroupEx{3}, 1, std::plus<CommutativeAdditiveGroupEx>{},
-            std::negate<CommutativeAdditiveGroupEx>{}, CommutativeAdditiveGroupEx{}),
+            CommutativeAdditiveGroupEx{3},
+            1,
+            std::plus<CommutativeAdditiveGroupEx>{},
+            std::negate<CommutativeAdditiveGroupEx>{},
+            CommutativeAdditiveGroupEx{}),
         CommutativeAdditiveGroupEx{3});
     EXPECT_EQ(
         ul::power_group(
-            CommutativeAdditiveGroupEx{3}, 2, std::plus<CommutativeAdditiveGroupEx>{},
-            std::negate<CommutativeAdditiveGroupEx>{}, CommutativeAdditiveGroupEx{}),
+            CommutativeAdditiveGroupEx{3},
+            2,
+            std::plus<CommutativeAdditiveGroupEx>{},
+            std::negate<CommutativeAdditiveGroupEx>{},
+            CommutativeAdditiveGroupEx{}),
         CommutativeAdditiveGroupEx{6});
 }
