@@ -30,13 +30,6 @@ list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/devenv/cmake")
 include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
-set(MB_UL_BUILD_UNITTESTS
-    "${MB_UTIL_BUILD_TESTS}"
-    CACHE INTERNAL
-    "Backwards-compatible unit test toggle"
-    FORCE
-)
-
 mb_ul_include(gsl.cmake)
 add_subdirectory(src/string/sdks)
 
