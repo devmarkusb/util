@@ -59,36 +59,6 @@ TEST(utf8to16_s2ws_portableTest, test) {
     EXPECT_EQ(ws_from_utf16, ws_other);
 }
 
-TEST(utf16to8_ws2s_codecvtTest, test) {
-#if UL_HAS_STD_CODECVT
-    // use the perfectly tested utf8cpp lib to construct an utf16 wstring
-    std::string utf8(
-        "\xc3\xa4"
-        "hnlich\x21");
-    std::u16string utf16;
-    utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
-    const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
-
-    const std::string s = ul::str::utf16to8_ws2s_codecvt(ws_from_utf16);
-    EXPECT_EQ(s, utf8);
-#endif
-}
-
-TEST(utf8to16_s2ws_codecvtTest, test) {
-#if UL_HAS_STD_CODECVT
-    // use the perfectly tested utf8cpp lib to yield a comparison utf16 wstring
-    std::string utf8(
-        "\xc3\xa4"
-        "hnlich\x21");
-    std::u16string utf16;
-    utf8::unchecked::utf8to16(utf8.begin(), utf8.end(), std::back_inserter(utf16));
-    const std::wstring ws_from_utf16(utf16.begin(), utf16.end());
-
-    const std::wstring ws_other = ul::str::utf8to16_s2ws_codecvt(utf8);
-    EXPECT_EQ(ws_from_utf16, ws_other);
-#endif
-}
-
 TEST(locenc_s2wsTest, test) {
     const std::string loc("local stuff: \xe4"); // latin1 ae
     const std::wstring ws(ul::str::locenc_s2ws(loc));

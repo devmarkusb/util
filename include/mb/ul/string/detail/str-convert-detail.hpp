@@ -15,9 +15,6 @@
 #include <string>
 #include <vector>
 
-#if UL_HAS_STD_CODECVT
-#include <codecvt>
-#endif
 #if UL_OS_WINDOWS
 #include <windows.h>
 #endif
@@ -86,35 +83,6 @@ inline std::wstring utf8to16_s2ws(const std::string& str) {
     return utf8to16or32_s2ws_portable(str);
 #endif
 }
-
-#if UL_HAS_STD_CODECVT
-UL_PRAGMA_WARNINGS_PUSH
-// clang-format off
-UL_WARNING_DISABLE_CLANG(deprecated-declarations)
-UL_WARNING_DISABLE_MSVC(4996)
-
-// clang-format on
-
-inline std::string utf16to8_ws2s_codecvt(const std::wstring& wstr) {
-    using CC = std::codecvt_utf8_utf16<wchar_t>;
-    std::wstring_convert<CC, wchar_t> converter;
-
-    return converter.to_bytes(wstr);
-}
-
-inline std::wstring utf8to16_s2ws_codecvt(const std::string& str) {
-    // Note that this isn't understood very well.
-    // The test under Windows and mingw succeeds for the little_endian choice.
-    // It could very well be that this doesn't hold on every platform.
-    constexpr auto max_code{0x10'ffff}; // the default
-    using Cc = std::codecvt_utf8_utf16<wchar_t, max_code, std::little_endian>;
-    std::wstring_convert<Cc, wchar_t> converter;
-
-    return converter.from_bytes(str);
-}
-
-UL_PRAGMA_WARNINGS_POP
-#endif
 
 /*inline std::string utf8_ws2s(const std::wstring& wstr)
 {
