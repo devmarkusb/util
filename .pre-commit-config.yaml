@@ -1,18 +1,20 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+# Example config shipped with mb-pre-commit (see configs/v4). Edit freely; CMake may refresh
+# this file on configure unless you disable PRE_COMMIT_INSTALL_EXAMPLE_CONFIG.
+# https://pre-commit.com/
+minimum_pre_commit_version: '4.0.0'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-case-conflict
     -   id: check-added-large-files
+    -   id: check-case-conflict
     -   id: check-json
     -   id: check-merge-conflict
     -   id: check-symlinks
     -   id: check-yaml
+    -   id: end-of-file-fixer
     -   id: mixed-line-ending
+    -   id: trailing-whitespace
 
     # Markdown linting
     # Config file: .markdownlint.yaml
@@ -26,6 +28,14 @@ repos:
     hooks:
       - id: codespell
 
+    # CMake linting and formatting
+  - repo: https://github.com/BlankSpruce/gersemi
+    rev: 0.26.0
+    hooks:
+    - id: gersemi
+      name: CMake linting
+      exclude: tests/.*/data/
+
     # Clang-format for C++
     # This brings in a portable version of clang-format.
     # See also: https://github.com/ssciwr/clang-format-wheel
@@ -34,13 +44,3 @@ repos:
     hooks:
     - id: clang-format
       types_or: [c++, c]
-
-    # CMake linting and formatting
-  - repo: https://github.com/BlankSpruce/gersemi
-    rev: 0.26.0
-    hooks:
-    - id: gersemi
-      name: CMake linting
-      exclude: ^.*/tests/.*/data/ # Exclude test data directories
-
-exclude: 'devenv/'
