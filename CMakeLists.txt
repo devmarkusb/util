@@ -31,6 +31,10 @@ include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
 mb_ul_include(gsl.cmake)
+
+# From fetched https://github.com/devmarkusb/pre-commit (see fetchcontent-lockfile.json).
+mb_pre_commit_setup()
+
 add_subdirectory(src/string/sdks)
 
 set(mb_util_generated_include_dir
