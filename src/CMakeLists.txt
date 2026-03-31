@@ -20,10 +20,7 @@ file(GLOB_RECURSE mb_util_test_sources CONFIGURE_DEPENDS "*.test.cpp")
 
 add_executable(mb.util.test)
 target_sources(mb.util.test PRIVATE ${mb_util_test_sources})
-target_link_libraries(
-    mb.util.test
-    PRIVATE mb::util GTest::gtest GTest::gtest_main
-)
+target_link_libraries(mb.util.test PRIVATE mb::util GTest::gtest_main)
 
 if(MB_DEVENV_SANITIZER)
     target_compile_definitions(mb.util.test PRIVATE MB_DEVENV_SANITIZER=1)
