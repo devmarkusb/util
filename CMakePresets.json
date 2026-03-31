@@ -60,7 +60,10 @@
     {
       "name": "appleclang",
       "hidden": true,
-      "toolchainFile": "devenv/cmake/toolchains/appleclang-toolchain.cmake"
+      "toolchainFile": "devenv/cmake/toolchains/appleclang-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "23"
+      }
     },
     {
       "name": "msvc",
@@ -96,9 +99,9 @@
       "displayName": "GCC Debug Build",
       "description": "Ninja + GCC toolchain, Debug.",
       "inherits": [
-        "base",
+        "gcc",
         "debug",
-        "gcc"
+        "base"
       ]
     },
     {
@@ -106,9 +109,9 @@
       "displayName": "GCC Release Build",
       "description": "Ninja + GCC toolchain, RelWithDebInfo.",
       "inherits": [
-        "base",
+        "gcc",
         "release",
-        "gcc"
+        "base"
       ]
     },
     {
@@ -116,9 +119,9 @@
       "displayName": "Clang Debug Build",
       "description": "Ninja + Clang (libstdc++), Debug.",
       "inherits": [
-        "base",
+        "clang",
         "debug",
-        "clang"
+        "base"
       ]
     },
     {
@@ -126,9 +129,9 @@
       "displayName": "Clang Release Build",
       "description": "Ninja + Clang (libstdc++), RelWithDebInfo.",
       "inherits": [
-        "base",
+        "clang",
         "release",
-        "clang"
+        "base"
       ]
     },
     {
@@ -136,9 +139,9 @@
       "displayName": "Clang-libc++ Debug Build",
       "description": "Ninja + Clang + libc++, Debug.",
       "inherits": [
-        "base",
+        "clang-libc++",
         "debug",
-        "clang-libc++"
+        "base"
       ]
     },
     {
@@ -146,9 +149,9 @@
       "displayName": "Clang-libc++ Release Build",
       "description": "Ninja + Clang + libc++, RelWithDebInfo.",
       "inherits": [
-        "base",
+        "clang-libc++",
         "release",
-        "clang-libc++"
+        "base"
       ]
     },
     {
@@ -156,9 +159,9 @@
       "displayName": "Appleclang Debug Build",
       "description": "Ninja + Apple Clang, Debug.",
       "inherits": [
-        "base",
+        "appleclang",
         "debug",
-        "appleclang"
+        "base"
       ]
     },
     {
@@ -166,9 +169,9 @@
       "displayName": "Appleclang Release Build",
       "description": "Ninja + Apple Clang, RelWithDebInfo.",
       "inherits": [
-        "base",
+        "appleclang",
         "release",
-        "appleclang"
+        "base"
       ]
     },
     {
@@ -176,9 +179,9 @@
       "displayName": "MSVC Debug Build",
       "description": "Ninja + MSVC, Debug.",
       "inherits": [
-        "base",
+        "msvc",
         "debug",
-        "msvc"
+        "base"
       ]
     },
     {
@@ -186,9 +189,9 @@
       "displayName": "MSVC Release Build",
       "description": "Ninja + MSVC, RelWithDebInfo.",
       "inherits": [
-        "base",
+        "msvc",
         "release",
-        "msvc"
+        "base"
       ]
     }
   ],
