@@ -155,6 +155,19 @@
       ]
     },
     {
+      "name": "clang-libc++-maxwarn-release",
+      "displayName": "Clang-libc++ MaxWarn Release Build",
+      "description": "Ninja + Clang + libc++, RelWithDebInfo. Duplicates mb_ul_set_target_warnings Clang (non-Debug) compile options via global CMAKE_CXX_FLAGS so they apply project-wide; this can break builds that pull in third-party sources (e.g. FetchContent) that do not compile cleanly under -Werror and the rest. Adds -Wno-unused-command-line-argument so globally ignored -f flags on some platforms do not fail the build.",
+      "inherits": [
+        "clang-libc++",
+        "release",
+        "base"
+      ],
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-D_GLIBCXX_ASSERTIONS -fexceptions -fno-builtin -fstack-clash-protection -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fno-limit-debug-info -fstrict-flex-arrays=3 -Wall -Wconversion -Werror -Wextra -Wformat -Wformat=2 -Wimplicit-fallthrough -Wno-deprecated-declarations -Wpedantic -Wsign-conversion -Wdocumentation -Wmissing-prototypes -Wno-c++11-narrowing -Wno-c++20-compat -Wno-switch-default -Wno-unused-command-line-argument"
+      }
+    },
+    {
       "name": "appleclang-debug",
       "displayName": "Appleclang Debug Build",
       "description": "Ninja + Apple Clang, Debug.",
@@ -245,6 +258,13 @@
       ]
     },
     {
+      "name": "clang-libc++-maxwarn-release",
+      "configurePreset": "clang-libc++-maxwarn-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
       "name": "appleclang-debug",
       "configurePreset": "appleclang-debug",
       "inherits": [
@@ -315,6 +335,11 @@
       "name": "clang-libc++-release",
       "inherits": "base",
       "configurePreset": "clang-libc++-release"
+    },
+    {
+      "name": "clang-libc++-maxwarn-release",
+      "inherits": "base",
+      "configurePreset": "clang-libc++-maxwarn-release"
     },
     {
       "name": "appleclang-debug",
@@ -449,6 +474,25 @@
         {
           "type": "test",
           "name": "clang-libc++-release"
+        }
+      ]
+    },
+    {
+      "name": "clang-libc++-maxwarn-release",
+      "displayName": "Clang-libc++ MaxWarn Release: configure, build, test",
+      "description": "Full local/CI loop for Clang + libc++ RelWithDebInfo with global max warning flags.",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-libc++-maxwarn-release"
+        },
+        {
+          "type": "build",
+          "name": "clang-libc++-maxwarn-release"
+        },
+        {
+          "type": "test",
+          "name": "clang-libc++-maxwarn-release"
         }
       ]
     },
