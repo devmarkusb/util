@@ -127,7 +127,33 @@ endif()
 ######################################################################################################################
 # Per-target hardening + warnings
 
+# When ON, mb_ul_set_target_warnings() applies the Clang -Weverything set to every target (see macro). Per-call
+# override: mb_ul_set_target_warnings(t ALL_WARNINGS) or ... NO_ALL_WARNINGS (last keyword wins).
+option(
+    MB_UL_ALL_WARNINGS
+    "Clang: -Weverything (+ tuned -Wno*) on each mb_ul_set_target_warnings target, not global CXX flags"
+    OFF
+)
+
 macro(mb_ul_set_target_warnings target)
+    set(_mb_ul_tw_all ${MB_UL_ALL_WARNINGS})
+    foreach(_mb_ul_tw_arg ${ARGN})
+        if(_mb_ul_tw_arg STREQUAL "ALL_WARNINGS")
+            set(_mb_ul_tw_all TRUE)
+        elseif(_mb_ul_tw_arg STREQUAL "NO_ALL_WARNINGS")
+            set(_mb_ul_tw_all FALSE)
+        endif()
+    endforeach()
+
+    if(_mb_ul_tw_all)
+        if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+            message(
+                FATAL_ERROR
+                "MB_UL_ALL_WARNINGS / ALL_WARNINGS not implemented for MSVC compiler"
+            )
+        endif()
+    endif()
+
     get_target_property(_mb_ul_tw_type ${target} TYPE)
     if(NOT _mb_ul_tw_type STREQUAL "INTERFACE_LIBRARY")
         if(
@@ -215,6 +241,36 @@ macro(mb_ul_set_target_warnings target)
                     -Wno-c++20-compat
                     -Wno-switch-default
             )
+        endif()
+
+        if(_mb_ul_tw_all)
+            if(
+                "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
+                OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang"
+            )
+                target_compile_options(
+                    ${target}
+                    PRIVATE
+                        -Weverything
+                        -Wmissing-prototypes
+                        -Wno-c++98-compat
+                        -Wno-c++98-compat-pedantic
+                        -Wno-covered-switch-default
+                        -Wno-deprecated
+                        -Wno-double-promotion
+                        -Wno-exit-time-destructors
+                        -Wno-global-constructors
+                        -Wno-missing-noreturn
+                        -Wno-padded
+                        -Wno-redundant-parens
+                        -Wno-shadow-field-in-constructor
+                        -Wno-switch-enum
+                        -Wno-undef
+                        -Wno-undefined-reinterpret-cast
+                        -Wno-unused-member-function
+                        -Wno-weak-vtables
+                )
+            endif()
         endif()
     endif()
 endmacro()
