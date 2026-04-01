@@ -13,5 +13,94 @@ jobs:
     with:
       matrix_config: >
         [
+          {"preset": "gcc-debug", "image": "ghcr.io/bemanproject/infra-containers-gcc:latest"},
+          {"preset": "gcc-release", "image": "ghcr.io/bemanproject/infra-containers-gcc:latest"},
+          {"preset": "clang-debug", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "clang-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "clang-libc++-debug", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "clang-libc++-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
           {"preset": "clang-libc++-maxwarn-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
+          {"preset": "appleclang-debug", "runner": "macos-latest"},
+          {"preset": "appleclang-release", "runner": "macos-latest"},
+          {"preset": "msvc-debug", "runner": "windows-latest"},
+          {"preset": "msvc-release", "runner": "windows-latest"}
         ]
+
+  build-and-test:
+    uses: devmarkusb/gh-workflows/.github/workflows/build-and-test.yml@main
+    with:
+      matrix_config: >
+        {
+          "gcc": [
+            { "versions": ["15"],
+              "tests": [
+                { "cxxversions": ["c++26"],
+                  "tests": [
+                    { "stdlibs": ["libstdc++"],
+                      "tests": [
+                        "Release.Default", "Release.TSan",
+                        "Release.MaxSan", "Release.MaxWarn",
+                        "Debug.MaxWarn",
+                        "Debug.Coverage"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "clang": [
+            { "versions": ["21"],
+              "tests": [
+                {"cxxversions": ["c++26"],
+                  "tests": [
+                    { "stdlibs": ["libstdc++", "libc++"],
+                      "tests": [
+                        "Release.Default", "Release.TSan",
+                        "Release.MaxSan", "Release.MaxWarn",
+                        "Debug.MaxWarn"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "versions": ["18"],
+              "tests": [
+                { "cxxversions": ["c++26", "c++23"],
+                  "tests": [{"stdlibs": ["libc++"], "tests": ["Release.Default"]}]
+                }
+              ]
+            }
+          ],
+          "appleclang": [
+            { "versions": ["latest"],
+              "tests": [
+                { "cxxversions": ["c++26"],
+                  "tests": [{ "stdlibs": ["libc++"], "tests": ["Release.MaxSan", "Debug.MaxWarn"]}]
+                }
+              ]
+            }
+          ],
+          "msvc": [
+            { "versions": ["latest"],
+              "tests": [
+                { "cxxversions": ["c++23"],
+                  "tests": [
+                    { "stdlibs": ["stl"],
+                      "tests": ["Release.MaxSan", "Debug.MaxWarnMsvc"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+
+  install-test:
+    uses: devmarkusb/gh-workflows/.github/workflows/install-test.yml@main
+    with:
+      image: ghcr.io/bemanproject/infra-containers-gcc:latest
+      cxx_standard: 26
+      namespace: mb
+      include_header: mb/ul/ul.hpp
