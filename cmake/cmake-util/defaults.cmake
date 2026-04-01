@@ -140,10 +140,10 @@ macro(mb_ul_set_target_warnings target)
             target_compile_options(
                 ${target}
                 PRIVATE
+                    -fexceptions
                     -fno-builtin
                     -fstack-clash-protection
                     -fstack-protector-strong
-                    -fexceptions
                     # Clear env/distro _FORTIFY_SOURCE; only re-enable on configs that use -O (glibc warns
                     # otherwise, and -Werror turns that into a hard error). "Not Debug" is wrong when
                     # CMAKE_BUILD_TYPE is unset (install-test): $<CONFIG> is empty, not Debug, but there is no -O.
@@ -184,13 +184,15 @@ macro(mb_ul_set_target_warnings target)
                 ${target}
                 PRIVATE
                     -Wall
-                    -Wextra
                     -Wconversion
                     -Werror
-                    -Wno-deprecated-declarations
+                    -Wextra
                     -Wformat
                     -Wformat=2
                     -Wimplicit-fallthrough
+                    -Wno-deprecated-declarations
+                    -Wpedantic
+                    -Wsign-conversion
             )
             # for C code
             # -Werror=implicit -Werror=incompatible-pointer-types -Werror=int-conversion
@@ -199,7 +201,7 @@ macro(mb_ul_set_target_warnings target)
         if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
             target_compile_options(
                 ${target}
-                PRIVATE -Wno-comment -Wtrampolines -Wbidi-chars=any
+                PRIVATE -Wbidi-chars=any -Wno-comment -Wtrampolines
             )
         elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
             target_compile_options(${target} PRIVATE /W4)
@@ -207,9 +209,9 @@ macro(mb_ul_set_target_warnings target)
             target_compile_options(
                 ${target}
                 PRIVATE
+                    -Wdocumentation
                     -Wmissing-prototypes
                     -Wno-c++11-narrowing
-                    -Wdocumentation
                     -Wno-c++20-compat
                     -Wno-switch-default
             )
