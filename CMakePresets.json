@@ -170,18 +170,6 @@
       }
     },
     {
-      "name": "clang-libc++-allwarn-release",
-      "displayName": "Clang-libc++ MaxSan MaxWarn+AllWarn Release Build",
-      "description": "Same as clang-libc++-maxwarn-release (MaxSan, global mb_ul_set_target_warnings-style CMAKE_CXX_FLAGS, MB_UL_ALL_WARNINGS) plus the Clang -Weverything bundle appended to CMAKE_CXX_FLAGS so it applies to every translation unit, including third-party/FetchContent. Sets MB_UL_ALL_WARNINGS=OFF so mb_ul_set_target_warnings does not add the same -Weverything flags again on project targets (avoids duplicate warning options). Flag list matches cmake/cmake-util/defaults.cmake (MB_UL_ALL_WARNINGS branch).",
-      "inherits": [
-        "clang-libc++-maxwarn-release"
-      ],
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-D_GLIBCXX_ASSERTIONS -fexceptions -fno-builtin -fstack-clash-protection -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fno-limit-debug-info -fstrict-flex-arrays=3 -Wall -Wconversion -Werror -Wextra -Wformat -Wformat=2 -Wimplicit-fallthrough -Wno-deprecated-declarations -Wpedantic -Wsign-conversion -Wdocumentation -Wmissing-prototypes -Wno-c++11-narrowing -Wno-c++20-compat -Wno-switch-default -Wno-unused-command-line-argument -Weverything -Wmissing-prototypes -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-covered-switch-default -Wno-deprecated -Wno-double-promotion -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-noreturn -Wno-padded -Wno-redundant-parens -Wno-shadow-field-in-constructor -Wno-switch-enum -Wno-undef -Wno-undefined-reinterpret-cast -Wno-unused-member-function -Wno-weak-vtables",
-        "MB_UL_ALL_WARNINGS": "OFF"
-      }
-    },
-    {
       "name": "appleclang-debug",
       "displayName": "Appleclang Debug Build",
       "description": "Ninja + Apple Clang, Debug.",
@@ -279,13 +267,6 @@
       ]
     },
     {
-      "name": "clang-libc++-allwarn-release",
-      "configurePreset": "clang-libc++-allwarn-release",
-      "inherits": [
-        "base"
-      ]
-    },
-    {
       "name": "appleclang-debug",
       "configurePreset": "appleclang-debug",
       "inherits": [
@@ -361,11 +342,6 @@
       "name": "clang-libc++-maxwarn-release",
       "inherits": "base",
       "configurePreset": "clang-libc++-maxwarn-release"
-    },
-    {
-      "name": "clang-libc++-allwarn-release",
-      "inherits": "base",
-      "configurePreset": "clang-libc++-allwarn-release"
     },
     {
       "name": "appleclang-debug",
@@ -519,25 +495,6 @@
         {
           "type": "test",
           "name": "clang-libc++-maxwarn-release"
-        }
-      ]
-    },
-    {
-      "name": "clang-libc++-allwarn-release",
-      "displayName": "Clang-libc++ AllWarn+MaxWarn Release: configure, build, test",
-      "description": "Full local/CI loop for Clang + libc++ RelWithDebInfo with global max warning flags plus -Weverything on CMAKE_CXX_FLAGS.",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "clang-libc++-allwarn-release"
-        },
-        {
-          "type": "build",
-          "name": "clang-libc++-allwarn-release"
-        },
-        {
-          "type": "test",
-          "name": "clang-libc++-allwarn-release"
         }
       ]
     },

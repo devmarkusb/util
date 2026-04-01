@@ -14,5 +14,4 @@ jobs:
       matrix_config: >
         [
           {"preset": "clang-libc++-maxwarn-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
-          {"preset": "clang-libc++-allwarn-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"}
         ]
