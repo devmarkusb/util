@@ -1,14 +1,9 @@
 # Provides switches and tools to run diagnostics on your code.
 # *Warning* Please note that this is work in progress. It doesn't contain anything really usable at the moment.
+#
+# MB_UL_ALL_WARNINGS is defined in defaults.cmake and applied per target via mb_ul_set_target_warnings().
 
 include_guard(DIRECTORY)
-
-option(
-    MB_UL_ALL_WARNINGS
-    "all possible warnings, switch on and adapt details if you want to see \
-a maximum of warnings"
-    OFF
-)
 
 option(MB_UL_COVERAGE "coverage" OFF)
 
@@ -97,44 +92,6 @@ elseif(MB_UL_UNDEF_SAN)
         set(CMAKE_EXE_LINKER_FLAGS
             "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=undefined"
         )
-    endif()
-endif()
-
-if(MB_UL_ALL_WARNINGS)
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        # no more warnings here
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-        # not implemented
-        message(
-            FATAL_ERROR
-            "MB_UL_ALL_WARNINGS not implemented for MSVC compiler"
-        )
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        # should include -Wconversion
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
-        # category of must-be-blacklisted ones
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -Wno-unused-member-function -Wno-c++98-compat -Wno-deprecated \
--Wno-weak-vtables -Wno-shadow-field-in-constructor -Wno-undef -Wno-c++98-compat-pedantic -Wno-double-promotion \
--Wmissing-prototypes"
-        )
-        # category of could-be-useful ones
-        # can be interesting, but appears a lot in Qt moc_ files, so...
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-redundant-parens")
-        # same here
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -Wno-undefined-reinterpret-cast"
-        )
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -Wno-global-constructors -Wno-exit-time-destructors"
-        )
-        # a no default warning would be more useful
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -Wno-switch-enum -Wno-covered-switch-default"
-        )
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-noreturn")
-        # this could be useful to turn on locally (at most) to find out about padding size
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-padded")
     endif()
 endif()
 
