@@ -22,6 +22,7 @@ jobs:
           {"preset": "clang-libc++-maxwarn-release", "image": "ghcr.io/bemanproject/infra-containers-clang:latest"},
           {"preset": "appleclang-debug", "runner": "macos-latest"},
           {"preset": "appleclang-release", "runner": "macos-latest"},
+          {"preset": "appleclang-maxsan-release", "runner": "macos-latest"},
           {"preset": "msvc-debug", "runner": "windows-latest"},
           {"preset": "msvc-release", "runner": "windows-latest"}
         ]

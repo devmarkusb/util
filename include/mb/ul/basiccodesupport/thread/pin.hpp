@@ -56,7 +56,7 @@ inline int CPU_ISSET(int num, cpu_set_t* cs) {
 inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
     int32_t core_count = 0;
     size_t len = sizeof(core_count);
-    int ret = sysctlbyname(SYSCTL_CORE_COUNT, &core_count, &len, 0, 0);
+    int ret = sysctlbyname(SYSCTL_CORE_COUNT, &core_count, &len, {}, 0);
     if (ret) {
         printf("error while get core count %d\n", ret);
         return -1;
@@ -80,7 +80,7 @@ inline int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* 
     printf("binding to core %zu\n", core);
     thread_affinity_policy_data_t policy = {static_cast<integer_t>(core)};
     mach_thread = pthread_mach_thread_np(thread);
-    thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, (thread_policy_t)&policy, 1);
+    thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, reinterpret_cast<thread_policy_t>(&policy), 1);
     return 0;
 }
 } // namespace mac

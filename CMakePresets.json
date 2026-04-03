@@ -74,6 +74,15 @@
       }
     },
     {
+      "name": "MaxWarnClang",
+      "hidden": true,
+      "description": "Duplicates mb_ul_set_target_warnings Clang compile options via global CMAKE_CXX_FLAGS so they apply project-wide; this can break builds that pull in third-party sources (e.g. FetchContent) that do not compile cleanly under -Werror and the rest. Adds -Wno-unused-command-line-argument so globally ignored -f flags on some platforms do not fail the build. Adds -Wno-poison-system-directories so -Werror does not fail when Clang rejects host include paths (e.g. /usr/local/include) during cross-compilation.",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-D_GLIBCXX_ASSERTIONS -fexceptions -fno-builtin -fstack-clash-protection -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fno-limit-debug-info -fstrict-flex-arrays=3 -Wall -Wconversion -Werror -Wextra -Wformat -Wformat=2 -Wimplicit-fallthrough -Wno-deprecated-declarations -Wpedantic -Wsign-conversion -Wdocumentation -Wmissing-prototypes -Wno-c++11-narrowing -Wno-c++20-compat -Wno-switch-default -Wno-unused-command-line-argument -Wno-poison-system-directories",
+        "MB_UL_ALL_WARNINGS": "ON"
+      }
+    },
+    {
       "name": "MaxSan",
       "hidden": true,
       "cacheVariables": {
@@ -121,6 +130,8 @@
       "inherits": [
         "clang",
         "debug",
+        "MaxWarnClang",
+        "MaxSan",
         "base"
       ]
     },
@@ -131,6 +142,7 @@
       "inherits": [
         "clang",
         "release",
+        "MaxWarnClang",
         "base"
       ]
     },
@@ -141,6 +153,8 @@
       "inherits": [
         "clang-libc++",
         "debug",
+        "MaxWarnClang",
+        "MaxSan",
         "base"
       ]
     },
@@ -151,23 +165,9 @@
       "inherits": [
         "clang-libc++",
         "release",
+        "MaxWarnClang",
         "base"
       ]
-    },
-    {
-      "name": "clang-libc++-maxwarn-release",
-      "displayName": "Clang-libc++ MaxSan MaxWarn Release Build",
-      "description": "Ninja + Clang + libc++, RelWithDebInfo. Duplicates mb_ul_set_target_warnings Clang (non-Debug) compile options via global CMAKE_CXX_FLAGS so they apply project-wide; this can break builds that pull in third-party sources (e.g. FetchContent) that do not compile cleanly under -Werror and the rest. Adds -Wno-unused-command-line-argument so globally ignored -f flags on some platforms do not fail the build.",
-      "inherits": [
-        "clang-libc++",
-        "MaxSan",
-        "release",
-        "base"
-      ],
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-D_GLIBCXX_ASSERTIONS -fexceptions -fno-builtin -fstack-clash-protection -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -fno-limit-debug-info -fstrict-flex-arrays=3 -Wall -Wconversion -Werror -Wextra -Wformat -Wformat=2 -Wimplicit-fallthrough -Wno-deprecated-declarations -Wpedantic -Wsign-conversion -Wdocumentation -Wmissing-prototypes -Wno-c++11-narrowing -Wno-c++20-compat -Wno-switch-default -Wno-unused-command-line-argument",
-        "MB_UL_ALL_WARNINGS": "ON"
-      }
     },
     {
       "name": "appleclang-debug",
@@ -176,6 +176,8 @@
       "inherits": [
         "appleclang",
         "debug",
+        "MaxWarnClang",
+        "MaxSan",
         "base"
       ]
     },
@@ -186,7 +188,17 @@
       "inherits": [
         "appleclang",
         "release",
+        "MaxWarnClang",
         "base"
+      ]
+    },
+    {
+      "name": "appleclang-maxsan-release",
+      "displayName": "Appleclang MaxSan Release Build",
+      "description": "Ninja + Apple Clang, MaxSan, RelWithDebInfo.",
+      "inherits": [
+        "MaxSan",
+        "appleclang-release"
       ]
     },
     {
@@ -260,13 +272,6 @@
       ]
     },
     {
-      "name": "clang-libc++-maxwarn-release",
-      "configurePreset": "clang-libc++-maxwarn-release",
-      "inherits": [
-        "base"
-      ]
-    },
-    {
       "name": "appleclang-debug",
       "configurePreset": "appleclang-debug",
       "inherits": [
@@ -276,6 +281,13 @@
     {
       "name": "appleclang-release",
       "configurePreset": "appleclang-release",
+      "inherits": [
+        "base"
+      ]
+    },
+    {
+      "name": "appleclang-maxsan-release",
+      "configurePreset": "appleclang-maxsan-release",
       "inherits": [
         "base"
       ]
@@ -339,11 +351,6 @@
       "configurePreset": "clang-libc++-release"
     },
     {
-      "name": "clang-libc++-maxwarn-release",
-      "inherits": "base",
-      "configurePreset": "clang-libc++-maxwarn-release"
-    },
-    {
       "name": "appleclang-debug",
       "inherits": "base",
       "configurePreset": "appleclang-debug"
@@ -352,6 +359,11 @@
       "name": "appleclang-release",
       "inherits": "base",
       "configurePreset": "appleclang-release"
+    },
+    {
+      "name": "appleclang-maxsan-release",
+      "inherits": "base",
+      "configurePreset": "appleclang-maxsan-release"
     },
     {
       "name": "msvc-debug",
@@ -480,25 +492,6 @@
       ]
     },
     {
-      "name": "clang-libc++-maxwarn-release",
-      "displayName": "Clang-libc++ MaxWarn Release: configure, build, test",
-      "description": "Full local/CI loop for Clang + libc++ RelWithDebInfo with global max warning flags.",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "clang-libc++-maxwarn-release"
-        },
-        {
-          "type": "build",
-          "name": "clang-libc++-maxwarn-release"
-        },
-        {
-          "type": "test",
-          "name": "clang-libc++-maxwarn-release"
-        }
-      ]
-    },
-    {
       "name": "appleclang-debug",
       "displayName": "Apple Clang Debug: configure, build, test",
       "description": "Full local/CI loop for Apple Clang Debug.",
@@ -533,6 +526,25 @@
         {
           "type": "test",
           "name": "appleclang-release"
+        }
+      ]
+    },
+    {
+      "name": "appleclang-maxsan-release",
+      "displayName": "Apple Clang MaxSan Release: configure, build, test",
+      "description": "Full local/CI loop for Apple Clang MaxSan RelWithDebInfo.",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "appleclang-maxsan-release"
+        },
+        {
+          "type": "build",
+          "name": "appleclang-maxsan-release"
+        },
+        {
+          "type": "test",
+          "name": "appleclang-maxsan-release"
         }
       ]
     },
