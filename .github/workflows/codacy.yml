@@ -62,13 +62,14 @@ jobs:
         run: |
           python3 <<'PY'
           import json
+          # Read Codacy output (may be root-owned / non-writable from Docker); write a new file.
           with open("results.sarif", encoding="utf-8") as f:
               data = json.load(f)
           for i, run in enumerate(data.get("runs") or []):
               ad = dict(run.get("automationDetails") or {})
               ad["id"] = f"codacy-analysis-run-{i}"
               run["automationDetails"] = ad
-          with open("results.sarif", "w", encoding="utf-8") as f:
+          with open("results-upload.sarif", "w", encoding="utf-8") as f:
               json.dump(data, f)
           PY
 
@@ -76,4 +77,4 @@ jobs:
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: results-upload.sarif
