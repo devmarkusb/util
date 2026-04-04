@@ -6,8 +6,8 @@ endif()
 mb_ul_include(mathgl2-defaults.cmake)
 
 add_subdirectory(mathgl)
-mb_ul_set_target_defaults(mgl)
-mb_ul_set_target_defaults(mgl-static)
+mb_devenv_set_target_defaults(mgl)
+mb_devenv_set_target_defaults(mgl-static)
 if(NOT MB_UL_ANDROID)
     # needed for later version of mgl
     #set_target_properties(mgl_translations PROPERTIES EXCLUDE_FROM_ALL TRUE)
