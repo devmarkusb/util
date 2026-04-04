@@ -27,6 +27,10 @@ option(
 
 include(buildenv-bootstrap.cmake)
 list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/devenv/cmake")
+if(MB_CPP_LIB_TEMPLATE_BUILD_TESTS)
+    include(mb-devenv-ctest-root)
+endif()
+include(mb-devenv-defaults)
 include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
@@ -87,7 +91,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
     target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
 endif()
 
-mb_ul_set_target_defaults(mb.util)
+mb_devenv_set_target_defaults(mb.util)
 
 install(
     DIRECTORY "${GSL_SOURCE_DIR}/include/"
