@@ -14,7 +14,7 @@ endif()
 add_executable(mb.util.compile-check)
 target_sources(mb.util.compile-check PRIVATE compile-check.cpp)
 target_link_libraries(mb.util.compile-check PRIVATE mb::util)
-mb_ul_set_target_defaults(mb.util.compile-check)
+mb_devenv_set_target_defaults(mb.util.compile-check)
 
 file(GLOB_RECURSE mb_util_test_sources CONFIGURE_DEPENDS "*.test.cpp")
 
@@ -26,6 +26,6 @@ if(MB_DEVENV_SANITIZER)
     target_compile_definitions(mb.util.test PRIVATE MB_DEVENV_SANITIZER=1)
 endif()
 
-mb_ul_set_target_filesystem(mb.util.test)
-mb_ul_set_target_essentials(mb.util.test)
+mb_devenv_set_target_filesystem(mb.util.test)
+mb_devenv_set_target_essentials(mb.util.test)
 mb_devenv_add_test(mb.util.test)
