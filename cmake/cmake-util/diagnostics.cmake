@@ -1,7 +1,6 @@
 # Provides switches and tools to run diagnostics on your code.
 # *Warning* Please note that this is work in progress. It doesn't contain anything really usable at the moment.
 #
-# MB_UL_ALL_WARNINGS is defined in defaults.cmake and applied per target via mb_ul_set_target_warnings().
 
 include_guard(DIRECTORY)
 
