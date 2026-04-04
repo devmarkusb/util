@@ -27,7 +27,7 @@ option(
 
 include(buildenv-bootstrap.cmake)
 list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/devenv/cmake")
-if(MB_CPP_LIB_TEMPLATE_BUILD_TESTS)
+if(MB_UTIL_BUILD_TESTS)
     include(mb-devenv-ctest-root)
 endif()
 include(mb-devenv-defaults)
