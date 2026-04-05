@@ -25,7 +25,7 @@ option(
     OFF
 )
 
-include(buildenv-bootstrap.cmake)
+include(cmake/cmake-util.cmake)
 list(PREPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/devenv/cmake")
 if(MB_UTIL_BUILD_TESTS)
     include(mb-devenv-ctest-root)
@@ -107,7 +107,6 @@ install(
 mb_devenv_install_library(mb.util)
 
 if(MB_UTIL_BUILD_TESTS)
-    enable_testing()
     add_subdirectory(src)
 endif()
 
