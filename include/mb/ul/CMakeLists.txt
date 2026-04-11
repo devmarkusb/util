@@ -5,9 +5,34 @@ list(
     "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/gtest-utils.hpp"
 )
 
+set(mb_util_generated_include_dir
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/include"
+)
+
 target_sources(
     mb.util
     PUBLIC
         FILE_SET HEADERS
+            BASE_DIRS
+                "${PROJECT_SOURCE_DIR}/include"
+                "${mb_util_generated_include_dir}"
             FILES ${mb_util_public_headers} "${MB_UTIL_GENERATED_CONFIG_HEADER}"
 )
+
+set(MB_UTIL_GENERATED_CONFIG_HEADER
+    "${mb_util_generated_include_dir}/mb/ul/buildenv/config-gen.hpp"
+)
+file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/mb/ul/buildenv")
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/config-gen.hpp.in"
+    "${MB_UTIL_GENERATED_CONFIG_HEADER}"
+    @ONLY
+)
+
+#target_include_directories(
+#    mb.util
+#    INTERFACE
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<BUILD_INTERFACE:${mb_util_generated_include_dir}>"
+#    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+#)
