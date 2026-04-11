@@ -41,39 +41,11 @@ mb_pre_commit_setup()
 
 add_subdirectory(src/string/sdks)
 
-set(mb_util_generated_include_dir
-    "${CMAKE_CURRENT_BINARY_DIR}/generated/include"
-)
-set(MB_UTIL_GENERATED_CONFIG_HEADER
-    "${mb_util_generated_include_dir}/mb/ul/buildenv/config-gen.hpp"
-)
-file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/mb/ul/buildenv")
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/mb/ul/buildenv/config-gen.hpp.in"
-    "${MB_UTIL_GENERATED_CONFIG_HEADER}"
-    @ONLY
-)
-
 add_library(mb.util INTERFACE)
 add_library(mb::util ALIAS mb.util)
 
-target_sources(
-    mb.util
-    PUBLIC
-        FILE_SET HEADERS
-            BASE_DIRS
-                "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                "${mb_util_generated_include_dir}"
-)
-
 add_subdirectory(include/mb/ul)
-target_include_directories(
-    mb.util
-    INTERFACE
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-        "$<BUILD_INTERFACE:${mb_util_generated_include_dir}>"
-        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-)
+
 target_include_directories(
     mb.util
     SYSTEM
@@ -82,7 +54,7 @@ target_include_directories(
         "$<BUILD_INTERFACE:${utfcpp_INCLUDE_DIRS}>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-target_compile_features(mb.util INTERFACE cxx_std_20)
+#target_compile_features(mb.util INTERFACE cxx_std_20)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     target_link_libraries(mb.util INTERFACE stdc++exp)
