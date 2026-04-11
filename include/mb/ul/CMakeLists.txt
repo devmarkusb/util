@@ -28,11 +28,3 @@ target_sources(
                 "${mb_util_generated_include_dir}"
             FILES ${mb_util_public_headers} "${MB_UTIL_GENERATED_CONFIG_HEADER}"
 )
-
-#target_include_directories(
-#    mb.util
-#    INTERFACE
-#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#    "$<BUILD_INTERFACE:${mb_util_generated_include_dir}>"
-#    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-#)

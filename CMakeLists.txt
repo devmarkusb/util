@@ -54,7 +54,6 @@ target_include_directories(
         "$<BUILD_INTERFACE:${utfcpp_INCLUDE_DIRS}>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-#target_compile_features(mb.util INTERFACE cxx_std_20)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     target_link_libraries(mb.util INTERFACE stdc++exp)
