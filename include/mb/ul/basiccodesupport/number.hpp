@@ -84,11 +84,11 @@ std::optional<ArithType> is_power_of(ArithType x, ArithType base) {
             value. Under mingw I got a test-case where 4.9999... did not yield 5 as integral part.
             Though one could improve the hard-coded 1e-12 (std::numeric_limits<long double>::min() is
             much too small).*/
-    const long double exp = std::log(x) / std::log(base);
+    const double exp = std::log(static_cast<double>(x)) / std::log(static_cast<double>(base));
     const int64_t intpart = llround(exp);
-    const auto intpart_dbl = narrow_cast<long double>(intpart);
+    const auto intpart_dbl = narrow_cast<double>(intpart);
 
-    if (constexpr auto sufficiently_small_deviation{1e-12L};
+    if (constexpr auto sufficiently_small_deviation{1e-12};
         !approx_equal(intpart_dbl, exp, sufficiently_small_deviation))
         return {};
     return narrow_cast<ArithType>(intpart);
