@@ -17,11 +17,11 @@ public:
     }
 
 protected:
-    char do_thousands_sep() const noexcept override {
+    [[nodiscard]] char do_thousands_sep() const noexcept override {
         return sep_;
     }
 
-    std::string do_grouping() const noexcept override {
+    [[nodiscard]] std::string do_grouping() const override { // NOLINT(readability-convert-member-functions-to-static)
         return "\03";
     }
 

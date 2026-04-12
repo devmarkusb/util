@@ -16,7 +16,11 @@ constexpr T narrow_cast(U u) noexcept {
 }
 
 //! Exception thrown by narrow() when failing.
-struct NarrowingError : public std::exception {};
+struct NarrowingError : std::exception {
+    [[nodiscard]] const char* what() const noexcept override {
+        return "mb::ul::NarrowingError";
+    }
+};
 
 /** Checked version of narrow_cast(), throwing narrowing_error if the cast changed the value.
     Expects at least one of the casting types to be non floating point.*/

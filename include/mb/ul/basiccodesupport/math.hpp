@@ -13,8 +13,9 @@ namespace mb::ul {
 template <typename T>
 concept Arithmetic = std::is_arithmetic_v<T>;
 #endif
+} // namespace mb::ul
 
-namespace math {
+namespace mb::ul::math {
 namespace consts {
 template <typename T>
 constexpr T pi() {
@@ -109,7 +110,6 @@ constexpr uint64_t next_greater_or_eq_pow2(uint64_t v) noexcept {
     // NOLINTEND
     return v + 1;
 }
-} // namespace math
-} // namespace mb::ul
+} // namespace mb::ul::math
 
 #endif
