@@ -6,6 +6,7 @@
 #include "assert.hpp"
 #include "mb/ul/buildenv/config.hpp"
 #include <cerrno>
+#include <cstdint>
 #include <cstring>
 #include <fstream>
 #include <sstream>
@@ -29,7 +30,7 @@ bool fstream_failed(std::string& ret_err_detail, const FStream& fs) {
     return true;
 }
 
-enum class Operation {
+enum class Operation : uint8_t {
     save,
     load,
 };
