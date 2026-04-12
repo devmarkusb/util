@@ -1,9 +1,12 @@
 //! Note: quick_exit instead of exit because of clang thread safety warning.
 #include "mb/ul/basiccodesupport/crash.hpp"
-#include "mb/ul/buildenv/config-gen.hpp"
+#include "mb/ul/buildenv/warnings.hpp"
 
 #include "gtest/gtest.h"
 #include <csignal>
+
+UL_PRAGMA_WARNINGS_PUSH
+UL_WARNING_DISABLE_CLANG(used-but-marked-unused)
 
 namespace wrap {
 namespace {
@@ -39,3 +42,5 @@ TEST(crashDeathTest, sigabrt) {
 TEST(crash, not_crashing) {
     EXPECT_EXIT((ul::crash(0), wrap::exit(0)), ::testing::ExitedWithCode(0), ".*");
 }
+
+UL_PRAGMA_WARNINGS_POP
