@@ -1,0 +1,13 @@
+name: weekly pre-commit autoupdate
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 16 * * 0"
+
+jobs:
+  auto-update-pre-commit:
+    uses: devmarkusb/gh-workflows/.github/workflows/update-pre-commit.yml@main
+    secrets:
+      APP_ID: ${{ secrets.MB_PRE_COMMIT_AUTO_UPDATER_APP_ID }}
+      PRIVATE_KEY: ${{ secrets.MB_PRE_COMMIT_AUTO_UPDATER_PRIVATE_KEY }}
