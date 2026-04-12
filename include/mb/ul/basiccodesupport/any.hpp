@@ -6,6 +6,7 @@
 #include "mb/ul/buildenv/macros.hpp"
 #include "std/std-extensions.hpp"
 #include <memory>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 
@@ -42,7 +43,11 @@ const Type* any_cast(const Any* val);
 //!@}
 
 //! Applied to any type. Thrown if Any is empty or casted to the wrong concrete type.
-struct BadAnyCast : public std::bad_cast {};
+struct BadAnyCast : std::bad_cast {
+    [[nodiscard]] const char* what() const noexcept override {
+        return "mb::ul::BadAnyCast";
+    }
+};
 
 //! Details.
 /** If Any is empty or casted to the wrong type, ul::bad_any_cast is thrown.*/
@@ -71,25 +76,25 @@ public:
     // NOLINTBEGIN
     template <typename T>
     /*implicit*/ Any(T&& x)
-        : holder_(ul::make_unique<Concrete<T>>(std::forward<T>(x))) {
+        : holder_(ul::make_unique<Concrete<std::decay_t<T>>>(std::forward<T>(x))) {
     }
 
     template <typename T>
     /*implicit*/ Any(const T& x)
-        : holder_(ul::make_unique<Concrete<T>>(x)) {
+        : holder_(ul::make_unique<Concrete<std::decay_t<T>>>(x)) {
     }
 
     // NOLINTEND
 
     template <typename T>
     Any& operator=(T&& x) {
-        holder_ = ul::make_unique<Concrete<T>>(std::forward<T>(x));
+        holder_ = ul::make_unique<Concrete<std::decay_t<T>>>(std::forward<T>(x));
         return *this;
     }
 
     template <typename T>
     Any& operator=(const T& x) {
-        holder_ = ul::make_unique<Concrete<T>>(x);
+        holder_ = ul::make_unique<Concrete<std::decay_t<T>>>(x);
         return *this;
     }
 
@@ -121,12 +126,8 @@ private:
 
     template <typename T>
     struct Concrete : Ibase {
-        explicit Concrete(T&& x)
+        explicit Concrete(T x)
             : value(std::move(x)) {
-        }
-
-        explicit Concrete(const T& x)
-            : value(x) {
         }
 
         [[nodiscard]] std::unique_ptr<Ibase> clone() const override { // NOLINT

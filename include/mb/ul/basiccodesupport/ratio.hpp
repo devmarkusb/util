@@ -64,8 +64,8 @@ struct Rational {
         because otherwise the default constructor seems to disturb.*/
     Rational(std::initializer_list<ValueType> init) {
         UL_EXPECT(init.size() <= 2);
-        bool first{true};
-        for (const auto& elem : init) {
+        bool first{true}; // NOLINT(misc-const-correctness)
+        for (const auto elem : init) {
             if (first) {
                 first = false;
                 num = elem;
@@ -126,9 +126,9 @@ struct Rational {
     }
 
     Rational operator-() const {
-        Rational tmp{*this};
-        tmp.num = -this->num;
-        return tmp;
+        Rational result{*this};
+        result.num = -this->num;
+        return result;
     }
 
     Rational& operator+=(const Rational& rhs) {
