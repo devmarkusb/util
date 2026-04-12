@@ -71,9 +71,8 @@ public:
     using Base = detail::circbuf_impl_container::Base<T, static_capacity>;
 
     //! Expects capacity > 0.
-    template <
-        size_t capacity_enabled = static_capacity,
-        typename = typename std::enable_if<capacity_enabled == 0>::type>
+    template <size_t capacity_enabled = static_capacity>
+        requires(capacity_enabled == 0)
     explicit CircularBuffer(size_t capacity)
         : Base{capacity} {
     }

@@ -34,14 +34,14 @@ struct DistanceTypeDecl {
         }
     }
 
-    using TypeOrig = typename decltype(choose_type())::type;
+    using TypeOrig = decltype(choose_type())::type;
     using Type = std::make_unsigned_t<std::remove_cvref_t<TypeOrig>>;
 
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
 template <most_generic::TransformationOrIntegral T>
-using DistanceType = typename DistanceTypeDecl<T>::Type;
+using DistanceType = DistanceTypeDecl<T>::Type;
 
 template <typename F>
 concept Transformation = UnaryOperation<F> && requires(F f) { DistanceType<F>{}; };
