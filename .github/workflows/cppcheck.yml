@@ -62,6 +62,34 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Install cppcheck
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if command -v cppcheck >/dev/null 2>&1; then
+            cppcheck --version
+            exit 0
+          fi
+
+          if command -v apt-get >/dev/null 2>&1; then
+            apt-get update
+            apt-get install -y cppcheck
+          elif command -v dnf >/dev/null 2>&1; then
+            dnf install -y cppcheck
+          elif command -v pacman >/dev/null 2>&1; then
+            pacman -Sy --noconfirm cppcheck
+          elif command -v zypper >/dev/null 2>&1; then
+            zypper --non-interactive install cppcheck
+          elif command -v brew >/dev/null 2>&1; then
+            brew install cppcheck
+          else
+            echo "Unable to install cppcheck: no supported package manager found." >&2
+            exit 1
+          fi
+
+          cppcheck --version
+
       - name: Run cppcheck
         shell: bash
         run: ./run-cppcheck.sh clang-release
