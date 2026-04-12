@@ -5,10 +5,9 @@
 
 #include "mb/ul/buildenv/macros.hpp"
 #include "std/std-extensions.hpp"
-#include <exception>
 #include <memory>
-#include <type_traits>
 #include <typeinfo>
+#include <utility>
 
 namespace mb::ul {
 /** Can be used like any built-in value type, like \code int \endcode.
@@ -16,80 +15,80 @@ namespace mb::ul {
     you need to use \code ul::any_cast<>() \endcode.
     Usage
     \code
-    ul::any x = std::vector<long>{1,2,3,4,5};
+    ul::Any x = std::vector<long>{1,2,3,4,5};
     std::vector<long> back = ul::any_cast<std::vector<long>>(x);
     \endcode
     The type can be especially useful for interfaces that shouldn't be touched
     again but remain flexible, example shown in any.test.cpp.
     So you can parametrize interface functions with (1.) an enum type as attribute
-    description plus commenting the expected concrete type, and (2.) ul::any.
+    description plus commenting the expected concrete type, and (2.) ul::Any.
 
-    Attention: use any_cast() on pointers to any by specifying the *non*-pointer
+    Attention: use any_cast() on pointers to Any by specifying the *non*-pointer
     concrete type as cast type within <>, but of course the pointer type as the cast
     return type.*/
-class any;
+class Any;
 
-//! Cf. any.
+//! Cf. Any.
 //!@{
 template <typename Type>
-Type any_cast(any& val);
+Type any_cast(Any& val);
 template <typename Type>
-Type any_cast(const any& val);
+Type any_cast(const Any& val);
 template <typename Type>
-Type* any_cast(any* pval);
+Type* any_cast(Any* pval);
 template <typename Type>
-const Type* any_cast(const any* val);
+const Type* any_cast(const Any* val);
 
 //!@}
 
-//! Applied to any type. Thrown if any is empty or casted to the wrong concrete type.
+//! Applied to any type. Thrown if Any is empty or casted to the wrong concrete type.
 struct BadAnyCast : public std::bad_cast {};
 
 //! Details.
-/** If any is empty or casted to the wrong type, ul::bad_any_cast is thrown.*/
-class any {
+/** If Any is empty or casted to the wrong type, ul::bad_any_cast is thrown.*/
+class Any {
 public:
-    any() = default;
-    ~any() = default;
+    Any() = default;
+    ~Any() = default;
 
-    any(const any& x) {
+    Any(const Any& x) {
         if (x.holder_)
             holder_ = x.holder_->clone();
     }
 
 #if UL_HAS_CPP11_DEFAULT_MOVES
-    any(any&& x) = default;
-    any& operator=(any&& rhs) = default;
+    Any(Any&& x) = default;
+    Any& operator=(Any&& rhs) = default;
 #endif
 
-    any& operator=(const any& rhs) // untested
+    Any& operator=(const Any& rhs) // untested
     {
-        // ptr = std::move(any(rhs).ptr); // faster?
-        *this = any(rhs); // no code duplication, no move, as according to clang this could prevent copy elision
+        // ptr = std::move(Any(rhs).ptr); // faster?
+        *this = Any(rhs); // no code duplication, no move, as according to clang this could prevent copy elision
         return *this;
     }
 
     // NOLINTBEGIN
     template <typename T>
-    /*implicit*/ any(T&& x)
+    /*implicit*/ Any(T&& x)
         : holder_(ul::make_unique<Concrete<T>>(std::forward<T>(x))) {
     }
 
     template <typename T>
-    /*implicit*/ any(const T& x)
+    /*implicit*/ Any(const T& x)
         : holder_(ul::make_unique<Concrete<T>>(x)) {
     }
 
     // NOLINTEND
 
     template <typename T>
-    any& operator=(T&& x) {
+    Any& operator=(T&& x) {
         holder_ = ul::make_unique<Concrete<T>>(std::forward<T>(x));
         return *this;
     }
 
     template <typename T>
-    any& operator=(const T& x) {
+    Any& operator=(const T& x) {
         holder_ = ul::make_unique<Concrete<T>>(x);
         return *this;
     }
@@ -123,18 +122,18 @@ private:
     template <typename T>
     struct Concrete : Ibase {
         explicit Concrete(T&& x)
-            : value(std::forward<T>(x)) {
+            : value(std::move(x)) {
         }
 
         explicit Concrete(const T& x)
             : value(x) {
         }
 
-        [[nodiscard]] std::unique_ptr<Ibase> clone() const override {
+        [[nodiscard]] std::unique_ptr<Ibase> clone() const override { // NOLINT
             return ul::make_unique<Concrete<T>>(value);
         }
 
-        [[nodiscard]] const std::type_info& type() const override {
+        [[nodiscard]] const std::type_info& type() const override { // NOLINT
             return typeid(T);
         }
 
@@ -144,44 +143,44 @@ private:
     std::unique_ptr<Ibase> holder_;
 
     template <typename Type>
-    friend Type any_cast(any& val);
+    friend Type any_cast(Any& val);
 
     template <typename Type>
-    friend Type any_cast(const any& val);
+    friend Type any_cast(const Any& val);
 
     template <typename Type>
-    friend Type* any_cast(any* pval);
+    friend Type* any_cast(Any* pval);
 
     template <typename Type>
-    friend const Type* any_cast(const any* pval);
+    friend const Type* any_cast(const Any* pval);
 };
 
 template <typename Type>
-Type any_cast(any& val) {
+Type any_cast(Any& val) {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return static_cast<any::Concrete<Type>*>(val.holder_.get())->value;
+    return static_cast<Any::Concrete<Type>*>(val.holder_.get())->value;
 }
 
 template <typename Type>
-Type any_cast(const any& val) {
+Type any_cast(const Any& val) {
     if (val.empty() || val.holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return static_cast<any::Concrete<Type>*>(any(val).holder_.get())->value;
+    return static_cast<Any::Concrete<Type>*>(Any(val).holder_.get())->value;
 }
 
 template <typename Type>
-Type* any_cast(any* pval) {
+Type* any_cast(Any* pval) {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value);
+    return &(static_cast<Any::Concrete<Type>*>(pval->holder_.get())->value);
 }
 
 template <typename Type>
-const Type* any_cast(const any* pval) {
+const Type* any_cast(const Any* pval) {
     if (pval->empty() || pval->holder_->type() != typeid(Type))
         throw BadAnyCast();
-    return &(static_cast<any::Concrete<Type>*>(pval->holder_.get())->value);
+    return &(static_cast<Any::Concrete<Type>*>(pval->holder_.get())->value);
 }
 } // namespace mb::ul
 
