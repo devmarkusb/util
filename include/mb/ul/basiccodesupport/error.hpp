@@ -6,6 +6,7 @@
 #include "assert.hpp"
 
 #include "mb/ul/buildenv/warnings.hpp"
+#include <cstdint>
 #include <cstdlib>
 #include <exception>
 #include <map>
@@ -60,30 +61,30 @@ enum class Retcode : uint8_t {
 
     //! Return values indicating failure
     //!@{
-    failed,
+    failed = 1,
 
-    not_implemented,
-    did_no_op,
+    not_implemented = 2,
+    did_no_op = 3,
 
-    logic_error,
-    domain_error,
-    invalid_arg,
-    length_error,
-    out_of_range,
-    runtime_error,
-    overflow,
-    underflow,
-    range_error,
+    logic_error = 4,
+    domain_error = 5,
+    invalid_arg = 6,
+    length_error = 7,
+    out_of_range = 8,
+    runtime_error = 9,
+    overflow = 10,
+    underflow = 11,
+    range_error = 12,
 
-    precond_failed,
-    assertion_failed,
-    postcond_failed,
+    precond_failed = 13,
+    assertion_failed = 14,
+    postcond_failed = 15,
 
-    would_crash,
-    out_of_memory,
-    division_by_zero,
+    would_crash = 16,
+    out_of_memory = 17,
+    division_by_zero = 18,
 
-    unknown_error,
+    unknown_error = 19,
     //!@}
 };
 

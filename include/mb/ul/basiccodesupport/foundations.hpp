@@ -108,7 +108,7 @@ template <typename Ret, typename FctObjType, typename... Args>
 struct Method<Ret (FctObjType::*)(Args...) const> {
     using ReturnType = Ret;
     using ArgsTuple = std::tuple<Args...>;
-    using FirstArgType = typename FirstArg<ArgsTuple>::Type;
+    using FirstArgType = FirstArg<ArgsTuple>::Type;
 };
 
 template <typename F>
@@ -126,7 +126,7 @@ template <typename Ret, typename... Args>
 struct Function<Ret (*)(Args...)> {
     using ReturnType = Ret;
     using ArgsTuple = std::tuple<Args...>;
-    using FirstArgType = typename FirstArg<ArgsTuple>::Type;
+    using FirstArgType = FirstArg<ArgsTuple>::Type;
 };
 
 template <most_generic::FunctionalProcedure F>

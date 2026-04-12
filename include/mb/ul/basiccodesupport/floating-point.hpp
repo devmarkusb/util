@@ -9,6 +9,7 @@
 #include "mb/ul/buildenv/config.hpp"
 #include "mb/ul/buildenv/macros/UNDEF-MIN-MAX.hpp"
 #include <algorithm>
+#include <cstdint>
 #include <iomanip>
 #include <sstream>
 #include <type_traits>
@@ -31,7 +32,7 @@ bool approx_equal(FloatType x, FloatType y, FloatType eps) {
 }
 
 //! Cf. to_string functions.
-enum class FloatFormat {
+enum class FloatFormat : uint8_t {
     default_choice,
     fixed,
     scientific,
@@ -74,7 +75,8 @@ struct ToStringConverter<FloatType, FloatFormat::default_choice> {
     static std::string convert(FloatType x) {
         // Avoid std::to_string: trailing fractional zeros are not guaranteed (e.g. "4.556" vs "4.556000").
         std::ostringstream ret;
-        ret << std::fixed << std::setprecision(6) << x;
+        constexpr auto default_choice_fractional_digits{6};
+        ret << std::fixed << std::setprecision(default_choice_fractional_digits) << x;
         return ret.str();
     }
 
