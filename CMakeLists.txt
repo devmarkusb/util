@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.30...4.3)
 
 project(
     mb.util
-    DESCRIPTION "Header-only C++ utility library"
+    DESCRIPTION "C++ utility library (header-only)"
     LANGUAGES CXX
     VERSION 0.1.0
 )
