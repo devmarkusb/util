@@ -41,7 +41,7 @@ namespace mb::ul {
     It is recommended to use level strings "ERROR", "WARN", "INFO", "TRACE" in that order of decreasing severity.
     Note that you don't need to append \code \n \endcode to your trace line, it's done automatically.
     Also note, that "ERROR" is default and can be left out. If you don't want to show a level, pass an empty string.*/
-struct trace;
+struct Trace;
 
 namespace tracer {
 struct OutputToConsole {
@@ -284,17 +284,17 @@ void init() {
 }
 } // namespace tracer
 
-struct trace : private ul::NonCopyable {
+struct Trace : private NonCopyable {
     static constexpr auto level_error{std::string_view{"ERROR"}};
 
-    explicit trace(std::string_view level = level_error)
-        : stream_{&ul::tracer::detail_impl::stream()} {
+    explicit Trace(std::string_view level = level_error)
+        : stream_{&tracer::detail_impl::stream()} {
         std::ostringstream tmp;
         tmp << std::left << std::setw(level.empty() ? 0 : level_error.size() + 1) << level;
         *this->stream_ << tmp.str();
     }
 
-    ~trace() {
+    ~Trace() {
         *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{};
     }
 
@@ -306,8 +306,12 @@ private:
     mutable tracer::detail_impl::StreamTracer* stream_;
 };
 
+inline Trace trace(std::string_view level = Trace::level_error) {
+    return Trace{level};
+}
+
 template <typename T>
-const trace& operator<<(const trace& t, T&& arg) {
+Trace& operator<<(Trace& t, T&& arg) {
     t.stream() << std::forward<T>(arg);
     return t;
 }

@@ -3,7 +3,6 @@
 #ifndef RATIO_H_LOUIUZLIK79HI965GI6
 #define RATIO_H_LOUIUZLIK79HI965GI6
 
-#include "almost-equal.hpp"
 #include "assert.hpp"
 
 #include "mb/ul/buildenv/config.hpp"
@@ -193,7 +192,11 @@ inline Rational operator/(Rational lhs, const Rational& rhs) {
 inline bool operator==(const Rational& lhs, const Rational& rhs) {
     if (lhs.denom == rhs.denom)
         return lhs.num == rhs.num;
-    return ul::almost_equal(lhs.as_floating_point<long double>(), rhs.as_floating_point<long double>());
+
+    Rational lhs_common = lhs;
+    Rational rhs_common = rhs;
+    make_common_denom(lhs_common, rhs_common);
+    return lhs_common.num == rhs_common.num;
 }
 
 inline bool operator!=(const Rational& lhs, const Rational& rhs) {
@@ -205,7 +208,11 @@ inline bool operator<(const Rational& lhs, const Rational& rhs) {
         return lhs.num < rhs.num;
     if (lhs.num == rhs.num)
         return lhs.denom > rhs.denom;
-    return lhs.as_floating_point<long double>() < rhs.as_floating_point<long double>();
+
+    Rational lhs_common = lhs;
+    Rational rhs_common = rhs;
+    make_common_denom(lhs_common, rhs_common);
+    return lhs_common.num < rhs_common.num;
 }
 
 inline bool operator>(const Rational& lhs, const Rational& rhs) {
