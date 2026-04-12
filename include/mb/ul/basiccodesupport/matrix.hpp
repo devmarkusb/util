@@ -54,7 +54,7 @@ template <
     CommutativeMonoidOperation OpElemCommutativeMonoid /*add*/,
     MonoidOperation OpElemMonoid /*multiply*/>
     requires SemiRing<OpElemCommutativeMonoid, OpElemMonoid>
-auto multiply(
+Matrix<Domain<OpElemMonoid>, m, n> multiply(
     const Matrix<Domain<OpElemMonoid>, m, k>& l,
     const Matrix<Domain<OpElemMonoid>, k, n>& r,
     OpElemCommutativeMonoid inner_add,

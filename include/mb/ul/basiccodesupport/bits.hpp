@@ -121,7 +121,7 @@ constexpr SourceType read(SourceType from, Idx idx, Count count) noexcept {
     UL_EXPECT(count > 0);
     UL_EXPECT(idx + count <= bits::count<SourceType>());
 
-    return (from & bits::set_range<SourceType>(idx, count)) >> idx; // NOLINT
+    return ul::narrow_cast<SourceType>((from & bits::set_range<SourceType>(idx, count)) >> idx);
 }
 
 //! Like read. But here you can also opt for a different target type.
