@@ -1,0 +1,65 @@
+name: cppcheck
+
+on:
+  pull_request:
+    paths:
+      - "**/*.c"
+      - "**/*.cc"
+      - "**/*.cpp"
+      - "**/*.cxx"
+      - "**/*.h"
+      - "**/*.hh"
+      - "**/*.hpp"
+      - "**/*.hxx"
+      - "CMakeLists.txt"
+      - "**/CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - "devenv/cmake/**"
+      - "CppCheckSuppressions.txt"
+      - "run-cppcheck.sh"
+      - ".github/workflows/cppcheck.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.c"
+      - "**/*.cc"
+      - "**/*.cpp"
+      - "**/*.cxx"
+      - "**/*.h"
+      - "**/*.hh"
+      - "**/*.hpp"
+      - "**/*.hxx"
+      - "CMakeLists.txt"
+      - "**/CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - "devenv/cmake/**"
+      - "CppCheckSuppressions.txt"
+      - "run-cppcheck.sh"
+      - ".github/workflows/cppcheck.yml"
+  schedule:
+    - cron: "31 4 * * 0"
+  workflow_dispatch:
+
+concurrency:
+  group: cppcheck-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  full-project:
+    name: full project
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bemanproject/infra-containers-clang:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run cppcheck
+        shell: bash
+        run: ./run-cppcheck.sh clang-release
