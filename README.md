@@ -2,6 +2,7 @@
 
 [![build](https://github.com/devmarkusb/util/actions/workflows/build.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/build.yml)
 [![clang-tidy-review](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml)
+[![cppcheck](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml)
 [![Codacy Security Scan](https://github.com/devmarkusb/util/actions/workflows/codacy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codacy.yml)
 [![CodeQL](https://github.com/devmarkusb/util/actions/workflows/codeql.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codeql.yml)
 [![Checkmarx Scan](https://github.com/devmarkusb/util/actions/workflows/checkmarx-one.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/checkmarx-one.yml)
@@ -57,6 +58,20 @@ target_link_libraries(YourTarget PRIVATE mb::util)
 ```
 
 and `#include "mb/ul/ul.hpp"` should be all you need. The library is header-only.
+
+### Local static analysis
+
+Run the same `cppcheck` entrypoint that CI uses:
+
+```bash
+./run-cppcheck.sh
+```
+
+This configures the default `clang-release` preset, uses the generated
+`compile_commands.json`, and fails on `cppcheck` findings. The underlying CMake
+helper will also do a best-effort install of `cppcheck` via a supported host
+package manager when it is missing. Pass a preset name as the first argument to
+use a different configure preset.
 
 ## FAQ
 

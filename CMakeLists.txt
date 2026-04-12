@@ -34,6 +34,7 @@ include(mb-devenv-defaults)
 include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
+mb_ul_include(cppcheck.cmake)
 mb_ul_include(gsl.cmake)
 
 # From fetched https://github.com/devmarkusb/pre-commit (see fetchcontent-lockfile.json).
