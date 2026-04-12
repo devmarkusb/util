@@ -23,10 +23,10 @@ struct IA {
     virtual ~IA() = default;
     //...
 
-    virtual void set(Attr, const ul::any&) = 0;
-    [[nodiscard]] virtual ul::any get(Attr) const = 0;
-    virtual bool copy_to(LargeData, const ul::any&) = 0;
-    virtual bool copy_from(LargeData, ul::any&) const = 0;
+    virtual void set(Attr, const ul::Any&) = 0;
+    [[nodiscard]] virtual ul::Any get(Attr) const = 0;
+    virtual bool copy_to(LargeData, const ul::Any&) = 0;
+    virtual bool copy_from(LargeData, ul::Any&) const = 0;
 };
 
 struct AFactory {
@@ -38,7 +38,7 @@ struct A : public IA {
         return true; // untested
     }
 
-    void set(Attr a, const ul::any& val) override {
+    void set(Attr a, const ul::Any& val) override {
         switch (a) {
             case Attr::a1:
                 this->a1_ = ul::any_cast<int>(val);
@@ -48,16 +48,16 @@ struct A : public IA {
         }
     }
 
-    [[nodiscard]] ul::any get(Attr a) const override {
+    [[nodiscard]] ul::Any get(Attr a) const override {
         switch (a) {
             case Attr::a1:
                 return this->a1_;
             default:
-                return ul::any{};
+                return ul::Any{};
         }
     }
 
-    bool copy_to(LargeData d, const ul::any& data) override {
+    bool copy_to(LargeData d, const ul::Any& data) override {
         switch (d) {
             case LargeData::d1:
                 this->d1_ = ul::any_cast<std::vector<int>>(data);
@@ -67,7 +67,7 @@ struct A : public IA {
         }
     }
 
-    bool copy_from(LargeData d, ul::any& data) const override {
+    bool copy_from(LargeData d, ul::Any& data) const override {
         switch (d) {
             case LargeData::d1:
                 data = this->d1_;
@@ -91,32 +91,32 @@ std::unique_ptr<IA> AFactory::create_a() {
 TEST(ul_anyTest, test) {
     const a::AFactory afactory;
     std::unique_ptr<a::IA> ia = afactory.create_a();
-    const ul::any a1 = 5;
-    const ul::any test(5);
-    const ul::any test2{5};
+    const ul::Any a1 = 5;
+    const ul::Any test(5);
+    const ul::Any test2{5};
     ia->set(a::Attr::a1, a1);
-    ul::any a1get = ia->get(a::Attr::a1);
+    ul::Any a1get = ia->get(a::Attr::a1);
     EXPECT_EQ(5, ul::any_cast<int>(a1get));
-    ul::any a1get_err = ia->get(a::Attr::a2);
+    ul::Any a1get_err = ia->get(a::Attr::a2);
     EXPECT_TRUE(a1get_err.empty());
     EXPECT_THROW(ul::any_cast<long>(a1get_err), mb::ul::BadAnyCast);
 
-    ul::any d1 = std::vector<int>{1, 2, 3, 4, 5}; // NOLINT
+    ul::Any d1 = std::vector<int>{1, 2, 3, 4, 5}; // NOLINT
     ia->copy_to(a::LargeData::d1, d1);
-    ul::any d1get;
+    ul::Any d1get;
     ia->copy_from(a::LargeData::d1, d1get);
     const std::vector<int> test_v{1, 2, 3, 4, 5};
     EXPECT_EQ(test_v, ul::any_cast<std::vector<int>>(d1get));
     EXPECT_THROW(ul::any_cast<std::vector<bool>>(d1get), mb::ul::BadAnyCast);
 
-    ul::any* pd1 = &d1;
+    ul::Any* pd1 = &d1;
     ia->copy_to(a::LargeData::d1, *pd1);
-    ul::any* pd1get = &d1get;
+    ul::Any* pd1get = &d1get;
     ia->copy_from(a::LargeData::d1, *pd1get);
     auto* pvres = ul::any_cast<std::vector<int>>(pd1get);
     EXPECT_EQ(test_v, *pvres);
 
-    const ul::any* cpd1get = pd1get;
+    const ul::Any* cpd1get = pd1get;
     const auto* cpvres = ul::any_cast<std::vector<int>>(cpd1get);
     EXPECT_EQ(test_v, *cpvres);
 }
