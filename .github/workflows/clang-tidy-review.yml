@@ -101,7 +101,7 @@ jobs:
           fi
 
           mapfile -t all_translation_units < <(
-            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes)]'
+            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); excluded_suffixes=(".test.c", ".test.cc", ".test.cpp", ".test.cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes) and not path.endswith(excluded_suffixes)]'
           )
           if [[ "${#all_translation_units[@]}" -eq 0 ]]; then
             echo "No translation units found; skipping changed-files clang-tidy run."
@@ -113,6 +113,11 @@ jobs:
           for path in "${changed_paths[@]}"; do
             case "${path}" in
               src/*.c|src/*.cc|src/*.cpp|src/*.cxx|examples/*.c|examples/*.cc|examples/*.cpp|examples/*.cxx)
+                case "${path}" in
+                  *.test.c|*.test.cc|*.test.cpp|*.test.cxx)
+                    continue
+                    ;;
+                esac
                 selected_translation_units+=("${path}")
                 ;;
               include/*.h|include/*.hh|include/*.hpp|include/*.hxx|src/*.h|src/*.hh|src/*.hpp|src/*.hxx|examples/*.h|examples/*.hh|examples/*.hpp|examples/*.hxx|.clang-tidy|CMakeLists.txt|*/CMakeLists.txt|CMakePresets.json|cmake/*|cmake/*/*|devenv/cmake/*|devenv/cmake/*/*)
@@ -165,7 +170,7 @@ jobs:
           mkdir -p "${report_dir}"
 
           mapfile -t translation_units < <(
-            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes)]'
+            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); excluded_suffixes=(".test.c", ".test.cc", ".test.cpp", ".test.cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes) and not path.endswith(excluded_suffixes)]'
           )
           if [[ "${#translation_units[@]}" -eq 0 ]]; then
             echo "No translation units found; skipping full clang-tidy run."
