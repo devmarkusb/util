@@ -18,6 +18,10 @@ int main() {
         UL_ASSERT(p);
         std::println("p: {}", *p);
 
+        // random feature from utf8 (via ul/string)
+        const std::string s = "\xe4\xf6\xfc"; // latin1 (aeoeue)
+        std::print("{} valid utf8: {}", s, utf8::is_valid(s));
+
         return ul::prog_exit_success;
     } catch (const std::exception& e) {
         std::cerr << "Caught exception: " << e.what() << "\n";
