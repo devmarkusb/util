@@ -48,11 +48,11 @@
 #define UL_OS_MSDOS 1
 #endif
 
-#if defined(_WIN32_WCE)
+#ifdef _WIN32_WCE
 #define UL_OS_WINDOWS_CE 1
 #endif
 
-#if defined(__FreeBSD__)
+#ifdef __FreeBSD__
 #define UL_OS_FREEBSD 1
 #endif
 
@@ -60,7 +60,7 @@
 #define UL_OS_UNIX 1
 #endif
 
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
 #define UL_OS_ANDROID 1
 #if !UL_OS_LINUX
 #error "unexpected, Android should imply Linux"
@@ -75,7 +75,7 @@
 //! Compilers
 //!@{
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #define UL_COMP_MS_VISUAL_STUDIO_CPP 1
 #define UL_COMP_MS_VS_VER            _MSC_VER
 #endif
@@ -104,7 +104,7 @@
 #define UL_COMP_CYGWIN 1
 #endif
 
-#if defined(__INTEL_COMPILER)
+#ifdef __INTEL_COMPILER
 #define UL_COMP_INTEL 1
 #endif
 
@@ -266,7 +266,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! <codecvt> (std::codecvt_utf8_utf16, std::wstring_convert): C++11 through C++23; removed in C++26.
 //! Prefer __cpp_lib_codecvt (SD-6 / std.featuretest); fall back to __has_include(<codecvt>) when the
 //! implementation omits the macro but still ships the header.
-#if defined(__cplusplus)
+#ifdef __cplusplus
 #if (defined(_MSVC_LANG) && (_MSVC_LANG >= 201'103L)) || (!defined(_MSVC_LANG) && (__cplusplus >= 201'103L))
 #if defined(__has_include)
 #if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200'806L
