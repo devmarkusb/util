@@ -1,19 +1,173 @@
-name: clang-tidy-review
+name: clang-tidy
 
-# You can be more specific, but it currently only works on pull requests
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - "**/*.c"
+      - "**/*.cc"
+      - "**/*.cpp"
+      - "**/*.cxx"
+      - "**/*.h"
+      - "**/*.hh"
+      - "**/*.hpp"
+      - "**/*.hxx"
+      - ".clang-tidy"
+      - "CMakeLists.txt"
+      - "**/CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - "devenv/cmake/**"
+      - ".github/workflows/clang-tidy-review.yml"
+      - ".github/clang-tidy-problem-matcher.json"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.c"
+      - "**/*.cc"
+      - "**/*.cpp"
+      - "**/*.cxx"
+      - "**/*.h"
+      - "**/*.hh"
+      - "**/*.hpp"
+      - "**/*.hxx"
+      - ".clang-tidy"
+      - "CMakeLists.txt"
+      - "**/CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - "devenv/cmake/**"
+      - ".github/workflows/clang-tidy-review.yml"
+      - ".github/clang-tidy-problem-matcher.json"
+  schedule:
+    - cron: "17 4 * * 0"
+  workflow_dispatch:
+
+concurrency:
+  group: clang-tidy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  changed-lines:
+    name: changed lines
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
-
+    container:
+      image: ghcr.io/bemanproject/infra-containers-clang:latest
     steps:
-    - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-    # Optionally generate compile_commands.json
+      - name: Add clang-tidy problem matcher
+        run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
 
-    - uses: ZedThree/clang-tidy-review@v0.10.0
-      id: review
-    # If there are any comments, fail the check
-    - if: steps.review.outputs.total_comments > 0
-      run: exit 1
+      - name: Configure clang-release preset
+        run: cmake --preset clang-release
+
+      - name: Run clang-tidy on changed lines
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+          else
+            base_sha="${{ github.event.before }}"
+          fi
+          head_sha="${{ github.sha }}"
+
+          if [[ "${base_sha}" == "0000000000000000000000000000000000000000" ]]; then
+            base_sha="$(git rev-list --max-count=1 "${head_sha}^" 2>/dev/null || true)"
+          fi
+
+          if [[ -z "${base_sha}" ]]; then
+            echo "No diff base available; skipping changed-lines clang-tidy run."
+            exit 0
+          fi
+
+          diff_tool="$(command -v clang-tidy-diff.py || command -v clang-tidy-diff || true)"
+          if [[ -z "${diff_tool}" ]]; then
+            echo "clang-tidy-diff(.py) is required but was not found in PATH." >&2
+            exit 1
+          fi
+
+          git diff --no-color -U0 "${base_sha}" "${head_sha}" > clang-tidy.diff
+
+          if [[ ! -s clang-tidy.diff ]]; then
+            echo "No changed lines to analyze."
+            exit 0
+          fi
+
+          "${diff_tool}" \
+            -p1 \
+            -path build/clang-release \
+            -clang-tidy-binary clang-tidy \
+            -j "$(getconf _NPROCESSORS_ONLN)" \
+            < clang-tidy.diff
+
+  full-project:
+    name: full project
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bemanproject/infra-containers-clang:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Add clang-tidy problem matcher
+        run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
+
+      - name: Configure clang-release preset
+        run: cmake --preset clang-release
+
+      - name: Run clang-tidy on the full codebase
+        id: full_scan
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          run_tool="$(command -v run-clang-tidy.py || command -v run-clang-tidy || true)"
+          if [[ -z "${run_tool}" ]]; then
+            echo "run-clang-tidy(.py) is required but was not found in PATH." >&2
+            exit 1
+          fi
+
+          report_dir="${RUNNER_TEMP}/clang-tidy"
+          report_file="${report_dir}/full-project.txt"
+          mkdir -p "${report_dir}"
+
+          mapfile -t translation_units < <(
+            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes)]'
+          )
+          if [[ "${#translation_units[@]}" -eq 0 ]]; then
+            echo "No translation units found; skipping full clang-tidy run."
+            exit 0
+          fi
+
+          set +e
+          "${run_tool}" \
+            -p build/clang-release \
+            -clang-tidy-binary clang-tidy \
+            -header-filter='^(.*\/)?(include|src|examples)\/' \
+            -j "$(getconf _NPROCESSORS_ONLN)" \
+            "${translation_units[@]}" \
+            | tee "${report_file}"
+          status=${PIPESTATUS[0]}
+          set -e
+
+          echo "report_file=${report_file}" >> "${GITHUB_OUTPUT}"
+          exit "${status}"
+
+      - name: Upload full scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clang-tidy-full-project-report
+          path: ${{ steps.full_scan.outputs.report_file }}
+          if-no-files-found: ignore
