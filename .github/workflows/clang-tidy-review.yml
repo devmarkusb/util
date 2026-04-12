@@ -17,6 +17,7 @@ on:
       - "CMakePresets.json"
       - "cmake/**"
       - "devenv/cmake/**"
+      - "devenv/clang_tidy_review.py"
       - ".github/workflows/clang-tidy-review.yml"
       - ".github/clang-tidy-problem-matcher.json"
   push:
@@ -37,6 +38,7 @@ on:
       - "CMakePresets.json"
       - "cmake/**"
       - "devenv/cmake/**"
+      - "devenv/clang_tidy_review.py"
       - ".github/workflows/clang-tidy-review.yml"
       - ".github/clang-tidy-problem-matcher.json"
   schedule:
@@ -70,9 +72,6 @@ jobs:
       - name: Add clang-tidy problem matcher
         run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
 
-      - name: Configure clang-release preset
-        run: cmake --preset clang-release
-
       - name: Run clang-tidy on changed lines
         shell: bash
         run: |
@@ -83,61 +82,7 @@ jobs:
           else
             base_sha="${{ github.event.before }}"
           fi
-          head_sha="${{ github.sha }}"
-
-          if [[ "${base_sha}" == "0000000000000000000000000000000000000000" ]]; then
-            base_sha="$(git rev-list --max-count=1 "${head_sha}^" 2>/dev/null || true)"
-          fi
-
-          if [[ -z "${base_sha}" ]]; then
-            echo "No diff base available; skipping changed-lines clang-tidy run."
-            exit 0
-          fi
-
-          mapfile -t changed_paths < <(git diff --name-only --diff-filter=ACMR "${base_sha}" "${head_sha}")
-          if [[ "${#changed_paths[@]}" -eq 0 ]]; then
-            echo "No changed files to analyze."
-            exit 0
-          fi
-
-          mapfile -t all_translation_units < <(
-            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); excluded_suffixes=(".test.c", ".test.cc", ".test.cpp", ".test.cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes) and not path.endswith(excluded_suffixes)]'
-          )
-          if [[ "${#all_translation_units[@]}" -eq 0 ]]; then
-            echo "No translation units found; skipping changed-files clang-tidy run."
-            exit 0
-          fi
-
-          run_full_scan_for_changes=0
-          selected_translation_units=()
-          for path in "${changed_paths[@]}"; do
-            case "${path}" in
-              src/*.c|src/*.cc|src/*.cpp|src/*.cxx|examples/*.c|examples/*.cc|examples/*.cpp|examples/*.cxx)
-                case "${path}" in
-                  *.test.c|*.test.cc|*.test.cpp|*.test.cxx)
-                    continue
-                    ;;
-                esac
-                selected_translation_units+=("${path}")
-                ;;
-              include/*.h|include/*.hh|include/*.hpp|include/*.hxx|src/*.h|src/*.hh|src/*.hpp|src/*.hxx|examples/*.h|examples/*.hh|examples/*.hpp|examples/*.hxx|.clang-tidy|CMakeLists.txt|*/CMakeLists.txt|CMakePresets.json|cmake/*|cmake/*/*|devenv/cmake/*|devenv/cmake/*/*)
-                run_full_scan_for_changes=1
-                ;;
-            esac
-          done
-
-          if [[ "${run_full_scan_for_changes}" -eq 1 ]]; then
-            echo "Header or build configuration changes detected; running clang-tidy on the full project."
-            selected_translation_units=("${all_translation_units[@]}")
-          elif [[ "${#selected_translation_units[@]}" -eq 0 ]]; then
-            echo "No changed translation units to analyze."
-            exit 0
-          fi
-
-          jobs="$(getconf _NPROCESSORS_ONLN)"
-          header_filter='^(.*\/)?(include|src|examples)\/'
-          printf '%s\0' "${selected_translation_units[@]}" \
-            | xargs -0 -P "${jobs}" -I{} bash -lc 'clang-tidy -p "$1" -header-filter="$2" "$3"' _ build/clang-release "${header_filter}" "{}"
+          python3 ./devenv/clang_tidy_review.py changed --base "${base_sha}" --head "${{ github.sha }}"
 
   full-project:
     name: full project
@@ -157,9 +102,6 @@ jobs:
       - name: Add clang-tidy problem matcher
         run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
 
-      - name: Configure clang-release preset
-        run: cmake --preset clang-release
-
       - name: Run clang-tidy on the full codebase
         shell: bash
         run: |
@@ -168,23 +110,7 @@ jobs:
           report_dir="${RUNNER_TEMP}/clang-tidy"
           report_file="${report_dir}/full-project.txt"
           mkdir -p "${report_dir}"
-
-          mapfile -t translation_units < <(
-            git ls-files | python3 -c 'import sys; prefixes=("src/", "examples/"); suffixes=(".c", ".cc", ".cpp", ".cxx"); excluded_suffixes=(".test.c", ".test.cc", ".test.cpp", ".test.cxx"); [print(path) for path in sys.stdin.read().splitlines() if path.startswith(prefixes) and path.endswith(suffixes) and not path.endswith(excluded_suffixes)]'
-          )
-          if [[ "${#translation_units[@]}" -eq 0 ]]; then
-            echo "No translation units found; skipping full clang-tidy run."
-            exit 0
-          fi
-
-          set +e
-          printf '%s\0' "${translation_units[@]}" \
-            | xargs -0 -P "$(getconf _NPROCESSORS_ONLN)" -I{} bash -lc 'clang-tidy -p "$1" -header-filter="$2" "$3"' _ build/clang-release '^(.*\/)?(include|src|examples)\/' "{}" \
-            | tee "${report_file}"
-          status=${PIPESTATUS[0]}
-          set -e
-
-          exit "${status}"
+          python3 ./devenv/clang_tidy_review.py full --report-file "${report_file}"
 
       - name: Upload full scan report
         if: always()
