@@ -62,6 +62,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          submodules: 'recursive'
 
       - name: Add clang-tidy problem matcher
         run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
@@ -119,6 +120,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
 
       - name: Add clang-tidy problem matcher
         run: echo "::add-matcher::.github/clang-tidy-problem-matcher.json"
