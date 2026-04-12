@@ -7,16 +7,15 @@
 #include "assert.hpp"
 
 #include "mb/ul/buildenv/config.hpp"
-#include <cstdint>
+#include <concepts>
 #include <initializer_list>
 #include <ratio>
-#include <string>
 #include <type_traits>
 
 namespace mb::ul::math {
 //! Greatest common divisor. Expects at least on of a, b to be > 0.
-template <typename T>
-std::enable_if_t<std::is_integral_v<T>, T> gcd(T a, T b) {
+template <std::integral T>
+T gcd(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     T c = 0;
     while (a != 0) {
@@ -28,8 +27,8 @@ std::enable_if_t<std::is_integral_v<T>, T> gcd(T a, T b) {
 }
 
 //! Lowest common multiple.
-template <typename T>
-std::enable_if_t<std::is_integral_v<T>, T> lcm(T a, T b) {
+template <std::integral T>
+T lcm(T a, T b) {
     UL_EXPECT(a > T() || b > T());
     return a * (b / gcd(a, b));
 }
@@ -102,8 +101,8 @@ struct Rational {
         UL_ENSURE(denom > 0);
     }
 
-    template <typename T>
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T> as_floating_point() const {
+    template <std::floating_point T>
+    [[nodiscard]] T as_floating_point() const {
         return static_cast<T>(this->num) / static_cast<T>(this->denom);
     }
 
