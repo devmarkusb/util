@@ -42,7 +42,8 @@ public:
     using Base = detail::waitcircbuf_impl_container::Base<T, static_capacity>;
 
     //! Expects capacity > 0.
-    template <size_t capacity_enabled = static_capacity, typename = std::enable_if<capacity_enabled == 0>::type>
+    template <size_t capacity_enabled = static_capacity>
+        requires(capacity_enabled == 0)
     explicit WaitCircularBuffer(size_t capacity)
         : Base{capacity} {
     }
@@ -107,7 +108,7 @@ public:
     }
 
     size_t size() const {
-        std::scoped_lock lock(mutex_);
+        std::scoped_lock<std::mutex> lock(mutex_);
         return Base::buf_.size();
     }
 
