@@ -1,6 +1,7 @@
 #include "mb/ul/basiccodesupport/random.hpp"
 #include "gtest/gtest.h"
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <vector>
 
@@ -43,7 +44,7 @@ TEST(RandomTest, random_frac) {
     // 1. No consecutive identical values
     bool found_different = false;
     for (size_t i = 1; i < samples.size(); ++i) {
-        if (samples[i] != samples[i - 1]) {
+        if (std::abs(samples[i] - samples[i - 1]) > 0.0) {
             found_different = true;
             break;
         }
