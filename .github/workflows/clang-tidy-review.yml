@@ -1,5 +1,8 @@
 name: clang-tidy
 
+env:
+  CLANG_CONTAINER_IMAGE: ghcr.io/bemanproject/infra-containers-clang:latest
+
 on:
   pull_request:
     paths:
@@ -17,7 +20,7 @@ on:
       - "CMakePresets.json"
       - "cmake/**"
       - "devenv/cmake/**"
-      - "devenv/clang_tidy_review.py"
+      - "devenv/clang-tidy-review.py"
       - ".github/workflows/clang-tidy-review.yml"
       - ".github/clang-tidy-problem-matcher.json"
   push:
@@ -38,7 +41,7 @@ on:
       - "CMakePresets.json"
       - "cmake/**"
       - "devenv/cmake/**"
-      - "devenv/clang_tidy_review.py"
+      - "devenv/clang-tidy-review.py"
       - ".github/workflows/clang-tidy-review.yml"
       - ".github/clang-tidy-problem-matcher.json"
   schedule:
@@ -58,7 +61,7 @@ jobs:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/bemanproject/infra-containers-clang:latest
+      image: ${{ env.CLANG_CONTAINER_IMAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -82,14 +85,14 @@ jobs:
           else
             base_sha="${{ github.event.before }}"
           fi
-          python3 ./devenv/clang_tidy_review.py changed --base "${base_sha}" --head "${{ github.sha }}"
+          python3 ./devenv/clang-tidy-review.py changed --base "${base_sha}" --head "${{ github.sha }}"
 
   full-project:
     name: full project
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/bemanproject/infra-containers-clang:latest
+      image: ${{ env.CLANG_CONTAINER_IMAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -110,7 +113,7 @@ jobs:
           report_dir="${RUNNER_TEMP}/clang-tidy"
           report_file="${report_dir}/full-project.txt"
           mkdir -p "${report_dir}"
-          python3 ./devenv/clang_tidy_review.py full --report-file "${report_file}"
+          python3 ./devenv/clang-tidy-review.py full --report-file "${report_file}"
 
       - name: Upload full scan report
         if: always()
