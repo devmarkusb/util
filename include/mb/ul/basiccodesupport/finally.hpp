@@ -46,13 +46,13 @@ a temporary is created, which gets destructed immediately. The mechanism is
 obviously connected to the lifetime of the variable assigned to.
 */
 template <class F>
-inline FinalAct<F> finally(const F& f) noexcept {
+FinalAct<F> finally(const F& f) noexcept {
     return FinalAct<F>(f);
 }
 
 //! Cf. finally() above.
 template <class F>
-inline FinalAct<F> finally(F&& f) noexcept {
+FinalAct<F> finally(F&& f) noexcept {
     return FinalAct<F>(std::forward<F>(f));
 }
 } // namespace mb::ul
