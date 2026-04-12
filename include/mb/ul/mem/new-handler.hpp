@@ -3,7 +3,6 @@
 #ifndef NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
 #define NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
 
-#include <cstddef>
 #include <new>
 
 namespace mb::ul::mem {
@@ -18,9 +17,9 @@ public:
     static std::new_handler set_new_handler(std::new_handler p);
 //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
 #undef new
-    void* operator new(size_t size);
-    void operator delete(void* ptr) noexcept;
-    void operator delete(void* ptr, size_t size) noexcept;
+    static void* operator new(size_t size);
+    static void operator delete(void* ptr) noexcept;
+    static void operator delete(void* ptr, size_t size) noexcept;
 
 private:
     //! Class specific new handler.
