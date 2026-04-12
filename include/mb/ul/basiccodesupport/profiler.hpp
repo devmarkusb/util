@@ -54,7 +54,7 @@ public:
     inline void start_new_item(const std::string& new_item_name);
     inline void stop_item();
 
-    enum class DumpFormat {
+    enum class DumpFormat : uint8_t {
         string_only,
         string_and_structure,
     };

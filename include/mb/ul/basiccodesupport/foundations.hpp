@@ -148,7 +148,7 @@ template <int, most_generic::FunctionalProcedure>
 struct InputTypeDecl;
 
 template <int i, most_generic::FunctionalProcedure F>
-using InputType = typename InputTypeDecl<i, F>::Type;
+using InputType = InputTypeDecl<i, F>::Type;
 
 namespace most_generic {
 template <typename>
@@ -161,7 +161,7 @@ concept HomogeneousFunction =
 
 template <most_generic::FunctionalProcedure F>
 struct CodomainDecl {
-    using TypeOrig = typename impl::FunctionCall<F>::ReturnType;
+    using TypeOrig = impl::FunctionCall<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
@@ -169,14 +169,14 @@ struct CodomainDecl {
 
 template <impl::HasCallOperator F>
 struct CodomainDecl<F> {
-    using TypeOrig = typename impl::CallOperator<F>::ReturnType;
+    using TypeOrig = impl::CallOperator<F>::ReturnType;
     using Type = std::remove_cvref_t<TypeOrig>;
 
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
 };
 
 template <most_generic::FunctionalProcedure F>
-using Codomain = typename CodomainDecl<F>::Type;
+using Codomain = CodomainDecl<F>::Type;
 
 template <most_generic::FunctionalProcedure F>
 struct InputTypeDecl<0, F> {
@@ -188,7 +188,7 @@ struct InputTypeDecl<0, F> {
         }
     }
 
-    using TypeOrig = typename decltype(choose_type())::type;
+    using TypeOrig = decltype(choose_type())::type;
     using Type = std::remove_cvref_t<TypeOrig>;
 
     static_assert(impl::is_regularity_weak_syntax<TypeOrig>(), UL_REGULARITY_WEAK_SYNTAX_ERR_STR);
