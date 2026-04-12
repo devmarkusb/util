@@ -18,7 +18,7 @@ std::shared_ptr<T> get_shared_instance() {
     static std::mutex m;
     static std::weak_ptr<T> maybe_object;
 
-    const std::lock_guard<std::mutex> lk{m};
+    const std::scoped_lock lk{m};
 
     std::shared_ptr<T> object = maybe_object.lock();
     if (maybe_object.expired()) {
