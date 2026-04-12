@@ -9,9 +9,7 @@
 #include "mb/ul/buildenv/config.hpp"
 #include "mb/ul/buildenv/macros/UNDEF-MIN-MAX.hpp"
 #include <algorithm>
-#include <cmath>
 #include <iomanip>
-#include <limits>
 #include <sstream>
 #include <type_traits>
 
@@ -20,12 +18,16 @@ namespace mb::ul::math {
     understood approx. equal.
     HINT: a common mistake leading to compiler error is not providing eps with explicit type FloatType, as the
     other params.*/
-template <typename FloatType>
-std::enable_if_t<std::is_floating_point_v<FloatType>, bool> approx_equal(FloatType x, FloatType y, FloatType eps) {
-    if (x == y) {
-        return true;
+template <std::floating_point FloatType>
+bool approx_equal(FloatType x, FloatType y, FloatType eps) {
+    if (std::isnan(x) || std::isnan(y)) {
+        return false;
     }
-    return std::abs(x - y) < eps;
+    if (std::isinf(x) || std::isinf(y)) {
+        return std::isinf(x) && std::isinf(y) && std::signbit(x) == std::signbit(y);
+    }
+    const auto diff = std::abs(x - y);
+    return std::fpclassify(diff) == FP_ZERO || diff < eps;
 }
 
 //! Cf. to_string functions.
@@ -36,7 +38,7 @@ enum class FloatFormat {
 };
 
 namespace impl {
-template <typename FloatType, FloatFormat ff>
+template <std::floating_point FloatType, FloatFormat ff>
 struct ToStringConverter;
 } // namespace impl
 
@@ -47,9 +49,9 @@ struct ToStringConverter;
     FF scientific leads to exponential formatting.
     If don't want to pass precision, FF `default_choice` uses fixed-point formatting with 6 digits after the decimal
     (portable; `std::to_string` for floats omits trailing zeros on some platforms).*/
-template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_choice, std::floating_point FloatType = double>
 //  FloatType expected as floating point
-std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x, int precision) {
+std::string to_string(FloatType x, int precision) {
     UL_EXPECT(precision >= 0);
     return impl::ToStringConverter<FloatType, ff>::convert(x, precision);
 }
@@ -57,17 +59,17 @@ std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(Flo
 //! \return a string of the floating point number x.
 /** \tparam ff selects the formatting: `default_choice` uses fixed-point with 6 fractional digits (see convert impl),
     `fixed` / `scientific` use stream formatting with default or explicit precision.*/
-template <FloatFormat ff = FloatFormat::default_choice, typename FloatType = double>
+template <FloatFormat ff = FloatFormat::default_choice, std::floating_point FloatType = double>
 //  FloatType expected as floating point
-std::enable_if_t<std::is_floating_point_v<FloatType>, std::string> to_string(FloatType x) {
+std::string to_string(FloatType x) {
     return impl::ToStringConverter<FloatType, ff>::convert(x);
 }
 
 namespace impl {
-template <typename FloatType, FloatFormat ff>
+template <std::floating_point FloatType, FloatFormat ff>
 struct ToStringConverter {};
 
-template <typename FloatType>
+template <std::floating_point FloatType>
 struct ToStringConverter<FloatType, FloatFormat::default_choice> {
     static std::string convert(FloatType x) {
         // Avoid std::to_string: trailing fractional zeros are not guaranteed (e.g. "4.556" vs "4.556000").
@@ -84,7 +86,7 @@ struct ToStringConverter<FloatType, FloatFormat::default_choice> {
     }
 };
 
-template <typename FloatType>
+template <std::floating_point FloatType>
 struct ToStringConverter<FloatType, FloatFormat::fixed> {
     static std::string convert(FloatType x) {
         std::ostringstream ret;
@@ -100,7 +102,7 @@ struct ToStringConverter<FloatType, FloatFormat::fixed> {
     }
 };
 
-template <typename FloatType>
+template <std::floating_point FloatType>
 struct ToStringConverter<FloatType, FloatFormat::scientific> {
     static std::string convert(FloatType x) {
         std::ostringstream ret;
