@@ -4,6 +4,7 @@
 #define FINALLY_H_SLKHNUIGCHERX8G3H54XX7TH24XT3NX
 
 #include "std/std-extensions.hpp"
+#include <type_traits>
 
 namespace mb::ul {
 //! It's not so convenient to use this directly; call the associated helper function instead.
@@ -52,8 +53,8 @@ FinalAct<F> finally(const F& f) noexcept {
 
 //! Cf. finally() above.
 template <class F>
-FinalAct<F> finally(F&& f) noexcept {
-    return FinalAct<F>(std::forward<F>(f));
+FinalAct<std::decay_t<F>> finally(F&& f) noexcept {
+    return FinalAct<std::decay_t<F>>(std::forward<F>(f));
 }
 } // namespace mb::ul
 
