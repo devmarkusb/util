@@ -72,7 +72,7 @@ public:
     }
 
     size_t size() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         return queue_.size();
     }
 
