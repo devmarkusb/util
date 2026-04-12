@@ -52,6 +52,7 @@ Checks: >
   -readability-identifier-length,
   readability-identifier-naming,
   -readability-implicit-bool-conversion,
+  -readability-inconsistent-ifelse-braces,
   -readability-function-cognitive-complexity,
   -readability-named-parameter,
   -readability-uppercase-literal-suffix
