@@ -3,6 +3,7 @@
 #ifndef NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
 #define NEW_HANDLER_H_N2IO38ZRE2387XNZ27R
 
+#include <cstddef>
 #include <new>
 
 namespace mb::ul::mem {
