@@ -12,9 +12,9 @@ int main() {
 
         // random feature from gsl
         gsl::owner<int*> p{new int{42}}; // NOLINT // NOSONAR
-        ul::finally([&p]() {
+        const auto _{ul::finally([&p]() {
             delete p; // NOLINT // NOSONAR
-        });
+        })};
         UL_ASSERT(p);
         std::println("p: {}", *p);
 
