@@ -11,7 +11,7 @@ A personal library serving purposes that come right
 after or next to std.
 
 For convenience, util or util library is abbreviated as
-namespace ul or prefix UL_ for macros everywhere.
+namespace `(mb::)ul` or prefix `MB_UL_` for macros everywhere.
 
 ## What's in it?
 
@@ -34,7 +34,7 @@ from the cpp core guidelines. You can just use it by `#include "gsl/gsl"`.
 ```cmake
 add_subdirectory(util)
 # ...
-target_link_libraries(YourTarget PUBLIC mb-util)
+target_link_libraries(YourTarget PRIVATE mb::util)
 ```
 
 or
@@ -42,32 +42,28 @@ or
 ```cmake
 cmake_minimum_required(VERSION 3.14)
 
-if (TARGET ulBuildEnv)
-    return ()
-endif ()
-
 include(FetchContent)
 
-FetchContent_Declare(mb-util
+FetchContent_Declare(mb.util
         GIT_REPOSITORY "/home/markus/projects/git/libs/util"
         GIT_TAG origin/HEAD
         GIT_SHALLOW  ON
         GIT_PROGRESS ON
         )
 
-FetchContent_MakeAvailable(mb-util)
+FetchContent_MakeAvailable(mb.util)
 # ...
-target_link_libraries(YourTarget PUBLIC mb-util)
+target_link_libraries(YourTarget PRIVATE mb::util)
 ```
 
-and `#include "mb/ul/ul.hpp"` should be all you need. The library is mostly header-only.
+and `#include "mb/ul/ul.hpp"` should be all you need. The library is header-only.
 
 ## FAQ
 
 ### Namespace clashes
 
 In rare cases when you need to have another namespace `ul`
-around, you can set `UL_DISABLE_NAMESPACE_ALIAS` to `ON`
+around, you can set `MB_UL_DISABLE_NAMESPACE_ALIAS` to `ON`
 which yields base namespace `mb::ul` instead.
 
 ## Contributing
