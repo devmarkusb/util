@@ -31,7 +31,7 @@
 namespace mb::ul::thread {
 #if UL_OS_MAC
 namespace mac {
-constexpr std::string_view sysctl_core_count = "machdep.cpu.core_count";
+constexpr auto sysctl_core_count = "machdep.cpu.core_count";
 
 struct CpuSet {
     uint32_t count{};
@@ -57,7 +57,7 @@ inline int cpu_is_set(int num, const CpuSet* cs) {
 inline int sched_getaffinity(pid_t, size_t, CpuSet* cpu_set) {
     int32_t core_count = 0;
     size_t len = sizeof(core_count);
-    const int ret = sysctlbyname(sysctl_core_count.data(), &core_count, &len, {}, 0);
+    const int ret = sysctlbyname(sysctl_core_count, &core_count, &len, {}, 0);
     if (ret) {
         return -1;
     }
@@ -109,7 +109,7 @@ inline int pin_to_logical_core(NativeHandle h, int logical_core_idx)
     ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
-    const NativeHandle nh = static_cast<pthread_t>(h);
+    auto* const nh = static_cast<pthread_t>(h);
     mac::CpuSet cpuset;
     mac::cpu_zero(&cpuset);
     mac::cpu_set(logical_core_idx, &cpuset);
@@ -149,8 +149,12 @@ inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
     UL_EXPECT(t.joinable()); // thread needs to be executing; you might have passed an empty constructed t
     UL_EXPECT(logical_core_idx >= 0);
 
+#if UL_OS_LINUX
+    auto nh = static_cast<NativeHandle>(t.native_handle());
+#elif UL_OS_MAC
+    auto* nh = static_cast<NativeHandle>(t.native_handle());
+#endif
 #if UL_OS_LINUX || UL_OS_MAC
-    NativeHandle nh = static_cast<NativeHandle>(t.native_handle());
     const auto err = pin_to_logical_core(nh, logical_core_idx);
     if (err) {
         std::stringstream ss;
