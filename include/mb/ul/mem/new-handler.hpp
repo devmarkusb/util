@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <new>
+#include <utility>
 
 namespace mb::ul::mem {
 //! Provides a base class to equip arbitrary classes with their *own* new handler support.
@@ -34,9 +35,7 @@ private:
 
 template <typename T>
 std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p) {
-    std::new_handler old = current_handler();
-    current_handler() = p;
-    return old;
+    return std::exchange(current_handler(), p);
 }
 
 template <typename T>
