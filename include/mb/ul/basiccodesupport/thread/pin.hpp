@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 
 #if UL_OS_UNIX
 #include <pthread.h>
@@ -30,10 +31,10 @@
 namespace mb::ul::thread {
 #if UL_OS_MAC
 namespace mac {
-const auto SYSCTL_CORE_COUNT = "machdep.cpu.core_count";
+constexpr std::string_view sysctl_core_count = "machdep.cpu.core_count";
 
-struct cpu_set_t {
-    uint32_t count;
+struct CpuSet {
+    uint32_t count{};
 };
 
 inline uint32_t cpu_mask(int num) {
@@ -41,24 +42,23 @@ inline uint32_t cpu_mask(int num) {
     return uint32_t{1} << static_cast<uint32_t>(num);
 }
 
-inline void CPU_ZERO(cpu_set_t* cs) {
+inline void cpu_zero(CpuSet* cs) {
     cs->count = 0;
 }
 
-inline void CPU_SET(int num, cpu_set_t* cs) {
+inline void cpu_set(int num, CpuSet* cs) {
     cs->count |= cpu_mask(num);
 }
 
-inline int CPU_ISSET(int num, cpu_set_t* cs) {
+inline int cpu_is_set(int num, const CpuSet* cs) {
     return (cs->count & cpu_mask(num)) != 0U ? 1 : 0;
 }
 
-inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
+inline int sched_getaffinity(pid_t, size_t, CpuSet* cpu_set) {
     int32_t core_count = 0;
     size_t len = sizeof(core_count);
-    int ret = sysctlbyname(SYSCTL_CORE_COUNT, &core_count, &len, {}, 0);
+    const int ret = sysctlbyname(sysctl_core_count.data(), &core_count, &len, {}, 0);
     if (ret) {
-        printf("error while get core count %d\n", ret);
         return -1;
     }
     cpu_set->count = 0;
@@ -69,15 +69,15 @@ inline int sched_getaffinity(pid_t, size_t, cpu_set_t* cpu_set) {
     return 0;
 }
 
-inline int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, cpu_set_t* cpu_set) {
-    thread_port_t mach_thread;
+inline int pthread_setaffinity_np(pthread_t thread, size_t cpu_size, const CpuSet* cpu_set) {
+    constexpr size_t bits_per_byte = 8U;
+    thread_port_t mach_thread = 0;
     size_t core = 0;
 
-    for (core = 0; core < 8U * cpu_size; ++core) {
-        if (CPU_ISSET(static_cast<int>(core), cpu_set))
+    for (core = 0; core < bits_per_byte * cpu_size; ++core) {
+        if (cpu_is_set(static_cast<int>(core), cpu_set))
             break;
     }
-    printf("binding to core %zu\n", core);
     thread_affinity_policy_data_t policy = {static_cast<integer_t>(core)};
     mach_thread = pthread_mach_thread_np(thread);
     thread_policy_set(mach_thread, THREAD_AFFINITY_POLICY, reinterpret_cast<thread_policy_t>(&policy), 1);
@@ -109,11 +109,11 @@ inline int pin_to_logical_core(NativeHandle h, int logical_core_idx)
     ul::ignore_unused(logical_core_idx);
     throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
 #elif UL_OS_MAC
-    const auto nh = static_cast<pthread_t>(h);
-    mac::cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(logical_core_idx, &cpuset);
-    return mac::pthread_setaffinity_np(nh, sizeof(mac::cpu_set_t), &cpuset);
+    const NativeHandle nh = static_cast<pthread_t>(h);
+    mac::CpuSet cpuset;
+    mac::cpu_zero(&cpuset);
+    mac::cpu_set(logical_core_idx, &cpuset);
+    return mac::pthread_setaffinity_np(nh, sizeof(mac::CpuSet), &cpuset);
 #else
     ul::ignore_unused(h);
     ul::ignore_unused(logical_core_idx);
@@ -150,7 +150,7 @@ inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
     UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX || UL_OS_MAC
-    auto nh = static_cast<NativeHandle>(t.native_handle());
+    NativeHandle nh = static_cast<NativeHandle>(t.native_handle());
     const auto err = pin_to_logical_core(nh, logical_core_idx);
     if (err) {
         std::stringstream ss;
@@ -173,8 +173,8 @@ inline int num_logical_cores()
 #if UL_OS_LINUX
     return sched_getcpu();
 #elif UL_OS_MAC
-    mac::cpu_set_t cpuset{};
-    const auto ok = sched_getaffinity({}, {}, &cpuset);
+    mac::CpuSet cpuset;
+    const auto ok = mac::sched_getaffinity({}, sizeof(cpuset), &cpuset);
     return ok < 0 ? -1 : static_cast<int>(cpuset.count);
 #else
     throw ul::NotImplemented{UL_LOCATION " numLogicalCores not yet for non-Unix"};

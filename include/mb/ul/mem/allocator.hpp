@@ -6,6 +6,7 @@
 #define ALLOCATOR_H_HFNX837478YGR78234F7WGMF23UHQ4
 
 #include "types.hpp"
+#include "mb/ul/basiccodesupport/assert.hpp"
 #include "mb/ul/buildenv/macros.hpp"
 #include <cstddef>
 #include <cstdint>
