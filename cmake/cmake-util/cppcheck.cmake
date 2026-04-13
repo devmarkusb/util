@@ -109,7 +109,6 @@ if(MB_UL_CPPCHECK)
             "--force"
             "--inline-suppr"
             "--suppressions-list=${PROJECT_SOURCE_DIR}/CppCheckSuppressions.txt"
-            "-i${PROJECT_SOURCE_DIR}/build"
         )
         message(CMAKE_CXX_CPPCHECK: ${CMAKE_CXX_CPPCHECK})
     else()
