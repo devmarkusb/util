@@ -1,6 +1,7 @@
 #ifndef CRASH_H_SIUHFNGYOG6842KJBFTF87643
 #define CRASH_H_SIUHFNGYOG6842KJBFTF87643
 
+#include "mb/ul/basiccodesupport/assert.hpp"
 #include "mb/ul/buildenv/config.hpp"
 #include "mb/ul/buildenv/warnings.hpp"
 #include <csignal>
@@ -38,6 +39,10 @@ inline void crash(int signal, bool try_indirect = true) {
             // try heap corruption, crashing may depend on heap implementation
             for (size_t i = 1; i < 512; ++i) {
                 auto* mem = reinterpret_cast<size_t*>(std::malloc(64));
+                if (!mem) {
+                    std::raise(SIGABRT);
+                }
+                UL_ASSERT(mem);
                 std::memset(mem - i, 0, i);
                 std::free(mem);
             }
