@@ -92,9 +92,7 @@ public:
         The same l also mustn't be registered more than once.*/
     virtual void register_listener(Listener* l) {
         UL_EXPECT(l);
-        UL_EXPECT(
-            std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l)
-            == std::end(this->registered_listeners_));
+        UL_EXPECT(std::ranges::find(this->registered_listeners_, l) == std::end(this->registered_listeners_));
 
         this->registered_listeners_.push_back(l);
     }
@@ -103,7 +101,7 @@ public:
         The same l also mustn't be unregistered more than once.*/
     virtual void unregister_listener(Listener* l) {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l);
+        const auto it = std::ranges::find(this->registered_listeners_, l);
         UL_EXPECT(it != std::end(this->registered_listeners_));
 
         this->registered_listeners_.erase(it);
@@ -113,8 +111,7 @@ public:
     virtual bool is_registered(Listener* l) const {
         UL_EXPECT(l);
 
-        return std::find(std::begin(this->registered_listeners_), std::end(this->registered_listeners_), l)
-               != std::end(this->registered_listeners_);
+        return std::ranges::find(this->registered_listeners_, l) != std::end(this->registered_listeners_);
     }
 
 protected:
@@ -132,9 +129,7 @@ public:
         The same l also mustn't be registered more than once.*/
     static void register_listener(Listener* l) {
         UL_EXPECT(l);
-        UL_EXPECT(
-            std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
-            == std::end(registered_listeners()));
+        UL_EXPECT(std::ranges::find(registered_listeners(), l) == std::end(registered_listeners()));
 
         registered_listeners().push_back(l);
     }
@@ -143,7 +138,7 @@ public:
         The same l also mustn't be unregistered more than once.*/
     static void unregister_listener(Listener* l) {
         UL_EXPECT(l);
-        const auto it = std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l);
+        const auto it = std::ranges::find(registered_listeners(), l);
         UL_EXPECT(it != std::end(registered_listeners()));
 
         registered_listeners().erase(it);
@@ -153,8 +148,7 @@ public:
     static bool is_registered(Listener* l) {
         UL_EXPECT(l);
 
-        return std::find(std::begin(registered_listeners()), std::end(registered_listeners()), l)
-               != std::end(registered_listeners());
+        return std::ranges::find(registered_listeners(), l) != std::end(registered_listeners());
     }
 
 protected:

@@ -9,14 +9,14 @@
 #include "mb/ul/basiccodesupport/narrow.hpp"
 #include <algorithm>
 #include <cctype>
-#include <iomanip>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace mb::ul::str {
 inline std::string make_upper(std::string& s) {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
+    std::ranges::transform(s, s.begin(), [](char c) {
         return ul::narrow_cast<char>(std::toupper(c));
     });
     return s;
@@ -28,7 +28,7 @@ inline char make_upper(char& c) {
 }
 
 inline std::string make_lower(std::string& s) {
-    std::transform(s.begin(), s.end(), s.begin(), [](char c) {
+    std::ranges::transform(s, s.begin(), [](char c) {
         return ul::narrow_cast<char>(std::tolower(c));
     });
     return s;
@@ -60,8 +60,9 @@ inline void replace_all(std::string& s, const std::string& from_sub, const std::
     size_t start_pos{};
     while ((start_pos = s.find(from_sub, start_pos)) != std::string::npos) {
         UL_ASSERT(to_subs.size() > counter);
-        s.replace(start_pos, from_sub.length(), to_subs[counter]);
-        start_pos += to_subs[counter].length();
+        const auto& replacement = to_subs.at(counter);
+        s.replace(start_pos, from_sub.length(), replacement);
+        start_pos += replacement.length();
         ++counter;
     }
 }
@@ -105,7 +106,7 @@ inline bool str2bool(const std::string& s) {
 inline std::string apply_ellipse(const std::string& in_str, size_t ellipse_threshold) {
     if (!ellipse_threshold)
         return in_str;
-    if (static_cast<size_t>(utf8::distance(std::begin(in_str), std::end(in_str))) <= ellipse_threshold)
+    if (std::cmp_less_equal(utf8::distance(std::begin(in_str), std::end(in_str)), ellipse_threshold))
         return in_str;
     auto it = std::begin(in_str);
     utf8::unchecked::advance(it, ellipse_threshold);

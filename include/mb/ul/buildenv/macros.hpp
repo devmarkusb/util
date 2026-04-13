@@ -268,7 +268,7 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 //! implementation omits the macro but still ships the header.
 #ifdef __cplusplus
 #if (defined(_MSVC_LANG) && (_MSVC_LANG >= 201'103L)) || (!defined(_MSVC_LANG) && (__cplusplus >= 201'103L))
-#if defined(__has_include)
+#ifdef __has_include
 #if defined(__cpp_lib_codecvt) && __cpp_lib_codecvt >= 200'806L
 #define UL_HAS_STD_CODECVT 1
 #elif __has_include(<codecvt>)
