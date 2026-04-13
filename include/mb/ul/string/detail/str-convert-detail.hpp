@@ -227,7 +227,7 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
     const size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
-    for (char c : s) {
+    for (const char c : s) {
         const auto uc = static_cast<unsigned char>(c);
         ret.append(prefix);
         ret.push_back(lut[uc >> 4]); // NOLINT
