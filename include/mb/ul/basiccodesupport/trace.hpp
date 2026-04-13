@@ -294,8 +294,11 @@ struct Trace : private NonCopyable {
         *this->stream_ << tmp.str();
     }
 
-    ~Trace() {
-        *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{};
+    ~Trace() noexcept {
+        try {
+            *this->stream_ << tracer::detail_impl::StreamTraceEndOfLine{};
+        } catch (...) {
+        }
     }
 
     tracer::detail_impl::StreamTracer& stream() const {
