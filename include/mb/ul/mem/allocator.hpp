@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <memory>
 #include <type_traits>
 
 namespace mb::ul::mem {
@@ -21,7 +22,7 @@ public:
 
     //Allocator() noexcept = default;
     explicit Allocator(AllocArenaStrategy& a) noexcept
-        : a_{a} {
+        : a_{std::addressof(a)} {
     }
 
     template <typename T2>
@@ -30,11 +31,13 @@ public:
     }
 
     value_type* allocate(size_t objcount) {
-        return reinterpret_cast<value_type*>(a_.allocate(Bytes{objcount * sizeof(value_type)}));
+        UL_EXPECT(a_);
+        return reinterpret_cast<value_type*>(a_->allocate(Bytes{objcount * sizeof(value_type)}));
     }
 
     void deallocate(value_type* p, size_t objcount) {
-        a_.deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
+        UL_EXPECT(a_);
+        a_->deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
     }
 
     [[nodiscard]] size_t max_size() const noexcept {
@@ -42,7 +45,7 @@ public:
     }
 
 private:
-    AllocArenaStrategy& a_;
+    AllocArenaStrategy* a_;
 
     template <typename T1, typename T2, typename AllocArenaStrategy1, typename AllocArenaStrategy2>
     friend bool operator==(

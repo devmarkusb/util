@@ -65,6 +65,8 @@ inline char* s2psz(const std::string& s) {
 inline std::string utf8_to_html(const std::string& s) {
     std::string ret;
     ret.reserve(s.size());
+    // utf8::iterator here expects a mutable pointer type.
+    // NOLINTNEXTLINE(misc-const-correctness)
     char* psz = s2psz(s);
     // NOLINTBEGIN
     const utf8::iterator<char*> itend(psz + s.size(), psz, psz + s.size());
