@@ -47,7 +47,7 @@ public:
 
     //! \param nesting_level is just for dump visualization
     inline explicit PerformanceProfiler(std::string new_item_name, NestingLevel nesting_level = 0);
-    inline ~PerformanceProfiler();
+    inline ~PerformanceProfiler() noexcept;
     [[nodiscard]] SecondsDbl elapsed_current_item() const;
 
     //! New item on same hierarchy/nesting level.
@@ -178,8 +178,11 @@ inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_current_item
     return elapsed.count();
 }
 
-inline PerformanceProfiler::~PerformanceProfiler() {
-    stop_current_item();
+inline PerformanceProfiler::~PerformanceProfiler() noexcept {
+    try {
+        stop_current_item();
+    } catch (...) {
+    }
 }
 
 inline void PerformanceProfiler::start_new_item(const std::string& new_item_name) {
