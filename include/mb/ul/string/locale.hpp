@@ -3,12 +3,12 @@
 #ifndef LOCALE_H_CONDWHXNU23MHY8MR
 #define LOCALE_H_CONDWHXNU23MHY8MR
 
-#include "mb/ul/basiccodesupport/std/std-extensions.hpp"
 #include "mb/ul/buildenv/macros.hpp"
+#include <cstdint>
 #include <locale>
 
 namespace mb::ul {
-enum class GlobalLocale {
+enum class GlobalLocale : uint8_t {
     default_classic,
     user_preferred,
 };

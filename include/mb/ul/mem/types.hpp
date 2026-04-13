@@ -71,11 +71,11 @@ constexpr bool operator>=(Bytes lhs, Bytes rhs) noexcept {
 namespace impl {
 class ThousandsSep : public std::numpunct<char> {
 protected:
-    char do_thousands_sep() const override {
+    [[nodiscard]] char do_thousands_sep() const override {
         return '\'';
     }
 
-    std::string do_grouping() const override {
+    [[nodiscard]] std::string do_grouping() const override {
         return "\003";
     }
 };

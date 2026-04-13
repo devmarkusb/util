@@ -129,7 +129,7 @@ inline std::wstring acp_s2ws(const std::string& s) {
 #endif
 inline std::wstring s2ws(const std::string& s) {
     std::wstring ws(s.length(), L' ');
-    std::copy(s.begin(), s.end(), ws.begin());
+    std::ranges::copy(s, ws.begin());
     return ws;
 }
 } // namespace detail
@@ -227,12 +227,12 @@ inline std::string to_hex_string(const std::string& s, const std::string& prefix
     const size_t length = s.size();
     std::string ret;
     ret.reserve((2 + prefix.size()) * length);
-    std::for_each(std::begin(s), std::end(s), [&ret, &prefix](char c) {
+    for (char c : s) {
         const auto uc = static_cast<unsigned char>(c);
         ret.append(prefix);
         ret.push_back(lut[uc >> 4]); // NOLINT
         ret.push_back(lut[uc & 15]); // NOLINT
-    });
+    }
     return ret;
 }
 } // namespace mb::ul::str

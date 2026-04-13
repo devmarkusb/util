@@ -9,14 +9,14 @@
 
 namespace mb::ul::mem {
 template <class T>
-inline void checked_delete(T* x) {
-    static_assert(sizeof(T) > 0, "checked_delete requires a complete type");
+void checked_delete(T* x) {
+    static_assert(sizeof(T) != 0U, "checked_delete requires a complete type");
     delete x; // NOLINT
 }
 
 template <class T>
-inline void checked_array_delete(T* x) {
-    static_assert(sizeof(T) > 0, "checked_array_delete requires a complete type");
+void checked_array_delete(T* x) {
+    static_assert(sizeof(T) != 0U, "checked_array_delete requires a complete type");
     delete[] x; // NOLINT
 }
 } // namespace mb::ul::mem

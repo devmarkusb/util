@@ -69,6 +69,8 @@ inline int stoi(const std::string& s) {
 #endif
 }
 
+// Mirrors std::stold for older build environments.
+// NOLINTNEXTLINE(google-runtime-float)
 inline long double stold(const std::string& s) {
 #if UL_HAS_STOI
     return std::stold(s);
