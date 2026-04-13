@@ -56,8 +56,6 @@ jobs:
   full-project:
     name: full project
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/bemanproject/infra-containers-clang:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
