@@ -3,3 +3,4 @@
 preprocessorErrorDirective
 internalAstError
 syntaxError
+unusedScopedObject:*/*.test.cpp
