@@ -174,7 +174,7 @@ public:
     CStringView substr(size_type pos) const {
         if (pos > sv_.size())
             detail::throw_invalid("CStringView::substr: pos out of range");
-        return CStringView(sv_.substr(pos), trusted_t{});
+        return CStringView(sv_.substr(pos), Trusted{});
     }
 
     /// substr(pos, count): only valid when pos+count == size() (suffix of exact length).
@@ -186,7 +186,7 @@ public:
             detail::throw_invalid("CStringView::substr: count out of range");
         if (pos + rcount != sv_.size())
             detail::throw_invalid("CStringView::substr: requested substring is not \0-terminated");
-        return CStringView(sv_.substr(pos, rcount), trusted_t{});
+        return CStringView(sv_.substr(pos, rcount), Trusted{});
     }
 
     /// Remove prefix (remains \0-terminated as a suffix of the original).
@@ -239,9 +239,9 @@ public:
     }
 
 private:
-    struct trusted_t {};
+    struct Trusted {};
 
-    explicit CStringView(std::string_view sv, trusted_t) noexcept
+    explicit CStringView(std::string_view sv, Trusted) noexcept
         : sv_{sv} {
     }
 
