@@ -3,7 +3,7 @@
     {
       "name": "mb_pre_commit",
       "git_repository": "https://github.com/devmarkusb/pre-commit",
-      "git_tag": "v1.9.0",
+      "git_tag": "v2.1.0",
       "cmake_include": "cmake/mb-pre-commit.cmake"
     },
     {
