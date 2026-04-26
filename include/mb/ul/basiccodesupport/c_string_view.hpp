@@ -73,7 +73,7 @@ public:
 
     /// Constructs from a char array (string literal).
     template <size_type N>
-    /*implicit*/ constexpr CStringView(const char (&arr)[N]) noexcept
+    /*implicit*/ constexpr CStringView(const char (&arr)[N]) noexcept // cppcheck-suppress noExplicitConstructor
         : sv_(arr, N - 1) {
         static_assert(N > 0, "CStringView: zero-length array not supported");
         assert(arr[N - 1] == '\0' && "CStringView: array must be \0-terminated");
