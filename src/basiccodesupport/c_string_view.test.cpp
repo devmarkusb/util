@@ -634,6 +634,7 @@ TEST(CStringViewEdge, CopyAndAssign) {
     const char* const ptr = a.c_str();
     CStringView b = a;
     EXPECT_EQ(a, b);
+    // cppcheck-suppress knownConditionTrueFalse
     EXPECT_EQ(ptr, b.c_str()); // non-owning: copy shares the same pointer
 
     CStringView c;
