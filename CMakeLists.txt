@@ -31,10 +31,11 @@ if(MB_UTIL_BUILD_TESTS)
     include(mb-devenv-ctest-root)
 endif()
 include(mb-devenv-defaults)
+
+include(mb-devenv-cppcheck)
 include(mb-devenv-install-library-config)
 include(GNUInstallDirs)
 
-mb_ul_include(cppcheck.cmake)
 mb_ul_include(gsl.cmake)
 
 # From fetched https://github.com/devmarkusb/pre-commit (see fetchcontent-lockfile.json).
