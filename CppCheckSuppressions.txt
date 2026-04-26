@@ -4,3 +4,4 @@ preprocessorErrorDirective
 internalAstError
 syntaxError
 unusedScopedObject:*/*.test.cpp
+passedByValue:*/c_string_view.hpp
