@@ -13,7 +13,7 @@
 #define LINEAR_H_JSDKDBHFZU34GT2837TNYG13
 
 #include "mb/ul/basiccodesupport/assert.hpp"
-#include "mb/ul/basiccodesupport/type/non-copyable.hpp"
+#include "mb/ul/basiccodesupport/type/non_copyable.hpp"
 #include "mb/ul/mem/alloc/statistics.hpp"
 #include "mb/ul/mem/types.hpp"
 #include <cstddef>

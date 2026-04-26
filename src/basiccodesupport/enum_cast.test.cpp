@@ -1,0 +1,33 @@
+#include "mb/ul/basiccodesupport/enum_cast.hpp"
+#include "gtest/gtest.h"
+#include <cstdint>
+
+namespace ul = mb::ul;
+
+TEST(EnumCast_as_numberTest, test) {
+    enum class EC {
+        zeroth,
+        first,
+        second,
+    };
+    auto number = ul::enum_cast(EC::first);
+    EXPECT_EQ(1, number);
+    enum class E {
+        zeroth,
+        first,
+        second,
+    };
+    number = ul::enum_cast(E::first);
+    EXPECT_EQ(1, number);
+}
+
+TEST(EnumCast_as_numberTest, TypeSpecific) {
+    enum class EC : uint64_t {
+        zeroth,
+        first,
+        second,
+    };
+    auto number = ul::enum_cast(EC::first);
+    EXPECT_EQ(1UL, number);
+    EXPECT_TRUE(typeid(number) == typeid(uint64_t));
+}

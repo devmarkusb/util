@@ -3,7 +3,7 @@
 #include "mb/ul/mem/alloc/example.hpp"
 #include "mb/ul/mem/alloc/linear.hpp"
 #include "mb/ul/mem/alloc/onstack.hpp"
-#include "mb/ul/mem/compiler-quirks.hpp"
+#include "mb/ul/mem/compiler_quirks.hpp"
 #include "mb/ul/mem/types.hpp"
 #include "gtest/gtest.h"
 #include <functional>

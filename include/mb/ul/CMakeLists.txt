@@ -10,11 +10,11 @@ set(mb_util_generated_include_dir
 )
 
 set(MB_UTIL_GENERATED_CONFIG_HEADER
-    "${mb_util_generated_include_dir}/mb/ul/buildenv/config-gen.hpp"
+    "${mb_util_generated_include_dir}/mb/ul/buildenv/config_gen.hpp"
 )
 file(MAKE_DIRECTORY "${mb_util_generated_include_dir}/mb/ul/buildenv")
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/config-gen.hpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/config_gen.hpp.in"
     "${MB_UTIL_GENERATED_CONFIG_HEADER}"
     @ONLY
 )
