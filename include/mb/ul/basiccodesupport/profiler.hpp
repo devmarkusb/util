@@ -5,7 +5,7 @@
 
 #include "assert.hpp"
 #include "round.hpp"
-#include "type/non-copyable.hpp"
+#include "type/non_copyable.hpp"
 
 #include "mb/ul/buildenv/config.hpp"
 #include <algorithm>

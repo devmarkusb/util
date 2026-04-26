@@ -9,7 +9,7 @@
 #define ONSTACK_H_EOURTZ3478XTH378TGH
 
 #include "mb/ul/basiccodesupport/assert.hpp"
-#include "mb/ul/basiccodesupport/type/non-copyable.hpp"
+#include "mb/ul/basiccodesupport/type/non_copyable.hpp"
 #include "mb/ul/buildenv/warnings.hpp"
 #include "mb/ul/mem/alloc/statistics.hpp"
 #include "mb/ul/mem/types.hpp"

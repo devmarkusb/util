@@ -1,5 +1,5 @@
 add_executable(mb.util.compile-check)
-target_sources(mb.util.compile-check PRIVATE compile-check.cpp)
+target_sources(mb.util.compile-check PRIVATE compile_check.cpp)
 target_link_libraries(mb.util.compile-check PRIVATE mb::util)
 mb_devenv_set_target_defaults(mb.util.compile-check)
 

@@ -4,7 +4,7 @@
 #define BITS_H_SLJKHVNX2HNG7835GHM3G7H3
 
 #include "assert.hpp"
-#include "enum-cast.hpp"
+#include "enum_cast.hpp"
 #include "narrow.hpp"
 #include "mb/ul/buildenv/warnings.hpp"
 #include <array>
