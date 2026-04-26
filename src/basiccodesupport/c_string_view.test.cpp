@@ -72,7 +72,7 @@ TEST(CStringViewConstruct, FromNullPtrNonzeroLenThrows) {
 
 TEST(CStringViewConstruct, FromPtrLenNotNullTerminatedThrows) {
     // buf[3]=='d', not '\0', so claiming len==3 must throw
-    char buf[4] = {'a', 'b', 'c', 'd'};
+    const char buf[4] = {'a', 'b', 'c', 'd'};
     EXPECT_THROW(CStringView(buf, 3), std::invalid_argument);
 }
 
@@ -506,7 +506,9 @@ TEST(CStringViewCompare, EmptyLessThanNonEmpty) {
 TEST(CStringViewCompareStringView, EqualityEqual) {
     CStringView csv{"hello"};
     std::string_view sv{"hello"};
+    // cppcheck-suppress knownConditionTrueFalse
     EXPECT_TRUE(csv == sv);
+    // cppcheck-suppress knownConditionTrueFalse
     EXPECT_TRUE(sv == csv);
 }
 
@@ -523,7 +525,9 @@ TEST(CStringViewCompareStringView, EqualityNotEqual) {
 
 TEST(CStringViewCompareCStr, EqualityEqual) {
     CStringView csv{"hello"};
+    // cppcheck-suppress knownConditionTrueFalse
     EXPECT_TRUE(csv == "hello");
+    // cppcheck-suppress knownConditionTrueFalse
     EXPECT_TRUE("hello" == csv);
 }
 
@@ -620,16 +624,17 @@ TEST(CStringViewEdge, SingleChar) {
 
 TEST(CStringViewEdge, EmbeddedNulInPtrLenThrows) {
     // Claiming len=5 but the NUL terminator is at position 3 — buf[5] != '\0'
-    char buf[8] = {'a', 'b', 'c', '\0', 'd', 'e', 'f', '\0'};
+    const char buf[8] = {'a', 'b', 'c', '\0', 'd', 'e', 'f', '\0'};
     // buf[5] == 'e', not '\0'
     EXPECT_THROW(CStringView(buf, 5), std::invalid_argument);
 }
 
 TEST(CStringViewEdge, CopyAndAssign) {
     CStringView a{"hello"};
+    const char* const ptr = a.c_str();
     CStringView b = a;
     EXPECT_EQ(a, b);
-    EXPECT_EQ(a.c_str(), b.c_str()); // non-owning: same pointer
+    EXPECT_EQ(ptr, b.c_str()); // non-owning: copy shares the same pointer
 
     CStringView c;
     c = a;
