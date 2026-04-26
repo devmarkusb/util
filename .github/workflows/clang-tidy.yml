@@ -1,0 +1,21 @@
+name: clang-tidy
+
+on:
+  pull_request:
+    paths: ["**/*.cpp", "**/*.hpp", "**/*.h", ".clang-tidy", "cmake/**", "devenv/cmake/**"]
+  push:
+    branches: [main]
+    paths: ["**/*.cpp", "**/*.hpp", "**/*.h", ".clang-tidy", "cmake/**", "devenv/cmake/**"]
+  schedule:
+    - cron: "17 4 * * 0"
+  workflow_dispatch:
+
+concurrency:
+  group: clang-tidy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clang-tidy:
+    uses: devmarkusb/devenv/.github/workflows/clang-tidy-review.yml@main
+    with:
+      clang_image: ghcr.io/bemanproject/infra-containers-clang:latest
