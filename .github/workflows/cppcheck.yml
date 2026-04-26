@@ -2,45 +2,12 @@ name: cppcheck
 
 on:
   pull_request:
-    paths:
-      - "**/*.c"
-      - "**/*.cc"
-      - "**/*.cpp"
-      - "**/*.cxx"
-      - "**/*.h"
-      - "**/*.hh"
-      - "**/*.hpp"
-      - "**/*.hxx"
-      - "CMakeLists.txt"
-      - "**/CMakeLists.txt"
-      - "CMakePresets.json"
-      - "cmake/**"
-      - "devenv/cmake/**"
-      - "devenv/install-cppcheck.py"
-      - "CppCheckSuppressions.txt"
-      - "run-cppcheck.sh"
-      - ".github/workflows/cppcheck.yml"
+    paths: ["**/*.cpp", "**/*.hpp", "**/*.h", "cmake/**", "devenv/cmake/**",
+            "CppCheckSuppressions.txt", "devenv/run-cppcheck.sh"]
   push:
-    branches:
-      - main
-    paths:
-      - "**/*.c"
-      - "**/*.cc"
-      - "**/*.cpp"
-      - "**/*.cxx"
-      - "**/*.h"
-      - "**/*.hh"
-      - "**/*.hpp"
-      - "**/*.hxx"
-      - "CMakeLists.txt"
-      - "**/CMakeLists.txt"
-      - "CMakePresets.json"
-      - "cmake/**"
-      - "devenv/cmake/**"
-      - "devenv/install-cppcheck.py"
-      - "CppCheckSuppressions.txt"
-      - "run-cppcheck.sh"
-      - ".github/workflows/cppcheck.yml"
+    branches: [main]
+    paths: ["**/*.cpp", "**/*.hpp", "**/*.h", "cmake/**", "devenv/cmake/**",
+            "CppCheckSuppressions.txt", "devenv/run-cppcheck.sh"]
   schedule:
     - cron: "31 4 * * 0"
   workflow_dispatch:
@@ -49,27 +16,6 @@ concurrency:
   group: cppcheck-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
-  full-project:
-    name: full project
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          submodules: 'recursive'
-
-      - name: Install cppcheck
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          cppcheck_bin="$(python3 ./devenv/install-cppcheck.py --ensure --print-path)"
-          "${cppcheck_bin}" --version
-
-      - name: Run cppcheck
-        shell: bash
-        run: ./run-cppcheck.sh clang-release
+  cppcheck:
+    uses: devmarkusb/devenv/.github/workflows/cppcheck.yml@main
