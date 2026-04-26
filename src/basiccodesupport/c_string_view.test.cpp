@@ -197,7 +197,7 @@ TEST(CStringViewAccess, AtDoesNotThrowInvalidArgument) {
     EXPECT_THROW(sv.at(1), std::out_of_range);
     // Confirm it is NOT invalid_argument (which was the bug)
     try {
-        const auto& _{sv.at(1)};
+        sv.at(1);
     } catch (const std::out_of_range&) {
         // correct
     } catch (const std::invalid_argument&) {
