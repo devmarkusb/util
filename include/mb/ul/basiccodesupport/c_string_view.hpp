@@ -73,7 +73,7 @@ public:
 
     /// Constructs from a char array (string literal).
     template <size_type N>
-    constexpr CStringView(const char (&arr)[N]) noexcept
+    /*implicit*/ constexpr CStringView(const char (&arr)[N]) noexcept
         : sv_(arr, N - 1) {
         static_assert(N > 0, "CStringView: zero-length array not supported");
         assert(arr[N - 1] == '\0' && "CStringView: array must be \0-terminated");
@@ -208,11 +208,13 @@ public:
         return sv_.find(needle, pos);
     }
 
-    // Comparisons
+    // Comparisons — CStringView is a 16-byte view type, passed by value like std::string_view
+    // cppcheck-suppress passedByValue
     friend bool operator==(CStringView a, CStringView b) noexcept {
         return a.sv_ == b.sv_;
     }
 
+    // cppcheck-suppress passedByValue
     friend std::strong_ordering operator<=>(CStringView a, CStringView b) noexcept {
         const auto cmp = a.sv_.compare(b.sv_);
         if (cmp < 0)
@@ -222,18 +224,22 @@ public:
         return std::strong_ordering::equal;
     }
 
+    // cppcheck-suppress passedByValue
     friend bool operator==(CStringView a, std::string_view b) noexcept {
         return a.sv_ == b;
     }
 
+    // cppcheck-suppress passedByValue
     friend bool operator==(std::string_view a, CStringView b) noexcept {
         return a == b.sv_;
     }
 
+    // cppcheck-suppress passedByValue
     friend bool operator==(CStringView a, const char* b) noexcept {
         return b ? a.sv_ == std::string_view(b) : false;
     }
 
+    // cppcheck-suppress passedByValue
     friend bool operator==(const char* a, CStringView b) noexcept {
         return a ? std::string_view(a) == b.sv_ : false;
     }
