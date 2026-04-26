@@ -2,7 +2,7 @@ file(GLOB_RECURSE mb_util_public_headers CONFIGURE_DEPENDS "*.hpp" "*.h")
 
 list(
     REMOVE_ITEM mb_util_public_headers
-    "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/gtest-utils.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/buildenv/gtest_utils.hpp"
 )
 
 set(mb_util_generated_include_dir
