@@ -1,0 +1,14 @@
+// #include "mb/ul/mem/checked_delete.hpp"
+#include "gtest/gtest.h"
+
+namespace misc_test_helper {
+class C;
+// extern C* c;
+} // namespace misc_test_helper
+
+TEST(checked_deleteTest, test) {
+    // just for demonstration, since it is a compile topic only
+
+    // delete misc_test_helper::c;								// <- this compiles, shows a warning if you're lucky
+    // ul::mem::checked_delete(misc_test_helper::c);			// <- this doesn't compile; nice :)
+}

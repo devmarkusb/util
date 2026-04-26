@@ -6,7 +6,7 @@
 #include "../assert.hpp"
 #include "../debug.hpp"
 #include "../error.hpp"
-#include "../ignore-unused.hpp"
+#include "../ignore_unused.hpp"
 
 #include "mb/ul/buildenv/macros.hpp"
 #include "mb/ul/buildenv/warnings.hpp"

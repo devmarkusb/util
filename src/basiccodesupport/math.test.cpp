@@ -1,6 +1,6 @@
 #include "mb/ul/basiccodesupport/math.hpp"
-#include "mb/ul/basiccodesupport/almost-equal.hpp"
-#include "mb/ul/basiccodesupport/floating-point.hpp"
+#include "mb/ul/basiccodesupport/almost_equal.hpp"
+#include "mb/ul/basiccodesupport/floating_point.hpp"
 #include "mb/ul/buildenv/warnings.hpp"
 #include "gtest/gtest.h"
 #include <cmath> // NOLINT

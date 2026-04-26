@@ -1,6 +1,6 @@
 #include "mb/ul/basiccodesupport/matrix.hpp"
 #include "mb/ul/basiccodesupport/algebra.hpp"
-#include "mb/ul/buildenv/gtest-utils.hpp"
+#include "mb/ul/buildenv/gtest_utils.hpp"
 
 #include "gtest/gtest.h"
 #include <functional>
