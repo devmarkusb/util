@@ -1,7 +1,7 @@
 # util library (ul)
 
 [![CI status](https://github.com/devmarkusb/util/actions/workflows/ci.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/ci.yml)
-[![clang-tidy review status](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/clang-tidy-review.yml)
+[![clang-tidy review status](https://github.com/devmarkusb/util/actions/workflows/clang-tidy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/clang-tidy.yml)
 [![cppcheck status](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml)
 [![Codacy security scan status](https://github.com/devmarkusb/util/actions/workflows/codacy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codacy.yml)
 [![pre-commit check status](https://github.com/devmarkusb/util/actions/workflows/pre-commit-check.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/pre-commit-check.yml)
