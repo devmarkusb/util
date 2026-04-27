@@ -16,4 +16,4 @@ permissions:
 
 jobs:
   pre-commit:
-    uses: devmarkusb/gh-workflows/.github/workflows/pre-commit.yml@main
+    uses: devmarkusb/devenv/.github/workflows/pre-commit.yml@main
