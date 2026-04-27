@@ -5,6 +5,7 @@
 [![cppcheck status](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/cppcheck.yml)
 [![Codacy security scan status](https://github.com/devmarkusb/util/actions/workflows/codacy.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/codacy.yml)
 [![pre-commit check status](https://github.com/devmarkusb/util/actions/workflows/pre-commit-check.yml/badge.svg)](https://github.com/devmarkusb/util/actions/workflows/pre-commit-check.yml)
+[![Coverage Status](https://coveralls.io/repos/github/devmarkusb/util/badge.svg?branch=main)](https://coveralls.io/github/devmarkusb/util?branch=main)
 
 A personal library serving purposes that come right
 after or next to std.
