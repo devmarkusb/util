@@ -9,10 +9,19 @@
     {
       "name": "mb_dot_clangformat",
       "git_repository": "https://github.com/devmarkusb/dot-clangformat",
-      "git_tag": "v1.3.0",
+      "git_tag": "v1.4.0",
       "cmake_include": "cmake/mb-dot-clang-format.cmake",
       "cmake_variables": {
         "MB_DOT_CLANG_FORMAT_CLANG_FORMAT_MAJOR": "22"
+      }
+    },
+    {
+      "name": "mb_dot_clangtidy",
+      "git_repository": "https://github.com/devmarkusb/dot-clangtidy",
+      "git_tag": "v1.0.0",
+      "cmake_include": "cmake/mb-dot-clang-tidy.cmake",
+      "cmake_variables": {
+        "MB_DOT_CLANG_TIDY_CLANG_TIDY_MAJOR": "22"
       }
     },
     {
