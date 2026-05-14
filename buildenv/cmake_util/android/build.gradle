@@ -58,6 +58,12 @@ android {
         noCompress 'rcc'
     }
 
+    buildTypes {
+        release {
+            ndk.debugSymbolLevel = 'FULL'
+        }
+    }
+
     defaultConfig {
         resConfig "en"
         minSdkVersion qtMinSdkVersion
