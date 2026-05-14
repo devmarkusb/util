@@ -74,4 +74,21 @@ public class AdMobBanner {
             Log.e(TAG, "Failed to create banner ad", e);
         }
     }
+
+    public static void destroy(Context context) {
+        if (adView == null) return;
+        if (!(context instanceof Activity)) return;
+        Activity activity = (Activity) context;
+        activity.runOnUiThread(() -> {
+            try {
+                ViewGroup parent = (ViewGroup) adView.getParent();
+                if (parent != null) parent.removeView(adView);
+                adView.destroy();
+                adView = null;
+                Log.d(TAG, "Banner ad destroyed");
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to destroy banner ad", e);
+            }
+        });
+    }
 }
