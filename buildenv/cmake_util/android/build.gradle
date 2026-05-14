@@ -50,19 +50,6 @@ android {
         }
     }
 
-    tasks.configureEach { task ->
-        if (task.name.startsWith('bundle')) {
-            def abi = task.name.split("(?=[A-Z])").drop(1).collect { it.uncapitalize() }.join()
-            task.doLast {
-                def files = fileTree(dir: task.outputs.files.singleFile.parentFile, include: ["*.aab"])
-                files.each { file ->
-                    def newName = file.name.replace("-${abi}", "")
-                    file.renameTo(new File(file.parentFile, newName))
-                }
-            }
-        }
-    }
-
     lintOptions {
         abortOnError false
     }
