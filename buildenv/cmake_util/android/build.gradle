@@ -1,0 +1,80 @@
+// Custom build.gradle for Qt 6 Android with AdMob support.
+// This file replaces Qt's auto-generated build.gradle when placed in
+// QT_ANDROID_PACKAGE_SOURCE_DIR. The gradle properties referenced below
+// (androidCompileSdkVersion, qt5AndroidDir, etc.) are written by Qt's
+// androiddeployqt into gradle.properties at build time.
+//
+// If the build breaks after a Qt upgrade, compare this file with the one
+// Qt generates in <build-dir>/android-build/build.gradle and reconcile.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.6.1'
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+}
+
+android {
+    namespace androidPackageName
+    compileSdkVersion androidCompileSdkVersion.toInteger()
+    buildToolsVersion androidBuildToolsVersion
+    ndkVersion androidNdkVersion
+
+    packagingOptions.jniLibs.useLegacyPackaging true
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
+            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
+            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+            resources.srcDirs = ['resources']
+            renderscript.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    tasks.configureEach { task ->
+        if (task.name.startsWith('bundle')) {
+            def abi = task.name.split("(?=[A-Z])").drop(1).collect { it.uncapitalize() }.join()
+            task.doLast {
+                def files = fileTree(dir: task.outputs.files.singleFile.parentFile, include: ["*.aab"])
+                files.each { file ->
+                    def newName = file.name.replace("-${abi}", "")
+                    file.renameTo(new File(file.parentFile, newName))
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    aaptOptions {
+        noCompress 'rcc'
+    }
+
+    defaultConfig {
+        resConfig "en"
+        minSdkVersion qtMinSdkVersion
+        targetSdkVersion qtTargetSdkVersion
+        ndk.abiFilters = qtTargetAbiList.split(",")
+    }
+}
