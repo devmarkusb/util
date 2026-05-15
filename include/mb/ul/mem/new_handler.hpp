@@ -21,7 +21,7 @@ public:
     //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
     UL_PRAGMA_WARNINGS_PUSH
     // clang-format off
-    UL_WARNING_DISABLE_GCC(keyword-macro)
+    UL_WARNING_DISABLE_GCC_LITERAL("-Wkeyword-macro")
     // clang-format on
     #undef new
     UL_PRAGMA_WARNINGS_POP
