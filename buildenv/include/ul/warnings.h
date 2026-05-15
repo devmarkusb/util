@@ -14,7 +14,7 @@
 #ifndef WARNINGS_H_ERUFH35782XZ3785TH183
 #define WARNINGS_H_ERUFH35782XZ3785TH183
 
-#include "macros.hpp"
+#include "macros.h"
 
 // Provide analyzer-friendly defaults so these macros remain well-formed even when
 // a tool explores configurations without a known compiler selection.
