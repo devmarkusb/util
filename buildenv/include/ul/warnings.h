@@ -72,7 +72,7 @@
 #define UL_PRAGMA_WARNINGS_POP                       UL_PRAGMA(GCC diagnostic pop)
 
 //! E.g. UL_WARNING_DISABLE_GCC(unused-variable) is equivalent to compiler flag -Wno-unused-variable
-#define UL_WARNING_DISABLE_GCC(w) UL_PRAGMA(GCC diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
+#define UL_WARNING_DISABLE_GCC(w)               UL_PRAGMA(GCC diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
 //! Pass the full flag as a string literal, e.g. UL_WARNING_DISABLE_GCC_LITERAL("-Wkeyword-macro").
 #define UL_WARNING_DISABLE_GCC_LITERAL(literal) UL_PRAGMA(GCC diagnostic ignored literal)
 // not implementable right now it seems
