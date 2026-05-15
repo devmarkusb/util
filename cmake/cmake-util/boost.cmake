@@ -26,6 +26,8 @@ endif()
 # Impl. notes:
 #	macro instead of function, since this makes it trivial to bring
 #	find_package's results to parent scope
+# Do not use return() on the Boost_FOUND path: return() inside a macro terminates the *caller's* CMakeLists.txt
+# (CMake macro semantics), not only this macro invocation.
 macro(mb_ul_find_boost ver1_ ver2_ ver3_ libs)
     string(REPLACE " " ";" ver1 ${ver1_})
     string(REPLACE " " ";" ver2 ${ver2_})
@@ -34,41 +36,41 @@ macro(mb_ul_find_boost ver1_ ver2_ ver3_ libs)
     if(Boost_FOUND)
         add_library(libboost INTERFACE)
         target_link_libraries(libboost INTERFACE ${Boost_LIBRARIES})
-        return()
-    endif()
-    message(STATUS "boost not found, try alternative")
-    if(NOT DEFINED ENV{dev_sdk_path} AND MB_UL_SDK_PATH STREQUAL "")
-        message(
-            FATAL_ERROR
-            "Configure cache variable MB_UL_SDK_PATH or env variable dev_sdk_path to point to where boost \
-subdirs like boost_1.63.0 are located."
-        )
-    endif()
-    if(MB_UL_SDK_PATH STREQUAL "" AND DEFINED ENV{dev_sdk_path})
-        set(MB_UL_SDK_PATH
-            $ENV{dev_sdk_path}
-            CACHE STRING
-            "${MB_UL_SDK_PATH_HELPSTR}"
-            FORCE
-        )
-    endif()
-    file(TO_CMAKE_PATH "${MB_UL_SDK_PATH}" mb_ul_sdk_path)
-    set(BOOST_ROOT ${mb_ul_sdk_path}/boost_${ver1}_${ver2}_${ver3})
-    set(Boost_USE_MULTITHREADED ON)
-    set(Boost_USE_STATIC_LIBS OFF)
-    set(Boost_USE_STATIC_RUNTIME OFF)
-    # BOOST_FILESYSTEM_NO_DEPRECATED added because 'generic' was used as identifier,
-    # 	which clashes with C++/CX
-    add_definitions(-DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_NO_DEPRECATED)
-    string(COMPARE EQUAL "${libs}" "" libs_empty)
-    if(libs_empty)
-        if(MB_UL_ANDROID)
-            find_host_package(Boost ${ver1}.${ver2}.${ver3})
-        else()
-            find_package(Boost ${ver1}.${ver2}.${ver3})
-        endif()
     else()
-        string(REPLACE " " ";" libs_list "${libs}")
-        find_package(Boost ${ver1}.${ver2}.${ver3} COMPONENTS ${libs_list})
+        message(STATUS "boost not found, try alternative")
+        if(NOT DEFINED ENV{dev_sdk_path} AND MB_UL_SDK_PATH STREQUAL "")
+            message(
+                FATAL_ERROR
+                "Configure cache variable MB_UL_SDK_PATH or env variable dev_sdk_path to point to where boost \
+subdirs like boost_1.63.0 are located."
+            )
+        endif()
+        if(MB_UL_SDK_PATH STREQUAL "" AND DEFINED ENV{dev_sdk_path})
+            set(MB_UL_SDK_PATH
+                $ENV{dev_sdk_path}
+                CACHE STRING
+                "${MB_UL_SDK_PATH_HELPSTR}"
+                FORCE
+            )
+        endif()
+        file(TO_CMAKE_PATH "${MB_UL_SDK_PATH}" mb_ul_sdk_path)
+        set(BOOST_ROOT ${mb_ul_sdk_path}/boost_${ver1}_${ver2}_${ver3})
+        set(Boost_USE_MULTITHREADED ON)
+        set(Boost_USE_STATIC_LIBS OFF)
+        set(Boost_USE_STATIC_RUNTIME OFF)
+        # BOOST_FILESYSTEM_NO_DEPRECATED added because 'generic' was used as identifier,
+        # 	which clashes with C++/CX
+        add_definitions(-DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_NO_DEPRECATED)
+        string(COMPARE EQUAL "${libs}" "" libs_empty)
+        if(libs_empty)
+            if(MB_UL_ANDROID)
+                find_host_package(Boost ${ver1}.${ver2}.${ver3})
+            else()
+                find_package(Boost ${ver1}.${ver2}.${ver3})
+            endif()
+        else()
+            string(REPLACE " " ";" libs_list "${libs}")
+            find_package(Boost ${ver1}.${ver2}.${ver3} COMPONENTS ${libs_list})
+        endif()
     endif()
 endmacro()
