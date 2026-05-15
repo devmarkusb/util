@@ -3,6 +3,9 @@
     UL_PRAGMA_WARNINGS_PUSH saves the current warning settings, UL_PRAGMA_WARNINGS_POP resets the
     warning settings to the state before calling UL_PRAGMA_WARNINGS_PUSH.
     UL_WARNING_DISABLE_<compiler>(w) disables warning w for a specific compiler.
+    UL_WARNING_DISABLE_GCC_LITERAL(l) / UL_WARNING_DISABLE_CLANG_LITERAL(l) take the full flag as a string literal l
+    (e.g. "-Wkeyword-macro") when w is not a single preprocessing token for UL_CONCAT_2(-W, w) in
+    UL_WARNING_DISABLE_GCC(w) or UL_WARNING_DISABLE_CLANG(w).
     UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC is a specialty. First it's the same as UL_PRAGMA_WARNINGS_PUSH for
     every compiler. But for MSVC this additionally disables *all* warnings (useful when including 3rd party headers,
     but this problem might also be solvable in another way).
@@ -22,7 +25,9 @@
 #define UL_WARNING_DISABLE_MSVC(w)
 #define UL_WARNING_DISABLE_CLANG(w)
 #define UL_WARNING_DISABLE_CLANG_ALL
+#define UL_WARNING_DISABLE_CLANG_LITERAL(literal)
 #define UL_WARNING_DISABLE_GCC(w)
+#define UL_WARNING_DISABLE_GCC_LITERAL(literal)
 
 #if defined(UL_COMP_MS_VISUAL_STUDIO_CPP) && UL_COMP_MS_VISUAL_STUDIO_CPP
 #undef UL_PRAGMA_WARNINGS_PUSH
@@ -43,6 +48,7 @@
 #undef UL_PRAGMA_WARNINGS_POP
 #undef UL_WARNING_DISABLE_CLANG
 #undef UL_WARNING_DISABLE_CLANG_ALL
+#undef UL_WARNING_DISABLE_CLANG_LITERAL
 
 #define UL_PRAGMA_WARNINGS_PUSH                      UL_PRAGMA(clang diagnostic push)
 #define UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC UL_PRAGMA_WARNINGS_PUSH
@@ -51,12 +57,15 @@
 //! E.g. UL_WARNING_DISABLE_CLANG(sign-conversion) is equivalent to compiler flag -Wno-sign-conversion
 #define UL_WARNING_DISABLE_CLANG(w)  UL_PRAGMA(clang diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
 #define UL_WARNING_DISABLE_CLANG_ALL UL_WARNING_DISABLE_CLANG(everything)
+//! Pass the full flag as a string literal, e.g. UL_WARNING_DISABLE_CLANG_LITERAL("-Wkeyword-macro").
+#define UL_WARNING_DISABLE_CLANG_LITERAL(literal) UL_PRAGMA(clang diagnostic ignored literal)
 
 #elif defined(UL_COMP_GNU_CPP) && UL_COMP_GNU_CPP
 #undef UL_PRAGMA_WARNINGS_PUSH
 #undef UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC
 #undef UL_PRAGMA_WARNINGS_POP
 #undef UL_WARNING_DISABLE_GCC
+#undef UL_WARNING_DISABLE_GCC_LITERAL
 
 #define UL_PRAGMA_WARNINGS_PUSH                      UL_PRAGMA(GCC diagnostic push)
 #define UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC UL_PRAGMA_WARNINGS_PUSH
@@ -64,6 +73,8 @@
 
 //! E.g. UL_WARNING_DISABLE_GCC(unused-variable) is equivalent to compiler flag -Wno-unused-variable
 #define UL_WARNING_DISABLE_GCC(w) UL_PRAGMA(GCC diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
+//! Pass the full flag as a string literal, e.g. UL_WARNING_DISABLE_GCC_LITERAL("-Wkeyword-macro").
+#define UL_WARNING_DISABLE_GCC_LITERAL(literal) UL_PRAGMA(GCC diagnostic ignored literal)
 // not implementable right now it seems
 //#define UL_WARNING_DISABLE_GCC_ALL
 
