@@ -18,13 +18,11 @@ public:
     //! With this method you can assign a "void OutOfMem()" function to your class.
     /** This is much more convenient than wrapping every new-call in a try block.*/
     static std::new_handler set_new_handler(std::new_handler p);
-    //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
-    UL_PRAGMA_WARNINGS_PUSH
-    // clang-format off
-    UL_WARNING_DISABLE_GCC_LITERAL("-Wkeyword-macro")
-// clang-format on
+    // somehow unable to suppress a warning for gcc
+#if !(defined(UL_COMP_GNU_CPP) && UL_COMP_GNU_CPP)
 #undef new
-    UL_PRAGMA_WARNINGS_POP
+#endif
+    //! Class specific new, responsible for setting up the custom new handler and resetting back to the global default.
     static void* operator new(size_t size);
     static void operator delete(void* ptr) noexcept;
     static void operator delete(void* ptr, size_t size) noexcept;
