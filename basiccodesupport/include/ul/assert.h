@@ -34,7 +34,7 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #if __has_include(<source_location>)
 #include <source_location>
 #endif
-#if __has_include(<stacktrace>)
+#if __has_include(<stacktrace>) && (__cplusplus >= 202302L)
 #include <stacktrace>
 #endif
 #endif
