@@ -81,6 +81,11 @@ install(
     COMPONENT "mb.util"
 )
 
+# FetchContent/subdirectory consumers only need the target and headers.
+if(NOT PROJECT_IS_TOP_LEVEL)
+    set(MB_UTIL_INSTALL_CONFIG_FILE_PACKAGE OFF CACHE BOOL "" FORCE)
+endif()
+
 mb_devenv_install_library(mb.util)
 
 if(MB_UTIL_BUILD_TESTS)
