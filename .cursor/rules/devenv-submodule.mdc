@@ -1,0 +1,9 @@
+---
+description: additional guardrails for the devenv submodule
+globs:
+  - devenv/**
+alwaysApply: true
+---
+
+- `devenv/` is a git submodule with its own instructions.
+- Apply `devenv/AGENTS.md` and `devenv/CLAUDE.md` in addition to root guidance.

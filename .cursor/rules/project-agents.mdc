@@ -1,0 +1,7 @@
+---
+description: util repository constraints (canonical source in AGENTS.md)
+alwaysApply: true
+---
+
+- Follow `AGENTS.md` at repository root for build/test/lint commands, restricted paths, and review checklist.
+- Keep Cursor rules thin; update `AGENTS.md` first, then adjust wrappers if needed.
