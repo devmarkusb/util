@@ -21,8 +21,8 @@ inline void crash(int signal, bool try_indirect = true) {
         try_indirect = false;
 #endif
     if (!try_indirect) {
-        const auto success{std::raise(signal)};
         // cppcheck-suppress unreachableCode ; std::raise returns on ignored/handled signals.
+        const auto success{std::raise(signal)};
         if (!success) {
             std::string msg{"couldn't raise signal, returned: "};
             msg.append(std::to_string(success));

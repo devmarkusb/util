@@ -52,6 +52,8 @@ BaseDigitType get_digit(T number, T digit_idx, NumBase base = NumBase::dec) {
 
 template <typename T>
 int sgn(T val) {
+    if constexpr (std::is_unsigned_v<T>)
+        return static_cast<T>(0) < val;
     return (static_cast<T>(0) < val) - (val < static_cast<T>(0));
 }
 
