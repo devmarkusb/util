@@ -15,7 +15,7 @@ TEST(utf8cpp_is_validTest, test) {
 
 TEST(utf8cpp_find_invalidTest, test) {
     char utf_invalid[] = "\xe6\x97\xa5\xd1\x88\xfa";
-    char* invalid = utf8::find_invalid(utf_invalid, utf_invalid + 6);
+    const char* invalid = utf8::find_invalid(utf_invalid, utf_invalid + 6);
     EXPECT_TRUE(invalid == utf_invalid + 5);
 }
 
@@ -43,7 +43,8 @@ TEST(utf8cpp_replace_invalidTest, test) {
 
 TEST(utf8cpp_appendTest, test) {
     unsigned char u[5] = {0, 0, 0, 0, 0};
-    [[maybe_unused]] unsigned char* end = utf8::append(0x0448, u); // cyrillic scha
+    const unsigned char* end = utf8::append(0x0448, u); // cyrillic scha
+    EXPECT_EQ(u + 2, end);
     EXPECT_TRUE(u[0] == 0xd1 && u[1] == 0x88 && u[2] == 0 && u[3] == 0 && u[4] == 0);
 }
 
@@ -141,7 +142,8 @@ TEST(utf8cpp_8to32to8Test, test) {
 
 TEST(utf8cpp_unchecked_appendTest, test) {
     unsigned char u[7] = {0, 0, 0, 0, 0, 0, 0};
-    [[maybe_unused]] unsigned char* end = utf8::unchecked::append(0x0448, u + 1); // cyrillic scha
+    const unsigned char* end = utf8::unchecked::append(0x0448, u + 1); // cyrillic scha
+    EXPECT_EQ(u + 3, end);
     EXPECT_TRUE(u[0] == 0 && u[1] == 0xd1 && u[2] == 0x88 && u[3] == 0 && u[4] == 0 && u[5] == 0);
 }
 
