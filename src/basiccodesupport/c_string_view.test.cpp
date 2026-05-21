@@ -632,6 +632,7 @@ TEST(CStringViewEdge, EmbeddedNulInPtrLenThrows) {
 TEST(CStringViewEdge, CopyAndAssign) {
     CStringView a{"hello"};
     const char* const ptr = a.c_str();
+    // cppcheck-suppress redundantCopyLocalConst ; tests copy construction of a non-owning view.
     CStringView b = a;
     EXPECT_EQ(a, b);
     // cppcheck-suppress knownConditionTrueFalse

@@ -21,7 +21,7 @@ TEST(Ptr2RefTest, BasicFunctionality) {
     EXPECT_EQ(const_ref, 100);
 
     // Test ref2ptr
-    int* ptr2 = ul::ref2ptr(value);
+    const int* ptr2 = ul::ref2ptr(value);
     EXPECT_EQ(ptr2, &value);
     EXPECT_EQ(*ptr2, 100);
 
@@ -56,7 +56,7 @@ TEST(Ptr2RefTest, WithObjects) {
     EXPECT_EQ(const_obj_ref.value, 100);
 
     // Test ref2ptr
-    TestClass* obj_ptr2 = ul::ref2ptr(obj);
+    const TestClass* obj_ptr2 = ul::ref2ptr(obj);
     EXPECT_EQ(obj_ptr2, &obj);
     EXPECT_EQ(obj_ptr2->value, 100);
 
@@ -71,7 +71,7 @@ TEST(Ptr2RefTest, WithSmartPointers) {
     auto smart_ptr = std::make_unique<int>(42);
 
     // Test ref2ptr with smart pointer
-    int* raw_ptr = ul::ref2ptr(smart_ptr.get());
+    const int* raw_ptr = ul::ref2ptr(smart_ptr.get());
     EXPECT_EQ(raw_ptr, smart_ptr.get());
     EXPECT_EQ(*raw_ptr, 42);
 
@@ -93,7 +93,7 @@ TEST(Ptr2RefTest, WithArrays) {
     EXPECT_EQ(arr[0], 100);
 
     // Test ref2ptr with array element
-    int* arr_ptr2 = ul::ref2ptr(arr[0]);
+    const int* arr_ptr2 = ul::ref2ptr(arr[0]);
     EXPECT_EQ(arr_ptr2, &arr[0]);
     EXPECT_EQ(*arr_ptr2, 100);
 }

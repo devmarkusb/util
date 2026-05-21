@@ -55,7 +55,7 @@ struct View : private ModelListener {
         prop_changed();
     }
 
-    void prop_changed() {
+    static void prop_changed() {
     }
 
     void slot1() {

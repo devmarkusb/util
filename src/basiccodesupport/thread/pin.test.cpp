@@ -20,6 +20,7 @@ protected:
     struct Ready2go {
         std::mutex m;
         std::condition_variable cv;
+        // cppcheck-suppress unusedStructMember ; used by Linux-only disabled tests.
         bool ok{false};
     };
 };

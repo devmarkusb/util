@@ -1,0 +1,2 @@
+# cppcheck 2.20 crashes on this translation unit with exhaustive checking.
+src/basiccodesupport/bits.test.cpp

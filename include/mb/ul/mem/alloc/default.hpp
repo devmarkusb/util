@@ -12,11 +12,13 @@ namespace mb::ul::mem::alloc {
 template <typename StatisticsPolicy = NoStatistics>
 class DefaultNewDelete : public StatisticsPolicy {
 public:
+    // cppcheck-suppress functionStatic ; allocation strategy API supports stateful statistics policies.
     uint8_t* allocate(Bytes size) {
         this->stats_collect_alloc(size);
         return reinterpret_cast<uint8_t*>(::operator new(size.value));
     }
 
+    // cppcheck-suppress functionStatic ; allocation strategy API supports stateful statistics policies.
     void deallocate(uint8_t* p, Bytes size) noexcept {
         this->stats_collect_dealloc(size);
         ::operator delete(p);
