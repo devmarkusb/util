@@ -81,10 +81,11 @@ TEST(FinallyTest, ExceptionHandling) {
 }
 
 TEST(FinallyTest, LambdaCapture) {
-    int value = 42;
     int captured_value = 0;
 
     {
+        int value = 42;
+
         // Create a finally action that captures 'value' by value
         auto cleanup = mb::ul::finally([value, &captured_value]() {
             captured_value = value;
