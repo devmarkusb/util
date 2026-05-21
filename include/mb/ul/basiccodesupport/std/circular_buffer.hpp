@@ -84,11 +84,11 @@ public:
         static_assert(std::is_convertible_v<U, T>);
 
         if (full_)
-            tail_ = (tail_ + 1) % capacity();
+            tail_ = next(tail_);
 
         Base::buf_[head_] = std::forward<U>(item); // NOLINT
 
-        head_ = (head_ + 1) % capacity();
+        head_ = next(head_);
 
         full_ = head_ == tail_;
     }
@@ -101,11 +101,11 @@ public:
         static_assert(std::is_convertible_v<U, T>);
 
         if (full_)
-            tail_ = (tail_ + 1) % capacity();
+            tail_ = next(tail_);
 
         Base::emplace(std::forward<U>(item), Base::buf_, head_);
 
-        head_ = (head_ + 1) % capacity();
+        head_ = next(head_);
 
         full_ = head_ == tail_;
     }
@@ -124,7 +124,7 @@ public:
 
         popped_item = Base::buf_[tail_]; // NOLINT
         full_ = false;
-        tail_ = (tail_ + 1) % capacity();
+        tail_ = next(tail_);
 
         return true;
     }
@@ -163,6 +163,13 @@ public:
     }
 
 private:
+    [[nodiscard]] size_t next(size_t index) const noexcept {
+        const auto next_index = index + 1;
+        if (next_index == capacity())
+            return 0;
+        return next_index;
+    }
+
     size_t head_{0};
     size_t tail_{0};
     bool full_{};

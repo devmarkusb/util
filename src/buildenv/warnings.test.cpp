@@ -11,6 +11,7 @@ TEST(WarningsTest, CompilerSpecific) {
     UL_WARNING_DISABLE_GCC(unused-variable);
 #endif
     {
+        // cppcheck-suppress unreadVariable ; validates compiler warning suppression macros.
         int unused = 42; // Should not trigger warnings
     }
     UL_PRAGMA_WARNINGS_POP
@@ -19,6 +20,7 @@ TEST(WarningsTest, CompilerSpecific) {
 TEST(WarningsTest, DisableAllMSVC) {
 #if UL_COMP_MS_VISUAL_STUDIO_CPP
     UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC {
+        // cppcheck-suppress unreadVariable ; validates compiler warning suppression macros.
         int unused = 42; // Should not trigger any warnings
     }
     UL_PRAGMA_WARNINGS_POP
