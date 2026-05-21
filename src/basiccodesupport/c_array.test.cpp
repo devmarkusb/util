@@ -34,8 +34,10 @@ TEST(CArrayTest, BasicFunctionality) {
         double b;
     };
 
-    TestStruct struct_array[2] = {};
+    TestStruct struct_array[2] = {{1, 2.0}, {3, 4.0}};
     EXPECT_EQ(ul::c_array_length(struct_array), 2);
+    EXPECT_EQ(struct_array[0].a, 1);
+    EXPECT_DOUBLE_EQ(struct_array[1].b, 4.0);
 
     // Test with const arrays
     const int const_array[5] = {1, 2, 3, 4, 5};
