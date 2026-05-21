@@ -35,25 +35,6 @@
 #undef UL_PRAGMA_WARNINGS_POP
 #undef UL_WARNING_DISABLE_MSVC
 
-// Provide analyzer-friendly defaults so these macros remain well-formed even when
-// a tool explores configurations without a known compiler selection.
-#define UL_PRAGMA_WARNINGS_PUSH
-#define UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC UL_PRAGMA_WARNINGS_PUSH
-#define UL_PRAGMA_WARNINGS_POP
-
-#define UL_WARNING_DISABLE_MSVC(w)
-#define UL_WARNING_DISABLE_CLANG(w)
-#define UL_WARNING_DISABLE_CLANG_ALL
-#define UL_WARNING_DISABLE_CLANG_LITERAL(literal)
-#define UL_WARNING_DISABLE_GCC(w)
-#define UL_WARNING_DISABLE_GCC_LITERAL(literal)
-
-#if defined(UL_COMP_MS_VISUAL_STUDIO_CPP) && UL_COMP_MS_VISUAL_STUDIO_CPP
-#undef UL_PRAGMA_WARNINGS_PUSH
-#undef UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC
-#undef UL_PRAGMA_WARNINGS_POP
-#undef UL_WARNING_DISABLE_MSVC
-
 #define UL_PRAGMA_WARNINGS_PUSH                      UL_PRAGMA(warning(push))
 #define UL_PRAGMA_WARNINGS_PUSH_AND_DISABLE_ALL_MSVC UL_PRAGMA(warning(push, 0))
 #define UL_PRAGMA_WARNINGS_POP                       UL_PRAGMA(warning(pop))

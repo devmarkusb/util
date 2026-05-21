@@ -17,6 +17,7 @@
 #include <iterator>
 #include <limits>
 #include <map>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <string>
@@ -62,7 +63,7 @@ public:
     template <DumpFormat fmt = DumpFormat::string_only>
     static std::string dump_all_items();
     static void reset();
-    static std::string to_formatted_string(const SecondsDbl& d);
+    static std::string to_formatted_string(const SecondsDbl& sd);
 
     //! Only for testing.
     struct DumpDataset {
@@ -275,8 +276,9 @@ std::string PerformanceProfiler::dump_all_items() {
 
         double variance = 0.0;
         if (count > 1) {
-            for (const auto& time : sortedItems)
-                variance += pow(time - meanT, 2.0);
+            variance = std::accumulate(sortedItems.begin(), sortedItems.end(), 0.0, [meanT](double sum, double time) {
+                return sum + pow(time - meanT, 2.0);
+            });
         }
 
         const double stddev = count > 1 ? sqrt(variance / (static_cast<double>(count) - 1.0)) : 0.0;
