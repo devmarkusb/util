@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include <functional>
 #include <memory>
+#include <numeric>
 #include <vector>
 
 namespace ul = mb::ul;
@@ -13,9 +14,7 @@ TEST(ul_make_uniqueTest, test) {
 
 TEST(ul_accumulateTest, test) {
     std::vector<int> v{1, 2, 3, 4, 5}; // NOLINT
-    int sum_selfmade = 0;
-    for (const auto& elem : v)
-        sum_selfmade += elem;
+    const int sum_expected = std::accumulate(v.begin(), v.end(), 0);
     const int sum = ul::accumulate(v.begin(), v.end(), 0, std::plus<>());
-    EXPECT_TRUE(sum == sum_selfmade);
+    EXPECT_TRUE(sum == sum_expected);
 }

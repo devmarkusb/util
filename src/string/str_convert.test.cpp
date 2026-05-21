@@ -174,18 +174,18 @@ TEST(to_hex_string, custom_prefix) {
 
 TEST(s2psz, test) {
     const std::string s{"Hello World"};
-    char* psz = ul::str::s2psz(s);
+    const char* psz = ul::str::s2psz(s);
     EXPECT_STREQ("Hello World", psz);
 }
 
 TEST(s2psz, empty_string) {
     const std::string s{""};
-    char* psz = ul::str::s2psz(s);
+    const char* psz = ul::str::s2psz(s);
     EXPECT_STREQ("", psz);
 }
 
 TEST(s2psz, null_terminated) {
     const std::string s{"Hello\0World"};
-    char* psz = ul::str::s2psz(s);
+    const char* psz = ul::str::s2psz(s);
     EXPECT_STREQ("Hello", psz); // Should stop at the null terminator
 }
