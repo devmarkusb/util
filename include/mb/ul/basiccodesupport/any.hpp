@@ -38,7 +38,7 @@ Type any_cast(const Any& val);
 template <typename Type>
 Type* any_cast(Any* pval);
 template <typename Type>
-const Type* any_cast(const Any* val);
+const Type* any_cast(const Any* pval);
 
 //!@}
 
@@ -75,12 +75,12 @@ public:
 
     // NOLINTBEGIN
     template <typename T>
-    /*implicit*/ Any(T&& x)
+    /*implicit*/ Any(T&& x) // cppcheck-suppress noExplicitConstructor
         : holder_(ul::make_unique<Concrete<std::decay_t<T>>>(std::forward<T>(x))) {
     }
 
     template <typename T>
-    /*implicit*/ Any(const T& x)
+    /*implicit*/ Any(const T& x) // cppcheck-suppress noExplicitConstructor
         : holder_(ul::make_unique<Concrete<std::decay_t<T>>>(x)) {
     }
 

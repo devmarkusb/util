@@ -44,7 +44,7 @@ class NotNull {
     static_assert(std::is_assignable_v<T&, std::nullptr_t>, "T cannot be assigned nullptr.");
 
 public:
-    /*implicit*/ NotNull(T t)
+    /*implicit*/ NotNull(T t) // cppcheck-suppress noExplicitConstructor
         : ptr_(t) {
         ensure_invariant();
     }

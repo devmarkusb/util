@@ -110,7 +110,7 @@ public:
         full_ = head_ == tail_;
     }
 
-    bool try_front(T& front_item) noexcept {
+    bool try_front(T& front_item) const noexcept {
         if (empty())
             return false;
 

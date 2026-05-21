@@ -66,11 +66,11 @@ struct path {
     }
 
     //! Expects s to be empty or a syntactically valid path with OS conforming or portable separators. Implicit!
-    path(std::string s)
+    path(std::string s) // cppcheck-suppress noExplicitConstructor
         : s_{std::move(s)} {
     }
 
-    path(const char* s)
+    path(const char* s) // cppcheck-suppress noExplicitConstructor
         : s_{s} {
     }
 
@@ -82,6 +82,7 @@ struct path {
         return s_.c_str();
     }
 
+    // cppcheck-suppress returnByReference ; mirrors std::filesystem::path::string().
     std::string string() const {
         return s_;
     }

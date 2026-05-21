@@ -22,6 +22,7 @@ inline void crash(int signal, bool try_indirect = true) {
 #endif
     if (!try_indirect) {
         const auto success{std::raise(signal)};
+        // cppcheck-suppress unreachableCode ; std::raise returns on ignored/handled signals.
         if (!success) {
             std::string msg{"couldn't raise signal, returned: "};
             msg.append(std::to_string(success));
@@ -49,6 +50,7 @@ inline void crash(int signal, bool try_indirect = true) {
             // Optimized builds (e.g. Clang release) may complete the loop without the allocator aborting.
             std::raise(SIGABRT);
         } else if (signal == SIGSEGV) {
+            // cppcheck-suppress intToPointerCast ; deliberately creates a bad address to crash.
             const auto* foo = reinterpret_cast<int*>(-1);
             std::printf("%d\n", *foo);
         }

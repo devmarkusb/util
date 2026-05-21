@@ -181,15 +181,15 @@ private:
         (bits + (bits::count<BaseType>() - Count{1})) / bits::count<BaseType>())};
     std::array<BaseType, parts_count> array_{};
 
-    [[nodiscard]] size_t n(Idx idx) const noexcept {
+    [[nodiscard]] static size_t n(Idx idx) noexcept {
         return static_cast<size_t>(idx / bits::count<BaseType>());
     }
 
-    [[nodiscard]] Idx i(Idx idx) const noexcept {
+    [[nodiscard]] static Idx i(Idx idx) noexcept {
         return idx % bits::count<BaseType>();
     }
 
-    [[nodiscard]] BaseType part_bit(Idx n) const noexcept {
+    [[nodiscard]] static BaseType part_bit(Idx n) noexcept {
         return static_cast<BaseType>(BaseType{1} << n); // NOLINT
     }
 

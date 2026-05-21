@@ -83,6 +83,7 @@ TEST(VERIFY_ASSERT_Test, Test) {
     UL_VERIFY(++i == 2);
     EXPECT_EQ(2, i);
     --i;
+    // cppcheck-suppress assignmentInAssert ; this test verifies that UL_ASSERT evaluates its condition.
     UL_ASSERT(++i == 2); // NOLINT
 #if UL_DEBUG
     EXPECT_EQ(2, i);

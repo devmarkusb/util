@@ -156,6 +156,7 @@ inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
 #endif
 #if UL_OS_LINUX || UL_OS_MAC
     const auto err = pin_to_logical_core(nh, logical_core_idx);
+    // cppcheck-suppress knownConditionTrueFalse ; macOS shim currently succeeds, Linux can still fail.
     if (err) {
         std::stringstream ss;
         ss << "thread_pinToCPU failed with code " << err;

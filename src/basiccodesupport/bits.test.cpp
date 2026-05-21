@@ -1,3 +1,6 @@
+// cppcheck 2.20 crashes on this translation unit with exhaustive checking.
+#if !__cppcheck__
+
 #include "mb/ul/basiccodesupport/bits.hpp"
 #include "mb/ul/basiccodesupport/assert.hpp"
 #include "mb/ul/basiccodesupport/enum_cast.hpp"
@@ -460,3 +463,5 @@ TEST(TypeLeast, basics) {
 }
 
 // NOLINTEND
+
+#endif
