@@ -27,30 +27,38 @@ UL_ASSERT_ALWAYS_THROWING__SUPPRESS_COMPILER_MESSAGE.
 #endif
 #include <chrono>
 #include <exception>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <thread>
 
 #ifdef __has_include
 #if __has_include(<source_location>)
 #include <source_location>
 #endif
-#if __has_include(<stacktrace>) && (__cplusplus >= 202302L)
+#if __has_include(<stacktrace>)
 #include <stacktrace>
 #endif
 #endif
 
 
 namespace mb::ul {
+namespace detail {
+inline std::string fail_fast_message(const char* const message) {
+    std::string ret{message};
+#if defined(__cpp_lib_stacktrace) && (__cpp_lib_stacktrace >= 202'011L)
+    std::ostringstream stacktrace;
+    stacktrace << std::stacktrace::current();
+    ret.append("\n").append(stacktrace.str());
+#endif
+    return ret;
+}
+} // namespace detail
+
 //! This is thrown by any throwing assertion.
 struct FailFast : std::runtime_error {
     explicit FailFast(const char* const message)
-        : std::runtime_error{
-#if __cpp_lib_stacktrace
-              std::string{message}.append("\n").append(std::to_string(std::stacktrace::current()))
-#else
-              std::string{message}.append("\n")
-#endif
-          } {
+        : std::runtime_error{detail::fail_fast_message(message)} {
     }
 };
 } // namespace mb::ul
