@@ -96,7 +96,10 @@ public:
         if (stopped_)
             return false;
 
-        UL_VERIFY(Base::buf_.try_pop(popped_elem));
+        if (!Base::buf_.try_pop(popped_elem)) {
+            UL_ASSERT(false);
+            return false;
+        }
 
         return true;
     }
