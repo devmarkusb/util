@@ -74,7 +74,8 @@
                 * minimal - useful for Quick Controls 2 apps, it is much faster than "full"
                 * none - useful for apps that don't use any of the above Qt modules
                 -->
-            <meta-data android:name="android.app.extract_android_style" android:value="default"/>
+            <!-- minimal: QML/QC2 (Fusion). default/full runs ExtractStyle JNI before native libs load and can crash on cold start after clearing app data. -->
+            <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
             <!-- extract android style -->
         </activity>
 
