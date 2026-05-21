@@ -24,6 +24,7 @@ public:
         return mem_ptr;
     }
 
+    // cppcheck-suppress functionConst ; class deallocation functions cannot be const-qualified.
     void operator delete(void* ptr) noexcept {
         auto it = std::find(addresses().begin(), addresses().end(), ptr);
 

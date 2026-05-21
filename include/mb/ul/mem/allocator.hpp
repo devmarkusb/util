@@ -41,6 +41,7 @@ public:
         a_->deallocate(reinterpret_cast<uint8_t*>(p), Bytes{objcount * sizeof(value_type)});
     }
 
+    // cppcheck-suppress functionStatic ; STL-compatible allocator API.
     [[nodiscard]] size_t max_size() const noexcept {
         return std::numeric_limits<size_t>::max() / sizeof(value_type);
     }

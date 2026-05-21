@@ -41,6 +41,7 @@ struct A : public IA {
     void set(Attr a, const ul::Any& val) override {
         switch (a) {
             case Attr::a1:
+                // cppcheck-suppress AssignmentAddressToInteger ; false positive through Any's implicit wrapper.
                 this->a1_ = ul::any_cast<int>(val);
                 break;
             default:
