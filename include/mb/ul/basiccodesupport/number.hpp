@@ -51,12 +51,19 @@ BaseDigitType get_digit(T number, T digit_idx, NumBase base = NumBase::dec) {
 }
 
 template <typename T>
+concept SignedNumber = std::is_signed_v<T>;
+
+template <typename T>
+concept NonSignedNumber = !SignedNumber<T>;
+
+template <NonSignedNumber T>
 int sgn(T val) {
-    if constexpr (!std::is_signed_v<T>) {
-        return static_cast<T>(0) < val;
-    } else {
-        return (static_cast<T>(0) < val) - (val < static_cast<T>(0));
-    }
+    return T{} < val;
+}
+
+template <SignedNumber T>
+int sgn(T val) {
+    return (T{} < val) - (val < T{});
 }
 
 template <typename T>
