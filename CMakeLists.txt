@@ -76,6 +76,17 @@ install(
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT "mb.util"
 )
+install(
+    FILES "${PROJECT_SOURCE_DIR}/cmake/cmake-util.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+    COMPONENT "mb.util"
+)
+install(
+    DIRECTORY "${PROJECT_SOURCE_DIR}/cmake/cmake-util"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+    USE_SOURCE_PERMISSIONS
+    COMPONENT "mb.util"
+)
 
 # FetchContent/subdirectory consumers only need the target and headers.
 if(NOT PROJECT_IS_TOP_LEVEL)
