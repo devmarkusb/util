@@ -52,8 +52,9 @@ Typical local loop:
 ## 4. Formatting and linting
 
 - Full lint/format sweep: `pre-commit run --all-files` (verified command available locally)
-- clang-tidy helper (from submodule): `python3 devenv/clang-tidy-review.py changed` or `full` (unverified in this session)
-- cppcheck helper (from submodule): `./devenv/run-cppcheck.sh [preset] [build-dir]` (unverified in this session)
+- clang-tidy helper (from submodule): `python3 devenv/scripts/clang-tidy-review.py changed` or `full`
+  (unverified in this session)
+- cppcheck helper (from submodule): `./devenv/scripts/run-cppcheck.sh [preset] [build-dir]` (unverified in this session)
 - Workflow linting: `actionlint -color` (unverified in this session; not installed in current shell)
 
 Primary config files:
