@@ -42,6 +42,10 @@ std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p) {
     return std::exchange(current_handler(), p);
 }
 
+UL_PRAGMA_WARNINGS_PUSH
+
+UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+
 template <typename T>
 void* NewHandlerSupport<T>::operator new(size_t size) {
     std::new_handler global_handler = std::set_new_handler(current_handler());
@@ -55,6 +59,8 @@ void* NewHandlerSupport<T>::operator new(size_t size) {
     std::set_new_handler(global_handler);
     return memory;
 }
+
+UL_PRAGMA_WARNINGS_POP
 
 template <typename T>
 void NewHandlerSupport<T>::operator delete(void* ptr) noexcept {
