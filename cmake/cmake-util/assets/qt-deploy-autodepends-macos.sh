@@ -3,8 +3,6 @@
 # Expects param 1 to be the full path of the app bundle dir, param 2 to be the full path to macdeployqt,
 # and the remaining params to be all the designated arguments for macdeployqt.
 
-set -x
-
 app_bundle_dir=$1
 macdeployqt_path=$2
 
