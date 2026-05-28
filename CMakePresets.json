@@ -72,7 +72,8 @@
       "hidden": true,
       "toolchainFile": "devenv/cmake/toolchains/msvc-toolchain.cmake",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "23"
+        "CMAKE_CXX_STANDARD": "23",
+        "MB_DEVENV_ALL_WARNINGS": "OFF"
       }
     },
     {
