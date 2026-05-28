@@ -63,7 +63,7 @@ macro(mb_ul_qt_deploy target path_to_qml)
                 "${MB_UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}/usr/share/applications/${impl_TargetFileName}.desktop"
                 -bundle-non-qt-libs
                 -qmake="${MB_UL_QT_INSTALL_PREFIX}/bin/qmake"
-                ${impl_QmlSourcesToUse} -verbose=3
+                ${impl_QmlSourcesToUse}
             WORKING_DIRECTORY "${MB_UL_CMAKE_UTIL_DIR}/assets"
         )
         set(TARGET_NAME ${target})
@@ -113,8 +113,7 @@ macro(mb_ul_qt_deploy target path_to_qml)
             COMMAND
                 "${MB_UL_CMAKE_UTIL_DIR}/assets/qt-deploy-autodepends-macos.sh"
                 "${MB_UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}"
-                "${MB_UL_QT_INSTALL_PREFIX}/bin" -verbose=3 -dmg
-                ${impl_QmlSourcesToUse}
+                "${MB_UL_QT_INSTALL_PREFIX}/bin" -dmg ${impl_QmlSourcesToUse}
         )
     endif()
 endmacro()
