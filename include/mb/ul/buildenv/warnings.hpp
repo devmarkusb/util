@@ -25,6 +25,7 @@
 #define UL_WARNING_DISABLE_MSVC(w)
 #define UL_WARNING_DISABLE_CLANG(w)
 #define UL_WARNING_DISABLE_CLANG_ALL
+#define UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 #define UL_WARNING_DISABLE_CLANG_LITERAL(literal)
 #define UL_WARNING_DISABLE_GCC(w)
 #define UL_WARNING_DISABLE_GCC_LITERAL(literal)
@@ -48,6 +49,7 @@
 #undef UL_PRAGMA_WARNINGS_POP
 #undef UL_WARNING_DISABLE_CLANG
 #undef UL_WARNING_DISABLE_CLANG_ALL
+#undef UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 #undef UL_WARNING_DISABLE_CLANG_LITERAL
 
 #define UL_PRAGMA_WARNINGS_PUSH                      UL_PRAGMA(clang diagnostic push)
@@ -57,6 +59,14 @@
 //! E.g. UL_WARNING_DISABLE_CLANG(sign-conversion) is equivalent to compiler flag -Wno-sign-conversion
 #define UL_WARNING_DISABLE_CLANG(w)  UL_PRAGMA(clang diagnostic ignored UL_STRINGIFY_VALUE(UL_CONCAT_2(-W, w)))
 #define UL_WARNING_DISABLE_CLANG_ALL UL_WARNING_DISABLE_CLANG(everything)
+#ifndef __has_warning
+#define __has_warning(warning_name) 0
+#endif
+#if __has_warning("-Wallocator-wrappers")
+#define UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+#else
+#define UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
+#endif
 //! Pass the full flag as a string literal, e.g. UL_WARNING_DISABLE_CLANG_LITERAL("-Wkeyword-macro").
 #define UL_WARNING_DISABLE_CLANG_LITERAL(literal) UL_PRAGMA(clang diagnostic ignored literal)
 

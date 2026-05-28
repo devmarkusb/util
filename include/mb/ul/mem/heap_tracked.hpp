@@ -21,7 +21,7 @@ public:
 
     UL_PRAGMA_WARNINGS_PUSH
 
-    UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+    UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 
     void* operator new(size_t size) {
         void* mem_ptr = ::operator new(size);

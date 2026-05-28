@@ -16,7 +16,7 @@ public:
     // cppcheck-suppress functionStatic ; allocation strategy API supports stateful statistics policies.
     UL_PRAGMA_WARNINGS_PUSH
 
-    UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+    UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 
     uint8_t* allocate(Bytes size) {
         this->stats_collect_alloc(size);
