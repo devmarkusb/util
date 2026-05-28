@@ -13,7 +13,7 @@ class Example {
 public:
     UL_PRAGMA_WARNINGS_PUSH
 
-    UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+    UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 
     static uint8_t* allocate(Bytes size) {
         return reinterpret_cast<uint8_t*>(::operator new(size.value));

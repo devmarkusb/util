@@ -44,7 +44,7 @@ std::new_handler NewHandlerSupport<T>::set_new_handler(std::new_handler p) {
 
 UL_PRAGMA_WARNINGS_PUSH
 
-UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+UL_WARNING_DISABLE_CLANG_ALLOCATOR_WRAPPERS
 
 template <typename T>
 void* NewHandlerSupport<T>::operator new(size_t size) {
