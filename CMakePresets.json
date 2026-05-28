@@ -33,7 +33,8 @@
       "name": "debug",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "MB_DEVENV_ALL_WARNINGS": "ON"
       }
     },
     {
