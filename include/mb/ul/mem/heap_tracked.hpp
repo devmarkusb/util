@@ -5,6 +5,7 @@
 
 #include "mb/ul/basiccodesupport/debug.hpp"
 #include "mb/ul/basiccodesupport/std/std_extensions.hpp"
+#include "mb/ul/buildenv/warnings.hpp"
 #include <algorithm>
 #include <exception>
 #include <list>
@@ -18,11 +19,17 @@ class HeapTracked {
 public:
     virtual ~HeapTracked() = default;
 
+    UL_PRAGMA_WARNINGS_PUSH
+
+    UL_WARNING_DISABLE_CLANG(allocator-wrappers)
+
     void* operator new(size_t size) {
         void* mem_ptr = ::operator new(size);
         addresses().push_front(mem_ptr);
         return mem_ptr;
     }
+
+    UL_PRAGMA_WARNINGS_POP
 
     // cppcheck-suppress functionConst ; class deallocation functions cannot be const-qualified.
     void operator delete(void* ptr) noexcept {
