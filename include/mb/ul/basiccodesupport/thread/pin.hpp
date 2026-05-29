@@ -119,7 +119,7 @@ inline int pin_to_logical_core(NativeHandle h, int logical_core_idx) noexcept {
 #else
     ul::ignore_unused(h);
     ul::ignore_unused(logical_core_idx);
-    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore not yet for non-Unix"};
+    return -1;
 #endif
 }
 
