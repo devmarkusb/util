@@ -84,7 +84,24 @@ Primary config files:
 - Keep edits scoped; avoid drive-by refactors unrelated to the task.
 - Do not change public CMake option names or exported target names (`mb.util`, `mb::util`) without explicit request.
 
-## 7. Testing expectations
+## 7. Versioning and releases
+
+`CMakeLists.txt` `project(... VERSION X.Y.Z)` is the **single source of truth** for semver.
+Git release tags use the `vX.Y.Z` prefix (for example `v0.1.0`). FetchContent lockfile consumers
+should pin `git_tag` to that tag, not a bare commit SHA.
+
+Release flow:
+
+1. Bump `VERSION` in root `CMakeLists.txt` (semver: patch for fixes, minor for compatible
+   features, major for breaking changes).
+2. Merge to `main`. CI workflow `release-tag.yml` runs `scripts/sync-release-tag.py
+   --push-if-missing` and creates/pushes `vX.Y.Z` when the tag does not exist yet.
+3. Locally (optional): `python3 scripts/sync-release-tag.py --push-if-missing` after a version
+   bump, or `python3 scripts/sync-release-tag.py --check` to verify the tag exists.
+
+Installed/config packages expose `MB_UTIL_VERSION` from the same `PROJECT_VERSION`.
+
+## 9. Testing expectations
 
 Before finalizing non-trivial code changes:
 
@@ -95,7 +112,7 @@ Before finalizing non-trivial code changes:
 
 If any command cannot be run locally, state that clearly in the final response.
 
-## 8. Files and directories agents must not edit without explicit approval
+## 10. Files and directories agents must not edit without explicit approval
 
 - `devenv/**` (submodule content and submodule pointer), unless task explicitly targets it
 - `fetchcontent-lockfile.json` (dependency pin changes are high-impact)
@@ -104,14 +121,14 @@ If any command cannot be run locally, state that clearly in the final response.
 - vendored/third-party SDK content under `src/string/sdks/**`
 - CI/secrets-related workflow wiring unless requested, especially `.github/workflows/pre-commit-update.yml`
 
-## 9. Security and privacy constraints
+## 11. Security and privacy constraints
 
 - Never commit secrets or tokens (for example workflow secrets used by Codacy/pre-commit-update).
 - Treat `pull_request_target` workflow changes as security-sensitive; do not loosen permissions casually.
 - Do not add new external network/dependency execution paths in CI without explicit justification.
 - Keep dependency provenance explicit when changing submodule refs or lockfile pins.
 
-## 10. Review checklist before final response
+## 12. Review checklist before final response
 
 - [ ] Changes are scoped to the user request.
 - [ ] Formatting/linting run, or skipped with reason.
