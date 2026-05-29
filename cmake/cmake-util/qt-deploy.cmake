@@ -106,14 +106,5 @@ macro(mb_ul_qt_deploy target path_to_qml)
                     ${CMAKE_SOURCE_DIR}/${target}_artifacts/linux/
             )
         endif()
-    elseif(MB_UL_MACOS)
-        add_custom_command(
-            TARGET ${target}
-            POST_BUILD
-            COMMAND
-                "${MB_UL_CMAKE_UTIL_DIR}/assets/qt-deploy-autodepends-macos.sh"
-                "${MB_UL_RUNTIME_OUTPUT_DIRECTORY_PACKAGESUBDIR_BASE}"
-                "${MB_UL_QT_INSTALL_PREFIX}/bin" -dmg ${impl_QmlSourcesToUse}
-        )
     endif()
 endmacro()
