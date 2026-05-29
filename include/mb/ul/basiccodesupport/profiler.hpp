@@ -188,6 +188,7 @@ private:
             : key_{key} {
         }
 
+        // cppcheck-suppress passedByValue ; TimeValStorageRep is a scalar accumulator value.
         [[nodiscard]] TimeValStorageRep operator()(TimeValStorageRep value, const Items::value_type& rhs) const {
             if (key_ == rhs.first) {
                 return rhs.second.time_val + value;
@@ -247,6 +248,7 @@ PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name)
 }
 
 template <ProfilerClock Clock>
+// cppcheck-suppress passedByValue ; NestingLevel is an unsigned scalar.
 PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level)
     : item_name_{new_item_name}
     , nesting_level_{nesting_level} {
