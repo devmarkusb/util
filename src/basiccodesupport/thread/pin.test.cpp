@@ -29,7 +29,7 @@ protected:
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
 }
 #else
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
@@ -64,7 +64,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEac
 TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
 }
 #else
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
@@ -100,7 +100,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 }
 #else
 // NOLINTBEGIN
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
+TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2U); // get some modern system for development!
 
@@ -155,7 +155,7 @@ TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdChec
 TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
 }
 #else
-TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
+TEST_F(PinToCpuTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
     const auto num_threads = std::thread::hardware_concurrency();
     ASSERT_GT(num_threads, 0U); // hardware_concurrency failed
 
