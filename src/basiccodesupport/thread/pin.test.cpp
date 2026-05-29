@@ -20,15 +20,12 @@ protected:
     struct Ready2go {
         std::mutex m;
         std::condition_variable cv;
-        // cppcheck-suppress unusedStructMember ; used by Linux-only disabled tests.
+        // cppcheck-suppress unusedStructMember ; used by Linux-only tests.
         bool ok{false};
     };
 };
 
-#if !UL_OS_LINUX // mac also not working yet
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
-}
-#else
+#if UL_OS_LINUX
 TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2U); // get some modern system for development!
@@ -60,10 +57,7 @@ TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUs_okFor10msCheckedEach2ms) {
 }
 #endif
 
-#if !UL_OS_LINUX // mac also not working yet
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
-}
-#else
+#if UL_OS_LINUX
 TEST_F(PinToCpuTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
     ASSERT_GE(num_threads, 2U); // get some modern system for development!
@@ -95,10 +89,7 @@ TEST_F(PinToCpuTest, twoThreadsPinnedToSecondCPUOnly_okFor10msCheckedEach2ms) {
 }
 #endif
 
-#if !UL_OS_LINUX // mac also not working yet
-TEST_F(PinToCpuTest, DISABLED_twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
-}
-#else
+#if UL_OS_LINUX
 // NOLINTBEGIN
 TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50msCheckedEach5ms) {
     const auto num_threads = std::min(2U, std::thread::hardware_concurrency());
@@ -151,10 +142,7 @@ TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
 // NOLINTEND
 #endif
 
-#if !UL_OS_LINUX // mac also not working yet
-TEST_F(PinToCpuTest, DISABLED_maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
-}
-#else
+#if UL_OS_LINUX
 TEST_F(PinToCpuTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
     const auto num_threads = std::thread::hardware_concurrency();
     ASSERT_GT(num_threads, 0U); // hardware_concurrency failed
@@ -186,10 +174,7 @@ TEST_F(PinToCpuTest, maxThreadsPinnedToSeparateCPUs_okFor10msCheckedEach2ms) {
 }
 #endif
 
-#if !UL_OS_LINUX // mac also not working yet
-TEST_F(PinToCpuTest, DISABLED_invalidCPUNr_throws) {
-}
-#else
+#if UL_OS_LINUX
 TEST_F(PinToCpuTest, invalidCPUNr_throws) {
     std::thread thread([] {
     });
