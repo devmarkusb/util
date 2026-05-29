@@ -123,14 +123,20 @@ def main() -> int:
     eprint(f"project VERSION {version} -> git tag {tag}")
 
     if tagged_commit:
-        if tagged_commit != commit:
+        if tagged_commit == commit:
+            eprint(f"ok: {tag} already points to {commit}")
+            return 0
+        if args.push_if_missing or args.check:
             eprint(
-                f"error: {tag} already points to {tagged_commit}, "
-                f"but requested commit is {commit}. Bump VERSION in CMakeLists.txt."
+                f"ok: {tag} exists at {tagged_commit} "
+                f"(HEAD is {commit}; bump VERSION for the next release)"
             )
-            return 1
-        eprint(f"ok: {tag} already points to {commit}")
-        return 0
+            return 0
+        eprint(
+            f"error: {tag} already points to {tagged_commit}, "
+            f"but requested commit is {commit}. Bump VERSION in CMakeLists.txt."
+        )
+        return 1
 
     if args.check:
         eprint(f"error: missing git tag {tag} for VERSION {version}")
