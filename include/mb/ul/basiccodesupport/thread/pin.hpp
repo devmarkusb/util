@@ -96,18 +96,20 @@ using NativeHandle = int;
 /** Pins (sets affinity of) executing thread with native handle h to CPU number logical_core_idx (0-based).
     Also cf. doc. of function overload.
     \return 0 on success and a certain error code otherwise (with errno set).*/
-inline int pin_to_logical_core(NativeHandle h, int logical_core_idx)
-#if UL_OS_MAC
-    noexcept
-#endif
-{
+inline int pin_to_logical_core(NativeHandle h, int logical_core_idx) noexcept {
     UL_EXPECT(h);
     UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX
-    ul::ignore_unused(h);
-    ul::ignore_unused(logical_core_idx);
-    throw ul::NotImplemented{UL_LOCATION " pinToLogicalCore for arbitrary handle not yet for Linux"};
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    UL_PRAGMA_WARNINGS_PUSH
+    // clang-format off
+    UL_WARNING_DISABLE_CLANG(unsafe-buffer-usage)
+    // clang-format on
+    CPU_SET(static_cast<size_t>(logical_core_idx), &cpuset);
+    UL_PRAGMA_WARNINGS_POP
+    return pthread_setaffinity_np(h, sizeof(cpu_set_t), &cpuset);
 #elif UL_OS_MAC
     auto* const nh = static_cast<pthread_t>(h);
     mac::CpuSet cpuset;
