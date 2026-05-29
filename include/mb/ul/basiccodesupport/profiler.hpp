@@ -456,6 +456,9 @@ typename PerformanceProfiler<Clock>::Items& PerformanceProfiler<Clock>::items() 
     static Items instance{};
     return instance;
 }
+
+//! Default monotonic-clock profiler; use for static calls such as dump_all_items().
+using DefaultPerformanceProfiler = PerformanceProfiler<>;
 } // namespace mb::ul
 
 UL_HEADER_END
