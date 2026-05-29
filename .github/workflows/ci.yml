@@ -22,8 +22,8 @@ jobs:
           {"preset": "appleclang-debug", "runner": "macos-latest"},
           {"preset": "appleclang-release", "runner": "macos-latest"},
           {"preset": "appleclang-maxsan-release", "runner": "macos-latest"},
-          {"preset": "msvc-debug", "runner": "windows-latest"},
-          {"preset": "msvc-release", "runner": "windows-latest"}
+          {"preset": "msvc-debug", "runner": "windows-2025-vs2026"},
+          {"preset": "msvc-release", "runner": "windows-2025-vs2026"}
         ]
 
   build-and-test:
