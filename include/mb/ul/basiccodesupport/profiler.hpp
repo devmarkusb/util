@@ -19,6 +19,7 @@
 #include <limits>
 #include <map>
 #include <numeric>
+#include <ranges>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -39,14 +40,14 @@ using ProfilerTimePoint = std::chrono::time_point<std::chrono::steady_clock>;
 
 //! Monotonic clock used by PerformanceProfiler by default.
 struct ProfilerSteadyClock {
-    using rep = double;
-    using period = std::ratio<1>;
-    using duration = std::chrono::duration<rep, period>;
-    using time_point = std::chrono::time_point<ProfilerSteadyClock, duration>;
+    using Rep = double;
+    using Period = std::ratio<1>;
+    using Duration = std::chrono::duration<Rep, Period>;
+    using TimePoint = std::chrono::time_point<ProfilerSteadyClock, Duration>;
 
-    [[nodiscard]] static time_point now() noexcept {
+    [[nodiscard]] static TimePoint now() noexcept {
         const auto elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch());
-        return time_point{duration{elapsed.count()}};
+        return TimePoint{Duration{elapsed.count()}};
     }
 };
 
@@ -54,19 +55,21 @@ using ProfilerSystemClock = ProfilerSteadyClock;
 
 //! Manual clock for deterministic PerformanceProfiler tests.
 struct ManualProfilerClock {
-    using rep = double;
-    using period = std::ratio<1>;
-    using duration = std::chrono::duration<rep, period>;
-    using time_point = std::chrono::time_point<ManualProfilerClock, duration>;
+    using Rep = double;
+    using Period = std::ratio<1>;
+    using Duration = std::chrono::duration<Rep, Period>;
+    using TimePoint = std::chrono::time_point<ManualProfilerClock, Duration>;
 
-    [[nodiscard]] static time_point now() noexcept {
-        return time_point{duration{elapsed_seconds()}};
+    [[nodiscard]] static TimePoint now() noexcept {
+        return TimePoint{Duration{elapsed_seconds()}};
     }
 
+    //! Advances the manual clock by \p seconds.
     static void advance(double seconds) {
         elapsed_seconds() += seconds;
     }
 
+    //! Resets the manual clock to zero.
     static void reset() noexcept {
         elapsed_seconds() = 0.0;
     }
@@ -78,15 +81,15 @@ private:
     }
 };
 
+//! Requirements for injectable PerformanceProfiler clocks.
 template <typename Clock>
 concept ProfilerClock = requires {
-    typename Clock::duration;
-    typename Clock::time_point;
-    { Clock::now() } noexcept -> std::same_as<typename Clock::time_point>;
+    typename Clock::Duration;
+    typename Clock::TimePoint;
+    { Clock::now() } noexcept -> std::same_as<typename Clock::TimePoint>;
 };
 
-//! Can only be used within one thread at the same time.
-/** Usage: Cf. unit tests.*/
+//! Thread-local-scoped hierarchical scope profiler. Cf. unit tests.
 template <ProfilerClock Clock = ProfilerSteadyClock>
 class PerformanceProfiler : private NonCopyable {
 public:
@@ -94,13 +97,17 @@ public:
     using SecondsDbl = TimeValStorageRep;
     using NestingLevel = unsigned int;
 
+    explicit PerformanceProfiler(std::string_view new_item_name);
+
     //! \param nesting_level is just for dump visualization
-    explicit PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level = 0);
+    explicit PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level);
     ~PerformanceProfiler() noexcept;
     [[nodiscard]] SecondsDbl elapsed_current_item() const;
 
     //! New item on same hierarchy/nesting level.
     void start_new_item(std::string_view new_item_name);
+
+    //! Stops the current item without starting a replacement.
     void stop_item();
 
     enum class DumpFormat : uint8_t {
@@ -113,6 +120,8 @@ public:
     [[nodiscard]] static std::string dump_all_items();
 
     static void reset();
+
+    //! Formats \p seconds for human-readable profiler output.
     [[nodiscard]] static std::string to_formatted_string(SecondsDbl seconds);
 
     //! Only for testing.
@@ -140,18 +149,11 @@ private:
         TimeValStorageRep time_val{};
         NestingLevel nesting_level{};
         UniqueItemStartNr start_nr{};
-
-        ItemData(TimeValStorageRep time_val_, NestingLevel nesting_level_, UniqueItemStartNr start_nr_)
-            : time_val{time_val_}
-            , nesting_level{nesting_level_}
-            , start_nr{start_nr_} {
-        }
     };
 
     using ItemNameAsKey = std::string;
     using Items = std::multimap<ItemNameAsKey, ItemData>;
-    using ChronoDuration = std::chrono::duration<TimeValStorageRep, std::ratio<1, 1>>;
-    using ChronoTimepoint = typename Clock::time_point;
+    using ChronoTimepoint = typename Clock::TimePoint;
 
     ChronoTimepoint start_time_{};
     std::string item_name_;
@@ -169,8 +171,8 @@ private:
     [[nodiscard]] static Items& items();
 
     struct MatchKey {
-        explicit MatchKey(ItemNameAsKey key)
-            : key_{std::move(key)} {
+        explicit MatchKey(std::string_view key)
+            : key_{key} {
         }
 
         [[nodiscard]] bool operator()(const Items::value_type& rhs) const {
@@ -182,8 +184,8 @@ private:
     };
 
     struct AccumKey {
-        explicit AccumKey(ItemNameAsKey key)
-            : key_{std::move(key)} {
+        explicit AccumKey(std::string_view key)
+            : key_{key} {
         }
 
         [[nodiscard]] TimeValStorageRep operator()(TimeValStorageRep value, const Items::value_type& rhs) const {
@@ -200,16 +202,14 @@ private:
     struct KeyData {
         NestingLevel nesting_level{};
         UniqueItemStartNr start_nr{};
-
-        explicit KeyData(const ItemData& item_data)
-            : nesting_level{item_data.nesting_level}
-            , start_nr{item_data.start_nr} {
-        }
     };
 
     struct KeyEntryMaker {
         [[nodiscard]] std::pair<ItemNameAsKey, KeyData> operator()(const Items::value_type& item) const {
-            return {item.first, KeyData{item.second}};
+            return {
+                item.first,
+                KeyData{item.second.nesting_level, item.second.start_nr},
+            };
         }
     };
 
@@ -242,6 +242,11 @@ void PerformanceProfiler<Clock>::stop_current_item() {
 }
 
 template <ProfilerClock Clock>
+PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name)
+    : PerformanceProfiler(new_item_name, NestingLevel{}) {
+}
+
+template <ProfilerClock Clock>
 PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level)
     : item_name_{new_item_name}
     , nesting_level_{nesting_level} {
@@ -250,8 +255,8 @@ PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name, 
 
 template <ProfilerClock Clock>
 PerformanceProfiler<Clock>::SecondsDbl PerformanceProfiler<Clock>::elapsed_current_item() const {
-    const auto now = Clock::now();
-    const ChronoDuration elapsed = now - start_time_;
+    const auto now{Clock::now()};
+    const auto elapsed{now - start_time_};
     return elapsed.count();
 }
 
@@ -278,7 +283,7 @@ void PerformanceProfiler<Clock>::stop_item() {
 namespace impl_profiler_dump {
 [[nodiscard]] inline std::string item_name_with_nesting(
     std::string_view item_name, unsigned int nesting_level, size_t column_width_huge) {
-    std::ostringstream item_name_stream;
+    std::ostringstream item_name_stream{};
     constexpr unsigned int nesting_levels_symbolized_by_spaces{20U};
     for (
         unsigned int nesting_level_index{1U};
@@ -295,11 +300,20 @@ namespace impl_profiler_dump {
 }
 
 [[nodiscard]] inline double variance(const std::vector<double>& sorted_items, double mean_seconds) {
-    double sum{};
-    for (const auto item_seconds : sorted_items) {
-        sum += std::pow(item_seconds - mean_seconds, 2.0);
-    }
-    return sum;
+    struct SquaredDiffFromMean {
+        double mean_seconds{};
+
+        explicit SquaredDiffFromMean(double mean)
+            : mean_seconds{mean} {
+        }
+
+        [[nodiscard]] double operator()(double sum, double item_seconds) const {
+            const auto delta{item_seconds - mean_seconds};
+            return sum + (delta * delta);
+        }
+    };
+
+    return std::ranges::fold_left(sorted_items, 0.0, SquaredDiffFromMean{mean_seconds});
 }
 } // namespace impl_profiler_dump
 
@@ -310,14 +324,14 @@ std::string PerformanceProfiler<Clock>::dump_all_items() {
     if constexpr (fmt != DumpFormat::string_only) {
         dumped_data().clear();
     }
-    std::ostringstream output;
+    std::ostringstream output{};
     if (items().empty()) {
         output << "No performance measurement data." << std::endl;
         return output.str();
     }
 
     using KeySetUnsorted = std::map<ItemNameAsKey, KeyData>;
-    KeySetUnsorted keys_unsorted;
+    KeySetUnsorted keys_unsorted{};
     std::transform(
         items().begin(), items().end(), std::inserter(keys_unsorted, keys_unsorted.begin()), KeyEntryMaker{});
     using KeyNameAndData = std::pair<ItemNameAsKey, KeyData>;
@@ -348,14 +362,10 @@ std::string PerformanceProfiler<Clock>::dump_all_items() {
             std::accumulate(items().begin(), items().end(), TimeValStorageRep{}, AccumKey{item_name});
         const auto count = std::count_if(items().begin(), items().end(), MatchKey{item_name});
         UL_ASSERT(count >= 0);
-        auto average_seconds = TimeValStorageRep{};
-        if (count) {
-            average_seconds = total_seconds / static_cast<TimeValStorageRep>(count);
-        } else {
-            average_seconds = std::numeric_limits<double>::infinity();
-        }
+        const auto average_seconds = count != 0 ? total_seconds / static_cast<TimeValStorageRep>(count)
+                                                : std::numeric_limits<TimeValStorageRep>::infinity();
 
-        std::vector<TimeValStorageRep> sorted_items;
+        std::vector<TimeValStorageRep> sorted_items{};
         for (const auto& [current_item_name, current_item_data] : items()) {
             if (item_name == current_item_name) {
                 sorted_items.push_back(current_item_data.time_val);
@@ -401,7 +411,7 @@ std::string PerformanceProfiler<Clock>::dump_all_items() {
 
 template <ProfilerClock Clock>
 std::string PerformanceProfiler<Clock>::to_formatted_string(SecondsDbl seconds) {
-    std::ostringstream output;
+    std::ostringstream output{};
     auto absolute_seconds{seconds};
     if (absolute_seconds < 0.0) {
         absolute_seconds = -absolute_seconds;
@@ -443,7 +453,7 @@ void PerformanceProfiler<Clock>::reset() {
 
 template <ProfilerClock Clock>
 typename PerformanceProfiler<Clock>::Items& PerformanceProfiler<Clock>::items() {
-    static Items instance;
+    static Items instance{};
     return instance;
 }
 } // namespace mb::ul
