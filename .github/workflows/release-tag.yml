@@ -1,0 +1,21 @@
+name: release tag
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync git tag v{VERSION} from CMakeLists.txt
+        run: python3 scripts/sync-release-tag.py --push-if-missing
