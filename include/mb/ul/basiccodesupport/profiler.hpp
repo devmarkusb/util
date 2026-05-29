@@ -11,41 +11,46 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <concepts>
+#include <cstddef>
 #include <cstdint>
 #include <iomanip>
 #include <iterator>
 #include <limits>
 #include <map>
 #include <numeric>
-#include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace mb::ul {
-using ProfilerTimePoint = std::chrono::time_point<std::chrono::high_resolution_clock>;
+using ProfilerTimePoint = std::chrono::time_point<std::chrono::steady_clock>;
 
-inline ProfilerTimePoint profiler_now() {
-    return std::chrono::high_resolution_clock::now();
+//! Returns the current monotonic time point for lightweight elapsed-time checks.
+[[nodiscard]] inline ProfilerTimePoint profiler_now() {
+    return std::chrono::steady_clock::now();
 }
 
-inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end) {
+//! Returns the duration between two profiler time points.
+[[nodiscard]] inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end) {
     return end - start;
 }
 
-//! Wall-clock source used by PerformanceProfiler by default.
-struct ProfilerSystemClock {
+//! Monotonic clock used by PerformanceProfiler by default.
+struct ProfilerSteadyClock {
     using rep = double;
     using period = std::ratio<1>;
     using duration = std::chrono::duration<rep, period>;
-    using time_point = std::chrono::time_point<ProfilerSystemClock, duration>;
+    using time_point = std::chrono::time_point<ProfilerSteadyClock, duration>;
 
     [[nodiscard]] static time_point now() noexcept {
-        const auto elapsed =
-            std::chrono::duration<double>(std::chrono::high_resolution_clock::now().time_since_epoch());
-        return time_point(duration(elapsed.count()));
+        const auto elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch());
+        return time_point{duration{elapsed.count()}};
     }
 };
+
+using ProfilerSystemClock = ProfilerSteadyClock;
 
 //! Manual clock for deterministic PerformanceProfiler tests.
 struct ManualProfilerClock {
@@ -55,10 +60,10 @@ struct ManualProfilerClock {
     using time_point = std::chrono::time_point<ManualProfilerClock, duration>;
 
     [[nodiscard]] static time_point now() noexcept {
-        return time_point(duration(elapsed_seconds()));
+        return time_point{duration{elapsed_seconds()}};
     }
 
-    static void advance(const double seconds) {
+    static void advance(double seconds) {
         elapsed_seconds() += seconds;
     }
 
@@ -67,52 +72,62 @@ struct ManualProfilerClock {
     }
 
 private:
-    static double& elapsed_seconds() {
-        static double elapsed = 0.0;
+    [[nodiscard]] static double& elapsed_seconds() {
+        static double elapsed{};
         return elapsed;
     }
 };
 
+template <typename Clock>
+concept ProfilerClock = requires {
+    typename Clock::duration;
+    typename Clock::time_point;
+    { Clock::now() } noexcept -> std::same_as<typename Clock::time_point>;
+};
+
 //! Can only be used within one thread at the same time.
 /** Usage: Cf. unit tests.*/
-template <typename Clock = ProfilerSystemClock>
-class PerformanceProfiler : private ul::NonCopyable {
+template <ProfilerClock Clock = ProfilerSteadyClock>
+class PerformanceProfiler : private NonCopyable {
 public:
     using TimeValStorageRep = double;
     using SecondsDbl = TimeValStorageRep;
     using NestingLevel = unsigned int;
 
     //! \param nesting_level is just for dump visualization
-    inline explicit PerformanceProfiler(std::string new_item_name, NestingLevel nesting_level = 0);
-    inline ~PerformanceProfiler() noexcept;
+    explicit PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level = 0);
+    ~PerformanceProfiler() noexcept;
     [[nodiscard]] SecondsDbl elapsed_current_item() const;
 
     //! New item on same hierarchy/nesting level.
-    inline void start_new_item(const std::string& new_item_name);
-    inline void stop_item();
+    void start_new_item(std::string_view new_item_name);
+    void stop_item();
 
     enum class DumpFormat : uint8_t {
         string_only,
         string_and_structure,
     };
-    //! Also fills dumpedData() if fmt is DumpFormat::stringAndStructure.
+
+    //! Also fills dumped_data() if fmt is DumpFormat::string_and_structure.
     template <DumpFormat fmt = DumpFormat::string_only>
-    static std::string dump_all_items();
+    [[nodiscard]] static std::string dump_all_items();
+
     static void reset();
-    static std::string to_formatted_string(const SecondsDbl& sd);
+    [[nodiscard]] static std::string to_formatted_string(SecondsDbl seconds);
 
     //! Only for testing.
     struct DumpDataset {
         std::string item_name;
-        size_t count;
-        SecondsDbl total;
-        SecondsDbl average;
-        SecondsDbl mean;
-        SecondsDbl std_dev;
+        size_t count{};
+        SecondsDbl total{};
+        SecondsDbl average{};
+        SecondsDbl mean{};
+        SecondsDbl std_dev{};
     };
 
-    //! Filled with structured data (e.g. for testing) if dumpAllItems() was called with DumpFormat::stringAndStructure.
-    static std::vector<DumpDataset>& dumped_data() {
+    //! Filled with structured data (e.g. for testing) if dump_all_items() was called with
+    //! DumpFormat::string_and_structure.
+    [[nodiscard]] static std::vector<DumpDataset>& dumped_data() {
         static std::vector<DumpDataset> data;
         return data;
     }
@@ -126,41 +141,39 @@ private:
         NestingLevel nesting_level{};
         UniqueItemStartNr start_nr{};
 
-        ItemData(const TimeValStorageRep& t, NestingLevel nl, UniqueItemStartNr n)
-            : time_val(t)
-            , nesting_level(nl)
-            , start_nr(n) {
+        ItemData(TimeValStorageRep time_val_, NestingLevel nesting_level_, UniqueItemStartNr start_nr_)
+            : time_val{time_val_}
+            , nesting_level{nesting_level_}
+            , start_nr{start_nr_} {
         }
     };
 
     using ItemNameAsKey = std::string;
     using Items = std::multimap<ItemNameAsKey, ItemData>;
-    using ChronoDuration =
-        std::chrono::duration<TimeValStorageRep, std::ratio<1, 1>>; // means seconds stored with type TimeValStorage
+    using ChronoDuration = std::chrono::duration<TimeValStorageRep, std::ratio<1, 1>>;
     using ChronoTimepoint = typename Clock::time_point;
 
-    ChronoTimepoint start_time_;
-    ChronoTimepoint stop_time_;
+    ChronoTimepoint start_time_{};
     std::string item_name_;
-    NestingLevel nesting_level_ = NestingLevel{};
-    UniqueItemStartNr item_start_nr_ = UniqueItemStartNr{};
+    NestingLevel nesting_level_{};
+    UniqueItemStartNr item_start_nr_{};
 
-    inline void start_current_item();
-    inline void stop_current_item();
+    void start_current_item();
+    void stop_current_item();
 
-    static UniqueItemStartNr& unique_item_start_nr() {
-        static UniqueItemStartNr n = UniqueItemStartNr();
-        return n;
+    [[nodiscard]] static UniqueItemStartNr& unique_item_start_nr() {
+        static UniqueItemStartNr next_item_start_nr{};
+        return next_item_start_nr;
     }
 
-    static Items& items();
+    [[nodiscard]] static Items& items();
 
     struct MatchKey {
         explicit MatchKey(ItemNameAsKey key)
-            : key_(std::move(key)) {
+            : key_{std::move(key)} {
         }
 
-        bool operator()(const Items::value_type& rhs) const {
+        [[nodiscard]] bool operator()(const Items::value_type& rhs) const {
             return key_ == rhs.first;
         }
 
@@ -170,13 +183,14 @@ private:
 
     struct AccumKey {
         explicit AccumKey(ItemNameAsKey key)
-            : key_(std::move(key)) {
+            : key_{std::move(key)} {
         }
 
-        TimeValStorageRep operator()(const TimeValStorageRep& v, const Items::value_type& rhs) const {
-            if (key_ == rhs.first)
-                return rhs.second.time_val + v;
-            return v;
+        [[nodiscard]] TimeValStorageRep operator()(TimeValStorageRep value, const Items::value_type& rhs) const {
+            if (key_ == rhs.first) {
+                return rhs.second.time_val + value;
+            }
+            return value;
         }
 
     private:
@@ -187,48 +201,61 @@ private:
         NestingLevel nesting_level{};
         UniqueItemStartNr start_nr{};
 
-        explicit KeyData(const ItemData& d)
-            : nesting_level(d.nesting_level)
-            , start_nr(d.start_nr) {
+        explicit KeyData(const ItemData& item_data)
+            : nesting_level{item_data.nesting_level}
+            , start_nr{item_data.start_nr} {
+        }
+    };
+
+    struct KeyEntryMaker {
+        [[nodiscard]] std::pair<ItemNameAsKey, KeyData> operator()(const Items::value_type& item) const {
+            return {item.first, KeyData{item.second}};
+        }
+    };
+
+    struct StartNrLess {
+        template <typename KeyNameAndData>
+        [[nodiscard]] bool operator()(const KeyNameAndData& left, const KeyNameAndData& right) const {
+            return left.second.start_nr < right.second.start_nr;
         }
     };
 };
 
-template <typename Clock>
+template <ProfilerClock Clock>
 void PerformanceProfiler<Clock>::start_current_item() {
     item_start_nr_ = unique_item_start_nr()++;
     start_time_ = Clock::now();
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 void PerformanceProfiler<Clock>::stop_current_item() {
-    ItemData d(elapsed_current_item(), nesting_level_, item_start_nr_);
-    const auto& it = items().find(item_name_);
-    // is the same item started and stopped a second time at least?
-    if (it != items().end()) {
+    ItemData item_data{elapsed_current_item(), nesting_level_, item_start_nr_};
+    const auto item_it = items().find(item_name_);
+    if (item_it != items().end()) {
         // if on the same nesting level, we want to keep the order of a single run through this level;
         // we don't know which representative will be picked later to generate a data record
-        if (nesting_level_ == it->second.nesting_level)
-            d.start_nr = it->second.start_nr;
+        if (nesting_level_ == item_it->second.nesting_level) {
+            item_data.start_nr = item_it->second.start_nr;
+        }
     }
-    items().insert(std::make_pair(item_name_, d));
+    items().emplace(item_name_, item_data);
 }
 
-template <typename Clock>
-PerformanceProfiler<Clock>::PerformanceProfiler(std::string new_item_name, NestingLevel nesting_level)
-    : item_name_(std::move(new_item_name))
-    , nesting_level_(nesting_level) {
+template <ProfilerClock Clock>
+PerformanceProfiler<Clock>::PerformanceProfiler(std::string_view new_item_name, NestingLevel nesting_level)
+    : item_name_{new_item_name}
+    , nesting_level_{nesting_level} {
     start_current_item();
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 PerformanceProfiler<Clock>::SecondsDbl PerformanceProfiler<Clock>::elapsed_current_item() const {
-    const ChronoTimepoint now = Clock::now();
+    const auto now = Clock::now();
     const ChronoDuration elapsed = now - start_time_;
     return elapsed.count();
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 PerformanceProfiler<Clock>::~PerformanceProfiler() noexcept {
     try {
         stop_current_item();
@@ -236,157 +263,185 @@ PerformanceProfiler<Clock>::~PerformanceProfiler() noexcept {
     }
 }
 
-template <typename Clock>
-void PerformanceProfiler<Clock>::start_new_item(const std::string& new_item_name) {
+template <ProfilerClock Clock>
+void PerformanceProfiler<Clock>::start_new_item(std::string_view new_item_name) {
     stop_current_item();
     item_name_ = new_item_name;
     start_current_item();
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 void PerformanceProfiler<Clock>::stop_item() {
     stop_current_item();
 }
 
+namespace impl_profiler_dump {
+[[nodiscard]] inline std::string item_name_with_nesting(
+    std::string_view item_name, unsigned int nesting_level, size_t column_width_huge) {
+    std::ostringstream item_name_stream;
+    constexpr unsigned int nesting_levels_symbolized_by_spaces{20U};
+    for (
+        unsigned int nesting_level_index{1U};
+        nesting_level_index <= nesting_level && nesting_level_index <= nesting_levels_symbolized_by_spaces;
+        ++nesting_level_index) {
+        item_name_stream << ' ';
+    }
+    item_name_stream << item_name;
+    auto item_name_with_nesting_level{item_name_stream.str()};
+    if (item_name_with_nesting_level.length() >= column_width_huge) {
+        item_name_with_nesting_level.resize(column_width_huge - 1U);
+    }
+    return item_name_with_nesting_level;
+}
+
+[[nodiscard]] inline double variance(const std::vector<double>& sorted_items, double mean_seconds) {
+    double sum{};
+    for (const auto item_seconds : sorted_items) {
+        sum += std::pow(item_seconds - mean_seconds, 2.0);
+    }
+    return sum;
+}
+} // namespace impl_profiler_dump
+
 // NOLINTBEGIN
-template <typename Clock>
+template <ProfilerClock Clock>
 template <typename PerformanceProfiler<Clock>::DumpFormat fmt>
 std::string PerformanceProfiler<Clock>::dump_all_items() {
-    if constexpr (fmt != DumpFormat::string_only)
+    if constexpr (fmt != DumpFormat::string_only) {
         dumped_data().clear();
-    std::stringstream ret;
+    }
+    std::ostringstream output;
     if (items().empty()) {
-        ret << "No performance measurement data." << std::endl;
-        return ret.str();
+        output << "No performance measurement data." << std::endl;
+        return output.str();
     }
 
-    using TKeySet_unsorted = std::map<ItemNameAsKey, KeyData>;
-    TKeySet_unsorted keys_unsorted;
+    using KeySetUnsorted = std::map<ItemNameAsKey, KeyData>;
+    KeySetUnsorted keys_unsorted;
     std::transform(
-        items().begin(),
-        items().end(),
-        std::inserter(keys_unsorted, keys_unsorted.begin()),
-        [](decltype(*items().begin())& i) {
-            return std::make_pair(i.first, KeyData(i.second));
-        });
-    using TKeyNameAndData = std::pair<ItemNameAsKey, KeyData>;
-    using TKeySet = std::vector<TKeyNameAndData>;
-    TKeySet keys(keys_unsorted.begin(), keys_unsorted.end());
-    std::sort(keys.begin(), keys.end(), [](const TKeySet::value_type& k1, const TKeySet::value_type& k2) -> bool {
-        return k1.second.start_nr < k2.second.start_nr;
-    });
+        items().begin(), items().end(), std::inserter(keys_unsorted, keys_unsorted.begin()), KeyEntryMaker{});
+    using KeyNameAndData = std::pair<ItemNameAsKey, KeyData>;
+    using KeySet = std::vector<KeyNameAndData>;
+    KeySet keys{keys_unsorted.begin(), keys_unsorted.end()};
+    std::sort(keys.begin(), keys.end(), StartNrLess{});
 
-    static const size_t COLUMN_WIDTH = 10;
-    static const size_t COLUMN_WIDTH_HUGE = 29;
+    constexpr size_t column_width{10U};
+    constexpr size_t column_width_huge{29U};
 
-    ret << std::left;
-    ret << std::setfill('-') << std::setw(COLUMN_WIDTH_HUGE + COLUMN_WIDTH * 5) << '-' << std::endl;
-    ret << std::setfill(' ');
-    ret << std::setw(COLUMN_WIDTH_HUGE) << std::setprecision(COLUMN_WIDTH_HUGE) << "Item" << std::setw(COLUMN_WIDTH)
-        << std::setprecision(COLUMN_WIDTH) << "Count" << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH)
-        << "Total" << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << "Average" << std::setw(COLUMN_WIDTH)
-        << std::setprecision(COLUMN_WIDTH) << "Mean" << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH)
-        << "StdDev" << std::endl;
-    ret << std::setfill('-') << std::setw(COLUMN_WIDTH_HUGE + COLUMN_WIDTH * 5) << '-' << std::endl;
-    ret << std::setfill(' ');
+    output << std::left;
+    output << std::setfill('-') << std::setw(static_cast<int>(column_width_huge + column_width * 5U)) << '-'
+           << std::endl;
+    output << std::setfill(' ');
+    output << std::setw(static_cast<int>(column_width_huge)) << std::setprecision(static_cast<int>(column_width_huge))
+           << "Item" << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+           << "Count" << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+           << "Total" << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+           << "Average" << std::setw(static_cast<int>(column_width))
+           << std::setprecision(static_cast<int>(column_width)) << "Mean" << std::setw(static_cast<int>(column_width))
+           << std::setprecision(static_cast<int>(column_width)) << "StdDev" << std::endl;
+    output << std::setfill('-') << std::setw(static_cast<int>(column_width_huge + column_width * 5U)) << '-'
+           << std::endl;
+    output << std::setfill(' ');
 
-    for (const auto& key : keys) {
-        const TimeValStorageRep totalT =
-            ul::accumulate(items().begin(), items().end(), TimeValStorageRep(), AccumKey(key.first));
-        const auto count = std::count_if(items().begin(), items().end(), MatchKey(key.first));
+    for (const auto& [item_name, key_data] : keys) {
+        const auto total_seconds =
+            std::accumulate(items().begin(), items().end(), TimeValStorageRep{}, AccumKey{item_name});
+        const auto count = std::count_if(items().begin(), items().end(), MatchKey{item_name});
         UL_ASSERT(count >= 0);
-        TimeValStorageRep avgT = 0.0;
-        if (count)
-            avgT = totalT / static_cast<TimeValStorageRep>(count);
-        else
-            avgT = std::numeric_limits<double>::infinity();
-
-        std::vector<TimeValStorageRep> sortedItems;
-        for (const auto& item : items()) {
-            if (key.first == item.first)
-                sortedItems.push_back(item.second.time_val);
-        }
-        std::sort(sortedItems.begin(), sortedItems.end());
-        const auto mid = static_cast<size_t>(floor(static_cast<double>(count) / 2.0));
-        const double meanT =
-            (count > 1 && count % 2) ? (sortedItems[mid] + sortedItems[mid + 1]) / 2.0 : sortedItems[mid];
-
-        double variance = 0.0;
-        if (count > 1) {
-            variance = std::accumulate(sortedItems.begin(), sortedItems.end(), 0.0, [meanT](double sum, double time) {
-                return sum + pow(time - meanT, 2.0);
-            });
+        auto average_seconds = TimeValStorageRep{};
+        if (count) {
+            average_seconds = total_seconds / static_cast<TimeValStorageRep>(count);
+        } else {
+            average_seconds = std::numeric_limits<double>::infinity();
         }
 
-        const double stddev = count > 1 ? sqrt(variance / (static_cast<double>(count) - 1.0)) : 0.0;
+        std::vector<TimeValStorageRep> sorted_items;
+        for (const auto& [current_item_name, current_item_data] : items()) {
+            if (item_name == current_item_name) {
+                sorted_items.push_back(current_item_data.time_val);
+            }
+        }
+        std::sort(sorted_items.begin(), sorted_items.end());
+        const auto mid = static_cast<size_t>(std::floor(static_cast<double>(count) / 2.0));
+        const auto mean_seconds =
+            (count > 1 && count % 2) ? (sorted_items[mid] + sorted_items[mid + 1U]) / 2.0 : sorted_items[mid];
 
-        std::stringstream ssItemNameWithSymbolizedNestingLevel;
-        const NestingLevel NESTING_LEVELS_SYMBOLIZED_BY_SPACES = 20;
-        for (NestingLevel nl = 1; nl <= key.second.nesting_level && nl <= NESTING_LEVELS_SYMBOLIZED_BY_SPACES; ++nl)
-            ssItemNameWithSymbolizedNestingLevel << ' ';
-        ssItemNameWithSymbolizedNestingLevel << key.first;
+        const auto variance_seconds = count > 1 ? impl_profiler_dump::variance(sorted_items, mean_seconds) : 0.0;
+        const auto stddev_seconds = count > 1 ? std::sqrt(variance_seconds / (static_cast<double>(count) - 1.0)) : 0.0;
 
-        std::string ItemNameWithSymbolizedNestingLevel(ssItemNameWithSymbolizedNestingLevel.str());
-        if (ItemNameWithSymbolizedNestingLevel.length() >= COLUMN_WIDTH_HUGE)
-            ItemNameWithSymbolizedNestingLevel.resize(COLUMN_WIDTH_HUGE - 1);
-        ret << std::setw(COLUMN_WIDTH_HUGE) << std::setprecision(COLUMN_WIDTH_HUGE)
-            << ItemNameWithSymbolizedNestingLevel << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << count
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(totalT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(avgT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(meanT)
-            << std::setw(COLUMN_WIDTH) << std::setprecision(COLUMN_WIDTH) << to_formatted_string(stddev) << std::endl;
-        if constexpr (fmt != DumpFormat::string_only)
+        const auto item_name_with_nesting_level =
+            impl_profiler_dump::item_name_with_nesting(item_name, key_data.nesting_level, column_width_huge);
+        output << std::setw(static_cast<int>(column_width_huge))
+               << std::setprecision(static_cast<int>(column_width_huge)) << item_name_with_nesting_level
+               << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+               << count << std::setw(static_cast<int>(column_width))
+               << std::setprecision(static_cast<int>(column_width)) << to_formatted_string(total_seconds)
+               << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+               << to_formatted_string(average_seconds) << std::setw(static_cast<int>(column_width))
+               << std::setprecision(static_cast<int>(column_width)) << to_formatted_string(mean_seconds)
+               << std::setw(static_cast<int>(column_width)) << std::setprecision(static_cast<int>(column_width))
+               << to_formatted_string(stddev_seconds) << std::endl;
+        if constexpr (fmt != DumpFormat::string_only) {
             dumped_data().push_back(
-                {ItemNameWithSymbolizedNestingLevel, static_cast<size_t>(count), totalT, avgT, meanT, stddev});
+                {item_name_with_nesting_level,
+                 static_cast<size_t>(count),
+                 total_seconds,
+                 average_seconds,
+                 mean_seconds,
+                 stddev_seconds});
+        }
     }
-    ret << std::setfill('-') << std::setw(COLUMN_WIDTH_HUGE + COLUMN_WIDTH * 5) << '-' << std::endl;
-    ret << std::setfill(' ');
-    return ret.str();
+    output << std::setfill('-') << std::setw(static_cast<int>(column_width_huge + column_width * 5U)) << '-'
+           << std::endl;
+    output << std::setfill(' ');
+    return output.str();
 }
 
 // NOLINTEND
 
-template <typename Clock>
-std::string PerformanceProfiler<Clock>::to_formatted_string(const SecondsDbl& sd) {
-    std::stringstream ret;
-    SecondsDbl d(sd);
-    if (d < 0.0) {
-        d = -d;
-        ret << '-';
+template <ProfilerClock Clock>
+std::string PerformanceProfiler<Clock>::to_formatted_string(SecondsDbl seconds) {
+    std::ostringstream output;
+    auto absolute_seconds{seconds};
+    if (absolute_seconds < 0.0) {
+        absolute_seconds = -absolute_seconds;
+        output << '-';
     }
     // NOLINTBEGIN
-    if (d == 0.0 || d < 0.000000000099995) // 0.0000000001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000000000.0, 2) << " ps";
-    else if (d < 0.000000099995) // 0.0000001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000000.0, 2) << " ns";
-    else if (d < 0.000099995) // 0.0001
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000000.0, 2) << " "
-            << "\xC2\xB5"
-            << "s";
-    else if (d < 0.099995) // 0.1
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d * 1000.0, 2) << " ms";
-    else if (d < 59.995) // 60.0
-        ret << std::setprecision(2) << std::fixed << ul::math::round(d, 2) << " s";
-    else if (d < 3600.0) // 3600.0
-        ret << std::setw(2) << std::setfill('0') << floor(d / 60.0) << ':' << std::setw(5) << std::fixed
-            << std::setprecision(2) << std::setfill('0') << fmod(d, 60.0);
-    else if (d < 359999.0)
-        ret << std::setw(2) << std::setfill('0') << floor(d / 3600.0) << ':' << std::setw(2) << std::setfill('0')
-            << floor(fmod(d, 3600.0) / 60.0) << ':' << std::setw(2) << std::setfill('0') << std::setprecision(0)
-            << std::fixed << floor(fmod(d, 60.0));
-    else
-        ret << ">= 100 h";
+    if (absolute_seconds == 0.0 || absolute_seconds < 0.000000000099995) { // 0.0000000001
+        output << std::setprecision(2) << std::fixed << math::round(absolute_seconds * 1000000000000.0, 2) << " ps";
+    } else if (absolute_seconds < 0.000000099995) { // 0.0000001
+        output << std::setprecision(2) << std::fixed << math::round(absolute_seconds * 1000000000.0, 2) << " ns";
+    } else if (absolute_seconds < 0.000099995) { // 0.0001
+        output << std::setprecision(2) << std::fixed << math::round(absolute_seconds * 1000000.0, 2) << " "
+               << "\xC2\xB5"
+               << "s";
+    } else if (absolute_seconds < 0.099995) { // 0.1
+        output << std::setprecision(2) << std::fixed << math::round(absolute_seconds * 1000.0, 2) << " ms";
+    } else if (absolute_seconds < 59.995) { // 60.0
+        output << std::setprecision(2) << std::fixed << math::round(absolute_seconds, 2) << " s";
+    } else if (absolute_seconds < 3600.0) { // 3600.0
+        output << std::setw(2) << std::setfill('0') << std::floor(absolute_seconds / 60.0) << ':' << std::setw(5)
+               << std::fixed << std::setprecision(2) << std::setfill('0') << std::fmod(absolute_seconds, 60.0);
+    } else if (absolute_seconds < 359999.0) {
+        output << std::setw(2) << std::setfill('0') << std::floor(absolute_seconds / 3600.0) << ':' << std::setw(2)
+               << std::setfill('0') << std::floor(std::fmod(absolute_seconds, 3600.0) / 60.0) << ':' << std::setw(2)
+               << std::setfill('0') << std::setprecision(0) << std::fixed
+               << std::floor(std::fmod(absolute_seconds, 60.0));
+    } else {
+        output << ">= 100 h";
+    }
     // NOLINTEND
-    return ret.str();
+    return output.str();
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 void PerformanceProfiler<Clock>::reset() {
     items().clear();
     unique_item_start_nr() = UniqueItemStartNr{};
 }
 
-template <typename Clock>
+template <ProfilerClock Clock>
 typename PerformanceProfiler<Clock>::Items& PerformanceProfiler<Clock>::items() {
     static Items instance;
     return instance;
