@@ -94,10 +94,12 @@ Release flow:
 
 1. Bump `VERSION` in root `CMakeLists.txt` (semver: patch for fixes, minor for compatible
    features, major for breaking changes).
-2. Merge to `main`. CI workflow `release-tag.yml` runs `scripts/sync-release-tag.py
+2. Merge to `main`. After preset-test, build-and-test, and install-test succeed in
+   `ci.yml`, the `sync-release-tag` job runs `scripts/sync-release-tag.py
    --push-if-missing` and creates/pushes `vX.Y.Z` when the tag does not exist yet.
-3. Locally (optional): `python3 scripts/sync-release-tag.py --push-if-missing` after a version
-   bump, or `python3 scripts/sync-release-tag.py --check` to verify the tag exists.
+3. Locally (optional): `python3 scripts/sync-release-tag.py --push-if-missing`, or
+   `workflow_dispatch` on `release-tag.yml` as a manual fallback. Use
+   `python3 scripts/sync-release-tag.py --check` to verify the tag exists.
 
 Installed/config packages expose `MB_UTIL_VERSION` from the same `PROJECT_VERSION`.
 

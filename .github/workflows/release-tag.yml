@@ -1,9 +1,7 @@
 name: release tag
 
+# Manual fallback only. Normal releases tag from ci.yml after all CI jobs pass.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
