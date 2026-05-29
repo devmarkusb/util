@@ -48,6 +48,8 @@ enum class Operation : uint8_t {
         case Operation::load:
             ss << "loaded";
             break;
+        default:
+            std::unreachable();
     }
     ss << ", details: " << ret_err_detail;
     //todo use strerror_s and what platforms demand, remove nolint
