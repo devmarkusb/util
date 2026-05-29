@@ -10,7 +10,9 @@
 #include <cstring>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace mb::ul::file {
 /** \param ret_err_detail returns error detail string or is empty on success, except for eof.
