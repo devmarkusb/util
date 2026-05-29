@@ -10,6 +10,7 @@
 namespace {
 using DefaultProfiler = ul::PerformanceProfiler<>;
 using ManualProfiler = ul::PerformanceProfiler<ul::ManualProfilerClock>;
+using ManualProfilerClock = ul::ManualProfilerClock;
 
 constexpr auto exact_seconds_tolerance{1e-12};
 
@@ -32,17 +33,17 @@ void expect_dump_entry(
 class ManualProfilerTest : public testing::Test {
 protected:
     void SetUp() override {
-        ul::ManualProfilerClock::reset();
+        ManualProfilerClock::reset();
         ManualProfiler::reset();
     }
 
     void TearDown() override {
         ManualProfiler::reset();
-        ul::ManualProfilerClock::reset();
+        ManualProfilerClock::reset();
     }
 
     static void advance(double seconds) {
-        ul::ManualProfilerClock::advance(seconds);
+        ManualProfilerClock::advance(seconds);
     }
 };
 } // namespace
