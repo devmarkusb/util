@@ -12,7 +12,6 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <functional>
 #include <iomanip>
 #include <iterator>
 #include <limits>
@@ -34,12 +33,49 @@ inline auto profiler_diff(ProfilerTimePoint start, ProfilerTimePoint end) {
     return end - start;
 }
 
-namespace impl_dump_all_items {
-struct KeyData;
-} // namespace impl_dump_all_items
+//! Wall-clock source used by PerformanceProfiler by default.
+struct ProfilerSystemClock {
+    using rep = double;
+    using period = std::ratio<1>;
+    using duration = std::chrono::duration<rep, period>;
+    using time_point = std::chrono::time_point<ProfilerSystemClock, duration>;
+
+    [[nodiscard]] static time_point now() noexcept {
+        const auto elapsed =
+            std::chrono::duration<double>(std::chrono::high_resolution_clock::now().time_since_epoch());
+        return time_point(duration(elapsed.count()));
+    }
+};
+
+//! Manual clock for deterministic PerformanceProfiler tests.
+struct ManualProfilerClock {
+    using rep = double;
+    using period = std::ratio<1>;
+    using duration = std::chrono::duration<rep, period>;
+    using time_point = std::chrono::time_point<ManualProfilerClock, duration>;
+
+    [[nodiscard]] static time_point now() noexcept {
+        return time_point(duration(elapsed_seconds()));
+    }
+
+    static void advance(const double seconds) {
+        elapsed_seconds() += seconds;
+    }
+
+    static void reset() noexcept {
+        elapsed_seconds() = 0.0;
+    }
+
+private:
+    static double& elapsed_seconds() {
+        static double elapsed = 0.0;
+        return elapsed;
+    }
+};
 
 //! Can only be used within one thread at the same time.
 /** Usage: Cf. unit tests.*/
+template <typename Clock = ProfilerSystemClock>
 class PerformanceProfiler : private ul::NonCopyable {
 public:
     using TimeValStorageRep = double;
@@ -82,7 +118,7 @@ public:
     }
 
 private:
-    friend struct impl_dump_all_items::KeyData;
+    struct KeyData;
     using UniqueItemStartNr = uint64_t;
 
     struct ItemData {
@@ -99,10 +135,9 @@ private:
 
     using ItemNameAsKey = std::string;
     using Items = std::multimap<ItemNameAsKey, ItemData>;
-    using ChronoClock = std::chrono::high_resolution_clock;
     using ChronoDuration =
         std::chrono::duration<TimeValStorageRep, std::ratio<1, 1>>; // means seconds stored with type TimeValStorage
-    using ChronoTimepoint = std::chrono::time_point<ChronoClock, ChronoDuration>;
+    using ChronoTimepoint = typename Clock::time_point;
 
     ChronoTimepoint start_time_;
     ChronoTimepoint stop_time_;
@@ -147,14 +182,26 @@ private:
     private:
         ItemNameAsKey key_;
     };
+
+    struct KeyData {
+        NestingLevel nesting_level{};
+        UniqueItemStartNr start_nr{};
+
+        explicit KeyData(const ItemData& d)
+            : nesting_level(d.nesting_level)
+            , start_nr(d.start_nr) {
+        }
+    };
 };
 
-inline void PerformanceProfiler::start_current_item() {
+template <typename Clock>
+void PerformanceProfiler<Clock>::start_current_item() {
     item_start_nr_ = unique_item_start_nr()++;
-    start_time_ = ChronoClock::now();
+    start_time_ = Clock::now();
 }
 
-inline void PerformanceProfiler::stop_current_item() {
+template <typename Clock>
+void PerformanceProfiler<Clock>::stop_current_item() {
     ItemData d(elapsed_current_item(), nesting_level_, item_start_nr_);
     const auto& it = items().find(item_name_);
     // is the same item started and stopped a second time at least?
@@ -167,54 +214,44 @@ inline void PerformanceProfiler::stop_current_item() {
     items().insert(std::make_pair(item_name_, d));
 }
 
-inline PerformanceProfiler::PerformanceProfiler(std::string new_item_name, NestingLevel nesting_level)
+template <typename Clock>
+PerformanceProfiler<Clock>::PerformanceProfiler(std::string new_item_name, NestingLevel nesting_level)
     : item_name_(std::move(new_item_name))
     , nesting_level_(nesting_level) {
     start_current_item();
 }
 
-inline PerformanceProfiler::SecondsDbl PerformanceProfiler::elapsed_current_item() const {
-    const ChronoTimepoint now = ChronoClock::now();
+template <typename Clock>
+PerformanceProfiler<Clock>::SecondsDbl PerformanceProfiler<Clock>::elapsed_current_item() const {
+    const ChronoTimepoint now = Clock::now();
     const ChronoDuration elapsed = now - start_time_;
     return elapsed.count();
 }
 
-inline PerformanceProfiler::~PerformanceProfiler() noexcept {
+template <typename Clock>
+PerformanceProfiler<Clock>::~PerformanceProfiler() noexcept {
     try {
         stop_current_item();
     } catch (...) {
     }
 }
 
-inline void PerformanceProfiler::start_new_item(const std::string& new_item_name) {
+template <typename Clock>
+void PerformanceProfiler<Clock>::start_new_item(const std::string& new_item_name) {
     stop_current_item();
     item_name_ = new_item_name;
     start_current_item();
 }
 
-inline void PerformanceProfiler::stop_item() {
+template <typename Clock>
+void PerformanceProfiler<Clock>::stop_item() {
     stop_current_item();
 }
 
-namespace impl_dump_all_items {
-struct KeyData {
-    using NestingLevel = PerformanceProfiler::NestingLevel;
-    using UniqueItemStartNr = PerformanceProfiler::UniqueItemStartNr;
-    using ItemData = PerformanceProfiler::ItemData;
-
-    NestingLevel nesting_level{};
-    UniqueItemStartNr start_nr{};
-
-    explicit KeyData(const ItemData& d)
-        : nesting_level(d.nesting_level)
-        , start_nr(d.start_nr) {
-    }
-};
-} // namespace impl_dump_all_items
-
 // NOLINTBEGIN
-template <PerformanceProfiler::DumpFormat fmt>
-std::string PerformanceProfiler::dump_all_items() {
+template <typename Clock>
+template <typename PerformanceProfiler<Clock>::DumpFormat fmt>
+std::string PerformanceProfiler<Clock>::dump_all_items() {
     if constexpr (fmt != DumpFormat::string_only)
         dumped_data().clear();
     std::stringstream ret;
@@ -223,16 +260,16 @@ std::string PerformanceProfiler::dump_all_items() {
         return ret.str();
     }
 
-    using TKeySet_unsorted = std::map<ItemNameAsKey, impl_dump_all_items::KeyData>;
+    using TKeySet_unsorted = std::map<ItemNameAsKey, KeyData>;
     TKeySet_unsorted keys_unsorted;
     std::transform(
         items().begin(),
         items().end(),
         std::inserter(keys_unsorted, keys_unsorted.begin()),
         [](decltype(*items().begin())& i) {
-            return std::make_pair(i.first, impl_dump_all_items::KeyData(i.second));
+            return std::make_pair(i.first, KeyData(i.second));
         });
-    using TKeyNameAndData = std::pair<ItemNameAsKey, impl_dump_all_items::KeyData>;
+    using TKeyNameAndData = std::pair<ItemNameAsKey, KeyData>;
     using TKeySet = std::vector<TKeyNameAndData>;
     TKeySet keys(keys_unsorted.begin(), keys_unsorted.end());
     std::sort(keys.begin(), keys.end(), [](const TKeySet::value_type& k1, const TKeySet::value_type& k2) -> bool {
@@ -309,7 +346,8 @@ std::string PerformanceProfiler::dump_all_items() {
 
 // NOLINTEND
 
-inline std::string PerformanceProfiler::to_formatted_string(const SecondsDbl& sd) {
+template <typename Clock>
+std::string PerformanceProfiler<Clock>::to_formatted_string(const SecondsDbl& sd) {
     std::stringstream ret;
     SecondsDbl d(sd);
     if (d < 0.0) {
@@ -342,12 +380,14 @@ inline std::string PerformanceProfiler::to_formatted_string(const SecondsDbl& sd
     return ret.str();
 }
 
-inline void PerformanceProfiler::reset() {
+template <typename Clock>
+void PerformanceProfiler<Clock>::reset() {
     items().clear();
     unique_item_start_nr() = UniqueItemStartNr{};
 }
 
-inline PerformanceProfiler::Items& PerformanceProfiler::items() {
+template <typename Clock>
+typename PerformanceProfiler<Clock>::Items& PerformanceProfiler<Clock>::items() {
     static Items instance;
     return instance;
 }
