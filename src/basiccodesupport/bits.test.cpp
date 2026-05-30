@@ -424,7 +424,9 @@ TEST(bits_Field, overflow) {
             ul::bits::Fields<uint32_t, Field, ul::enum_cast(Field::end)> bits_{16, 17};
         } s;
     };
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80'200 && UL_COMP_GNU_CPP_VER < 90'000
+    // clang-format off
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 80200 && UL_COMP_GNU_CPP_VER < 90000
+    // clang-format on
     ul::ignore_unused(lambda);
     // strange and disturbing, it just terminates when throwing
     //{
