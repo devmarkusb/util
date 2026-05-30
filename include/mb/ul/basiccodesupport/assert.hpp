@@ -46,7 +46,9 @@ namespace mb::ul {
 namespace detail {
 inline std::string fail_fast_message(const char* const message) {
     std::string ret{message};
-#if defined(__cpp_lib_stacktrace) && (__cpp_lib_stacktrace >= 202'011L)
+    // clang-format off
+#if defined(__cpp_lib_stacktrace) && (__cpp_lib_stacktrace >= 202011L)
+    // clang-format on
     std::ostringstream stacktrace;
     stacktrace << std::stacktrace::current();
     ret.append("\n").append(stacktrace.str());

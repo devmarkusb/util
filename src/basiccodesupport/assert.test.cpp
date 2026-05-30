@@ -80,7 +80,7 @@ TEST(VERIFY_ASSERT_Test, Test) {
 #else
     /*volatile*/ int i = 1;
 #endif
-    UL_VERIFY(++i == 2);
+    UL_VERIFY(++i == 2); // cppcheck-suppress assignmentInAssert
     EXPECT_EQ(2, i);
     --i;
     // cppcheck-suppress assignmentInAssert ; this test verifies that UL_ASSERT evaluates its condition.

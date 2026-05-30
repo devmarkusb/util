@@ -143,7 +143,9 @@ inline std::wstring locenc_s2ws(const std::string& s) {
 }
 
 namespace detail_impl {
-#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1'900
+// clang-format off
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER == 1900
+// clang-format on
 #define TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE 1
 #endif
 #if TEMP_REMOVE_STRANGE_WRONG_WARNING_ABOUT_UNREACHABLE_CODE
