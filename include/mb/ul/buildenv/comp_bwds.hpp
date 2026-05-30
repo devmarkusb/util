@@ -6,13 +6,14 @@
 #include "config.hpp"
 #include "macros.hpp"
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
+// clang-format off
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
 #define UL_HAS_LLROUND 0
 #else
 #define UL_HAS_LLROUND 1
 #endif
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
 #define UL_HAS_STOI 0
 #else
 #define UL_HAS_STOI 1
@@ -20,11 +21,12 @@
 
 #define UL_HAS_FROM_STRING 0
 
-#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41'000
+#if UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER < 41000
 #define UL_HAS_TO_STRING 0
 #else
 #define UL_HAS_TO_STRING 1
 #endif
+// clang-format on
 
 #if UL_HAS_LLROUND
 #include <cmath>
