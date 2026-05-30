@@ -15,10 +15,7 @@ FetchContent_Declare(
     GIT_SUBMODULES ""
 )
 
-FetchContent_GetProperties(utfcpp)
-if(NOT utfcpp_POPULATED)
-    FetchContent_Populate(utfcpp)
-endif()
+FetchContent_MakeAvailable(utfcpp)
 
 set(utfcpp_INCLUDE_DIRS
     ${utfcpp_SOURCE_DIR}/source
