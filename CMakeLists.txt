@@ -4,7 +4,7 @@ project(
     mb.util
     DESCRIPTION "C++ utility library (header-only)"
     LANGUAGES CXX
-    VERSION 1.1.2
+    VERSION 1.2.0
 )
 
 option(
