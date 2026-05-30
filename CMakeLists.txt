@@ -4,7 +4,7 @@ project(
     mb.util
     DESCRIPTION "C++ utility library (header-only)"
     LANGUAGES CXX
-    VERSION 1.0.2
+    VERSION 1.1.2
 )
 
 option(
@@ -66,34 +66,31 @@ endif()
 
 mb_devenv_set_target_defaults(mb.util)
 
-install(
-    DIRECTORY "${GSL_SOURCE_DIR}/include/"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT "mb.util"
-)
-install(
-    DIRECTORY "${utfcpp_INCLUDE_DIRS}/"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    COMPONENT "mb.util"
-)
-install(
-    FILES "${PROJECT_SOURCE_DIR}/cmake/cmake-util.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
-    COMPONENT "mb.util"
-)
-install(
-    DIRECTORY "${PROJECT_SOURCE_DIR}/cmake/cmake-util"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
-    USE_SOURCE_PERMISSIONS
-    COMPONENT "mb.util"
-)
+if(PROJECT_IS_TOP_LEVEL)
+    install(
+        DIRECTORY "${GSL_SOURCE_DIR}/include/"
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+        COMPONENT "mb.util"
+    )
+    install(
+        DIRECTORY "${utfcpp_INCLUDE_DIRS}/"
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+        COMPONENT "mb.util"
+    )
+    install(
+        FILES "${PROJECT_SOURCE_DIR}/cmake/cmake-util.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+        COMPONENT "mb.util"
+    )
+    install(
+        DIRECTORY "${PROJECT_SOURCE_DIR}/cmake/cmake-util"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+        USE_SOURCE_PERMISSIONS
+        COMPONENT "mb.util"
+    )
 
-# FetchContent/subdirectory consumers only need the target and headers.
-if(NOT PROJECT_IS_TOP_LEVEL)
-    set(MB_UTIL_INSTALL_CONFIG_FILE_PACKAGE OFF CACHE BOOL "" FORCE)
+    mb_devenv_install_library(mb.util)
 endif()
-
-mb_devenv_install_library(mb.util)
 
 if(MB_UTIL_BUILD_TESTS)
     add_subdirectory(src)
