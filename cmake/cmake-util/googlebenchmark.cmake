@@ -22,6 +22,12 @@ endif()
 message(STATUS "google benchmark not found, building from source")
 
 set(BENCHMARK_ENABLE_TESTING OFF)
+set(BENCHMARK_ENABLE_WERROR
+    OFF
+    CACHE BOOL
+    "Do not build embedded googlebenchmark with -Werror"
+    FORCE
+)
 set(HAVE_STD_REGEX ON CACHE BOOL "Use std::regex for benchmark" FORCE)
 set(RUN_HAVE_STD_REGEX 1 CACHE STRING "Use std::regex at runtime" FORCE)
 

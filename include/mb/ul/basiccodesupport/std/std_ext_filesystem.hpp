@@ -15,7 +15,9 @@
 #include <filesystem>
 
 namespace mb::ul {
-#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1'914
+// clang-format off
+#if UL_COMP_MS_VISUAL_STUDIO_CPP && UL_COMP_MS_VS_VER <= 1914
+// clang-format on
 namespace std_fs = std::experimental::filesystem;
 #else
 namespace std_fs = std::filesystem;

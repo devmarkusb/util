@@ -34,7 +34,10 @@
       "name": "googlebenchmark",
       "package_name": "benchmark",
       "git_repository": "https://github.com/google/benchmark.git",
-      "git_tag": "v1.9.5"
+      "git_tag": "v1.9.5",
+      "cmake_variables": {
+        "BENCHMARK_ENABLE_WERROR": "OFF"
+      }
     }
   ]
 }
