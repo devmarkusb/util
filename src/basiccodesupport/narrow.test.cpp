@@ -36,10 +36,12 @@ TEST(NarrowTest, floating_point) {
     const auto more_precise_than_float{std::numeric_limits<uint64_t>::max()};
 
     if (enable_float_precision_test) {
+        // clang-format off
 #if !UL_DEBUG \
-    && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50'300 \
-        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60'201 && UL_COMP_GNU_CPP_VER < 140'000 \
-        || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160'000)
+    && (UL_COMP_MINGW && UL_COMP_MINGW_VER == 50300 \
+        || UL_COMP_GNU_CPP && UL_COMP_GNU_CPP_VER >= 60201 && UL_COMP_GNU_CPP_VER < 140000 \
+        || UL_COMP_CLANG && UL_COMP_CLANG_VER < 160000)
+        // clang-format on
         // absolutely no idea so far why this doesn't throw in release under these compilers :O
         EXPECT_NO_THROW(ul::narrow<float>(more_precise_than_float));
 #else

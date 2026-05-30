@@ -101,7 +101,7 @@ TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
     std::mutex switched_m;
     auto switchCores = [&threads, &num_threads]() {
         for (auto i = decltype(num_threads){0}; i < num_threads; ++i) {
-            ul::thread::pin_to_logical_core(threads[i], static_cast<int>(i + 1 % num_threads));
+            ul::thread::pin_to_logical_core(threads[i], static_cast<int>((i + 1U) % num_threads));
         }
     };
     for (auto i = decltype(num_threads){0}; i < num_threads; ++i) {
@@ -121,7 +121,7 @@ TEST_F(PinToCpuTest, twoThreadsPinnedToFirstTwoCPUsSwitchedAfter3rdCheck_okFor50
                             switchCores();
                         }
                     } else {
-                        EXPECT_EQ(static_cast<int>(i + 1U % num_threads), ul::thread::num_logical_cores());
+                        EXPECT_EQ(static_cast<int>((i + 1U) % num_threads), ul::thread::num_logical_cores());
                     }
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(num_waits));
