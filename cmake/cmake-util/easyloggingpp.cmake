@@ -5,8 +5,7 @@ FetchContent_Declare(
     GIT_SHALLOW ON
     GIT_PROGRESS ON
     UPDATE_DISCONNECTED ON
-    SOURCE_SUBDIR
-    cmake/wealthplanner-skip-add-subdirectory
+    SOURCE_SUBDIR cmake/wealthplanner-skip-add-subdirectory
 )
 
 FetchContent_MakeAvailable(easyloggingpp)
