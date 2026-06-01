@@ -315,37 +315,10 @@ set(CMAKE_SHARED_LINKER_FLAGS
     FORCE
 )
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(MB_UL_google_benchmark_compile_options
-        -Wno-zero-as-null-pointer-constant
-        -Wno-sign-conversion
-        -Wno-shift-sign-overflow
-        -Wno-missing-variable-declarations
-        -Wno-missing-field-initializers
-        -Wno-used-but-marked-unused
-        -Wno-disabled-macro-expansion
-        -Wno-missing-prototypes
-        -Wno-extra-semi-stmt
-        -Wno-comma
-        -Wno-format-nonliteral
-        -Wno-unsafe-buffer-usage
-    )
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-        list(
-            APPEND MB_UL_google_benchmark_compile_options
-            -Wno-implicit-int-float-conversion
-        )
-    endif()
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(MB_UL_google_benchmark_compile_options /wd4389)
-else()
-    set(MB_UL_google_benchmark_compile_options -Wno-conversion)
+mb_devenv_suppress_third_party_warnings(benchmark)
+if(TARGET benchmark_main)
+    mb_devenv_suppress_third_party_warnings(benchmark_main)
 endif()
-
-target_compile_options(
-    benchmark
-    PUBLIC ${MB_UL_google_benchmark_compile_options}
-)
 if(MB_DEVENV_USING_LIBCPP)
     add_definitions(-DBENCHMARK_USE_LIBCXX=ON)
 endif()

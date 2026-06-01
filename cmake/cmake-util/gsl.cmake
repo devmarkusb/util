@@ -11,3 +11,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(GSL)
+
+if(TARGET GSL)
+    mb_devenv_suppress_third_party_warnings(GSL)
+endif()
