@@ -31,25 +31,10 @@ add_library(
 
 set_target_properties(ConsoleTable PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-if(MSVC)
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set_source_files_properties(
-        ${consoletable_SOURCE_DIR}/ConsoleTable.cpp
-        PROPERTIES
-            COMPILE_FLAGS
-                "-Wno-return-type -Wno-sign-conversion -Wno-shorten-64-to-32"
-    )
-    set_target_properties(
-        ConsoleTable
-        PROPERTIES COMPILE_FLAGS "-Wno-sign-conversion -Wno-shorten-64-to-32"
-    )
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set_source_files_properties(
-        ${consoletable_SOURCE_DIR}/ConsoleTable.cpp
-        PROPERTIES COMPILE_FLAGS "-Wno-conversion"
-    )
-    set_target_properties(
-        ConsoleTable
-        PROPERTIES COMPILE_FLAGS "-Wno-conversion"
-    )
-endif()
+mb_devenv_suppress_third_party_warnings(ConsoleTableLib)
+
+target_include_directories(
+    ConsoleTableLib
+    SYSTEM
+    INTERFACE ${consoletable_SOURCE_DIR}
+)

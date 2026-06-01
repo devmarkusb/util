@@ -5,6 +5,8 @@
 #   and add to target with e.g.
 #       mb_ul_use_asio(${TargetAsLibForTest} ${CMAKE_SOURCE_DIR}/3rdparty/asio-1.12.2.tar.gz
 #           MD5=43c53b8d255edc385dc4e704e59b3641)
+#
+# Headers are added as SYSTEM; template-heavy code may still need a dedicated wrapper target with -w.
 
 macro(mb_ul_use_asio target path_to_zip hash)
     if(NOT TARGET asio)

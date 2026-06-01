@@ -1,3 +1,5 @@
+# Prefer target_link_libraries(... easyloggingpp_lib) over compiling easyloggingpp_SOURCE_FILES.
+# Requires mb-devenv-defaults (mb_devenv_suppress_third_party_warnings).
 FetchContent_Declare(
     easyloggingpp
     GIT_REPOSITORY https://github.com/devmarkusb/easyloggingpp
@@ -25,18 +27,22 @@ set(easyloggingpp_SOURCE_FILES
     FORCE
 )
 
-if(MSVC)
-    set_source_files_properties(
-        ${easyloggingpp_SOURCE_FILES}
-        DIRECTORY ${CMAKE_SOURCE_DIR}
-        PROPERTIES
-            COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;ELPP_WINSOCK2"
-            COMPILE_OPTIONS /w
+if(NOT TARGET easyloggingpp_lib)
+    add_library(
+        easyloggingpp_lib
+        STATIC
+        ${easyloggingpp_SOURCE_DIR}/src/easylogging++.cc
     )
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang|Clang|GNU")
-    set_source_files_properties(
-        ${easyloggingpp_SOURCE_FILES}
-        DIRECTORY ${CMAKE_SOURCE_DIR}
-        PROPERTIES COMPILE_OPTIONS -w
+    if(MSVC)
+        target_compile_definitions(
+            easyloggingpp_lib
+            PRIVATE WIN32_LEAN_AND_MEAN ELPP_WINSOCK2
+        )
+    endif()
+    target_include_directories(
+        easyloggingpp_lib
+        SYSTEM
+        PUBLIC ${easyloggingpp_SOURCE_DIR}/src
     )
+    mb_devenv_suppress_third_party_warnings(easyloggingpp_lib)
 endif()

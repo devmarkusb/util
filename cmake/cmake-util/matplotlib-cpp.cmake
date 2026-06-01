@@ -1,4 +1,4 @@
-# link matplotlib_cpp
+# link matplotlib_cpp (header-only; warnings apply in TUs that #include matplotlibcpp.h)
 set(MATPLOTLIB_CPP_GENERATE_EXAMPLES OFF CACHE BOOL "example targets" FORCE)
 
 include(FetchContent)
@@ -13,6 +13,19 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(matplotlib-cpp)
 
+# MSVC Debug + release python3.lib (python.org / setup-python): see matplotlibcpp_msvc_embed.hpp
+set(_mb_mplcpp_has_debug_python_lib FALSE)
+if(TARGET Python3::Python)
+    get_target_property(
+        _mb_mplcpp_implib_dbg
+        Python3::Python
+        IMPORTED_IMPLIB_DEBUG
+    )
+    if(_mb_mplcpp_implib_dbg AND _mb_mplcpp_implib_dbg MATCHES "_d\\.lib$")
+        set(_mb_mplcpp_has_debug_python_lib TRUE)
+    endif()
+endif()
+
 set(matplotlib-cpp_INCLUDE_DIRS
     ${matplotlib-cpp_SOURCE_DIR}
     CACHE INTERNAL
@@ -20,33 +33,20 @@ set(matplotlib-cpp_INCLUDE_DIRS
     FORCE
 )
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(MB_UL_matplotlib_cpp_compile_options
-        -Wno-sign-conversion
-        -Wno-float-conversion
-        -Wno-implicit-float-conversion
-        -Wno-unused-parameter
-        -Wno-sign-compare
-        -Wno-shorten-64-to-32
-        -Wno-missing-prototypes
-    )
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-        list(
-            APPEND MB_UL_matplotlib_cpp_compile_options
-            -Wno-implicit-int-float-conversion
-        )
-    endif()
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(MB_UL_matplotlib_cpp_compile_options)
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(MB_UL_matplotlib_cpp_compile_options
-        -Wno-conversion
-        -Wno-sign-compare
-        -Wno-unused-parameter
+# Upstream BUILD_INTERFACE points at examples/; header lives at repo root.
+target_include_directories(
+    matplotlib_cpp
+    SYSTEM
+    INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+        $<BUILD_INTERFACE:${matplotlib-cpp_SOURCE_DIR}>
+)
+
+if(MSVC AND NOT _mb_mplcpp_has_debug_python_lib)
+    target_compile_definitions(
+        matplotlib_cpp
+        INTERFACE $<$<CONFIG:Debug>:MB_MATPLOTLIBCPP_MSVC_RELEASE_PYTHON>
     )
 endif()
 
-target_compile_options(
-    matplotlib_cpp
-    INTERFACE ${MB_UL_matplotlib_cpp_compile_options}
-)
+mb_devenv_suppress_third_party_warnings(matplotlib_cpp)

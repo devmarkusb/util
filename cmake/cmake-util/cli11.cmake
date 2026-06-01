@@ -23,3 +23,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(cli11)
+
+if(TARGET CLI11)
+    mb_devenv_suppress_third_party_warnings(CLI11)
+endif()
