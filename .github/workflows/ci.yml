@@ -135,6 +135,9 @@ jobs:
       - preset-test
       - build-and-test
       - install-test
+    permissions:
+      contents: write
+      pull-requests: write
     if: >
       github.event_name == 'pull_request' &&
       github.event.pull_request.user.login == 'dependabot[bot]' &&
