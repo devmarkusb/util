@@ -73,7 +73,7 @@ static char sccsid[] = "@(#)glob.c	8.3 (Berkeley) 10/13/93";
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.hpp>
+#include <string.h>
 #include <unistd.h>
 
 // from bsd sources, same header applies

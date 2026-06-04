@@ -109,7 +109,12 @@ inline int pin_to_logical_core(NativeHandle h, int logical_core_idx) noexcept {
     // clang-format on
     CPU_SET(static_cast<size_t>(logical_core_idx), &cpuset);
     UL_PRAGMA_WARNINGS_POP
+#if UL_OS_ANDROID
+    // Bionic exposes pthread_setaffinity_np only from API 36; sched_setaffinity works on older API levels.
+    return sched_setaffinity(pthread_gettid_np(h), sizeof(cpu_set_t), &cpuset);
+#else
     return pthread_setaffinity_np(h, sizeof(cpu_set_t), &cpuset);
+#endif
 #elif UL_OS_MAC
     auto* const nh = static_cast<pthread_t>(h);
     mac::CpuSet cpuset;
