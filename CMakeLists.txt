@@ -60,7 +60,9 @@ target_include_directories(
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     target_link_libraries(mb.util INTERFACE stdc++exp)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
-    target_link_libraries(mb.util INTERFACE stdc++exp)
+    if(NOT MB_DEVENV_USING_LIBCPP)
+        target_link_libraries(mb.util INTERFACE stdc++exp)
+    endif()
     target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
 endif()
 

@@ -83,6 +83,17 @@ else()
     set(MB_UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS
         "${MB_UL_SAVED_CMAKE_SHARED_LINKER_FLAGS} -pthread"
     )
+    if(MB_DEVENV_USING_LIBCPP)
+        string(APPEND MB_UL_BENCHMARK_MINIMAL_CXX_FLAGS " -stdlib=libc++")
+        string(
+            APPEND MB_UL_BENCHMARK_MINIMAL_EXE_LINKER_FLAGS
+            " -stdlib=libc++"
+        )
+        string(
+            APPEND MB_UL_BENCHMARK_MINIMAL_SHARED_LINKER_FLAGS
+            " -stdlib=libc++"
+        )
+    endif()
 endif()
 set(CMAKE_C_FLAGS
     "${MB_UL_BENCHMARK_MINIMAL_C_FLAGS}"
@@ -320,5 +331,13 @@ if(TARGET benchmark_main)
     mb_devenv_suppress_third_party_warnings(benchmark_main)
 endif()
 if(MB_DEVENV_USING_LIBCPP)
-    add_definitions(-DBENCHMARK_USE_LIBCXX=ON)
+    foreach(_mb_ul_bench_target IN ITEMS benchmark benchmark_main)
+        if(TARGET ${_mb_ul_bench_target})
+            target_compile_options(
+                ${_mb_ul_bench_target}
+                INTERFACE -stdlib=libc++
+            )
+            target_link_options(${_mb_ul_bench_target} INTERFACE -stdlib=libc++)
+        endif()
+    endforeach()
 endif()
