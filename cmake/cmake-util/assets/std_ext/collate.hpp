@@ -31,7 +31,7 @@
 #define COLLATE_H_INCLUDED
 
 #include <sys/cdefs.h>
-#include <sys/types.hpp>
+#include <sys/types.h>
 #include <limits.h>
 
 #define STR_LEN 10
