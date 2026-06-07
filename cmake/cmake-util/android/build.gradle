@@ -26,6 +26,8 @@ apply plugin: 'com.android.application'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    // play-services-basement (via play-services-ads) pulls fragment:1.1.0; override for Play Console
+    implementation 'androidx.fragment:fragment:1.8.9'
     implementation 'com.google.android.gms:play-services-ads:23.6.0'
     implementation 'com.android.billingclient:billing:7.1.1'
 }
