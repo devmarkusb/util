@@ -7,8 +7,9 @@ FetchContent_Declare(
     GIT_SHALLOW ON
     GIT_PROGRESS ON
     UPDATE_DISCONNECTED ON
+    # Do not add upstream easyloggingpp's CMake project; this helper defines easyloggingpp_lib below.
     SOURCE_SUBDIR
-    cmake/wealthplanner-skip-add-subdirectory
+    cmake/mb-util-skip-add-subdirectory
 )
 
 FetchContent_MakeAvailable(easyloggingpp)
