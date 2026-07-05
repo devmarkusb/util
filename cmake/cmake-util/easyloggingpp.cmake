@@ -8,8 +8,7 @@ FetchContent_Declare(
     GIT_PROGRESS ON
     UPDATE_DISCONNECTED ON
     # Do not add upstream easyloggingpp's CMake project; this helper defines easyloggingpp_lib below.
-    SOURCE_SUBDIR
-    cmake/mb-util-skip-add-subdirectory
+    SOURCE_SUBDIR cmake/mb-util-skip-add-subdirectory
 )
 
 FetchContent_MakeAvailable(easyloggingpp)

@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/BlankSpruce/gersemi/0.22.3/gersemi/configuration.schema.json
+#
+# Project helper macros may be defined by included CMake modules or nested
+# functions, so gersemi cannot always see them at formatting time.
+warn_about_unknown_commands: false
