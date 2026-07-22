@@ -9,6 +9,7 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.PendingPurchasesParams;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
@@ -40,7 +41,9 @@ public class BillingHelper implements PurchasesUpdatedListener {
     private void connect() {
         billingClient = BillingClient.newBuilder(activity)
                 .setListener(this)
-                .enablePendingPurchases()
+                .enablePendingPurchases(
+                        PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+                .enableAutoServiceReconnection()
                 .build();
 
         billingClient.startConnection(new BillingClientStateListener() {
@@ -57,6 +60,7 @@ public class BillingHelper implements PurchasesUpdatedListener {
             @Override
             public void onBillingServiceDisconnected() {
                 Log.w(TAG, "Billing service disconnected");
+                removeAdsProduct = null;
             }
         });
     }
@@ -109,8 +113,10 @@ public class BillingHelper implements PurchasesUpdatedListener {
                                 .build()))
                 .build();
 
-        instance.billingClient.queryProductDetailsAsync(queryParams, (result, productDetailsList) -> {
+        instance.billingClient.queryProductDetailsAsync(queryParams, (result, queryProductDetailsResult) -> {
+            List<ProductDetails> productDetailsList = queryProductDetailsResult.getProductDetailsList();
             if (result.getResponseCode() != BillingClient.BillingResponseCode.OK
+                    || productDetailsList == null
                     || productDetailsList.isEmpty()) {
                 Log.e(TAG, "Failed to query product details: " + result.getDebugMessage());
                 nativeOnPurchaseResult(false);
@@ -118,12 +124,11 @@ public class BillingHelper implements PurchasesUpdatedListener {
             }
 
             instance.removeAdsProduct = productDetailsList.get(0);
+            BillingFlowParams.ProductDetailsParams productDetailsParams =
+                    productDetailsParamsFor(instance.removeAdsProduct);
 
             BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(Collections.singletonList(
-                            BillingFlowParams.ProductDetailsParams.newBuilder()
-                                    .setProductDetails(instance.removeAdsProduct)
-                                    .build()))
+                    .setProductDetailsParamsList(Collections.singletonList(productDetailsParams))
                     .build();
 
             instance.activity.runOnUiThread(() -> {
@@ -135,6 +140,30 @@ public class BillingHelper implements PurchasesUpdatedListener {
                 }
             });
         });
+    }
+
+    private static BillingFlowParams.ProductDetailsParams productDetailsParamsFor(
+            ProductDetails productDetails) {
+        String offerToken = null;
+        List<ProductDetails.OneTimePurchaseOfferDetails> offerList =
+                productDetails.getOneTimePurchaseOfferDetailsList();
+        if (offerList != null && !offerList.isEmpty()) {
+            offerToken = offerList.get(0).getOfferToken();
+        } else {
+            ProductDetails.OneTimePurchaseOfferDetails legacyOffer =
+                    productDetails.getOneTimePurchaseOfferDetails();
+            if (legacyOffer != null) {
+                offerToken = legacyOffer.getOfferToken();
+            }
+        }
+
+        BillingFlowParams.ProductDetailsParams.Builder builder =
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(productDetails);
+        if (offerToken != null && !offerToken.isEmpty()) {
+            builder.setOfferToken(offerToken);
+        }
+        return builder.build();
     }
 
     @Override
