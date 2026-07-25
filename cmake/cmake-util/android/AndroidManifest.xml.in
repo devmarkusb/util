@@ -95,6 +95,11 @@
 
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
     </application>
+
+    <queries>
+        <package android:name="com.google.android.gms.ads.identifier" />
+    </queries>
+
     <!-- The following comment will be replaced upon deployment with default features based on the dependencies of the application.
          Remove the comment if you do not require these default features. -->
     <!-- %%INSERT_FEATURES -->
