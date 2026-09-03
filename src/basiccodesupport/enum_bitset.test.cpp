@@ -1,6 +1,7 @@
 #include "mb/ul/basiccodesupport/enum_bitset.hpp"
 #include "mb/ul/basiccodesupport/std/array.hpp"
 #include "mb/ul/buildenv/gtest_utils.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 
 #include "gtest/gtest.h"
 #include <compare>
@@ -20,7 +21,7 @@ enum class Ex1 : uint8_t {
 };
 
 namespace {
-std::ostream& operator<<(std::ostream& os, Ex1 e) {
+std::ostream& operator<<(std::ostream& os UL_LIFETIMEBOUND, Ex1 e) {
     switch (e) {
         case Ex1::first:
             os << "first";

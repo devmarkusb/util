@@ -1,6 +1,7 @@
 #ifndef C_STRING_VIEW_HPP_NFAGIYUGFYEWNGFY64359254
 #define C_STRING_VIEW_HPP_NFAGIYUGFYEWNGFY64359254
 
+#include "mb/ul/buildenv/macros.hpp"
 #include <cassert>
 #include <compare>
 #include <cstddef>
@@ -85,7 +86,7 @@ public:
     }
 
     /// Constructs from std::string_view ONLY if \0-terminated at view end.
-    explicit CStringView(std::string_view sv) {
+    explicit CStringView(std::string_view sv UL_LIFETIMEBOUND) {
         if (sv.data() == nullptr) {
             if (sv.size() == 0) {
                 sv_ = std::string_view("", 0);
@@ -247,7 +248,7 @@ public:
 private:
     struct Trusted {};
 
-    explicit CStringView(std::string_view sv, Trusted) noexcept
+    explicit CStringView(std::string_view sv UL_LIFETIMEBOUND, Trusted) noexcept
         : sv_{sv} {
     }
 

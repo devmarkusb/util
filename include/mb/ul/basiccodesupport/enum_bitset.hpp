@@ -8,6 +8,7 @@
 #include "enum_cast.hpp"
 #include "mb/ul/basiccodesupport/math.hpp"
 #include "mb/ul/buildenv/config.hpp"
+#include "mb/ul/buildenv/macros.hpp"
 #include <ostream>
 #if __has_include(<concepts> )
 #include <concepts>
@@ -164,7 +165,7 @@ public:
         return rhs ^ lhs;
     }
 
-    friend constexpr std::ostream& operator<<(std::ostream& os, const EnumBitset& b) noexcept {
+    friend constexpr std::ostream& operator<<(std::ostream& os UL_LIFETIMEBOUND, const EnumBitset& b) noexcept {
         // +? trick, ensuring number format, no ascii chars for int8_t e.g.
         os << +b.bits_;
         return os;
