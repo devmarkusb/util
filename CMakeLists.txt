@@ -63,7 +63,12 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
     if(NOT MB_DEVENV_USING_LIBCPP)
         target_link_libraries(mb.util INTERFACE stdc++exp)
     endif()
-    target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
+    # Clang's experimental invalidation analysis currently treats mutating an owning string/vector as invalidating the
+    # owner reference itself; suppress that false-positive class for this header-only target.
+    target_compile_options(
+        mb.util
+        INTERFACE -Wno-unsafe-buffer-usage -Wno-lifetime-safety-invalidation
+    )
 endif()
 
 mb_devenv_set_target_defaults(mb.util)

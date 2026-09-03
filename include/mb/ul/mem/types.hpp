@@ -81,7 +81,7 @@ protected:
 };
 } // namespace impl
 
-inline std::ostream& operator<<(std::ostream& os, Bytes x) {
+inline std::ostream& operator<<(std::ostream& os UL_LIFETIMEBOUND, Bytes x) {
     // strangely under Windows this crashes (Mac the same or otherwise malfunctioning)
 #if UL_HAS_NOCRASH_IMBUE_LOCALE
     os.imbue(std::locale(os.getloc(), new impl::ThousandsSep));
