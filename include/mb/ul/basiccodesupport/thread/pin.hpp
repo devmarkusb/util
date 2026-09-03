@@ -157,7 +157,7 @@ inline void pin_to_logical_core(std::thread& t, int logical_core_idx) {
     UL_EXPECT(logical_core_idx >= 0);
 
 #if UL_OS_LINUX
-    auto nh = static_cast<NativeHandle>(t.native_handle());
+    const auto nh = static_cast<NativeHandle>(t.native_handle());
 #elif UL_OS_MAC
     auto* nh = static_cast<NativeHandle>(t.native_handle());
 #endif

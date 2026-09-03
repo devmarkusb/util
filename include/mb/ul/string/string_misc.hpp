@@ -68,6 +68,7 @@ inline void replace_all(std::string& s, const std::string& from_sub, const std::
 }
 
 struct BoolStr10 {
+    // NOLINTNEXTLINE(modernize-use-string-view)
     static std::string to_str(bool b) {
         return b ? "1" : "0";
     }

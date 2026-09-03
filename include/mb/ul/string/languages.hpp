@@ -35,6 +35,8 @@ inline const std::vector<LangIdIso6391>& get_all_theoretically_possible_lang_i_d
     return cachedval;
 }
 
+// Preserve the owning-string return type of this public API.
+// NOLINTNEXTLINE(modernize-use-string-view)
 inline std::string get_native_language_name(const LangIdIso6391& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself
@@ -73,6 +75,8 @@ inline std::string get_native_language_name(const LangIdIso6391& id) {
         throw ul::NotImplemented{"unsupported or unknown ISO 639-1 language code"};
 }
 
+// Preserve the owning-string return type of this public API.
+// NOLINTNEXTLINE(modernize-use-string-view)
 inline std::string get_english_language_name(const LangIdIso6391& id) {
     if (id == auto_systems_language) {
         // that's not what you might want; please handle the translation for that word yourself

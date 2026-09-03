@@ -2,6 +2,7 @@
 # -hicpp-deprecated-headers: unfortunately, should be restrictable to <>-includes
 # -readability-function-cognitive-complexity: goes bogus in gtests unfortunately
 # -cppcoreguidelines-pro-type-member-init: buggy unfortunately
+# -readability-trailing-comma: conflicts with the leading constructor-comma style enforced by .clang-format
 
 Checks: >
   *,
@@ -56,6 +57,7 @@ Checks: >
   -readability-function-cognitive-complexity,
   -readability-named-parameter,
   -readability-redundant-typename,
+  -readability-trailing-comma,
   -readability-uppercase-literal-suffix
 
 WarningsAsErrors: "*"

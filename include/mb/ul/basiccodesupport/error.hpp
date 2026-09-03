@@ -192,7 +192,7 @@ struct TimeOut : public std::runtime_error {
 */
 template <typename Callable, typename Callable2>
 std::pair<Retcode, std::string> call_noexcept(
-    Callable f, Callable2 bad_alloc_handler = []() {
+    Callable f, Callable2 bad_alloc_handler = [] {
     }) noexcept {
     try {
         f();
@@ -236,7 +236,7 @@ std::pair<Retcode, std::string> call_noexcept(
 }
 } // namespace mb::ul
 
-using Retcode = mb::ul::Retcode;
+using Retcode = mb::ul::Retcode; // NOLINT(readability-redundant-qualified-alias)
 UL_PRAGMA_WARNINGS_PUSH
 // clang-format off
 UL_WARNING_DISABLE_CLANG(header-hygiene)
