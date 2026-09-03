@@ -33,7 +33,7 @@ public:
 
     // cppcheck-suppress functionConst ; class deallocation functions cannot be const-qualified.
     void operator delete(void* ptr) noexcept {
-        auto it = std::find(addresses().begin(), addresses().end(), ptr);
+        const auto it = std::find(addresses().begin(), addresses().end(), ptr);
 
         if (it != addresses().end()) {
             addresses().erase(it);
@@ -46,7 +46,7 @@ public:
 
     [[nodiscard]] bool is_on_heap() const {
         const void* raw_address = dynamic_cast<const void*>(this);
-        auto it = std::find(addresses().begin(), addresses().end(), raw_address);
+        const auto it = std::find(addresses().begin(), addresses().end(), raw_address);
         return it != addresses().end();
     }
 

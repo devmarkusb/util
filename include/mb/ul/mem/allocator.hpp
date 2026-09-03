@@ -28,6 +28,7 @@ public:
 
     template <typename T2>
     // cppcheck-suppress noExplicitConstructor ; STL allocator rebinding constructor is intentionally implicit.
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     /*implicit*/ Allocator(const Allocator<T2, AllocArenaStrategy>& other) noexcept
         : a_{other.a_} {
     }

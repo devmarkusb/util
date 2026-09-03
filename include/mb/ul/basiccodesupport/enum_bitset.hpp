@@ -67,6 +67,7 @@ public:
     }
 
     //! Cast back to enum type if ensured that only a single value is contained, cf. is_single.
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     explicit(!experimental_implicit) operator EnumType() const {
         UL_EXPECT_THROW(math::is_power_of_two(bits_));
         return ul::enum_cast<EnumType>(bits_);
@@ -80,6 +81,7 @@ public:
         bits_ = {};
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     [[nodiscard]] constexpr explicit(!experimental_implicit) operator bool() const noexcept {
         return bits_;
     }
@@ -181,7 +183,7 @@ private:
     // lambda because of use with apply
     static constexpr auto enum_values_to_bitset{[](EnumConcept auto... enum_values) noexcept -> SizeType {
         static_assert(AllOf<EnumType, decltype(enum_values)...>);
-        return ((enum_value_to_bitset(enum_values)) | ...);
+        return (enum_value_to_bitset(enum_values) | ...);
     }};
 };
 } // namespace mb::ul

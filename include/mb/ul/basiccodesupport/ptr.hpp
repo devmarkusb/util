@@ -44,6 +44,7 @@ class NotNull {
     static_assert(std::is_assignable_v<T&, std::nullptr_t>, "T cannot be assigned nullptr.");
 
 public:
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     /*implicit*/ NotNull(T t) // cppcheck-suppress noExplicitConstructor
         : ptr_(t) {
         ensure_invariant();
@@ -87,6 +88,7 @@ public:
         return ptr_;
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     /*implicit*/ operator T() const {
         return get();
     }

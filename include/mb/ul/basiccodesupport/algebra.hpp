@@ -275,10 +275,12 @@ struct Tropical {
 
     constexpr Tropical() noexcept = default;
 
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     constexpr /*implicit*/ Tropical(double d) noexcept
         : d_{d} {
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     constexpr /*implicit*/ operator double() const noexcept {
         return d_;
     }

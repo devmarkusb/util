@@ -17,6 +17,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
     /*implicit*/ operator std::string() const {
         return buffer_.str();
     }

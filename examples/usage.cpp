@@ -20,7 +20,7 @@ int main() {
 
         // random feature from gsl
         gsl::owner<int*> p{new int{42}}; // NOLINT // NOSONAR
-        const auto _{ul::finally([&p]() { // NOLINT(misc-include-cleaner)
+        const auto _{ul::finally([&p] { // NOLINT(misc-include-cleaner)
             delete p; // NOLINT // NOSONAR
         })};
         UL_ASSERT(p); // NOLINT(misc-include-cleaner)
