@@ -37,7 +37,7 @@ concept MatrixLike = requires(MatrixT m, size_t r, size_t c) {
 //};
 
 template <Regular ElemT, size_t m, size_t n>
-std::ostream& operator<<(std::ostream& os, const Matrix<ElemT, m, n>& matrix) {
+std::ostream& operator<<(std::ostream& os UL_LIFETIMEBOUND, const Matrix<ElemT, m, n>& matrix) {
     for (decltype(m) i{}; i < m; ++i) {
         os << "[";
         for (decltype(n) j{}; j < n; ++j)

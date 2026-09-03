@@ -129,7 +129,7 @@ bool hf_pred(int) {
 
 template <ul::Transformation F, ul::UnaryPredicate P>
     requires std::same_as<ul::Domain<F>, ul::Domain<P>>
-std::ostream& orbit_dump(std::ostream& os, F f, P p, std::string_view loglabel) {
+std::ostream& orbit_dump(std::ostream& os UL_LIFETIMEBOUND, F f, P p, std::string_view loglabel) {
     const auto example_count{50};
     os << loglabel << " orbit_dump\n";
     ul::orbit_dump(os, f, p, -4, example_count);

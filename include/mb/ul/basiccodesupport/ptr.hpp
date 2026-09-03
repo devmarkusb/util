@@ -45,7 +45,7 @@ class NotNull {
 
 public:
     // NOLINTNEXTLINE(cppcoreguidelines-explicit-constructor, misc-explicit-constructor)
-    /*implicit*/ NotNull(T t) // cppcheck-suppress noExplicitConstructor
+    /*implicit*/ NotNull(T t UL_LIFETIMEBOUND) // cppcheck-suppress noExplicitConstructor
         : ptr_(t) {
         ensure_invariant();
     }

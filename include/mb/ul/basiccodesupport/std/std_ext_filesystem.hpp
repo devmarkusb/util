@@ -219,7 +219,7 @@ inline path operator/(const path& lhs, const path& rhs) {
     return ret;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const path& p) {
+inline std::ostream& operator<<(std::ostream& os UL_LIFETIMEBOUND, const path& p) {
     os << p.string();
     return os;
 }

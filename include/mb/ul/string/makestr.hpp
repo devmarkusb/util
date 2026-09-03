@@ -4,6 +4,7 @@
 #ifndef MAKESTR_H_92NZR29H3F8
 #define MAKESTR_H_92NZR29H3F8
 
+#include "mb/ul/buildenv/macros.hpp"
 #include <sstream>
 #include <string>
 
@@ -12,7 +13,7 @@ namespace mb::ul::str {
 class Makestr {
 public:
     template <typename T>
-    Makestr& operator<<(const T& data) {
+    Makestr& operator<<(const T& data) UL_LIFETIMEBOUND {
         buffer_ << data; // NOLINT
         return *this;
     }

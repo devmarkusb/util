@@ -382,7 +382,8 @@ std::optional<Domain<F>> power_unary_guarded(Domain<F> x, DistanceType<F> n, F f
 
 template <Transformation F, UnaryPredicate P>
     requires std::same_as<Domain<F>, Domain<P>>
-std::ostream& orbit_dump(std::ostream& os, F f, P p, Domain<F> starting_point, DistanceType<F> example_count) {
+std::ostream& orbit_dump(
+    std::ostream& os UL_LIFETIMEBOUND, F f, P p, Domain<F> starting_point, DistanceType<F> example_count) {
     for (decltype(example_count) i{}; i <= example_count; ++i) {
         const auto x{power_unary_guarded(starting_point, i, f, p)};
         if (x) {
