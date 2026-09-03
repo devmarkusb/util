@@ -65,10 +65,19 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT ANDROID)
     endif()
     # Clang's experimental invalidation analysis currently treats mutating an owning string/vector as invalidating the
     # owner reference itself; suppress that false-positive class for this header-only target.
-    target_compile_options(
-        mb.util
-        INTERFACE -Wno-unsafe-buffer-usage -Wno-lifetime-safety-invalidation
+    target_compile_options(mb.util INTERFACE -Wno-unsafe-buffer-usage)
+
+    include(CheckCXXCompilerFlag)
+    check_cxx_compiler_flag(
+        "-Wno-lifetime-safety-invalidation"
+        MB_UTIL_HAS_LIFETIME_SAFETY_INVALIDATION_WARNING
     )
+    if(MB_UTIL_HAS_LIFETIME_SAFETY_INVALIDATION_WARNING)
+        target_compile_options(
+            mb.util
+            INTERFACE -Wno-lifetime-safety-invalidation
+        )
+    endif()
 endif()
 
 mb_devenv_set_target_defaults(mb.util)
