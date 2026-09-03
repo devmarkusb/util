@@ -8,14 +8,14 @@
 namespace mb::ul {
 //! Converts pointer to reference.
 template <typename T>
-T& ptr2ref(T* p_t) {
+T& ptr2ref(T* p_t UL_LIFETIMEBOUND) {
     UL_EXPECT(p_t);
     return *p_t;
 }
 
 //! Const version of ptr2ref().
 template <typename T>
-const T& ptr2refc(const T* p_t) {
+const T& ptr2refc(const T* p_t UL_LIFETIMEBOUND) {
     UL_EXPECT(p_t);
     return *p_t;
 }
@@ -24,22 +24,22 @@ const T& ptr2refc(const T* p_t) {
 //!@{
 
 template <typename T>
-T* ref2ptr(T& t) {
+T* ref2ptr(T& t UL_LIFETIMEBOUND) {
     return &t;
 }
 
 template <typename T>
-T* ref2ptr(T* t) {
+T* ref2ptr(T* t UL_LIFETIMEBOUND) {
     return t;
 }
 
 template <typename T>
-const T* ref2ptrc(const T& t) {
+const T* ref2ptrc(const T& t UL_LIFETIMEBOUND) {
     return &t;
 }
 
 template <typename T>
-const T* ref2ptrc(const T* t) {
+const T* ref2ptrc(const T* t UL_LIFETIMEBOUND) {
     return t;
 }
 

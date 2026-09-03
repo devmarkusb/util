@@ -26,7 +26,8 @@
         "CMAKE_WARN_DEPRECATED": "ON",
         "CMAKE_LINK_WHAT_YOU_USE": "ON",
         "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "./devenv/cmake/fetch-content-from-lockfile.cmake",
-        "MB_DEVENV_HIDE_DISABLED_GTESTS_IN_CTEST": "OFF"
+        "MB_DEVENV_HIDE_DISABLED_GTESTS_IN_CTEST": "OFF",
+        "MB_DOT_CLANG_TIDY_ENABLE": "OFF"
       }
     },
     {
