@@ -53,7 +53,7 @@ inline std::wstring locenc_s2ws(const std::string& s);
 
 //! Helper function, e.g. for dealing with utf8::iterator in combination with std::string (nothing like a
 //! 'const_iterator' supported there).
-inline char* s2psz(const std::string& s) {
+inline char* s2psz(const std::string& s UL_LIFETIMEBOUND) {
     const char* tmp(s.c_str());
     char* psz = const_cast<char*>(tmp); // NOLINT
     return psz;

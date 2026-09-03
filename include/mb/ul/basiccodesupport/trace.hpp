@@ -170,7 +170,7 @@ struct StreamTracer {
 };
 
 template <class T>
-StreamTracer& operator<<(StreamTracer& t, const T& x) {
+StreamTracer& operator<<(StreamTracer& t UL_LIFETIMEBOUND, const T& x) {
     std::ostringstream ss;
     ss << x;
     t.trace(ss);
@@ -219,7 +219,7 @@ struct StreamTracerWrapperSingleton {
         return inst;
     }
 
-    std::unique_ptr<StreamTracer>& tracer() {
+    std::unique_ptr<StreamTracer>& tracer() UL_LIFETIMEBOUND {
         return t_;
     }
 

@@ -417,4 +417,11 @@ static_assert(sizeof(wchar_t) == 2, "You might adapt the above conditionals to y
 #define UL_DEPRECATED
 #endif
 
+//! Marks a returned reference or pointer as borrowing from an argument or object when supported by Clang.
+#if defined(__clang__) && __has_cpp_attribute(clang::lifetimebound)
+#define UL_LIFETIMEBOUND [[clang::lifetimebound]]
+#else
+#define UL_LIFETIMEBOUND
+#endif
+
 #endif
