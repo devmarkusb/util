@@ -16,7 +16,6 @@ namespace mb::ul::idx {
 //template<class T, T N>
 //using make_integer_sequence = std::integer_sequence<T, /* a sequence 0, 1, 2, ..., N-1 */ >;
 
-
 /** Use case is e.g. when you want to pass an std::array to a function expecting a variadic template parameter
     list.
     So in order to call

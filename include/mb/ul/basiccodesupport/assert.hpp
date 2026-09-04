@@ -65,7 +65,6 @@ struct FailFast : std::runtime_error {
 };
 } // namespace mb::ul
 
-
 //####################################################################################################################
 // impl. details
 /* Note that there is no way around macros here, because we need file and line information as well as
