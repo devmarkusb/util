@@ -54,10 +54,10 @@ jobs:
           # This will handover control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
 
-      # GitHub Code Scanning rejects multiple SARIF runs that share the same analysis category
-      # (see https://github.blog/changelog/2025-07-21-code-scanning-will-stop-combining-multiple-sarif-runs-uploaded-in-the-same-sarif-file/).
-      # Codacy can emit several runs with identical tool metadata; assign a distinct
-      # automationDetails.id per run so upload succeeds.
+      # GitHub Code Scanning limits SARIF uploads to at most 20 runs per file and rejects
+      # multiple runs sharing the same category (see https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/troubleshoot-sarif-uploads/results-exceed-limit).
+      # Codacy CLI emits up to 30 runs (many for inactive tools with 0 results).
+      # Filter to retain runs with findings first, cap to <= 20 runs, and assign distinct category IDs.
       - name: Uniquify SARIF run categories for code scanning
         run: |
           python3 <<'PY'
@@ -65,10 +65,22 @@ jobs:
           # Read Codacy output (may be root-owned / non-writable from Docker); write a new file.
           with open("results.sarif", encoding="utf-8") as f:
               data = json.load(f)
-          for i, run in enumerate(data.get("runs") or []):
+
+          runs = data.get("runs") or []
+          # Prioritize runs that have findings. Drop empty runs to stay under GitHub's 20-run limit.
+          non_empty_runs = [r for r in runs if r.get("results")]
+          empty_runs = [r for r in runs if not r.get("results")]
+          if non_empty_runs:
+              selected_runs = (non_empty_runs + empty_runs)[:20]
+          else:
+              selected_runs = runs[:20]
+
+          for i, run in enumerate(selected_runs):
               ad = dict(run.get("automationDetails") or {})
               ad["id"] = f"codacy-analysis-run-{i}"
               run["automationDetails"] = ad
+
+          data["runs"] = selected_runs
           with open("results-upload.sarif", "w", encoding="utf-8") as f:
               json.dump(data, f)
           PY
